@@ -8,10 +8,10 @@ import  kr.happyjob.study.community.model.QnAModel;
  
 public interface QnADao {
 	
-	/** 1:1문의 목록 조회 */
+	/** 1:1 문의 목록 조회 */
 	public List<QnAModel> listQnA(Map<String, Object> paramMap) throws Exception;
 	
-	/** 1:1문의 목록 카운트 조회 */
+	/** 1:1 문의 목록 카운트 조회 */
 	public int countListQnA(Map<String, Object> paramMap) throws Exception;
 	
 	//문의 번호로 문의 정보 가져오기
