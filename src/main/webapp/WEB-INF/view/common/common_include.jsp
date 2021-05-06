@@ -16,7 +16,7 @@
 <!-- 나눔고딕폰트 import -->
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap" rel="stylesheet">
-
+<!-- jQuery -->
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/underscore-min.js"></script>	
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery-ui/jquery-ui-1.11.4/jquery-ui.js"></script>
