@@ -13,6 +13,8 @@ public class AbsolutePath {
 		return instance;
 	}
 	
+	
+	
 	public static String getRootPath() {
 		return rootPath;
 	}
