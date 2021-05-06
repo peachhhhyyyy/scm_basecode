@@ -5,6 +5,7 @@ import java.sql.Date;
 
 
 public class PcmModel {
+	
 	private int purchase_no;
 	private int purchase_cd;
 	private Date purchase_date;

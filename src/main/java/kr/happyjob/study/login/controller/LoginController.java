@@ -552,5 +552,3 @@ public class LoginController {
 	}*/
    
 }
-
-//TEST
