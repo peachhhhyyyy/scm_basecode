@@ -2,6 +2,8 @@ package kr.happyjob.study.dashboard.model;
 
 import java.sql.Date;
 
+
+
 public class PcmModel {
 	private int purchase_no;
 	private int purchase_cd;
@@ -136,4 +138,5 @@ public class PcmModel {
 	public void setWare_dt_address(String ware_dt_address) {
 		this.ware_dt_address = ware_dt_address;
 	}
+    
 }
