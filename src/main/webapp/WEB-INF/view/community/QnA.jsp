@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>QnA</title>
+<title>QnA 무야호</title>
 
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 
