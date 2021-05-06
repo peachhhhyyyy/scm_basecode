@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.happyjob.study.dlv.dao.DlvReturnDao">
+<!-- 
 	<select id="returnProductList" parameterType="Map" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">
 		SELECT od.order_cd as order_cd
 			, tsrl.refund_list_no as refund_list_no
@@ -46,5 +47,6 @@
 			AND od.state like '반품완료'
 		</where> 
 	</select>
+	 -->
 
 </mapper>
