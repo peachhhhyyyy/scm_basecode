@@ -12,7 +12,7 @@
 
 <script type="text/javascript">
 
-   // 그룹코드 페이징 설                   정
+   // 그룹코드 페 이 징 설정
    var pageSizeComnGrpCod = 5;
    var pageBlockSizeComnGrpCod = 5;
    
