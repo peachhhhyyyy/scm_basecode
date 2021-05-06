@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.happyjob.study.dlv.dao.DlvReturnDao">
+	<select id="returnProductList" parameterType="Map" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">
+		SELECT od.order_cd as order_cd
+			, tsrl.refund_list_no as refund_list_no
+			, tsu.company as company
+			, tsu.company_cd as company_cd
+			, tsp.prod_nm as prod_nm
+			, tsmc.m_ct_nm as m_ct_nm
+			, od.order_cnt as order_cnt
+			, od.amount as amount
+			, tsw.warehouse_nm as warehouse_nm
+			, od.refund_date as refund_date
+			, od.state as state
+			, tu.tel as tel
+			, tsrl.scm_id as scm_id
+			, od.addr as addr
+			, od.addr_detail as addr_detail
+			, od.request as request
+			, tsrl.ship_staff_id as ship_staff_id
+		FROM order as od
+		
+		LEFT JOIN tb_scm_userinfo as tsu
+		ON od.loginID = tsu.loginID
+		
+		LEFT JOIN tb_scm_warehouse as tsw
+		ON od.warehouse_cd = tsw.warehouse_cd
+		
+		LEFT JOIN (select name, tel, addr, addr_detail, loginID
+					from tb_userinfo) as tu
+		ON od.loginID = tu.loginID
+		
+		LEFT JOIN tb_scm_refund_list as tsrl
+		ON od.loginID = tsrl.scm_id
+		
+		LEFT JOIN tb_scm_product as tsp
+		ON od.product_cd = tsp.product_cd
+		
+		LEFT JOIN (select m_ct_cd, m_ct_nm from tb_scm_m_catagory) as tsmc
+		ON tsp.m_ct_cd = tsmc.m_ct_cd
+
+		<where>
+			AND od.state like '승인완료'
+			AND od.state like '반품진행중'
+			AND od.state like '반품완료'
+		</where> 
+	</select>
+
+</mapper>
