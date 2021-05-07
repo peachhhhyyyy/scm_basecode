@@ -533,7 +533,11 @@
 </head>
 <body>
 		<form id="myForm" action="" method="">
-				<input type="hidden" id="currentPageComnGrpCod" value="1"> <input type="hidden" id="currentPageComnDtlCod" value="1"> <input type="hidden" id="tmpGrpCod" value=""> <input type="hidden" id="tmpGrpCodNm" value=""> <input type="hidden" name="action" id="action" value="">
+				<input type="hidden" id="currentPageComnGrpCod" value="1">
+				<input type="hidden" id="currentPageComnDtlCod" value="1">
+				<input type="hidden" id="tmpGrpCod" value="">
+				<input type="hidden" id="tmpGrpCodNm" value="">
+				<input type="hidden" name="action" id="action" value="">
 				<!-- 모달 배경 -->
 				<div id="mask"></div>
 				<div id="wrap_area">
@@ -552,16 +556,52 @@
 														<p class="Location">
 																<a href="#" class="btn_set home">메인으로</a>
 																<a href="pcs/pcsOrderingoOrder.do" class="btn_nav">구매</a>
-																<span class="btn_nav bold">발주서</span>
+																<span class="btn_nav bold">발주 지시서</span>
 																<a href="#" class="btn_set refresh">새로고침</a>
 														</p>
 														<p class="conTitle">
-																<span>발주서</span> 
-																<span class="fr"> 
-																  <a class="btnType blue" href="javascript:fPopModalComnGrpCod();" name="modal"><span>신규등록</span>
-																</a>
-																</span>
+																<span>발주 지시서 목록</span>
 														</p>
+														<form class="search-container">
+																<div class="row">
+																    <!-- searchbar -->
+																		<div class="col-lg-6">
+																				<div class="input-group">
+																						<div class="input-group-btn">
+																								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+																										전체 <span class="caret"></span>
+																								</button>
+																								<ul class="dropdown-menu" role="menu">
+																										<li><a href="#">업종</a></li>
+																										<li><a href="#">제품</a></li>
+																								</ul>
+																						</div>
+																						<input type="text" class="form-control" aria-label="...">
+																				</div>
+																		</div>
+																		<!-- // searchbar -->
+																		<!-- date -->
+																		<div class='col-md-3 col-xs-4'>
+																				<div class="form-group">
+																						<div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+																								<input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="01/11/2020">
+																								<div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+																										<div class="input-group-text">
+																												<i class="fa fa-calendar"></i>
+																										</div>
+																								</div>
+																						</div>
+																				</div>
+																		</div>
+																		<!-- // date -->
+																		<!-- button -->
+																		<div class="btn-group" role="group" aria-label="...">
+																		  <button type="button" class="btn btn-default">검색</button>
+																		</div>
+																		<!-- // button -->
+																</div>
+																<!-- /.row -->
+														</form>
 														<div class="divComGrpCodList">
 																<table class="col">
 																		<caption>caption</caption>
@@ -593,52 +633,6 @@
 																</table>
 														</div>
 														<div class="paging_area" id="comnGrpCodPagination"></div>
-														<p class="conTitle mt50">
-																<span>상세 코드</span> <span class="fr"> <a class="btnType blue" href="javascript:fPopModalComnDtlCod();" name="modal"><span>신규등록</span></a>
-																</span>
-														</p>
-														<div class="divComDtlCodList">
-																<table class="col">
-																		<caption>caption</caption>
-																		<colgroup>
-																				<col width="6%">
-																				<col width="10%">
-																				<col width="10%">
-																				<col width="10%">
-																				<col width="5%">
-																				<col width="5%">
-																				<col width="9%">
-																				<col width="9%">
-																				<col width="9%">
-																				<col width="9%">
-																				<col width="10%">
-																				<col width="*">
-																		</colgroup>
-																		<thead>
-																				<tr>
-																						<th scope="col">순번</th>
-																						<th scope="col">그룹 코드 ID</th>
-																						<th scope="col">상세 코드 ID</th>
-																						<th scope="col">상세 코드 명</th>
-																						<th scope="col">순서</th>
-																						<th scope="col">사용</th>
-																						<th scope="col">임시 필드 01</th>
-																						<th scope="col">임시 필드 01</th>
-																						<th scope="col">임시 필드 03</th>
-																						<th scope="col">임시 필드 04</th>
-																						<th scope="col">코드 설명</th>
-																						<th scope="col">비고</th>
-																				</tr>
-																		</thead>
-																		<tbody id="listComnDtlCod">
-																				<tr>
-																						<td colspan="12">그룹코드를 선택해 주세요.</td>
-																				</tr>
-																		</tbody>
-																</table>
-														</div>
-														<div class="paging_area" id="comnDtlCodPagination"></div>
-												</div> <!--// content -->
 												<h3 class="hidden">풋터 영역</h3> <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
 										</li>
 								</ul>
@@ -765,5 +759,17 @@
 				</div>
 				<!--// 모달팝업 -->
 		</form>
+		<script type="text/javascript">
+		    $(function () {
+		        $('#datetimepicker1').datetimepicker({ format: 'L'});
+		        $('#datetimepicker2').datetimepicker({
+		            format: 'L',
+		            useCurrent: false
+		        });
+		        $("#datetimepicker1").on("change.datetimepicker", function (e) {
+		            $('#datetimepicker2').datetimepicker('minDate', e.date);
+		        });
+		    });
+		</script>
 </body>
 </html>

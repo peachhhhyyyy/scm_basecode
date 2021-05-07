@@ -2,23 +2,22 @@ package kr.happyjob.study.pcs.model;
 
 import java.util.Date;
 
-public class PurchaseModel {  
-  private String purch_list_no;
-  private String order_cd;
-  private String supply_cd;
-  private String scm_id;
-  private String purch_mng_id;
-  private Date direction_date;
-  private Date purch_cate;
-  private int purch_qty;
-  private int purch_total_amt;
-  private String approve_id;
-  private Date desired_delivery_date;
-  private int return_price;
-  private int return_qty;
-  private Date return_date;
-  private String return_mng_id;
-  
+public class PcsModel {
+  public String purch_list_no;
+  public String order_cd;
+  public String supply_cd;
+  public String scm_id;
+  public String purch_mng_id;
+  public Date direction_date;
+  public Date purch_cate;
+  public int purch_qty;
+  public int purch_total_amt;
+  public String approve_id;
+  public Date desired_delivery_date;
+  public int return_price;
+  public int return_qty;
+  public Date return_date;
+  public String return_mng_id;
   public String getPurch_list_no() {
     return purch_list_no;
   }

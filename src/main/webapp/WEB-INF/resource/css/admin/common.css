@@ -206,7 +206,7 @@ div.scroll {overflow:auto;}
 		a.lnbBtn.menu003.on {background-position:-342px -142px !important;}
 		a.lnbBtn.menu004.on {background-position:-342px -213px !important;}
 		a.lnbBtn.menu005.on {background-position:-342px -284px !important;}
-	li.lnb ul.lnbMenu li dl dt a.on {color:#fff;}
+	li.lnb ul.lnbMenu li dl dt a.on {color:#000;font-weight:bold;}
 	li.lnb ul.lnbMenu li dl dt a.on em {position:absolute;top:25px;right:-14px;width:15px;height: 20px;background:url(/images/admin/comm/set_bul.png) no-repeat;}
 	
 	li.lnb ul.lnbMenu li dl dd {/* display:none; */padding:20px 35px;background:#2e9acc;}
