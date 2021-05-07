@@ -4,9 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>손진수 테스트</title>
+<title>수주내역 조회</title>
+<jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 </head>
 <body>
-
+	Hi
 </body>
 </html>
