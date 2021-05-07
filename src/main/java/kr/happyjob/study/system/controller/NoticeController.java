@@ -21,7 +21,7 @@ import kr.happyjob.study.system.model.NoticeModel;
 import kr.happyjob.study.system.service.NoticeService;
 
 @Controller
-@RequestMapping("/system/")
+@RequestMapping("/system/")	// 여기서 선언한 것은 상위 path명
 public class NoticeController {
 	
 	@Autowired

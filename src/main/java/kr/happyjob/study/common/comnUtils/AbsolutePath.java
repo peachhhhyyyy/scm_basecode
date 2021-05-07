@@ -12,14 +12,11 @@ public class AbsolutePath {
 	public static AbsolutePath getInstance() {
 		return instance;
 	}
-	
-	
-	
+	 
 	public static String getRootPath() {
 		return rootPath;
 	}
 	public static void main(String[] args) {
 		System.out.println(rootPath);
 	}
-
-}
+   }
