@@ -1,39 +1,39 @@
 package kr.happyjob.study.login.model;
 
-import java.io.Serializable;
+//import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsrMnuAtrtModel  {
-	
+public class UsrMnuAtrtModel {
+
 	// 메뉴 ID
 	private String mnu_id;
-	
+
 	// 부모 메뉴 ID
 	private String hir_mnu_id;
-	
+
 	// 메뉴 명
 	private String mnu_nm;
-	
+
 	// 메뉴 URL
 	private String mnu_url;
-	
+
 	// 메뉴 구분 코드
 	private String mnu_dvs_cod;
-	
+
 	// 그룹 번호
 	private String grp_num;
-	
+
 	// 메뉴 순번
 	private String odr;
-	
+
 	// 메뉴 레벨
 	private String lvl;
-	
+
 	// 메뉴 아이콘 코드
 	private String mnu_ico_cod;
-	
-	//자식 node List
+
+	// 자식 node List
 	private List<UsrMnuChildAtrtModel> nodeList = new ArrayList<UsrMnuChildAtrtModel>();
 
 	/**
@@ -44,7 +44,8 @@ public class UsrMnuAtrtModel  {
 	}
 
 	/**
-	 * @param mnu_id the mnu_id to set
+	 * @param mnu_id
+	 *            the mnu_id to set
 	 */
 	public void setMnu_id(String mnu_id) {
 		this.mnu_id = mnu_id;
@@ -58,7 +59,8 @@ public class UsrMnuAtrtModel  {
 	}
 
 	/**
-	 * @param hir_mnu_id the hir_mnu_id to set
+	 * @param hir_mnu_id
+	 *            the hir_mnu_id to set
 	 */
 	public void setHir_mnu_id(String hir_mnu_id) {
 		this.hir_mnu_id = hir_mnu_id;
@@ -72,7 +74,8 @@ public class UsrMnuAtrtModel  {
 	}
 
 	/**
-	 * @param mnu_nm the mnu_nm to set
+	 * @param mnu_nm
+	 *            the mnu_nm to set
 	 */
 	public void setMnu_nm(String mnu_nm) {
 		this.mnu_nm = mnu_nm;
@@ -86,7 +89,8 @@ public class UsrMnuAtrtModel  {
 	}
 
 	/**
-	 * @param mnu_url the mnu_url to set
+	 * @param mnu_url
+	 *            the mnu_url to set
 	 */
 	public void setMnu_url(String mnu_url) {
 		this.mnu_url = mnu_url;
@@ -100,7 +104,8 @@ public class UsrMnuAtrtModel  {
 	}
 
 	/**
-	 * @param mnu_dvs_cod the mnu_dvs_cod to set
+	 * @param mnu_dvs_cod
+	 *            the mnu_dvs_cod to set
 	 */
 	public void setMnu_dvs_cod(String mnu_dvs_cod) {
 		this.mnu_dvs_cod = mnu_dvs_cod;
@@ -114,7 +119,8 @@ public class UsrMnuAtrtModel  {
 	}
 
 	/**
-	 * @param grp_num the grp_num to set
+	 * @param grp_num
+	 *            the grp_num to set
 	 */
 	public void setGrp_num(String grp_num) {
 		this.grp_num = grp_num;
@@ -128,7 +134,8 @@ public class UsrMnuAtrtModel  {
 	}
 
 	/**
-	 * @param odr the odr to set
+	 * @param odr
+	 *            the odr to set
 	 */
 	public void setOdr(String odr) {
 		this.odr = odr;
@@ -142,7 +149,8 @@ public class UsrMnuAtrtModel  {
 	}
 
 	/**
-	 * @param lvl the lvl to set
+	 * @param lvl
+	 *            the lvl to set
 	 */
 	public void setLvl(String lvl) {
 		this.lvl = lvl;
@@ -156,7 +164,8 @@ public class UsrMnuAtrtModel  {
 	}
 
 	/**
-	 * @param mnu_ico_cod the mnu_ico_cod to set
+	 * @param mnu_ico_cod
+	 *            the mnu_ico_cod to set
 	 */
 	public void setMnu_ico_cod(String mnu_ico_cod) {
 		this.mnu_ico_cod = mnu_ico_cod;
@@ -170,7 +179,8 @@ public class UsrMnuAtrtModel  {
 	}
 
 	/**
-	 * @param nodeList the nodeList to set
+	 * @param nodeList
+	 *            the nodeList to set
 	 */
 	public void setNodeList(List<UsrMnuChildAtrtModel> nodeList) {
 		this.nodeList = nodeList;
