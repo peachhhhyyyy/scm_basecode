@@ -226,7 +226,7 @@ click-able rows
 											<th scope="col">담당자명</th>
 											<th scope="col">배송주소</th>
 											<th scope="col">배송사원연락처</th>
-											<th scope="col">창고명</th>
+											<th scope="col">창고명zzz</th>
 										</tr>
 									</thead>
 								</table>
