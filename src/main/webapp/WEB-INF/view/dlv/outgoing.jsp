@@ -29,7 +29,7 @@ click-able rows
 	var pageBlockSizeinquiry = 10;
 
 	/** 공지사항 조회 */
-	function fListInf(currentPage) {
+	function fOrderList(currentPage) {
 
 		currentPage = currentPage || 1;
 
@@ -41,13 +41,13 @@ click-able rows
 		}
 
 		var resultCallback = function(data) {
-			fListInfResult(data, currentPage);
+			fOrderListResult(data, currentPage);
 		};
 
 		//Ajax실행 방식
 		//callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
 		//html로 받을거라 text
-		callAjax("/inf/listinf.do", "post", "text", true, param, resultCallback);
+		callAjax("/search/orderlist.do", "post", "text", true, param, resultCallback);
 	}
 
 	/** 공지사항 조회 콜백 함수 */
@@ -157,48 +157,53 @@ click-able rows
 									href="../dashboard/dashboard.do" class="btn_set refresh">새로고침</a>
 							</p>
 
-							<p class="conTitle" style="margin-bottom: 1%;">
-								<span>출하계획</span>
-							</p>
-							<div class="stateSelector" style="margin-bottom: 10px;">
-								<select name="state">
-									<option value="all">전체</option>
-									<option value="rfd">배송준비</option>
-									<option value="sip">배송중</option>
-									<option value="com">배송완료</option>
-								</select>
-								
-									<input id="startDate" type="date"> ~ <input id="endDate" type="date">
-								
-								<input class="btn btn-default" type="submit" value="조회">
-							</div>
-
-
-							<div class="divComGrpCodList">
-								<table class="col">
-									<%-- 								<caption>caption</caption>
-									<colgroup>
-									   <col width="5%">
-										<col width="70%">
-										<col width="10%">
-										<col width="5%">
-									</colgroup> --%>
-
-									<thead>
-										<tr>
-											<th scope="col">접수일</th>
-											<th scope="col">도착일자</th>
-											<th scope="col">도착변경일자</th>
-											<th scope="col">주문코드</th>
-											<th scope="col">배송담당자</th>
-											<th scope="col">창고명</th>
-											<th scope="col">배송상태</th>
-										</tr>
-									</thead>
-									<tbody id="listInf">
-									</tbody>
-								</table>
-							</div>
+							<p class="conTitle">               
+					  <span>출하계획</span>
+ 					  <span class="fr"> 
+ 						 <span>
+					    	<select id="adm_type" style="width: 100px;">
+                               <option value="all" selected="selected">전체</option>
+                               <option value="rfs">배송준비중</option>
+                               <option value="dfp">배송중</option>
+                               <option value="com">배송완료</option>
+                            </select>
+                         </span> 
+                         <input type="date" id="theday" min="2020-01-01" max="2020-12-31"  style="width: 200px; height: 28px;" 
+                         onKeyDown="if(event.keyCode == 13) javascript:fAdmList()">
+                         <span>~</span>
+                         <input type="date" id="theday" min="2020-01-01" max="2020-12-31"  style="width: 200px; height: 28px;" 
+                         onKeyDown="if(event.keyCode == 13) javascript:fAdmList()">
+ 						 <a class="btnType blue" href="javascript:fAdmList()" ><span id="searchEnter">검색</span></a>
+ 						 <c:if test="${typeCheck.user_type eq 'C'}">
+   						 	<a href="javascript:gfModalPop('#layer2');" class="btnType blue" id="submitBtn"><span id="">작성</span></a>
+					     </c:if>
+ 					  </span>
+				    </p> 
+					<table class="col">
+					<%-- <caption>caption</caption>
+						<colgroup>
+							<col width="15%">
+							<col width="15%">
+							<col width="15%">
+							<col width="15%">
+							<col width="5%">
+							<col width="5%">
+							<col width="5%">
+						</colgroup> --%>
+						<thead>
+							<tr>
+								<th scope="col">접수일자</th>
+								<th scope="col">도착일자</th>
+								<th scope="col">도착예정일자</th>
+								<th scope="col">주문코드</th>
+								<th scope="col">배송담당자</th>
+								<th scope="col">창고명</th>
+								<th scope="col">상태</th>
+							</tr>
+						</thead>
+						<tbody id="admNoticeList"></tbody>
+					</table>
+				</div>
 
 							<div class="paging_area" id="listInfPagination"></div>
 							<br> <br>
@@ -206,6 +211,28 @@ click-able rows
 								<p class="subTitle" style="margin-bottom: 1%;">
 									<span>상세페이지</span>
 								</p>
+							</div>
+							<div>
+								<table class="col">
+									<thead>
+										<tr>
+											<th scope="col">주문코드</th>
+											<th scope="col">배송코드</th>
+											<th scope="col">제품명</th>
+											<th scope="col">카테고리</th>
+											<th scope="col">수량</th>
+											<th scope="col">고객명</th>
+											<th scope="col">고객연락처</th>
+											<th scope="col">담당자명</th>
+											<th scope="col">배송주소</th>
+											<th scope="col">배송사원연락처</th>
+											<th scope="col">창고명</th>
+										</tr>
+									</thead>
+								</table>
+								
+								<button class="btn btn-default" type="submit">등록</button>
+								<button class="btn btn-default" type="submit">닫기</button>
 							</div>
 					</li>
 				</ul>
