@@ -25,11 +25,26 @@ click-able rows
 }
 </style>
 <script type="text/javascript">
-	var pageSizeinf = 3;
+	var pageSizeinf = 5;
 	var pageBlockSizeinquiry = 10;
-
+	
+	// Onload Event //
+	$(document).onload(function(){
+		fOrderList();
+	})
+	
+	function fOrderList(){
+		
+	}
+	
+	
 	/** 공지사항 조회 */
 	function fOrderList(currentPage) {
+		
+		// 상태와 날짜 변수
+		/* state = $('#state').val()
+		startDate = $('#startDate').val()
+		endDate = $('#endDate').val() */
 
 		currentPage = currentPage || 1;
 
@@ -47,7 +62,7 @@ click-able rows
 		//Ajax실행 방식
 		//callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
 		//html로 받을거라 text
-		callAjax("/search/orderlist.do", "post", "text", true, param, resultCallback);
+		callAjax("/dlv/orderlist.do", "post", "text", true, param, resultCallback);
 	}
 
 	/** 공지사항 조회 콜백 함수 */
@@ -118,21 +133,9 @@ click-able rows
 		$("#noticeNo").val(object.noticeNo); // 중요한 num 값도 숨겨서 받아온다. 
 
 	}
-	
-	var picker = new Pikaday({ 
-		  field: document.getElementById('startDate'),
-		  format: 'yyyy-MM-dd',
-		  toString(date, format) {
-		    let day = ("0" + date.getDate()).slice(-2);
-		    let month = ("0" + (date.getMonth() + 1)).slice(-2);
-		    let year = date.getFullYear();
-		    return `${year}-${month}-${day}`;
-		  }
-		});
 </script>
 </head>
 <body>
-	<form id="myForm" action="" method="post">
 		<input type="hidden" id="currentPage" value="1"> <input
 			type="hidden" id="selectedInfNo" value="">
 		<!-- 모달 배경 -->
@@ -148,7 +151,7 @@ click-able rows
 					<li class="contents">
 						<!-- contents -->
 						<h3 class="hidden">contents 영역</h3> <!-- content -->
-
+						<form>
 						<div class="content" style="margin-bottom: 20px;">
 
 							<p class="Location">
@@ -156,57 +159,51 @@ click-able rows
 								<span class="btn_nav bold">메인</span> <a
 									href="../dashboard/dashboard.do" class="btn_set refresh">새로고침</a>
 							</p>
-
 							<p class="conTitle">               
-					  <span>출하계획</span>
- 					  <span class="fr"> 
- 						 <span>
-					    	<select id="adm_type" style="width: 100px;">
-                               <option value="all" selected="selected">전체</option>
-                               <option value="rfs">배송준비중</option>
-                               <option value="dfp">배송중</option>
-                               <option value="com">배송완료</option>
-                            </select>
-                         </span> 
-                         <input type="date" id="theday" min="2020-01-01" max="2020-12-31"  style="width: 200px; height: 28px;" 
-                         onKeyDown="if(event.keyCode == 13) javascript:fAdmList()">
-                         <span>~</span>
-                         <input type="date" id="theday" min="2020-01-01" max="2020-12-31"  style="width: 200px; height: 28px;" 
-                         onKeyDown="if(event.keyCode == 13) javascript:fAdmList()">
- 						 <a class="btnType blue" href="javascript:fAdmList()" ><span id="searchEnter">검색</span></a>
- 						 <c:if test="${typeCheck.user_type eq 'C'}">
-   						 	<a href="javascript:gfModalPop('#layer2');" class="btnType blue" id="submitBtn"><span id="">작성</span></a>
-					     </c:if>
- 					  </span>
-				    </p> 
-					<table class="col">
-					<%-- <caption>caption</caption>
-						<colgroup>
-							<col width="15%">
-							<col width="15%">
-							<col width="15%">
-							<col width="15%">
-							<col width="5%">
-							<col width="5%">
-							<col width="5%">
-						</colgroup> --%>
-						<thead>
-							<tr>
-								<th scope="col">접수일자</th>
-								<th scope="col">도착일자</th>
-								<th scope="col">도착예정일자</th>
-								<th scope="col">주문코드</th>
-								<th scope="col">배송담당자</th>
-								<th scope="col">창고명</th>
-								<th scope="col">상태</th>
-							</tr>
-						</thead>
-						<tbody id="admNoticeList"></tbody>
-					</table>
-				</div>
-
+							  <span>출하계획</span>
+		 					  <span class="fr"> 
+		 						 <span>
+							    	<select name="state" id="state" style="width: 100px;">
+		                               <option value="all" selected="selected">전체</option>
+		                               <option value="rfs">배송준비중</option>
+		                               <option value="dfp">배송중</option>
+		                               <option value="com">배송완료</option>
+		                            </select>
+		                         </span> 
+		                         <input type="date" name="startDate" id="startDate" style="width: 200px; height: 28px;">
+		                         <span>~</span>
+		                         <input type="date" name="endDate" id="endDate" style="width: 200px; height: 28px;">
+		 						 <button id="searchEnter" class="btn btnTypeBox" type="javascript:fOrderList()">검색</button>
+		 					  </span>
+						    </p> 
+							<table class="col">
+							<!-- 각 컬럼 너비 -->
+							<%-- <caption>caption</caption>
+								<colgroup>
+									<col width="15%">
+									<col width="15%">
+									<col width="15%">
+									<col width="15%">
+									<col width="5%">
+									<col width="5%">
+									<col width="5%">
+								</colgroup> --%>
+								<thead>
+									<tr>
+										<th scope="col">접수일자</th>
+										<th scope="col">도착일자</th>
+										<th scope="col">도착예정일자</th>
+										<th scope="col">주문코드</th>
+										<th scope="col">배송담당자</th>
+										<th scope="col">창고명</th>
+										<th scope="col">상태</th>
+									</tr>
+								</thead>
+								<tbody id="orderList"></tbody>
+							</table>
+						</div>
+						</form>
 							<div class="paging_area" id="listInfPagination"></div>
-							<br> <br>
 							<div>
 								<p class="subTitle" style="margin-bottom: 1%;">
 									<span>상세페이지</span>
@@ -238,6 +235,5 @@ click-able rows
 				</ul>
 			</div>
 		</div>
-	</form>
 </body>
 </html>
