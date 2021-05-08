@@ -31,6 +31,20 @@ public class DlvOutgoingController {
 	}
 	
 	// 배송 준비 중 부터의 수주내역 조회
-//	@RequestMapping("/search/orderlist.do")
+	@RequestMapping("/dlv/orderlist.do")
+	public String orderList(Model model, @RequestParam Map<String, Object> paramMap, 
+			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+		int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재페이지
+	    int pageSize = Integer.parseInt((String) paramMap.get("pageSize"));
+	    int pageIndex = (currentPage - 1) * pageSize;
+	    
+	    paramMap.put("pageIndex", pageIndex);
+		paramMap.put("pageSize", pageSize);
+		
+		
+		return "dlv/orderList";
+	}
+	
+	
 
 }
