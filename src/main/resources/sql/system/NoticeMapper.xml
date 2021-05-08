@@ -6,7 +6,7 @@
 	<!-- 공지사항 목록 조회 -->
 	<select id = "noticeList" resultType = "kr.happyjob.study.system.model.NoticeModel">
 		SELECT
-				n.ntc_no as noticeNo
+				n.notice_id as noticeNo
 			,	n.ntc_title as noticeTitle
 			,	DATE_FORMAT(n.ntc_regdate, '%Y-%m-%d') as noticeRegdate
 			,	u.loginID as loginId
@@ -24,7 +24,7 @@
 			    and n.ntc_regdate  <![CDATA[<=]]> STR_TO_DATE(#{to_date}, '%Y-%m-%d')   
 			</if>		
 		</where>
-		 ORDER BY n.ntc_no DESC
+		 ORDER BY n.notice_id DESC
 		 LIMIT #{pageIndex}, #{pageSize}
 	</select>
 	
@@ -45,7 +45,7 @@
 			    and ntc_regdate  <![CDATA[<=]]> STR_TO_DATE(#{to_date}, '%Y-%m-%d')   
 			</if>		
 		</where>
-		ORDER BY ntc_no DESC
+		ORDER BY notice_id DESC
 	</select>	
 		
 	
@@ -57,11 +57,11 @@
 					u.loginID as loginId
 				,	n.ntc_title as noticeTitle
 				,	n.ntc_content as noticeContent
-				,   n.ntc_no as noticeNo
+				,   n.notice_id as noticeNo
 		FROM	tb_notice n
 			LEFT JOIN	tb_userinfo u
 			ON			n.loginID = u.loginID
-		WHERE n.ntc_no = #{noticeNo}
+		WHERE n.notice_id = #{noticeNo}
 	</select>
 	
 		
@@ -69,12 +69,12 @@
 	<!-- 공지사항 신규등록(저장) :  -->
 	<insert id = "insertNotice" parameterType="java.util.Map">
 	    <selectKey resultType="string" keyProperty="noticeNo" order="BEFORE">
-            SELECT IFNULL(MAX(ntc_no),0) + 1 FROM tb_notice 
+            SELECT IFNULL(MAX(notice_id),0) + 1 FROM tb_notice 
         </selectKey> 
 		INSERT
 		INTO		tb_notice
 				(
-					ntc_no, loginID, ntc_title, ntc_content, ntc_regdate
+					notice_id, loginID, ntc_title, ntc_content, ntc_regdate
 				)
 		VALUES
 				(
@@ -92,14 +92,14 @@
 		SET		ntc_title = #{noticeTitle}
 				,	ntc_content = #{noticeContent}
 				,	ntc_regdate = NOW()
-		WHERE	ntc_no = #{noticeNo}
+		WHERE	notice_id = #{noticeNo}
 	</update>
 	
 	<!-- 공지사항 삭제-->
 	<delete id="deleteNotice">
 		DELETE
 		FROM 	tb_notice
-		WHERE 	ntc_no = #{noticeNo}
+		WHERE 	notice_id = #{noticeNo}
 	</delete>
 
 </mapper>
