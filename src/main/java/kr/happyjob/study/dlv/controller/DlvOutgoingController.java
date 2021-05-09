@@ -18,4 +18,5 @@ public class DlvOutgoingController {
 		String returnType = "/dlv/outgoing";
 		return returnType;
 	}
+	
 }
