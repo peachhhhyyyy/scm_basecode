@@ -9,19 +9,28 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import kr.happyjob.study.system.model.NoticeModel;
+import kr.happyjob.study.dlv.model.DlvOutgoingModel;
+import kr.happyjob.study.dlv.service.DlvOutgoingService;
+import kr.happyjob.study.dlv.service.DlvOutgoingServiceImpl;
 
 @Controller
+@RequestMapping("/dlv")
 public class DlvOutgoingController {
+	
+//	@Autowired
+//	DlvOutgoingService dlvOutgoingService;
+	
+	DlvOutgoingService dlvOutgoingService = new DlvOutgoingServiceImpl();
 	
 	private final Logger logger = LogManager.getLogger(this.getClass());
 	
-	@RequestMapping("/dlv/outgoing.do")
+	@RequestMapping("outgoing.do")
 	public String initBoard() {
 		
 		logger.info("환영해");
@@ -31,9 +40,10 @@ public class DlvOutgoingController {
 	}
 	
 	// 배송 준비 중 부터의 수주내역 조회
-	@RequestMapping("/dlv/orderlist.do")
+	@RequestMapping("orderlist.do")
 	public String orderList(Model model, @RequestParam Map<String, Object> paramMap, 
 			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+		
 		int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재페이지
 	    int pageSize = Integer.parseInt((String) paramMap.get("pageSize"));
 	    int pageIndex = (currentPage - 1) * pageSize;
@@ -41,8 +51,20 @@ public class DlvOutgoingController {
 	    paramMap.put("pageIndex", pageIndex);
 		paramMap.put("pageSize", pageSize);
 		
+		logger.info(paramMap);
 		
-		return "dlv/orderList";
+		// 수주내역 가져오기
+		List<DlvOutgoingModel> dlvOutgoingModel = dlvOutgoingService.orderList(paramMap);
+		model.addAttribute("dlvOutgoingModel", dlvOutgoingModel);
+
+		// 목록 수 추출하기
+		int outgoingCnt = dlvOutgoingService.outgoingCnt(paramMap);
+		
+	    model.addAttribute("noticeCnt", outgoingCnt);
+	    model.addAttribute("pageSize", pageSize);
+	    model.addAttribute("currentPage",currentPage);
+	    
+		return "/dlv/orderList";
 	}
 	
 	
