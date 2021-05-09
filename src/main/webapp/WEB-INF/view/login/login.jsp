@@ -79,8 +79,7 @@
     }
     })
   }
-
-  /*체크리스트 콜백함수*/
+ // 체크리스트 콜백함수
   function checklistResult(data) {
 
     /*callAjax시 로그인 여부 확인 하므로 ajax 함수 직접 작성*/
@@ -103,7 +102,7 @@
     }
     });
   }
-
+ 
   $("input[v-model=chkbox]:checked").each(function() {
     var chk = $(this).val();
   })
@@ -993,9 +992,9 @@
 										<br> <br> <strong style="font-size: 120%">&nbsp;&nbsp;&nbsp;&nbsp;회원가입</strong> <br>
 								</dt>
 								<dd class="content">
-										<div class="btn_areaC">
+									<!-- 	<div class="btn_areaC">
 												<a href="javascript:instaffRegister();" class="btnType blue" id="register_instaff"><span>일반회원</span></a> <a href="javascript:outstaffRegister();" class="btnType " id="register_outstaff"><span>기업회원</span></a> <br> <br>
-										</div>
+										</div> -->
 										<!-- s : 여기에 내용입력 -->
 										<table class="row">
 												<caption>caption</caption>
@@ -1027,32 +1026,36 @@
 																<td colspan="3"><input type="password" class="inputTxt p100" name="password1" id="registerPwdOk" /></td>
 														</tr>
 														<tr>
-																<th scope="row" id="registerName_th">이름 <span class="font_red">*</span></th>
+																<th scope="row" id="registerName_th">회사명 <span class="font_red">*</span></th>
 																<td><input type="text" class="inputTxt p100" name="name" id="registerName" /></td>
-																<th scope="row" id="rggender_th">성별</th>
+																<!-- <th scope="row" id="rggender_th">성별</th>
 																<td id="rggender_td"><select name="gender_cd" id="gender_cd" style="width: 128px; height: 28px;">
 																				<option value="" selected="selected">선택</option>
 																				<option value="male">남자</option>
 																				<option value="female">여자</option>
-																</select></td>
+																</select></td> -->
 														</tr>
-														<tr>
+														<!-- <tr>
 																<th scope="row" id="rgcompany_th">회사명<span class="font_red">*</span></th>
 																<td id="rgcompany_td"><input type="text" class="inputTxt p100" name="user_company" id="user_company" /></td>
-														</tr>
-														<tr id="birthday1">
+														</tr> -->
+														<!-- <tr id="birthday1">
 																<th scope="row">생년월일 <span class="font_red"></span></th>
 																<td><input type="date" class="inputTxt p100" name="birthday" id="birthday" style="font-size: 15px" />
+														</tr> -->
+														<tr>
+																<th scope="row">담당자명 <span class="font_red">*</span></th>
+																<td><input type="text" class="inputTxt p100" name="company_mng" id="company_mngNM" /></td>															
 														</tr>
 														<tr>
 																<th scope="row">이메일<span class="font_red">*</span></th>
 																<td colspan="3"><input type="text" class="inputTxt p100" name="user_email" id="registerEmail" />
-																<td colspan="3"></td>
+																</td>
 														</tr>
-														<tr id="email_cop2">
+													<!-- 	<tr id="email_cop2">
 																<th scope="row">기업도메인<span class="font_red">*</span></th>
 																<td colspan="3"><input type="text" class="inputTxt p100" name="email_cop" id="email_cop" /></td>
-														</tr>
+														</tr> -->
 														<tr>
 																<th scope="row">우편번호<span class="font_red">*</span></th>
 																<td colspan="2"><input type="text" class="inputTxt p100" name="user_zipcode" id="detailaddr" /></td>
@@ -1076,7 +1079,7 @@
 									style="width: 400px; height: 28px;">
 								</select></td>
 							</tr> -->
-														<tr>
+														<!-- <tr>
 																<th scope="row">선호직무분야<span class="font_red">*</span></th>
 																<td colspan="3"><select name="user_hope_work" id="user_hope_work" style="width: 400px; height: 28px;">
 																				<option value="" selected="selected">선택</option>
@@ -1146,17 +1149,17 @@
 																</select></td>
 														</tr>
 										</table>
-										<!-- 경력정보 ---------------------------------------------------------------------->
+										경력정보 --------------------------------------------------------------------
 										<div>
 												<br> <br> <strong style="font-size: 120%">&nbsp;&nbsp;&nbsp;&nbsp;경력정보</strong> <br> <br>
 										</div>
-										<!-- 추가기술 -->
+										추가기술
 										<table class="row" id="describe1">
 												<tr>
 														<th scope="row">제목<span class="font_red">*</span></th>
 														<td colspan=3><input type="text" class="inputTxt p100" name="user_describe" id="user_describe" /></td>
 												</tr>
-												<!-- 체크리스트 -->
+												체크리스트
 												<tr>
 														<th scope="row">Language<span class="font_red">*</span></th>
 														<td colspan="2">
@@ -1207,7 +1210,7 @@
 												</tr>
 										</table>
 										<table class="row">
-												<!-- 등급 -->
+												등급
 												<tr>
 														<th scope="row">등급<span class="font_red">*</span></th>
 														<td><select type="selectbox" id="grade" name="grade">
@@ -1216,9 +1219,9 @@
 																		</template>
 														</select></td>
 												</tr>
-												<!-- 희망 근무지 -->
+												희망 근무지
 												<tr>
-														<th scope="row">희망근무지역<span class="font_red">*</span></th>
+														<th scope="row">희망근무지역2<span class="font_red">*</span></th>
 														<td><span>1순위</span> <select type="selectbox" style="width: 100px; height: 25px;" id="area1" name="area1">
 																		<template v-for="(item,index) in langitemarea1" v-model="langitemarea1">
 																		<option :value="item.dtl_cod">{{ item.dtl_cod_nm }}</option>
@@ -1245,18 +1248,20 @@
 														<th scope="row">특이사항<span class="font_red">*</span></th>
 														<td><textarea class="inputTxt p100" name="singular_facts" id="singular_facts" laceholder="특이사항을 입력하세요." /></textarea></td>
 												</tr>
-										</table>
+										</table> 
 										<table class="row">
 												<tr>
 														<th scope="row">파일<span class="font_red">*</span></th>
 														<td colspan="5">
-																<!--multiple="multiple" --> <input type="file" name="file_nm" id="wfile_nm"></input> <!-- <img v-if="file_nm !='' "src="/images/treeview/minus.gif" @click="minusClickEvent"> -->
+																multiple="multiple" <input type="file" name="file_nm" id="wfile_nm"></input> <img v-if="file_nm !='' "src="/images/treeview/minus.gif" @click="minusClickEvent">
 														</td>
 												</tr>
-										</table>
+										</table> -->
+										<table class="row">
 										<div class="btn_areaC mt30">
 												<a href="javascript:CompleteRegister();" class="btnType blue" id="RegisterCom" name="btn"> <span>회원가입 완료</span></a> <a href="javascript:fcancleModal()" class="btnType gray" id="btnCloseLsmCod" name="btn"><span>취소</span></a>
 										</div>
+										</table>
 								</dd>
 						</dl>
 						<a href="" class="closePop"><span class="hidden">닫기</span></a>
