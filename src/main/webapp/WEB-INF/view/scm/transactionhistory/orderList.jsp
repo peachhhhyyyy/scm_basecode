@@ -8,6 +8,6 @@
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 </head>
 <body>
-	Hi
+	수주내역 조회 페이지
 </body>
 </html>
