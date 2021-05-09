@@ -16,33 +16,35 @@
 >
 		<!-- # @Controller 어노테이션을 이용한 컨트롤러를 사용하기 위한 설정 -->
 		<mvc:annotation-driven />
+		
 		<!-- # DispatcherServlet의 매핑 경로를 '/'로 주었을 때, 기본 컨트롤러 연결 설정 -->
 		<mvc:view-controller path="/" view-name="/login/login" />
+		
 		<!-- # DispatcherServlet의 매핑 경로를 '/'로 주었을 때, JSP/HTML/CSS등을 올바르게 처리하기 위한 설정 -->
-		<!--<mvc:default-servlet-handler /> -->
-		<!-- # DispatcherServlet의 매핑 경로를 '/'로 주었을 때, 기본 컨트롤러 연결 설정 -->
-		<!-- mvc:resources location="/WEB-INF/resource/" mapping="/resource/**"/ -->
 		<mvc:resources location="/WEB-INF/resource/images/" mapping="/images/**" />
 		<mvc:resources location="/WEB-INF/resource/css/" mapping="/css/**" />
 		<mvc:resources location="/WEB-INF/resource/js/" mapping="/js/**" />
 		<mvc:resources location="/WEB-INF/resource/fonts/" mapping="/fonts/**" />
 		<mvc:resources location="/WEB-INF/resource/html/" mapping="/html/**" />
+		
 		<!-- Component Scan을 하기 위한 ROOT Package 설정 -->
-		<!-- context:component-scan base-package="kr.happyjob.study" / -->
 		<context:component-scan base-package="kr.happyjob" />
-		<!-- dao 스캔 -->
+		
+		<!-- dao 스캔  with mybatis Mapper 할 dao 파일들의 경로를 value에 기입 -->
 		<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 				<property name="basePackage" value="kr.happyjob.study.**.dao" />
 		</bean>
+		
 		<!-- MultipartResolver 설정 -->
 		<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 				<property name="maxUploadSize" value="200000000" />
 				<property name="maxInMemorySize" value="200000000" />
 		</bean>
+		
 		<!-- 프로퍼티 파일 등록 -->
-		<context:property-placeholder location="/WEB-INF/classes/happyjob.properties" />
+		<context:property-placeholder location="../../resources/happyjob.properties" />
+		
 		<!-- ## MySQL setup ## -->
-		<!-- <bean id="mysqlDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> <property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property name="url" value="jdbc:mysql://13.125.158.2:3306/jobkorea" /> <property name="username" value="root" /> <property name="password" value="@dltmd85" /> <property name="validationQuery" value="select 1" /> </bean> -->
 		<bean id="mysqlDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 				<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 				<property name="url" value="jdbc:mysql://13.125.198.29:3306/erpscm?allowMultiQueries=true" />
@@ -50,30 +52,36 @@
 				<property name="password" value="hwangkh704!" />
 				<property name="validationQuery" value="select 1" />
 		</bean>
+		
 		<!-- ## Mapper setup ## -->
 		<bean id="mysqlSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 				<property name="dataSource" ref="mysqlDataSource" />
 				<property name="configLocation" value="/WEB-INF/mybatis-mysql-config.xml" />
 				<property name="typeAliasesPackage" value="kr.happyjob.study" />
-				<!-- property name="mapperLocations" value="classpath*:kr/kosmo/jobkorea/**/dao/mapper/*Mapper.xml" / -->
+				<!-- Mapper.xml 파일 형식 지정하는 코드 -->
 				<property name="mapperLocations" value="classpath*:sql/*/*Mapper.xml" />
 		</bean>
+		
 		<!-- ## DB Tranjection setup ## -->
 		<bean id="mysqlSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 				<constructor-arg ref="mysqlSqlSessionFactory" />
 		</bean>
+		
 		<bean id="mysqlTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 				<property name="dataSource" ref="mysqlDataSource" />
 		</bean>
+		
 		<tx:advice id="txAdvice" transaction-manager="mysqlTransactionManager">
 				<tx:attributes>
 						<tx:method name="*" rollback-for="Exception" />
 				</tx:attributes>
 		</tx:advice>
+		
 		<aop:config>
 				<aop:pointcut id="txPointcut" expression="execution(* kr.happyjob.study.*.service.*ServiceImpl.*(..))" />
 				<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" />
 		</aop:config>
+		
 		<!-- 메일보내기 -->
 		<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 				<property name="host" value="smtp.gmail.com" />
@@ -93,6 +101,7 @@
 						</props>
 				</property>
 		</bean>
+		
 		<!-- auth interceptor -->
 		<mvc:interceptors>
 				<mvc:interceptor>
@@ -112,10 +121,11 @@
 						<bean class="kr.happyjob.study.common.interceptor.AuthCheckInterceptor" />
 				</mvc:interceptor>
 		</mvc:interceptors>
+		
 		<!--## 공통 Exception setup ## -->
 		<bean class="kr.happyjob.study.common.exception.CommonExceptionHandler" />
+		
 		<!-- JSP를 이용해서 컨트롤러의 실행 결과를 보여주기 위한 설정 -->
-		<!-- <mvc:view-resolvers> <mvc:jsp prefix="/WEB-INF/view/" /> </mvc:view-resolvers> -->
 		<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 				<property name="prefix" value="/WEB-INF/view/" />
 				<property name="suffix" value=".jsp" />
