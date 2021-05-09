@@ -29,16 +29,12 @@ click-able rows
 	var pageBlockSizeinquiry = 10;
 	
 	// Onload Event //
-	$(document).onload(function(){
+	$(document).ready(function(){
 		fOrderList();
 	})
 	
-	function fOrderList(){
-		
-	}
 	
-	
-	/** 공지사항 조회 */
+	/** 수주내역 조회 */
 	function fOrderList(currentPage) {
 		
 		// 상태와 날짜 변수
@@ -62,7 +58,7 @@ click-able rows
 		//Ajax실행 방식
 		//callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
 		//html로 받을거라 text
-		callAjax("/dlv/orderlist.do", "post", "text", true, param, resultCallback);
+		callAjax("/dlv/orderlist.do", "post", "json", true, param, resultCallback);
 	}
 
 	/** 공지사항 조회 콜백 함수 */
