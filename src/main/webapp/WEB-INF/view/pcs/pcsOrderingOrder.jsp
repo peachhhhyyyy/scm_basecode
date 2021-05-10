@@ -723,17 +723,5 @@
 				</div>
 				<!--// 모달팝업 -->
 		</form>
-		<script type="text/javascript">
-		    $(function () {
-		        $('#datetimepicker1').datetimepicker({ format: 'L'});
-		        $('#datetimepicker2').datetimepicker({
-		            format: 'L',
-		            useCurrent: false
-		        });
-		        $("#datetimepicker1").on("change.datetimepicker", function (e) {
-		            $('#datetimepicker2').datetimepicker('minDate', e.date);
-		        });
-		    });
-		</script>
 </body>
 </html>
