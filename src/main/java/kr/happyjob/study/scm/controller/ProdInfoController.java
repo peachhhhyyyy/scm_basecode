@@ -54,11 +54,11 @@ public class ProdInfoController {
     paramMap.put("pageIndex", pageIndex);
     paramMap.put("pageSize", pageSize);
     
-    // 공통 그룹코드 목록 조회
+    // 상품 목록 조회
     List<ProdInfoModel> listProdInfoModel = ProdInfoService.listProdInfo(paramMap);
     model.addAttribute("listProdInfoModel", listProdInfoModel);
     
-    // 공통 그룹코드 목록 카운트 조회
+    // 상품 목록 카운트 조회
     int totalCount = ProdInfoService.countListProdInfo(paramMap);
     model.addAttribute("totalCntProdInfo", totalCount);
     
