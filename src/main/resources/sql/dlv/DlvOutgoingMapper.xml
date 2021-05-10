@@ -3,10 +3,10 @@
 <mapper namespace="kr.happyjob.study.dlv.dao.OutgoingDao">
 
 	<!-- 배송 준비 중 부터의 목록 조회 -->
-	<select id="orderList" resultType = "kr.happyjob.study.dlv.model.DlvOutgoingModel">
-		SELECT od.order_date
-				, shipList.arr_date AS arr_date
-				, shipList.arr_prev_date AS arr_prev_date
+	<select id="outgoingList" resultType = "kr.happyjob.study.dlv.model.DlvOutgoingModel">
+		SELECT DATE_FORMAT(od.order_date, '%Y-%m-%d') AS order_date
+				, DATE_FORMAT(shipList.arr_date, '%Y-%m-%d') AS arr_date
+				, DATE_FORMAT(shipList.arr_prev_date, '%Y-%m-%d') AS arr_prev_date
 				, od.order_cnt AS order_cnt
 				, od.state AS state
 				, od.order_cd AS order_cd
@@ -62,17 +62,15 @@
 					FROM tb_scm_warehouse) AS warehouse
 			ON od.warehouse_cd = warehouse.warehouse_cd
 			
+			WHERE od.state IN ('배송준비중', '배송중', '배송완료', '입금완료')
 			ORDER BY od.order_cd DESC
 			LIMIT #{pageIndex}, #{pageSize}
 	</select>
 	
 	<select id="outgoingCnt" resultType="int">
-		SELECT COUNT(*)
-			FROM tb_order od
-			WHERE od.state = '배송준비중'
-			OR od.state = '배송중'
-			OR od.state = '배송완료'
-			OR od.state = '입금완료'
-			ORDER BY od.order_cd DESC
+		SELECT COUNT(*) as tot_cnt
+			FROM tb_order
+			WHERE state IN ('배송준비중', '배송중', '배송완료', '입금완료')
+			ORDER BY order_cd DESC
 	</select>
 </mapper>
