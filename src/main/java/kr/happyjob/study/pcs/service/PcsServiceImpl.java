@@ -25,7 +25,25 @@ public class PcsServiceImpl implements PcsService {
   
   /** 그룹코드 목록 조회 */
   public List<PcsModel> listComnGrpCod(Map<String, Object> paramMap) throws Exception {
-    List<PcsModel> listComnGrpCod = pcsDao.listComnGrpCod(paramMap);
+    List<PcsModel> listComnGrpCod = pcsDao.listComnGrpCod2(paramMap);
     return listComnGrpCod;
+  }
+  
+  /** 그룹코드 목록 카운트 조회 */
+  public int countListComnGrpCod(Map<String, Object> paramMap) throws Exception {
+    int totalCount = PcsDao.countListComnGrpCod2(paramMap);
+    return totalCount;
+  }
+
+  @Override
+  public List<PcsModel> listComnGrpCod2(Map<String, Object> paramMap) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public int countListComnGrpCod2(Map<String, Object> paramMap) throws Exception {
+    // TODO Auto-generated method stub
+    return 0;
   }
 }
