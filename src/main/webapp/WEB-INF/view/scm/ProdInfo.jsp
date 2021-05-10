@@ -32,7 +32,7 @@ justify-content: space-around;
   display: none;
 }
 </style>
-<title>제품정보 관리zzz</title>
+<title>제품정보 관리</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript">
   /*페이징 설정*/
@@ -59,7 +59,6 @@ justify-content: space-around;
     currentPage : currentPage,
     pageSize : pageSizeProdInfo
     }
-    alert("m_ct_nm : " + m_ct_nm + "prod_nm : " + prod_nm + "supply_nm : " + supply_nm);
 
     var resultCallback = function(data) {
       fProdInfoResult(data, currentPage);
@@ -67,7 +66,7 @@ justify-content: space-around;
     //Ajax실행 방식
     //callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
 
-    callAjax("/scm/ListProdInfo.do", "post", "text", true, param, resultCallback);
+    callAjax("/scm/listProdInfo.do", "post", "text", true, param, resultCallback);
   }
 
   /** 그룹코드 조회 콜백 함수 */
@@ -77,10 +76,10 @@ justify-content: space-around;
     console.log(data);
 
     // 기존 목록 삭제
-    $('#ListProdInfo').empty();
+    $('#listProdInfo').empty();
 
     // 신규 목록 생성
-    $("#ListProdInfo").append(data);
+    $("#listProdInfo").append(data);
 
     // 총 개수 추출
     var totalCntProdInfo = $("#totalCntProdInfo").val();
@@ -141,7 +140,7 @@ justify-content: space-around;
                 </colgroup>
                 <thead>
                   <tr>
-                    <th scope="col">제품정보</th>
+                    <th scope="col">제품코드</th>
                     <th scope="col">제품명</th>
                     <th scope="col">품목명</th>
                     <th scope="col">공급처명</th>
@@ -150,7 +149,7 @@ justify-content: space-around;
                     <th scope="col">단가</th>
                   </tr>
                 </thead>
-                <tbody id="ListProdInfo"></tbody>
+                <tbody id="listProdInfo"></tbody>
               </table>
             </div>
             <div class="paging_area" id="ProdInfoListPagination"></div>

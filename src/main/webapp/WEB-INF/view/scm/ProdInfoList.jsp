@@ -1,12 +1,12 @@
 _<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:if test="${totalCntProdList eq 0 }">
+<c:if test="${totalCntProdInfo eq 0 }">
   <tr>
     <td colspan="7">데이터가 존재하지 않습니다.</td>
   </tr>
 </c:if>
 <c:if test="${totalCntProdInfo > 0 }">
-  <c:set var="nRow" value="${pageSize*(currentPageProdInfo-1)}" />
+  <c:set var="nRow" value="${pageSize*(currentPage-1)}" />
   <c:forEach items="${listProdInfoModel}" var="list">
     <tr>
       <td>${list.product_cd}</td>
