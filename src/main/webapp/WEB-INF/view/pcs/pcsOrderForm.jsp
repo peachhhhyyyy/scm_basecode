@@ -562,6 +562,46 @@
 																</a>
 																</span>
 														</p>
+														<form class="search-container">
+                                <div class="row">
+                                    <!-- searchbar -->
+                                    <div class="col-lg-6">
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    전체 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a href="#">업종</a></li>
+                                                    <li><a href="#">제품</a></li>
+                                                </ul>
+                                            </div>
+                                            <input type="text" class="form-control" aria-label="...">
+                                        </div>
+                                    </div>
+                                    <!-- // searchbar -->
+                                    <!-- date -->
+                                    <div class='col-md-3 col-xs-4'>
+                                        <div class="form-group">
+                                            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="01/11/2020">
+                                                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                                    <div class="input-group-text">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- // date -->
+                                    <!-- button -->
+                                    <div class="btn-group" role="group" aria-label="...">
+                                      <button type="button" class="btn btn-default">검색</button>
+                                    </div>
+                                    <!-- // button -->
+                                </div>
+                                <!-- /.row -->
+                            </form>
 														<div class="divComGrpCodList">
 																<table class="col">
 																		<caption>caption</caption>

@@ -9,7 +9,7 @@
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript">
   // 그룹코드 페이징 설정
-  var pageSizeComnGrpCod = 5;
+  var pageSizeComnGrpCod = 10;
   var pageBlockSizeComnGrpCod = 5;
 
   // 상세코드 페이징 설정
@@ -208,7 +208,7 @@
     };
     //Ajax실행 방식
     //callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
-    callAjax("/system/listComnGrpCod.do", "post", "text", true, param, resultCallback);
+    callAjax("/pcs/listPcsOrderingOrder.do", "post", "text", true, param, resultCallback);
   }
 
   /** 그룹코드 조회 콜백 함수 */
@@ -562,71 +562,35 @@
 														<p class="conTitle">
 																<span>발주 지시서 목록</span>
 														</p>
-														<form class="search-container">
-																<div class="row">
-																    <!-- searchbar -->
-																		<div class="col-lg-6">
-																				<div class="input-group">
-																						<div class="input-group-btn">
-																								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-																										전체 <span class="caret"></span>
-																								</button>
-																								<ul class="dropdown-menu" role="menu">
-																										<li><a href="#">업종</a></li>
-																										<li><a href="#">제품</a></li>
-																								</ul>
-																						</div>
-																						<input type="text" class="form-control" aria-label="...">
-																				</div>
-																		</div>
-																		<!-- // searchbar -->
-																		<!-- date -->
-																		<div class='col-md-3 col-xs-4'>
-																				<div class="form-group">
-																						<div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-																								<input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="01/11/2020">
-																								<div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-																										<div class="input-group-text">
-																												<i class="fa fa-calendar"></i>
-																										</div>
-																								</div>
-																						</div>
-																				</div>
-																		</div>
-																		<!-- // date -->
-																		<!-- button -->
-																		<div class="btn-group" role="group" aria-label="...">
-																		  <button type="button" class="btn btn-default">검색</button>
-																		</div>
-																		<!-- // button -->
-																</div>
-																<!-- /.row -->
-														</form>
 														<div class="divComGrpCodList">
 																<table class="col">
 																		<caption>caption</caption>
 																		<colgroup>
-																				<col width="6%">
+																				<col width="7%">
+																				<col width="10%">
+																				<col width="10%">
 																				<col width="14%">
-																				<col width="14%">
+																				<col width="10%">
 																				<col width="5%">
 																				<col width="10%">
-																				<col width="10%">
-																				<col width="10%">
 																				<col width="*">
+																				<col width="7%">
+																				<col width="7%">
 																				<col width="7%">
 																		</colgroup>
 																		<thead>
 																				<tr>
-																						<th scope="col">순번</th>
-																						<th scope="col">그룹 코드 ID</th>
-																						<th scope="col">그룹 코드 명</th>
-																						<th scope="col">사용</th>
-																						<th scope="col">임시 필드 01</th>
-																						<th scope="col">임시 필드 01</th>
-																						<th scope="col">임시 필드 03</th>
-																						<th scope="col">코드 설명</th>
-																						<th scope="col">비고</th>
+																						<th scope="col">발주번호</th>
+																						<th scope="col">회사명</th>
+																						<th scope="col">회사코드</th>
+																						<th scope="col">제품명</th>
+																						<th scope="col">품목명</th>
+																						<th scope="col">제품수량</th>
+																						<th scope="col">금액</th>
+																						<th scope="col">배송희망날짜</th>
+																						<th scope="col">창고명</th>
+																						<th scope="col">담당자</th>
+																						<th scope="col">발주</th>
 																				</tr>
 																		</thead>
 																		<tbody id="listComnGrpCod"></tbody>
