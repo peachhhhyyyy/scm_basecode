@@ -9,8 +9,7 @@ _<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="U
   <c:set var="nRow" value="${pageSize*(currentPageComnGrpCod-1)}" />
   <c:forEach items="${listComnGrpCodModel}" var="list">
     <tr>
-      <td>${list.purch_list_no}</td>
-      <td><a href="javascript:fListComnDtlCod(1, '${list.grp_cod}', '${list.grp_cod_nm}')">${list.grp_cod}</a></td>
+      <td><a href="javascript:fListComnDtlCod(1, '${list.purch_list_no}')">${list.purch_list_no}</a></td>
       <td>${list.supply_cd}</td>
       <td>${list.direction_date}</td>
       <td>${list.purch_cate}</td>
@@ -20,9 +19,9 @@ _<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="U
       <td>${list.desired_delivery_date}</td>
       <td>${list.warehouse_nm}</td>
       <td>${list.purch_mng_id}</td>
-      <td><a class="btnType3 color1" href="javascript:fPopModalComnGrpCod('${list.grp_cod}');"><span>발주</span></a></td>
+      <td><a class="btnType3 color1" href="javascript:fPopModalComnGrpCod('${list.purch_list_no}');"><span>발주</span></a></td>
     </tr>
     <c:set var="nRow" value="${nRow + 1}" />
   </c:forEach>
 </c:if>
-<input type="hidden" id="totalCntComnGrpCod" name="totalCntComnGrpCod" values="${totalCntComnGrpCod}" />
+<input type="hidden" id="totalCntComnGrpCod" name="totalCntComnGrpCod" value="${totalCntComnGrpCod}" />

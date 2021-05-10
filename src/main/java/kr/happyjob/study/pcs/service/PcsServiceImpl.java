@@ -27,13 +27,13 @@ public class PcsServiceImpl implements PcsService {
   /** 그룹코드 목록 조회 
    * @throws Exception */
   public List<PcsModel> listComnGrpCod2(Map<String, Object> paramMap) throws Exception {
-    List<PcsModel> listComnGrpCod = PcsDao.listComnGrpCod2(paramMap);
+    List<PcsModel> listComnGrpCod = pcsDao.listComnGrpCod2(paramMap);
     return listComnGrpCod;
   }
   
   /** 그룹코드 목록 카운트 조회 */
   public int countListComnGrpCod2(Map<String, Object> paramMap) throws Exception {
-    int totalCount = PcsDao.countListComnGrpCod2(paramMap);
+    int totalCount = pcsDao.countListComnGrpCod2(paramMap);
     return totalCount;
   }
 }

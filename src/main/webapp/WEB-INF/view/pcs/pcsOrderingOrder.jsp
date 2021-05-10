@@ -226,6 +226,8 @@
     // 총 개수 추출
     var totalCntComnGrpCod = $("#totalCntComnGrpCod").val();
 
+    alert("totalCntComnGrpCod : " + totalCntComnGrpCod)
+    
     // 페이지 네비게이션 생성
     var paginationHtml = getPaginationHtml(currentPage, totalCntComnGrpCod, pageSizeComnGrpCod, pageBlockSizeComnGrpCod, 'fListComnGrpCod');
     console.log("paginationHtml : " + paginationHtml);

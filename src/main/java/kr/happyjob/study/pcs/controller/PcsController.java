@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.happyjob.study.pcs.model.PcsModel;
 import kr.happyjob.study.pcs.service.PcsService;
-import kr.happyjob.study.pcs.service.PcsServiceImpl;
 
 @Controller
 @RequestMapping("/pcs/") // 여기서 선언한 것은 상위 path명
-public class PcsController<PcsService> {
+public class PcsController {
   
-  PcsServiceImpl pcsService = new PcsServiceImpl();
+  @Autowired
+  PcsService pcsService;
   
   private final Logger logger = LogManager.getLogger(this.getClass());
 
