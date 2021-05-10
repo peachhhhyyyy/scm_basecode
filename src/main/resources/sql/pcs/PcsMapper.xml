@@ -4,42 +4,29 @@
 <mapper namespace="kr.happyjob.study.pcs.dao.PcsDao">
 
 	<!-- 그룹코드 목록 조회 -->
-	<select id="listComnGrpCod" resultType="kr.happyjob.study.system.model.ComnGrpCodModel">
-		/*kr.kosmo.jobkorea.system.dao.ComnCodDao.listComnGrpCod*/
-		SELECT		
-				group_code as grp_cod
-			,	group_name as grp_cod_nm
-			, 	note as grp_cod_eplti
-			,	use_yn as use_poa
-			,	reg_date as fst_enlm_dtt
-			
-		FROM	tb_group_code
-			<where>
-			<if test="(sname != null) and (!sname.equals(''))">
-				<choose>
-					<when
-						test="oname eq 'grp_cod'.toString()">
-						and group_code Like CONCAT('%', #{sname}, '%')
-					</when>
-					<when
-						test="oname eq 'grp_cod_nm'.toString()">
-						and group_name LIKE CONCAT('%', #{sname}, '%')
-					</when>
-					<otherwise>
-						AND 1=2
-					</otherwise>
-				</choose>
-			</if>
-		</where>
-		
-		ORDER BY reg_date DESC
-		LIMIT #{pageIndex}, #{pageSize}
-		
-		
+	<select id="listComnGrpCod2" resultType="kr.happyjob.study.pcs.model.PcsModel">
+		/*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
+    SELECT
+        PL.purch_list_no
+      , PL.order_cd
+      , PL.supply_cd
+      , PL.direction_date
+      , PL.purch_cate
+      , PL.purch_qty
+      , PL.purch_total_amt
+      , PL.approve_id
+      , PL.desired_delivery_date
+      , PL.purch_mng_id
+    FROM tb_scm_purchase_list as PL
+        LEFT JOIN tb_scm_product as PD
+        ON PL.supply_cd = PD.supply_cd
+        LEFT JOIN tb_scm_warehouse as WH
+        ON WH.warehouse_cd = PD.warehouse_cd  
+    ORDER BY purch_list_no DESC
 	</select>
 	
 	<!-- 그룹코드 목록 총 갯수 조회 -->
-	<select id="countListComnGrpCod" resultType="int">
+	<select id="countListComnGrpCod2" resultType="int">
 		/*kr.kosmo.jobkorea.system.dao.ComnCodDao.countListComnGrpCod*/
 		SELECT COUNT(1) AS tot_cnt FROM tb_group_code
 			<where>
