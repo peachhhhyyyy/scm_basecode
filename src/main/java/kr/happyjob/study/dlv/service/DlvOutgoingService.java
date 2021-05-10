@@ -8,7 +8,7 @@ import kr.happyjob.study.dlv.model.DlvOutgoingModel;
 public interface DlvOutgoingService {
 	
 	// 배송 준비 중 부터 리스트 조회
-	public List<DlvOutgoingModel> orderList(Map<String, Object> paramMap)throws Exception ;
+	public List<DlvOutgoingModel> outgoingList(Map<String, Object> paramMap)throws Exception ;
 	
 	// 배송 준비 중 부터 리스트 카운트 조회
 	public int outgoingCnt(Map<String, Object> paramMap)throws Exception ;

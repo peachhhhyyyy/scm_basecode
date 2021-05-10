@@ -1,7 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -12,18 +9,18 @@
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 
 <!-- D3 -->
-<style>
-//
-click-able rows
-	.clickable-rows {tbody tr td { cursor:pointer;
+<!-- <style>
+	click-able rows
+		.clickable-rows {
+			tbody tr td { cursor:pointer;
+			}
 	
-}
+		.el-table__expanded-cell {
+			cursor: default;
+			}
+	}
+</style> -->
 
-.el-table__expanded-cell {
-	cursor: default;
-}
-}
-</style>
 <script type="text/javascript">
 	var pageSizeinf = 5;
 	var pageBlockSizeinquiry = 10;
@@ -58,24 +55,24 @@ click-able rows
 		//Ajax실행 방식
 		//callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
 		//html로 받을거라 text
-		callAjax("/dlv/orderlist.do", "post", "json", true, param, resultCallback);
+		callAjax("/dlv/orderlist.do", "post", "text", true, param, resultCallback);
 	}
 
 	/** 공지사항 조회 콜백 함수 */
-	function fListInfResult(data, currentPage) {
+	function fOrderListResult(data, currentPage) {
 		//alert(data);
 		console.log(data);
 
 		// 기존 목록 삭제
-		$('#listInf').empty();
-		$("#listInf").append(data);
+		/* $('#listInf').empty();
+		$("#listInf").append(data); */
 
 		// 총 개수 추출
 		var totalCntlistInf = $("#totcnt").val();
 		var list = $("#selectedInfNo").val();
 		// 페이지 네비게이션 생성
 		var paginationHtml = getPaginationHtml(currentPage, totalCntlistInf,
-				pageSizeinf, pageBlockSizeinquiry, 'fListInf', [ list ]);
+				pageSizeinf, pageBlockSizeinquiry, 'fOrderList', [ list ]);
 		console.log("paginationHtml : " + paginationHtml);
 
 		$("#listInfPagination").empty().append(paginationHtml);
@@ -127,7 +124,6 @@ click-able rows
 		$("#noticeContent").attr("readonly", true);
 
 		$("#noticeNo").val(object.noticeNo); // 중요한 num 값도 숨겨서 받아온다. 
-
 	}
 </script>
 </head>

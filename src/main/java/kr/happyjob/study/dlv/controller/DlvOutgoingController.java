@@ -16,16 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.happyjob.study.dlv.model.DlvOutgoingModel;
 import kr.happyjob.study.dlv.service.DlvOutgoingService;
-import kr.happyjob.study.dlv.service.DlvOutgoingServiceImpl;
 
 @Controller
 @RequestMapping("/dlv")
 public class DlvOutgoingController {
 	
-//	@Autowired
-//	DlvOutgoingService dlvOutgoingService;
-	
-	DlvOutgoingService dlvOutgoingService = new DlvOutgoingServiceImpl();
+	@Autowired
+	DlvOutgoingService dlvOutgoingService;
 	
 	private final Logger logger = LogManager.getLogger(this.getClass());
 	
@@ -34,8 +31,7 @@ public class DlvOutgoingController {
 		
 		logger.info("환영해");
 		
-		String returnType = "/dlv/outgoing";
-		return returnType;
+		return "/dlv/outgoing";
 	}
 	
 	
@@ -51,20 +47,20 @@ public class DlvOutgoingController {
 	    paramMap.put("pageIndex", pageIndex);
 		paramMap.put("pageSize", pageSize);
 		
-		logger.info(paramMap);
+		logger.info("이건 paramMap" + paramMap);
 		
 		// 수주내역 가져오기
-		List<DlvOutgoingModel> dlvOutgoingModel = dlvOutgoingService.orderList(paramMap);
-		model.addAttribute("dlvOutgoingModel", dlvOutgoingModel);
+		List<DlvOutgoingModel> outgoingList = dlvOutgoingService.outgoingList(paramMap);
+		model.addAttribute("outgoing", outgoingList);
 
 		// 목록 수 추출하기
 		int outgoingCnt = dlvOutgoingService.outgoingCnt(paramMap);
 		
-	    model.addAttribute("noticeCnt", outgoingCnt);
+	    model.addAttribute("outgoingCnt", outgoingCnt);
 	    model.addAttribute("pageSize", pageSize);
 	    model.addAttribute("currentPage",currentPage);
 	    
-		return "/dlv/orderList";
+		return "/dlv/outgoingList";
 	}
 	
 	
