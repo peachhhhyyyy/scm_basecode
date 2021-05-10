@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.happyjob.study.scm.dao.ScmOrderListDao">
+		<!-- 수주내역 조회 -->
+		<select id="selectOrderList" resultType="kr.happyjob.study.scm.model.ScmOrderListModel"> 
+			SELECT o.order_cd as orderCode, 
+				   o.order_date as orderDate, 
+				   ui.name as customerName, 
+				   prod.prod_nm as productName, 
+				   prod.stock as productCount, 
+				   prod.price as productPrice, 
+				   o.order_cnt as orderCount, 
+				   o.amount as orderAmount, 
+				   o.tax as orderTax, 
+				   o.deposit_yn as depositState, 
+				   o.state as state 
+		    FROM tb_order o 
+		    JOIN (
+		    		SELECT name, loginID 
+		    		FROM tb_userinfo
+	    		 ) ui ON ui.loginID = o.loginID 
+    		LEFT JOIN (
+    					SELECT prod_nm, product_cd, stock, price 
+    					FROM tb_scm_product
+  					  ) prod ON prod.product_cd = o.product_cd
+		</select>
+</mapper>
