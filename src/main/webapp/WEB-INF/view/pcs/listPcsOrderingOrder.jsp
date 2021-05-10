@@ -7,7 +7,7 @@ _<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="U
 </c:if>
 <c:if test="${totalCntComnGrpCod > 0 }">
   <c:set var="nRow" value="${pageSize*(currentPageComnGrpCod-1)}" />
-  <c:forEach items="${listComnGrpCod2}" var="list">
+  <c:forEach items="${listComnGrpCodModel}" var="list">
     <tr>
       <td>${list.purch_list_no}</td>
       <td><a href="javascript:fListComnDtlCod(1, '${list.grp_cod}', '${list.grp_cod_nm}')">${list.grp_cod}</a></td>
