@@ -14,59 +14,56 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import kr.happyjob.study.dlv.model.DlvOutgoingModel;
-import kr.happyjob.study.dlv.service.DlvOutgoingService;
-import kr.happyjob.study.dlv.service.DlvOutgoingServiceImpl;
+import kr.happyjob.study.dlv.model.DivReturnModel;
+import kr.happyjob.study.dlv.service.DivReturnService;
+import kr.happyjob.study.dlv.service.DlvReturnServiceImpl;
 
 @Controller
 @RequestMapping("/dlv")
-public class DlvOutgoingController {
+public class DivReturnController {
 	
-//	@Autowired
-//	DlvOutgoingService dlvOutgoingService;
 	
-	DlvOutgoingService dlvOutgoingService = new DlvOutgoingServiceImpl();
-	
+	DlvReturnServiceImpl drtService = new DlvReturnServiceImpl();
+
 	private final Logger logger = LogManager.getLogger(this.getClass());
 	
-	@RequestMapping("outgoing.do")
-	public String initBoard() {
+	@RequestMapping("return.do")
+	public String returnMain() {
 		
-		logger.info("환영해");
+		logger.info("반품계획 메인페이지");
 		
-		String returnType = "/dlv/outgoing";
+		String returnType = "/dlv/returnmain";
 		return returnType;
 	}
-	
-	
-	// 배송 준비 중 부터의 수주내역 조회
-	@RequestMapping("orderlist.do")
-	public String orderList(Model model, @RequestParam Map<String, Object> paramMap, 
+	// 반품내역 조회
+	@RequestMapping("/returnList.do")
+	public String returnList(Model model, @RequestParam Map<String, Object> paramMap, 
 			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
 		
+		session.setAttribute("paramMap", paramMap);
 		int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재페이지
 	    int pageSize = Integer.parseInt((String) paramMap.get("pageSize"));
 	    int pageIndex = (currentPage - 1) * pageSize;
 	    
 	    paramMap.put("pageIndex", pageIndex);
 		paramMap.put("pageSize", pageSize);
+		logger.info("paraMap"+paramMap);
 		
-		logger.info(paramMap);
-		
-		// 수주내역 가져오기
-		List<DlvOutgoingModel> dlvOutgoingModel = dlvOutgoingService.orderList(paramMap);
-		model.addAttribute("dlvOutgoingModel", dlvOutgoingModel);
+		// 반품내역 가져오기
+		List<DivReturnModel> divReturnModel = drtService.returnList(paramMap);
+		model.addAttribute("DivReturnModel", divReturnModel);
 
-		// 목록 수 추출하기
-		int outgoingCnt = dlvOutgoingService.outgoingCnt(paramMap);
-		
-	    model.addAttribute("noticeCnt", outgoingCnt);
+		// 반품내역 목록 수 추출하기
+		int returnListCnt = ((DivReturnService) drtService).returnListCnt(paramMap);
+		logger.info("목록 수 추출하기로 왔음");
+	    model.addAttribute("returnListCnt", returnListCnt);
 	    model.addAttribute("pageSize", pageSize);
 	    model.addAttribute("currentPage",currentPage);
 	    
-		return "/dlv/orderList";
+	    return "/dlv/returnList";
+		//ModelAndView mvvv = new ModelAndView("/div/returnList","divReturnModel",divReturnModel);
+		//return mvvv;
+		
 	}
 	
-	
-
 }
