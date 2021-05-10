@@ -501,7 +501,7 @@ public class LoginController {
 		List<ComnCodUtilModel> dblistCod = ComnCodUtil.getComnCod("DBCD");
 		List<ComnCodUtilModel> wslistCod = ComnCodUtil.getComnCod("WSCD");
 		List<ComnCodUtilModel> sklcdlistCod = ComnCodUtil.getComnCod("SKLCD"); // 등급
-		List<ComnCodUtilModel> areacdlistCod = ComnCodUtil.getComnCod("areaCD"); // 희망근무지역
+		List<ComnCodUtilModel> bankcdlistCod = ComnCodUtil.getComnCod("BKcd"); // 희망근무지역
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("listlistCod", listlistCod);

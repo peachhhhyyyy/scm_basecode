@@ -64,15 +64,13 @@
     langitems2 : [],
     langitems3 : [],
     langitemss : [],
-    langitemarea1 : [],
-    langitemarea2 : [],
-    langitemarea3 : [],
+    bank : [],
     listlistCod : '',
     weblistCod : '',
     dblistCod : '',
     wslistCod : '',
     sklcdlistCod : '',
-    areacdlistCod : '',
+    banklistCod : '',
     skillgrpcd : '',
     skilldtlcd : ''
 
@@ -96,9 +94,7 @@
       check.langitems2 = data.dblistCod;
       check.langitems3 = data.wslistCod;
       check.langitemss = data.sklcdlistCod;
-      check.langitemarea1 = data.areacdlistCod;
-      check.langitemarea2 = data.areacdlistCod;
-      check.langitemarea3 = data.areacdlistCod;
+      check.bank = data.bankcdlistCod;
     }
     });
   }
@@ -117,8 +113,8 @@
   function instaffRegister() {
 
     $("#user_type").val("C");
-    $("#div_cd").val("CommonMember");
-    $("#user_type_li").hide();
+    $("#div_cd").val("CommonMember");/* 
+    $("#user_type_li").hide(); */
     $("#registerId").val("");
     $("#registerPwd").val("");
     $("#registerPwdOk").val("");
@@ -204,6 +200,8 @@
     $("#salary").hide();
     $("#career_yn").hide();
     $("#career_mm").hide();
+    $("#account").hide();
+    $("#bank").hide();
 
     checklistResult(hide);
 
@@ -236,8 +234,8 @@
     var tel1 = $('#tel1').val();
     var tel2 = $('#tel2').val();
     var tel3 = $('#tel3').val();
-    /* 	var bank_cd = $('#bank_nm').val();
-     var bank_account = $('#bank_account').val(); */
+    var account = $('#account').val();
+    var bank = $('#bank').val();
 
     if (user_type == "") {
       swal("타입을 입력해주세요.").then(function() {
@@ -335,21 +333,21 @@
       });
       return false;
     }
+    
+    if(account < 1){
+   	   swal("계좌번호를 입력하세요.").then(function() {
+   		   $('#account').focus();
+   	  });
+   	   return false;
+      } 
 
-    /* 	if(div_cd == 'outstaff' && bank_cd == "" ){
-     swal("은행을 선택하세요.").then(function() {
-     $('#bank_nm').focus();
-     });
-     return false;
+    if(bank.length < 1){
+   	  swal("은행을 선택하세요.").then(function() {
+   		  $('#bank').focus();
+   	  });
+  	   return false;
      }
     
-     if(div_cd == 'outstaff' && bank_account.length <1 ){
-     swal("계좌번호를 입력하세요.").then(function() {
-     $('#bank_account').focus();
-     });
-     return false;
-     } */
-
     return true;
 
   }
@@ -1052,10 +1050,6 @@
 																<td colspan="3"><input type="text" class="inputTxt p100" name="user_email" id="registerEmail" />
 																</td>
 														</tr>
-													<!-- 	<tr id="email_cop2">
-																<th scope="row">기업도메인<span class="font_red">*</span></th>
-																<td colspan="3"><input type="text" class="inputTxt p100" name="email_cop" id="email_cop" /></td>
-														</tr> -->
 														<tr>
 																<th scope="row">우편번호<span class="font_red">*</span></th>
 																<td colspan="2"><input type="text" class="inputTxt p100" name="user_zipcode" id="detailaddr" /></td>
@@ -1073,190 +1067,16 @@
 																<th scope="row">전화번호<span class="font_red">*</span></th>
 																<td colspan="3"><input class="inputTxt" style="width: 118px" maxlength="3" type="text" id="tel1" name="user_tel1"> - <input class="inputTxt" style="width: 118px" maxlength="4" type="text" id="tel2" name="user_tel2"> - <input class="inputTxt" style="width: 118px" maxlength="4" type="text" id="tel3" name="user_tel3"></td>
 														</tr>
-														<!-- 							<tr id="user_type_li">
-								<th scope="row"><span class="font_red">*</span></th>
-								<td colspan="3"><select name="user_type" id="user_type"
-									style="width: 400px; height: 28px;">
-								</select></td>
-							</tr> -->
-														<!-- <tr>
-																<th scope="row">선호직무분야<span class="font_red">*</span></th>
-																<td colspan="3"><select name="user_hope_work" id="user_hope_work" style="width: 400px; height: 28px;">
-																				<option value="" selected="selected">선택</option>
-																				<option>웹프로그래머</option>
-																				<option>응용프로그래머</option>
-																				<option>시스템프로그래머</option>
-																				<option>DBA·데이터베이스</option>
-																				<option>네트워크·서버·보안</option>
-																				<option>HTML·퍼블리싱·UI개발</option>
-																				<option>ERP·시스템분석</option>
-																				<option>빅데이터·AI(인공지능)</option>
-																				<option>소프트웨어·하드웨어</option>
-																</select></td>
-														</tr>
 														<tr>
-																<th scope="row">경력기간<span class="font_red">*</span></th>
-																<td><select id="career_yn" name="career_yn">
-																				<option value="">선택</option>
-																				<option>1년미만</option>
-																				<option>1</option>
-																				<option>2</option>
-																				<option>3</option>
-																				<option>4</option>
-																				<option>5</option>
-																				<option>6</option>
-																				<option>7</option>
-																				<option>8</option>
-																				<option>9</option>
-																				<option>10</option>
-																				<option>11</option>
-																				<option>12</option>
-																				<option>13</option>
-																				<option>14</option>
-																				<option>15</option>
-																				<option>16</option>
-																				<option>17</option>
-																				<option>18</option>
-																				<option>19</option>
-																				<option>20이상</option>
-																</select> <span>년</span></td>
+																<th scope="row">계좌번호<span class="font_red">*</span></th>
+																<td>
+																	<select type="selectbox" style="width:75px; height:25px;" id="bank" name="bank">
+																		<template v-for="(item,index) in bank"  v-model="bank">
+																			<option :value="item.dtl_cod">{{ item.dtl_cod_nm }}</option>
+																		</template>
+																	</select></td>
+																<td colspan="3"><input type="text" class="inputTxt p100" name="account" id="account" /></td>
 														</tr>
-														<tr class="row" id="career_mm">
-																<th scope="row"></th>
-																<td><select name="career_mm" id="career_mm">
-																				<option value="">선택</option>
-																				<option value="1">1</option>
-																				<option>2</option>
-																				<option>3</option>
-																				<option>4</option>
-																				<option>5</option>
-																				<option>6</option>
-																				<option>7</option>
-																				<option>8</option>
-																				<option>9</option>
-																				<option>10</option>
-																				<option>11</option>
-																				<option>12</option>
-																</select> <span>월</span></td>
-														<tr class="row">
-																<th scope="row" scope="row">희망연봉<span class="font_red">*</span></th>
-																<td><input type="text" class="inputTxt p100" name="salary" id="salary" />만원</td>
-																<th scope="row">협의가능여부</th>
-																<td id="consult_yn"><select name="consult_yn" id="consult_yn" style="width: 128px; height: 28px;">
-																				<option value="" selected="selected">선택</option>
-																				<option value="yes">가능</option>
-																				<option value="no">불가능</option>
-																</select></td>
-														</tr>
-										</table>
-										경력정보 --------------------------------------------------------------------
-										<div>
-												<br> <br> <strong style="font-size: 120%">&nbsp;&nbsp;&nbsp;&nbsp;경력정보</strong> <br> <br>
-										</div>
-										추가기술
-										<table class="row" id="describe1">
-												<tr>
-														<th scope="row">제목<span class="font_red">*</span></th>
-														<td colspan=3><input type="text" class="inputTxt p100" name="user_describe" id="user_describe" /></td>
-												</tr>
-												체크리스트
-												<tr>
-														<th scope="row">Language<span class="font_red">*</span></th>
-														<td colspan="2">
-																<table>
-																		<template v-for="(row, index) in langitems" v-if="langitems.length" v-model="chkbox">
-																		<tr>
-																				<td><input type="checkbox" :id="row.dtl_cod" :name="row.dtl_cod" style="width: 15px; height: 15px;"></td>
-																				<td>{{ row.dtl_cod }}</td>
-																		</tr>
-																		</template>
-																</table>
-														</td>
-														<th scope="row">web<span class="font_red">*</span></th>
-														<td colspan="2">
-																<table>
-																		<template v-for="(row, index) in langitems1" v-if="langitems1.length" v-model="chkbox">
-																		<tr>
-																				<td><input type="checkbox" :id="row.dtl_cod" :name="row.dtl_cod" style="width: 15px; height: 15px;"></td>
-																				<td>{{ row.dtl_cod }}</td>
-																		</tr>
-																		</template>
-																</table>
-														</td>
-												</tr>
-												<tr>
-														<th scope="row">DB<span class="font_red">*</span></th>
-														<td colspan="2">
-																<table>
-																		<template v-for="(row, index) in langitems2" v-if="langitems2.length" v-model="chkbox">
-																		<tr>
-																				<td><input type="checkbox" :id="row.dtl_cod" :name="row.dtl_cod" style="width: 15px; height: 15px;"></td>
-																				<td>{{ row.dtl_cod_nm }}</td>
-																		</tr>
-																		</template>
-																</table>
-														</td>
-														<th scope="row">WS<span class="font_red">*</span></th>
-														<td colspan="2">
-																<table>
-																		<template v-for="(row, index) in langitems3" v-if="langitems3.length" v-model="chkbox">
-																		<tr>
-																				<td><input type="checkbox" :id="row.dtl_cod" :name="row.dtl_cod" style="width: 15px; height: 15px;"></td>
-																				<td>{{ row.dtl_cod }}</td>
-																		</tr>
-																		</template>
-																</table>
-														</td>
-												</tr>
-										</table>
-										<table class="row">
-												등급
-												<tr>
-														<th scope="row">등급<span class="font_red">*</span></th>
-														<td><select type="selectbox" id="grade" name="grade">
-																		<template v-for="(item,index) in langitemss" v-model="langitemss">
-																		<option :value="item.dtl_cod">{{ item.dtl_cod_nm }}</option>
-																		</template>
-														</select></td>
-												</tr>
-												희망 근무지
-												<tr>
-														<th scope="row">희망근무지역2<span class="font_red">*</span></th>
-														<td><span>1순위</span> <select type="selectbox" style="width: 100px; height: 25px;" id="area1" name="area1">
-																		<template v-for="(item,index) in langitemarea1" v-model="langitemarea1">
-																		<option :value="item.dtl_cod">{{ item.dtl_cod_nm }}</option>
-																		</template>
-														</select> <span>2순위</span> <select type="selectbox" style="width: 100px; height: 25px;" id="area2" name="area2">
-																		<template v-for="(item,index) in langitemarea2" v-model="langitemarea2">
-																		<option :value="item.dtl_cod">{{ item.dtl_cod_nm }}</option>
-																		</template>
-														</select> <span>3순위</span> <select type="selectbox" style="width: 100px; height: 25px;" id="area3" name="area3">
-																		<template v-for="(item,index) in langitemarea3" v-model="langitemarea3">
-																		<option :value="item.dtl_cod">{{ item.dtl_cod_nm }}</option>
-																		</template>
-														</select></td>
-												</tr>
-										</table>
-										<table class="row">
-												<tr>
-														<th scope="row">경력내용<span class="font_red">*</span></th>
-														<td><textarea class="inputTxt p100" name="user_contents" id="user_contents" laceholder="경력사항을 입력하세요." /></textarea></td>
-												</tr>
-										</table>
-										<table class="row">
-												<tr>
-														<th scope="row">특이사항<span class="font_red">*</span></th>
-														<td><textarea class="inputTxt p100" name="singular_facts" id="singular_facts" laceholder="특이사항을 입력하세요." /></textarea></td>
-												</tr>
-										</table> 
-										<table class="row">
-												<tr>
-														<th scope="row">파일<span class="font_red">*</span></th>
-														<td colspan="5">
-																multiple="multiple" <input type="file" name="file_nm" id="wfile_nm"></input> <img v-if="file_nm !='' "src="/images/treeview/minus.gif" @click="minusClickEvent">
-														</td>
-												</tr>
-										</table> -->
 										<table class="row">
 										<div class="btn_areaC mt30">
 												<a href="javascript:CompleteRegister();" class="btnType blue" id="RegisterCom" name="btn"> <span>회원가입 완료</span></a> <a href="javascript:fcancleModal()" class="btnType gray" id="btnCloseLsmCod" name="btn"><span>취소</span></a>
