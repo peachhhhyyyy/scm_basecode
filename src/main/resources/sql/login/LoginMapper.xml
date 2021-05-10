@@ -147,6 +147,17 @@
 	     						,	#{account}
 	     						,	#{bank}
      						)
+     INSERT INTO tb_scm_userinfo (
+     							loginID
+     						,	company_mng
+     						,	account_holder
+     						,	active
+     						) VALUES (
+     								#{loginID}
+     							,	#{company_mng}
+	     						,	#{account_holder}
+	     						,	#{active}
+     						)
      
      
      </insert>
@@ -177,7 +188,7 @@
 	<select id="check_email" parameterType="String" resultType="int">
 		SELECT count(*)
 		FROM tb_userinfo
-		WHERE user_email = #{user_email}
+		WHERE mail = #{mail}
 	</select>
 	
      <!-- 사용자 ID 찾기 -->

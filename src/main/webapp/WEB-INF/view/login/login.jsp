@@ -70,7 +70,7 @@
     dblistCod : '',
     wslistCod : '',
     sklcdlistCod : '',
-    banklistCod : '',
+    bankcdlistCod : '',
     skillgrpcd : '',
     skilldtlcd : ''
 
@@ -127,7 +127,7 @@
     $("#gender").val("");
     $("#user_company_li").hide("");
     $("#user_company").val("");
-    $("#registerEmail").val("");
+    $("#registerEmail").val("0");
     $("#detailaddr").val("");
     $("#loginaddr").val("");
     $("#loginaddr1").val("");
@@ -152,6 +152,9 @@
     $("#user_contents").val("");
     $("#singular_facts").val("");
     $("#item.dtl_cod").val("");
+    $("#account_holder").val("");
+    $("#company_mng").val("");
+    $("#active").val("Y");
 
     console.log($("#div_cd").val());
 
@@ -236,6 +239,9 @@
     var tel3 = $('#tel3').val();
     var account = $('#account').val();
     var bank = $('#bank').val();
+    var account_holder = $('#account_holder').val();
+    var company_mng = $('#company_mng').val();
+    var active = $('#active').val(); 
 
     if (user_type == "") {
       swal("타입을 입력해주세요.").then(function() {
@@ -243,7 +249,7 @@
       });
       return false;
     }
-
+    
     if (rgid.length < 1) {
       swal("아이디를 입력하세요.").then(function() {
         $('#registerId').focus();
@@ -348,6 +354,27 @@
   	   return false;
      }
     
+    if(account_holder.length < 1){
+     	  swal("예금주명을 입력하세요.").then(function() {
+     		  $('#account_holder').focus();
+     	  });
+    	   return false;
+       }
+    
+    if(company_mng.length < 1){
+   	  swal("담당자명을 입력하세요.").then(function() {
+   		  $('#company_mng').focus();
+   	  });
+  	   return false;
+     }
+    
+    if (active == "") {
+        swal("타입을 입력해주세요.").then(function() {
+          $("#active").focus();
+        });
+        return false;
+      }
+    
     return true;
 
   }
@@ -433,7 +460,7 @@
   /*이메일 중복 체크*/
   function emailCheck() {
     var data = {
-      "user_email" : $("#registerEmail").val()
+      "mail" : $("#registerEmail").val()
     };
 
     $.ajax({
@@ -990,9 +1017,6 @@
 										<br> <br> <strong style="font-size: 120%">&nbsp;&nbsp;&nbsp;&nbsp;회원가입</strong> <br>
 								</dt>
 								<dd class="content">
-									<!-- 	<div class="btn_areaC">
-												<a href="javascript:instaffRegister();" class="btnType blue" id="register_instaff"><span>일반회원</span></a> <a href="javascript:outstaffRegister();" class="btnType " id="register_outstaff"><span>기업회원</span></a> <br> <br>
-										</div> -->
 										<!-- s : 여기에 내용입력 -->
 										<table class="row">
 												<caption>caption</caption>
@@ -1009,6 +1033,7 @@
 																<td><input type="text" name="del_cd" id="del_cd" /></td>
 																<td><input type="text" name="user_type" id="user_type" /></td>
 																<td><input type="text" name="approval_cd" id="approval_cd" /></td>
+																<td><input type="text" name="active" id="active" /></td>
 														</tr>
 														<tr>
 																<th scope="row">아이디<span class="font_red">*</span></th>
@@ -1026,24 +1051,9 @@
 														<tr>
 																<th scope="row" id="registerName_th">회사명 <span class="font_red">*</span></th>
 																<td><input type="text" class="inputTxt p100" name="name" id="registerName" /></td>
-																<!-- <th scope="row" id="rggender_th">성별</th>
-																<td id="rggender_td"><select name="gender_cd" id="gender_cd" style="width: 128px; height: 28px;">
-																				<option value="" selected="selected">선택</option>
-																				<option value="male">남자</option>
-																				<option value="female">여자</option>
-																</select></td> -->
-														</tr>
-														<!-- <tr>
-																<th scope="row" id="rgcompany_th">회사명<span class="font_red">*</span></th>
-																<td id="rgcompany_td"><input type="text" class="inputTxt p100" name="user_company" id="user_company" /></td>
-														</tr> -->
-														<!-- <tr id="birthday1">
-																<th scope="row">생년월일 <span class="font_red"></span></th>
-																<td><input type="date" class="inputTxt p100" name="birthday" id="birthday" style="font-size: 15px" />
-														</tr> -->
 														<tr>
 																<th scope="row">담당자명 <span class="font_red">*</span></th>
-																<td><input type="text" class="inputTxt p100" name="company_mng" id="company_mngNM" /></td>															
+																<td><input type="text" class="inputTxt p100" name="company_mng" id="company_mng" /></td>															
 														</tr>
 														<tr>
 																<th scope="row">이메일<span class="font_red">*</span></th>
@@ -1075,7 +1085,11 @@
 																			<option :value="item.dtl_cod">{{ item.dtl_cod_nm }}</option>
 																		</template>
 																	</select></td>
-																<td colspan="3"><input type="text" class="inputTxt p100" name="account" id="account" /></td>
+																<td colspan="2"><input type="text" class="inputTxt p100" name="account" id="account" /></td>
+														</tr>
+														<tr>
+																<th scope="row">예금주명<span class="font_red">*</span></th>
+																<td><input type="text" class="inputTxt p100" name="account_holder" id="account_holder" /></td>															
 														</tr>
 										<table class="row">
 										<div class="btn_areaC mt30">

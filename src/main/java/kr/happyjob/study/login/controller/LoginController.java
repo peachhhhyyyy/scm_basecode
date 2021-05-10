@@ -238,11 +238,11 @@ public class LoginController {
 			}
 		}
 
-		List<ComnCodUtilModel> web = ComnCodUtil.getComnCod("webCD");
+		List<ComnCodUtilModel> bank = ComnCodUtil.getComnCod("BKcd");
 
-		for (ComnCodUtilModel webitem : web) {
-			String groupitem = webitem.getGrp_cod();
-			String dtlitem = webitem.getDtl_cod();
+		for (ComnCodUtilModel bankitem : bank) {
+			String groupitem = bankitem.getGrp_cod();
+			String dtlitem = bankitem.getDtl_cod();
 
 			try {
 				String paramitem = (String) paramMap.get(dtlitem);
@@ -509,11 +509,12 @@ public class LoginController {
 		resultMap.put("dblistCod", dblistCod);
 		resultMap.put("wslistCod", wslistCod);
 		resultMap.put("sklcdlistCod", sklcdlistCod);
-		resultMap.put("areacdlistCod", areacdlistCod);
+		resultMap.put("bankcdlistCod", bankcdlistCod);
 
 		logger.info("+ End LoginController.checklist.do");
 		logger.info("확인 weblistCod:" + weblistCod);
 		logger.info("확인 sklcdlistCod:" + sklcdlistCod);
+		logger.info("확인 banklistCod:" + bankcdlistCod);
 		return resultMap;
 	}
 
