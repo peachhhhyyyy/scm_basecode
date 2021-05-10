@@ -6,18 +6,16 @@ public class PcsModel {
   public String purch_list_no;
   public String order_cd;
   public String supply_cd;
-  public String scm_id;
-  public String purch_mng_id;
   public Date direction_date;
   public Date purch_cate;
   public int purch_qty;
   public int purch_total_amt;
   public String approve_id;
   public Date desired_delivery_date;
-  public int return_price;
-  public int return_qty;
-  public Date return_date;
-  public String return_mng_id;
+  public String warehouse_nm;
+  public String purch_mng_id;
+  public String warehouse_cd;
+  
   public String getPurch_list_no() {
     return purch_list_no;
   }
@@ -35,18 +33,6 @@ public class PcsModel {
   }
   public void setSupply_cd(String supply_cd) {
     this.supply_cd = supply_cd;
-  }
-  public String getScm_id() {
-    return scm_id;
-  }
-  public void setScm_id(String scm_id) {
-    this.scm_id = scm_id;
-  }
-  public String getPurch_mng_id() {
-    return purch_mng_id;
-  }
-  public void setPurch_mng_id(String purch_mng_id) {
-    this.purch_mng_id = purch_mng_id;
   }
   public Date getDirection_date() {
     return direction_date;
@@ -84,28 +70,22 @@ public class PcsModel {
   public void setDesired_delivery_date(Date desired_delivery_date) {
     this.desired_delivery_date = desired_delivery_date;
   }
-  public int getReturn_price() {
-    return return_price;
+  public String getWarehouse_nm() {
+    return warehouse_nm;
   }
-  public void setReturn_price(int return_price) {
-    this.return_price = return_price;
+  public void setWarehouse_nm(String warehouse_nm) {
+    this.warehouse_nm = warehouse_nm;
   }
-  public int getReturn_qty() {
-    return return_qty;
+  public String getPurch_mng_id() {
+    return purch_mng_id;
   }
-  public void setReturn_qty(int return_qty) {
-    this.return_qty = return_qty;
+  public void setPurch_mng_id(String purch_mng_id) {
+    this.purch_mng_id = purch_mng_id;
   }
-  public Date getReturn_date() {
-    return return_date;
+  public String getWarehouse_cd() {
+    return warehouse_cd;
   }
-  public void setReturn_date(Date return_date) {
-    this.return_date = return_date;
-  }
-  public String getReturn_mng_id() {
-    return return_mng_id;
-  }
-  public void setReturn_mng_id(String return_mng_id) {
-    this.return_mng_id = return_mng_id;
+  public void setWarehouse_cd(String warehouse_cd) {
+    this.warehouse_cd = warehouse_cd;
   }
 }
