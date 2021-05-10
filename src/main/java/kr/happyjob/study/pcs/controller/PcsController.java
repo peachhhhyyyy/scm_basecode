@@ -57,19 +57,18 @@ public class PcsController<PcsService> {
     paramMap.put("pageSize", pageSize);
 
     // 공통 그룹코드 목록 조회
-    List<PcsModel> listComnGrpCodModel = ((kr.happyjob.study.pcs.service.PcsService) pcsService).listComnGrpCod2(paramMap);
+    List<PcsModel> listComnGrpCodModel = pcsService.listComnGrpCod2(paramMap);
     model.addAttribute("listComnGrpCodModel", listComnGrpCodModel);
 
     // 공통 그룹코드 목록 카운트 조회
-    int totalCount = ((kr.happyjob.study.pcs.service.PcsService) pcsService).countListComnGrpCod2(paramMap);
+    int totalCount =  pcsService.countListComnGrpCod2(paramMap);
     model.addAttribute("totalCntComnGrpCod", totalCount);
-    
     model.addAttribute("pageSize", pageSize);
-    model.addAttribute("currentPageComnGrpCod",currentPage);
+    model.addAttribute("currentPageComnGrpCod", currentPage);
     
     logger.info("+ End " + className + ".pcsOrderingOrder");
     
-    return "/pcs/listPcsOrderingOrder";
+    return "pcs/listPcsOrderingOrder";
   } 
   
   // 처음 로딩될 때 발주서 연결
