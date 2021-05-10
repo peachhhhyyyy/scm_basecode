@@ -4,23 +4,25 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import kr.happyjob.study.dlv.dao.OutgoingDao;
 import kr.happyjob.study.dlv.model.DlvOutgoingModel;
 
+@Service
 public class DlvOutgoingServiceImpl  implements DlvOutgoingService{
 
 	@Autowired
 	OutgoingDao outgoingDao;
 	
 	@Override
-	public List<DlvOutgoingModel> orderList(Map<String, Object> paramMap) throws Exception {
+	public List<DlvOutgoingModel> outgoingList(Map<String, Object> paramMap) throws Exception {
 		return outgoingDao.orderList(paramMap);
 	}
 
 	@Override
 	public int outgoingCnt(Map<String, Object> paramMap) throws Exception {
-		return 0;
+		return outgoingDao.outgoingCnt(paramMap);
 	}
 
 }
