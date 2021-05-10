@@ -32,7 +32,7 @@ justify-content: space-around;
   display: none;
 }
 </style>
-<title>제품정보 관리</title>
+<title>제품정보 관리zzz</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript">
   /*페이징 설정*/
