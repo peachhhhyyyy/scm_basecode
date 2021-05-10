@@ -24,16 +24,16 @@ public class PcsServiceImpl implements PcsService {
   @Autowired
   PcsDao pcsDao;
   
-  /** 그룹코드 목록 조회 
+  /** 발주지시서 목록 조회 
    * @throws Exception */
-  public List<PcsModel> listComnGrpCod2(Map<String, Object> paramMap) throws Exception {
-    List<PcsModel> listComnGrpCod = pcsDao.listComnGrpCod2(paramMap);
-    return listComnGrpCod;
+  public List<PcsModel> pcsOrderingOrder(Map<String, Object> paramMap) throws Exception {
+    List<PcsModel> listPcsOrderingOrder = pcsDao.pcsOrderingOrder(paramMap);
+    return listPcsOrderingOrder;
   }
   
-  /** 그룹코드 목록 카운트 조회 */
-  public int countListComnGrpCod2(Map<String, Object> paramMap) throws Exception {
-    int totalCount = pcsDao.countListComnGrpCod2(paramMap);
+  /** 발주지시서 목록 카운트 조회 */
+  public int countPcsOrderingOrder(Map<String, Object> paramMap) throws Exception {
+    int totalCount = pcsDao.countPcsOrderingOrder(paramMap);
     return totalCount;
   }
 }

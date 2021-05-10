@@ -4,7 +4,7 @@
 <mapper namespace="kr.happyjob.study.pcs.dao.PcsDao">
                    
 	<!-- 그룹코드 목록 조회 -->
-	<select id="listComnGrpCod2" resultType="kr.happyjob.study.pcs.model.PcsModel">
+	<select id="pcsOrderingOrder" resultType="kr.happyjob.study.pcs.model.PcsModel">
 		/*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
       SELECT 
              PL.purch_list_no
@@ -27,15 +27,13 @@
 	</select>
 	
 	<!-- 그룹코드 목록 총 갯수 조회 -->
-	<select id="countListComnGrpCod2" resultType="int">
+	<select id="countPcsOrderingOrder" resultType="int">
 		/*kr.kosmo.jobkorea.system.dao.ComnCodDao.countListComnGrpCod*/
-		SELECT COUNT(1) AS tot_cnt 
+		SELECT COUNT(*) AS tot_cnt 
       FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_order as OD
         ON PL.order_cd = OD.order_cd
         LEFT JOIN tb_scm_warehouse as WH
-        ON OD.warehouse_cd = WH.warehouse_cd  
-
+        ON OD.warehouse_cd = WH.warehouse_cd
 	</select>
-	
 </mapper>

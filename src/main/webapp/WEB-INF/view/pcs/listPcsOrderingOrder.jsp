@@ -1,13 +1,13 @@
 _<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:if test="${totalCntComnGrpCod eq 0 }">
+<c:if test="${totalCount eq 0 }">
   <tr>
     <td colspan="11">데이터가 존재하지 않습니다.</td>
   </tr>
 </c:if>
-<c:if test="${totalCntComnGrpCod > 0 }">
-  <c:set var="nRow" value="${pageSize*(currentPageComnGrpCod-1)}" />
-  <c:forEach items="${listComnGrpCodModel}" var="list">
+<c:if test="${totalCount > 0 }">
+  <c:set var="nRow" value="${pageSize*(currentPage-1)}" />
+  <c:forEach items="${listPcsOrderingOrderModel}" var="list">
     <tr>
       <td><a href="javascript:fListComnDtlCod(1, '${list.purch_list_no}')">${list.purch_list_no}</a></td>
       <td>${list.supply_cd}</td>
@@ -24,4 +24,4 @@ _<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="U
     <c:set var="nRow" value="${nRow + 1}" />
   </c:forEach>
 </c:if>
-<input type="hidden" id="totalCntComnGrpCod" name="totalCntComnGrpCod" value="${totalCntComnGrpCod}" />
+<input type="hidden" id="totalCount" name="totalCount" value="${totalCount}" />

@@ -46,7 +46,7 @@ public class PcsController {
   public String listComnGrpCod(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception {
     
-    logger.info("+ Start " + className + ".pcsOrderingOrder");
+    logger.info("+ Start " + className + ".listPcsOrderingOrder");
     logger.info("   - paramMap : " + paramMap);
     
     int currentPage = Integer.parseInt((String)paramMap.get("currentPage"));  // 현재 페이지 번호
@@ -57,16 +57,16 @@ public class PcsController {
     paramMap.put("pageSize", pageSize);
 
     // 공통 그룹코드 목록 조회
-    List<PcsModel> listComnGrpCodModel = pcsService.listComnGrpCod2(paramMap);
-    model.addAttribute("listComnGrpCodModel", listComnGrpCodModel);
+    List<PcsModel> listPcsOrderingOrderModel = pcsService.pcsOrderingOrder(paramMap);
+    model.addAttribute("listPcsOrderingOrderModel", listPcsOrderingOrderModel);
 
     // 공통 그룹코드 목록 카운트 조회
-    int totalCount =  pcsService.countListComnGrpCod2(paramMap);
-    model.addAttribute("totalCntComnGrpCod", totalCount);
+    int totalCount =  pcsService.countPcsOrderingOrder(paramMap);
+    model.addAttribute("totalCount", totalCount);
     model.addAttribute("pageSize", pageSize);
-    model.addAttribute("currentPageComnGrpCod", currentPage);
+    model.addAttribute("currentPage", currentPage);
     
-    logger.info("+ End " + className + ".pcsOrderingOrder");
+    logger.info("+ End " + className + ".listPcsOrderingOrder");
     
     return "pcs/listPcsOrderingOrder";
   } 
