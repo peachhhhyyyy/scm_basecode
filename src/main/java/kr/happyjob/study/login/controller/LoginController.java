@@ -205,6 +205,7 @@ public class LoginController {
 		if ("I".equals(action)) {
 
 			loginService.registerUser(paramMap);
+			loginService.registerCtminfo(paramMap);
 			resultMsg = "가입 요청 완료";
 		} else {
 
@@ -218,69 +219,11 @@ public class LoginController {
 
 		// paramMap
 
-		// 전문기술
-		List<ComnCodUtilModel> lg = ComnCodUtil.getComnCod("LanguageCD");
-
-		for (ComnCodUtilModel lgitem : lg) {
-			String groupitem = lgitem.getGrp_cod();
-			String dtlitem = lgitem.getDtl_cod();
-
-			try {
-				String paramitem = (String) paramMap.get(dtlitem);
-
-				paramMap.put("skillgrpcd", groupitem);
-				paramMap.put("skilldtlcd", dtlitem);
-
-				// insert
-
-			} catch (Exception e) {
-
-			}
-		}
-
 		List<ComnCodUtilModel> bank = ComnCodUtil.getComnCod("BKcd");
 
 		for (ComnCodUtilModel bankitem : bank) {
 			String groupitem = bankitem.getGrp_cod();
 			String dtlitem = bankitem.getDtl_cod();
-
-			try {
-				String paramitem = (String) paramMap.get(dtlitem);
-
-				paramMap.put("skillgrpcd", groupitem);
-				paramMap.put("skilldtlcd", dtlitem);
-
-				// insert
-
-			} catch (Exception e) {
-
-			}
-		}
-
-		List<ComnCodUtilModel> db = ComnCodUtil.getComnCod("DBCD");
-
-		for (ComnCodUtilModel dbitem : db) {
-			String groupitem = dbitem.getGrp_cod();
-			String dtlitem = dbitem.getDtl_cod();
-
-			try {
-				String paramitem = (String) paramMap.get(dtlitem);
-
-				paramMap.put("skillgrpcd", groupitem);
-				paramMap.put("skilldtlcd", dtlitem);
-
-				// insert
-
-			} catch (Exception e) {
-
-			}
-		}
-
-		List<ComnCodUtilModel> ws = ComnCodUtil.getComnCod("WSCD");
-
-		for (ComnCodUtilModel wsitem : ws) {
-			String groupitem = wsitem.getGrp_cod();
-			String dtlitem = wsitem.getDtl_cod();
 
 			try {
 				String paramitem = (String) paramMap.get(dtlitem);
@@ -315,7 +258,7 @@ public class LoginController {
 		return result;
 	}
 
-	/* 이메일 중복체크 */
+/*	 이메일 중복체크 
 	@RequestMapping(value = "check_email", method = RequestMethod.POST)
 	@ResponseBody
 	public int check_email(LgnInfoModel model) throws Exception {
@@ -324,7 +267,7 @@ public class LoginController {
 		logger.info("+ End " + className + ".loginID_check");
 		return result;
 	}
-
+*/
 	/**
 	 * 사용자 id 찾기
 	 */
@@ -495,25 +438,13 @@ public class LoginController {
 		logger.info("+ Start LoginController.checklist.do");
 		logger.info("   - ParamMap : " + paramMap);
 
-		// 전문기술 공통코드
-		List<ComnCodUtilModel> listlistCod = ComnCodUtil.getComnCod("LanguageCD");
-		List<ComnCodUtilModel> weblistCod = ComnCodUtil.getComnCod("webCD");
-		List<ComnCodUtilModel> dblistCod = ComnCodUtil.getComnCod("DBCD");
-		List<ComnCodUtilModel> wslistCod = ComnCodUtil.getComnCod("WSCD");
-		List<ComnCodUtilModel> sklcdlistCod = ComnCodUtil.getComnCod("SKLCD"); // 등급
-		List<ComnCodUtilModel> bankcdlistCod = ComnCodUtil.getComnCod("BKcd"); // 희망근무지역
+		
+		List<ComnCodUtilModel> bankcdlistCod = ComnCodUtil.getComnCod("BKcd");
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("listlistCod", listlistCod);
-		resultMap.put("weblistCod", weblistCod);
-		resultMap.put("dblistCod", dblistCod);
-		resultMap.put("wslistCod", wslistCod);
-		resultMap.put("sklcdlistCod", sklcdlistCod);
 		resultMap.put("bankcdlistCod", bankcdlistCod);
 
 		logger.info("+ End LoginController.checklist.do");
-		logger.info("확인 weblistCod:" + weblistCod);
-		logger.info("확인 sklcdlistCod:" + sklcdlistCod);
 		logger.info("확인 banklistCod:" + bankcdlistCod);
 		return resultMap;
 	}

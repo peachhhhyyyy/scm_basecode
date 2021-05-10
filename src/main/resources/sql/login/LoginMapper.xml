@@ -39,8 +39,6 @@
                   ,   ta.odr
                   ,   ta.lvl
                   ,   ta.mnu_ico_cod
-<!--                   ,   ta.use_poa
-                  ,   ta.dlt_poa -->
                FROM  tm_mnu_mst ta
                WHERE EXISTS (
                              SELECT  1
@@ -49,7 +47,7 @@
                                   AND tb.user_type = #{userType}
                            )
                   AND ta.lvl=0
-               ORDER BY ta.odrm
+               ORDER BY ta.odr
      </select>
      
      <!-- 사용자 자식 메뉴 권한 -->
@@ -85,80 +83,50 @@
      						,	user_type
      						,	name
      						,	password
-     						,	email_cop
-     						,	birthday
-     						,	gender_cd
      						,	user_tel1
      						,	user_tel2
      						,	user_tel3
-     						,	user_zipcode
-     						,	user_address
-     						,	user_dt_address
-							,	consult_yn
-     						,	del_cd
-     						,	div_cd
-     						,	user_email
-     						,	user_company
-     						,	approval_cd
-     						,	salary
-     						,	career_yn
-     						,	career_mm
-     						,	singular_facts
-     						,	user_describe
-     						,	user_grade
-     						,	user_hope_area1
-     						,	user_hope_area2
-     						,	user_hope_area3
-     						,	user_contents
-     						,	user_hope_work
+     						,	sex
+     						,	mail
+     						,	zip_code
+     						,	addr
+     						,	addr_detail
      						,	account
      						,	bank
+     						,	approval_cd
+     						,	del_cd
      						) VALUES (
      								#{loginID}
 								,	#{user_type}
 								,	#{name}  
 								,	#{password}  
-								,	#{email_cop}
-								,	#{birthday}    
-								,	#{gender_cd}  
 								,	#{user_tel1}  
 								,	#{user_tel2}  
 								,	#{user_tel3}  
-								,	#{user_zipcode}  
-								,	#{user_address}  
-								,	#{user_dt_address}
-								,	#{consult_yn}					
-								,	#{del_cd}
-								,	#{div_cd}    	
-								,	#{user_email}  
-								,	#{user_company}		
-								,	#{approval_cd}			
-     							,	#{salary}								
-								,	#{career_yn}								
-								,	#{career_mm}
-	     						,	#{singular_facts}
-								,	#{user_describe}
-	     						,	#{grade}
-	     						,	#{area1}
-	     						,	#{area2}
-	     						,	#{area3}
-	     						,	#{user_contents}
-	     						,	#{user_hope_work}
+								,	#{sex}
+								,	#{mail} 
+								,	#{zip_code}  
+								,	#{addr}  
+								,	#{addr_detail}
 	     						,	#{account}
 	     						,	#{bank}
+								,	#{approval_cd}	
+								,	#{del_cd}	
      						)
-     INSERT INTO tb_scm_userinfo (
-     							loginID
-     						,	company_mng
+   	
+     
+     </insert>
+     <insert id="registerCtminfo" parameterType="java.util.Map">
+     
+      INSERT INTO tb_scm_userinfo (
+     							company_mng
      						,	account_holder
      						,	active
      						) VALUES (
-     								#{loginID}
-     							,	#{company_mng}
+     								#{company_mng}
 	     						,	#{account_holder}
 	     						,	#{active}
      						)
-     
      
      </insert>
      
@@ -185,11 +153,11 @@
 	
 	
 	<!-- 회원가입 이메일 중복 검사  -->
-	<select id="check_email" parameterType="String" resultType="int">
+	<!-- <select id="check_email" parameterType="String" resultType="int">
 		SELECT count(*)
 		FROM tb_userinfo
 		WHERE mail = #{mail}
-	</select>
+	</select> -->
 	
      <!-- 사용자 ID 찾기 -->
       <select id="selectFindId" resultType="kr.happyjob.study.login.model.LgnInfoModel">

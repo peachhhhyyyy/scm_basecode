@@ -64,6 +64,13 @@ public class LoginServiceImpl implements LoginService {
 		int ret = loginDao.registerUser(paramMap);
 		return ret;
 	}
+	
+	/** 고객 정보 별도 주입 */
+	@Override
+	public int registerCtminfo(Map<String, Object> paramMap) throws Exception {
+		int ctm = loginDao.registerCtminfo(paramMap);
+		return ctm;
+	}
 
 	/** loginID 중복체크 */
 	@Override
@@ -72,11 +79,11 @@ public class LoginServiceImpl implements LoginService {
 		return result;
 	}
 
-	@Override
+/*	@Override
 	public int check_email(LgnInfoModel model) throws Exception {
 		int result = loginDao.check_email(model);
 		return result;
-	}
+	}*/
 
 	/** 사용자 ID 찾기 */
 	public LgnInfoModel selectFindId(Map<String, Object> paramMap) throws Exception {

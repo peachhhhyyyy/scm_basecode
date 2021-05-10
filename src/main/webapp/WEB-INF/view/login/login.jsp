@@ -59,20 +59,8 @@
     check = new Vue({
     el : '#layer1',
     data : {
-    langitems : [],
-    langitems1 : [],
-    langitems2 : [],
-    langitems3 : [],
-    langitemss : [],
     bank : [],
-    listlistCod : '',
-    weblistCod : '',
-    dblistCod : '',
-    wslistCod : '',
-    sklcdlistCod : '',
     bankcdlistCod : '',
-    skillgrpcd : '',
-    skilldtlcd : ''
 
     }
     })
@@ -89,11 +77,6 @@
     async : true,
     success : function(data) {
       check.check = [];
-      check.langitems = data.listlistCod;
-      check.langitems1 = data.weblistCod;
-      check.langitems2 = data.dblistCod;
-      check.langitems3 = data.wslistCod;
-      check.langitemss = data.sklcdlistCod;
       check.bank = data.bankcdlistCod;
     }
     });
@@ -112,9 +95,8 @@
   /*일반 회원가입 폼 초기화*/
   function instaffRegister() {
 
-    $("#user_type").val("C");
-    $("#div_cd").val("CommonMember");/* 
-    $("#user_type_li").hide(); */
+    $("#user_type").val("J");
+    $("#div_cd").val("CommonMember");
     $("#registerId").val("");
     $("#registerPwd").val("");
     $("#registerPwdOk").val("");
@@ -125,9 +107,8 @@
     $("#registerName").show();
     $("#registerName_th").show();
     $("#gender").val("");
-    $("#user_company_li").hide("");
     $("#user_company").val("");
-    $("#registerEmail").val("0");
+    $("#registerEmail").val("");
     $("#detailaddr").val("");
     $("#loginaddr").val("");
     $("#loginaddr1").val("");
@@ -137,20 +118,6 @@
     $("#del_cd").val("n");
     $("#approval_cd").val("n");
     $("#ckIdcheckreg").val("0");
-    $("#birthday1").show();
-    $("#email_cop2").hide();
-    $("#consult_yn").show();
-    $("#user_describe").show();
-    $("#user_contents1").show();
-    $("#salary").val("");
-    $("#user_hope_work").val("");
-    $("#user_describe").val("");
-    $("#grade").val("");
-    $("#area1").val("");
-    $("#area2").val("");
-    $("#area3").val("");
-    $("#user_contents").val("");
-    $("#singular_facts").val("");
     $("#item.dtl_cod").val("");
     $("#account_holder").val("");
     $("#company_mng").val("");
@@ -163,54 +130,6 @@
 
   }
 
-  /*기업 고객 회원가입 폼 초기화*/
-  function outstaffRegister() {
-
-    $("#user_type").val("B");
-    $("#div_cd").val("BusinessMember");
-    $("#user_type_li").hide();
-    $("#registerId").val("");
-    $("#registerPwd").val("");
-    $("#registerPwdOk").val("");
-    $("#rggender_th").hide();
-    $("#rggender_td").hide();
-    $("#rgcompany_th").show();
-    $("#rgcompany_td").show();
-    $("#registerName").hide();
-    $("#registerName_th").hide();
-    $("#user_company").val("");
-    $("#gender_li").hide();
-    $("#registerEmail").val("");
-    $("#detailaddr").val("");
-    $("#gender").val("");
-    $("#loginaddr").val("");
-    $("#loginaddr1").val("");
-    $("#tel1").val("");
-    $("#tel2").val("");
-    $("#tel3").val("");
-    $("#del_cd").val("n");
-    $("#approval_cd").val("n");
-    $("#ckIdcheckreg").val("0");
-    $("#birthday1").hide();
-    $("#email_cop2").show();
-    $("#salary").hide();
-    $("#consult_yn").hide();
-    $("#describe1").hide();
-    $("#user_contents1").hide();
-    $("#career_yn").hide();
-    $("#salary").hide();
-    $("#checktable").hide();
-    $("#salary").hide();
-    $("#career_yn").hide();
-    $("#career_mm").hide();
-    $("#account").hide();
-    $("#bank").hide();
-
-    checklistResult(hide);
-
-    /* console.log($("#user_type").val());
-    console.log($("#div_cd").val()); */
-  }
 
   /* 아이디/비밀번호 찾기 모달창 실행 */
   function findIdPwd() {
@@ -457,10 +376,10 @@
 
   /*-------  이메일 입력방식 선택  ------*/
 
-  /*이메일 중복 체크*/
-  function emailCheck() {
+  /*이메일 중복 체크*/ // check_email.do가 만들어져있지 않기 때문에 그냥 기능 빼기로
+ /*  function emailCheck() {
     var data = {
-      "mail" : $("#registerEmail").val()
+      "rgemail" : $("#registerEmail").val()
     };
 
     $.ajax({
@@ -483,7 +402,7 @@
 
     }
     });
-  }
+  } */
 
   /* 회원가입  완료*/
   function CompleteRegister() {
@@ -511,7 +430,7 @@
     }
 
     loginIdCheckComplete();
-    emailCheck();
+    /* emailCheck(); */
 
     if (RegisterForm.ckIdcheckreg.value == "0") {
       swal("아이디 중복확인을 진행해주세요.").then(function() {
@@ -526,11 +445,13 @@
       swal("이메일 형식을 확인해주세요.").then(function() {
         $("#registerEmail").focus();
       });
-    } else if (RegisterForm.ckEmailcheckreg.value == "0") {
+    } 
+    /* else if (RegisterForm.ckEmailcheckreg.value == "0") {
       swal("중복된 이메일이 존재합니다. 다시 입력해주세요.").then(function() {
         $("#registerEmail").focus();
       });
-    } else if (!tel1Rules.test($("#tel1").val())) {
+    } */
+      else if (!tel1Rules.test($("#tel1").val())) {
       swal("전화번호를 확인해주세요.").then(function() {
         $("#tel1").focus();
       });
