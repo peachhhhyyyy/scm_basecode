@@ -38,29 +38,62 @@
 						<h3 class="hidden">contents 영역</h3>
 						<div class="content" style="margin-bottom: 20px;">
 							<p class="Location">
-								<a href="../dashboard/dashboard.do" class="btn_set home"></a> <span class="btn_nav bold">거래내역</span> <span class="btn_nav bold">수주내역 조회</span> <a href="../scm/scmOrderList.do" class="btn_set refresh"></a>
+								<a href="../dashboard/dashboard.do" class="btn_set home"></a> 
+								<span class="btn_nav bold">거래내역</span> 
+								<span class="btn_nav bold">수주내역 조회</span> 
+								<a href="../scm/scmOrderList.do" class="btn_set refresh"></a>
 							</p>
 							<p class="conTitle" style="margin-bottom: 1%; display: flex; justify-content: center; align-items: space-between;">
 								<span>수주내역 조회</span>
 							</p>
 							<div>
 								<div class="filter filter-customer">
-									<strong>고객</strong> <input type="checkbox" id="customer_check_1" name="customer_check_1" value="입금대기"> <label for="customer_check_1">입금대기</label> <input type="checkbox" id="customer_check_2" name="customer_check_2" value="입금완료"> <label for="customer_check_2">입금완료</label> <input type="checkbox" id="customer_check_3" name="customer_check_3" value="반품대기"> <label for="customer_check_3">반품대기</label> <input type="checkbox" id="customer_check_4" name="customer_check_4" value="반품승인대기"> <label for="customer_check_4">승인대기(반품)</label> <input type="checkbox" id="customer_check_5" name="customer_check_5" value="반품승인완료"> <label for="customer_check_5">승인완료(반품)</label> <input type="checkbox" id="customer_check_6" name="customer_check_6" value="반품진행중"> <label for="customer_check_6">반품진행중</label> <input type="checkbox" id="customer_check_7" name="customer_check_7" value="반품완료"> <label for="customer_check_7">반품완료</label> <input
-										type="checkbox" id="customer_check_8" name="customer_check_8" value="구매확정"
-									> <label for="customer_check_8">구매확정</label>
+									<strong>고객</strong> 
+									<input type="checkbox" id="customer_check_1" name="customer_check_1" value="입금대기"> 
+									<label for="customer_check_1">입금대기</label> 
+									<input type="checkbox" id="customer_check_2" name="customer_check_2" value="입금완료"> 
+									<label for="customer_check_2">입금완료</label> 
+									<input type="checkbox" id="customer_check_3" name="customer_check_3" value="반품대기"> 
+									<label for="customer_check_3">반품대기</label> 
+									<input type="checkbox" id="customer_check_4" name="customer_check_4" value="반품승인대기"> 
+									<label for="customer_check_4">승인대기(반품)</label> 
+									<input type="checkbox" id="customer_check_5" name="customer_check_5" value="반품승인완료"> 
+									<label for="customer_check_5">승인완료(반품)</label> 
+									<input type="checkbox" id="customer_check_6" name="customer_check_6" value="반품진행중"> 
+									<label for="customer_check_6">반품진행중</label> 
+									<input type="checkbox" id="customer_check_7" name="customer_check_7" value="반품완료"> 
+									<label for="customer_check_7">반품완료</label> 
+									<input type="checkbox" id="customer_check_8" name="customer_check_8" value="구매확정"> 
+									<label for="customer_check_8">구매확정</label>
 								</div>
 								<div class="filter filter-perchase">
-									<strong>구매</strong> <input type="checkbox" id="perchase_check_1" name="perchase_check_1" value="승인대기(발주)"> <label for="perchase_check_1">승인대기(발주)</label> <input type="checkbox" id="perchase_check_2" name="perchase_check_2" value="승인완료(발주)"> <label for="perchase_check_2">승인완료(발주)</label> <input type="checkbox" id="perchase_check_3" name="perchase_check_3" value="입고대기"> <label for="perchase_check_3">입고대기</label> <input type="checkbox" id="perchase_check_4" name="perchase_check_4" value="입고완료"> <label for="perchase_check_4">입고완료</label>
+									<strong>구매</strong> 
+									<input type="checkbox" id="perchase_check_1" name="perchase_check_1" value="승인대기(발주)"> 
+									<label for="perchase_check_1">승인대기(발주)</label> 
+									<input type="checkbox" id="perchase_check_2" name="perchase_check_2" value="승인완료(발주)"> 
+									<label for="perchase_check_2">승인완료(발주)</label> 
+									<input type="checkbox" id="perchase_check_3" name="perchase_check_3" value="입고대기"> 
+									<label for="perchase_check_3">입고대기</label> 
+									<input type="checkbox" id="perchase_check_4" name="perchase_check_4" value="입고완료"> 
+									<label for="perchase_check_4">입고완료</label>
 								</div>
 								<div class="filter filter-devliver">
-									<strong>배송</strong> <input type="checkbox" id="deliver_check_1" name="deliver_check_1" value="배송준비"> <label for="deliver_check_1">배송준비</label> <input type="checkbox" id="deliver_check_2" name="deliver_check_2" value="배송중"> <label for="deliver_check_2">배송중</label> <input type="checkbox" id="deliver_check_3" name="deliver_check_3" value="배송완료"> <label for="deliver_check_3">배송완료</label>
+									<strong>배송</strong> 
+									<input type="checkbox" id="deliver_check_1" name="deliver_check_1" value="배송준비"> 
+									<label for="deliver_check_1">배송준비</label> 
+									<input type="checkbox" id="deliver_check_2" name="deliver_check_2" value="배송중"> 
+									<label for="deliver_check_2">배송중</label> 
+									<input type="checkbox" id="deliver_check_3" name="deliver_check_3" value="배송완료"> 
+									<label for="deliver_check_3">배송완료</label>
 								</div>
 							</div>
 							<!-- Excel 출력 아이콘 -->
 							<img src='/images/excel/excel.png' style="height: 28px; width: 28px; margin-right: 10px; float: right;" onclick="fExcelDownload('dailyOrderTable', '일별 수주 내역');">
 							<!-- 날짜 필터링 -->
 							<div class="date_container">
-								<input type="date" name="date" id="startDate"> <span>~</span> <input type="date" name="date" id="endDate">
+								<input type="date" name="date" id="startDate"> 
+								<span>~</span> 
+								<input type="date" name="date" id="endDate">
 							</div>
 							<br>
 							<!-- 프로젝트 조회 -->
