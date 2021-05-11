@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.happyjob.study.dlv.dao.OutgoingDao;
+import kr.happyjob.study.dlv.model.DlvOutgoingDetailModel;
 import kr.happyjob.study.dlv.model.DlvOutgoingModel;
 
 @Service
@@ -24,5 +25,12 @@ public class DlvOutgoingServiceImpl  implements DlvOutgoingService{
 	public int outgoingCnt(Map<String, Object> paramMap) throws Exception {
 		return outgoingDao.outgoingCnt(paramMap);
 	}
+
+	@Override
+	public List<DlvOutgoingDetailModel> outgoingDetailList(Map<String, Object> paramMap) throws Exception {
+		return outgoingDao.outgoingDetailList(paramMap);
+	}
+	
+	
 
 }

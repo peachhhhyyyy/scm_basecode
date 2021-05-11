@@ -4,37 +4,70 @@
 
 	<!-- 배송 준비 중 부터의 목록 조회 -->
 	<select id="outgoingList" resultType = "kr.happyjob.study.dlv.model.DlvOutgoingModel">
-		SELECT DATE_FORMAT(od.order_date, '%Y-%m-%d') AS order_date
-				, DATE_FORMAT(shipList.arr_date, '%Y-%m-%d') AS arr_date
-				, DATE_FORMAT(shipList.arr_prev_date, '%Y-%m-%d') AS arr_prev_date
-				, od.order_cnt AS order_cnt
-				, od.state AS state
+        SELECT DATE_FORMAT(OD.order_date, '%Y-%m-%d') AS order_date
+                , DATE_FORMAT(SHIPINFO.arr_date, '%Y-%m-%d') AS arr_date
+                , DATE_FORMAT(SHIPINFO.arr_prev_date, '%Y-%m-%d') AS arr_prev_date
+				, OD.order_cd AS order_cd
+				, OD.state AS state
+				, SHIPINFO.staff_name AS name_delivery
+				, WH.warehouse_nm AS warehouse_nm
+            FROM tb_order OD
+            LEFT JOIN (
+                SELECT warehouse_cd, warehouse_nm
+                    FROM tb_scm_warehouse ) AS WH
+                ON OD.warehouse_cd = WH.warehouse_cd
+	
+            LEFT JOIN(
+                SELECT tssl.order_cd AS order_cd
+                        , tssl.arr_date
+                        , tssl.arr_prev_date
+                        , staff.name AS staff_name
+                    FROM tb_scm_ship_list AS tssl
+                    LEFT JOIN tb_userinfo AS staff 
+                    ON tssl.ship_staff_id = staff.loginID) AS SHIPINFO
+            ON OD.order_cd = SHIPINFO.order_cd
+	
+			WHERE OD.state IN ('배송준비중', '배송중', '배송완료', '입금완료')
+			ORDER BY OD.order_cd DESC
+			LIMIT #{pageIndex}, #{pageSize}
+	</select>
+	
+	<!-- 목록의 총 row수 조회 -->
+	<select id="outgoingCnt" resultType="int">
+		SELECT COUNT(*) as tot_cnt
+			FROM tb_order
+			WHERE state IN ('배송준비중', '배송중', '배송완료', '입금완료')
+			ORDER BY order_cd DESC
+	</select>
+	
+    <select id="outgoingDetailList" resultType="kr.happyjob.study.dlv.model.DlvOutgoingDetailModel">
+        SELECT shipList.ship_list_no AS ship_list_no
 				, od.order_cd AS order_cd
-				, shipList.mng_name AS name_dvmng
-				, shipList.staff_name AS name_delivery
-				, shipList.staff_tel AS tel_delivery
-				, shipList.scm_name AS name_scm
-				, shipList.ship_list_no AS ship_list_no
-				, tsp.prod_nm
 				, tsp.m_ct_nm
+				, tsp.prod_nm
+				, od.order_cnt AS order_cnt
 				, customer.name AS name_customer
 				, customer.tel AS tel_customer
 				, customer.addr AS addr
-				, od.request
+				, shipList.scm_name AS name_scm
+				, shipList.staff_name AS name_delivery
+				, shipList.staff_tel AS tel_delivery
 				, warehouse.warehouse_nm AS warehouse_nm
-			FROM tb_order od
-			
-			LEFT JOIN(
-				SELECT tb_scm_product.product_cd AS product_cd
-						, tb_scm_product.prod_nm AS prod_nm
-						, tb_scm_m_category.m_ct_nm AS m_ct_nm
-				FROM tb_scm_product
-				LEFT JOIN tb_scm_m_category
-					ON tb_scm_product.m_ct_cd = tb_scm_m_category.m_ct_cd) AS tsp
-			ON od.product_cd = tsp.product_cd
-			
-			LEFT JOIN(
-				SELECT tssl.order_cd AS order_cd
+				, DATE_FORMAT(shipList.arr_prev_date, '%Y-%m-%d') AS arr_prev_date
+				, od.state AS state
+            FROM tb_order od
+
+            LEFT JOIN(
+                SELECT tb_scm_product.product_cd AS product_cd
+                        , tb_scm_product.prod_nm AS prod_nm
+                        , tb_scm_m_category.m_ct_nm AS m_ct_nm
+                    FROM tb_scm_product
+                    LEFT JOIN tb_scm_m_category
+                    ON tb_scm_product.m_ct_cd = tb_scm_m_category.m_ct_cd) AS tsp
+                ON od.product_cd = tsp.product_cd
+
+            LEFT JOIN(
+                SELECT tssl.order_cd AS order_cd
 						, scm.name AS scm_name
 						, staff.name AS staff_name
 						, staff.tel AS staff_tel
@@ -42,35 +75,26 @@
 						, tssl.ship_list_no AS ship_list_no
 						, tssl.arr_date AS arr_date
 						, tssl.arr_prev_date AS arr_prev_date
-					FROM tb_scm_ship_list tssl
+                    FROM tb_scm_ship_list tssl
 					LEFT JOIN tb_userinfo AS scm ON tssl.scm_id = scm.loginID
 					LEFT JOIN tb_userinfo AS staff ON tssl.ship_staff_id = scm.loginID
-					LEFT JOIN tb_userinfo AS mng ON tssl.ship_mng_id = scm.loginID)	AS shipList
-			ON od.order_cd = shipList.order_cd
-			
-			LEFT JOIN(
-				SELECT loginID
+					LEFT JOIN tb_userinfo AS mng ON tssl.ship_mng_id = scm.loginID) AS shipList
+                ON od.order_cd = shipList.order_cd
+
+            LEFT JOIN(
+                SELECT loginID
 						, name
 						, tel
 						, addr
-					FROM tb_userinfo) AS customer
-			ON od.loginID = customer.loginID
-			
-			LEFT JOIN(
-				SELECT warehouse_cd
-						, warehouse_nm
-					FROM tb_scm_warehouse) AS warehouse
-			ON od.warehouse_cd = warehouse.warehouse_cd
-			
-			WHERE od.state IN ('배송준비중', '배송중', '배송완료', '입금완료')
-			ORDER BY od.order_cd DESC
-			LIMIT #{pageIndex}, #{pageSize}
-	</select>
-	
-	<select id="outgoingCnt" resultType="int">
-		SELECT COUNT(*) as tot_cnt
-			FROM tb_order
-			WHERE state IN ('배송준비중', '배송중', '배송완료', '입금완료')
-			ORDER BY order_cd DESC
+				FROM tb_userinfo) AS customer
+				ON od.loginID = customer.loginID
+
+            LEFT JOIN(
+                SELECT warehouse_cd
+                        , warehouse_nm
+                    FROM tb_scm_warehouse) AS warehouse
+                ON od.warehouse_cd = warehouse.warehouse_cd
+
+			WHERE od.order_cd = #{order_cd}
 	</select>
 </mapper>
