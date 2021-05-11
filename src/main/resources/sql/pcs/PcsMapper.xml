@@ -12,7 +12,7 @@
          ,   PD.prod_nm
          ,   MC.l_ct_cd
          ,   PL.purch_qty
-         ,   PL.purch_total_amt
+         ,   PD.purchase_price
          ,   PL.desired_delivery_date
          ,   WH.warehouse_nm
          ,   PL.purch_mng_id
@@ -27,7 +27,7 @@
         ON PL.supply_cd = PD.supply_cd
         LEFT JOIN tb_scm_m_category as MC
         ON PD.m_ct_cd = MC.m_ct_cd
-      ORDER BY direction_date DESC
+      ORDER BY purch_list_no DESC
 	</select>
 	
 	<!-- 그룹코드 목록 총 갯수 조회 -->
@@ -40,4 +40,15 @@
         LEFT JOIN tb_scm_warehouse as WH
         ON OD.warehouse_cd = WH.warehouse_cd
 	</select>
+	
+	 <!-- 그룹코드 목록 총 갯수 조회 -->
+  <select id="selectPurchBtn" resultType="int">
+    /*kr.kosmo.jobkorea.system.dao.ComnCodDao.countListComnGrpCod*/
+    SELECT COUNT(*) AS tot_cnt 
+      FROM tb_scm_purchase_list as PL
+          LEFT JOIN tb_order as OD
+        ON PL.order_cd = OD.order_cd
+        LEFT JOIN tb_scm_warehouse as WH
+        ON OD.warehouse_cd = WH.warehouse_cd
+  </select>
 </mapper>

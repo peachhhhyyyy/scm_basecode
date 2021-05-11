@@ -3,15 +3,27 @@ package kr.happyjob.study.pcs.model;
 import java.util.Date;
 
 public class PcsModel {
+  // 발주번호
   public String purch_list_no;
+  // 제품명
   public String prod_nm;
+  // 대분류 품목명
   public String l_ct_cd;
+  // 발주수량
   public int purch_qty;
+  // 장비구매액
+  public int purchase_price;
+  // 발주총량
   public int purch_total_amt;
+  // 배송희망날짜
   public Date desired_delivery_date;
+  // 창고명
   public String warehouse_nm;
+  // 구매담당자명
   public String purch_mng_id;
+  // 창고코드
   public String warehouse_cd;
+  // 공급사이름
   public String supply_nm;
   public String getPurch_list_no() {
     return purch_list_no;
@@ -36,6 +48,12 @@ public class PcsModel {
   }
   public void setPurch_qty(int purch_qty) {
     this.purch_qty = purch_qty;
+  }
+  public int getPurchase_price() {
+    return purchase_price;
+  }
+  public void setPurchase_price(int purchase_price) {
+    this.purchase_price = purchase_price;
   }
   public int getPurch_total_amt() {
     return purch_total_amt;

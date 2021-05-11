@@ -35,84 +35,18 @@
       var btnId = $(this).attr('id');
 
       switch (btnId) {
-      case 'btnSaveGrpCod':
-        fSaveGrpCod();
+      case 'btnSubmitPurchBtn':
+        fSelectPurchBtn();
         break;
-      case 'btnDeleteGrpCod':
-        fDeleteGrpCod();
-        break;
-      case 'btnSaveDtlCod':
-        fSaveDtlCod();
-        break;
-      case 'btnDeleteDtlCod':
-        fDeleteDtlCod();
-        break;
-      case 'btnCloseGrpCod':
-      case 'btnCloseDtlCod':
+      case 'btnClosePurchBtn':
         gfCloseModal();
         break;
       }
     });
   }
 
-  /** 그룹코드 폼 초기화 */
-  function fInitFormGrpCod(object) {
-    $("#grp_cod").focus();
-    if (object == "" || object == null || object == undefined) {
-
-      $("#grp_cod").val("");
-      $("#grp_cod_nm").val("");
-      $("#grp_cod_eplti").val("");
-      $("#grp_tmp_fld_01").val("");
-      $("#grp_tmp_fld_02").val("");
-      $("#grp_tmp_fld_03").val("");
-      $("input:radio[name=grp_use_poa]:input[value='Y']").attr("checked", true);
-      $("#grp_cod").attr("readonly", false);
-      $("#grp_cod").css("background", "#FFFFFF");
-      $("#grp_cod").focus();
-      $("#btnDeleteGrpCod").hide();
-
-    } else {
-
-      $("#grp_cod").val(object.grp_cod);
-      $("#grp_cod_nm").val(object.grp_cod_nm);
-      $("#grp_cod_eplti").val(object.grp_cod_eplti);
-      $("#grp_tmp_fld_01").val(object.tmp_fld_01);
-      $("#grp_tmp_fld_02").val(object.tmp_fld_02);
-      $("#grp_tmp_fld_03").val(object.tmp_fld_03);
-      $("input:radio[name=grp_use_poa]:input[value=" + object.use_poa + "]").attr("checked", true);
-      $("#grp_cod").attr("readonly", true);
-      $("#grp_cod").css("background", "#F5F5F5");
-      $("#grp_cod_nm").focus();
-      $("#btnDeleteGrpCod").show();
-    }
-  }
-
-  /** 그룹코드 저장 validation */
-  function fValidateGrpCod() {
-    var chk = checkNotEmpty([ [ "grp_cod", "그룹 코드를 입력해 주세요." ], [ "grp_cod_nm", "그룹 코드 명을 입력해 주세요" ], [ "grp_cod_eplti", "그룹 코드 설명을 입력해 주세요." ] ]);
-
-    if (!chk) {
-      return;
-    }
-
-    return true;
-  }
-
-  /** 상세코드 저장 validation */
-  function fValidateDtlCod() {
-
-    var chk = checkNotEmpty([ [ "dtl_grp_cod", "그룹 코드를 선택해 주세요." ], [ "dtl_cod", "상세 코드를 입력해 주세요." ], [ "dtl_cod_nm", "상세 코드 명을 입력해 주세요" ], [ "dtl_cod_eplti", "상세 코드 설명을 입력해 주세요." ], [ "dtl_odr", "상세 코드 설명을 입력해 주세요." ] ]);
-
-    if (!chk) {
-      return;
-    }
-
-    return true;
-  }
-
   /** 그룹코드 모달 실행 */
-  function fPopModalComnGrpCod(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purch_total_amt, desired_delivery_date, warehouse_nm, purch_mng_id) {
+  function fPopModalComnGrpCod(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id) {
     // 신규 저장
     if (purch_list_no == null || purch_list_no == "") {
 
@@ -132,11 +66,11 @@
       $("#action").val("U");
 
       // 발주서 버튼 클릭 시 화면 출력
-      fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purch_total_amt, desired_delivery_date, warehouse_nm, purch_mng_id);
+      fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id);
     }
   }
 
-  /** 그룹코드 조회 */
+  /** 발주지시서 목록 조회 */
   function fListComnGrpCod(currentPage) {
 
     currentPage = currentPage || 1;
@@ -156,7 +90,7 @@
     callAjax("/pcs/listPcsOrderingOrder.do", "post", "text", true, param, resultCallback);
   }
 
-  /** 그룹코드 조회 콜백 함수 */
+  /** 발주지시서 콜백 함수 */
   function flistPcsOrderingOrder(data, currentPage) {
 
     //alert(data);
@@ -182,7 +116,7 @@
   }
 
   /** 발주서 화면 띄우기 */ 
-  function fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purch_total_amt, desired_delivery_date, warehouse_nm, purch_mng_id) {
+  function fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id) {
 
     var param = {
       purch_list_no : purch_list_no,
@@ -190,7 +124,7 @@
       prod_nm : prod_nm,
       l_ct_cd : l_ct_cd,
       purch_qty : purch_qty,
-      purch_total_amt : purch_total_amt,
+      purchase_price : purchase_price,
       desired_delivery_date : desired_delivery_date,
       warehouse_nm : warehouse_nm,
       purch_mng_id : purch_mng_id
@@ -201,7 +135,7 @@
     $("#prodNm").text(prod_nm);
     $("#lCtCd").text(l_ct_cd);
     $("#purchQty").text(purch_qty);
-    $("#purchTotalAmt").text(purch_total_amt);
+    $("#purchasePrice").text(purchase_price);
     $("#desiredDeliveryDate").text(desired_delivery_date);
     $("#warehouseNm").text(warehouse_nm);
     $("#purchMngId").text(purch_mng_id);
@@ -216,94 +150,16 @@
       fSelectPurchBtnResult(data);
     };
 
-    callAjax("/system/selectComnGrpCod.do", "post", "json", true, param, resultCallback);
+    callAjax("/pcs/selectPurchBtn.do", "post", "json", true, param, resultCallback);
   }
-
-  /** 그룹코드 단건 조회 콜백 함수*/
+  
+  /** 발주서 화면 콜백 함수*/
   function fSelectPurchBtnResult(data) {
-
     if (data.result == "SUCCESS") {
-
       // 모달 팝업
       gfModalPop("#layer1");
 
-      // 그룹코드 폼 데이터 설정
-      fInitFormGrpCod(data.comnGrpCodModel);
-    } else {
-      alert(data.resultMsg);
-    }
-  }
-
-  /** 그룹코드 저장 */
-  function fSaveGrpCod() {
-
-    // vaildation 체크
-    if (!fValidateGrpCod()) {
-      return;
-    }
-
-    var resultCallback = function(data) {
-      fSaveGrpCodResult(data);
-    };
-
-    callAjax("/system/saveComnGrpCod.do", "post", "json", true, $("#myForm").serialize(), resultCallback);
-  }
-
-  /** 그룹코드 저장 콜백 함수 */
-  function fSaveGrpCodResult(data) {
-
-    // 목록 조회 페이지 번호
-    var currentPage = "1";
-    if ($("#action").val() != "I") {
-      currentPage = $("#currentPageComnGrpCod").val();
-    }
-
-    if (data.result == "SUCCESS") {
-
-      // 응답 메시지 출력
-      alert(data.resultMsg);
-
-      // 모달 닫기
-      gfCloseModal();
-
-      // 목록 조회
-      fListComnGrpCod(currentPage);
-
-    } else {
-      // 오류 응답 메시지 출력
-      alert(data.resultMsg);
-    }
-
-    // 입력폼 초기화
-    fInitFormGrpCod();
-  }
-
-  /** 그룹코드 삭제 */
-  function fDeleteGrpCod() {
-
-    var resultCallback = function(data) {
-      fDeleteGrpCodResult(data);
-    };
-
-    callAjax("/system/deleteComnGrpCod.do", "post", "json", true, $("#myForm").serialize(), resultCallback);
-  }
-
-  /** 그룹코드 삭제 콜백 함수 */
-  function fDeleteGrpCodResult(data) {
-
-    var currentPage = $("#currentPageComnGrpCod").val();
-
-    if (data.result == "SUCCESS") {
-
-      // 응답 메시지 출력
-      alert(data.resultMsg);
-
-      // 모달 닫기
-      gfCloseModal();
-
-      // 그룹코드 목록 조회
-      fListComnGrpCod(currentPage);
-
+      console.log("fSelectPurchBtnResult : " + JSON.stringify(data));
     } else {
       alert(data.resultMsg);
     }
@@ -416,7 +272,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">금액</th>
-                                <td id="purchTotalAmt"></td>
+                                <td id="purchasePrice"></td>
                             </tr>
                             <tr>
                                 <th scope="row">배송희망날짜</th>
@@ -434,8 +290,8 @@
 										</table>
 										<!-- e : 여기에 내용입력 -->
 										<div class="btn_areaC mt30">
-												<a href="" class="btnType blue" id="btnSaveGrpCod" name="btn"><span>전송</span></a>
-												<a href="" class="btnType gray" id="btnCloseGrpCod" name="btn"><span>취소</span></a>
+												<a href="" class="btnType blue" id="btnSubmitPurchBtn" name="btn"><span>전송</span></a>
+												<a href="" class="btnType gray" id="btnClosePurchBtn" name="btn"><span>취소</span></a>
 										</div>
 								</dd>
 						</dl>
