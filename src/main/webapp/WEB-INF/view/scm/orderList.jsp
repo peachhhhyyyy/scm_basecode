@@ -7,7 +7,30 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>수주내역 조회 || ChainMaker</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
-<link rel="stylesheet" href="${CTX_PATH}/css/view/scm/orderList.css">
+<style>
+.filter {
+	margin-top: 1%;
+}
+
+.filter input {
+	margin-left: 10px;
+}
+
+.date_container {
+	margin-top: 10px;
+}
+
+#container ul li.contents .content {
+	min-height: 800px;
+}
+
+.perchaseDirection {
+	width: 400px;
+	height: 400px;
+	position: relative;
+	background-color: white;
+}
+</style>
 </head>
 <body>
 	<form id="myForm" action="" method="">
@@ -114,14 +137,12 @@
 				</ul>
 			</div>
 		</div>
+		
+		<div class="perchaseDirection">
+			<h1>발주지시서!!!!!!!!!!!!</h1>
+			<p>발주지시서 만들어봅시다.</p>
+		</div>
 	</form>
-	
-	<div id="orderDirection" class="orderDirection">
-		<h1>발주 지시서</h1>
-		<div class="orderDirection_content"></div>
-		<a href="#">승인 요청</a>
-		<a href="#">취소</a>
-	</div>
 	<script src="${CTX_PATH}/js/view/scm/orderListHistory/orderList.js"></script>
 </body>
 </html>
