@@ -258,16 +258,6 @@ public class LoginController {
 		return result;
 	}
 
-/*	 이메일 중복체크 
-	@RequestMapping(value = "check_email", method = RequestMethod.POST)
-	@ResponseBody
-	public int check_email(LgnInfoModel model) throws Exception {
-		logger.info("+ Start " + className + ".loginID_check");
-		int result = loginService.check_email(model);
-		logger.info("+ End " + className + ".loginID_check");
-		return result;
-	}
-*/
 	/**
 	 * 사용자 id 찾기
 	 */
@@ -279,23 +269,10 @@ public class LoginController {
 		logger.info("+ Start " + className + ".selectFindInfoId");
 
 		logger.info("   - paramMap : " + paramMap);
-		// if(!paramMap.get("cpn_ctr").toString().equals("") &&
-		// !paramMap.get("cpn_ctr").toString().equals("000")){
-		// paramMap.put("type", "P");
-		// }else if(!paramMap.get("eml").toString().equals("")){
-		// paramMap.put("type", "E");
-		// }
+		
 		String result;
 		String resultMsg;
 		LgnInfoModel resultModel = loginService.selectFindId(paramMap);
-
-		/*
-		 * if(paramMap.get("lgn_id") == null){ // 사용자 id 조회
-		 * System.out.println(loginService.selectFindId(paramMap));
-		 * System.out.println("id조회!!!!!!!"); }else{ // 사용자 pw 조회
-		 * System.out.println(loginService.selectFindPw(paramMap));
-		 * System.out.println("pw조회!!!!!!!"); }
-		 */
 
 		if (resultModel != null) {
 			result = "SUCCESS";
