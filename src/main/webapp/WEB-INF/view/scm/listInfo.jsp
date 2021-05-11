@@ -24,7 +24,6 @@
       <td>${list.orderAmount}</td>
       <td>${list.orderTax}</td>
       <td>${list.depositState}</td>
-      <td>${list.state}</td>
       <c:if test="${list.state eq '입금대기'}">
       	<td><a class="btnType3 color1" href="javascript:fnotYetDeposit();">배송</a></td>
       	<td><a class="btnType3 color1" href="javascript:fnotYetDeposit();">발주</a></td>
@@ -39,7 +38,7 @@
    			<td><a class="btnType3 color2" href="#">발주</a></td>
       	</c:if>
       </c:if>
-
+      <td>${list.state}</td>
     </tr>
     <c:set var="nRow" value="${nRow + 1}" />
   </c:forEach>
