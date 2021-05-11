@@ -8,85 +8,90 @@ public class DivReturnModel {
 	//주문코드
 	private String order_cd;
 	//scm 관리자 id
-	private String scm_id;
-	//제출일자
-	private Date submit_date;
-	//승인자id
-	private String approve_id;
-	//배송사원id
-	private String ship_staff_id;
-	//배송담당자 아이디
-	private String ship_mng_id;
-	//반품완료일자
-	private Date refund_date;
-		
-	
+	private String supply_nm;
+	//scm 관리자 코드
+	private String supply_cd;
+	//제품명
+	private String prod_nm;
+	//품목명
+	private String m_ct_cd;
+	//수량
+	private String refund_cnt;
+	//반품 날짜
+	private String refund_date;
+	//반품 금액
+	private String refund_amt;
+	//창고명
+	private String warehouse_nm;
+	//상태
+	private String state;
 	public DivReturnModel() {
 	}
-
 	public String getRefund_list_no() {
 		return refund_list_no;
 	}
-
 	public void setRefund_list_no(String refund_list_no) {
 		this.refund_list_no = refund_list_no;
 	}
-
 	public String getOrder_cd() {
 		return order_cd;
 	}
-
 	public void setOrder_cd(String order_cd) {
 		this.order_cd = order_cd;
 	}
-
-	public String getScm_id() {
-		return scm_id;
+	public String getSupply_nm() {
+		return supply_nm;
 	}
-
-	public void setScm_id(String scm_id) {
-		this.scm_id = scm_id;
+	public void setSupply_nm(String supply_nm) {
+		this.supply_nm = supply_nm;
 	}
-
-	public Date getSubmit_date() {
-		return submit_date;
+	public String getSupply_cd() {
+		return supply_cd;
 	}
-
-	public void setSubmit_date(Date submit_date) {
-		this.submit_date = submit_date;
+	public void setSupply_cd(String supply_cd) {
+		this.supply_cd = supply_cd;
 	}
-
-	public String getApprove_id() {
-		return approve_id;
+	public String getProd_nm() {
+		return prod_nm;
 	}
-
-	public void setApprove_id(String approve_id) {
-		this.approve_id = approve_id;
+	public void setProd_nm(String prod_nm) {
+		this.prod_nm = prod_nm;
 	}
-
-	public String getShip_staff_id() {
-		return ship_staff_id;
+	public String getM_ct_cd() {
+		return m_ct_cd;
 	}
-
-	public void setShip_staff_id(String ship_staff_id) {
-		this.ship_staff_id = ship_staff_id;
+	public void setM_ct_cd(String m_ct_cd) {
+		this.m_ct_cd = m_ct_cd;
 	}
-
-	public String getShip_mng_id() {
-		return ship_mng_id;
+	public String getRefund_cnt() {
+		return refund_cnt;
 	}
-
-	public void setShip_mng_id(String ship_mng_id) {
-		this.ship_mng_id = ship_mng_id;
+	public void setRefund_cnt(String refund_cnt) {
+		this.refund_cnt = refund_cnt;
 	}
-	
-	public Date getRefund_date() {
+	public String getRefund_date() {
 		return refund_date;
 	}
-
-	public void setRefund_date(Date refund_date) {
+	public void setRefund_date(String refund_date) {
 		this.refund_date = refund_date;
 	}
-	
+	public String getRefund_amt() {
+		return refund_amt;
+	}
+	public void setRefund_amt(String refund_amt) {
+		this.refund_amt = refund_amt;
+	}
+	public String getWarehouse_nm() {
+		return warehouse_nm;
+	}
+	public void setWarehouse_nm(String warehouse_nm) {
+		this.warehouse_nm = warehouse_nm;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
 }
 

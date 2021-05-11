@@ -4,17 +4,41 @@
 
 	<select id="returnList" resultType="kr.happyjob.study.dlv.model.DivReturnModel">
 	
-	select refund_list_no,
-		   order_cd,
-		   scm_id,
-		   submit_date,
-		   approve_id,
-		   ship_staff_id,
-		   ship_mng_id,
-		   refund_date
-	from tb_scm_refund_list
-	LIMIT #{pageIndex}, #{pageSize}
+	SELECT TSRL.refund_list_no AS refund_list_no,
+       TSRL.order_cd AS order_cd,
+       TSS.supply_nm AS supply_nm,
+       TSS.supply_cd AS supply_cd,
+       TSP.prod_nm AS prod_nm,
+       TSP.m_ct_cd AS m_ct_cd,
+       TOO.refund_cnt AS refund_cnt,
+       TOO.refund_date AS refund_date,
+       TOO.refund_amt AS refund_amt,
+       TSW.warehouse_nm AS warehouse_nm,
+       TOO.state AS state
+       
+	 from tb_scm_refund_list AS TSRL
+		 LEFT JOIN tb_shopping_cart AS TSC
+		 ON TSRL.order_cd = TSC.product_cd
+		 LEFT JOIN tb_scm_product AS TSP
+		 ON TSC.product_cd = TSP.product_cd
+		 LEFT JOIN tb_scm_supply AS TSS
+		 ON TSP.supply_cd = TSS.supply_cd
+		 LEFT JOIN tb_scm_warehouse AS TSW
+		 ON TSP.warehouse_cd = TSW.warehouse_cd
+		 LEFT JOIN tb_order as TOO
+		 ON TOO.order_cd = TSRL.order_cd
+		 LIMIT #{pageIndex}, #{pageSize}
 	
+	</select>
+	
+	<select id="returnListCnt" resultType="int">
+		SELECT COUNT(*) as returnlistCnt
+			FROM tb_order od
+			WHERE od.state = '승인완료'
+			OR od.state = '반품 진행 중'
+			OR od.state = '입금완료'
+			OR od.state = '반품 완료'
+			ORDER BY od.order_cd DESC
 	</select>
 <!-- 
 	<select id="returnProductList" parameterType="Map" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">
