@@ -15,13 +15,10 @@
   // 상세코드 페이징 설정
   var pageSizeComnDtlCod = 5;
   var pageBlockSizeComnDtlCod = 10;
-
-  /** OnLoad event */
-
+  
   $(function() {
-
-    // 그룹코드 조회
-    fListComnGrpCod();
+    // 발주 지시서 조회
+    fListPcsOrderingOrder();
 
     // 버튼 이벤트 등록
     fRegisterButtonClickEvent();
@@ -35,9 +32,6 @@
       var btnId = $(this).attr('id');
 
       switch (btnId) {
-      case 'btnSubmitPurchBtn':
-        fSelectPurchBtn();
-        break;
       case 'btnClosePurchBtn':
         gfCloseModal();
         break;
@@ -49,39 +43,22 @@
   function fPopModalComnGrpCod(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id) {
     // 신규 저장
     if (purch_list_no == null || purch_list_no == "") {
-
-      // Tranjection type 설정
-      $("#action").val("I");
-
-      // 그룹코드 폼 초기화
-      fInitFormGrpCod();
-
-      // 모달 팝업
-      gfModalPop("#layer1");
-
-      // 수정 저장
     } else {
-
-      // Tranjection type 설정
-      $("#action").val("U");
-
       // 발주서 버튼 클릭 시 화면 출력
       fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id);
     }
   }
 
   /** 발주지시서 목록 조회 */
-  function fListComnGrpCod(currentPage) {
-
+  function fListPcsOrderingOrder(currentPage) {
     currentPage = currentPage || 1;
 
     console.log("currentPage : " + currentPage);
 
     var param = {
-    currentPage : currentPage,
-    pageSize : pageSizeComnGrpCod
+	    currentPage : currentPage,
+	    pageSize : pageSizeComnGrpCod
     }
-
     var resultCallback = function(data) {
       flistPcsOrderingOrder(data, currentPage);
     };
@@ -97,7 +74,7 @@
     console.log(data);
 
     // 기존 목록 삭제
-    $('#listPcsOrderingOrder').empty();
+    $("#listPcsOrderingOrder").empty();
 
     // 신규 목록 생성
     $("#listPcsOrderingOrder").append(data);
@@ -106,7 +83,7 @@
     var totalCount = $("#totalCount").val();
     
     // 페이지 네비게이션 생성
-    var paginationHtml = getPaginationHtml(currentPage, totalCount, pageSizeComnGrpCod, pageBlockSizeComnGrpCod, 'fListComnGrpCod');
+    var paginationHtml = getPaginationHtml(currentPage, totalCount, pageSizeComnGrpCod, pageBlockSizeComnGrpCod, 'fListPcsOrderingOrder');
     console.log("paginationHtml : " + paginationHtml);
     //alert(paginationHtml);
     $("#comnOrderingOrderPagination").empty().append(paginationHtml);
@@ -143,9 +120,6 @@
     // 발주 버튼 누르고 전송버튼 누를 때 보내는 데이터, hidden값에 실어서 보낼 데이터
     // $("#tmpGrpCod").val('????');
     
-    // 모달 팝업
-    gfModalPop("#layer1");
-    
     var resultCallback = function(data) {
       fSelectPurchBtnResult(data);
     };
@@ -159,6 +133,11 @@
       // 모달 팝업
       gfModalPop("#layer1");
 
+      $("#btnSubmitPurchBtn").click(function(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        alert(data.resultMsg);
+      })
       console.log("fSelectPurchBtnResult : " + JSON.stringify(data));
     } else {
       alert(data.resultMsg);

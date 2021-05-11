@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import kr.happyjob.study.pcs.model.PcsModel;
+import kr.happyjob.study.system.model.ComnGrpCodModel;
 
 public interface PcsService {
   /** 발주지시서 목록 조회 */
@@ -11,4 +12,7 @@ public interface PcsService {
   
   /** 발주지시서 목록 카운트 조회 */
   public int countPcsOrderingOrder(Map<String, Object> paramMap) throws Exception;
+  
+  /** 발주지시서 발주버튼 클릭시 조회 */
+  public PcsModel selectPurchBtn(Map<String, Object> paramMap) throws Exception;
 }

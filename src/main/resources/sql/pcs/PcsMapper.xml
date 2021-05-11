@@ -42,7 +42,7 @@
 	</select>
 	
 	 <!-- 그룹코드 목록 총 갯수 조회 -->
-  <select id="selectPurchBtn" resultType="int">
+  <select id="selectPurchBtn" resultType="kr.happyjob.study.pcs.model.PcsModel">
     /*kr.kosmo.jobkorea.system.dao.ComnCodDao.countListComnGrpCod*/
     SELECT COUNT(*) AS tot_cnt 
       FROM tb_scm_purchase_list as PL

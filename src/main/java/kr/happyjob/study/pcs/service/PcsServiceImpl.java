@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.happyjob.study.pcs.dao.PcsDao;
 import kr.happyjob.study.pcs.model.PcsModel;
 import kr.happyjob.study.pcs.service.PcsService;
+import kr.happyjob.study.system.model.ComnGrpCodModel;
 
 @Service
 public class PcsServiceImpl implements PcsService {
@@ -35,5 +36,11 @@ public class PcsServiceImpl implements PcsService {
   public int countPcsOrderingOrder(Map<String, Object> paramMap) throws Exception {
     int totalCount = pcsDao.countPcsOrderingOrder(paramMap);
     return totalCount;
+  }
+
+  /** 발주서 전송 누르고 조회 */
+  public PcsModel selectPurchBtn(Map<String, Object> paramMap) throws Exception {
+    PcsModel pcsmodel = pcsDao.selectPurchBtn(paramMap);
+    return pcsmodel;
   }
 }
