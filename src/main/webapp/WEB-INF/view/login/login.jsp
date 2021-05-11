@@ -617,11 +617,13 @@
 
   /* 로그인 결과 */
   function fLoginProcResult(data) {
-
+	  
     var lhost = data.serverName;
-
-    if (data.result == "SUCCESS") {
-      location.href = "${CTX_PATH}/dashboard/dashboard.do";
+    
+    if (data.result == "SUCCESS" ) {
+    	
+      location.href = "system/notice.do";
+      
     } else {
 
       $("<div style='text-align:center;'>" + data.resultMsg + "</div>").dialog({
