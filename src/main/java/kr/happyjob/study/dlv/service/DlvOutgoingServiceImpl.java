@@ -17,7 +17,7 @@ public class DlvOutgoingServiceImpl  implements DlvOutgoingService{
 	
 	@Override
 	public List<DlvOutgoingModel> outgoingList(Map<String, Object> paramMap) throws Exception {
-		return outgoingDao.orderList(paramMap);
+		return outgoingDao.outgoingList(paramMap);
 	}
 
 	@Override

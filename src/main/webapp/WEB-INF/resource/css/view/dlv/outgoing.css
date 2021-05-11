@@ -1,0 +1,5 @@
+@charset "UTF-8";
+
+#container ul li.contents .content {
+	min-height: 400px;
+}

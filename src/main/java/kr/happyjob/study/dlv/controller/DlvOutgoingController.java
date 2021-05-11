@@ -37,7 +37,7 @@ public class DlvOutgoingController {
 	
 	
 	// 배송 준비 중 부터의 수주내역 조회
-	@RequestMapping("orderlist.do")
+	@RequestMapping("outgoingList.do")
 	public String orderList(Model model, @RequestParam Map<String, Object> paramMap, 
 			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
 		
@@ -50,19 +50,24 @@ public class DlvOutgoingController {
 		
 		logger.info("이건 paramMap" + paramMap);
 		
-		// 수주내역 가져오기
+		// 출하내역 가져오기 //
 		List<DlvOutgoingModel> outgoingList = dlvOutgoingService.outgoingList(paramMap);
-		model.addAttribute("outgoing", outgoingList);
+		model.addAttribute("outgoingList", outgoingList);
+		logger.info("outgoingList"+ outgoingList);
 
-		// 목록 수 추출하기
+		//출하내역 목록 수 추출하기 //
 		int outgoingCnt = dlvOutgoingService.outgoingCnt(paramMap);
-		
 	    model.addAttribute("outgoingCnt", outgoingCnt);
+	    
 	    model.addAttribute("pageSize", pageSize);
 	    model.addAttribute("currentPage",currentPage);
 	    
 		return "/dlv/outgoingList";
 	}
+	
+	// 출하계획 상세 페이지조회
+//	@RequestMapping("")
+//	public String 
 	
 	
 
