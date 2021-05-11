@@ -19,6 +19,7 @@
 .date_container {
 	margin-top: 10px;
 }
+
 </style>
 </head>
 <body>
@@ -108,10 +109,10 @@
 											<th scope="col">주문제품명</th>
 											<th scope="col">총 재고 개수</th>
 											<th scope="col">단가</th>
-											<th scope="col">부가세</th>
-											<th scope="col">주문개수</th>
+											<th scope="col">주문 개수</th>
 											<th scope="col">금액 합계</th>
-											<th scope="col">입금여부</th>
+											<th scope="col">부가세</th>
+											<th scope="col">입금 여부</th>
 											<th scope="col">상태</th>
 											<th scope="col">배송지시서</th>
 											<th scope="col">발주지시서</th>

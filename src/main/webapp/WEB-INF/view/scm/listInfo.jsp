@@ -15,13 +15,15 @@
       <td>${list.orderDate}</td>
       <td>${list.customerName}</td>
       <td>${list.productName}</td>
+      <td>${list.productCount}</td>
       <td>${list.productPrice}</td>
       <td>${list.orderCount}</td>
-      <td>${list.orderAmount}</td>
       <td>${list.orderAmount}</td>
       <td>${list.orderTax}</td>
       <td>${list.depositState}</td>
       <td>${list.state}</td>
+      <td><button class="btn btn-primary">배송</button></td>
+      <td><button class="btn btn-info">발주</button></td>
     </tr>
   </c:forEach>
 </c:if>
