@@ -107,9 +107,9 @@
     $("#sex").val("");
     $("#user_company").val("");
     $("#mail").val("");
-    $("#detailaddr").val("");
-    $("#loginaddr").val("");
-    $("#loginaddr1").val("");
+    $("#zip_code").val("");
+    $("#addr").val("");
+    $("#addr_detail").val("");
     $("#tel1").val("");
     $("#tel2").val("");
     $("#tel3").val("");
@@ -150,13 +150,12 @@
     var rgname = $('#registerName').val();
     var user_company = $('#user_company').val();
     var rgemail = $('#mail').val();
-    var dtadr = $('#detailaddr').val();
-    var lgadr = $('#loginaddr').val();
-    var lgadr1 = $('#loginaddr1').val();
+    var dtadr = $('#zip_code').val();
+    var lgadr = $('#addr').val();
+    var lgadr1 = $('#addr_detail').val();
     var tel1 = $('#tel1').val();
     var tel2 = $('#tel2').val();
     var tel3 = $('#tel3').val();
-    var tel = tel1 + '-' +tel2 + '-' + tel3;
     var account = $('#account').val();
     var bank = $('#bank').val();
     var account_holder = $('#account_holder').val();
@@ -223,21 +222,21 @@
 
     if (dtadr.length < 1) {
       swal("우편번호를 입력하세요.").then(function() {
-        $('#detailaddr').focus();
+        $('#zip_code').focus();
       });
       return false;
     }
 
     if (lgadr.length < 1) {
       swal("주소를 입력하세요.").then(function() {
-        $('#loginaddr').focus();
+        $('#addr').focus();
       });
       return false;
     }
 
     /* 	if(lgadr1.length < 1){
      alert("상세주소를 입력하세요.");
-     $('#loginaddr1').focus();
+     $('#addr_detail').focus();
      return false;
      } */
 
@@ -396,7 +395,6 @@
     var tel1 = $("#tel1").val();
     var tel2 = $("#tel2").val();
     var tel3 = $("#tel3").val();
-    var tel = $(tel1 + '-' + tel2 + '-' + tel3);
     //console.log(div_cd);
     /* validation 체크 */
     if (!RegisterVal()) {
@@ -493,10 +491,10 @@
         }
 
         // 우편번호와 주소 정보를 해당 필드에 넣는다.
-        document.getElementById('detailaddr').value = data.zonecode;
-        document.getElementById("loginaddr").value = addr;
+        document.getElementById('zip_code').value = data.zonecode;
+        document.getElementById("addr").value = addr;
         // 커서를 상세주소 필드로 이동한다.
-        document.getElementById("loginaddr1").focus();
+        document.getElementById("addr_detail").focus();
       }
     }).open({
       q : q
@@ -961,20 +959,20 @@
 														</tr>
 														<tr>
 																<th scope="row">우편번호<span class="font_red">*</span></th>
-																<td colspan="2"><input type="text" class="inputTxt p100" name="user_zipcode" id="detailaddr" /></td>
+																<td colspan="2"><input type="text" class="inputTxt p100" name="zip_code" id="zip_code" /></td>
 																<td><input type="button" value="우편번호 찾기" onclick="execDaumPostcode()" style="width: 130px; height: 20px;" /></td>
 														</tr>
 														<tr>
 																<th scope="row">주소<span class="font_red">*</span></th>
-																<td colspan="3"><input type="text" class="inputTxt p100" name="user_address" id="loginaddr" /></td>
+																<td colspan="3"><input type="text" class="inputTxt p100" name="addr" id="addr" /></td>
 														</tr>
 														<tr>
 																<th scope="row">상세주소</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" name="user_dt_address" id="loginaddr1" /></td>
+																<td colspan="3"><input type="text" class="inputTxt p100" name="addr_detail" id="addr_detail" /></td>
 														</tr>
 														<tr>
 																<th scope="row">전화번호<span class="font_red">*</span></th>
-																<td colspan="3"><input class="inputTxt" style="width: 118px" maxlength="3" type="text" id="tel1" name="user_tel1"> - <input class="inputTxt" style="width: 118px" maxlength="4" type="text" id="tel2" name="user_tel2"> - <input class="inputTxt" style="width: 118px" maxlength="4" type="text" id="tel3" name="user_tel3"></td>
+																<td colspan="3"><input class="inputTxt" style="width: 118px" maxlength="3" type="text" id="tel1" name="tel1"> - <input class="inputTxt" style="width: 118px" maxlength="4" type="text" id="tel2" name="tel2"> - <input class="inputTxt" style="width: 118px" maxlength="4" type="text" id="tel3" name="tel3"></td>
 														</tr>
 														<tr>
 																<th scope="row">계좌번호<span class="font_red">*</span></th>

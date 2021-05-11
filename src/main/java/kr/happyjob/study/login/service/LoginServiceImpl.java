@@ -61,6 +61,13 @@ public class LoginServiceImpl implements LoginService {
 	/** 사용자 회원가입 */
 	@Override
 	public int registerUser(Map<String, Object> paramMap) throws Exception {
+		String tel1 = paramMap.get("tel1").toString();
+		String tel2 = paramMap.get("tel2").toString();
+		String tel3 = paramMap.get("tel3").toString();
+		String tel = tel1+'-'+tel2+'-'+tel3;
+		
+		// tel1-tel2-te3 만들기
+		paramMap.put("tel", tel);
 		int ret = loginDao.registerUser(paramMap);
 		return ret;
 	}
