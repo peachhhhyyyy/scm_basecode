@@ -36,12 +36,14 @@ public class PcsController {
   public String pcsOrderingOrder(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception {
    
-    //logger.info("#####################" + model);
-
+    // 발주버튼 조회시 필요목록
+    List<PcsModel> listPcsOrderingOrderModel = pcsService.pcsOrderingOrder(paramMap);
+    model.addAttribute("listPcsOrderingOrderModel", listPcsOrderingOrderModel);
+    
     return "pcs/pcsOrderingOrder";
   }
   
-  // 공통 그룹 코드 목록 조회
+  // 주문서 연결
   @RequestMapping("listPcsOrderingOrder.do")
   public String listComnGrpCod(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception {
@@ -56,11 +58,11 @@ public class PcsController {
     paramMap.put("pageIndex", pageIndex);
     paramMap.put("pageSize", pageSize);
 
-    // 공통 그룹코드 목록 조회
+    // 발주지시서 목록 조회
     List<PcsModel> listPcsOrderingOrderModel = pcsService.pcsOrderingOrder(paramMap);
     model.addAttribute("listPcsOrderingOrderModel", listPcsOrderingOrderModel);
 
-    // 공통 그룹코드 목록 카운트 조회
+    // 발주지시서 목록 카운트 조회
     int totalCount =  pcsService.countPcsOrderingOrder(paramMap);
     model.addAttribute("totalCount", totalCount);
     model.addAttribute("pageSize", pageSize);
@@ -71,7 +73,7 @@ public class PcsController {
     return "pcs/listPcsOrderingOrder";
   } 
   
-  // 처음 로딩될 때 발주서 연결
+  // 처음 로딩될 때 발주서 목록 연결
   @RequestMapping("pcsOrderForm.do")
   public String pcsOrderForm(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception {
