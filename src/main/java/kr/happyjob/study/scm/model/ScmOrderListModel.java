@@ -20,7 +20,7 @@ public class ScmOrderListModel {
 	int orderCount;
 	int orderAmount;
 	int orderTax;
-	char depositState;
+	String depositState;
 	String state;
 
 	public String getOrderCode() {
@@ -95,11 +95,11 @@ public class ScmOrderListModel {
 		this.orderTax = orderTax;
 	}
 
-	public char getDepositState() {
+	public String getDepositState() {
 		return depositState;
 	}
 
-	public void setDepositState(char depositState) {
+	public void setDepositState(String depositState) {
 		this.depositState = depositState;
 	}
 
