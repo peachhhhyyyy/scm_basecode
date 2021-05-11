@@ -108,12 +108,6 @@ public class LoginServiceImpl implements LoginService {
 		return loginDao.registerIdCheck(paramMap);
 	}
 
-	/*	*//** select박스 은행 목록 *//*
-								 * @Override public List<LgnInfoModel>
-								 * selectBankList() { List<LgnInfoModel> list =
-								 * loginDao.selectBankList(); return list; }
-								 */
-
 	/* 이력서파일 업로드 */
 
 	@Override

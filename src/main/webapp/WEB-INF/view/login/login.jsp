@@ -100,15 +100,13 @@
     $("#registerId").val("");
     $("#registerPwd").val("");
     $("#registerPwdOk").val("");
-    $("#rggender_th").show();
-    $("#rggender_td").show();
     $("#rgcompany_th").hide();
     $("#rgcompany_td").hide();
     $("#registerName").show();
     $("#registerName_th").show();
-    $("#gender").val("");
+    $("#sex").val("");
     $("#user_company").val("");
-    $("#registerEmail").val("");
+    $("#mail").val("");
     $("#detailaddr").val("");
     $("#loginaddr").val("");
     $("#loginaddr1").val("");
@@ -122,6 +120,8 @@
     $("#account_holder").val("");
     $("#company_mng").val("");
     $("#active").val("Y");
+    $("#company_cd").val("");
+    $("#del_cd").val("n");
 
     console.log($("#div_cd").val());
 
@@ -149,18 +149,21 @@
     var rgpwdok = $('#registerPwdOk').val();
     var rgname = $('#registerName').val();
     var user_company = $('#user_company').val();
-    var rgemail = $('#registerEmail').val();
+    var rgemail = $('#mail').val();
     var dtadr = $('#detailaddr').val();
     var lgadr = $('#loginaddr').val();
     var lgadr1 = $('#loginaddr1').val();
     var tel1 = $('#tel1').val();
     var tel2 = $('#tel2').val();
     var tel3 = $('#tel3').val();
+    var tel = tel1 + '-' +tel2 + '-' + tel3;
     var account = $('#account').val();
     var bank = $('#bank').val();
     var account_holder = $('#account_holder').val();
     var company_mng = $('#company_mng').val();
     var active = $('#active').val(); 
+    var company_cd = $('#company_cd').val();
+    var del_cd = $('#del_cd').val();
 
     if (user_type == "") {
       swal("타입을 입력해주세요.").then(function() {
@@ -213,7 +216,7 @@
 
     if (rgemail.length < 1) {
       swal("이메일을 입력하세요.").then(function() {
-        $('#registerEmail').focus();
+        $('#mail').focus();
       });
       return false;
     }
@@ -374,36 +377,6 @@
     });
   }
 
-  /*-------  이메일 입력방식 선택  ------*/
-
-  /*이메일 중복 체크*/ // check_email.do가 만들어져있지 않기 때문에 그냥 기능 빼기로
- /*  function emailCheck() {
-    var data = {
-      "rgemail" : $("#registerEmail").val()
-    };
-
-    $.ajax({
-    url : '/check_email.do',
-    type : 'post',
-    data : data,
-    dataType : 'text',
-    async : false,
-    success : function(data) {
-      if (data == 1) {
-        $("#ckEmailcheckreg").val("0");
-        console.log("이메일 있음");
-        console.log(data);
-        return false;
-      } else {
-        $("#ckEmailcheckreg").val("1");
-        console.log(data);
-        console.log("이메일 없음");
-      }
-
-    }
-    });
-  } */
-
   /* 회원가입  완료*/
   function CompleteRegister() {
 
@@ -413,7 +386,7 @@
     var password = $("#registerPwd").val();
     /*이메일 정규식*/
     var emailRules = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-    var email = $("#registerEmail").val();
+    var email = $("#mail").val();
 
     /*전화번호 정규식*/
     var tel1Rules = /^\d{2,3}$/;
@@ -423,6 +396,7 @@
     var tel1 = $("#tel1").val();
     var tel2 = $("#tel2").val();
     var tel3 = $("#tel3").val();
+    var tel = $(tel1 + '-' + tel2 + '-' + tel3);
     //console.log(div_cd);
     /* validation 체크 */
     if (!RegisterVal()) {
@@ -441,14 +415,14 @@
         $("#registerPwd").focus();
       });
       return false;
-    } else if (!emailRules.test($("#registerEmail").val())) {
+    } else if (!emailRules.test($("#mail").val())) {
       swal("이메일 형식을 확인해주세요.").then(function() {
-        $("#registerEmail").focus();
+        $("#mail").focus();
       });
     } 
     /* else if (RegisterForm.ckEmailcheckreg.value == "0") {
       swal("중복된 이메일이 존재합니다. 다시 입력해주세요.").then(function() {
-        $("#registerEmail").focus();
+        $("#mail").focus();
       });
     } */
       else if (!tel1Rules.test($("#tel1").val())) {
@@ -479,7 +453,8 @@
 
     if (data.result == "SUCCESS") {
       alert(data.resultMsg);
-      //gfCloseModal();
+      location.href = "${CTX_PATH}/login.do";
+      
     } else {
       alert(data.resultMsg);
       return false;
@@ -589,7 +564,7 @@
   /*이메일 기능  (아이디 있는지 없는지 체크)*/
   function SendEmail() {
     var data = {
-      "user_email" : $("#emailText").val(),
+      "mail" : $("#emailText").val(),
     /*"data-code" : $("#emailText").attr("data-code")*/
     };
 
@@ -664,7 +639,7 @@
   /* 아이디 뜨게 하는 */
   var findId = function() {
     var data = {
-      "user_email" : $("#emailText").val()
+      "mail" : $("#emailText").val()
     };
     $.ajax({
     url : '/selectFindInfoId.do',
@@ -727,7 +702,7 @@
   function SendPwdEmail() {
 
     var data = {
-    user_email : $("#emailPwdText").val(),
+    mail : $("#emailPwdText").val(),
     loginID : $("#emailIdText").val(),
     /* 		"data-code" : $("#emailPwdText").attr("data-code") */
 
@@ -816,7 +791,7 @@
   var findPwd = function() {
     var data = {
     "loginID" : $("#emailIdText").val(),
-    "user_email" : $("#emailPwdText").val()
+    "mail" : $("#emailPwdText").val()
     };
     $.ajax({
     url : '/selectFindInfoPw.do',
@@ -840,7 +815,7 @@
   function fSelectId() {
 
     gfModalPop("#layer2");
-    $("#registerEmailId").show();
+    $("#mailId").show();
     $("#loginRegister").hide();
     $("#loginEmail").hide();
     $("#loginPwd").hide();
@@ -850,7 +825,7 @@
   /* 비밀번호 찾기 버튼 클릭 이벤트 */
   function fSelectPwd() {
 
-    $("#registerEmailId").hide();
+    $("#mailId").hide();
     $("#confirm").hide();
     $("#loginRegister").show();
     $("#loginEmail").hide();
@@ -932,7 +907,9 @@
 		<!-- 모달팝업 -->
 		<div id="layer1" class="layerPosition layerPop layerType2" style="width: 600px;">
 				<form id="RegisterForm" action="" method="post">
-						<input type="hidden" name="action" id="action" value=""> <input type="hidden" name="ckIdcheckreg" id="ckIdcheckreg" value="0" /> <input type="hidden" name="ckEmailcheckreg" id="ckEmailcheckreg" value="0" />
+						<input type="hidden" name="action" id="action" value=""> 
+						<input type="hidden" name="ckIdcheckreg" id="ckIdcheckreg" value="0" /> 
+						<input type="hidden" name="ckEmailcheckreg" id="ckEmailcheckreg" value="0" /> 
 						<dl>
 								<dt>
 										<br> <br> <strong style="font-size: 120%">&nbsp;&nbsp;&nbsp;&nbsp;회원가입</strong> <br>
@@ -955,6 +932,7 @@
 																<td><input type="text" name="user_type" id="user_type" /></td>
 																<td><input type="text" name="approval_cd" id="approval_cd" /></td>
 																<td><input type="text" name="active" id="active" /></td>
+																<td><input type="text" name="company_cd" id="company_cd" /></td>
 														</tr>
 														<tr>
 																<th scope="row">아이디<span class="font_red">*</span></th>
@@ -978,7 +956,7 @@
 														</tr>
 														<tr>
 																<th scope="row">이메일<span class="font_red">*</span></th>
-																<td colspan="3"><input type="text" class="inputTxt p100" name="user_email" id="registerEmail" />
+																<td colspan="3"><input type="text" class="inputTxt p100" name="mail" id="mail" />
 																</td>
 														</tr>
 														<tr>
@@ -1040,7 +1018,7 @@
 										<table class="row" id="findForm">
 												<tbody>
 														<tr>
-																<td id="registerEmailId"><input type="text" id="emailText" data-code="I" placeholder="가입하신 이메일을 입력하세요" size="30" style="height: 30px;" /> <a href="javascript:SendEmail();" class="btnType blue" id="findIdSubmit"><span>이메일 전송</span></a></td>
+																<td id="mailId"><input type="text" id="emailText" data-code="I" placeholder="가입하신 이메일을 입력하세요" size="30" style="height: 30px;" /> <a href="javascript:SendEmail();" class="btnType blue" id="findIdSubmit"><span>이메일 전송</span></a></td>
 																<td id="confirm"><input type="text" id="emailNum" name="authnum" placeholder="전송된 인증번호를 입력하세요" size="30" style="height: 30px;" /> <a href="javascript:SendComplete();" class="btnType blue" id="sendMail"><span>인증하기</span></a></td>
 														</tr>
 												</tbody>

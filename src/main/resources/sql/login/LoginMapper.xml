@@ -83,9 +83,7 @@
      						,	user_type
      						,	name
      						,	password
-     						,	user_tel1
-     						,	user_tel2
-     						,	user_tel3
+     						,	tel
      						,	sex
      						,	mail
      						,	zip_code
@@ -93,16 +91,13 @@
      						,	addr_detail
      						,	account
      						,	bank
-     						,	approval_cd
      						,	del_cd
      						) VALUES (
      								#{loginID}
 								,	#{user_type}
 								,	#{name}  
 								,	#{password}  
-								,	#{user_tel1}  
-								,	#{user_tel2}  
-								,	#{user_tel3}  
+								,	#{tel}
 								,	#{sex}
 								,	#{mail} 
 								,	#{zip_code}  
@@ -110,39 +105,29 @@
 								,	#{addr_detail}
 	     						,	#{account}
 	     						,	#{bank}
-								,	#{approval_cd}	
-								,	#{del_cd}	
+	     						,	#{del_cd}
      						)
    	
      
      </insert>
      <insert id="registerCtminfo" parameterType="java.util.Map">
-     
+      /*kr.kosmo.jobkorea.login.dao.LoginDao.registerCtminfo*/
       INSERT INTO tb_scm_userinfo (
-     							company_mng
+      							company_cd
+      						,	loginID
+     						,	company_mng
      						,	account_holder
      						,	active
      						) VALUES (
-     								#{company_mng}
+     								#{company_cd}
+	     						,	#{loginID}
+	     						,	#{company_mng}
 	     						,	#{account_holder}
 	     						,	#{active}
      						)
      
      </insert>
      
-     <!-- 유저전문기술(tb_userskill 테이블에 따로 저장) -->
-<!--      <insert id="registerUserSkill" parameterType="java.util.Map">
-     INSERT INTO tb_userskill (
-     							
-     						VALUES (
-     							
-								
-     						)
-     
-     
-     </insert>
-      -->
-
      
      <!-- 중복 검사  loginID 중복검사 -->
 	<select id="check_loginID" parameterType="String" resultType="int">
@@ -151,13 +136,6 @@
 		WHERE loginID = #{loginID}
 	</select>
 	
-	
-	<!-- 회원가입 이메일 중복 검사  -->
-	<!-- <select id="check_email" parameterType="String" resultType="int">
-		SELECT count(*)
-		FROM tb_userinfo
-		WHERE mail = #{mail}
-	</select> -->
 	
      <!-- 사용자 ID 찾기 -->
       <select id="selectFindId" resultType="kr.happyjob.study.login.model.LgnInfoModel">

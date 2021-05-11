@@ -1,4 +1,4 @@
-package kr.happyjob.study.ctm.service;
+/*package kr.happyjob.study.ctm.service;
 
 import java.util.List;
 import java.util.Map;
@@ -10,3 +10,4 @@ public interface OrderService {
 	List<DeliveryBuyerModel> deliveryBuyerList(Map<String, Object> paramMap);
 
 }
+*/

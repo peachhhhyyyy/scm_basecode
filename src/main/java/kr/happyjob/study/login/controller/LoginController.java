@@ -449,37 +449,4 @@ public class LoginController {
 		return resultMap;
 	}
 
-	/*
-	 * @RequestMapping("saveFileTest.do")
-	 * 
-	 * @ResponseBody public Map<String, Object> saveFileTest(Model
-	 * model, @RequestParam Map<String, Object> paramMap, HttpServletRequest
-	 * request, HttpServletResponse response, HttpSession session) throws
-	 * Exception {
-	 * 
-	 * logger.info("+ Start saveFileTest"); logger.info("   - paramMap : " +
-	 * paramMap);
-	 * 
-	 * String action = (String)paramMap.get("action"); String result =
-	 * "SUCCESS"; String resultMsg = "저장 되었습니다.";
-	 * 
-	 * 
-	 * 
-	 * if ("I".equals(action)) { //CmntBbsService.insertCmntBbs(paramMap,
-	 * request); // 게시글 신규 저장 logger.info("  action  :  " + action);
-	 * LoginService.insertFile(paramMap,request); } else if("U".equals(action))
-	 * { //CmntBbsService.updateCmntBbs(paramMap, request); // 게시글 수정 저장
-	 * logger.info("  action  :  " + action);
-	 * LoginService.updateFile(paramMap,request); } else { logger.info(
-	 * "  action  :  " + action); result = "FALSE"; resultMsg = "알수 없는 요청 입니다.";
-	 * }
-	 * 
-	 * Map<String, Object> resultMap = new HashMap<String, Object>();
-	 * resultMap.put("result", result); resultMap.put("resultMsg", resultMsg);
-	 * 
-	 * logger.info("+ End saveFileTest");
-	 * 
-	 * return resultMap; }
-	 */
-
 }

@@ -1,4 +1,4 @@
-package kr.happyjob.study.ctm.dao;
+/*package kr.happyjob.study.ctm.dao;
 
 import java.util.Map;
 
@@ -17,3 +17,4 @@ public interface OrderDao {
 	
 
 }
+*/

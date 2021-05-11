@@ -1,4 +1,4 @@
-package kr.happyjob.study.ctm.controller;
+/*package kr.happyjob.study.ctm.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +41,7 @@ public class OrderController {
 		
 		
 		logger.info("+ Start " + className + ".initDashboard");
-		/* ############## set input data################# */
+		 ############## set input data################# 
 		paramMap.put("loginId", session.getAttribute("loginId")); // 제목
 		paramMap.put("userType", session.getAttribute("userType")); // 오피스 구분 //
 																	// 코드
@@ -145,3 +145,4 @@ public class OrderController {
 	}
 
 }
+*/
