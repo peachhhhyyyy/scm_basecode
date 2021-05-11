@@ -29,7 +29,7 @@ function forderListHistory(currentPage) {
   var param = {
     currentPage: currentPage, 
     pageSize: pageSizeOrderList
-  }
+  };
 
   var resultCallback = function(data) {
     forderListHistoryResult(data, currentPage);
@@ -62,4 +62,9 @@ function forderListHistoryResult(data, currentPage) {
   // 현재 페이지 설정
   $("#currentPageDailyOrder").val(currentPage);
   
-}
+};
+
+// 입금대기 상태일때 배송,발주 버튼 클릭할 때 나타나는 에러 메시지 함수
+function fnotYetDeposit() {
+  alert("아직 입금이 완료되지 않았습니다.");
+};
