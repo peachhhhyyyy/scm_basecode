@@ -68,3 +68,7 @@ function forderListHistoryResult(data, currentPage) {
 function fnotYetDeposit() {
   alert("아직 입금이 완료되지 않았습니다.");
 };
+
+function fnotEnoughStock() {
+  alert("재고량이 주문 수량보다 적습니다. \n발주를 진행하여 재고 입고를 진행해주세요.")
+};

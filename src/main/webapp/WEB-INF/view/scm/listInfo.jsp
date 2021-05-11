@@ -35,7 +35,7 @@
    			<td><a class="btnType3 color1" href="#">발주</a></td>
       	</c:if>
   	 	<c:if test="${list.productCount < list.orderCount}">
-      		<td><a class="btnType3 color1" href="#">배송</a></td>
+      		<td><a class="btnType3 color1" href="javascript:fnotEnoughStock();">배송</a></td>
    			<td><a class="btnType3 color2" href="#">발주</a></td>
       	</c:if>
       </c:if>
