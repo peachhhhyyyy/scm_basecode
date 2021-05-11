@@ -25,8 +25,21 @@
       <td>${list.orderTax}</td>
       <td>${list.depositState}</td>
       <td>${list.state}</td>
-      <td><button class="btn btn-primary">배송</button></td>
-      <td><button class="btn btn-info">발주</button></td>
+      <c:if test="${list.state eq '입금대기'}">
+      	<td><a class="btnType3 color1" href="javascript:fnotYetDeposit();">배송</a></td>
+      	<td><a class="btnType3 color1" href="javascript:fnotYetDeposit();">발주</a></td>
+      </c:if>
+      <c:if test="${list.state eq '입금완료'}">
+      	<c:if test="${list.productCount >= list.orderCount}">
+      		<td><a class="btnType3 color2" href="#">배송</a></td>
+   			<td><a class="btnType3 color1" href="#">발주</a></td>
+      	</c:if>
+  	 	<c:if test="${list.productCount < list.orderCount}">
+      		<td><a class="btnType3 color1" href="#">배송</a></td>
+   			<td><a class="btnType3 color2" href="#">발주</a></td>
+      	</c:if>
+      </c:if>
+
     </tr>
     <c:set var="nRow" value="${nRow + 1}" />
   </c:forEach>
