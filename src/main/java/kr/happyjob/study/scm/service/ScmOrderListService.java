@@ -7,6 +7,6 @@ import kr.happyjob.study.scm.model.ScmOrderListModel;
 
 public interface ScmOrderListService {
 
-	List<ScmOrderListModel> getOrderList(Map<String, Object> paramMap);
+	List<ScmOrderListModel> getOrderList(Map<String, Object> paramMap) throws Exception;
 
 }
