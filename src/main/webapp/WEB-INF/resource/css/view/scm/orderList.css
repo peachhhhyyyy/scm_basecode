@@ -1,0 +1,15 @@
+.filter {
+	margin-top: 1%;
+}
+
+.filter input {
+	margin-left: 10px;
+}
+
+.date_container {
+	margin-top: 10px;
+}
+
+#container ul li.contents .content {
+	min-height: 800px;
+}
