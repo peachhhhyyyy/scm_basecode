@@ -88,60 +88,6 @@
     }
   }
 
-  /** 상세코드 폼 초기화 */
-  function fInitFormDtlCod(object) {
-
-    var grpCod = $("#tmpGrpCod").val();
-    var grpCodNm = $("#tmpGrpCodNm").val();
-
-    if (object == "" || object == null || object == undefined) {
-
-      $("#dtl_grp_cod").val(grpCod);
-      $("#dtl_grp_cod_nm").val(grpCodNm);
-      $("#dtl_cod").val("");
-      $("#dtl_cod_nm").val("");
-      $("#dtl_odr").val("");
-      $("#dtl_cod_eplti").val("");
-      $("#dtl_tmp_fld_01").val("");
-      $("#dtl_tmp_fld_02").val("");
-      $("#dtl_tmp_fld_03").val("");
-      $("#dtl_tmp_fld_04").val("");
-      $("input:radio[name=dtl_use_poa]:input[value='Y']").attr("checked", true);
-
-      $("#dtl_grp_cod").attr("readonly", true);
-      $("#dtl_grp_cod").css("background", "#F5F5F5");
-      $("#dtl_grp_cod_nm").attr("readonly", true);
-      $("#dtl_grp_cod_nm").css("background", "#F5F5F5");
-      $("#dtl_cod").attr("readonly", false);
-      $("#dtl_cod").css("background", "#FFFFFF");
-      $("#btnDeleteDtlCod").hide();
-      $("#dtl_cod").focus();
-
-    } else {
-
-      $("#dtl_grp_cod").val(object.grp_cod);
-      $("#dtl_grp_cod_nm").val(object.grp_cod_nm);
-      $("#dtl_cod").val(object.dtl_cod);
-      $("#dtl_cod_nm").val(object.dtl_cod_nm);
-      $("#dtl_odr").val(object.odr);
-      $("#dtl_cod_eplti").val(object.dtl_cod_eplti);
-      $("#dtl_tmp_fld_01").val(object.tmp_fld_01);
-      $("#dtl_tmp_fld_02").val(object.tmp_fld_02);
-      $("#dtl_tmp_fld_03").val(object.tmp_fld_03);
-      $("#dtl_tmp_fld_04").val(object.tmp_fld_04);
-      $("input:radio[name=dtl_use_poa]:input[value='" + object.use_poa + "']").attr("checked", true);
-
-      $("#dtl_grp_cod").attr("readonly", true);
-      $("#dtl_grp_cod").css("background", "#F5F5F5");
-      $("#dtl_grp_cod_nm").attr("readonly", true);
-      $("#dtl_grp_cod_nm").css("background", "#F5F5F5");
-      $("#dtl_cod").attr("readonly", true);
-      $("#dtl_cod").css("background", "#F5F5F5");
-      $("#btnDeleteDtlCod").show();
-      $("#dtl_cod_nm").focus();
-    }
-  }
-
   /** 그룹코드 저장 validation */
   function fValidateGrpCod() {
     var chk = checkNotEmpty([ [ "grp_cod", "그룹 코드를 입력해 주세요." ], [ "grp_cod_nm", "그룹 코드 명을 입력해 주세요" ], [ "grp_cod_eplti", "그룹 코드 설명을 입력해 주세요." ] ]);
@@ -166,10 +112,9 @@
   }
 
   /** 그룹코드 모달 실행 */
-  function fPopModalComnGrpCod(grp_cod) {
-
+  function fPopModalComnGrpCod(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purch_total_amt, desired_delivery_date, warehouse_nm, purch_mng_id) {
     // 신규 저장
-    if (grp_cod == null || grp_cod == "") {
+    if (purch_list_no == null || purch_list_no == "") {
 
       // Tranjection type 설정
       $("#action").val("I");
@@ -186,8 +131,8 @@
       // Tranjection type 설정
       $("#action").val("U");
 
-      // 그룹코드 단건 조회
-      fSelectGrpCod(grp_cod);
+      // 발주서 버튼 클릭 시 화면 출력
+      fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purch_total_amt, desired_delivery_date, warehouse_nm, purch_mng_id);
     }
   }
 
@@ -225,8 +170,6 @@
 
     // 총 개수 추출
     var totalCount = $("#totalCount").val();
-
-    alert("totalCount : " + totalCount)
     
     // 페이지 네비게이션 생성
     var paginationHtml = getPaginationHtml(currentPage, totalCount, pageSizeComnGrpCod, pageBlockSizeComnGrpCod, 'fListComnGrpCod');
@@ -238,22 +181,46 @@
     $("#currentPage").val(currentPage);
   }
 
-  /** 그룹코드 단건 조회 */
-  function fSelectGrpCod(grp_cod) {
+  /** 발주서 화면 띄우기 */ 
+  function fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purch_total_amt, desired_delivery_date, warehouse_nm, purch_mng_id) {
 
     var param = {
-      grp_cod : grp_cod
+      purch_list_no : purch_list_no,
+      supply_nm : supply_nm,
+      prod_nm : prod_nm,
+      l_ct_cd : l_ct_cd,
+      purch_qty : purch_qty,
+      purch_total_amt : purch_total_amt,
+      desired_delivery_date : desired_delivery_date,
+      warehouse_nm : warehouse_nm,
+      purch_mng_id : purch_mng_id
     };
 
+    $("#purchListNo").text(purch_list_no);
+    $("#supplyNm").text(supply_nm);
+    $("#prodNm").text(prod_nm);
+    $("#lCtCd").text(l_ct_cd);
+    $("#purchQty").text(purch_qty);
+    $("#purchTotalAmt").text(purch_total_amt);
+    $("#desiredDeliveryDate").text(desired_delivery_date);
+    $("#warehouseNm").text(warehouse_nm);
+    $("#purchMngId").text(purch_mng_id);
+    
+    // 발주 버튼 누르고 전송버튼 누를 때 보내는 데이터, hidden값에 실어서 보낼 데이터
+    // $("#tmpGrpCod").val('????');
+    
+    // 모달 팝업
+    gfModalPop("#layer1");
+    
     var resultCallback = function(data) {
-      fSelectGrpCodResult(data);
+      fSelectPurchBtnResult(data);
     };
 
     callAjax("/system/selectComnGrpCod.do", "post", "json", true, param, resultCallback);
   }
 
   /** 그룹코드 단건 조회 콜백 함수*/
-  function fSelectGrpCodResult(data) {
+  function fSelectPurchBtnResult(data) {
 
     if (data.result == "SUCCESS") {
 
@@ -262,7 +229,6 @@
 
       // 그룹코드 폼 데이터 설정
       fInitFormGrpCod(data.comnGrpCodModel);
-
     } else {
       alert(data.resultMsg);
     }
@@ -342,195 +308,6 @@
       alert(data.resultMsg);
     }
   }
-
-  /** 상세코드 모달 실행 */
-  function fPopModalComnDtlCod(grp_cod, dtl_cod) {
-
-    // 신규 저장
-    if (dtl_cod == null || dtl_cod == "") {
-
-      if ($("#tmpGrpCod").val() == "") {
-        alert("그룹 코드를 선택해 주세요.");
-        return;
-      }
-
-      // Tranjection type 설정
-      $("#action").val("I");
-
-      // 상세코드 폼 초기화
-      fInitFormDtlCod();
-
-      // 모달 팝업
-      gfModalPop("#layer2");
-
-      // 수정 저장
-    } else {
-
-      // Tranjection type 설정
-      $("#action").val("U");
-
-      // 상세코드 단건 조회
-      fSelectDtlCod(grp_cod, dtl_cod);
-    }
-  }
-
-  /** 상세코드 목록 조회 */
-  function fListComnDtlCod(currentPage, grp_cod, grp_cod_nm) {
-
-    currentPage = currentPage || 1;
-
-    // 그룹코드 정보 설정
-    $("#tmpGrpCod").val(grp_cod);
-    $("#tmpGrpCodNm").val(grp_cod_nm);
-
-    var param = {
-    grp_cod : grp_cod,
-    currentPage : currentPage,
-    pageSize : pageSizeComnDtlCod
-    }
-
-    var resultCallback = function(data) {
-      flistDtlCodResult(data, currentPage);
-    };
-
-    callAjax("/system/listComnDtlCod.do", "post", "text", true, param, resultCallback);
-  }
-
-  /** 상세코드 조회 콜백 함수 */
-  function flistDtlCodResult(data, currentPage) {
-
-    // 기존 목록 삭제
-    $('#listComnDtlCod').empty();
-
-    var $data = $($(data).html());
-
-    // 신규 목록 생성
-    var $listComnDtlCod = $data.find("#listComnDtlCod");
-    $("#listComnDtlCod").append($listComnDtlCod.children());
-
-    // 총 개수 추출
-    var $totalCntComnDtlCod = $data.find("#totalCntComnDtlCod");
-    var totalCntComnDtlCod = $totalCntComnDtlCod.text();
-
-    // 페이지 네비게이션 생성
-    var grp_cod = $("#tmpGrpCod").val();
-    var grp_cod_nm = $("#tmpGrpCodNm").val();
-    var paginationHtml = getPaginationHtml(currentPage, totalCntComnDtlCod, pageSizeComnDtlCod, pageBlockSizeComnDtlCod, 'fListComnDtlCod', [ grp_cod ]);
-    $("#comnDtlCodPagination").empty().append(paginationHtml);
-
-    // 현재 페이지 설정
-    $("#currentPageComnDtlCod").val(currentPage);
-  }
-
-  /** 상세코드 단건 조회 */
-  function fSelectDtlCod(grp_cod, dtl_cod) {
-
-    var param = {
-    grp_cod : grp_cod,
-    dtl_cod : dtl_cod
-    };
-
-    var resultCallback = function(data) {
-      fSelectDtlCodResult(data);
-    };
-
-    callAjax("/system/selectComnDtlCod.do", "post", "json", true, param, resultCallback);
-  }
-
-  /** 상세코드 단건 조회 콜백 함수*/
-  function fSelectDtlCodResult(data) {
-
-    if (data.result == "SUCCESS") {
-
-      // 모달 팝업
-      gfModalPop("#layer2");
-
-      // 그룹코드 폼 데이터 설정
-      fInitFormDtlCod(data.comnDtlCodModel);
-
-    } else {
-      alert(data.resultMsg);
-    }
-  }
-
-  /** 상세코드 저장 */
-  function fSaveDtlCod() {
-
-    // vaildation 체크
-    if (!fValidateDtlCod()) {
-      return;
-    }
-
-    var resultCallback = function(data) {
-      fSaveDtlCodResult(data);
-    };
-
-    callAjax("/system/saveComnDtlCod.do", "post", "json", true, $("#myForm").serialize(), resultCallback);
-  }
-
-  /** 상세코드 저장 콜백 함수 */
-  function fSaveDtlCodResult(data) {
-
-    // 목록 조회 페이지 번호
-    var currentPage = "1";
-    if ($("#action").val() != "I") {
-      currentPage = $("#currentPageComnDtlCod").val();
-    }
-
-    if (data.result == "SUCCESS") {
-
-      // 응답 메시지 출력
-      alert(data.resultMsg);
-
-      // 모달 닫기
-      gfCloseModal();
-
-      // 목록 조회
-      var grp_cod = $("#tmpGrpCod").val();
-      var grp_cod_nm = $("#tmpGrpCodNm").val();
-      fListComnDtlCod(currentPage, grp_cod, grp_cod_nm);
-
-    } else {
-      // 오류 응답 메시지 출력
-      alert(data.resultMsg);
-    }
-
-    // 입력폼 초기화
-    fInitFormDtlCod();
-  }
-
-  /** 상세코드 삭제 */
-  function fDeleteDtlCod() {
-
-    var resultCallback = function(data) {
-      fDeleteDtlCodResult(data);
-    };
-
-    callAjax("/system/deleteComnDtlCod.do", "post", "json", true, $("#myForm").serialize(), resultCallback);
-  }
-
-  /** 상세코드 삭제 콜백 함수 */
-  function fDeleteDtlCodResult(data) {
-
-    var currentPage = $("#currentPageComnDtlCod").val();
-
-    if (data.result == "SUCCESS") {
-
-      // 응답 메시지 출력
-      alert(data.resultMsg);
-
-      // 모달 닫기
-      gfCloseModal();
-
-      // 그룹코드 목록 조회
-      var grp_cod = $("#tmpGrpCod").val();
-      var grp_cod_nm = $("#tmpGrpCodNm").val();
-      fListComnDtlCod(currentPage, grp_cod, grp_cod_nm);
-
-    } else {
-      alert(data.resultMsg);
-    }
-  }
 </script>
 </head>
 <body>
@@ -570,13 +347,12 @@
 																		<colgroup>
 																				<col width="7%">
 																				<col width="10%">
-																				<col width="10%">
-																				<col width="14%">
-																				<col width="10%">
-																				<col width="5%">
-																				<col width="10%">
-																				<col width="*">
+																				<col width="20%">
 																				<col width="7%">
+																				<col width="7%">
+																				<col width="6%">
+																				<col width="*">
+																				<col width="10%">
 																				<col width="7%">
 																				<col width="7%">
 																		</colgroup>
@@ -584,7 +360,6 @@
 																				<tr>
 																						<th scope="col">발주번호</th>
 																						<th scope="col">회사명</th>
-																						<th scope="col">회사코드</th>
 																						<th scope="col">제품명</th>
 																						<th scope="col">품목명</th>
 																						<th scope="col">제품수량</th>
@@ -608,7 +383,7 @@
 				<div id="layer1" class="layerPop layerType2" style="width: 600px;">
 						<dl>
 								<dt>
-										<strong>그룹코드 관리</strong>
+										<strong>발주서</strong>
 								</dt>
 								<dd class="content">
 										<!-- s : 여기에 내용입력 -->
@@ -617,107 +392,50 @@
 												<colgroup>
 														<col width="120px">
 														<col width="*">
-														<col width="120px">
-														<col width="*">
 												</colgroup>
 												<tbody>
 														<tr>
-																<th scope="row">그룹 코드 <span class="font_red">*</span></th>
-																<td><input type="text" class="inputTxt p100" name="grp_cod" id="grp_cod" /></td>
-																<th scope="row">그룹 코드 명 <span class="font_red">*</span></th>
-																<td><input type="text" class="inputTxt p100" name="grp_cod_nm" id="grp_cod_nm" /></td>
+																<th scope="row">발주코드</th>
+																<td id="purchListNo"></td>
 														</tr>
 														<tr>
-																<th scope="row">코드 설명 <span class="font_red">*</span></th>
-																<td colspan="3"><input type="text" class="inputTxt p100" name="grp_cod_eplti" id="grp_cod_eplti" /></td>
+																<th scope="row">회사명</th>
+																<td id="supplyNm"></td>
 														</tr>
 														<tr>
-																<th scope="row">임시 필드 01</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" name="grp_tmp_fld_01" id="grp_tmp_fld_01" /></td>
+																<th scope="row">제품명</th>
+																<td id="prodNm"></td>
 														</tr>
 														<tr>
-																<th scope="row">임시 필드 02</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" name="grp_tmp_fld_02" id="grp_tmp_fld_02" /></td>
-														</tr>
-														<tr>
-																<th scope="row">임시 필드 03</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" name="grp_tmp_fld_03" id="grp_tmp_fld_03" /></td>
-														</tr>
-														<tr>
-																<th scope="row">사용 유무 <span class="font_red">*</span></th>
-																<td colspan="3"><input type="radio" id="radio1-1" name="grp_use_poa" id="grp_use_poa_1" value='Y' /> <label for="radio1-1">사용</label> &nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" id="radio1-2" name="grp_use_poa" id="grp_use_poa_2" value="N" /> <label for="radio1-2">미사용</label></td>
-														</tr>
+                                <th scope="row">품목명</th>
+                                <td id="lCtCd"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">제품수량</th>
+                                <td id="purchQty"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">금액</th>
+                                <td id="purchTotalAmt"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">배송희망날짜</th>
+                                <td id="desiredDeliveryDate"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">창고명</th>
+                                <td id="warehouseNm"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">담당자</th>
+                                <td id="purchMngId"></td>
+                            </tr>
 												</tbody>
 										</table>
 										<!-- e : 여기에 내용입력 -->
 										<div class="btn_areaC mt30">
-												<a href="" class="btnType blue" id="btnSaveGrpCod" name="btn"><span>저장</span></a> <a href="" class="btnType blue" id="btnDeleteGrpCod" name="btn"><span>삭제</span></a> <a href="" class="btnType gray" id="btnCloseGrpCod" name="btn"><span>취소</span></a>
-										</div>
-								</dd>
-						</dl>
-						<a href="" class="closePop"><span class="hidden">닫기</span></a>
-				</div>
-				<div id="layer2" class="layerPop layerType2" style="width: 600px;">
-						<dl>
-								<dt>
-										<strong>상세코드 관리</strong>
-								</dt>
-								<dd class="content">
-										<!-- s : 여기에 내용입력 -->
-										<table class="row">
-												<caption>caption</caption>
-												<colgroup>
-														<col width="120px">
-														<col width="*">
-														<col width="120px">
-														<col width="*">
-												</colgroup>
-												<tbody>
-														<tr>
-																<th scope="row">그룹 코드 ID <span class="font_red">*</span></th>
-																<td><input type="text" class="inputTxt p100" id="dtl_grp_cod" name="dtl_grp_cod" /></td>
-																<th scope="row">그룹 코드 명 <span class="font_red">*</span></th>
-																<td><input type="text" class="inputTxt p100" id="dtl_grp_cod_nm" name="dtl_grp_cod_nm" /></td>
-														</tr>
-														<tr>
-																<th scope="row">상세 코드 ID <span class="font_red">*</span></th>
-																<td><input type="text" class="inputTxt p100" id="dtl_cod" name="dtl_cod" /></td>
-																<th scope="row">상세 코드 명 <span class="font_red">*</span></th>
-																<td><input type="text" class="inputTxt p100" id="dtl_cod_nm" name="dtl_cod_nm" /></td>
-														</tr>
-														<tr>
-																<th scope="row">순서</th>
-																<td colspan="3"><input type="text" class="inputTxt" id="dtl_odr" name="dtl_odr" /></td>
-														</tr>
-														<tr>
-																<th scope="row">코드 설명</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" id="dtl_cod_eplti" name="dtl_cod_eplti" /></td>
-														</tr>
-														<tr>
-																<th scope="row">임시 필드 01</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" id="dtl_tmp_fld_01" name="dtl_tmp_fld_01" /></td>
-														</tr>
-														<tr>
-																<th scope="row">임시 필드 02</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" id="dtl_tmp_fld_02" name="dtl_tmp_fld_02" /></td>
-														</tr>
-														<tr>
-																<th scope="row">임시 필드 03</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" id="dtl_tmp_fld_03" name="dtl_tmp_fld_03" /></td>
-														</tr>
-														<tr>
-																<th scope="row">임시 필드 04</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" id="dtl_tmp_fld_04" name="dtl_tmp_fld_04" /></td>
-														</tr>
-														<tr>
-																<th scope="row">사용 유무 <span class="font_red">*</span></th>
-																<td colspan="3"><input type="radio" id="dtl_use_poa_1" name="dtl_use_poa" value="Y" /> <label for="radio1-1">사용</label> &nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" id="dtl_use_poa_2" name="dtl_use_poa" value="N" /> <label for="radio1-2">미사용</label></td>
-														</tr>
-												</tbody>
-										</table>
-										<!-- e : 여기에 내용입력 -->
-										<div class="btn_areaC mt30">
-												<a href="" class="btnType blue" id="btnSaveDtlCod" name="btn"><span>저장</span></a> <a href="" class="btnType blue" id="btnDeleteDtlCod" name="btn"><span>삭제</span></a> <a href="" class="btnType gray" id="btnCloseDtlCod" name="btn"><span>취소</span></a>
+												<a href="" class="btnType blue" id="btnSaveGrpCod" name="btn"><span>전송</span></a>
+												<a href="" class="btnType gray" id="btnCloseGrpCod" name="btn"><span>취소</span></a>
 										</div>
 								</dd>
 						</dl>
