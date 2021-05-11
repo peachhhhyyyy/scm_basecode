@@ -4,47 +4,32 @@ import java.util.Date;
 
 public class PcsModel {
   public String purch_list_no;
-  public String order_cd;
-  public String supply_cd;
-  public Date direction_date;
-  public Date purch_cate;
+  public String prod_nm;
+  public String l_ct_cd;
   public int purch_qty;
   public int purch_total_amt;
-  public String approve_id;
   public Date desired_delivery_date;
   public String warehouse_nm;
   public String purch_mng_id;
   public String warehouse_cd;
-  
+  public String supply_nm;
   public String getPurch_list_no() {
     return purch_list_no;
   }
   public void setPurch_list_no(String purch_list_no) {
     this.purch_list_no = purch_list_no;
   }
-  public String getOrder_cd() {
-    return order_cd;
+  public String getProd_nm() {
+    return prod_nm;
   }
-  public void setOrder_cd(String order_cd) {
-    this.order_cd = order_cd;
+  public void setProd_nm(String prod_nm) {
+    this.prod_nm = prod_nm;
   }
-  public String getSupply_cd() {
-    return supply_cd;
+  public String getL_ct_cd() {
+    return l_ct_cd;
   }
-  public void setSupply_cd(String supply_cd) {
-    this.supply_cd = supply_cd;
-  }
-  public Date getDirection_date() {
-    return direction_date;
-  }
-  public void setDirection_date(Date direction_date) {
-    this.direction_date = direction_date;
-  }
-  public Date getPurch_cate() {
-    return purch_cate;
-  }
-  public void setPurch_cate(Date purch_cate) {
-    this.purch_cate = purch_cate;
+  public void setL_ct_cd(String l_ct_cd) {
+    this.l_ct_cd = l_ct_cd;
   }
   public int getPurch_qty() {
     return purch_qty;
@@ -57,12 +42,6 @@ public class PcsModel {
   }
   public void setPurch_total_amt(int purch_total_amt) {
     this.purch_total_amt = purch_total_amt;
-  }
-  public String getApprove_id() {
-    return approve_id;
-  }
-  public void setApprove_id(String approve_id) {
-    this.approve_id = approve_id;
   }
   public Date getDesired_delivery_date() {
     return desired_delivery_date;
@@ -87,5 +66,11 @@ public class PcsModel {
   }
   public void setWarehouse_cd(String warehouse_cd) {
     this.warehouse_cd = warehouse_cd;
+  }
+  public String getSupply_nm() {
+    return supply_nm;
+  }
+  public void setSupply_nm(String supply_nm) {
+    this.supply_nm = supply_nm;
   }
 }
