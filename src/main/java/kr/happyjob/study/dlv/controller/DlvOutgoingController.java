@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.happyjob.study.dlv.model.DlvOutgoingDetailModel;
 import kr.happyjob.study.dlv.model.DlvOutgoingModel;
 import kr.happyjob.study.dlv.service.DlvOutgoingService;
 
@@ -38,7 +39,7 @@ public class DlvOutgoingController {
 	
 	// 배송 준비 중 부터의 수주내역 조회
 	@RequestMapping("outgoingList.do")
-	public String orderList(Model model, @RequestParam Map<String, Object> paramMap, 
+	public String outgoingList(Model model, @RequestParam Map<String, Object> paramMap, 
 			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
 		
 		int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재페이지
@@ -66,8 +67,15 @@ public class DlvOutgoingController {
 	}
 	
 	// 출하계획 상세 페이지조회
-//	@RequestMapping("")
-//	public String 
+	@RequestMapping("outgoingDetailList.do")
+	public String outgoingDetailList(Model model, @RequestParam Map<String, Object> paramMap, 
+			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+		
+		List<DlvOutgoingDetailModel> outgoingDetailList = dlvOutgoingService.outgoingDetailList(paramMap);
+		model.addAttribute("outgoingDetailList", outgoingDetailList);
+		
+		return "/dlv/outgoingDetailList";
+	}
 	
 	
 
