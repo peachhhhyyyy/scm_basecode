@@ -66,9 +66,10 @@ function forderListHistoryResult(data, currentPage) {
 
 // 입금대기 상태일때 배송,발주 버튼 클릭할 때 나타나는 에러 메시지 함수
 function fnotYetDeposit() {
-  alert("아직 입금이 완료되지 않았습니다.");
+  swal("아직 입금이 완료되지 않았습니다.");
 };
 
 function fnotEnoughStock() {
-  alert("재고량이 주문 수량보다 적습니다. \n발주를 진행하여 재고 입고를 진행해주세요.")
+  swal("재고량이 주문 수량보다 적습니다. \n발주를 진행하여 재고 입고를 진행해주세요.")
 };
+
