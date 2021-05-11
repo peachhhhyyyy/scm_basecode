@@ -1,5 +1,5 @@
 // 수주내역 조회 페이징 설정
-var pageSizeOrderList = 5;
+var pageSizeOrderList = 10;
 var pageBlockSizeOrderList = 10;
 
 $(document).ready(function() {
