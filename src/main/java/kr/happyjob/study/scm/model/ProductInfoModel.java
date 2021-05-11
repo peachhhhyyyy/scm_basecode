@@ -1,13 +1,17 @@
 package kr.happyjob.study.scm.model;
 
-public class ProdInfoModel {
+
+public class ProductInfoModel {
   /* 제품코드 */
   private String product_cd;
-
+  
   /* 제품명 */
   private String prod_nm;
   
-  /* 중분류(품목)명 */
+  /* 대분류(품목)명*/
+  private String l_ct_nm;
+
+  /* 중분류(제조사)명 */
   private String m_ct_nm;
   
   /* 공급처명 */
@@ -30,7 +34,8 @@ public class ProdInfoModel {
   
   /* 창고코드 */
   private String warehouse_cd;
-  
+
+
   public String getProduct_cd() {
     return product_cd;
   }
@@ -45,6 +50,14 @@ public class ProdInfoModel {
 
   public void setProd_nm(String prod_nm) {
     this.prod_nm = prod_nm;
+  }
+
+  public String getL_ct_nm() {
+    return l_ct_nm;
+  }
+
+  public void setL_ct_nm(String l_ct_nm) {
+    this.l_ct_nm = l_ct_nm;
   }
 
   public String getM_ct_nm() {
@@ -110,5 +123,6 @@ public class ProdInfoModel {
   public void setWarehouse_cd(String warehouse_cd) {
     this.warehouse_cd = warehouse_cd;
   }
+
 
 }
