@@ -8,13 +8,11 @@
 		/*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
       SELECT 
              PL.purch_list_no
-         ,   PL.order_cd
-         ,   PL.supply_cd
-         ,   PL.direction_date
-         ,   PL.purch_cate
+         ,   SP.supply_nm
+         ,   PD.prod_nm
+         ,   MC.l_ct_cd
          ,   PL.purch_qty
          ,   PL.purch_total_amt
-         ,   PL.approve_id
          ,   PL.desired_delivery_date
          ,   WH.warehouse_nm
          ,   PL.purch_mng_id
@@ -23,6 +21,12 @@
         ON PL.order_cd = OD.order_cd
         LEFT JOIN tb_scm_warehouse as WH
         ON OD.warehouse_cd = WH.warehouse_cd  
+        LEFT JOIN tb_scm_supply as SP
+        ON PL.supply_cd = SP.supply_cd
+        LEFT JOIN tb_scm_product as PD
+        ON PL.supply_cd = PD.supply_cd
+        LEFT JOIN tb_scm_m_category as MC
+        ON PD.m_ct_cd = MC.m_ct_cd
       ORDER BY direction_date DESC
 	</select>
 	
