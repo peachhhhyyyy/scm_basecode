@@ -20,11 +20,15 @@
 	margin-top: 10px;
 }
 
+#container ul li.contents .content {
+	min-height: 800px;
+}
+
 </style>
 </head>
 <body>
 	<form id="myForm" action="" method="">
-		<input type="hidden" id="currentPage" value="1"> <input type="hidden" id="selectedInfNo" value="">
+		<input type="hidden" id="currentPage" value="1">
 		<!-- 모달 배경 -->
 		<div id="mask"></div>
 		<div id="wrap_area">

@@ -60,7 +60,7 @@ function forderListHistoryResult(data, currentPage) {
   $("#orderListPagination").empty().append(paginationHtml);
 
   // 현재 페이지 설정
-  $("#currentPageDailyOrder").val(currentPage);
+  $("#currentPage").val(currentPage);
   
 };
 
