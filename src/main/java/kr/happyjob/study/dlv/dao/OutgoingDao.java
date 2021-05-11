@@ -12,7 +12,7 @@ public interface OutgoingDao {
 	public List<DlvOutgoingModel> outgoingList(Map<String, Object> paramMap)throws Exception ;
 	
 	// 1-1 리스트 목록 카운트 조회
-	public int outgoingCnt(Map<String, Object> paramMap)throws Exception ;
+	public int outgoingCnt(Map<String, Object> paramMap)throws Exception;
 	
 	// 1-2 주문코드에 대한 상세조회
 	public List<DlvOutgoingDetailModel> outgoingDetailList(Map<String, Object> paramMap)throws Exception ;

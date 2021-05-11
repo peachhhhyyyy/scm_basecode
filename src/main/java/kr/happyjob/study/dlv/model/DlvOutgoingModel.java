@@ -37,7 +37,7 @@ public class DlvOutgoingModel {
 	// 배송사원연락처
 	private String tel_delivery;
 	// 고객 요구사항
-	private String request;
+	private String request ;
 	
 	public String getOrder_date() {
 		return order_date;

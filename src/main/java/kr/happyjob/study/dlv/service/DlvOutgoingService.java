@@ -12,7 +12,7 @@ public interface DlvOutgoingService {
 	public List<DlvOutgoingModel> outgoingList(Map<String, Object> paramMap)throws Exception ;
 	
 	// 배송 준비 중 부터 리스트 카운트 조회
-	public int outgoingCnt(Map<String, Object> paramMap)throws Exception ;
+	public int outgoingCnt(Map<String, Object> paramMap)throws Exception;
 	
 	// 배송 준비 중 부터 한건에 대한 상세 조회
 	public List<DlvOutgoingDetailModel> outgoingDetailList(Map<String, Object> paramMap)throws Exception ;

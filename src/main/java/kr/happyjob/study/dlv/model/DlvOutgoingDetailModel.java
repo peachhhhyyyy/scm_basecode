@@ -29,7 +29,7 @@ public class DlvOutgoingDetailModel {
 	// 도착예정일자
 	private String arr_prev_date;
 	// 상태
-	private String state;
+	private String state ;
 	
 	
 	
