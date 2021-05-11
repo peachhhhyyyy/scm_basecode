@@ -23,6 +23,7 @@
     					SELECT prod_nm, product_cd, stock, price 
     					FROM tb_scm_product
   					  ) prod ON prod.product_cd = o.product_cd
+		    LIMIT #{pageIndex}, #{pageSize}
 		</select>
 		
 		<select id="selectOrderListCnt" resultType="int">
