@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.happyjob.study.dlv.dao.ReturnDao">
 
-	<select id="returnList" resultType="kr.happyjob.study.dlv.model.DivReturnModel">
+	<select id="returnList" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">
 	
 	SELECT TSRL.refund_list_no AS refund_list_no,
        TSRL.order_cd AS order_cd,
@@ -39,6 +39,19 @@
 			OR od.state = '입금완료'
 			OR od.state = '반품 완료'
 			ORDER BY od.order_cd DESC
+	</select>
+	<select id="returnDetailList" resultType="kr.happyjob.study.dlv.model.DlvReturnDetailModel">
+		SELECT TOO.order_cd AS order_cd,
+	       TSP.prod_nm AS prod_nm,
+	       TSPL.purch_qty AS purch_qty,
+	       TSPL.purch_list_no AS purch_list_no,
+	       TSP.m_ct_cd AS m_ct_cd
+		 FROM tb_order AS TOO
+		 LEFT JOIN tb_scm_product AS TSP
+		 ON TOO.product_cd = TSP.product_cd
+		 LEFT JOIN tb_scm_purchase_list AS TSPL
+		 ON TOO.order_cd = TSPL.order_cd
+		 WHERE TOO.order_cd = #{order_cd}
 	</select>
 <!-- 
 	<select id="returnProductList" parameterType="Map" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">

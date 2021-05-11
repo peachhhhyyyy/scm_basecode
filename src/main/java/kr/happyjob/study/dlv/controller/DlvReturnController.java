@@ -16,14 +16,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import kr.happyjob.study.dlv.model.DivReturnModel;
-import kr.happyjob.study.dlv.service.DivReturnService;
+import kr.happyjob.study.dlv.model.DlvReturnDetailModel;
+import kr.happyjob.study.dlv.model.DlvReturnModel;
+import kr.happyjob.study.dlv.service.DlvReturnService;
 
 @Controller
 @RequestMapping("/dlv")
-public class DivReturnController {
+public class DlvReturnController {
 	@Autowired
-	DivReturnService divReturnService;
+	DlvReturnService dlvReturnService;
 	
 	private final Logger logger = LogManager.getLogger(this.getClass());
 	
@@ -48,16 +49,27 @@ public class DivReturnController {
 		logger.info("이건 paramMap" + paramMap);
 		
 		// 수주내역 가져오기
-		List<DivReturnModel> returnList = divReturnService.returnList(paramMap);
+		List<DlvReturnModel> returnList = dlvReturnService.returnList(paramMap);
 		model.addAttribute("returnList", returnList);
 
 		// 목록 수 추출하기
-		int returnlistCnt = divReturnService.returnlistCnt(paramMap);
+		int returnlistCnt = dlvReturnService.returnlistCnt(paramMap);
 		
 	    model.addAttribute("returnlistCnt", returnlistCnt);
 	    model.addAttribute("pageSize", pageSize);
 	    model.addAttribute("currentPage",currentPage);
 	    
 		return "/dlv/returnList";
+	}
+	
+	//반품내역 상세 페이지조회
+	@RequestMapping("returnDetailList.do")
+	public String returnDetailList(Model model, @RequestParam Map<String, Object> paramMap,
+			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+		
+		List<DlvReturnDetailModel> returnDetailList = dlvReturnService.returnDetailList(paramMap);
+		model.addAttribute("returnDetailList", returnDetailList);
+		
+		return "/dlv/returnDetailList";
 	}
 }

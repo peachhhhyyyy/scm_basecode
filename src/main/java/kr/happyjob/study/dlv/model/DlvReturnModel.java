@@ -2,7 +2,7 @@ package kr.happyjob.study.dlv.model;
 
 import java.util.Date;
 
-public class DivReturnModel {
+public class DlvReturnModel {
 	//반품지시서 번호
 	private String refund_list_no;
 	//주문코드
@@ -25,7 +25,7 @@ public class DivReturnModel {
 	private String warehouse_nm;
 	//상태
 	private String state;
-	public DivReturnModel() {
+	public DlvReturnModel() {
 	}
 	public String getRefund_list_no() {
 		return refund_list_no;

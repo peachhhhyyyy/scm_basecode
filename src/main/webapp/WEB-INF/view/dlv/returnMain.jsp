@@ -64,7 +64,36 @@
         	   // 현재 페이지 설정
         	    $("#listInfPagination").empty().append(paginationHtml);
         	  }
-
+	
+         /* 반품내역 상세 조회*/
+			function fReturnDetailList(order_cd) {
+			
+			  // 그룹코드 정보 설정
+			  $("#order_cd").val(order_cd);
+			
+			  var param = {
+			  		  order_cd : order_cd,
+			  }
+			
+			  var resultCallback = function(data) {
+				  fReturnDetailResult(data);
+			  };
+			
+			  callAjax("/dlv/returnDetailList.do", "post", "text", true, param, resultCallback);
+			}
+			
+			
+			/** 출하내역 상세조회 콜백 함수 */
+			function fReturnDetailResult(data) {
+			    console.log(data);
+			
+			    // 기존 목록 삭제
+			    $('#returnDetailList').empty();
+			    
+			    var $data = $($(data).html());
+			    var $returnDetailList = $data.find("#returnDetailList");
+			    $("#returnDetailList").append($returnDetailList.children());
+			}
         
        
      
@@ -116,6 +145,7 @@
                                  </c:if>
                               </span>
                            </p>
+                          
                             
                            <table class="col">
                               <caption>caption</caption>
@@ -148,7 +178,7 @@
                            
                         </div>
                         <div class="paging_area" id="listInfPagination"></div>
-      											</div>
+      											</div> 
                         <!-- 반품 리스트 조회  -->
                         <br><br>
                         <!-- 상세페이지 조회 -->
@@ -175,7 +205,7 @@
                                     <th scope="col">품목명</th>
                                  </tr>
                               </thead>
-                              <tbody id="returnDetail">
+                              <tbody id="returnDetailList">
                               </tbody>
                            </table>
                         </div>
