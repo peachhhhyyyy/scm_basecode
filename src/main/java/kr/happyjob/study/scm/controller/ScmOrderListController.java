@@ -60,9 +60,20 @@ public class ScmOrderListController {
 	    
 	    paramMap.put("pageIndex", pageIndex);
 	    paramMap.put("pageSize", pageSize);
+	    logger.info("After putting pageIndex, pageSize, paramMap:" + paramMap);
 	    
 	    // 수주내역 목록 조회
 	    List<ScmOrderListModel> orderList = ScmOrderListService.getOrderList(paramMap);
+	    model.addAttribute("orderList", orderList);
+	    
+	    // 수주내역 목록 갯수 추출
+	    int orderListCnt = ScmOrderListService.getOrderListCnt(paramMap);
+	    model.addAttribute("orderListCnt", orderListCnt);
+	    
+	    // 페이징 처리에 사용될 값들
+	    model.addAttribute("pageSize", pageSize);
+	    model.addAttribute("currentPage", currentPage);
+	    
 		
 		return "/scm/listInfo";
 	}

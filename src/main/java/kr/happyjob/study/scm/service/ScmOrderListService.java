@@ -9,4 +9,6 @@ public interface ScmOrderListService {
 
 	List<ScmOrderListModel> getOrderList(Map<String, Object> paramMap) throws Exception;
 
+	int getOrderListCnt(Map<String, Object> paramMap) throws Exception;
+
 }

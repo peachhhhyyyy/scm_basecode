@@ -1,14 +1,10 @@
-// 그룹코드 페이징 설정
-var pageSizeDailyOrder = 10;
-var pageBlockSizeDailyOrder = 10;
-	
-// 상세코드 페이징 설정
-var pageSizeComnDtlCod = 5;
-var pageBlockSizeComnDtlCod = 10;
+// 수주내역 조회 페이징 설정
+var pageSizeOrderList = 5;
+var pageBlockSizeOrderList = 10;
 
 $(document).ready(function() {
 	// 일일 수주 조회
-	fListDailyOrderHistroy();
+	forderListHistory();
 });
 
 //function fExcelDownload(tableID, fileID){
@@ -24,7 +20,7 @@ $(document).ready(function() {
 //}
 
 /** 일별 수주 내역 조회 */
-function fListDailyOrderHistroy(currentPage) {
+function forderListHistory(currentPage) {
 	
   currentPage = currentPage || 1;
 
@@ -32,40 +28,36 @@ function fListDailyOrderHistroy(currentPage) {
 
   var param = {
     currentPage: currentPage, 
-    pageSize: pageSizeDailyOrder
+    pageSize: pageSizeOrderList
   }
 
   var resultCallback = function(data) {
-    flistDailyOrderHistroyResult(data, currentPage);
+    forderListHistoryResult(data, currentPage);
   };
   
   // Ajax 실행 방식
-  // callAjax("Url", type, return, async or sync방식, 넘겨준거, 값, Callback함수 이름)
+  // callAjax("Url", type, return, async or sync방식, 넘겨준거, Callback함수 이름)
   // html로 받을거라 text
   callAjax("/scm/listInfo.do", "post", "text", true, param, resultCallback);
 }
 
 /** 일별 수주 내역 조회 콜백 함수 */
-function flistDailyOrderHistroyResult(data, currentPage) {
+function forderListHistoryResult(data, currentPage) {
 
   // alert(data);
   console.log(data);
 
   // 기존 목록 삭제
-  $('#listDailyOrderHistroy').empty();
-
-  var $data = $($(data).html());
-
-  $("#listDailyOrderHistroy").append(data);
+  $('#orderListHistory').empty().append(data);
 
   // 총 개수 추출
-  let totalCntDailyOrder = $("#totalCntDailyOrder").val();
-  
+  let totalCnt = $("#totcnt").val();
+  console.log(totalCnt);
   // 페이지 네비게이션 생성
-  var paginationHtml = getPaginationHtml(currentPage, totalCntDailyOrder, pageSizeDailyOrder, pageBlockSizeDailyOrder, 'fListDailyOrderHistroy');
+  var paginationHtml = getPaginationHtml(currentPage, totalCnt, pageSizeOrderList, pageBlockSizeOrderList, 'forderListHistory');
   console.log("paginationHtml : " + paginationHtml);
 
-  $("#dailyOrderPagination").empty().append(paginationHtml);
+  $("#orderListPagination").empty().append(paginationHtml);
 
   // 현재 페이지 설정
   $("#currentPageDailyOrder").val(currentPage);

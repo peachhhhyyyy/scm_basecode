@@ -8,4 +8,6 @@ import kr.happyjob.study.scm.model.ScmOrderListModel;
 
 public interface ScmOrderListDao {
 	List<ScmOrderListModel> selectOrderList(Map<String, Object> paramMap) throws Exception;
+	
+	int selectOrderListCnt(Map<String, Object> paramMap) throws Exception;
 }

@@ -27,5 +27,10 @@ public class ScmOrderListServiceImpl implements ScmOrderListService {
 	public List<ScmOrderListModel> getOrderList(Map<String, Object> paramMap) throws Exception {
 		return ScmOrderListDao.selectOrderList(paramMap);
 	}
+	
+	@Override
+	public int getOrderListCnt(Map<String, Object> paramMap) throws Exception {
+		return ScmOrderListDao.selectOrderListCnt(paramMap);
+	}
 
 }
