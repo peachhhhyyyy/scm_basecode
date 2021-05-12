@@ -7,7 +7,7 @@
 </c:if>
 <c:if test="${!empty productInfo}">
 	<h1>발주 지시서</h1>
-	<div>
+	<div class="prodInfoContainer">
 		<div>
 			<span>SCM관리자 : </span><span>${productInfo.scmManager}</span>
 		</div>
@@ -38,13 +38,13 @@
 			<span>제품 단가 : </span><span id="purchasePrice">${productInfo.purchasePrice}</span>
 		</div>
 		<div>
-			<span>수량 : </span><span><input id="purchaseCount" type="number" oninput="javascript:multiply()" value="0"/> EA</span>
+			<span>수량 : </span><span><input id="purchaseCount" type="number" oninput="javascript:multiply()" value="0" min="0" max="1000"/> EA</span>
 		</div>
 		<div class="bar"></div>
-		<div style="float: right;">
-			<span>합계 (원) : </span><span id="sumAmt"></span>
+		<div >
+			<span id="sumAmt" style="float: right;"></span>
 			<br>
-			<span id="sumAmt-han" style="float: right;"></span>
+			<span id="sumAmt-han" style="float: right;">&nbsp</span>
 		</div>		
 	</div>
 </c:if>
