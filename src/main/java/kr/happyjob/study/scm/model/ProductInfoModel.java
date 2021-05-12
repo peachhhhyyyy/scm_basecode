@@ -14,7 +14,7 @@ public class ProductInfoModel {
 	private String productName;
 	private String middleCategory;
 	private int productCount;
-	private int customerCount;
+	private int orderCount;
 	private int purchasePrice;
 
 	public String getScmManager() {
@@ -73,12 +73,12 @@ public class ProductInfoModel {
 		this.productCount = productCount;
 	}
 
-	public int getCustomerCount() {
-		return customerCount;
+	public int getorderCount() {
+		return orderCount;
 	}
 
-	public void setCustomerCount(int customerCount) {
-		this.customerCount = customerCount;
+	public void setorderCount(int orderCount) {
+		this.orderCount = orderCount;
 	}
 
 	public int getpurchasePrice() {
