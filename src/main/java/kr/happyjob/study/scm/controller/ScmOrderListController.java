@@ -94,6 +94,8 @@ public class ScmOrderListController {
 		logger.info("productInfo.getProductName: " + productInfo.getProductName());
 		logger.info("productInfo.getScmManager: " + productInfo.getScmManager());
 	    
+		model.addAttribute("productInfo", productInfo);
+		
 		return "/scm/productInfo";
 	}
 
