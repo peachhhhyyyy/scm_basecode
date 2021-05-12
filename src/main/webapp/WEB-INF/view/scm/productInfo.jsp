@@ -38,13 +38,13 @@
 			<span>제품 단가 : </span><span id="purchasePrice">${productInfo.purchasePrice}</span>
 		</div>
 		<div>
-			<span>수량 : </span><span><input id="purchaseCount" type="number" onKeyup="javascript:multiply()"/> EA</span>
+			<span>수량 : </span><span><input id="purchaseCount" type="number" oninput="javascript:multiply()" value="0"/> EA</span>
 		</div>
 		<div class="bar"></div>
 		<div style="float: right;">
 			<span>합계 (원) : </span><span id="sumAmt"></span>
 			<br>
-			<span id="sumAmt-han"></span><span>원</span>
+			<span id="sumAmt-han" style="float: right;"></span>
 		</div>		
 	</div>
 </c:if>
