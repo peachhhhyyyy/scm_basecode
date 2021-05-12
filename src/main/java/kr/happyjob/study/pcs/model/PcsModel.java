@@ -31,6 +31,9 @@ public class PcsModel {
   public String state;
   // 발주날짜
   public Date direction_date;
+  
+  public String supply_cd;
+  
   public String getPurch_list_no() {
     return purch_list_no;
   }
@@ -114,5 +117,11 @@ public class PcsModel {
   }
   public void setDirection_date(Date direction_date) {
     this.direction_date = direction_date;
+  }
+  public String getSupply_cd() {
+    return supply_cd;
+  }
+  public void setSupply_cd(String supply_cd) {
+    this.supply_cd = supply_cd;
   }
 }
