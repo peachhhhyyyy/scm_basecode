@@ -5,84 +5,94 @@ import java.util.Date;
 public class DlvReturnModel {
 	//반품지시서 번호
 	private String refund_list_no;
-	//주문코드
-	private String order_cd;
-	//창고명
-	private String supply_nm;
+	//고객명
+	private String cus_name;
+	//분류명
+	private String m_ct_nm;
 	//제품명
 	private String prod_nm;
-	//품목명
-	private String m_ct_nm;
 	//반품 수량
 	private int refund_cnt;
-	//반품 날짜
-	private Date refund_date;
-	//반품금액
-	private String refund_amt;
-	//창고
+	//반품 금액
+	private int refund_amt;
+	//창고명
 	private String warehouse_nm;
+	//반품 날짜 
+	private Date refund_date;
 	//상태
 	private String state;
 	
 	public DlvReturnModel() {
 	}
-	public String getOrder_cd() {
-		return order_cd;
-	}
-	public void setOrder_cd(String order_cd) {
-		this.order_cd = order_cd;
-	}
-	public String getSupply_nm() {
-		return supply_nm;
-	}
-	public void setSupply_nm(String supply_nm) {
-		this.supply_nm = supply_nm;
-	}
+
 	public String getRefund_list_no() {
 		return refund_list_no;
 	}
+
 	public void setRefund_list_no(String refund_list_no) {
 		this.refund_list_no = refund_list_no;
 	}
-	public String getProd_nm() {
-		return prod_nm;
+
+	public String getCus_name() {
+		return cus_name;
 	}
-	public void setProd_nm(String prod_nm) {
-		this.prod_nm = prod_nm;
+
+	public void setCus_name(String cus_name) {
+		this.cus_name = cus_name;
 	}
+
 	public String getM_ct_nm() {
 		return m_ct_nm;
 	}
+
 	public void setM_ct_nm(String m_ct_nm) {
 		this.m_ct_nm = m_ct_nm;
 	}
+
+	public String getProd_nm() {
+		return prod_nm;
+	}
+
+	public void setProd_nm(String prod_nm) {
+		this.prod_nm = prod_nm;
+	}
+
 	public int getRefund_cnt() {
 		return refund_cnt;
 	}
+
 	public void setRefund_cnt(int refund_cnt) {
 		this.refund_cnt = refund_cnt;
 	}
-	public Date getRefund_date() {
-		return refund_date;
-	}
-	public void setRefund_date(Date refund_date) {
-		this.refund_date = refund_date;
-	}
-	public String getRefund_amt() {
+
+	public int getRefund_amt() {
 		return refund_amt;
 	}
-	public void setRefund_amt(String refund_amt) {
+
+	public void setRefund_amt(int refund_amt) {
 		this.refund_amt = refund_amt;
 	}
+
 	public String getWarehouse_nm() {
 		return warehouse_nm;
 	}
+
 	public void setWarehouse_nm(String warehouse_nm) {
 		this.warehouse_nm = warehouse_nm;
 	}
+
+	public Date getRefund_date() {
+		return refund_date;
+	}
+
+	public void setRefund_date(Date refund_date) {
+		this.refund_date = refund_date;
+	}
+
 	public String getState() {
 		return state;
 	}
+
 	public void setState(String state) {
 		this.state = state;
 	}
