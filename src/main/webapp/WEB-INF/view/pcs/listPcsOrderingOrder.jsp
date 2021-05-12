@@ -18,9 +18,10 @@
       <td>${list.desired_delivery_date}</td>
       <td>${list.warehouse_nm}</td>
       <td>${list.purch_mng_id}</td>
-      <td><a class="btnType3 color1" href="javascript:fPopModalComnGrpCod('${list.purch_list_no}','${list.supply_nm}','${list.prod_nm}','${list.l_ct_cd}','${list.purch_qty}','${list.purchase_price}','${list.desired_delivery_date}','${list.warehouse_nm}','${list.purch_mng_id}');"><span>발주</span></a></td>
+      <td><a class="btnType3 color1" href="javascript:fPopModalPcsOrderingOrder('${list.purch_list_no}','${list.supply_nm}','${list.prod_nm}','${list.l_ct_cd}','${list.purch_qty}','${list.purchase_price}','${list.desired_delivery_date}','${list.warehouse_nm}','${list.purch_mng_id}','${list.order_cd}','${list.supply_cd}');"><span>발주</span></a></td>
     </tr>
     <c:set var="nRow" value="${nRow + 1}" />
   </c:forEach>
 </c:if>
 <input type="hidden" id="totalCount" name="totalCount" value="${totalCount}" />
+
