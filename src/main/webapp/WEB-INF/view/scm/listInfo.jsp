@@ -31,11 +31,11 @@
       <c:if test="${list.state eq '입금완료'}">
       	<c:if test="${list.productCount >= list.orderCount}">
       		<td><a class="btnType3 color2" href="#">배송</a></td>
-   			<td><a class="btnType3 color1" href="javascript:purchaseModalOpen();">발주</a></td>
+   			<td><a class="btnType3 color1" href="javascript:purchaseModalOpen('${list.orderCode}');">발주</a></td>
       	</c:if>
   	 	<c:if test="${list.productCount < list.orderCount}">
       		<td><a class="btnType3 color1" href="javascript:fnotEnoughStock();">배송</a></td>
-   			<td><a class="btnType3 color2" href="javascript:purchaseModalOpen();">발주</a></td>
+   			<td><a class="btnType3 color2" href="javascript:purchaseModalOpen('${list.orderCode}');">발주</a></td>
       	</c:if>
       </c:if>
       <td>${list.state}</td>
