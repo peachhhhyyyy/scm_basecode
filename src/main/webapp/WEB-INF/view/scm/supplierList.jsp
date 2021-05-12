@@ -13,7 +13,7 @@
             <c:set var="nRow" value="${pageSize*(currentPage-1)}" />
             <c:forEach items="${supplierInfoModelList}" var="list">           
                 <tr>
-                  <td>${list.supply_nm}</td>
+                  <td><a href="javascript:fListProduct(1,'${list.supply_nm}')">${list.supply_nm}</a></td>
                   <td>${list.supply_mng_nm}</td>
                   <td>${list.tel}</td>
                   <td>${list.email}</td>

@@ -11,21 +11,58 @@
 <title>공급처 관리</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript">
-  //공급처 페이징 처리
-  var userPageSize = 5;
-  var userPageBlock = 5;
+  //공급처정보 페이징 처리
+  var userPageSize = 5; //공급처정보 페이지 사이즈
+  var userPageBlock = 5; //공급처정보 페이지 블록 갯수
+  
+  //제품정보 페이징 처리 
+  var pageSizeProduct = 5; //제품정보 페이지 사이즈
+  var pageBlockSizeProduct = 5; //제품정보 페이지 블록 갯수
+  
   //OnLoad event
   $(document).ready(function() {
     //공급처 목록 조회
     selectSupplierList();
+    
+    //납품업체 목록 조회
+    fListProduct();
+    
+    // 버튼 이벤트 등록
+    fButtonClickEvent();
   });
+  
+  /*버튼 이벤트 등록*/
+  function fButtonClickEvent() {
+    $('a[name=btn]').click(function(e) {
+      e.preventDefault();
+      var btnId = $(this).attr('id');
+      switch (btnId) {
+      case 'btnSaveSupplier':
+        fSaveSupplier(); // save 안에 저장,수정
+        break;
+      case 'btnDeleteSupplier':
+        fDeleteSupplier(); // 만들자 
+        break;
+      case 'btnClose':
+        gfCloseModal(); // 모달닫기 
+        break;
+      case 'btnUpdateSupplier':
+        fUpdateSupplier(); // 수정하기
+        break;
+      case 'searchBtn':
+        board_search(); // 검색하기
+        break;
+      }
+    });
+  }
+  
 
   /*공급처 조회*/
   function selectSupplierList(currentPage) {
     currentPage = currentPage || 1;
     var param = {
     currentPage : currentPage,
-    pageSize : userPageSize,
+    pageSize : userPageSize
     }
     var resultCallback = function(data) {
       supplierListResult(data, currentPage);
@@ -41,7 +78,6 @@
     $("#supplierList").append(data);
     // 총 개수 추출
     var totalCnt = $("#totalCount").val();
-    var list = $("#tmpList").val();
     //페이지 네비게이션 생성
     var paginationHtml = getPaginationHtml(currentPage, totalCnt, userPageSize, userPageBlock, 'selectSupplierList');
     $("#paginationHtml").empty().append(paginationHtml);
@@ -49,20 +85,62 @@
     $("#currentPage").val(currentPage);
   }
   
+  /*제품 목록 조회*/
+  function fListProduct(currentPage, supply_nm) {
+    //공급처명 매개변수 설정
+    currentPage = currentPage || 1;
+    $("#tmpsupply_nm").val(supply_nm);
+    var param = {
+        supply_nm : supply_nm //납품업체명 변수설정
+      , currentPage : currentPage
+      , pageSize : pageSizeProduct
+    }
+    
+    console.log("supply_nm : " + supply_nm);
+    var resultCallback = function(data) {
+      flistProductResult(data, currentPage);
+    };
+    callAjax("/scm/supplierProList.do", "post", "text", true, param,
+        resultCallback);
+  }
+  /*제품목록 조회 콜백 함수*/
+  function flistProductResult(data, currentPage) {
+    //기존 목록 삭제
+    $('#supplierProList').empty();
+    // 신규 목록 생성
+    $("#supplierProList").append(data);
+    //$("#listProduct").append($listProduct.children());  
+    // 총 개수 추출
+    var totalProduct = $("#totalProduct").val();
+    //페이지 네비게이션 생성
+    var supply_nm = $("#supply_nm").val();
+    var paginationHtml = getPaginationHtml(currentPage, totalProduct,
+        pageSizeProduct, pageBlockSizeProduct, 'fListProduct', [ supply_nm ]);
+    $("#productPagination").empty().append(paginationHtml);
+    // 현재 페이지 설정
+    $("#currentPageProduct").val(currentPage);
+  }
+  
+  
+  
+  
+  
+  
+  
+  
   
 </script>
 </head>
 <body>
 <form id="myForm" action="" method="">
-    <input type="hidden" id="currentPage" value="1">  
-    <input type="hidden" id="tmpList" value=""> 
-    <input type="hidden" id="tmpList_no" value=""> 
+    <input type="hidden" id="currentPage" value="1">
+    <input type="hidden" id="currentPageProduct" value="1">   
+    <input type="hidden" id="tmpsupply_nm" value=""> 
     <input type="hidden" name="action" id="action" value="">
     <div id="mask"></div>
     <div id="wrap_area">
-          
-          
-          <h2 class="hidden">header 영역</h2>
+    
+        <h2 class="hidden">header 영역</h2>
           <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
           <h2 class="hidden">컨텐츠 영역</h2>
           <div id="container">
@@ -89,23 +167,23 @@
                                  <span class="fr"> 
                     
                   
-                                      <a href="javascript:fPopModalDelivery()" class="btnType blue" name="modal">
+                                      <a href="javascript:fPopModalSupplier()" class="btnType blue" name="modal">
                                       <span>신규등록</span>
                                       </a>
                                  </span>
-                            </p>
-                         <!--검색창   -->
-                                  <table width="100%" cellpadding="5" cellspacing="0" border="1" align="left" style="border-collapse: collapse; border: 1px #50bcdf;">
-                                  <tr style="border: 0px; border-color: blue">
-                                       <td width="100" height="25" style="font-size: 120%">&nbsp;&nbsp;</td>
-                                       <td width="50" height="25" style="font-size: 100%; text-align: right; padding-right: 25px;"><select id="oname" name="oname" style="width: 130px; height: 27px">
-                                       <option value="supply_nm">공급처명</option>
-                                       <option value="supply_mng_nm">담당자명</option>
-                                       </select> <input type="text" style="width: 150px; height: 25px;" id="sname" name="sname"> <a href="" class="btnType blue" id="searchBtn" name="btn"><span>검 색</span></a></td>
-                                  </tr>
-              </table>   
+                            </p>  
                             
                     <div class="SupplierList">
+                    <div class="conTitle" style="margin: 0 25px 10px 0; float: right;">
+                        <select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
+                           <option value="supply_nm" selected="selected">공급처</option>
+                           <option value="supply_mng_nm">담당자명</option>
+                        </select>
+                        <input type="text" style="width: 160px; height: 30px;" id="sname" name="sname">
+                            <a href="" class="btnType blue" id="searchBtn" name="btn"> 
+                            <span>검 색</span>
+                            </a> 
+                    </div>
                          <table class="col">
                                 <caption>caption</caption>
                                     <colgroup>
@@ -129,17 +207,56 @@
                          </table>  
                    </div>
                        
-                   <div class="paging_area" id="paginationHtml"></div>    
+                   <div class="paging_area" id="paginationHtml"></div>
+                   
+                   
+                   <p class="conTitle mt50">
+                      <span>제품 정보</span>
+                   </p>
+                   
+                   <div class="supplierProList">
+                        <table class="col">
+                             <caption>caption</caption>
+                             <colgroup>
+                                 <col width="15%">
+                                 <col width="15%">
+                                 <col width="15%">
+                                 <col width="15%">
+                                 <col width="15%">
+                             </colgroup>
+                        <thead>
+                             <tr>
+                                <th scope="col">제품코드</th>
+                                <th scope="col">제품명</th>
+                                <th scope="col">모델명</th>
+                                <th scope="col">재고현황(개)</th>
+                                <th scope="col">제품단가(원)</th>
+                             </tr>
+                        </thead>
+                        <tbody id="supplierProList">
+                             <tr>
+                                <td colspan="12">납품 업체를 선택해 주세요.</td>
+                             </tr>
+                        </tbody>
+                        </table>
+                   </div>
+                         
+                   <div class="paging_area" id="productPagination"></div>
+                   
+                   
               </div>
                   
                        <h3 class="hidden">풋터 영역</h3> <jsp:include
                                page="/WEB-INF/view/common/footer.jsp"></jsp:include>
                   </li>
               </ul>
-          </div>
+          </div>  
+          
+          
     
     
     </div>
+    
 </form>
 </body>
 </html>
