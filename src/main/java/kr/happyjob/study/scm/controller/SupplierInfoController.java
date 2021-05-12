@@ -56,4 +56,30 @@ public class SupplierInfoController {
     return "scm/supplierList";
   }
   
+  //상품목록 조회
+  @RequestMapping("supplierProList.do")
+  public String supplierProList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+      HttpServletResponse response, HttpSession session) throws Exception{
+    
+    int currentPage = Integer.parseInt((String)paramMap.get("currentPage"));  // 현재 페이지 번호
+    int pageSize = Integer.parseInt((String)paramMap.get("pageSize"));      // 페이지 사이즈
+    int pageIndex = (currentPage-1)*pageSize;                 // 페이지 시작 row 번호
+    
+    paramMap.put("pageIndex", pageIndex);
+    paramMap.put("pageSize", pageSize);
+    
+    // 제품 목록 조회
+    List<SupplierInfoModel> listProductModel = supplierInfoService.supplierProList(paramMap);
+    model.addAttribute("listProductModel", listProductModel);
+    
+    // 제품 목록 카운트 조회
+    int totalCount = supplierInfoService.totalCntProduct(paramMap);
+    model.addAttribute("totalProduct", totalCount);
+    
+    model.addAttribute("pageSize", pageSize);
+    model.addAttribute("currentPageProduct",currentPage);
+       
+    return "scm/supplierProList";
+  }
+  
 }
