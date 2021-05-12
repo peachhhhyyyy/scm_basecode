@@ -26,5 +26,12 @@ public class RefundServiceImpl implements RefundService {
   public int countRefundList() throws Exception {
     return refundDao.countRefundList();
   }
+
+  // 반품서 단건 조회
+  @Override
+  public RefundModel selectOneRefund(String refund_list_no) throws Exception {
+    // TODO Auto-generated method stub
+    return refundDao.selectOneRefund(refund_list_no);
+  }
   
 }

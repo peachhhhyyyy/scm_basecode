@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.happyjob.study.pcs.model.RefundModel;
 import kr.happyjob.study.pcs.service.RefundService;
@@ -59,6 +60,21 @@ public class RefundConller {
     return "/pcs/refundListData";
   }
 
+  // 반품서 단건 조회
+  // @ResponseBody
+  @RequestMapping(value="/one.do", method=RequestMethod.POST)
+  public String getOneRefund(@RequestParam Map<String,Object> paramMap, Model model) throws Exception {
+    logger.info("단건 파라미터 확인:" +  paramMap.get("refund_list_no"));
+    
+    String refund_list_no = (String) paramMap.get("refund_list_no");
+    RefundModel refund = refundService.selectOneRefund(refund_list_no);
+    logger.info("단건 조회내역 확인" + refund);
+    
+    model.addAttribute("refund", refund);
+    // 리턴 수정해야 할 듯
+    return "/pcs/refundListData";
+  }
+  
 
 
 

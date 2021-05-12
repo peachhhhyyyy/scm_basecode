@@ -12,17 +12,30 @@
                 <c:set var="nRow" value="${pageSize*(currentPage - 1)}" />
                 <c:forEach items="${refundList}" var="list">
                   <tr>
-                    <td>${totalCount - nRow}</td>
-                    <td><a href="javascript:fListComnDtlCod(1, '${list.refund_list_no}', '${list.refund_list_no}')">${list.refund_list_no}</a></td>
-                    <td>${list.refund_list_no}</td>
-                    <td>${list.refund_list_no}</td>
-                    <td>${list.refund_list_no}</td>
-                    <td><fmt:formatDate value="${list.submit_date}" pattern="yyyy-MM-dd" /></td>
-                    
-                    
-                    <td>
-                      <a class="btnType3 color1" href="javascript:fPopModalComnGrpCod('${list.refund_list_no}');"><span>수정</span></a>
-                    </td>
+                    <!--  <td><a href="javascript:fListComnDtlCod(1, '${list.refund_list_no}', '${list.refund_list_no}')">${list.order_cd}</a></td>-->
+                    <td><a href="javascript:fadeInModal(null, '${list.refund_list_no}')">${list.refund_list_no}</a></td>
+                    <td>${list.order_cd}</td>
+                    <td>${list.supply_nm}</td>
+                    <td>${list.supply_cd}</td>
+                    <td>${list.prod_nm}</td>
+                    <td>${list.m_ct_cd}</td>
+                    <td>${list.refund_cnt}</td>
+                    <c:if test="${ list.refund_date eq null}">
+                      <td><fmt:formatDate value="${list.submit_date}" pattern="yyyy-MM-dd" /></td>
+                    </c:if>
+                    <c:if test="${ list.refund_date ne null}">
+                      <td><fmt:formatDate value="${list.refund_date}" pattern="yyyy-MM-dd" /></td>
+                    </c:if>
+                    <c:if  test="${ list.refund_date eq null}">
+                      <td>
+                        <a class="btnType3 color2" href="javascript:fPopModalComnGrpCod('${list.refund_list_no}');"><span>반품완료</span></a>
+                      </td>
+                    </c:if>
+                    <c:if  test="${ list.refund_date ne null}">
+                      <td>
+                        <a class="btnType3 color1");"><span>반품완료</span></a>
+                      </td>
+                    </c:if>
                   </tr>
                   <c:set var="nRow" value="${nRow + 1}" />
                 </c:forEach>

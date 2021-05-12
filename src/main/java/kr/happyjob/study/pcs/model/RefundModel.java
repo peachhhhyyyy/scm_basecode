@@ -6,8 +6,8 @@ public class RefundModel {
   
   private String refund_list_no; // 반품번호
   private String order_cd; // 반품코드
-  private String supply_nm; // 회사명
-  private String supply_cd; // 회사코드
+  private String supply_nm; // 회사명(공급사)
+  private String supply_cd; // 회사코드(공급사)
   private String prod_nm; // 반품제품
   private String m_ct_cd; // 브랜드명(구 품목명)
   private int refund_cnt; // 반품수량

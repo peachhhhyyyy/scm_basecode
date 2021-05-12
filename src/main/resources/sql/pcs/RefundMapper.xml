@@ -6,9 +6,23 @@
   <!-- 반품서 목록 조회(기본)  -->
   <select id="selectRefundList" resultType="kr.happyjob.study.pcs.model.RefundModel">
     
-    SELECT DISTINCT li.refund_list_no, li.order_cd,sup.supply_nm, sup.supply_cd, pro.prod_nm, pro.m_ct_cd,ord.refund_cnt, li.submit_date, li.refund_date
-      FROM tb_scm_refund_list li, tb_order ord, tb_scm_product pro, tb_scm_supply sup
-     WHERE li.order_cd = ord.order_cd AND ord.product_cd = pro.product_cd AND pro.supply_cd = sup.supply_cd
+    SELECT li.refund_list_no
+         , li.order_cd
+         , sup.supply_nm
+         , sup.supply_cd
+         , pro.prod_nm
+         , pro.m_ct_cd
+         ,ord.refund_cnt
+         , li.submit_date
+         , li.refund_date
+      FROM tb_scm_refund_list li
+         , tb_order ord
+         , tb_scm_product pro
+         , tb_scm_supply sup
+     WHERE li.scm_id IS NULL 
+       AND li.order_cd = ord.order_cd 
+       AND ord.product_cd = pro.product_cd 
+       AND pro.supply_cd = sup.supply_cd
   ORDER BY li.refund_list_no DESC
   
   </select>
@@ -21,5 +35,55 @@
      WHERE scm_id IS NULL 
      
   </select>
-
+  
+  <!-- 반품서 목록 조건별 검색. 나중  -->
+  <select id="selectConditionRefundList" resultType="kr.happyjob.study.pcs.model.RefundModel" parameterType="String">
+    
+    SELECT li.refund_list_no
+         , li.order_cd
+         , sup.supply_nm
+         , sup.supply_cd
+         , pro.prod_nm
+         , pro.m_ct_cd,ord.refund_cnt
+         , li.submit_date
+         , li.refund_date
+      FROM tb_scm_refund_list li
+         , tb_order ord
+         , tb_scm_product pro
+         , tb_scm_supply sup
+     WHERE li.scm_id IS NULL 
+       AND li.order_cd = ord.order_cd 
+       AND ord.product_cd = pro.product_cd 
+       AND pro.supply_cd = sup.supply_cd
+       <choose>
+        <when test="selected == #{prod_nm}">
+          AND pro.prod_nm LIKE CONCAT('%',#{prod_nm},'%' )
+        </when>
+       </choose>
+  ORDER BY li.refund_list_no DESC
+  
+  </select>
+  
+  <!-- 반품서 단건 조회  -->
+  <select id="selectOneRefund" resultType="kr.happyjob.study.pcs.model.RefundModel" parameterType="String">
+  
+    SELECT li.refund_list_no
+         , li.order_cd,sup.supply_nm
+         , sup.supply_cd, pro.prod_nm
+         , pro.m_ct_cd,ord.refund_cnt
+         , li.submit_date
+         , li.refund_date
+      FROM tb_scm_refund_list li
+         , tb_order ord
+         , tb_scm_product pro
+         , tb_scm_supply sup
+     WHERE li.scm_id IS NULL 
+       AND li.order_cd = ord.order_cd 
+       AND ord.product_cd = pro.product_cd 
+       AND pro.supply_cd = sup.supply_cd
+       AND li.refund_list_no = #{ refund_list_no }
+       
+  </select>
+  
+   
 </mapper>

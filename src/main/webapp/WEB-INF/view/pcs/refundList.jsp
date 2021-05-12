@@ -7,6 +7,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>JobKorea</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
+<style>
+ .forbidden-event {
+       pointer-events: none;
+ }
+</style>
+
 <script type="text/javascript">
   // 그룹코드 페이징 설정
   var pageSizeComnGrpCod = 5;
@@ -251,6 +257,7 @@
   }
 
   /** 그룹코드 단건 조회 콜백 함수*/
+  // 이 부분 참고
   function fSelectGrpCodResult(data) {
 
     if (data.result == "SUCCESS") {
@@ -529,247 +536,316 @@
       alert(data.resultMsg);
     }
   }
+  
+  // 반품서 단건 조회 모달 
+  function fadeInModal(grp_cod, refund_list_no) {
+    console.log('모달', refund_list_no)
+    // 신규 저장
+    if (grp_cod == null || grp_cod == "") {
+
+      // Tranjection type 설정
+      $("#action").val("I");
+
+      // 그룹코드 폼 초기화
+      fInitFormGrpCod();
+
+      // 모달 팝업
+      gfModalPop("#layer1");
+
+      // 수정 저장
+    } else {
+
+      // Tranjection type 설정
+      $("#action").val("U");
+
+      //fSelectGrpCod(grp_cod);
+    }
+      // 반품서 단건 조회
+    selectOneRefund(refund_list_no);
+  }
+  
+  // 반품서 단건 조회 함수
+  function selectOneRefund(refund_list_no) {
+    console.log('호출', refund_list_no);
+    var param = {
+        refund_list_no : refund_list_no
+    }
+    // 콜백
+    var resultCallback = function(data) {
+      fSelectGrpCodResult(data);
+    };
+    callAjax("/pcs/refund/one.do", "post", "text", true, param, resultCallback);
+    // callAjax("/pcs/refund/one.do", "post", "json", true, param, resultCallback);
+  }
+ 
 </script>
 </head>
 <body>
-		<form id="myForm" action="" method="">
-				<input type="hidden" id="currentPageComnGrpCod" value="1">
-				<input type="hidden" id="currentPageComnDtlCod" value="1">
-				<input type="hidden" id="tmpGrpCod" value="">
-				<input type="hidden" id="tmpGrpCodNm" value="">
-				<input type="hidden" name="action" id="action" value="">
-				<!-- 모달 배경 -->
-				<div id="mask"></div>
-				<div id="wrap_area">
-						<h2 class="hidden">header 영역</h2>
-						<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
-						<h2 class="hidden">컨텐츠 영역</h2>
-						<div id="container">
-								<ul>
-										<li class="lnb">
-												<!-- lnb 영역 --> <jsp:include page="/WEB-INF/view/common/lnbMenu.jsp"></jsp:include> <!--// lnb 영역 -->
-										</li>
-										<li class="contents">
-												<!-- contents -->
-												<h3 class="hidden">contents 영역</h3> <!-- content -->
-												<div class="content">
-														<p class="Location">
-																<a href="#" class="btn_set home">메인으로</a>
-																<a href="pcs/pcsOrderingoOrder.do" class="btn_nav">구매</a>
-																<span class="btn_nav bold">반품서</span>
-																<a href="#" class="btn_set refresh">새로고침</a>
-														</p>
-														<p class="conTitle">
-																<span>반품서 목록</span>
-														</p>
-														<form class="search-container">
-																<div class="row">
-																    <!-- searchbar -->
-																		<div class="col-lg-6">
-																				<div class="input-group">
-																						<div class="input-group-btn">
-																								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-																										전체 <span class="caret"></span>
-																								</button>
-																								<ul class="dropdown-menu" role="menu">
-																										<li><a href="#">업종</a></li>
-																										<li><a href="#">제품</a></li>
-																								</ul>
-																						</div>
-																						<input type="text" class="form-control" aria-label="...">
-																				</div>
-																		</div>
-																		<!-- // searchbar -->
-																		<!-- date -->
-																		<div class='col-md-3 col-xs-4'>
-																				<div class="form-group">
-																						<div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-																								<input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="01/11/2020">
-																								<div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-																										<div class="input-group-text">
-																												<i class="fa fa-calendar"></i>
-																										</div>
-																								</div>
-																						</div>
-																				</div>
-																		</div>
-																		<!-- // date -->
-																		<!-- button -->
-																		<div class="btn-group" role="group" aria-label="...">
-																		  <button type="button" class="btn btn-default">검색</button>
-																		</div>
-																		<!-- // button -->
-																</div>
-																<!-- /.row -->
-														</form>
-														<div class="divComGrpCodList">
-																<table class="col">
-																		<caption>caption</caption>
-																		<colgroup>
-																				<col width="6%">
-																				<col width="14%">
-																				<col width="14%">
-																				<col width="5%">
-																				<col width="10%">
-																				<col width="10%">
-																				<col width="10%">
-																				<col width="*">
-																				<col width="7%">
-																		</colgroup>
-																		<thead>
-																				<tr>
-																						<th scope="col">반품번호</th>
-																						<th scope="col">반품코드</th>
-																						<th scope="col">회사명</th>
-																						<th scope="col">회사코드</th>
-																						<th scope="col">반품제품</th>
-																						<th scope="col">브랜드</th>
-																						<th scope="col">반품수량</th>
-																						<th scope="col">반품날짜</th>
-																						<th scope="col">반품완료</th>
-																				</tr>
-																		</thead>
-																		<tbody id="listComnGrpCod"></tbody>
-																</table>
-														</div>
-														<div class="paging_area" id="comnGrpCodPagination"></div>
-												<h3 class="hidden">풋터 영역</h3> <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
-										</li>
-								</ul>
-						</div>
-				</div>
-				<!-- 모달팝업 -->
-				<div id="layer1" class="layerPop layerType2" style="width: 600px;">
-						<dl>
-								<dt>
-										<strong>그룹코드 관리</strong>
-								</dt>
-								<dd class="content">
-										<!-- s : 여기에 내용입력 -->
-										<table class="row">
-												<caption>caption</caption>
-												<colgroup>
-														<col width="120px">
-														<col width="*">
-														<col width="120px">
-														<col width="*">
-												</colgroup>
-												<tbody>
-														<tr>
-																<th scope="row">그룹 코드 <span class="font_red">*</span></th>
-																<td><input type="text" class="inputTxt p100" name="grp_cod" id="grp_cod" /></td>
-																<th scope="row">그룹 코드 명 <span class="font_red">*</span></th>
-																<td><input type="text" class="inputTxt p100" name="grp_cod_nm" id="grp_cod_nm" /></td>
-														</tr>
-														<tr>
-																<th scope="row">코드 설명 <span class="font_red">*</span></th>
-																<td colspan="3"><input type="text" class="inputTxt p100" name="grp_cod_eplti" id="grp_cod_eplti" /></td>
-														</tr>
-														<tr>
-																<th scope="row">임시 필드 01</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" name="grp_tmp_fld_01" id="grp_tmp_fld_01" /></td>
-														</tr>
-														<tr>
-																<th scope="row">임시 필드 02</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" name="grp_tmp_fld_02" id="grp_tmp_fld_02" /></td>
-														</tr>
-														<tr>
-																<th scope="row">임시 필드 03</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" name="grp_tmp_fld_03" id="grp_tmp_fld_03" /></td>
-														</tr>
-														<tr>
-																<th scope="row">사용 유무 <span class="font_red">*</span></th>
-																<td colspan="3"><input type="radio" id="radio1-1" name="grp_use_poa" id="grp_use_poa_1" value='Y' /> <label for="radio1-1">사용</label> &nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" id="radio1-2" name="grp_use_poa" id="grp_use_poa_2" value="N" /> <label for="radio1-2">미사용</label></td>
-														</tr>
-												</tbody>
-										</table>
-										<!-- e : 여기에 내용입력 -->
-										<div class="btn_areaC mt30">
-												<a href="" class="btnType blue" id="btnSaveGrpCod" name="btn"><span>저장</span></a> <a href="" class="btnType blue" id="btnDeleteGrpCod" name="btn"><span>삭제</span></a> <a href="" class="btnType gray" id="btnCloseGrpCod" name="btn"><span>취소</span></a>
-										</div>
-								</dd>
-						</dl>
-						<a href="" class="closePop"><span class="hidden">닫기</span></a>
-				</div>
-				<div id="layer2" class="layerPop layerType2" style="width: 600px;">
-						<dl>
-								<dt>
-										<strong>상세코드 관리</strong>
-								</dt>
-								<dd class="content">
-										<!-- s : 여기에 내용입력 -->
-										<table class="row">
-												<caption>caption</caption>
-												<colgroup>
-														<col width="120px">
-														<col width="*">
-														<col width="120px">
-														<col width="*">
-												</colgroup>
-												<tbody>
-														<tr>
-																<th scope="row">그룹 코드 ID <span class="font_red">*</span></th>
-																<td><input type="text" class="inputTxt p100" id="dtl_grp_cod" name="dtl_grp_cod" /></td>
-																<th scope="row">그룹 코드 명 <span class="font_red">*</span></th>
-																<td><input type="text" class="inputTxt p100" id="dtl_grp_cod_nm" name="dtl_grp_cod_nm" /></td>
-														</tr>
-														<tr>
-																<th scope="row">상세 코드 ID <span class="font_red">*</span></th>
-																<td><input type="text" class="inputTxt p100" id="dtl_cod" name="dtl_cod" /></td>
-																<th scope="row">상세 코드 명 <span class="font_red">*</span></th>
-																<td><input type="text" class="inputTxt p100" id="dtl_cod_nm" name="dtl_cod_nm" /></td>
-														</tr>
-														<tr>
-																<th scope="row">순서</th>
-																<td colspan="3"><input type="text" class="inputTxt" id="dtl_odr" name="dtl_odr" /></td>
-														</tr>
-														<tr>
-																<th scope="row">코드 설명</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" id="dtl_cod_eplti" name="dtl_cod_eplti" /></td>
-														</tr>
-														<tr>
-																<th scope="row">임시 필드 01</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" id="dtl_tmp_fld_01" name="dtl_tmp_fld_01" /></td>
-														</tr>
-														<tr>
-																<th scope="row">임시 필드 02</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" id="dtl_tmp_fld_02" name="dtl_tmp_fld_02" /></td>
-														</tr>
-														<tr>
-																<th scope="row">임시 필드 03</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" id="dtl_tmp_fld_03" name="dtl_tmp_fld_03" /></td>
-														</tr>
-														<tr>
-																<th scope="row">임시 필드 04</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" id="dtl_tmp_fld_04" name="dtl_tmp_fld_04" /></td>
-														</tr>
-														<tr>
-																<th scope="row">사용 유무 <span class="font_red">*</span></th>
-																<td colspan="3"><input type="radio" id="dtl_use_poa_1" name="dtl_use_poa" value="Y" /> <label for="radio1-1">사용</label> &nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" id="dtl_use_poa_2" name="dtl_use_poa" value="N" /> <label for="radio1-2">미사용</label></td>
-														</tr>
-												</tbody>
-										</table>
-										<!-- e : 여기에 내용입력 -->
-										<div class="btn_areaC mt30">
-												<a href="" class="btnType blue" id="btnSaveDtlCod" name="btn"><span>저장</span></a> <a href="" class="btnType blue" id="btnDeleteDtlCod" name="btn"><span>삭제</span></a> <a href="" class="btnType gray" id="btnCloseDtlCod" name="btn"><span>취소</span></a>
-										</div>
-								</dd>
-						</dl>
-						<a href="" class="closePop"><span class="hidden">닫기</span></a>
-				</div>
-				<!--// 모달팝업 -->
-		</form>
-		<script type="text/javascript">
-		    $(function () {
-		        $('#datetimepicker1').datetimepicker({ format: 'L'});
-		        $('#datetimepicker2').datetimepicker({
-		            format: 'L',
-		            useCurrent: false
-		        });
-		        $("#datetimepicker1").on("change.datetimepicker", function (e) {
-		            $('#datetimepicker2').datetimepicker('minDate', e.date);
-		        });
-		    });
-		</script>
+  <form id="myForm" action="" method="">
+    <input type="hidden" id="currentPageComnGrpCod" value="1"> <input type="hidden" id="currentPageComnDtlCod" value="1"> <input type="hidden" id="tmpGrpCod" value=""> <input type="hidden" id="tmpGrpCodNm" value=""> <input type="hidden" name="action" id="action" value="">
+    <!-- 모달 배경 -->
+    <div id="mask"></div>
+    <div id="wrap_area">
+      <h2 class="hidden">header 영역</h2>
+      <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
+      <h2 class="hidden">컨텐츠 영역</h2>
+      <div id="container">
+        <ul>
+          <li class="lnb">
+            <!-- lnb 영역 --> <jsp:include page="/WEB-INF/view/common/lnbMenu.jsp"></jsp:include> <!--// lnb 영역 -->
+          </li>
+          <li class="contents">
+            <!-- contents -->
+            <h3 class="hidden">contents 영역</h3> <!-- content -->
+            <div class="content">
+              <p class="Location">
+                <a href="#" class="btn_set home">메인으로</a> <a href="pcs/pcsOrderingoOrder.do" class="btn_nav">구매</a> <span class="btn_nav bold">반품서</span> <a href="#" class="btn_set refresh">새로고침</a>
+              </p>
+              <p class="conTitle">
+                <span>반품서 목록</span>
+              </p>
+              <form class="search-container">
+                <div class="row">
+                  <!-- searchbar -->
+                  <div class="col-lg-6">
+                    <div class="input-group">
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                          전체 <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">업체</a></li>
+                          <li><a href="#">제품</a></li>
+                        </ul>
+                      </div>
+                      <input type="text" class="form-control" aria-label="...">
+                    </div>
+                  </div>
+                  <!-- // searchbar -->
+                  <!-- date -->
+                  <div class='col-md-3 col-xs-4'>
+                    <div class="form-group">
+                      <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="01/11/2020">
+                        <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                          <div class="input-group-text">
+                            <i class="fa fa-calendar"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- // date -->
+                  <!-- button -->
+                  <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default">검색</button>
+                  </div>
+                  <!-- // button -->
+                </div>
+                <!-- /.row -->
+              </form>
+              <div class="divComGrpCodList">
+                <table class="col">
+                  <caption>caption</caption>
+                  <colgroup>
+                    <col width="*%">
+                    <col width="*%">
+                    <col width="*%">
+                    <col width="*%">
+                    <col width="*%">
+                    <col width="*%">
+                    <col width="*%">
+                    <col width="*">
+                    <col width="*%">
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th scope="col">반품번호</th>
+                      <th scope="col">반품코드</th>
+                      <th scope="col">회사명</th>
+                      <th scope="col">회사코드</th>
+                      <th scope="col">반품제품</th>
+                      <th scope="col">브랜드</th>
+                      <th scope="col">반품수량</th>
+                      <th scope="col">반품날짜</th>
+                      <th scope="col">반품완료</th>
+                    </tr>
+                  </thead>
+                  <tbody id="listComnGrpCod"></tbody>
+                </table>
+              </div>
+              <div class="paging_area" id="comnGrpCodPagination"></div>
+              <h3 class="hidden">풋터 영역</h3>
+              <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 모달팝업 -->
+    <div id="layer1" class="layerPop layerType2" style="width: 600px;">
+      <dl>
+        <dt>
+          <strong>반품서</strong>
+        </dt>
+        <dd class="content">
+          <!-- s : 여기에 내용입력 -->
+          <table class="row">
+            <caption>caption</caption>
+            <colgroup>
+              <col width="120px">
+              <col width="*">
+              <col width="120px">
+              <col width="*">
+            </colgroup>
+            <tbody class="forbidden-event">
+              <tr>
+                <th scope="row">반품번호 </th>
+                <td><input type="text" value="출력" class="inputTxt p100" name="grp_cod" id="grp_cod" /></td>
+                <th scope="row">회사명 ${refund.order_cd}</th>
+                <td><input type="text" value="${refund.order_cd}" class="inputTxt p100"/></td>
+              </tr>
+              <tr>
+                <th scope="row">회사코드 </th>
+                <td><input type="text" class="inputTxt p100" name="grp_cod" id="grp_cod" /></td>
+                <th scope="row">브랜드</th>
+                <td><input type="text" class="inputTxt p100" name="grp_cod_nm" id="grp_cod_nm" /></td>
+              </tr>
+              <tr>
+                <th scope="row">제품번호 </th>
+                <td><input type="text" class="inputTxt p100" name="grp_cod" id="grp_cod"  style="pointer-events:none"/></td>
+                <th scope="row">제품명</th>
+                <td><input type="text" class="inputTxt p100" name="grp_cod_nm" id="grp_cod_nm" /></td>
+              </tr>
+              <tr>
+                <th scope="row">반품수량 </th>
+                <td><input value="" type="text" class="inputTxt p100" name="grp_cod" id="grp_cod" /></td>
+                <th scope="row">금액</th>
+                <td><input type="text" class="inputTxt p100" name="grp_cod_nm" id="grp_cod_nm" /></td>
+              </tr>
+              <tr>
+                <th scope="row">창고 코드</th>
+                <td colspan="3"><input type="text" class="inputTxt p100" name="grp_tmp_fld_01" id="grp_tmp_fld_01" /></td>
+              </tr>
+              <tr>
+                <th scope="row">창고 주소</th>
+                <td colspan="3"><input type="text" class="inputTxt p100" name="grp_tmp_fld_02" id="grp_tmp_fld_02" /></td>
+              </tr>
+              <tr>
+                <th scope="row">담당자</th>
+                <td colspan="3"><input type="text" class="inputTxt p100" name="grp_tmp_fld_03" id="grp_tmp_fld_03" /></td>
+              </tr>
+              <tr>
+                <th scope="row">발주날짜 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100" name="grp_cod" id="grp_cod" /></td>
+                <th scope="row">배송희망날짜<span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100" name="grp_cod_nm" id="grp_cod_nm" /></td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- e : 여기에 내용입력 -->
+        </dd>
+      </dl>
+      <a href="" class="closePop"><span class="hidden">닫기</span></a>
+    </div>
+    <div id="layer2" class="layerPop layerType2" style="width: 600px;">
+      <dl>
+        <dt>
+          <strong>상세코드 관리</strong>
+        </dt>
+        <dd class="content">
+          <!-- s : 여기에 내용입력 -->
+          <table class="row">
+            <caption>caption</caption>
+            <colgroup>
+              <col width="120px">
+              <col width="*">
+              <col width="120px">
+              <col width="*">
+            </colgroup>
+            <tbody>
+              <tr>
+                <th scope="row">그룹 코드 ID <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100" id="dtl_grp_cod" name="dtl_grp_cod" /></td>
+                <th scope="row">그룹 코드 명 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100" id="dtl_grp_cod_nm" name="dtl_grp_cod_nm" /></td>
+              </tr>
+              <tr>
+                <th scope="row">상세 코드 ID <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100" id="dtl_cod" name="dtl_cod" /></td>
+                <th scope="row">상세 코드 명 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100" id="dtl_cod_nm" name="dtl_cod_nm" /></td>
+              </tr>
+              <tr>
+                <th scope="row">순서</th>
+                <td colspan="3"><input type="text" class="inputTxt" id="dtl_odr" name="dtl_odr" /></td>
+              </tr>
+              <tr>
+                <th scope="row">코드 설명</th>
+                <td colspan="3"><input type="text" class="inputTxt p100" id="dtl_cod_eplti" name="dtl_cod_eplti" /></td>
+              </tr>
+              <tr>
+                <th scope="row">임시 필드 01</th>
+                <td colspan="3"><input type="text" class="inputTxt p100" id="dtl_tmp_fld_01" name="dtl_tmp_fld_01" /></td>
+              </tr>
+              <tr>
+                <th scope="row">임시 필드 02</th>
+                <td colspan="3"><input type="text" class="inputTxt p100" id="dtl_tmp_fld_02" name="dtl_tmp_fld_02" /></td>
+              </tr>
+              <tr>
+                <th scope="row">임시 필드 03</th>
+                <td colspan="3"><input type="text" class="inputTxt p100" id="dtl_tmp_fld_03" name="dtl_tmp_fld_03" /></td>
+              </tr>
+              <tr>
+                <th scope="row">임시 필드 04</th>
+                <td colspan="3"><input type="text" class="inputTxt p100" id="dtl_tmp_fld_04" name="dtl_tmp_fld_04" /></td>
+              </tr>
+              <tr>
+                <th scope="row">사용 유무 <span class="font_red">*</span></th>
+                <td colspan="3"><input type="radio" id="dtl_use_poa_1" name="dtl_use_poa" value="Y" /> <label for="radio1-1">사용</label> &nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" id="dtl_use_poa_2" name="dtl_use_poa" value="N" /> <label for="radio1-2">미사용</label></td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- e : 여기에 내용입력 -->
+          <div class="btn_areaC mt30">
+            <a href="" class="btnType blue" id="btnSaveDtlCod" name="btn"><span>저장</span></a> <a href="" class="btnType blue" id="btnDeleteDtlCod" name="btn"><span>삭제</span></a> <a href="" class="btnType gray" id="btnCloseDtlCod" name="btn"><span>취소</span></a>
+          </div>
+        </dd>
+      </dl>
+      <a href="" class="closePop"><span class="hidden">닫기</span></a>
+    </div>
+    <!--// 모달팝업 -->
+  </form>
+  <script type="text/javascript">
+      $(function() {
+        $('#datetimepicker1').datetimepicker({
+          format : 'L'
+        });
+        $('#datetimepicker2').datetimepicker({
+        format : 'L',
+        useCurrent : false
+        });
+        $("#datetimepicker1").on("change.datetimepicker", function(e) {
+          $('#datetimepicker2').datetimepicker('minDate', e.date);
+        });
+      });
+    </script>
+  <script>
+    
+      
+      // 반품 단건 조회 모달
+      /* $(function(){ 
+
+      $("button").click(function(){
+      $(".modal").fadeIn();
+      });
+      
+      $(".modal_content").click(function(){
+      $(".modal").fadeOut();
+      });
+      
+      }); */
+
+      // 특정 조건별 검색하기 기능
+    </script>
 </body>
 </html>
