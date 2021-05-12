@@ -1,5 +1,6 @@
 package kr.happyjob.study.scm.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.happyjob.study.scm.model.SupplierInfoModel;
 import kr.happyjob.study.scm.service.SupplierInfoService;
 
 
@@ -41,11 +43,11 @@ public class SupplierInfoController {
     paramMap.put("pageIndex", pageIndex);
     paramMap.put("pageSize", pageSize);
     
-    // 상품 목록 조회
-    List<SupplierInfoModel> supplierInfoModelList = supplierInfoService.selectSupplierInfo(paramMap);
+    // 공급처 목록 조회
+    List<SupplierInfoModel> supplierInfoModelList = supplierInfoService.getSupplierInfo(paramMap);
     model.addAttribute("supplierInfoModelList", supplierInfoModelList);
     
-    // 상품 목록 카운트 조회
+    // 공급처 목록 카운트 조회
     int totalCount = supplierInfoService.countSupplierInfo(paramMap);
     model.addAttribute("totalCount", totalCount);
     
