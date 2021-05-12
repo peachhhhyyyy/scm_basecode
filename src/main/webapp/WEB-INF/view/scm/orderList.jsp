@@ -23,6 +23,12 @@
 #container ul li.contents .content {
 	min-height: 800px;
 }
+
+.bar {
+	width: 100%;
+	border: 1px solid black;
+	background-color: black;
+}
 </style>
 </head>
 <body>
