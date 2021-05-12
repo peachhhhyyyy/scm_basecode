@@ -7,29 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>수주내역 조회 || ChainMaker</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
-<style>
-.filter {
-	margin-top: 1%;
-}
-
-.filter input {
-	margin-left: 10px;
-}
-
-.date_container {
-	margin-top: 10px;
-}
-
-#container ul li.contents .content {
-	min-height: 800px;
-}
-
-.bar {
-	width: 100%;
-	border: 1px solid black;
-	background-color: black;
-}
-</style>
+<link rel="stylesheet" href="${CTX_PATH}/css/view/scm/orderList.css">
 </head>
 <body>
 	<input type="hidden" id="currentPage" value="1">
