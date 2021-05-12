@@ -25,22 +25,33 @@ public class PcsServiceImpl implements PcsService {
   @Autowired
   PcsDao pcsDao;
   
-  /** 발주지시서 목록 조회 
-   * @throws Exception */
-  public List<PcsModel> pcsOrderingOrder(Map<String, Object> paramMap) throws Exception {
+  /** 발주지시서 목록 조회  */
+  public List<PcsModel> pcsOrderingOrder(Map<String, Object> paramMap) {
     List<PcsModel> listPcsOrderingOrder = pcsDao.pcsOrderingOrder(paramMap);
     return listPcsOrderingOrder;
   }
   
   /** 발주지시서 목록 카운트 조회 */
-  public int countPcsOrderingOrder(Map<String, Object> paramMap) throws Exception {
+  public int countPcsOrderingOrder(Map<String, Object> paramMap) {
     int totalCount = pcsDao.countPcsOrderingOrder(paramMap);
     return totalCount;
   }
 
   /** 발주서 전송 누르고 조회 */
-  public PcsModel selectPurchBtn(Map<String, Object> paramMap) throws Exception {
+  public PcsModel selectPurchBtn(Map<String, Object> paramMap) {
     PcsModel pcsmodel = pcsDao.selectPurchBtn(paramMap);
     return pcsmodel;
+  }
+  
+  /** 발주서 목록 조회  */
+  public List<PcsModel> pcsOrderForm(Map<String, Object> paramMap) {
+    List<PcsModel> listPcsOrderForm = pcsDao.pcsOrderForm(paramMap);
+    return listPcsOrderForm;
+  }
+  
+  /** 발주서 목록 카운트 조회 */
+  public int countPcsOrderForm(Map<String, Object> paramMap) {
+    int totalCount = pcsDao.countPcsOrderForm(paramMap);
+    return totalCount;
   }
 }

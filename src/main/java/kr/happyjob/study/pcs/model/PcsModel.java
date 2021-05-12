@@ -25,6 +25,12 @@ public class PcsModel {
   public String warehouse_cd;
   // 공급사이름
   public String supply_nm;
+  // 주문코드
+  public String order_cd;
+  // 상태
+  public String state;
+  // 발주날짜
+  public Date direction_date;
   public String getPurch_list_no() {
     return purch_list_no;
   }
@@ -90,5 +96,23 @@ public class PcsModel {
   }
   public void setSupply_nm(String supply_nm) {
     this.supply_nm = supply_nm;
+  }
+  public String getOrder_cd() {
+    return order_cd;
+  }
+  public void setOrder_cd(String order_cd) {
+    this.order_cd = order_cd;
+  }
+  public String getState() {
+    return state;
+  }
+  public void setState(String state) {
+    this.state = state;
+  }
+  public Date getDirection_date() {
+    return direction_date;
+  }
+  public void setDirection_date(Date direction_date) {
+    this.direction_date = direction_date;
   }
 }
