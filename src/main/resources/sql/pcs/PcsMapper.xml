@@ -97,6 +97,7 @@
         ON PL.supply_cd = PD.supply_cd
         LEFT JOIN tb_scm_m_category as MC
         ON PD.m_ct_cd = MC.m_ct_cd
+      WHERE OD.state = '입금완료'
       ORDER BY purch_list_no DESC
   </select>
   
