@@ -206,7 +206,7 @@
                                     <th scope="col">배송사원</th>
                                     <th scope="col">배송사원 연락처</th>
                                     <th scope="col">반품 완료 날짜</th>
-                                    <th scope="col">반품상태</th>
+                                    <th scope="col">반품상태 </th>
                                  </tr>
                               </thead>
                               <tbody id="returnDetailList">
@@ -220,61 +220,28 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <!--반품내용  -->
-                        <div class="divComGrpCodList">
-                           <table class="col">
-                              <caption>caption</caption>
-                              <colgroup>
-                                 <col width="10%">
-                                 <col width="15%">
-                                 <col width="10%">
-                                 <col width="15%">
-                                 <col width="10%">
-                              </colgroup>
-                              <thead>
-                                 <tr>
-                                   
-                                 </tr>
-                              </thead>
-                              <tbody id="admNoticeList">
-                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                       <i class="fa fa-sort"></i>
-                                       <select class="floatLabel">
-                                          <option value="제품수거중" selected>제품수거중</option>
-                                          <option value="반품완료">반품완료</option>
-                                       </select>
-                                    </td>
-                                 </tr>
-                              </tbody>
-                           </table>
-                        </div>
+                       
                            <div class="grid">
                               <div class="col-1-3 col-1-3-sm">
                                  <div class="controls">
-                                    <button type="submit" value="Submit" class="col-1-4 btnType blue" style="margin-right: 12px;
-                                       font-size: 15px;
-                                       color: #fff;
-                                       background: #3cb3eb;
-                                       padding: 7px 0;
-                                       margin-left: 24px;
-                                       width: 9%;
-                                       margin-top: 97px;
-                                       " >등록</button>
+                                    <button type="submit" value="Submit" class="col-1-4 btnType blue" style="margin-right: -2px;
+										font-size: 15px;
+										color: #fff;
+										background: #3cb3eb;
+										padding: 7px 0;
+										margin-left: 339px;
+										width: 9%;
+										margin-top: 55px;
+                                       " >등록</button></div>
+                                       <div class="controls">
                                     <button type="submit" value="Submit" class="col-1-4 btnType blue" style="margin-right: 27px;
-                                       font-size: 15px;
-                                       color: #fff;
-                                       background: #3cb3eb;
-                                       padding: 7px 0;
-                                       margin-left: 385px;
-                                       width: 9%;
-                                       margin-top: -4px;
+										font-size: 15px;
+										color: #fff;
+										background: #3cb3eb;
+										padding: 7px 0;
+										margin-left: 452px;
+										width: 9%;
+										margin-top: -58px;
                                        " >닫기</button>
                                  </div>
                               </div>
