@@ -66,13 +66,13 @@
         	  }
 	
          /* 반품내역 상세 조회*/
-			function fReturnDetailList(order_cd) {
+			function fReturnDetailList(refund_list_no) {
 			
 			  // 그룹코드 정보 설정
-			  $("#order_cd").val(order_cd);
+			  $("#refund_list_no").val(refund_list_no);
 			
 			  var param = {
-			  		  order_cd : order_cd,
+					  refund_list_no : refund_list_no,
 			  }
 			
 			  var resultCallback = function(data) {
@@ -83,7 +83,7 @@
 			}
 			
 			
-			/** 출하내역 상세조회 콜백 함수 */
+			/** 반품내역 상세조회 콜백 함수 */
 			function fReturnDetailResult(data) {
 			    console.log(data);
 			
@@ -155,18 +155,22 @@
                                  <col width="10%">
                                  <col width="15%">
                                  <col width="10%">
+                                 <col width="10%">
+                                 <col width="15%">
+                                 <col width="10%">
+                                 <col width="15%">
+                                 <col width="10%">
                               </colgroup>
                               <thead>
                                  <tr>
                                     <th scope="col">반품번호</th>
-                                    <th scope="col">주문번호</th>
                                     <th scope="col">공급처 명</th>
-                                    <th scope="col">제품명</th>
                                     <th scope="col">품목명</th>
+                                    <th scope="col">제품명</th>
                                     <th scope="col">반품 수량</th>
-                                    <th scope="col">반품 접수일자</th>
                                     <th scope="col">반품 금액</th>
                                     <th scope="col">창고명</th>
+                                    <th scope="col">반품접수일자</th>
                                     <th scope="col">상태</th>
                                  </tr>
                               </thead>

@@ -26,18 +26,18 @@
 			<c:forEach items="${returnDetailList}" var="list">
 				<tr>
 					<td>${list.order_cd}</td>
+					<td>${list.refund_list_no}</td>
 					<td>${list.prod_nm}</td>
-					<td>${list.purch_qty}</td>
-					<td>${list.purch_list_no}</td>
-					<td>${list.m_ct_cd}</td>
-					<td>${list.order_cd}</td>
-					<td>${list.prod_nm}</td>
-					<td>${list.purch_qty}</td>
-					<td>${list.purch_list_no}</td>
-					<td>${list.m_ct_cd}</td>
-					<td>${list.purch_qty}</td>
-					<td>${list.purch_list_no}</td>
-					<td>${list.m_ct_cd}</td>
+					<td>${list.m_ct_nm}</td>
+					<td>${list.refund_cnt}</td>
+					<td>${list.cus_name}</td>
+					<td>${list.cus_tel}</td>
+					<td>${list.emp_name}</td>
+					<td>${list.emp_addr}</td>
+					<td>${list.dlv_name}</td>
+					<td>${list.dlv_tel}</td>
+					<td>${list.warehouse_nm}</td>
+					<td>${list.state}</td>
 				</tr>
 			</c:forEach>
 		</tbody>
