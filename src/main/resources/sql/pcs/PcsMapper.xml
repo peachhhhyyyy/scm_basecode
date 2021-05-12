@@ -55,6 +55,7 @@
          ,   PL.desired_delivery_date
          ,   WH.warehouse_nm
          ,   PL.purch_mng_id
+         ,   PL.supply_cd
       FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_order as OD
         ON PL.order_cd = OD.order_cd
@@ -69,6 +70,8 @@
      WHERE PL.purch_list_no = #{purch_list_no}
        AND PL.order_cd = #{order_cd}
        AND PL.supply_cd = #{supply_cd}
+       AND PD.product_cd = #{product_cd}
+
   </select>
   
   <!-- 발주서 목록 조회 -->
@@ -79,12 +82,14 @@
          ,   OD.order_cd
          ,   SP.supply_nm
          ,   PD.prod_nm
+         ,   PD.product_cd
          ,   MC.l_ct_cd
          ,   PL.purch_qty
          ,   WH.warehouse_nm
          ,   PL.direction_date
          ,   PL.desired_delivery_date
          ,   OD.state
+         ,   PL.supply_cd
       FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_order as OD
         ON PL.order_cd = OD.order_cd

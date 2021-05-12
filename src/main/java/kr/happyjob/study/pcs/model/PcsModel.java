@@ -7,6 +7,8 @@ public class PcsModel {
   public String purch_list_no;
   // 제품명
   public String prod_nm;
+  // 제품코드
+  public String product_cd;
   // 대분류 품목명
   public String l_ct_cd;
   // 발주수량
@@ -25,14 +27,14 @@ public class PcsModel {
   public String warehouse_cd;
   // 공급사이름
   public String supply_nm;
+  // 공급사코드
+  public String supply_cd;
   // 주문코드
   public String order_cd;
   // 상태
   public String state;
   // 발주날짜
   public Date direction_date;
-  
-  public String supply_cd;
   
   public String getPurch_list_no() {
     return purch_list_no;
@@ -45,6 +47,12 @@ public class PcsModel {
   }
   public void setProd_nm(String prod_nm) {
     this.prod_nm = prod_nm;
+  }
+  public String getProduct_cd() {
+    return product_cd;
+  }
+  public void setProduct_cd(String product_cd) {
+    this.product_cd = product_cd;
   }
   public String getL_ct_cd() {
     return l_ct_cd;
@@ -100,6 +108,12 @@ public class PcsModel {
   public void setSupply_nm(String supply_nm) {
     this.supply_nm = supply_nm;
   }
+  public String getSupply_cd() {
+    return supply_cd;
+  }
+  public void setSupply_cd(String supply_cd) {
+    this.supply_cd = supply_cd;
+  }
   public String getOrder_cd() {
     return order_cd;
   }
@@ -117,11 +131,5 @@ public class PcsModel {
   }
   public void setDirection_date(Date direction_date) {
     this.direction_date = direction_date;
-  }
-  public String getSupply_cd() {
-    return supply_cd;
-  }
-  public void setSupply_cd(String supply_cd) {
-    this.supply_cd = supply_cd;
   }
 }
