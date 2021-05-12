@@ -14,16 +14,30 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
   @Autowired //service에서는 controller,DAO와 연결되어 있다.
   SupplierInfoDao supplierInfoDao;
   
-  //납품 업체 목록 조회
+  //공급처 목록 조회
   @Override
   public List<SupplierInfoModel> getSupplierInfo(Map<String, Object> paramMap) throws Exception {
     List<SupplierInfoModel> supplierList = supplierInfoDao.getSupplierInfo(paramMap);
     return supplierList;
   }
-  //납품 업체 카운트
+  //공급처 목록 카운트
   @Override
   public int countSupplierInfo(Map<String, Object> paramMap) throws Exception {
     int supllierCount = supplierInfoDao.countSupplierInfo(paramMap);
     return supllierCount;
   }
+  
+  //제품정보 목록 조회
+  @Override
+  public List<SupplierInfoModel> supplierProList(Map<String, Object> paramMap) throws Exception{
+    List<SupplierInfoModel> supplierProList = supplierInfoDao.supplierProList(paramMap);
+    return supplierProList;
+  }
+  //제품정보 목록 카운트
+  @Override
+  public int totalCntProduct(Map<String, Object>paramMap) throws Exception{
+    int totalCntProduct = supplierInfoDao.totalCntProduct(paramMap);
+    return totalCntProduct;
+  }
+
 }
