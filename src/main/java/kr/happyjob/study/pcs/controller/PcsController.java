@@ -92,8 +92,8 @@ public class PcsController {
     resultMap.put("result", result);
     resultMap.put("resultMsg", resultMsg);
     resultMap.put("pcsModel", pcsModel);
-    
     logger.info("+ End " + className + ".selectPurchBtn");
+    
     
     return resultMap;
   }
