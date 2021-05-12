@@ -82,7 +82,7 @@ function fnotEnoughStock() {
 var purchaseModal = new tingle.modal({
     footer: true,
     stickyFooter: false,
-    closeMethods: ['overlay', 'button', 'escape'],
+    closeMethods: ['button'],
     closeLabel: "Close",
     cssClass: ['custom-class-1', 'custom-class-2'],
     onOpen: function() {
@@ -110,14 +110,81 @@ purchaseModal.addFooterBtn('취소', 'tingle-btn tingle-btn--danger', function()
   purchaseModal.close();
 });
 
-function purchaseModalOpen() {
-  //set content
-  purchaseModal.setContent(getPurchaseDirectionPage());
+function purchaseModalOpen(orderCode) {
+  // set content
+  // 앞에서 한 것들과 다르게 결과 데이터를 아이디를 가지고 있는 태그에  append하는게 아닌 html을
+  // return해서 setContent 안에 넣어야함.
+  makePurchaseDirection(orderCode)
   // 모달창 열기
   purchaseModal.open();
 }
 
-function getPurchaseDirectionPage() {
-  console.log("통과");
-  return "Hi";
+function makePurchaseDirection(orderCode) {
+  console.log("=== 1.발주지시서 모달창에 뿌릴 데이터 가져오기 시작 ===");
+  
+  var param = {
+      orderCode: orderCode
+    };
+  
+  console.log(param);
+  
+  var resultCallback = function(data) {
+    makePurchaseDirectionResult(data);
+  };
+  
+  // Ajax 실행 방식
+  // callAjax("Url", type, return, async or sync방식, 넘겨준거, Callback함수 이름)
+  // html로 받을거라 text
+  callAjax("/scm/productInfo.do", "post", "text", true, param, resultCallback);
+}
+
+function makePurchaseDirectionResult(data) {
+  purchaseModal.setContent(data);
+  return;
+}
+
+function multiply() {
+  const price = parseInt($("#purchasePrice").text());
+  const cnt = $("#purchaseCount").val();
+  const result = price * cnt;
+  $("#sumAmt").empty().append(result);
+  $("#sumAmt-han").empty().append(num2han(result));
+  console.log(num2han(result));
+  return;
+}
+
+// 숫자를 한글로
+// 출처: https://sub0709.tistory.com/93 [쓸데없는 코딩하기]
+function num2han(num) {
+  num = parseInt((num + '').replace(/[^0-9]/g, ''), 10) + ''; // 숫자/문자/돈 을 숫자만
+                                                              // 있는 문자열로 변환
+  if (num == '0')
+    return '영';
+  var number = [ '영', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구' ];
+  var unit = [ '', '만', '억', '조' ];
+  var smallUnit = [ '천', '백', '십', '' ];
+  var result = []; // 변환된 값을 저장할 배열
+  var unitCnt = Math.ceil(num.length / 4); // 단위 갯수. 숫자 10000은 일단위와 만단위 2개이다.
+  num = num.padStart(unitCnt * 4, '0') // 4자리 값이 되도록 0을 채운다
+  var regexp = /[\w\W]{4}/g; // 4자리 단위로 숫자 분리
+  var array = num.match(regexp);
+  // 낮은 자릿수에서 높은 자릿수 순으로 값을 만든다(그래야 자릿수 계산이 편하다)
+  for (var i = array.length - 1, unitCnt = 0; i >= 0; i--, unitCnt++) {
+    var hanValue = _makeHan(array[i]); // 한글로 변환된 숫자
+    if (hanValue == '') // 값이 없을땐 해당 단위의 값이 모두 0이란 뜻.
+      continue;
+    result.unshift(hanValue + unit[unitCnt]); // unshift는 항상 배열의 앞에 넣는다.
+  }
+  // 여기로 들어오는 값은 무조건 네자리이다. 1234 -> 일천이백삼십사
+  function _makeHan(text) {
+    var str = '';
+    for (var i = 0; i < text.length; i++) {
+      var num = text[i];
+      if (num == '0') // 0은 읽지 않는다
+        continue;
+      str += number[num] + smallUnit[i];
+    }
+    return str;
+  }
+  return result.join('');
 }
