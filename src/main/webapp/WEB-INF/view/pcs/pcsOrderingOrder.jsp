@@ -37,23 +37,19 @@
         break;
       case 'btnSubmitPurchBtn':
         fsend();
-        
-       // e.preventDefault();
-      //  e.stopImmediatePropagation();
-      //  alert($("#alertmsg").val());
         break;        
       }
     });
   }
 
   /** 그룹코드 모달 실행 */
-  function fPopModalPcsOrderingOrder(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id,order_cd,supply_cd) {
+  function fPopModalPcsOrderingOrder(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd) {
  
     // 신규 저장
     if (purch_list_no == null || purch_list_no == "") {
     } else {
       // 발주서 버튼 클릭 시 화면 출력
-      fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id,order_cd,supply_cd);
+      fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd);
     }
   }
 
@@ -101,14 +97,7 @@
   }
 
   /** 발주서 화면 띄우기 */ 
-  function fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id,order_cd,supply_cd) {
-
-    //var param = {
-    //  purch_list_no : purch_list_no,
-    //  order_cd : order_cd,
-    //  supply_cd : supply_cd      
-    //};
-
+  function fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd) {
     $("#purchListNo").text(purch_list_no);
     $("#supplyNm").text(supply_nm);
     $("#prodNm").text(prod_nm);
@@ -121,18 +110,11 @@
     
     gfModalPop("#layer1");
     
+    console.log('purchMngId :' + purch_mng_id);
+    console.log('purchasePrice :' + purchase_price);
+    
     $("#order_cd").val(order_cd);
     $("#supply_cd").val(supply_cd);
-    
-    
-    // 발주 버튼 누르고 전송버튼 누를 때 보내는 데이터, hidden값에 실어서 보낼 데이터
-    // $("#tmpGrpCod").val('????');
-    
-    //var resultCallback = function(data) {
-    //  fSelectPurchBtnResult(data);
-    //};
-
-    //callAjax("/pcs/selectPurchBtn.do", "post", "json", true, param, resultCallback);
   }
   
   /** 발주서 화면 콜백 함수*/
@@ -177,7 +159,6 @@
       alert(data.resultMsg);
     }
   }
-  
 </script>
 </head>
 <body>

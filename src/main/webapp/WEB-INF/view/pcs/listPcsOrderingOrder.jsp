@@ -9,7 +9,7 @@
   <c:set var="nRow" value="${pageSize*(currentPage-1)}" />
   <c:forEach items="${listPcsOrderingOrderModel}" var="list">
     <tr>
-      <td><a href="javascript:fListComnDtlCod(1, '${list.purch_list_no}')">${list.purch_list_no}</a></td>
+      <td>${list.purch_list_no}</td>
       <td>${list.supply_nm}</td>
       <td>${list.prod_nm}</td>
       <td>${list.l_ct_cd}</td>
