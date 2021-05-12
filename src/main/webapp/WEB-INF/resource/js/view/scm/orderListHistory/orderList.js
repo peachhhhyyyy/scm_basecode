@@ -147,8 +147,8 @@ function multiply() {
   const price = parseInt($("#purchasePrice").text());
   const cnt = $("#purchaseCount").val();
   const result = price * cnt;
-  $("#sumAmt").empty().append(result);
-  $("#sumAmt-han").empty().append(num2han(result));
+  $("#sumAmt").empty().append(result.toLocaleString('ko-KR'));
+  $("#sumAmt-han").empty().append(num2han(result)+"원");
   console.log(num2han(result));
   return;
 }
