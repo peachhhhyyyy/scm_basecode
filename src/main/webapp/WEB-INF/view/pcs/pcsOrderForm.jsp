@@ -32,20 +32,20 @@
       var btnId = $(this).attr('id');
 
       switch (btnId) {
-      case 'btnClosePurchBtn':
+      case 'btnClosePcsOrderForm':
         gfCloseModal();
         break;
       }
     });
   }
 
-  /** 그룹코드 모달 실행 */
-  function fPopModalComnGrpCod(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id) {
+  /** 그룹코드 모달 실행 */  
+  function fPopPcsOrderForm(purch_list_no, order_cd, supply_nm, prod_nm, l_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date,supply_cd,product_cd) {
     // 신규 저장
     if (purch_list_no == null || purch_list_no == "") {
     } else {
       // 발주서 버튼 클릭 시 화면 출력
-      fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id);
+      fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, l_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date,supply_cd,product_cd);
     }
   }
 
@@ -69,7 +69,6 @@
 
   /** 발주지시서 콜백 함수 */
   function fListPcsOrderFormResult(data, currentPage) {
-
     //alert(data);
     console.log("data: " + data);
 
@@ -93,32 +92,37 @@
   }
 
   /** 발주서 화면 띄우기 */ 
-  function fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id) {
+  function fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, l_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date,supply_cd,product_cd) {
 
     var param = {
       purch_list_no : purch_list_no,
+      order_cd : order_cd,
       supply_nm : supply_nm,
       prod_nm : prod_nm,
       l_ct_cd : l_ct_cd,
+      warehouse_nm : warehouse_nm,
       purch_qty : purch_qty,
       purchase_price : purchase_price,
+      purch_mng_id : purch_mng_id,
+      direction_date : direction_date,
       desired_delivery_date : desired_delivery_date,
-      warehouse_nm : warehouse_nm,
-      purch_mng_id : purch_mng_id
+      supply_cd : supply_cd,
+      product_cd : product_cd
     };
-
+    
     $("#purchListNo").text(purch_list_no);
     $("#supplyNm").text(supply_nm);
     $("#prodNm").text(prod_nm);
     $("#lCtCd").text(l_ct_cd);
-    $("#purchQty").text(purch_qty);
-    $("#purchasePrice").text(purchase_price);
-    $("#desiredDeliveryDate").text(desired_delivery_date);
     $("#warehouseNm").text(warehouse_nm);
+    $("#purchQty").text(purch_qty);
     $("#purchMngId").text(purch_mng_id);
+    $("#purchasePrice").text(purchase_price);
+    $("#directionDate").text(direction_date);
+    $("#desiredDeliveryDate").text(desired_delivery_date);
     
-    // 발주 버튼 누르고 전송버튼 누를 때 보내는 데이터, hidden값에 실어서 보낼 데이터
-    // $("#tmpGrpCod").val('????');
+    console.log('purchMngId' + purch_mng_id);
+    console.log('purchasePrice' + purchase_price);
     
     var resultCallback = function(data) {
       fSelectPurchBtnResult(data);
@@ -132,12 +136,10 @@
     if (data.result == "SUCCESS") {
       // 모달 팝업
       gfModalPop("#layer1");
-
-      $("#btnSubmitPurchBtn").click(function(e){
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        alert(data.resultMsg);
-      })
+      
+      $("#purchMngId").text(data.pcsModel.purch_mng_id);
+      $("#purchasePrice").text(data.pcsModel.purchase_price);
+      
       console.log("fSelectPurchBtnResult : " + JSON.stringify(data));
     } else {
       alert(data.resultMsg);
@@ -170,10 +172,7 @@
 																<a href="#" class="btn_set refresh">새로고침</a>
 														</p>
 														<p class="conTitle">
-																<span>발주서</span> 
-																<span class="fr"> 
-																  <a class="btnType blue" href="javascript:fPopModalComnGrpCod();" name="modal"><span>신규등록</span></a>
-																</span>
+																<span>발주서</span>
 														</p>
 														<form class="search-container">
                                 <div class="row">
@@ -181,8 +180,7 @@
                                     <div class="col-lg-6">
                                         <div class="input-group">
                                             <div class="input-group-btn">
-                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                    전체 <span class="caret"></span>
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">전체 <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <li><a href="#">업종</a></li>
@@ -220,15 +218,15 @@
 																		<caption>caption</caption>
 																		<colgroup>
 																				<col width="5%">
-																				<col width="5%">
+																				<col width="7%">
 																				<col width="10%">
 																				<col width="10%">
-																				<col width="10%">
+																				<col width="7%">
 																				<col width="7%">
 																				<col width="10%">
 																				<col width="10%">
 																				<col width="10%">
-																				<col width="10%">
+																				<col width="7%">
 																				<col width="*">
 																				<col width="6%">
 																		</colgroup>
@@ -252,55 +250,6 @@
 																</table>
 														</div>
 														<div class="paging_area" id="pcsOrderFormPagination"></div>
-														<p class="conTitle mt50">
-																<span>상세 코드</span> 
-																<span class="fr">
-																  <a class="btnType blue" href="javascript:fPopModalComnDtlCod();" name="modal">
-																    <span>신규등록</span>
-																  </a>
-																</span>
-														</p>
-														<div class="divComDtlCodList">
-																<table class="col">
-																		<caption>caption</caption>
-																		<colgroup>
-																				<col width="7%">
-																				<col width="10%">
-																				<col width="10%">
-																				<col width="10%">
-																				<col width="5%">
-																				<col width="5%">
-																				<col width="9%">
-																				<col width="9%">
-																				<col width="9%">
-																				<col width="9%">
-																				<col width="10%">
-																				<col width="*">
-																		</colgroup>
-																		<thead>
-																				<tr>
-																						<th scope="col">순번</th>
-																						<th scope="col">그룹 코드 ID</th>
-																						<th scope="col">상세 코드 ID</th>
-																						<th scope="col">상세 코드 명</th>
-																						<th scope="col">순서</th>
-																						<th scope="col">사용</th>
-																						<th scope="col">임시 필드 01</th>
-																						<th scope="col">임시 필드 01</th>
-																						<th scope="col">임시 필드 03</th>
-																						<th scope="col">임시 필드 04</th>
-																						<th scope="col">코드 설명</th>
-																						<th scope="col">비고</th>
-																				</tr>
-																		</thead>
-																		<tbody id="listComnDtlCod">
-																				<tr>
-																						<td colspan="12">그룹코드를 선택해 주세요.</td>
-																				</tr>
-																		</tbody>
-																</table>
-														</div>
-														<div class="paging_area" id="comnDtlCodPagination"></div>
 												</div> <!--// content -->
 												<h3 class="hidden">풋터 영역</h3> <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
 										</li>
@@ -311,7 +260,7 @@
 				<div id="layer1" class="layerPop layerType2" style="width: 600px;">
 						<dl>
 								<dt>
-										<strong>그룹코드 관리</strong>
+										<strong>발주서</strong>
 								</dt>
 								<dd class="content">
 										<!-- s : 여기에 내용입력 -->
@@ -325,36 +274,42 @@
 												</colgroup>
 												<tbody>
 														<tr>
-																<th scope="row">그룹 코드 <span class="font_red">*</span></th>
-																<td><input type="text" class="inputTxt p100" name="grp_cod" id="grp_cod" /></td>
-																<th scope="row">그룹 코드 명 <span class="font_red">*</span></th>
-																<td><input type="text" class="inputTxt p100" name="grp_cod_nm" id="grp_cod_nm" /></td>
+																<th scope="row">발주번호</th>
+																<td id="purchListNo"></td>
+																<th scope="row">회사명</th>
+																<td id="supplyNm"></td>
 														</tr>
 														<tr>
-																<th scope="row">코드 설명 <span class="font_red">*</span></th>
-																<td colspan="3"><input type="text" class="inputTxt p100" name="grp_cod_eplti" id="grp_cod_eplti" /></td>
+																<th scope="row">제품명</th>
+                                <td id="prodNm" colspan="3"></td>
 														</tr>
 														<tr>
-																<th scope="row">임시 필드 01</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" name="grp_tmp_fld_01" id="grp_tmp_fld_01" /></td>
+                                <th scope="row">품목명</th>
+                                <td id="lCtCd" colspan="3"></td>
 														</tr>
 														<tr>
-																<th scope="row">임시 필드 02</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" name="grp_tmp_fld_02" id="grp_tmp_fld_02" /></td>
+																<th scope="row">창고명</th>
+                                <td id="warehouseNm"></td>
+                                <th scope="row">제품수량</th>
+                                <td id="purchQty"></td>
 														</tr>
 														<tr>
-																<th scope="row">임시 필드 03</th>
-																<td colspan="3"><input type="text" class="inputTxt p100" name="grp_tmp_fld_03" id="grp_tmp_fld_03" /></td>
+																<th scope="row">담당자</th>
+                                <td id="purchMngId"></td>
+                                <th scope="row">금액</th>
+                                <td id="purchasePrice"></td>
 														</tr>
 														<tr>
-																<th scope="row">사용 유무 <span class="font_red">*</span></th>
-																<td colspan="3"><input type="radio" id="radio1-1" name="grp_use_poa" id="grp_use_poa_1" value='Y' /> <label for="radio1-1">사용</label> &nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" id="radio1-2" name="grp_use_poa" id="grp_use_poa_2" value="N" /> <label for="radio1-2">미사용</label></td>
+																<th scope="row">발주날짜</th>
+                                <td id="directionDate"></td>
+                                <th scope="row">배송희망날짜</th>
+                                <td id="desiredDeliveryDate"></td>
 														</tr>
 												</tbody>
 										</table>
 										<!-- e : 여기에 내용입력 -->
 										<div class="btn_areaC mt30">
-												<a href="" class="btnType blue" id="btnSaveGrpCod" name="btn"><span>저장</span></a> <a href="" class="btnType blue" id="btnDeleteGrpCod" name="btn"><span>삭제</span></a> <a href="" class="btnType gray" id="btnCloseGrpCod" name="btn"><span>취소</span></a>
+												<a href="" class="btnType gray" id="btnClosePcsOrderForm" name="btn"><span>닫기</span></a>
 										</div>
 								</dd>
 						</dl>
