@@ -26,8 +26,31 @@
 		    LIMIT #{pageIndex}, #{pageSize}
 		</select>
 		
+		<!-- 수주내역 데이터 갯수 카운팅 -->
 		<select id="selectOrderListCnt" resultType="int">
 			SELECT COUNT(*) tot_cnt
 			FROM tb_order;
+		</select>
+		
+		<!-- 하나의 제품에 대한 발주지시서 생성용 데이터 -->
+		<select id="selectProductInfo" resultType="kr.happyjob.study.scm.model.ProductInfoModel">
+			SELECT o.order_cd orderCode, 
+			  	   o.order_date orderDate,
+			       NOW() submitDate,
+			  	   prod.prod_nm productName,  
+			       mct.m_ct_nm middleCategory,
+			  	   prod.stock productCount, 
+			  	   o.order_cnt orderCount, 
+			  	   prod.purchase_price purchase_price
+			FROM tb_order o
+	        LEFT JOIN tb_scm_product prod ON prod.product_cd = o.product_cd
+			LEFT JOIN tb_scm_m_category mct ON mct.m_ct_cd = prod.m_ct_cd
+			WHERE o.order_cd = #{orderCode}
+		</select>
+		<!-- 발주지시서 담당SCM 이름 가져오기 -->
+		<select id="selectScmManagerName" resultType="String">
+			SELECT name
+			FROM tb_userinfo
+			WHERE loginId = #{loginId}
 		</select>
 </mapper>

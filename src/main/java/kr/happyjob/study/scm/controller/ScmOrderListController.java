@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.happyjob.study.scm.model.ProductInfoModel;
 import kr.happyjob.study.scm.model.ScmOrderListModel;
 import kr.happyjob.study.scm.service.ScmOrderListService;
 
@@ -76,6 +77,24 @@ public class ScmOrderListController {
 	    
 		
 		return "/scm/listInfo";
+	}
+	
+	@RequestMapping("productInfo.do")
+	public String productInfo(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+		
+		paramMap.put("loginId", session.getAttribute("loginId")); // 로그인 아이디
+	    logger.info("paramMap:" + paramMap);
+	    
+	    ProductInfoModel productInfo = ScmOrderListService.getProductInfo(paramMap);
+		String scmManager = ScmOrderListService.getScmManagerName(paramMap);
+		
+		productInfo.setScmManager(scmManager);
+
+		logger.info("productInfo.getProductName: " + productInfo.getProductName());
+		logger.info("productInfo.getScmManager: " + productInfo.getScmManager());
+	    
+		return "/scm/productInfo";
 	}
 
 }

@@ -11,17 +11,17 @@ public class ScmOrderListModel {
 	 * 
 	 */
 
-	String orderCode;
-	String orderDate;
-	String customerName;
-	String productName;
-	int productCount;
-	int productPrice;
-	int orderCount;
-	int orderAmount;
-	int orderTax;
-	String depositState;
-	String state;
+	private String orderCode;
+	private String orderDate;
+	private String customerName;
+	private String productName;
+	private int productCount;
+	private int productPrice;
+	private int orderCount;
+	private int orderAmount;
+	private int orderTax;
+	private String depositState;
+	private String state;
 
 	public String getOrderCode() {
 		return orderCode;
