@@ -50,7 +50,7 @@ public class ProductInfoController {
     
     int currentPage = Integer.parseInt((String)paramMap.get("currentPage"));  // 현재 페이지 번호
     int pageSize    = Integer.parseInt((String)paramMap.get("pageSize"));     // 페이지 사이즈
-    int pageIndex   = (currentPage-1)*pageSize;                   // 페이지 시작 row 번호
+    int pageIndex   = (currentPage -1)*pageSize;                   // 페이지 시작 row 번호
         
     paramMap.put("pageIndex", pageIndex);
     paramMap.put("pageSize", pageSize);

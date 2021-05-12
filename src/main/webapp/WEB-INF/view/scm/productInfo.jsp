@@ -17,41 +17,31 @@
   /*페이징 설정*/
   var userPageSize = 10;
   var userPageBlock = 5;
-
   /** OnLoad event */
   $(document).ready(function() {
-
     // 리스트 뿌리기 함수
     selectProductList();
-
     // 버튼 이벤트 등록
     fButtonClickEvent();
-
     // chosen load 
     $(".chosen-select").chosen({
     width : '-webkit-fill-available',
     rtl : true
     });
-
     //css 설정
     $('textarea').addClass("ui-corner-all ui-widget-content");
-
     //엔터눌렀을때 검색되게하기
     $("#sname").keypress(function(e) {
       if (e.which == 13) {
         board_search(); // 실행할 이벤트
       }
     });
-
   });
-
   /*버튼 이벤트 등록*/
   function fButtonClickEvent() {
     $('a[name=btn]').click(function(e) {
       e.preventDefault();
-
       var btnId = $(this).attr('id');
-
       switch (btnId) {
       case 'btnSavePro':
         fSaveProduct(); // save 안에 저장,수정
@@ -72,94 +62,69 @@
       }
     });
   }
-
   /** 제품정보 목록 불러오기 */
   function selectProductList(currentPage) {
-
     currentPage = currentPage || 1;
-
     var param = {
     currentPage : currentPage,
     pageSize : userPageSize
     }
-
     var resultCallback = function(data) {
       productListResult(data, currentPage);
     };
-
     callAjax("/scm/productList.do", "post", "text", true, param, resultCallback);
   }
-
   /** 제품정보 리스트의 data를 콜백함수를 통해 뿌리기 */
   function productListResult(data, currentPage) {
-
     // 기존 목록 삭제
     $("#productList").empty();
-
     // 신규 목록 생성
     $("#productList").append(data);
-
     // 총 개수 추출
     var totalCnt = $("#totalCount").val();
-
     var list = $("#tmpList").val();
-
     // 페이지 네비게이션 생성
     var paginationHtml = getPaginationHtml(currentPage, totalCnt, userPageSize, userPageBlock, 'selectProductList');
-
     // 기존 목록 삭제 후 다시 생성
     $("#paginationHtml").empty().append(paginationHtml);
-
     // 현재 페이지 설정
     $("#currentPage").val(currentPage);
   }
-
   //검색
   function board_search(currentPage) {
-
     currentPage = currentPage || 1;
     var param = {
     currentPage : currentPage,
     pageSize : userPageSize
     }
-
     var resultCallback = function(data) {
       ProductListResult(data, currentPage);
     };
     callAjax("/scm/productList.do", "post", "text", true, param, resultCallback);
   }
-
   /* 제품정보관리 모달창(팝업) 실행 */
   function fUserModal(product_cd) {
-
     // 신규저장 하기 버튼 클릭시 (값이 null)
     if (product_cd == null || product_cd == "") {
-
       $("#action").val("I"); // insert 
       frealPopModal(product_cd); //  초기화 
-
       //모달 팝업 모양 오픈! (빈거) _ 있는 함수 쓰는거임. 
       gfModalPopTop("#user");
-
     } else {
       $("#action").val("U"); // update
       fdetailModal(product_cd); //번호로 -> 상품 상세 조회 팝업 띄우기
     }
   }
-
   /*1건 상세 조회*/
   function fdetailModal(product_cd) {
-
     var param = {
       product_cd : product_cd
     };
     var resultCallback2 = function(data) {
       fdetailResult(data);
     };
-
     callAjax("/scm/detailProduct.do", "post", "json", true, param, resultCallback2);
   }
-
   /*  1건 상세 조회 -> 콜백함수   */
   function fdetailResult(data) {
     //alert("공지사항 상세 조회  33");
@@ -168,91 +133,71 @@
       gfModalPopTop("#user");
       // 모달에 정보 넣기 
       frealPopModal(data.result);
-
     } else {
       alert(data.resultMsg);
     }
   }
-
   /* 팝업 _ 초기화 페이지(신규) 혹은 내용뿌리기  */
   function frealPopModal(object) {
-
     /* 신규 */
     if (object == "" || object == null || object == undefined) {
-
       $("#product_cd").val(""); // product_cd 되돌리기
       $("#product_cd").attr("readonly", false); // product_cd 되돌리기
       $("#product_cd").css("border", ""); // product_cd 되돌리기
-
       $("#l_ct_nm").val("");
       $("#prod_nm").val("");
-
       $("#warehouse_nm option").prop("selected", false).trigger("chosen:updated");
       $("#warehouse_nm").chosen();
       $("#m_ct_nm").val("");
-
       $("#purchase_price").val("");
       $("#price").val("");
-
       // chosen option
       $("#supply_nm").val("").trigger("chosen:updated");
       $("#btnDeletePro").hide(); // 삭제버튼 숨기기
       $("#btnUpdatePro").hide();
       $("#btnSavePro").show();
-
     } else {
       $("#warehouse_nm option").prop("selected", false).trigger("chosen:updated");
       $("#warehouse_nm").chosen();
       $("#product_cd").val(object[0].product_cd);
       $("#product_cd").attr("readonly", true); // product_cd 수정불가 
       $("#product_cd").css("border", "none"); // product_cd 수정불가 
-
       $("#l_ct_nm").val(object[0].l_ct_nm);
       $("#prod_nm").val(object[0].prod_nm);
       $("#m_ct_nm").val(object[0].pro_manu_name);
       $("#purchase_price").val(object[0].purchase_price);
       $("#price").val(object[0].price);
-
       // chosen option setting
       for (var i = 0; i < object.length; i++) {
         $('#warehouse_nm option[value=' + object[i].warehouse_nm + ']').prop('selected', true).trigger("chosen:updated");
       }
       $("#supply_nm").val(object[0].deli_no).trigger("chosen:updated");
-
       $("#btnDeletePro").show(); // 삭제버튼 보이기 
       $("#btnSavePro").hide();
       $("#btnUpdatePro").css("display", "");
-
     }
   }
-
   /* 팝업내 수정, 저장 확인 */
   function fValidatePopup() {
     var chk = checkNotEmpty([ [ "product_cd", "제품코드를 입력해주세요!" ], [ "prod_nm", "제품명을 입력해주세요!" ], [ "warehouse_nm", "저장창고를 선택해주세요!" ], [ "l_ct_nm", "모델명을 입력해주세요!" ], [ "m_ct_nm", "제조사를 입력해주세요!" ], [ "purchase_price", "장비 구매액을 입력해주세요!" ], [ "supply_nm", "납품업체를 선택해주세요!" ], [ "price", "단가를 입력해주세요!" ], [ "thumbnail", "대표 이미지를 업로드해주세요!" ] ]);
-
     if (!chk) {
       return;
     }
     return true;
   }
-
   /* 제품 등록(저장) */
   function fSaveProduct() {
-
     // validation 체크 
     if (!(fValidatePopup())) {
       return;
     }
-
     var resultCallback3 = function(data) {
       fSaveProductResult(data);
-
     };
     //form
     var frm = document.getElementById("myProduct");
     frm.enctype = 'multipart/form-data';
     var dataWithFile = new FormData(frm);
-
     //다중 selected option값 가져오기
     var selected = [];
     $('#warehouse_nm :selected').each(function() {
@@ -260,21 +205,15 @@
     });
     //form에 추가
     dataWithFile.append("ware_list", selected);
-
     $("#action").val("I"); // insert
-
     callAjaxFileUploadSetFormData("/scm/productSave.do", "post", "json", true, dataWithFile, resultCallback3);
-
   }
-
   /* 저장 ,수정, 삭제 콜백 함수 처리  */
   function fSaveProductResult(data) {
     var currentPage = currentPage || 1;
-
     if ($("#action").val() != "I") {
       currentPage = $("#currentPage").val();
     }
-
     if (data.resultMsg == "SUCCESS") {
       //alert(data.resultMsg); // 받은 메세지 출력 
       alert("저장 되었습니다.");
@@ -286,29 +225,23 @@
       alert(data.resultMsg); //실패시 이거 탄다. 
       alert("실패 했습니다.");
     }
-
     gfCloseModal(); // 모달 닫기
     selectProductList(currentPage); // 목록조회 함수 다시 출력 
     frealPopModal();// 입력폼 초기화
   }
-
   /* 제품 수정 */
   function fUpdateProduct() {
-
     // validation 체크 
     if (!(fValidatePopup())) {
       return;
     }
-
     var resultCallback3 = function(data) {
       fSaveProductResult(data);
     };
-
     //form  
     var frm = document.getElementById("myProduct");
     frm.enctype = 'multipart/form-data';
     var dataWithFile = new FormData(frm);
-
     //다중 selected option값 가져오기
     var selected = [];
     $('#warehouse_nm :selected').each(function() {
@@ -316,15 +249,10 @@
     });
     //form에 추가
     dataWithFile.append("ware_list", selected);
-
     $("#action").val("I"); // insert
-
     $("#action").val("U"); // update
-
     callAjaxFileUploadSetFormData("/scm/productUpd.do", "post", "json", true, dataWithFile, resultCallback3);
-
   }
-
   /* 상품 1건 삭제 */
   function fDeleteProduct() {
     var con = confirm("정말 삭제하겠습니까? \n 삭제시 복구불가합니다.");
@@ -340,7 +268,6 @@
       frealPopModal();// 입력폼 초기화
     }
   }
-
   //숫자타입체크
   function filterNumber(elem, event) {
     elem.value = elem.value.replace(/[^0-9]/g, "");
@@ -374,17 +301,22 @@
           <li class="lnb">
             <!-- lnb 영역 --> <jsp:include page="/WEB-INF/view/common/lnbMenu.jsp"></jsp:include> <!--// lnb 영역 -->
           </li>
+          
           <li class="contents">
             <!-- contents -->
             <h3 class="hidden">contents 영역</h3> <!-- content -->
             <div class="content">
+            
               <p class="Location">
                 <a href=/system/comnCodMgr.do " class="btn_set home">메인으로</a> <a href="#" class="btn_nav">기준 정보</a> <span class="btn_nav bold">제품정보 관리</span> <a onClick="top.location='javascript:location.reload()'" class="btn_set refresh">새로고침</a>
               </p>
+              
               <p class="conTitle">
                 <span>제품정보 관리 </span> <span class="fr"> <c:set var="nullNum" value=""></c:set> <a class="btnType blue" href="javascript:fUserModal(${null});" name="modal"> <span>신규등록</span></a>
                 </span>
               </p>
+              
+              
               <!--검색창   -->
               <table width="100%" cellpadding="5" cellspacing="0" border="1" align="left" style="border-collapse: collapse; border: 1px #50bcdf;">
                 <tr style="border: 0px; border-color: blue">
@@ -396,6 +328,8 @@
                   </select> <input type="text" style="width: 150px; height: 25px;" id="sname" name="sname"> <a href="" class="btnType blue" id="searchBtn" name="btn"><span>검 색</span></a></td>
                 </tr>
               </table>
+              
+              
               &nbsp;&nbsp;
               <div class="ProductList">
                 <table class="col">
