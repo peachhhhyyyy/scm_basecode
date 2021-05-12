@@ -3,7 +3,7 @@
 
 <mapper namespace="kr.happyjob.study.pcs.dao.PcsDao">
                    
-	<!-- 그룹코드 목록 조회 -->
+	<!-- 발주지시서 목록 조회 -->
 	<select id="pcsOrderingOrder" resultType="kr.happyjob.study.pcs.model.PcsModel">
 		/*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
       SELECT 
@@ -30,9 +30,9 @@
       ORDER BY purch_list_no DESC
 	</select>
 	
-	<!-- 그룹코드 목록 총 갯수 조회 -->
+	<!-- 발주지시서 목록 총 갯수 조회 -->
 	<select id="countPcsOrderingOrder" resultType="int">
-		/*kr.kosmo.jobkorea.system.dao.ComnCodDao.countListComnGrpCod*/
+		/*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
 		SELECT COUNT(*) AS tot_cnt 
       FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_order as OD
@@ -41,9 +41,65 @@
         ON OD.warehouse_cd = WH.warehouse_cd
 	</select>
 	
-	 <!-- 그룹코드 목록 총 갯수 조회 -->
+	 <!-- 발주지시서 버튼 -->
   <select id="selectPurchBtn" resultType="kr.happyjob.study.pcs.model.PcsModel">
-    /*kr.kosmo.jobkorea.system.dao.ComnCodDao.countListComnGrpCod*/
+    /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
+      SELECT 
+             PL.purch_list_no
+         ,   SP.supply_nm
+         ,   PD.prod_nm
+         ,   MC.l_ct_cd
+         ,   PL.purch_qty
+         ,   PD.purchase_price
+         ,   PL.desired_delivery_date
+         ,   WH.warehouse_nm
+         ,   PL.purch_mng_id
+      FROM tb_scm_purchase_list as PL
+          LEFT JOIN tb_order as OD
+        ON PL.order_cd = OD.order_cd
+        LEFT JOIN tb_scm_warehouse as WH
+        ON OD.warehouse_cd = WH.warehouse_cd  
+        LEFT JOIN tb_scm_supply as SP
+        ON PL.supply_cd = SP.supply_cd
+        LEFT JOIN tb_scm_product as PD
+        ON PL.supply_cd = PD.supply_cd
+        LEFT JOIN tb_scm_m_category as MC
+        ON PD.m_ct_cd = MC.m_ct_cd
+      ORDER BY purch_list_no DESC
+  </select>
+  
+  <!-- 발주서 목록 조회 -->
+  <select id="pcsOrderForm" resultType="kr.happyjob.study.pcs.model.PcsModel">
+    /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
+      SELECT 
+             PL.purch_list_no
+         ,   OD.order_cd
+         ,   SP.supply_nm
+         ,   PD.prod_nm
+         ,   MC.l_ct_cd
+         ,   PL.purch_qty
+         ,   WH.warehouse_nm
+         ,   PL.direction_date
+         ,   OD.state
+         ,   PL.desired_delivery_date
+         ,   PL.purch_mng_id
+      FROM tb_scm_purchase_list as PL
+          LEFT JOIN tb_order as OD
+        ON PL.order_cd = OD.order_cd
+        LEFT JOIN tb_scm_warehouse as WH
+        ON OD.warehouse_cd = WH.warehouse_cd  
+        LEFT JOIN tb_scm_supply as SP
+        ON PL.supply_cd = SP.supply_cd
+        LEFT JOIN tb_scm_product as PD
+        ON PL.supply_cd = PD.supply_cd
+        LEFT JOIN tb_scm_m_category as MC
+        ON PD.m_ct_cd = MC.m_ct_cd
+      ORDER BY purch_list_no DESC
+  </select>
+  
+    <!-- 발주지시서 목록 총 갯수 조회 -->
+  <select id="countPcsOrderForm" resultType="int">
+    /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
     SELECT COUNT(*) AS tot_cnt 
       FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_order as OD
