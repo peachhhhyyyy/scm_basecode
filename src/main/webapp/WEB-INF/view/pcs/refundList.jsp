@@ -208,7 +208,7 @@
     };
     //Ajax실행 방식
     //callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
-    callAjax("/system/listComnGrpCod.do", "post", "text", true, param, resultCallback);
+    callAjax("/pcs/refund/list.do", "post", "text", true, param, resultCallback);
   }
 
   /** 그룹코드 조회 콜백 함수 */

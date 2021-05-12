@@ -17,14 +17,14 @@ public class RefundServiceImpl implements RefundService {
   
   // 반품서 목록 조회(기본)
   @Override
-  public List<RefundModel> selectList(Map<String, Object> paramMap) throws Exception {
-    return refundDao.selectList(paramMap);
+  public List<RefundModel> selectRefundList(Map<String, Object> paramMap) throws Exception {
+    return refundDao.selectRefundList(paramMap);
   }
   
   // 반품서 목록 총 개수 조회
   @Override
-  public int countList() throws Exception {
-    return refundDao.countList();
+  public int countRefundList() throws Exception {
+    return refundDao.countRefundList();
   }
   
 }

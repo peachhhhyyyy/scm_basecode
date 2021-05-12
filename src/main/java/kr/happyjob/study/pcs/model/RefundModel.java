@@ -1,5 +1,7 @@
 package kr.happyjob.study.pcs.model;
 
+import java.util.Date;
+
 public class RefundModel {
   
   private String refund_list_no; // 반품번호
@@ -9,8 +11,8 @@ public class RefundModel {
   private String prod_nm; // 반품제품
   private String m_ct_cd; // 브랜드명(구 품목명)
   private int refund_cnt; // 반품수량
-  private String submit_date; // 반품 신청 날짜
-  private String refund_date; // 반품 완료 날짜
+  private Date submit_date; // 반품 신청 날짜
+  private Date refund_date; // 반품 완료 날짜
   
   
   public String getRefund_list_no() {
@@ -55,16 +57,16 @@ public class RefundModel {
   public void setRefund_cnt(int refund_cnt) {
     this.refund_cnt = refund_cnt;
   }
-  public String getSubmit_date() {
+  public Date getSubmit_date() {
     return submit_date;
   }
-  public void setSubmit_date(String submit_date) {
+  public void setSubmit_date(Date submit_date) {
     this.submit_date = submit_date;
   }
-  public String getRefund_date() {
+  public Date getRefund_date() {
     return refund_date;
   }
-  public void setRefund_date(String refund_date) {
+  public void setRefund_date(Date refund_date) {
     this.refund_date = refund_date;
   }
   

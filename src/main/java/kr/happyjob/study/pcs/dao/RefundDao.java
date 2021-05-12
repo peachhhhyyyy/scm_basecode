@@ -8,8 +8,8 @@ import kr.happyjob.study.pcs.model.RefundModel;
 public interface RefundDao {
   
   // 반품서 목록 조회(기본)
-  public List<RefundModel> selectList(Map<String, Object> paramMap);
+  public List<RefundModel> selectRefundList(Map<String, Object> paramMap);
  
   // 반품서 목록 총 개수 조회
-  public int countList();
+  public int countRefundList();
 }
