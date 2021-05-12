@@ -187,11 +187,14 @@
                         <!-- 반품 리스트 조회  -->
                         <br><br>
                         <!-- 상세페이지 조회 -->
+                        <form action="returnDetailInfo.do" method="get">
+                        
                         <div class="divComGrpCodList">
                            <p class="conTitle">               
                               <span>상세페이지</span>
                            </p>
                            <!--주문내용  -->
+                           
                            <table class="col">
                              
                               <thead>
@@ -203,6 +206,7 @@
 						            <th scope="col">반품 수량</th>
 						            <th scope="col">고객 명</th>
 						            <th scope="col">고객연락처</th>
+						            </tr></thead><thead><tr>
 						            <th scope="col">담당자명</th>
 						            <th scope="col">주소</th>
 						            <th scope="col">배송사원 명</th>
@@ -214,16 +218,13 @@
                               </thead>
                               <tbody id="returnDetailList">
                               </tbody>
-                              <tbody>
-                               
-                              </tbody>
+                             
                            </table>
                         </div>
                         <!--주문내용끝  -->
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <!--반품내용  -->
-                       
                            <div class="grid">
                               <div class="col-1-3 col-1-3-sm">
                                  <div class="controls">
@@ -236,7 +237,7 @@
 										margin-left: 339px;
 										width: 9%;
 										margin-top: 55px;
-                                       " >등록</button></div>
+                                       " formmethod="post">등록</button></div></form>
                                        <div class="controls">
                                     <button type="submit" value="Submit" class="col-1-4 btnType blue" style="
                                     	margin-right: 27px;
@@ -258,7 +259,7 @@
                               </div>
                            </div>
                            <!-- /.form-group -->
-      </form>
+      
       <!-- 반품 리스트 조회  -->
       <div class="btn_areaC mt20">
       </div>
@@ -270,6 +271,6 @@
       </div>
       <div id="layer1" class="layerPop layerType2" style="width: 650px; overflow:auto;">
       </div>
-      </form>
+     
    </body>
 </html>

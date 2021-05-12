@@ -77,7 +77,9 @@
 		  TSRL.refund_list_no = #{refund_list_no}
 		  
 	</select>
-	
+	<update id="returnDetailInfo" >
+	 UPDATE tb_order SET state = #{state} WHERE order_cd = #{order_cd} and refund_list_no = #{refund_list_no}
+	</update>
 <!-- 
 	<select id="returnProductList" parameterType="Map" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">
 		SELECT od.order_cd as order_cd
