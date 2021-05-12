@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="${CTX_PATH}/js/jquery-ui/jquery-ui-1.11.4/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="${CTX_PATH}/js/jquery-ui/jquery-ui-1.11.4/jquery-ui.min.css" />
 <link rel="stylesheet" type="text/css" href="${CTX_PATH}/js/bootstrap/custom_bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/tingle/tingle.css" />
 
 <!-- 나눔고딕폰트 import -->
 <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -30,6 +31,9 @@
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/stringBuffer.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/map.js"></script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/jquery.blockUI.js"></script>
+
+<!-- tingle -->
+<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/tingle/tingle.js"></script>
 
 <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
