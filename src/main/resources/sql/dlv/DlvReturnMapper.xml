@@ -54,7 +54,8 @@
 	       EMP.name AS dlv_name,
 	       EMP.tel AS dlv_tel,
 	       TSW.warehouse_nm AS warehouse_nm,
-	       TOO.state AS state
+	       TOO.state AS state,
+	       TOO.request AS request
        
    		FROM tb_order AS TOO
 		   LEFT JOIN tb_scm_refund_list AS TSRL
@@ -76,6 +77,7 @@
 		  TSRL.refund_list_no = #{refund_list_no}
 		  
 	</select>
+	
 <!-- 
 	<select id="returnProductList" parameterType="Map" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">
 		SELECT od.order_cd as order_cd

@@ -27,6 +27,8 @@ public class DlvReturnDetailModel {
 	private String warehouse_nm;
 	//상태
 	private String state;
+	//적요
+	private String request;
 	
 	public DlvReturnDetailModel() {
 	}
@@ -107,6 +109,12 @@ public class DlvReturnDetailModel {
 	}
 	public void setState(String state) {
 		this.state = state;
+	}
+	public String getRequest() {
+		return request;
+	}
+	public void setRequest(String request) {
+		this.request = request;
 	}
 	
 }

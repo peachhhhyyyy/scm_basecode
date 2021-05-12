@@ -121,6 +121,7 @@
                         </p>
                         <!-- 반품 리스트 조회  -->
                         <form name="returnList" id="returnList" method="post" action="returnList.do">
+                        <input name="product_name" type="hidden" value="${productDes.product_name}">
                         <div class="divComGrpCodList">
                            <p class="conTitle">
                               <span>반품계획</span>
@@ -172,6 +173,7 @@
                                     <th scope="col">창고명</th>
                                     <th scope="col">반품접수일자</th>
                                     <th scope="col">상태</th>
+                                    
                                  </tr>
                               </thead>
                               <tbody id="returnList">
@@ -195,18 +197,19 @@
                               <thead>
                                  <tr>
                                     <th scope="col">주문코드</th>
-                                    <th scope="col">제목명</th>
-                                    <th scope="col">배송코드</th>
-                                    <th scope="col">수량</th>
-                                    <th scope="col">품목명</th>
-                                     <th scope="col">공급처명</th>
-                                    <th scope="col">공급처 연락처</th>
-                                    <th scope="col">담당자명</th>
-                                    <th scope="col">주소</th>
-                                    <th scope="col">배송사원</th>
-                                    <th scope="col">배송사원 연락처</th>
-                                    <th scope="col">반품 완료 날짜</th>
-                                    <th scope="col">반품상태 </th>
+						            <th scope="col">반품번호</th>
+						            <th scope="col">제품명</th>
+						            <th scope="col">품목명</th>
+						            <th scope="col">반품 수량</th>
+						            <th scope="col">고객 명</th>
+						            <th scope="col">고객연락처</th>
+						            <th scope="col">담당자명</th>
+						            <th scope="col">주소</th>
+						            <th scope="col">배송사원 명</th>
+						            <th scope="col">배송사원 연락처</th>
+						            <th scope="col">창고명</th>
+						            <th scope="col">반품 상태</th>
+						            <th scope="col">적요</th>
                                  </tr>
                               </thead>
                               <tbody id="returnDetailList">
@@ -224,7 +227,8 @@
                            <div class="grid">
                               <div class="col-1-3 col-1-3-sm">
                                  <div class="controls">
-                                    <button type="submit" value="Submit" class="col-1-4 btnType blue" style="margin-right: -2px;
+                                    <button type="submit" value="Submit" class="col-1-4 btnType blue" style="
+                                    	margin-right: -2px;
 										font-size: 15px;
 										color: #fff;
 										background: #3cb3eb;
@@ -234,7 +238,8 @@
 										margin-top: 55px;
                                        " >등록</button></div>
                                        <div class="controls">
-                                    <button type="submit" value="Submit" class="col-1-4 btnType blue" style="margin-right: 27px;
+                                    <button type="submit" value="Submit" class="col-1-4 btnType blue" style="
+                                    	margin-right: 27px;
 										font-size: 15px;
 										color: #fff;
 										background: #3cb3eb;

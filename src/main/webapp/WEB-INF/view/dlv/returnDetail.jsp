@@ -7,22 +7,22 @@
       <thead>
          <tr>
             <th scope="col">주문코드</th>
+            <th scope="col">반품번호</th>
             <th scope="col">제품명</th>
-            <th scope="col">배송코드</th>
-            <th scope="col">수량</th>
             <th scope="col">품목명</th>
-            <th scope="col">고객명</th>
+            <th scope="col">반품 수량</th>
+            <th scope="col">고객 명</th>
             <th scope="col">고객연락처</th>
             <th scope="col">담당자명</th>
             <th scope="col">주소</th>
-            <th scope="col">배송사원</th>
+            <th scope="col">배송사원 명</th>
             <th scope="col">배송사원 연락처</th>
             <th scope="col">창고명</th>
             <th scope="col">반품 상태</th>
+            <th scope="col">적요</th>
          </tr>
-      </thead>
+      </thead> <c:forEach items="${returnDetailList}" var="list">
       <tbody id="returnDetailList">
-         <c:forEach items="${returnDetailList}" var="list">
             <tr>
                <td>${list.order_cd}</td>
                <td>${list.refund_list_no}</td>
@@ -43,6 +43,7 @@
                      <option value="반품완료" selected>반품완료</option>
                   </select>
                </td>
+               <td>${list.request}</td>
             </tr>
          </c:forEach>
       </tbody>
