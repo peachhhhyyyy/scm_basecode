@@ -139,4 +139,30 @@ public class PcsController {
     
     return "pcs/listPcsOrderForm";
   } 
+  
+  // 발주 버튼 클릭 시 내용 전송
+  @RequestMapping("sendproc.do")
+  @ResponseBody
+  public Map<String, Object> sendproc(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+      HttpServletResponse response, HttpSession session) throws Exception {
+    
+    logger.info("+ Start " + className + ".sendproc");
+    logger.info("   - paramMap : " + paramMap);
+
+    String result = "SUCCESS";
+    String resultMsg = "전송 되었습니다.";
+   
+    //하단에 전송 후에 구현되어야 할 로직 작성
+    //pcsService.selectPurchBtn(paramMap);
+    
+    Map<String, Object> resultMap = new HashMap<String, Object>();
+    resultMap.put("result", result);
+    resultMap.put("resultMsg", resultMsg);
+    //resultMap.put("pcsModel", pcsModel);
+    
+    logger.info("+ End " + className + ".sendproc");
+    
+    return resultMap;
+  } 
+  
 }
