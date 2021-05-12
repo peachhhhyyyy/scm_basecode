@@ -86,7 +86,7 @@
     var paginationHtml = getPaginationHtml(currentPage, totalCount, pageSizeComnGrpCod, pageBlockSizeComnGrpCod, 'fListPcsOrderingOrder');
     console.log("paginationHtml : " + paginationHtml);
     //alert(paginationHtml);
-    $("#comnOrderingOrderPagination").empty().append(paginationHtml);
+    $("#pcsOrderingOrderPagination").empty().append(paginationHtml);
 
     // 현재 페이지 설정
     $("#currentPage").val(currentPage);
@@ -208,7 +208,7 @@
 																		<tbody id="listPcsOrderingOrder"></tbody>
 																</table>
 														</div>
-														<div class="paging_area" id="comnOrderingOrderPagination"></div>
+														<div class="paging_area" id="pcsOrderingOrderPagination"></div>
 												<h3 class="hidden">풋터 영역</h3> <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
 										</li>
 								</ul>
