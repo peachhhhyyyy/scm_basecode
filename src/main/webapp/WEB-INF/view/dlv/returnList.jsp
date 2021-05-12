@@ -12,15 +12,14 @@
   <c:set var="nRow" value="${pageSize*(currentPage-1)}" />
   <c:forEach items="${returnList}" var="list">
     <tr>
-      <td>${list.refund_list_no}</td>
-      <td><a href="javascript:fReturnDetailList('${list.order_cd}');">${list.order_cd}</a></td>
-      <td>${list.supply_nm}</td>
+      <td><a href="javascript:fReturnDetailList('${list.refund_list_no}');">${list.refund_list_no}</a></td>
+      <td>${list.cus_name}</td>
+      <td>${list.m_ct_nm}</td>
       <td>${list.prod_nm}</td>
-      <td>${list.m_ct_cd}</td>
       <td>${list.refund_cnt}</td>
-      <td>${list.refund_date}</td>
       <td>${list.refund_amt}</td>
       <td>${list.warehouse_nm}</td>
+      <td>${list.refund_date}</td>
       <td>${list.state}</td>
       <!-- List에 있는 js 함수 호출가능 이거 그대로 가지고 가기 때문에 !!  -->
     </tr>
