@@ -4,31 +4,34 @@
 
 	<select id="returnList" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">
 	
-	SELECT TSRL.refund_list_no AS refund_list_no,
-       TSRL.order_cd AS order_cd,
-       TSS.supply_nm AS supply_nm,
-       TSS.supply_cd AS supply_cd,
-       TSP.prod_nm AS prod_nm,
-       TSP.m_ct_cd AS m_ct_cd,
-       TOO.refund_cnt AS refund_cnt,
-       TOO.refund_date AS refund_date,
-       TOO.refund_amt AS refund_amt,
-       TSW.warehouse_nm AS warehouse_nm,
-       TOO.state AS state
-       
-	 from tb_scm_refund_list AS TSRL
-		 LEFT JOIN tb_shopping_cart AS TSC
-		 ON TSRL.order_cd = TSC.product_cd
-		 LEFT JOIN tb_scm_product AS TSP
-		 ON TSC.product_cd = TSP.product_cd
-		 LEFT JOIN tb_scm_supply AS TSS
-		 ON TSP.supply_cd = TSS.supply_cd
-		 LEFT JOIN tb_scm_warehouse AS TSW
-		 ON TSP.warehouse_cd = TSW.warehouse_cd
-		 LEFT JOIN tb_order as TOO
-		 ON TOO.order_cd = TSRL.order_cd
-		 LIMIT #{pageIndex}, #{pageSize}
-	
+		SELECT TSRL.refund_list_no AS refund_list_no,
+	       TSRL.order_cd AS order_cd,
+	       TSS.supply_nm AS supply_nm,
+	       TSP.prod_nm AS prod_nm,
+	       TSP.m_ct_cd AS m_ct_cd,
+	       TOO.refund_cnt AS refund_cnt,
+	       TOO.refund_date AS refund_date,
+	       TOO.refund_amt AS refund_amt,
+	       TSW.warehouse_nm AS warehouse_nm,
+	       TOO.state AS state
+	       
+	 	from tb_scm_refund_list AS TSRL
+			 LEFT JOIN tb_shopping_cart AS TSC
+			 ON TSRL.order_cd = TSC.product_cd
+			 LEFT JOIN tb_scm_product AS TSP
+			 ON TSC.product_cd = TSP.product_cd
+			 LEFT JOIN tb_scm_supply AS TSS
+			 ON TSP.supply_cd = TSS.supply_cd
+			 LEFT JOIN tb_scm_warehouse AS TSW
+			 ON TSP.warehouse_cd = TSW.warehouse_cd
+			 LEFT JOIN tb_order as TOO
+			 ON TOO.order_cd = TSRL.order_cd
+			 
+			 where TOO.state in ("반품 진행 중","반품 완료","입금완료")
+			 LIMIT #{pageIndex}, #{pageSize}
+			 
+			 
+		
 	</select>
 	
 	<select id="returnListCnt" resultType="int">
@@ -42,16 +45,38 @@
 	</select>
 	<select id="returnDetailList" resultType="kr.happyjob.study.dlv.model.DlvReturnDetailModel">
 		SELECT TOO.order_cd AS order_cd,
+	       TSRL.refund_list_no AS refund_list_no,
 	       TSP.prod_nm AS prod_nm,
-	       TSPL.purch_qty AS purch_qty,
-	       TSPL.purch_list_no AS purch_list_no,
-	       TSP.m_ct_cd AS m_ct_cd
-		 FROM tb_order AS TOO
-		 LEFT JOIN tb_scm_product AS TSP
-		 ON TOO.product_cd = TSP.product_cd
-		 LEFT JOIN tb_scm_purchase_list AS TSPL
-		 ON TOO.order_cd = TSPL.order_cd
-		 WHERE TOO.order_cd = #{order_cd}
+	       TSMC.m_ct_nm AS m_ct_nm,
+	       TOO.refund_cnt AS refund_cnt,
+	       CUS.name AS cus_name,
+	       CUS.tel AS cus_tel,
+	       MNG.name AS emp_name,
+	       CUS.addr AS emp_addr,
+	       EMP.name AS dlv_name,
+	       EMP.tel AS dlv_tel,
+	       TSW.warehouse_nm AS warehouse_nm,
+	       TOO.state AS state
+       
+   		FROM tb_order AS TOO
+		   LEFT JOIN tb_scm_refund_list AS TSRL
+		   ON TOO.order_cd = TSRL.order_cd
+		   LEFT JOIN tb_scm_product TSP
+		   ON TOO.product_cd = TSP.product_cd
+		   LEFT JOIN tb_scm_m_category AS TSMC
+		   ON TSMC.m_ct_cd = TSP.m_ct_cd
+		   LEFT JOIN tb_userinfo AS CUS
+		   ON CUS.loginID = TOO.loginID
+		   LEFT JOIN tb_userinfo AS EMP
+		   ON EMP.loginID = TSRL.ship_staff_id
+		   LEFT JOIN tb_userinfo AS MNG
+		   ON MNG.loginID = TSRL.ship_mng_id
+		   LEFT JOIN tb_scm_warehouse AS TSW
+		   ON TOO.warehouse_cd = TSW.warehouse_cd
+		  
+		  <where>
+		  TOO.order_cd = #{order_cd}
+		  </where>
 	</select>
 <!-- 
 	<select id="returnProductList" parameterType="Map" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">

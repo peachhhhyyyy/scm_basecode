@@ -1,42 +1,40 @@
 package kr.happyjob.study.dlv.model;
 
-import java.util.Date;
-
-public class DlvReturnModel {
-	//반품지시서 번호
-	private String refund_list_no;
+public class DlvReturnDetailModel {
 	//주문코드
 	private String order_cd;
-	//창고명
-	private String supply_nm;
+	//반품코드
+	private String refund_list_no;
 	//제품명
 	private String prod_nm;
-	//품목명
+	//카테고리명
 	private String m_ct_nm;
-	//반품 수량
+	//반품수량
 	private int refund_cnt;
-	//반품 날짜
-	private Date refund_date;
-	//반품금액
-	private String refund_amt;
-	//창고
+	//고객명
+	private String cus_name;
+	//고객연락처
+	private int cus_tel;
+	//담당자 이름
+	private String emp_name;
+	//담당자 주소
+	private String emp_addr;
+	//배송사원 이름
+	private String dlv_name;
+	//배송사원 연락처
+	private int dlv_tel;
+	//창고명
 	private String warehouse_nm;
 	//상태
 	private String state;
 	
-	public DlvReturnModel() {
+	public DlvReturnDetailModel() {
 	}
 	public String getOrder_cd() {
 		return order_cd;
 	}
 	public void setOrder_cd(String order_cd) {
 		this.order_cd = order_cd;
-	}
-	public String getSupply_nm() {
-		return supply_nm;
-	}
-	public void setSupply_nm(String supply_nm) {
-		this.supply_nm = supply_nm;
 	}
 	public String getRefund_list_no() {
 		return refund_list_no;
@@ -62,17 +60,41 @@ public class DlvReturnModel {
 	public void setRefund_cnt(int refund_cnt) {
 		this.refund_cnt = refund_cnt;
 	}
-	public Date getRefund_date() {
-		return refund_date;
+	public String getCus_name() {
+		return cus_name;
 	}
-	public void setRefund_date(Date refund_date) {
-		this.refund_date = refund_date;
+	public void setCus_name(String cus_name) {
+		this.cus_name = cus_name;
 	}
-	public String getRefund_amt() {
-		return refund_amt;
+	public int getCus_tel() {
+		return cus_tel;
 	}
-	public void setRefund_amt(String refund_amt) {
-		this.refund_amt = refund_amt;
+	public void setCus_tel(int cus_tel) {
+		this.cus_tel = cus_tel;
+	}
+	public String getEmp_name() {
+		return emp_name;
+	}
+	public void setEmp_name(String emp_name) {
+		this.emp_name = emp_name;
+	}
+	public String getEmp_addr() {
+		return emp_addr;
+	}
+	public void setEmp_addr(String emp_addr) {
+		this.emp_addr = emp_addr;
+	}
+	public String getDlv_name() {
+		return dlv_name;
+	}
+	public void setDlv_name(String dlv_name) {
+		this.dlv_name = dlv_name;
+	}
+	public int getDlv_tel() {
+		return dlv_tel;
+	}
+	public void setDlv_tel(int dlv_tel) {
+		this.dlv_tel = dlv_tel;
 	}
 	public String getWarehouse_nm() {
 		return warehouse_nm;
@@ -88,4 +110,3 @@ public class DlvReturnModel {
 	}
 	
 }
-

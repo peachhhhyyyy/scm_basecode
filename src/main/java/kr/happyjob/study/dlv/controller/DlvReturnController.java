@@ -69,7 +69,7 @@ public class DlvReturnController {
 		
 		List<DlvReturnDetailModel> returnDetailList = dlvReturnService.returnDetailList(paramMap);
 		model.addAttribute("returnDetailList", returnDetailList);
-		
-		return "/dlv/returnDetailList";
+		logger.info("returnDetailList"+returnDetailList);
+		return "/dlv/returnDetail";
 	}
 }

@@ -160,14 +160,13 @@
                                  <tr>
                                     <th scope="col">반품번호</th>
                                     <th scope="col">주문번호</th>
-                                    <th scope="col">회사명</th>
-                                    <th scope="col">회사코드</th>
-                                    <th scope="col">품목명</th>
+                                    <th scope="col">공급처 명</th>
                                     <th scope="col">제품명</th>
-                                    <th scope="col">수량</th>
-                                    <th scope="col">금액</th>
-                                    <th scope="col">반품 창고명</th>
+                                    <th scope="col">품목명</th>
+                                    <th scope="col">반품 수량</th>
                                     <th scope="col">반품 접수일자</th>
+                                    <th scope="col">반품 금액</th>
+                                    <th scope="col">창고명</th>
                                     <th scope="col">상태</th>
                                  </tr>
                               </thead>
@@ -188,14 +187,7 @@
                            </p>
                            <!--주문내용  -->
                            <table class="col">
-                              <caption>caption</caption>
-                              <colgroup>
-                                 <col width="10%">
-                                 <col width="15%">
-                                 <col width="10%">
-                                 <col width="15%">
-                                 <col width="10%">
-                              </colgroup>
+                             
                               <thead>
                                  <tr>
                                     <th scope="col">주문코드</th>
@@ -203,9 +195,20 @@
                                     <th scope="col">배송코드</th>
                                     <th scope="col">수량</th>
                                     <th scope="col">품목명</th>
+                                     <th scope="col">공급처명</th>
+                                    <th scope="col">공급처 연락처</th>
+                                    <th scope="col">담당자명</th>
+                                    <th scope="col">주소</th>
+                                    <th scope="col">배송사원</th>
+                                    <th scope="col">배송사원 연락처</th>
+                                    <th scope="col">반품 완료 날짜</th>
+                                    <th scope="col">반품상태</th>
                                  </tr>
                               </thead>
                               <tbody id="returnDetailList">
+                              </tbody>
+                              <tbody>
+                               
                               </tbody>
                            </table>
                         </div>
@@ -225,14 +228,7 @@
                               </colgroup>
                               <thead>
                                  <tr>
-                                    <th scope="col">공급처명</th>
-                                    <th scope="col">공급처 연락처</th>
-                                    <th scope="col">담당자명</th>
-                                    <th scope="col">주소</th>
-                                    <th scope="col">배송사원</th>
-                                    <th scope="col">배송사원 연락처</th>
-                                    <th scope="col">반품 완료 날짜</th>
-                                    <th scope="col">반품상태</th>
+                                   
                                  </tr>
                               </thead>
                               <tbody id="admNoticeList">
