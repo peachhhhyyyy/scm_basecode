@@ -72,4 +72,20 @@ public class DlvReturnController {
 		logger.info("returnDetailList"+returnDetailList);
 		return "/dlv/returnDetail";
 	}
+	
+	@RequestMapping("returnDetailInfo.do")
+	public String returnDetailInfo(Model model, @RequestParam Map<String, Object> paramMap,
+			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+		 	
+		 	
+			logger.info("returnDetailInfo 페이지");
+			String order_cd = (String)paramMap.get("order_cd");
+			String state = (String)paramMap.get("state");
+			logger.info("order_cd:"+ order_cd+"state: "+state);
+			int returnDetailInfo = dlvReturnService.returnDetailInfo(paramMap);
+			
+			logger.info("returnDetailInfo 값:"+ returnDetailInfo);
+		return "/dlv/returnMain";
+	}
+	
 }

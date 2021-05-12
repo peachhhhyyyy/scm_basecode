@@ -35,4 +35,10 @@ public class DlvReturnServicelmpl implements DlvReturnService {
 		return returnDetailList;
 	}
 
+	@Override
+	public int returnDetailInfo(Map<String, Object> paramMap) throws Exception {
+		int returnDetailInfo = returndao.returnDetailInfo(paramMap);
+		return returnDetailInfo;
+	}
+
 }

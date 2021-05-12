@@ -14,4 +14,6 @@ public interface ReturnDao {
 	public int returnListCnt(Map<String, Object> paramMap) throws Exception;
 	// 반품 상세페이지 조회
 	public List<DlvReturnDetailModel> returnDetailList(Map<String, Object> paramMap) throws Exception;
+	// 반품 상세페이지 업데이트
+	public int returnDetailInfo(Map<String, Object> paramMap) throws Exception;
 }
