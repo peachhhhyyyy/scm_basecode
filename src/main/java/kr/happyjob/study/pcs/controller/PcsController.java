@@ -46,7 +46,7 @@ public class PcsController {
   
   // 발주지시서 목록 조회
   @RequestMapping("listPcsOrderingOrder.do")
-  public String listComnGrpCod(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+  public String listPcsOrderingOrder(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception {
     
     logger.info("+ Start " + className + ".listPcsOrderingOrder");
@@ -102,7 +102,41 @@ public class PcsController {
   @RequestMapping("pcsOrderForm.do")
   public String pcsOrderForm(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception {
-   
+
+    logger.info("+ Start " + className + ".pcsOrderForm");
+    logger.info("   - paramMap : " + paramMap);
+    logger.info("+ End " + className + ".pcsOrderForm");
+    
     return "pcs/pcsOrderForm";
   }
+  
+  // 발주서 목록 조회
+  @RequestMapping("listPcsOrderForm.do")
+  public String listPcsOrderForm(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+      HttpServletResponse response, HttpSession session) throws Exception {
+    
+    logger.info("+ Start " + className + ".listPcsOrderForm");
+    logger.info("   - paramMap : " + paramMap);
+    
+    int currentPage = Integer.parseInt((String)paramMap.get("currentPage"));  // 현재 페이지 번호
+    int pageSize = Integer.parseInt((String)paramMap.get("pageSize"));      // 페이지 사이즈
+    int pageIndex = (currentPage-1)*pageSize;                       // 페이지 시작 row 번호
+        
+    paramMap.put("pageIndex", pageIndex);
+    paramMap.put("pageSize", pageSize);
+
+    // 발주지시서 목록 조회
+    List<PcsModel> listPcsOrderFormModel = pcsService.pcsOrderForm(paramMap);
+    model.addAttribute("listPcsOrderFormModel", listPcsOrderFormModel);
+
+    // 발주지시서 목록 카운트 조회
+    int totalCount =  pcsService.countPcsOrderForm(paramMap);
+    model.addAttribute("totalCount", totalCount);
+    model.addAttribute("pageSize", pageSize);
+    model.addAttribute("currentPage", currentPage);
+    
+    logger.info("+ End " + className + ".listPcsOrderForm");
+    
+    return "pcs/listPcsOrderForm";
+  } 
 }
