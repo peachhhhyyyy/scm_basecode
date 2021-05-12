@@ -202,8 +202,9 @@
 				                    </tr>
 			                    </tbody>
 							</table>
-						</div> <!-- <button class="btn btn-default" type="submit">등록</button>
-									<button class="btn btn-default" type="submit">닫기</button> -->
+							<button id="" class="btn btn-default" type="submit">등록</button>
+							<button id="" class="btn btn-default" type="submit">닫기</button>
+						</div> 
 					</li>
 				</ul>
 			</div>

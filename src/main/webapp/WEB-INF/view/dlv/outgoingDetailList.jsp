@@ -34,11 +34,22 @@
 					<td>${list.tel_customer}</td>
 					<td>${list.addr}</td>
 					<td>${list.name_scm}</td>
-					<td>${list.name_delivery}</td>
+					<!-- 배송사원설정 -->
+					<td>
+						<select id="dlvStaff" style="width: 80px;">
+						    <option id=""></option>
+					    </select>
+				    </td>
 					<td>${list.tel_delivery}</td>
 					<td>${list.warehouse_nm}</td>
-					<td>${list.arr_prev_date}</td>
-					<td>${list.state}</td>
+					<!-- 도착예정일자 -->
+					<td><input type="date" name="arrPrevDate" id="arrPrevDate" style="width: 100px; height: 28px;"></td>
+					<!-- 주문상태변경 -->
+					<td><select style="width: 100px;">
+                        <option value="dlving">배송중</option>
+                        <option value="comdlv">배송완료</option>
+                        </select>
+                    </td>
 				</tr>
 			</c:forEach>
 		</tbody>
