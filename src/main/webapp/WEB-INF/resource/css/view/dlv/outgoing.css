@@ -1,5 +1,13 @@
 @charset "UTF-8";
 
 #container ul li.contents .content {
-	min-height: 350px;
+	min-height: 340px;
+}
+.submitBtn{
+	font-size: 15px;
+	color: #fff;
+	background: #3cb3eb;
+	padding: 7px 0;
+	width: 13%;
+	display:inline-block;
 }
