@@ -56,6 +56,7 @@
          ,   WH.warehouse_nm
          ,   PL.purch_mng_id
          ,   PL.supply_cd
+         ,   DC.detail_name
       FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_order as OD
         ON PL.order_cd = OD.order_cd
@@ -67,17 +68,21 @@
         ON PL.supply_cd = PD.supply_cd
         LEFT JOIN tb_scm_m_category as MC
         ON PD.m_ct_cd = MC.m_ct_cd
+        LEFT JOIN (
+            SELECT detail_code, group_code, detail_name
+          FROM tb_detail_code
+          WHERE group_code = 'STTcd'
+        ) DC ON OD.STTcd = DC.detail_code
      WHERE PL.purch_list_no = #{purch_list_no}
        AND PL.order_cd = #{order_cd}
        AND PL.supply_cd = #{supply_cd}
        AND PD.product_cd = #{product_cd}
-
   </select>
   
   <!-- 발주서 목록 조회 -->
   <select id="pcsOrderForm" resultType="kr.happyjob.study.pcs.model.PcsModel">
     /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
-      SELECT 
+        SELECT 
              PL.purch_list_no
          ,   OD.order_cd
          ,   SP.supply_nm
@@ -88,10 +93,11 @@
          ,   WH.warehouse_nm
          ,   PL.direction_date
          ,   PL.desired_delivery_date
-         ,   OD.state
+         ,   OD.STTcd
          ,   PL.supply_cd
+         ,   DC.detail_name
       FROM tb_scm_purchase_list as PL
-          LEFT JOIN tb_order as OD
+        LEFT JOIN tb_order as OD
         ON PL.order_cd = OD.order_cd
         LEFT JOIN tb_scm_warehouse as WH
         ON OD.warehouse_cd = WH.warehouse_cd  
@@ -101,7 +107,12 @@
         ON PL.supply_cd = PD.supply_cd
         LEFT JOIN tb_scm_m_category as MC
         ON PD.m_ct_cd = MC.m_ct_cd
-      WHERE OD.state = '입금완료'
+        LEFT JOIN (
+            SELECT detail_code, group_code, detail_name
+          FROM tb_detail_code
+          WHERE group_code = 'STTcd'
+        ) DC ON OD.STTcd = DC.detail_code
+      WHERE OD.STTcd = 2
       ORDER BY purch_list_no DESC
   </select>
   
