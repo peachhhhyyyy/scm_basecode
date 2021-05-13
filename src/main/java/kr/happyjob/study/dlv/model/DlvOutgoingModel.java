@@ -15,7 +15,7 @@ public class DlvOutgoingModel {
 	// 창고명
 	private String warehouse_nm;
 	// 상태
-	private String state;
+	private String STTcd;
 	// 배송지시서번호
 	private String ship_list_no;
 	// 제품명
@@ -75,11 +75,11 @@ public class DlvOutgoingModel {
 	public void setWarehouse_nm(String warehouse_nm) {
 		this.warehouse_nm = warehouse_nm;
 	}
-	public String getState() {
-		return state;
+	public String getSTTcd() {
+		return STTcd;
 	}
-	public void setState(String state) {
-		this.state = state;
+	public void setSTTcd(String sTTcd) {
+		STTcd = sTTcd;
 	}
 	public String getShip_list_no() {
 		return ship_list_no;
@@ -111,11 +111,11 @@ public class DlvOutgoingModel {
 	public void setName_customer(String name_customer) {
 		this.name_customer = name_customer;
 	}
-	public String getTel_() {
+	public String getTel_customer() {
 		return tel_customer;
 	}
-	public void setTel_(String tel_) {
-		this.tel_customer = tel_;
+	public void setTel_customer(String tel_customer) {
+		this.tel_customer = tel_customer;
 	}
 	public String getName_scm() {
 		return name_scm;
@@ -147,6 +147,5 @@ public class DlvOutgoingModel {
 	public void setRequest(String request) {
 		this.request = request;
 	}
-	
 	
 }
