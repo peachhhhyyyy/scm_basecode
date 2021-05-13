@@ -8,7 +8,7 @@
                 , DATE_FORMAT(SHIPINFO.arr_date, '%Y-%m-%d') AS arr_date
                 , DATE_FORMAT(SHIPINFO.arr_prev_date, '%Y-%m-%d') AS arr_prev_date
 				, OD.order_cd AS order_cd
-				, OD.state AS state
+				, OD.STTcd AS STTcd
 				, SHIPINFO.staff_name AS name_delivery
 				, WH.warehouse_nm AS warehouse_nm
             FROM tb_order OD
@@ -26,8 +26,7 @@
                     LEFT JOIN tb_userinfo AS staff 
                     ON tssl.ship_staff_id = staff.loginID) AS SHIPINFO
             ON OD.order_cd = SHIPINFO.order_cd
-	
-			WHERE OD.state IN ('배송준비중', '배송중', '배송완료', '입금완료')
+			WHERE OD.STTcd IN (13, 14, 15)
 			ORDER BY OD.order_cd DESC
 			LIMIT #{pageIndex}, #{pageSize}
 	</select>
@@ -36,10 +35,50 @@
 	<select id="outgoingCnt" resultType="int">
 		SELECT COUNT(*) as tot_cnt
 			FROM tb_order
-			WHERE state IN ('배송준비중', '배송중', '배송완료', '입금완료')
+			WHERE STTcd IN (13, 14, 15)
 			ORDER BY order_cd DESC
 	</select>
 	
+	<!-- 검색조건 출하내역 조회 -->
+	<select id="outgoingSearchList" resultType = "kr.happyjob.study.dlv.model.DlvOutgoingModel">
+        SELECT DATE_FORMAT(OD.order_date, '%Y-%m-%d') AS order_date
+                , DATE_FORMAT(SHIPINFO.arr_date, '%Y-%m-%d') AS arr_date
+                , DATE_FORMAT(SHIPINFO.arr_prev_date, '%Y-%m-%d') AS arr_prev_date
+                , OD.order_cd AS order_cd
+                , OD.STTcd AS STTcd
+                , SHIPINFO.staff_name AS name_delivery
+                , WH.warehouse_nm AS warehouse_nm
+            FROM tb_order OD
+            LEFT JOIN (
+                SELECT warehouse_cd, warehouse_nm
+                    FROM tb_scm_warehouse ) AS WH
+                ON OD.warehouse_cd = WH.warehouse_cd
+    
+            LEFT JOIN(
+                SELECT tssl.order_cd AS order_cd
+                        , tssl.arr_date
+                        , tssl.arr_prev_date
+                        , staff.name AS staff_name
+                    FROM tb_scm_ship_list AS tssl
+                    LEFT JOIN tb_userinfo AS staff 
+                    ON tssl.ship_staff_id = staff.loginID) AS SHIPINFO
+            ON OD.order_cd = SHIPINFO.order_cd
+            WHERE OD.STTcd = #{STTcd}
+            AND OD.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+            ORDER BY OD.order_cd DESC
+            LIMIT #{pageIndex}, #{pageSize}
+    </select>
+    
+    <!-- 검색 조건 출하내역 건수 -->
+    <select id="outgoingSearchCnt" resultType="int">
+        SELECT COUNT(*) as tot_cnt
+            FROM tb_order
+            WHERE STTcd = #{STTcd} OR STTcd IN (13, 14, 15)
+            AND order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s')
+            ORDER BY order_cd DESC
+    </select>
+
+	<!-- 상세 정보 조회 -->
     <select id="outgoingDetailList" resultType="kr.happyjob.study.dlv.model.DlvOutgoingDetailModel">
         SELECT shipList.ship_list_no AS ship_list_no
 				, od.order_cd AS order_cd
@@ -54,7 +93,7 @@
 				, shipList.staff_tel AS tel_delivery
 				, warehouse.warehouse_nm AS warehouse_nm
 				, DATE_FORMAT(shipList.arr_prev_date, '%Y-%m-%d') AS arr_prev_date
-				, od.state AS state
+				, od.STTcd AS STTcd
             FROM tb_order od
 
             LEFT JOIN(
@@ -77,8 +116,8 @@
 						, tssl.arr_prev_date AS arr_prev_date
                     FROM tb_scm_ship_list tssl
 					LEFT JOIN tb_userinfo AS scm ON tssl.scm_id = scm.loginID
-					LEFT JOIN tb_userinfo AS staff ON tssl.ship_staff_id = scm.loginID
-					LEFT JOIN tb_userinfo AS mng ON tssl.ship_mng_id = scm.loginID) AS shipList
+					LEFT JOIN tb_userinfo AS staff ON tssl.ship_staff_id = staff.loginID
+					LEFT JOIN tb_userinfo AS mng ON tssl.ship_mng_id = mng.loginID) AS shipList
                 ON od.order_cd = shipList.order_cd
 
             LEFT JOIN(
@@ -97,4 +136,12 @@
 
 			WHERE od.order_cd = #{order_cd}
 	</select>
+	
+	<select id="dlvStaffNameCombo" resultType="kr.happyjob.study.dlv.model.DlvStaffNameModel">
+	   SELECT name as dlv_staff_name
+           FROM tb_userinfo
+           WHERE user_type like "H"
+	</select>
+	
+	
 </mapper>
