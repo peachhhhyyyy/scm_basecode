@@ -96,6 +96,23 @@
     $("#currentPage").val(currentPage);
   }
 
+  /** 시간 변환 함수 
+                출처 : https://stackoverflow.com/questions/23593052/format-javascript-date-as-yyyy-mm-dd
+  */
+  function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+  }
+  
   /** 발주서 화면 띄우기 */ 
   function fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, l_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd) {
     $("#purchListNo").text(purch_list_no);
@@ -104,7 +121,12 @@
     $("#lCtCd").text(l_ct_cd);
     $("#purchQty").text(purch_qty);
     $("#purchasePrice").text(purchase_price);
-    $("#desiredDeliveryDate").text(desired_delivery_date);
+    // 날짜 타입 변환
+    var date1 = desired_delivery_date.substr(0, 10);
+    var date2 = desired_delivery_date.substr(24, 29);
+    desired_delivery_date = date1 + ',' + date2;
+    $("#desiredDeliveryDate").text(formatDate(desired_delivery_date));
+    
     $("#warehouseNm").text(warehouse_nm);
     $("#purchMngId").text(purch_mng_id);
     
@@ -170,7 +192,6 @@
         <input type="hidden" name="order_cd" id="order_cd" value="">
         <input type="hidden" name="supply_cd" id="supply_cd" value="">
         <input type="hidden" name="alertmsg" id="alertmsg" value="">
-        
         <input type="hidden" name="action" id="action" value="">
          
         <!-- 모달 배경 -->
@@ -203,7 +224,7 @@
                                     <colgroup>
                                         <col width="7%">
                                         <col width="10%">
-                                        <col width="20%">
+                                        <col width="25%">
                                         <col width="7%">
                                         <col width="7%">
                                         <col width="6%">
