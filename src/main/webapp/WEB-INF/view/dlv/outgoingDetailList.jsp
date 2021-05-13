@@ -36,19 +36,24 @@
 					<td>${list.name_scm}</td>
 					<!-- 배송사원설정 -->
 					<td>
-						<select id="dlvStaff" style="width: 80px;">
-						    <option id=""></option>
-					    </select>
+						<c:if test="${!empty dlvStaffNameCombo}">
+							<select style="width: 75px;">
+								<c:forEach items="${dlvStaffNameCombo}" var="list">
+								    <option value="${list.dlv_staff_name}">${list.dlv_staff_name}</option>
+								</c:forEach>
+							</select>
+					   </c:if>
 				    </td>
 					<td>${list.tel_delivery}</td>
 					<td>${list.warehouse_nm}</td>
 					<!-- 도착예정일자 -->
-					<td><input type="date" name="arrPrevDate" id="arrPrevDate" style="width: 100px; height: 28px;"></td>
+					<td><input type="date" name="arrPrevDate" id="arrPrevDate" style="width: 110px; height: 28px;"></td>
 					<!-- 주문상태변경 -->
-					<td><select style="width: 100px;">
-                        <option value="dlving">배송중</option>
-                        <option value="comdlv">배송완료</option>
-                        </select>
+					<td>
+						<select style="width: 75px;">
+							<option value="dlving">배송중</option>
+							<option value="comdlv">배송완료</option>
+						</select>
                     </td>
 				</tr>
 			</c:forEach>
