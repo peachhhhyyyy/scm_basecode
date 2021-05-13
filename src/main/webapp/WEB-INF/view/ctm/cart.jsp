@@ -31,7 +31,7 @@ justify-content: space-around;
 		
 }
 
-#EmpDvModal{
+#CartModal{
 	display: none;	
 }
 
@@ -44,10 +44,10 @@ justify-content: space-around;
 
 <script type="text/javascript">
 
-		/*지출 결의서 페이징 설정*/
+		/*장바구니 페이징 설정*/
 
-		var pageSizeEmpDv= 10;
-		var pageBlockSizeEmpDv = 5;
+		var pageSizeCart= 10;
+		var pageBlockSizeCart = 5;
 
 
 		/** OnLoad event */ 
@@ -55,12 +55,12 @@ justify-content: space-around;
 		$(document).ready(function() {
 	
 			
-			fListEmpDv(); // 지출결의서 신청건 조회
+			fListCart(); // 장바구니 신청건 조회
 		
 		});
 
-		/** 지출결의서 신청건 조회 */
-		function fListEmpDv(currentPage) {
+		/** 장바구니 신청건 조회 */
+		function fListCart(currentPage) {
 			
 			currentPage = currentPage || 1;
 			
@@ -69,48 +69,48 @@ justify-content: space-around;
 			
 			var param = {
 						currentPage : currentPage
-					,	pageSize    : pageSizeEmpDv
+					,	pageSize    : pageSizeCart
 			}
 			
 			var resultCallback = function(data) {
-				fempDvResult(data, currentPage);
+				fCartResult(data, currentPage);
 			};
 			
-			callAjax("/accounting/listEmpDv.do", "post", "text", true, param, resultCallback);
+			callAjax("/ctm/listCart.do", "post", "text", true, param, resultCallback);
 		}
 
 		
 		/** 그룹코드 조회 콜백 함수 */
-		function fempDvResult(data, currentPage) {
+		function fCartResult(data, currentPage) {
 			
 			//alert(data);
 			console.log(data);
 			
 			// 기존 목록 삭제
-			$('#listEmpDv').empty();
+			$('#listCart').empty();
 			
 			// 신규 목록 생성
-			$("#listEmpDv").append(data);
+			$("#listCart").append(data);
 			
 			// 총 개수 추출
-			var totalCntEmpDv = $("#totalCntEmpDv").val();
+			var totalCntCart = $("#totalCntCart").val();
 			
 			// 페이지 네비게이션 생성
-			var paginationHtml = getPaginationHtml(currentPage, totalCntEmpDv, pageSizeEmpDv, pageBlockSizeEmpDv, 'fListEmpDv');
+			var paginationHtml = getPaginationHtml(currentPage, totalCntCart, pageSizeCart, pageBlockSizeCart, 'fListCart');
 			console.log("paginationHtml : " + paginationHtml);
 			//alert(paginationHtml);
-			$("#empDvPagination").empty().append( paginationHtml );
+			$("#CartPagination").empty().append( paginationHtml );
 			
 			// 현재 페이지 설정
-			$("#currentPageEmpDv").val(currentPage);
+			$("#currentPageCart").val(currentPage);
 		}
 		
-		function fPopModalEmpDv(){
+		function fPopModalCart(){
 			gfModalPop('#layer1');
 		}
 
 		function fEmpModalShow(){
-			document.getElementById("EmpDvModal").style.display = "block";
+			document.getElementById("CartModal").style.display = "block";
 		}
 		
 		
@@ -120,9 +120,9 @@ justify-content: space-around;
 </head>
 <body>
 
-	<input type="hidden" id="currentPageEmpDv" value="1">
-	<input type="hidden" id="tmpEmpDv" value="">
-	<input type="hidden" id="tmpEmpDvNm" value="">
+	<input type="hidden" id="currentPageCart" value="1">
+	<input type="hidden" id="tmpCart" value="">
+	<input type="hidden" id="tmpCartNm" value="">
 	<input type="hidden" name="action" id="action" value="">
 	
 	<!-- 모달 배경 -->
@@ -147,16 +147,16 @@ justify-content: space-around;
 
 						<p class="Location">
 							<a href="#" class="btn_set home">메인으로</a> <a href="#"
-								class="btn_nav">회계</a> <span class="btn_nav bold">
-								지출결의서 신청</span> <a href="#" class="btn_set refresh">새로고침</a>
+								class="btn_nav">주문</a> <span class="btn_nav bold">
+								장바구니</span> <a href="#" class="btn_set refresh">새로고침</a>
 						</p>
 
 						
 						
 						<p class="conTitle">
-							<span>지출결의서 신청</span> <span class="fr">
+							<span>장바구니</span> <span class="fr">
 							  <a class="btnType blue"
-										href="javascript:fListEmpDv()" name="search"><span
+										href="javascript:fListCart()" name="search"><span
 										id="searchEnter">조회</span></a><br/>
 							</span>
 						</p>
@@ -166,7 +166,7 @@ justify-content: space-around;
 						<form class = "aaa">
 							<Strong>신청일자</Strong> <input type = "date" id="from_date">~<input
 										type="date" id="to_date">
-							<!--  <a class="btnType blue" href="javascript:fPopModalEmpDv();" name="modal"><span>신규등록</span></a> -->
+							<!--  <a class="btnType blue" href="javascript:fPopModalCart();" name="modal"><span>신규등록</span></a> -->
 							<a class="btnType blue" onclick = "fEmpModalShow();" name="modal"><span>신규등록</span></a>
 						</form>	
 						
@@ -234,12 +234,12 @@ justify-content: space-around;
 										<th scope="col">신청취소</th>
 									</tr>
 								</thead>
-							<tbody id="listEmpDv"></tbody>
+							<tbody id="listCart"></tbody>
 						</table>
 					</div>
 	
 					  
-					<div id ="EmpDvModal" href="javascript:fEmpDvModal()">
+					<div id ="CartModal" href="javascript:fCartModal()">
 						<form>
 						
 						아이디<input type = "text" id = "loginID" disabled>

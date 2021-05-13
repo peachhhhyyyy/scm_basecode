@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.happyjob.study.ctm.dao.CartDao">
+	<select id="listCart" resultType = "kr.happyjob.study.ctm.model.CartModel">
+		SELECT	 dv_no
+			   , loginID
+			   , dv_reg_date
+			   , dv_use_date
+			   , account_cd
+			   , detail_account_cd
+			   , dv_amt
+			   , dv_app_yn
+			   , dv_app_date
+			   , dv_app_nm
+			   , dv_memo
+			   , dv_return
+			   , att_filename
+			   , att_filepath
+			   , att_filesize
+			   , acc_name
+		FROM   tb_dv_info		
+		LIMIT #{pageIndex}, #{pageSize}
+	
+	</select>
+
+	<select id="countListCart" resultType="int">
+		SELECT COUNT(1) AS tot_cnt FROM tb_dv_info
+	</select>
+
+</mapper>
+
