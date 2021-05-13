@@ -30,7 +30,7 @@ public class SupplierInfoController {
     return "scm/supplierInfo";
   }
   
-  //납품업체 조회
+  //공급처 조회
   @RequestMapping("supplierList.do")
   public String supplierList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception{
@@ -42,13 +42,13 @@ public class SupplierInfoController {
     paramMap.put("pageIndex", pageIndex);
     paramMap.put("pageSize", pageSize);
     
-    // 납품업체 목록 조회
+    // 공급처 목록 조회
     List<SupplierInfoModel> supplierInfoModelList = supplierInfoService.getSupplierInfo(paramMap);
     model.addAttribute("supplierInfoModelList", supplierInfoModelList);
     
-    // 납품업체 목록 카운트 조회
+    // 공급처 목록 카운트 조회
     int totalCount = supplierInfoService.countSupplierInfo(paramMap);
-    model.addAttribute("totalCount", totalCount);
+    model.addAttribute("totalCountSupplier", totalCount);
     
     model.addAttribute("pageSize", pageSize);
     model.addAttribute("currentPage",currentPage);  
@@ -56,7 +56,7 @@ public class SupplierInfoController {
     return "scm/supplierList";
   }
   
-  //상품목록 조회
+  //제품목록 조회
   @RequestMapping("supplierProList.do")
   public String supplierProList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception{
@@ -65,20 +65,24 @@ public class SupplierInfoController {
     int pageSize = Integer.parseInt((String)paramMap.get("pageSize"));      // 페이지 사이즈
     int pageIndex = (currentPage-1)*pageSize;                 // 페이지 시작 row 번호
     
+//    System.out.println("paramMap : " + paramMap);
+    
     paramMap.put("pageIndex", pageIndex);
     paramMap.put("pageSize", pageSize);
+   
     
     // 제품 목록 조회
-    List<SupplierInfoModel> listProductModel = supplierInfoService.supplierProList(paramMap);
-    model.addAttribute("listProductModel", listProductModel);
+    List<SupplierInfoModel> supplierProModelList = supplierInfoService.getSupplierProInfo(paramMap);
+    model.addAttribute("supplierProModelList", supplierProModelList);
     
     // 제품 목록 카운트 조회
-    int totalCount = supplierInfoService.totalCntProduct(paramMap);
-    model.addAttribute("totalProduct", totalCount);
+    int totalCount = supplierInfoService.countSupplierProInfo(paramMap);
+    model.addAttribute("totalCountPro", totalCount);
     
     model.addAttribute("pageSize", pageSize);
-    model.addAttribute("currentPageProduct",currentPage);
-       
+    model.addAttribute("currentPage",currentPage);
+    
+    
     return "scm/supplierProList";
   }
   

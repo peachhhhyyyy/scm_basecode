@@ -13,7 +13,7 @@ public interface SupplierInfoDao {
   public int countSupplierInfo(Map<String, Object> paramMap) throws Exception;
   
   // 제품정보 목록 조회
-  public List<SupplierInfoModel> supplierProList(Map<String, Object> paraMap) throws Exception;
+  public List<SupplierInfoModel> getSupplierProInfo(Map<String, Object> paraMap) throws Exception;
   // 제품정보 목록 갯수 조회
-  public int totalCntProduct(Map<String, Object> paramMap) throws Exception;
+  public int countSupplierProInfo(Map<String, Object> paramMap) throws Exception;
 }

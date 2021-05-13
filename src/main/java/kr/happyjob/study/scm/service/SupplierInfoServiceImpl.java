@@ -29,15 +29,15 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
   
   //제품정보 목록 조회
   @Override
-  public List<SupplierInfoModel> supplierProList(Map<String, Object> paramMap) throws Exception{
-    List<SupplierInfoModel> supplierProList = supplierInfoDao.supplierProList(paramMap);
+  public List<SupplierInfoModel> getSupplierProInfo(Map<String, Object> paramMap) throws Exception{
+    List<SupplierInfoModel> supplierProList = supplierInfoDao.getSupplierProInfo(paramMap);
     return supplierProList;
   }
   //제품정보 목록 카운트
   @Override
-  public int totalCntProduct(Map<String, Object>paramMap) throws Exception{
-    int totalCntProduct = supplierInfoDao.totalCntProduct(paramMap);
-    return totalCntProduct;
+  public int countSupplierProInfo(Map<String, Object>paramMap) throws Exception{
+    int countSupplierProInfo = supplierInfoDao.countSupplierProInfo(paramMap);
+    return countSupplierProInfo;
   }
 
 }

@@ -25,7 +25,7 @@
     selectSupplierList();
     
     //납품업체 목록 조회
-    fListProduct();
+    selectSupplierProList();
     
     // 버튼 이벤트 등록
     fButtonClickEvent();
@@ -77,16 +77,17 @@
     $("#supplierList").empty();
     $("#supplierList").append(data);
     // 총 개수 추출
-    var totalCnt = $("#totalCount").val();
+    var totalCnt = $("#totalCountSupplier").val();
     //페이지 네비게이션 생성
     var paginationHtml = getPaginationHtml(currentPage, totalCnt, userPageSize, userPageBlock, 'selectSupplierList');
     $("#paginationHtml").empty().append(paginationHtml);
     //현재 페이지 설정
     $("#currentPage").val(currentPage);
+    console.log("totalCnt : ", totalCnt);
   }
   
   /*제품 목록 조회*/
-  function fListProduct(currentPage, supply_nm) {
+  function selectSupplierProList(currentPage, supply_nm) {
     //공급처명 매개변수 설정
     currentPage = currentPage || 1;
     $("#tmpsupply_nm").val(supply_nm);
@@ -98,27 +99,26 @@
     
     console.log("supply_nm : " + supply_nm);
     var resultCallback = function(data) {
-      flistProductResult(data, currentPage);
+      supplierProListResult(data, currentPage);
     };
-    callAjax("/scm/supplierProList.do", "post", "text", true, param,
-        resultCallback);
+    callAjax("/scm/supplierProList.do", "post", "text", true, param, resultCallback);
   }
   /*제품목록 조회 콜백 함수*/
-  function flistProductResult(data, currentPage) {
+  function supplierProListResult(data, currentPage) {
+    console.log("data : " + data);
     //기존 목록 삭제
     $('#supplierProList').empty();
     // 신규 목록 생성
     $("#supplierProList").append(data);
     //$("#listProduct").append($listProduct.children());  
     // 총 개수 추출
-    var totalProduct = $("#totalProduct").val();
+    var totalProduct = $("#totalCountPro").val();
     //페이지 네비게이션 생성
     var supply_nm = $("#supply_nm").val();
-    var paginationHtml = getPaginationHtml(currentPage, totalProduct,
-        pageSizeProduct, pageBlockSizeProduct, 'fListProduct', [ supply_nm ]);
+    var paginationHtml = getPaginationHtml(currentPage, totalProduct, pageSizeProduct, pageBlockSizeProduct, 'selectSupplierProList', [ supply_nm ]);
     $("#productPagination").empty().append(paginationHtml);
     // 현재 페이지 설정
-    $("#currentPageProduct").val(currentPage);
+    $("#currentPage").val(currentPage);
   }
   
   
@@ -134,7 +134,7 @@
 <body>
 <form id="myForm" action="" method="">
     <input type="hidden" id="currentPage" value="1">
-    <input type="hidden" id="currentPageProduct" value="1">   
+    <input type="hidden" id="currentPage" value="1">   
     <input type="hidden" id="tmpsupply_nm" value=""> 
     <input type="hidden" name="action" id="action" value="">
     <div id="mask"></div>
@@ -223,9 +223,11 @@
                                  <col width="15%">
                                  <col width="15%">
                                  <col width="15%">
+                                 <col width="15%">
                              </colgroup>
                         <thead>
                              <tr>
+                                <th scope="col">공급처명</th>
                                 <th scope="col">제품코드</th>
                                 <th scope="col">제품명</th>
                                 <th scope="col">모델명</th>
@@ -246,8 +248,8 @@
                    
               </div>
                   
-                       <h3 class="hidden">풋터 영역</h3> <jsp:include
-                               page="/WEB-INF/view/common/footer.jsp"></jsp:include>
+                       <h3 class="hidden">풋터 영역</h3> 
+                        <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
                   </li>
               </ul>
           </div>  

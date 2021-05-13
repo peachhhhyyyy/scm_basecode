@@ -22,13 +22,21 @@ public class SupplierInfoModel {
   // 모델명
   private String l_ct_nm;
   // 재고현황(개)
-  private String stock;
+  private int stock;
   // 제품단가(원)
-  private String price;
+  private int price;
   // 중분류 코드(for JOIN)
   private String m_ct_cd;
+  // 대분류 코드(for JOIN)
+  private String l_ct_cd;
   
   
+  public String getL_ct_cd() {
+    return l_ct_cd;
+  }
+  public void setL_ct_cd(String l_ct_cd) {
+    this.l_ct_cd = l_ct_cd;
+  }
   public String getSupply_cd() {
     return supply_cd;
   }
@@ -91,16 +99,16 @@ public class SupplierInfoModel {
   public void setL_ct_nm(String l_ct_nm) {
     this.l_ct_nm = l_ct_nm;
   }
-  public String getStock() {
+  public int getStock() {
     return stock;
   }
-  public void setStock(String stock) {
+  public void setStock(int stock) {
     this.stock = stock;
   }
-  public String getPrice() {
+  public int getPrice() {
     return price;
   }
-  public void setPrice(String price) {
+  public void setPrice(int price) {
     this.price = price;
   }
   public String getM_ct_cd() {

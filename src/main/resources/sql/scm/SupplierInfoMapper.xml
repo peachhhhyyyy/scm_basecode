@@ -25,29 +25,32 @@
   </select>
   
   <!-- 제품 목록 조회 -->
-  <select id="supplierProList" resultType = "kr.happyjob.study.scm.model.SupplierInfoModel" >
-    SELECT PD.product_cd
-         , PD.prod_nm
-         , LC.l_ct_nm
-         , PD.stock
-         , PD.price
+  <select id="getSupplierProInfo" resultType = "kr.happyjob.study.scm.model.SupplierInfoModel" >
+    SELECT SP.supply_nm
+         , PD.product_cd as product_cd
+         , PD.prod_nm as prod_nm
+         , LC.l_ct_nm as l_ct_nm
+         , PD.stock as stock
+         , PD.price as price
       FROM tb_scm_product PD
       LEFT OUTER JOIN tb_scm_supply SP ON SP.supply_cd = PD.supply_cd
       LEFT OUTER JOIN tb_scm_m_category MC ON MC.m_ct_cd = PD.m_ct_cd
       LEFT OUTER JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
-     WHERE SP.supply_nm = #(supply_nm) 
+     WHERE SP.supply_nm = #{supply_nm}
      
      LIMIT #{pageIndex}, #{pageSize}
+  
+  
   </select>
   <!-- 제품 목록 갯수 카운트 -->
-  <select id="totalCntProduct" resultType="int">
-    SELECT (1) as tot_proCnt
+  <select id="countSupplierProInfo" resultType="int">
+    SELECT COUNT(1) as tot_proCnt
       FROM tb_scm_product PD
       LEFT OUTER JOIN tb_scm_supply SP ON SP.supply_cd = PD.supply_cd
       LEFT OUTER JOIN tb_scm_m_category MC ON MC.m_ct_cd = PD.m_ct_cd
       LEFT OUTER JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
-     WHERE SP.supply_nm = #(supply_nm)
+     WHERE SP.supply_nm = #{supply_nm}
      
-     LIMIT #{pageIndex}, #{pageSize} 
+      
 </select>
 </mapper>
