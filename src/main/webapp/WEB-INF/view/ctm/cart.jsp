@@ -1,4 +1,4 @@
-<%-- <%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -38,22 +38,15 @@ justify-content: space-around;
 
 </style>
 
-<title>주문</title>
+<title>장바구니</title>
 
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 
 <script type="text/javascript">
-		
-		/* 조회 조건 파라미터 변수 선언 */
-		var from_date;
-		var	to_date;
-		var account_cd;
-		var detail_account_cd;
-		var dv_app_yn;
 
 		/*지출 결의서 페이징 설정*/
 
-		var pageSizeEmpDv= 5;
+		var pageSizeEmpDv= 10;
 		var pageBlockSizeEmpDv = 5;
 
 
@@ -74,32 +67,14 @@ justify-content: space-around;
 			
 			console.log("currentPage : " + currentPage);
 			
-			from_date = $("#from_date").val(); // 신청날짜 - 시작날짜
-			to_date	  = $("#to_date").val();	// 신청날짜 - 끝날짜	
-			account_cd = $("#account_cd").val(); // 대분류코드
-			detail_account_cd = $("#detail_account_cd").val(); //상세분류코드
-			dv_app_yn = $("#dv_app_yn").val();   //	승인여부
-			
-			
-			console.log("from_date : " + from_date + "to_date : " + to_date + "account_cd : " + account_cd + 
-					"detail_account_cd : "  + detail_account_cd + "dv_app_yn : " + dv_app_yn);
-			
 			var param = {
-						from_date : from_date
-					,	to_date   : to_date
-					,	account_cd : account_cd
-					,	detail_acoount_cd : detail_account_cd 	
-					,	dv_app_yn   : dv_app_yn
-					,	currentPage : currentPage
+						currentPage : currentPage
 					,	pageSize    : pageSizeEmpDv
 			}
-			alert("account_cd: " +  account_cd + "detail_account_cd: " + detail_account_cd + "dv_app_yn:" + dv_app_yn);
 			
 			var resultCallback = function(data) {
 				fempDvResult(data, currentPage);
 			};
-			//Ajax실행 방식
-			//callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
 			
 			callAjax("/accounting/listEmpDv.do", "post", "text", true, param, resultCallback);
 		}
@@ -307,4 +282,4 @@ justify-content: space-around;
 	</div>
 
 </body>
-</html> --%>
+</html>
