@@ -4,7 +4,7 @@
 <mapper namespace="kr.happyjob.study.scm.dao.SupplierInfoDao">
 
   <!-- 공급처 목록 조회 -->
-  <select id="getSupplierInfo" resultType = "kr.happyjob.study.scm.model.SupplierInfoModel">
+  <select id="getSupplierInfo" resultType = "SupplierInfoModel">
       SELECT SP.supply_nm as supply_nm
            , SP.supply_mng_nm as supply_mng_nm
            , SP.tel as tel
@@ -26,7 +26,7 @@
   
   <!-- 제품 목록 조회 -->
   <select id="getSupplierProInfo" resultType = "kr.happyjob.study.scm.model.SupplierInfoModel" >
-    SELECT SP.supply_nm
+    SELECT SP.supply_nm as supply_nm
          , PD.product_cd as product_cd
          , PD.prod_nm as prod_nm
          , LC.l_ct_nm as l_ct_nm
@@ -50,7 +50,18 @@
       LEFT OUTER JOIN tb_scm_m_category MC ON MC.m_ct_cd = PD.m_ct_cd
       LEFT OUTER JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
      WHERE SP.supply_nm = #{supply_nm}
+   </select>
      
-      
+   <!-- 제품 목록 단건 조회 -->
+   <select id="selectDelivery" resultType="kr.happyjob.study.scm.model.SupplierInfoModel" >
+     SELECT SP.supply_nm as supply_nm
+           , SP.supply_mng_nm as supply_mng_nm
+           , SP.tel as tel
+           , SP.email as email
+           , WH.warehouse_nm as warehouse_nm
+      FROM tb_scm_supply SP
+      LEFT OUTER JOIN tb_scm_warehouse WH
+        ON WH.warehouse_cd = SP.warehouse_cd
+     WHERE SP.supply_nm = #{supply_nm}
 </select>
 </mapper>
