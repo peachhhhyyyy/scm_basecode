@@ -139,7 +139,7 @@ justify-content: space-around;
 				<li class="lnb">
 					<!-- lnb 영역 --> <jsp:include
 						page="/WEB-INF/view/common/lnbMenu.jsp"></jsp:include> <!--//  영역 -->
-				</li>lnb
+				</li>
 				<li class="contents">
 					<!-- contents -->
 					<h3 class="hidden">contents 영역</h3> <!-- content -->
@@ -159,79 +159,30 @@ justify-content: space-around;
 										href="javascript:fListCart()" name="search"><span
 										id="searchEnter">조회</span></a><br/>
 							</span>
-						</p>
-						
-						
-						<div>
-						<form class = "aaa">
-							<Strong>신청일자</Strong> <input type = "date" id="from_date">~<input
-										type="date" id="to_date">
-							<!--  <a class="btnType blue" href="javascript:fPopModalCart();" name="modal"><span>신규등록</span></a> -->
-							<a class="btnType blue" onclick = "fEmpModalShow();" name="modal"><span>신규등록</span></a>
-						</form>	
-						
-						
-						<form class = "bbb">
-							<ul>
-								<li>
-								<strong>계정대분류명</strong><select id = "account_cd" name ="account_cd">
-									<option value = "A100" selected>온라인지출</option>
-									<option value = "B200">영업매출</option>
-									<option value = "C300">급여</option>
-									<option value = "D400">복리후생비</option>
-									<option value = "E500">접대비</option>
-									<option value = "F600">통신비</option>
-								</select>	
-							</li>
-							<li>
-								<strong>상세분류명</strong><select id = "detail_account_cd" name = "detail_account_cd">
-									<option value = "101" selected >장비구매액</option>
-									<option value = "102">단가</option>
-									<option value = "103">부가세</option>
-									<option value = "104">공급가액</option>
-								</select>
-							</li>
-							<li>
-								<strong>승인여부</strong><select id = "dv_app_yn" name = "dv_app_yn">
-									<option value = "1">승인</option>
-									<option value = "2">승인대기</option>
-									<option value = "3" selected>반려</option>
-								</select>
-							</li>	
-						</form>
-					</div>
-						
+						</p>						
 						
 					<div class="divDvList">
 						<table class="col">
 							<caption>caption</caption>
 								<colgroup>
-									<col width="8%">
+									<col width="40%">
 									<col width="10%">
 									<col width="10%">
 									<col width="10%">
 									<col width="10%">
 									<col width="10%">
 									<col width="10%">
-									<col width="*">
-									<col width="9%">
-									<col width="8%">
-									<col width="8%">
 								</colgroup>
 	
 								<thead>
 									<tr>
-										<th scope="col">결의번호</th>
-										<th scope="col">계정대분류명</th>
-										<th scope="col">계정과목</th>
-										<th scope="col">거래처명</th>
-										<th scope="col">신청일자</th>
-										<th scope="col">사용일자</th>
-										<th scope="col">지출금액</th>
-										<th scope="col">승인여부</th>
-										<th scope="col">승인일자</th>
-										<th scope="col">승인자</th>
-										<th scope="col">신청취소</th>
+										<th scope="col">제품명</th>
+										<th scope="col">품목명</th>
+										<th scope="col">제조사명</th>
+										<th scope="col">제품코드</th>
+										<th scope="col">수량</th>
+										<th scope="col">결제금액</th>
+										<th scope="col">주문관리</th>
 									</tr>
 								</thead>
 							<tbody id="listCart"></tbody>
