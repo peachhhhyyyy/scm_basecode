@@ -40,12 +40,12 @@
   }
 
   /** 그룹코드 모달 실행 */  
-  function fPopPcsOrderForm(purch_list_no, order_cd, supply_nm, prod_nm, l_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date,supply_cd,product_cd) {
+  function fPopPcsOrderForm(purch_list_no, order_cd, supply_nm, prod_nm, l_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name) {
     // 신규 저장
     if (purch_list_no == null || purch_list_no == "") {
     } else {
       // 발주서 버튼 클릭 시 화면 출력
-      fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, l_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date,supply_cd,product_cd);
+      fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, l_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name);
     }
   }
 
@@ -91,8 +91,25 @@
     $("#currentPage").val(currentPage);
   }
 
+  /** 시간 변환 함수 
+	  출처 : https://stackoverflow.com/questions/23593052/format-javascript-date-as-yyyy-mm-dd
+	*/
+	function formatDate(date) {
+		var d = new Date(date),
+		month = '' + (d.getMonth() + 1),
+		day = '' + d.getDate(),
+		year = d.getFullYear();
+		
+		if (month.length < 2) 
+		month = '0' + month;
+		if (day.length < 2) 
+		day = '0' + day;
+		
+		return [year, month, day].join('-');
+	}
+  
   /** 발주서 화면 띄우기 */ 
-  function fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, l_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date,supply_cd,product_cd) {
+  function fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, l_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name) {
 
     var param = {
       purch_list_no : purch_list_no,
@@ -107,7 +124,9 @@
       direction_date : direction_date,
       desired_delivery_date : desired_delivery_date,
       supply_cd : supply_cd,
-      product_cd : product_cd
+      product_cd : product_cd,
+      STTcd : STTcd,
+      detail_name : detail_name
     };
     
     $("#purchListNo").text(purch_list_no);
@@ -118,8 +137,17 @@
     $("#purchQty").text(purch_qty);
     $("#purchMngId").text(purch_mng_id);
     $("#purchasePrice").text(purchase_price);
-    $("#directionDate").text(direction_date);
-    $("#desiredDeliveryDate").text(desired_delivery_date);
+    
+    // 날짜 타입 변환
+    var date1 = direction_date.substr(0, 10);
+    var date2 = direction_date.substr(24, 29);
+    direction_date = date1 + ',' + date2;
+    $("#directionDate").text(formatDate(direction_date));
+    var date3 = desired_delivery_date.substr(0, 10);
+    var date4 = desired_delivery_date.substr(24, 29);
+    desired_delivery_date = date3 + ',' + date4;
+    $("#desiredDeliveryDate").text(formatDate(desired_delivery_date));
+    $("#STTcd").text(STTcd);
     
     console.log('purchMngId' + purch_mng_id);
     console.log('purchasePrice' + purchase_price);
@@ -149,7 +177,11 @@
 </head>
 <body>
 		<form id="myForm" action="" method="">
-				<input type="hidden" id="currentPageComnGrpCod" value="1"> <input type="hidden" id="currentPageComnDtlCod" value="1"> <input type="hidden" id="tmpGrpCod" value=""> <input type="hidden" id="tmpGrpCodNm" value=""> <input type="hidden" name="action" id="action" value="">
+				<input type="hidden" id="currentPageComnGrpCod" value="1">
+				<input type="hidden" id="currentPageComnDtlCod" value="1">
+				<input type="hidden" id="tmpGrpCod" value="">
+				<input type="hidden" id="tmpGrpCodNm" value="">
+				<input type="hidden" name="action" id="action" value="">
 				<!-- 모달 배경 -->
 				<div id="mask"></div>
 				<div id="wrap_area">
