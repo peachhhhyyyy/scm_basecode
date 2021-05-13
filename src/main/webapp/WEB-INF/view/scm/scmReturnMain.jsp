@@ -10,7 +10,7 @@
       <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
       <script type="text/javascript">
       	var pageSizeinf = 5;
-  		var pageBlockSizeinquiry = 3;
+  		var pageBlockSizeinquiry = 10;
          $(document).ready(function(){
          	fReturnList();
          })
@@ -32,7 +32,7 @@
 			//Ajax실행 방식
 			//callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
 			//html로 받을거라 text
-			callAjax("/dlv/returnList.do", "post", "text", true, param, resultCallback);
+			callAjax("/scm/scmReturnList.do", "post", "text", true, param, resultCallback);
 		}
          function fReturnListResult(data, currentPage) {
         	    //alert(data);
@@ -42,7 +42,7 @@
         	    // 신규 목록 생성
         	    $("#returnList").append(data);
         	    // 총 개수 추출
-        	    var totalReturnListCnt = $("#returnlistCnt").val();
+        	    var totalReturnListCnt = $("#scmReturnCnt").val();
         	    // 페이지 네비게이션 생성
         	    var paginationHtml = getPaginationHtml(currentPage, totalReturnListCnt, 
         	    		pageSizeinf, pageBlockSizeinquiry, 'fReturnList');
