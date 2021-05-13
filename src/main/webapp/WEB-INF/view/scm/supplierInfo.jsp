@@ -233,6 +233,9 @@
                             <p class="conTitle">
                                  <span>공급처 관리</span>
                                  <span class="fr"> 
+                                 <a href="javascript:fPopModalSupplier()" class="btnType blue" name="modal"  style="float: right;">
+                                      <span>신규등록</span>
+                                      </a>
                     
                   
                                       
@@ -277,9 +280,7 @@
                        
                    <div class="paging_area" id="paginationHtml"></div>
                    
-                   <a href="javascript:fPopModalSupplier()" class="btnType blue" name="modal"  style="float: right;">
-                                      <span>신규등록</span>
-                                      </a>
+                   
                    
                    
                    <p class="conTitle mt50">
