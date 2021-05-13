@@ -2,335 +2,71 @@ package kr.happyjob.study.ctm.model;
 
 public class CartModel {
 
-	/* 사용 일자 */
-	private String dv_no;
+	/* 제품명 */
+	private String prod_nm;
 	
-	/* 아이디 */
-	private String loginID;
+	/* 품목명 */
+	private String l_ct_nm;
 	
-	/* 신청일자 */
-	private String dv_reg_date;
+	/* 브랜드명 */
+	private String m_ct_nm;
 	
-	/* 사용일자 */
-	private String dv_use_date;
+	/* 가격 */
+	private int price;
 	
-	/* 대분류코드 */
-	private String account_cd;
+	/* 제품코드 */
+	private String product_cd;
+
+	/* 상세정보 */
+	private String detail;
 	
-	/* 상세분류코드*/
-	private String detail_account_cd;
-	
-	/* 지출금액 */
-	private int dv_amt;
-	
-	/* 승인여부 */
-	private String dv_app_yn;
-	
-	/* 승인일자 */
-	private String dv_app_date;
-	
-	/* 승인자 */
-	private String dv_app_nm;
-	
-	/* 비고 */
-	private String dv_memo;
-	
-	/* 반려사유 */
-	private String dv_return;
-	
-	/* 첨부파일명 */
-	private String att_filename;
-	
-	/* 첨부파일경로*/
-	private String att_filepath;
-	
-	/* 첨부파일사이즈 */
-	private int att_filesize;
-	
-	/* 거래처명 */
-	private String acc_name;
-	
-	
-	/**
-	 * @return the dv_no
-	 */
-	public String getDv_no() {
-		return dv_no;
+	public String getProd_nm() {
+		return prod_nm;
 	}
 
-	/**
-	 * @param dv_no
-	 *            the dv_no to set
-	 */
-	public void setDv_no(String dv_no) {
-		this.dv_no = dv_no;
+	public void setProd_nm(String prod_nm) {
+		this.prod_nm = prod_nm;
 	}
 	
-	
-	
-	/**
-	 * @return the loginID
-	 */
-	public String getLoginID() {
-		return loginID;
+	public String getL_ct_nm() {
+		return l_ct_nm;
 	}
 
-	/**
-	 * @param loginID
-	 *            the loginID to set
-	 */
-	public void setLoginID(String loginID) {
-		this.loginID = loginID;
+	public void setL_ct_nm(String l_ct_nm) {
+		this.l_ct_nm = l_ct_nm;
 	}
 
-	
-	/**
-	 * @return the dv_reg_date
-	 */
-	public String getDv_reg_date() {
-		return dv_reg_date;
-	}
-	
-	/**
-	 * @param dv_reg_date 
-	 *            the dv_reg_date to set
-	 */
-	public void setDv_reg_date(String loginID, String dv_reg_date) {
-		this.dv_reg_date = dv_reg_date;
-	}
-		
-		
-	/**
-	* @return the dv_use_date
-	*/
-	public String getDv_use_date() {
-			return dv_use_date;
+	public String getM_ct_nm() {
+		return m_ct_nm;
 	}
 
-	/**
-	* @param dv_use_date
-	*            the dv_use_date to set
-	*/
-	public void setDv_use_date(String dv_use_date) {
-			this.dv_use_date = dv_use_date;		
-	}
-	
-	
-	
-	
-	/**
-	* @return the account_cd
-	*/
-	public String getAccount_cd() {
-			return account_cd;
+	public void setM_ct_nm(String m_ct_nm) {
+		this.m_ct_nm = m_ct_nm;
 	}
 
-	/**
-	* @param account_cd
-	*            the account_cd to set
-	*/
-	
-	public void setAccount_cd(String account_cd) {
-			this.account_cd = account_cd;		
-	}
-	
-	
-	
-	/**
-	* @return the detail_account_cd
-	*/
-	public String getDetail_account_cd() {
-			return detail_account_cd;
+	public int getPrice() {
+		return price;
 	}
 
-	/**
-	* @param detail_account_cd
-	*            the detail_account_cd to set
-	*/
-	
-	public void setDetail_account_cd(String detail_account_cd) {
-			this.detail_account_cd = detail_account_cd;		
-	}
-	
-	
-	
-	
-	/**
-	 * @param dv_amt
-	 *            the dv_amt to set
-	 */
-	public void setDv_amt(int dv_amt) {
-		this.dv_amt = dv_amt;
-	}
-	
-	
-	
-	/**
-	 * @return the dv_amt
-	 */
-	public int getDv_amt() {
-		return dv_amt;
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
-	
-	/**
-	 * @param dv_app_yn
-	 *            the dv_app_yn to set
-	 */
-	public void setDv_app_yn(String dv_app_yn) {
-		this.dv_app_yn = dv_app_yn;
-	}
-	
-	
-	
-	/**
-	 * @return the dv_app_yn
-	 */
-	public String getDv_app_yn() {
-		return dv_app_yn;
+	public String getProduct_cd() {
+		return product_cd;
 	}
 
-	
-	
-	/**
-	 * @param dv_app_date
-	 *            the dv_app_date to set
-	 */
-	public void setDv_app_date(String dv_app_date) {
-		this.dv_app_date = dv_app_date;
-	}
-	
-	
-	
-	/**
-	 * @return the dv_app_date
-	 */
-	public String getDv_app_date() {
-		return dv_app_date;
+	public void setProduct_cd(String product_cd) {
+		this.product_cd = product_cd;
 	}
 
-	/**
-	 * @param dv_app_nm
-	 *            the dv_app_nm to set
-	 */
-	public void setDv_app_nm(String dv_app_nm) {
-		this.dv_app_nm = dv_app_nm;
-	}
-	
-	
-	/**
-	 * @return the dv_app_nm
-	 */
-	public String getDv_app_nm() {
-		return dv_app_nm;
+	public String getDetail() {
+		return detail;
 	}
 
-	
-	/**
-	 * @param dv_memo
-	 *            the dv_memo to set
-	 */
-	public void setDv_memo(String dv_memo) {
-		this.dv_memo = dv_memo;
+	public void setDetail(String detail) {
+		this.detail = detail;
 	}
 	
-	
-	
-	/**
-	 * @return the dv_memo
-	 */
-	public String getDv_memo() {
-		return dv_memo;
-	}	
-
-	/**
-	 * @param dv_return
-	 *            the dv_return to set
-	 */
-	public void setDv_return(String dv_return) {
-		this.dv_return = dv_return;
-	}
-	
-	
-	
-	/**
-	 * @return the dv_return
-	 */
-	public String getDv_return() {
-		return dv_return;
-	}	
-
-	/**
-	 * @param att_filename
-	 *            the att_filename to set
-	 */
-	public void setAtt_filename(String att_filename) {
-		this.att_filename = att_filename;
-	}
-	
-	
-	
-	/**
-	 * @return the att_filename
-	 */
-	public String getAtt_filename() {
-		return att_filename;
-	}	
-
-	
-	
-	/**
-	 * @param att_filepath
-	 *            the att_filepath to set
-	 */
-	public void setAtt_filepath(String att_filepath) {
-		this.att_filepath = att_filepath;
-	}
-	
-	
-	
-	/**
-	 * @return the att_filepath
-	 */
-	public String getAtt_filepath() {
-		return att_filepath;
-	}	
-
-	
-	/**
-	 * @param att_filesize
-	 *            the att_filesize to set
-	 */
-	public void setAtt_filesize(int att_filesize) {
-		this.att_filesize = att_filesize;
-	}
-	
-	
-	
-	/**
-	 * @return the att_filesize
-	 */
-	public int getAtt_filesize() {
-		return att_filesize;
-	}	
-
-	
-	/**
-	 * @param acc_name
-	 *            the acc_name to set
-	 */
-	public void setAcc_name(String acc_name) {
-		this.acc_name = acc_name;
-	}
-	
-	
-	
-	/**
-	 * @return the acc_name
-	 */
-	public String getAcc_name() {
-		return acc_name;
-	}	
-
 	
 }
