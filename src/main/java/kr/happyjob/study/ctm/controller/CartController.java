@@ -53,6 +53,7 @@ public class CartController {
 				
 		paramMap.put("pageIndex", pageIndex);
 		paramMap.put("pageSize", pageSize);
+		paramMap.put("loginID", session.getAttribute("loginID")); // 로그인 아이디
 		
 		// 공통 그룹코드 목록 조회
 		List<CartModel> listCartModel = CartService.listCart(paramMap);

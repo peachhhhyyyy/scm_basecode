@@ -13,7 +13,7 @@
              , tb_scm_product pd
              , tb_scm_m_category mcg
              , tb_scm_l_category lcg
- 	     WHERE pd.m_ct_cd = mcg.m_ct_cd AND mcg.l_ct_cd = lcg.l_ct_cd AND pd.product_cd = sc.product_cd	
+ 	     WHERE pd.m_ct_cd = mcg.m_ct_cd AND mcg.l_ct_cd = lcg.l_ct_cd AND pd.product_cd = sc.product_cd	AND sc.loginID = #{loginID}
 	   	 LIMIT #{pageIndex}, #{pageSize}
 	
 	</select>
