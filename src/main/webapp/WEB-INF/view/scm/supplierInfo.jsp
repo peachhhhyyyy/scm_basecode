@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>공급처 관리</title>
+<script src='${CTX_PATH}/js/sweetalert/sweetalert.min.js'></script>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript">
   //공급처정보 페이징 처리
@@ -86,6 +87,73 @@
     console.log("totalCnt : ", totalCnt);
   }
   
+  
+  
+  
+  
+
+  /* 공급처 폼 초기화 */
+  function fInitFormDelivery(object) {
+    $("#supply_nm").focus();
+    
+    if (object == "" || object == null || object == undefined) {
+      $("#supply_nm").val("");
+      $("#supply_nm").attr("readonly", true);
+      $("#supply_nm").css("background", "#FFFFFF");
+      $("#supply_mng_nm").val("");
+      $("#tel").val("");
+      $("#email").val("");
+      $("#warehouse_nm").val("");
+    } else{
+      $("#supply_nm").val(object.supply_nm);
+      $("#supply_nm").attr("readonly", true);
+      $("#supply_nm").css("background", "#F5F5F5");
+      $("#supply_mng_nm").val(object.supply_mng_nm);
+      $("#tel").val(object.tel);
+      $("#email").val(object.email);
+      $("#warehouse_nm").val(object.warehouse_nm);
+    } 
+  } 
+  
+  /* 공급처 모달 실행 */
+  function fPopModalDelivery(supply_nm) {
+    //신규 저장
+    if (supply_nm == null || supply_nm == "") {
+      $("#action").val("I");
+      fInitFormSupplier();
+      gfModalPop("#layer1");
+    } else {
+      $("#action").val("U");
+      fSelectDelivery(supply_nm);
+    }
+  }
+  
+  /* 공급처 단건 조회*/
+  function fSelectDelivery(supply_nm) {
+    var param = {
+        supply_nm : supply_nm
+    };
+    var resultCallback = function(data) {
+      fSelectDeliveryResult(data);
+    };
+    callAjax("/scm/selectDelivery.do", "post", "json", true, param,
+        resultCallback);
+  }
+  
+  // 공급처 단건 조회 콜백 함수
+  function fSelectDeliveryResult(data) {
+    if (data.result == "SUCCESS") {
+      gfModalPop("#layer1")
+      fInitFormDelivery(data.supplierInfoModel);
+    } else {
+      alert(data.resultMsg);
+    }
+  }
+  
+  
+  
+  
+  
   /*제품 목록 조회*/
   function selectSupplierProList(currentPage, supply_nm) {
     //공급처명 매개변수 설정
@@ -135,7 +203,7 @@
 <form id="myForm" action="" method="">
     <input type="hidden" id="currentPage" value="1">
     <input type="hidden" id="currentPage" value="1">   
-    <input type="hidden" id="tmpsupply_nm" value=""> 
+    <input type="hidden" id="tmpsupply_nm" value="">
     <input type="hidden" name="action" id="action" value="">
     <div id="mask"></div>
     <div id="wrap_area">
@@ -163,23 +231,21 @@
                             </p>
                             
                             <p class="conTitle">
-                                 <span>공급처 정보</span>
+                                 <span>공급처 관리</span>
                                  <span class="fr"> 
                     
                   
-                                      <a href="javascript:fPopModalSupplier()" class="btnType blue" name="modal">
-                                      <span>신규등록</span>
-                                      </a>
+                                      
                                  </span>
                             </p>  
                             
                     <div class="SupplierList">
-                    <div class="conTitle" style="margin: 0 25px 10px 0; float: right;">
-                        <select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
+                    <div class="conTitle" style="margin: 0 25px 10px 0; float: left;">
+                        </a><select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
                            <option value="supply_nm" selected="selected">공급처</option>
                            <option value="supply_mng_nm">담당자명</option>
                         </select>
-                        <input type="text" style="width: 160px; height: 30px;" id="sname" name="sname">
+                        <input type="text" style="width: 300px; height: 30px;" id="sname" name="sname">
                             <a href="" class="btnType blue" id="searchBtn" name="btn"> 
                             <span>검 색</span>
                             </a> 
@@ -192,6 +258,7 @@
                                     <col width="13%">
                                     <col width="18%">
                                     <col width="10%">
+                                    <col width="10%">
                                 </colgroup> 
                                 
                                 <thead>
@@ -201,6 +268,7 @@
                                         <th scope="col">담당자 연락처</th>
                                         <th scope="col">이메일</th>
                                         <th scope="col">창고명</th>   
+                                        <th scope="col">비고</th>  
                                     </tr>
                                 </thead> 
                                 <tbody id="supplierList"></tbody>                      
@@ -209,9 +277,13 @@
                        
                    <div class="paging_area" id="paginationHtml"></div>
                    
+                   <a href="javascript:fPopModalSupplier()" class="btnType blue" name="modal"  style="float: right;">
+                                      <span>신규등록</span>
+                                      </a>
+                   
                    
                    <p class="conTitle mt50">
-                      <span>제품 정보</span>
+                      <span>공급 제품정보</span>
                    </p>
                    
                    <div class="supplierProList">
@@ -252,13 +324,64 @@
                         <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
                   </li>
               </ul>
-          </div>  
-          
-          
-    
-    
+          </div>     
     </div>
     
+    <!-- 모달 -->
+    
+    <div id="layer1" class="layerPop layerType2" style="width: 600px;"> 
+      <dl>
+        <dt>
+          <strong>공급처 관리</strong>
+        </dt>
+        <dd class="content">
+          <table class="row">
+            <caption>caption</caption>
+            <colgroup>
+              <col width="120px">
+              <col width="*">
+              <col width="120px">
+              <col width="*">
+            </colgroup>
+            <tbody>
+              <tr>
+                <th scope="row">공급처명 <span class="font_red">*</span></th>
+                <td colspan="3"><input type="text" class="inputTxt p100"
+                  name="supply_nm" id="supply_nm" /></td>
+              </tr>
+              <tr>
+                <th scope="row">담당자명 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100"
+                  name="supply_mng_nm" id="supply_mng_nm" /></td>                  
+                <th scope="row">담당자 연락처<span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100" name="tel"
+                  id="tel" /></td>
+              </tr>
+              
+              <tr>
+                <th scope="row">이메일 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100"
+                  name="email" id="email" /></td>
+                <th scope="row">창고명 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100"
+                  name="warehouse_nm" id="warehouse_nm" /></td>
+              </tr>
+            </tbody>
+          </table>
+          
+          
+          <div class="btn_areaC mt30">
+            <a href="" class="btnType blue" id="btnSaveDelivery" name="btn"><span>저장</span></a>
+            <a href="" class="btnType blue" id="btnDeleteDelivery" name="btn"><span>삭제</span></a>  
+            <a href="" class="btnType gray" id="btnCloseDelivery" name="btn"><span>취소</span></a>
+            
+          </div>
+        
+       
+        </dd>
+      </dl>
+      <a href="" class="closePop"><span class="hidden">닫기</span></a>
+    </div>
 </form>
 </body>
 </html>
