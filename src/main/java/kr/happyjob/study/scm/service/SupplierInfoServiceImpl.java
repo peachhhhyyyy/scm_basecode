@@ -39,5 +39,11 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
     int countSupplierProInfo = supplierInfoDao.countSupplierProInfo(paramMap);
     return countSupplierProInfo;
   }
+  //공급처 단건 조회
+  @Override
+  public SupplierInfoModel selectDelivery(Map<String, Object> paramMap) throws Exception {
+    SupplierInfoModel selectDelivery = supplierInfoDao.selectDelivery(paramMap);
+    return selectDelivery;
+  }
 
 }
