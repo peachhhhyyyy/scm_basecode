@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.happyjob.study.dlv.model.DlvOutgoingDetailModel;
 import kr.happyjob.study.dlv.model.DlvOutgoingModel;
+import kr.happyjob.study.dlv.model.DlvStaffNameModel;
 import kr.happyjob.study.dlv.service.DlvOutgoingService;
 
 @Controller
@@ -49,12 +50,12 @@ public class DlvOutgoingController {
 	    paramMap.put("pageIndex", pageIndex);
 		paramMap.put("pageSize", pageSize);
 		
-		logger.info("이건 paramMap" + paramMap);
+		logger.info("paramMap" + paramMap);
 		
 		// 출하내역 가져오기 //
 		List<DlvOutgoingModel> outgoingList = dlvOutgoingService.outgoingList(paramMap);
 		model.addAttribute("outgoingList", outgoingList);
-		logger.info("outgoingList"+ outgoingList);
+		logger.info("outgoingList : "+ outgoingList);
 
 		//출하내역 목록 수 추출하기 //
 		int outgoingCnt = dlvOutgoingService.outgoingCnt(paramMap);
@@ -74,9 +75,42 @@ public class DlvOutgoingController {
 		List<DlvOutgoingDetailModel> outgoingDetailList = dlvOutgoingService.outgoingDetailList(paramMap);
 		model.addAttribute("outgoingDetailList", outgoingDetailList);
 		
+		// 배송사원 이름
+		List<DlvStaffNameModel> dlvStaffNameCombo = dlvOutgoingService.dlvStaffNameCombo(paramMap);
+		model.addAttribute("dlvStaffNameCombo", dlvStaffNameCombo);
+		
 		return "/dlv/outgoingDetailList";
 	}
 	
 	
+	// 배송 준비 중 부터의 수주내역 조회
+	@RequestMapping("outgoingSearchList.do")
+	public String outgoingSearchList(Model model, @RequestParam Map<String, Object> paramMap, 
+			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+		
+		int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재페이지
+	    int pageSize = Integer.parseInt((String) paramMap.get("pageSize"));
+	    int pageIndex = (currentPage - 1) * pageSize;
+	    
+	    paramMap.put("pageIndex", pageIndex);
+		paramMap.put("pageSize", pageSize);
+		
+		logger.info(" 상세조회 paramMap" + paramMap);
+		
+		// 출하내역 가져오기 //
+		List<DlvOutgoingModel> outgoingSearchList = dlvOutgoingService.outgoingSearchList(paramMap);
+		model.addAttribute("outgoingSearchList", outgoingSearchList);
+		logger.info("======= outgoingSearchList ======= : "+ outgoingSearchList);
 
+		//출하내역 목록 수 추출하기 //
+		int outgoingSearchCnt = dlvOutgoingService.outgoingSearchCnt(paramMap);
+		logger.info("======= outgoingSearchCnt ======= : " + outgoingSearchCnt);
+	    model.addAttribute("outgoingSearchCnt", outgoingSearchCnt);
+	    
+	    model.addAttribute("pageSize", pageSize);
+	    model.addAttribute("currentPage",currentPage);
+	    
+		return "/dlv/outgoingList";
+	}
+	
 }
