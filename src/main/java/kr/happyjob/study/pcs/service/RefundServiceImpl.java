@@ -29,9 +29,9 @@ public class RefundServiceImpl implements RefundService {
 
   // 반품서 단건 조회
   @Override
-  public RefundModel selectOneRefund(String refund_list_no) throws Exception {
+  public Map<String, Object> selectOneRefund(String refund_list_no) throws Exception {
     // TODO Auto-generated method stub
-    return refundDao.selectOneRefund(refund_list_no);
+    return (Map<String, Object>) refundDao.selectOneRefund(refund_list_no);
   }
   
 }

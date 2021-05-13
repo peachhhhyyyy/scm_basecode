@@ -257,7 +257,6 @@
   }
 
   /** 그룹코드 단건 조회 콜백 함수*/
-  // 이 부분 참고
   function fSelectGrpCodResult(data) {
 
     if (data.result == "SUCCESS") {
@@ -561,22 +560,77 @@
       //fSelectGrpCod(grp_cod);
     }
       // 반품서 단건 조회
-    selectOneRefund(refund_list_no);
+    selectOne(refund_list_no);
   }
   
   // 반품서 단건 조회 함수
-  function selectOneRefund(refund_list_no) {
+  // fSelectGrpCodResult 참고
+  function selectOne(refund_list_no) {
     console.log('호출', refund_list_no);
     var param = {
         refund_list_no : refund_list_no
     }
     // 콜백
     var resultCallback = function(data) {
-      fSelectGrpCodResult(data);
+      console.log('콜백:',data);
+      selectOneCallBack(data);
     };
     callAjax("/pcs/refund/one.do", "post", "text", true, param, resultCallback);
     // callAjax("/pcs/refund/one.do", "post", "json", true, param, resultCallback);
   }
+  
+  // 반품서 단건 조회  콜백 함수
+  // fSelectGrpCodResult참고
+  function selectOneCallBack(data) {
+    gfModalPop("#layer1");
+    console.log('서버로부터 받은 데이터',data);
+    initModal(data);
+  }
+  
+  // 반품서 모달 데이터 설정
+  // fInitFormGrpCod 참고
+  function initModal(data) {
+    $("#grp_cod").focus();
+    if( object == "" || object == null || object == undefined) {
+      
+      $("#grp_cod").val("");
+      $("#grp_cod_nm").val("");
+      $("#grp_cod_eplti").val("");
+      $("#grp_tmp_fld_01").val("");
+      $("#grp_tmp_fld_02").val("");
+      $("#grp_tmp_fld_03").val("");
+      $("input:radio[name=grp_use_poa]:input[value='Y']").attr("checked", true);
+      $("#grp_cod").attr("readonly", false);
+      $("#grp_cod").css("background", "#FFFFFF");
+      $("#grp_cod").focus();
+      $("#btnDeleteGrpCod").hide();
+      
+    } else {
+      
+      $("#grp_cod").val(object.grp_cod);
+      $("#grp_cod_nm").val(object.grp_cod_nm);
+      $("#grp_cod_eplti").val(object.grp_cod_eplti);
+      
+      $("#grp_tmp_fld_01").val(object.tmp_fld_01);
+      $("#grp_tmp_fld_02").val(object.tmp_fld_02);
+      $("#grp_tmp_fld_03").val(object.tmp_fld_03);
+      $("input:radio[name=grp_use_poa]:input[value="+object.use_poa+"]").attr("checked", true);
+      $("#grp_cod").attr("readonly", true);
+      $("#grp_cod").css("background", "#F5F5F5");
+      $("#grp_cod_nm").focus();
+      
+      
+      
+      if(object.tmp_fld_01>0){
+        $("#btnDeleteGrpCod").hide();
+      }else{
+        $("#btnDeleteGrpCod").show(); 
+      }
+    }
+    
+  }
+  
+  
  
 </script>
 </head>
@@ -700,19 +754,19 @@
             <tbody class="forbidden-event">
               <tr>
                 <th scope="row">반품번호 </th>
-                <td><input type="text" value="출력" class="inputTxt p100" name="grp_cod" id="grp_cod" /></td>
+                <td><input type="text" class="inputTxt p100" name="grp_cod" id="grp_cod" /></td>
                 <th scope="row">회사명 ${refund.order_cd}</th>
-                <td><input type="text" value="${refund.order_cd}" class="inputTxt p100"/></td>
+                <td><input type="text" class="inputTxt p100" name="grp_cod" id="grp_cod"/></td>
               </tr>
               <tr>
                 <th scope="row">회사코드 </th>
-                <td><input type="text" class="inputTxt p100" name="grp_cod" id="grp_cod" /></td>
+                <td><input type="text" class="inputTxt p100" name="sup_cd" id="sup_cd" /></td>
                 <th scope="row">브랜드</th>
-                <td><input type="text" class="inputTxt p100" name="grp_cod_nm" id="grp_cod_nm" /></td>
+                <td><input type="text" class="inputTxt p100" name="m_ct_cd" id="m_ct_cd" /></td>
               </tr>
               <tr>
                 <th scope="row">제품번호 </th>
-                <td><input type="text" class="inputTxt p100" name="grp_cod" id="grp_cod"  style="pointer-events:none"/></td>
+                <td><input type="text" class="inputTxt p100" name="pro_no" id="grp_cod"  style="pointer-events:none"/></td>
                 <th scope="row">제품명</th>
                 <td><input type="text" class="inputTxt p100" name="grp_cod_nm" id="grp_cod_nm" /></td>
               </tr>

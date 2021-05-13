@@ -1,6 +1,7 @@
 package kr.happyjob.study.pcs.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,18 +62,20 @@ public class RefundConller {
   }
 
   // 반품서 단건 조회
-  // @ResponseBody
+  @ResponseBody
   @RequestMapping(value="/one.do", method=RequestMethod.POST)
-  public String getOneRefund(@RequestParam Map<String,Object> paramMap, Model model) throws Exception {
+  public Map<String,Object> getOneRefund(@RequestParam Map<String,Object> paramMap, Model model) throws Exception {
     logger.info("단건 파라미터 확인:" +  paramMap.get("refund_list_no"));
     
     String refund_list_no = (String) paramMap.get("refund_list_no");
-    RefundModel refund = refundService.selectOneRefund(refund_list_no);
+    Map<String, Object> refund = refundService.selectOneRefund(refund_list_no);
     logger.info("단건 조회내역 확인" + refund);
     
-    model.addAttribute("refund", refund);
-    // 리턴 수정해야 할 듯
-    return "/pcs/refundListData";
+    Map<String, Object> result = new HashMap<String,Object>();
+    result.put("refund", refund);
+    
+    // Map으로 보낸 데이터가 클라이언트에게 객체로 전달됨(@ResponseBody때문인 듯)
+    return result;
   }
   
 
