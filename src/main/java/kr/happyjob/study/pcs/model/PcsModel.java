@@ -32,9 +32,13 @@ public class PcsModel {
   // 주문코드
   public String order_cd;
   // 상태
-  public String state;
+  public String STTcd;
   // 발주날짜
   public Date direction_date;
+  // 상세코드
+  public String detail_code;
+  // 상세코드명
+  public String detail_name;
   
   public String getPurch_list_no() {
     return purch_list_no;
@@ -120,16 +124,28 @@ public class PcsModel {
   public void setOrder_cd(String order_cd) {
     this.order_cd = order_cd;
   }
-  public String getState() {
-    return state;
+  public String getSTTcd() {
+    return STTcd;
   }
-  public void setState(String state) {
-    this.state = state;
+  public void setSTTcd(String sTTcd) {
+    STTcd = sTTcd;
   }
   public Date getDirection_date() {
     return direction_date;
   }
   public void setDirection_date(Date direction_date) {
     this.direction_date = direction_date;
+  }
+  public String getDetail_code() {
+    return detail_code;
+  }
+  public void setDetail_code(String detail_code) {
+    this.detail_code = detail_code;
+  }
+  public String getDetail_name() {
+    return detail_name;
+  }
+  public void setDetail_name(String detail_name) {
+    this.detail_name = detail_name;
   }
 }
