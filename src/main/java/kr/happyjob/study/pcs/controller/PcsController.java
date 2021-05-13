@@ -62,7 +62,7 @@ public class PcsController {
     // 발주지시서 목록 조회
     List<PcsModel> listPcsOrderingOrderModel = pcsService.pcsOrderingOrder(paramMap);
     model.addAttribute("listPcsOrderingOrderModel", listPcsOrderingOrderModel);
-
+    
     // 발주지시서 목록 카운트 조회
     int totalCount =  pcsService.countPcsOrderingOrder(paramMap);
     model.addAttribute("totalCount", totalCount);
@@ -93,7 +93,6 @@ public class PcsController {
     resultMap.put("resultMsg", resultMsg);
     resultMap.put("pcsModel", pcsModel);
     logger.info("+ End " + className + ".selectPurchBtn");
-    
     
     return resultMap;
   }
@@ -164,5 +163,4 @@ public class PcsController {
     
     return resultMap;
   } 
-  
 }
