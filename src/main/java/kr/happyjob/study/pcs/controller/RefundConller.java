@@ -74,8 +74,15 @@ public class RefundConller {
     Map<String, Object> result = new HashMap<String,Object>();
     result.put("refund", refund);
     
-    // Map으로 보낸 데이터가 클라이언트에게 객체로 전달됨(@ResponseBody때문인 듯)
+    // Map으로 보낸 데이터가 클라이언트에게 객체로 전달됨(@R
     return result;
+  }
+  
+  // 반품 완료 처리
+  @RequestMapping(value="", method=RequestMethod.POST)
+  public int insertReturnDate(RefundModel refund, Model model) {
+    model.addAttribute("temp", refund);
+    return 0;
   }
   
 

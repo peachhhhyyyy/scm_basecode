@@ -14,7 +14,9 @@ public interface RefundDao {
   public int countRefundList();
   
   // 반품서 단건 조회
-//  public RefundModel selectOneRefund(String refund_list_no);
   public Map<String, Object> selectOneRefund(String refund_list_no);
+  
+  // 반품 완료 처리
+  public int insertReturnDate(RefundModel refundModel);
 
 }

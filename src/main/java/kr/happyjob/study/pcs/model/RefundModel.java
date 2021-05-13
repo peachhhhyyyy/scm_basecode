@@ -1,5 +1,6 @@
 package kr.happyjob.study.pcs.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class RefundModel {
@@ -13,7 +14,9 @@ public class RefundModel {
   private int return_qty; // 반품수량
   private int return_price; // 반품 금액
   private String return_mng_id; // 반품담당자
-  private Date return_date; // 반품 완료 날짜
+  private Date return_date; // 반품 완료일
+  private Date purch_date; // 구매일
+  private Date desired_delivery_date; // 배송희망일
   
   
   public String getPurch_list_no() {
@@ -75,6 +78,18 @@ public class RefundModel {
   }
   public void setReturn_date(Date return_date) {
     this.return_date = return_date;
+  }
+  public Date getPurch_date() {
+    return purch_date;
+  }
+  public void setPurch_date(Date purch_date) {
+    this.purch_date = purch_date;
+  }
+  public Date getDesired_delivery_date() {
+    return desired_delivery_date;
+  }
+  public void setDesired_delivery_date(Date desired_delivery_date) {
+    this.desired_delivery_date = desired_delivery_date;
   }
   
 }

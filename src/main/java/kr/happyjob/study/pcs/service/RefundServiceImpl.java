@@ -33,5 +33,12 @@ public class RefundServiceImpl implements RefundService {
     // TODO Auto-generated method stub
     return (Map<String, Object>) refundDao.selectOneRefund(refund_list_no);
   }
+
+  // 반품 완료 처리
+  @Override
+  public int insertReturnDate(RefundModel refundModel) throws Exception {
+    // TODO Auto-generated method stub
+    return refundDao.insertReturnDate(refundModel);
+  }
   
 }

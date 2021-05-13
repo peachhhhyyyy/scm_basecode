@@ -12,7 +12,6 @@
                 <c:set var="nRow" value="${pageSize*(currentPage - 1)}" />
                 <c:forEach items="${refundList}" var="list">
                   <tr>
-                    <!--  <td><a href="javascript:fListComnDtlCod(1, '${list.purch_list_no}', '${list.purch_list_no}')">${list.order_cd}</a></td>-->
                     <td><a href="javascript:fadeInModal(null, '${list.purch_list_no}')">${list.purch_list_no}</a></td>
                     <td>${list.order_cd}</td>
                     <td>${list.supply_nm}</td>
@@ -21,7 +20,6 @@
                     <td>${list.m_ct_cd}</td>
                     <td>${list.return_qty}</td>
                     <c:if test="${ list.return_date eq null}">
-                      <!--  <td><fmt:formatDate value="${list.submit_date}" pattern="yyyy-MM-dd" /></td> -->
                       <td></td>
                     </c:if>
                     <c:if test="${ list.return_date ne null}">

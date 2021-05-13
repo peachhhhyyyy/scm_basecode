@@ -575,8 +575,8 @@
       console.log('콜백:',data);
       selectOneCallBack(data);
     };
-    callAjax("/pcs/refund/one.do", "post", "text", true, param, resultCallback);
-    // callAjax("/pcs/refund/one.do", "post", "json", true, param, resultCallback);
+    //callAjax("/pcs/refund/one.do", "post", "text", true, param, resultCallback);
+     callAjax("/pcs/refund/one.do", "post", "json", true, param, resultCallback);
   }
   
   // 반품서 단건 조회  콜백 함수
@@ -589,43 +589,54 @@
   
   // 반품서 모달 데이터 설정
   // fInitFormGrpCod 참고
-  function initModal(data) {
-    $("#grp_cod").focus();
+  function initModal(object) {
+    console.log('object 확인:',object);
+    console.log('object 타입확인:',typeof(object));
+    console.log('refund확인:',object);
+    console.log('값확인:',object.refund.sup_cd);
+    var date = new Date(object.refund.purch_date)
+    console.log(date.getFullYear(),date.getMonth(),date.getDate());
+    console.log('포맷:', moment().subtract(date));
     if( object == "" || object == null || object == undefined) {
       
-      $("#grp_cod").val("");
-      $("#grp_cod_nm").val("");
-      $("#grp_cod_eplti").val("");
-      $("#grp_tmp_fld_01").val("");
-      $("#grp_tmp_fld_02").val("");
-      $("#grp_tmp_fld_03").val("");
-      $("input:radio[name=grp_use_poa]:input[value='Y']").attr("checked", true);
-      $("#grp_cod").attr("readonly", false);
-      $("#grp_cod").css("background", "#FFFFFF");
-      $("#grp_cod").focus();
-      $("#btnDeleteGrpCod").hide();
+      $("#purch_list_no").val("");
+      $("#supply_nm").val("");
+      $("#supply_cd").val("");
+      $("#m_ct_cd").val("");
+      $("#product_cd").val("");
+      $("#prod_nm").val("");
+      $("#return_qty").val("");
+      $("#return_price").val("");
+      $("#warehouse_cd").val("");
+      $("#addr").val("");
+      $("#return_mng_id").val("");
+      $("#purch_date").val("");
+      $("#desired_delivery_date").val("");
       
     } else {
       
-      $("#grp_cod").val(object.grp_cod);
-      $("#grp_cod_nm").val(object.grp_cod_nm);
-      $("#grp_cod_eplti").val(object.grp_cod_eplti);
+      $("#purch_list_no").val(object.refund.purch_list_no);
+      $("#supply_nm").val(object.refund.supply_nm);
+      $("#supply_cd").val(object.refund.supply_cd);
+      $("#m_ct_cd").val(object.refund.m_ct_cd);
+      $("#product_cd").val(object.refund.product_cd);
+      $("#prod_nm").val(object.refund.prod_nm);
+      $("#return_qty").val(object.refund.return_qty);
+      $("#return_price").val(object.refund.return_price);
+      $("#warehouse_cd").val(object.refund.warehouse_cd);
+      $("#addr").val(object.refund.addr);
+      $("#return_mng_id").val(object.refund.return_mng_id);
+      $("#purch_date").val(object.refund.purch_date);
+      $("#desired_delivery_date").val(object.refund.desired_delivery_date);
       
-      $("#grp_tmp_fld_01").val(object.tmp_fld_01);
-      $("#grp_tmp_fld_02").val(object.tmp_fld_02);
-      $("#grp_tmp_fld_03").val(object.tmp_fld_03);
-      $("input:radio[name=grp_use_poa]:input[value="+object.use_poa+"]").attr("checked", true);
-      $("#grp_cod").attr("readonly", true);
-      $("#grp_cod").css("background", "#F5F5F5");
-      $("#grp_cod_nm").focus();
       
-      
-      
+      /*
       if(object.tmp_fld_01>0){
         $("#btnDeleteGrpCod").hide();
       }else{
         $("#btnDeleteGrpCod").show(); 
       }
+      */
     }
     
   }
@@ -754,45 +765,45 @@
             <tbody class="forbidden-event">
               <tr>
                 <th scope="row">반품번호 </th>
-                <td><input type="text" class="inputTxt p100" name="grp_cod" id="grp_cod" /></td>
+                <td><input type="text" value= "sddd" class="inputTxt p100" name="purch_list_no" id="purch_list_no" /></td>
                 <th scope="row">회사명 ${refund.order_cd}</th>
-                <td><input type="text" class="inputTxt p100" name="grp_cod" id="grp_cod"/></td>
+                <td><input type="text" class="inputTxt p100" name="supply_nm" id="supply_nm"/></td>
               </tr>
               <tr>
                 <th scope="row">회사코드 </th>
-                <td><input type="text" class="inputTxt p100" name="sup_cd" id="sup_cd" /></td>
+                <td><input type="text" class="inputTxt p100" name="supply_cd" id="supply_cd" /></td>
                 <th scope="row">브랜드</th>
                 <td><input type="text" class="inputTxt p100" name="m_ct_cd" id="m_ct_cd" /></td>
               </tr>
               <tr>
                 <th scope="row">제품번호 </th>
-                <td><input type="text" class="inputTxt p100" name="pro_no" id="grp_cod"  style="pointer-events:none"/></td>
+                <td><input type="text" class="inputTxt p100" name="product_cd" id="product_cd"  style="pointer-events:none"/></td>
                 <th scope="row">제품명</th>
-                <td><input type="text" class="inputTxt p100" name="grp_cod_nm" id="grp_cod_nm" /></td>
+                <td><input type="text" class="inputTxt p100" name="prod_nm" id="prod_nm" /></td>
               </tr>
               <tr>
                 <th scope="row">반품수량 </th>
-                <td><input value="" type="text" class="inputTxt p100" name="grp_cod" id="grp_cod" /></td>
+                <td><input value="" type="text" class="inputTxt p100" name="return_qty" id="return_qty" /></td>
                 <th scope="row">금액</th>
-                <td><input type="text" class="inputTxt p100" name="grp_cod_nm" id="grp_cod_nm" /></td>
+                <td><input type="text" class="inputTxt p100" name="return_price" id="return_price" /></td>
               </tr>
               <tr>
                 <th scope="row">창고 코드</th>
-                <td colspan="3"><input type="text" class="inputTxt p100" name="grp_tmp_fld_01" id="grp_tmp_fld_01" /></td>
+                <td colspan="3"><input type="text" class="inputTxt p100" name="warehouse_cd" id="warehouse_cd" /></td>
               </tr>
               <tr>
                 <th scope="row">창고 주소</th>
-                <td colspan="3"><input type="text" class="inputTxt p100" name="grp_tmp_fld_02" id="grp_tmp_fld_02" /></td>
+                <td colspan="3"><input type="text" class="inputTxt p100" name="addr" id="addr" /></td>
               </tr>
               <tr>
                 <th scope="row">담당자</th>
-                <td colspan="3"><input type="text" class="inputTxt p100" name="grp_tmp_fld_03" id="grp_tmp_fld_03" /></td>
+                <td colspan="3"><input type="text" class="inputTxt p100" name="return_mng_id" id="return_mng_id" /></td>
               </tr>
               <tr>
-                <th scope="row">발주날짜 <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100" name="grp_cod" id="grp_cod" /></td>
-                <th scope="row">배송희망날짜<span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100" name="grp_cod_nm" id="grp_cod_nm" /></td>
+                <th scope="row">발주날짜</th>
+                <td><input type="text" class="inputTxt p100" name="purch_date" id="purch_date" /></td>
+                <th scope="row">배송희망날짜</th>
+                <td><input type="text" class="inputTxt p100" name="desired_delivery_date" id="desired_delivery_date" /></td>
               </tr>
             </tbody>
           </table>
@@ -882,24 +893,6 @@
           $('#datetimepicker2').datetimepicker('minDate', e.date);
         });
       });
-    </script>
-  <script>
-    
-      
-      // 반품 단건 조회 모달
-      /* $(function(){ 
-
-      $("button").click(function(){
-      $(".modal").fadeIn();
-      });
-      
-      $(".modal_content").click(function(){
-      $(".modal").fadeOut();
-      });
-      
-      }); */
-
-      // 특정 조건별 검색하기 기능
     </script>
 </body>
 </html>
