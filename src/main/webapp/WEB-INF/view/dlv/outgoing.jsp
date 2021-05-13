@@ -24,7 +24,7 @@
 				currentPage = currentPage || 1;
 		
 				console.log("currentPage : " + currentPage);
-		
+				
 				var param = {
 					currentPage : currentPage,
 					pageSize : pageSizeinfo
@@ -33,11 +33,10 @@
 				var resultCallback = function(data) {
 					fOrderListResult(data, currentPage);
 				};
-		
+				
 				//Ajax실행 방식
 				//callAjax("Url",type,return,async or sync방식,넘겨준 값,Callback함수 이름)
-				callAjax("/dlv/outgoingList.do", "post", "text", true, param,
-						resultCallback);
+				callAjax("/dlv/outgoingList.do", "post", "text", true, param, resultCallback);
 			}
 		
 			/** 출하내역 조회 콜백 함수 */
@@ -91,12 +90,61 @@
 			    var $outgoingDetailList = $data.find("#outgoingDetailList");
 			    $("#outgoingDetailList").append($outgoingDetailList.children());
 			}
+			
+			
+			// 검색조건으로 수주내역 가져오기
+			function fSearchOrderList(currentPage, STTcd, startDate, endDate) {
+				
+				console.log(STTcd, startDate, endDate)
+				
+				currentPage = currentPage || 1;
+		        
+                console.log("currentPage : " + currentPage);
+        
+                var param = {
+                		currentPage : currentPage,
+                		pageSize : pageSizeinfo,
+                		STTcd : STTcd,
+                		startDate : startDate,
+                		endDate : endDate
+                }
+        
+                var resultCallback = function(data) {
+                	fSearchOrderListResult(data, currentPage);
+                };
+        
+                //Ajax실행 방식
+                //callAjax("Url",type,return,async or sync방식,넘겨준 값,Callback함수 이름)
+                callAjax("/dlv/outgoingSearchList.do", "post", "text", true, param,
+                        resultCallback);
+			}
+			
+		    // 검색 조건 콜백함수
+            function fSearchOrderListResult(data, currentPage) {
+                
+		    	console.log(data);
+                
+                // 기존 목록 삭제
+                $('#outgoingList').empty();
+                $("#outgoingList").append(data);
+        
+                // 총 개수 추출
+                var totcnt = $("#totcnt").val();
+        
+                // 페이지 네비게이션 생성
+                var paginationHtml = getPaginationHtml(currentPage, totcnt,
+                        pageSizeinfo, pageBlockSizeinquiry, 'fSearchOrderList');
+        
+                /* console.log("paginationHtml : " + paginationHtml); */
+        
+                $("#lisOutgoingPagination").empty().append(paginationHtml);
+        
+            }
+			
 		</script>
 </head>
 <body>
-	<form id="myForm" action="" method="">
 		<input type="hidden" id="currentPage" value="1">
-		<input type="hidden" id="order_cd" value="">
 		<!-- 모달 배경 -->
 		<div id="mask"></div>
 		<div id="wrap_area">
@@ -117,25 +165,22 @@
 								<span class="btn_nav bold">메인</span> <a
 									href="../dashboard/dashboard.do" class="btn_set refresh">새로고침</a>
 							</p>
-							<p class="conTitle">
-								<span>출하계획</span>
-
-								<!-- 상단 상태, 날짜 조회 부분 -->
-								<span class="fr"> <span> <select name="state"
-										id="state" style="width: 100px;">
-											<option value="all" selected="selected">전체</option>
-											<option value="rfs">배송준비중</option>
-											<option value="dfp">배송중</option>
-											<option value="com">배송완료</option>
+								<p class="conTitle" style="display:flex; justify-content: space-between; align-items: center;" >
+									<span>출하계획</span>
+									<!-- 상단 상태, 날짜 조회 부분 -->
+									<span style="width: 590px;">
+								    <select id="STTcd" name="STTcd" style="width: 100px;">
+										<option value="13, 14, 15">전체</option>
+										<option value="13">배송준비</option>
+										<option value="14">배송중</option>
+										<option value="15">배송완료</option>
 									</select>
-								</span> <input type="date" name="startDate" id="startDate"
-									style="width: 200px; height: 28px;"> <span>~</span> <input
-									type="date" name="endDate" id="endDate"
-									style="width: 200px; height: 28px;"> <!-- 검색 부분 구현해야함 -->
-									<!-- <button id="searchEnter" class="btn btnTypeBox" type="javascript:fOrderList()">검색</button> -->
-								</span>
-
-							</p>
+									<input type="date" name="startDate" id="startDate" style="width: 200px; height: 28px;">
+									<span>~</span>
+									<input type="date" name="endDate" id="endDate" style="width: 200px; height: 28px;">
+                                    <a id="searchEnter" class="btn btnTypeBox" href="javascript:fSearchOrderList(1, $('#STTcd').val(), $('#startDate').val(), $('#endDate').val())">검색</a>
+                                    </span>
+								</p>
 							<table class="col">
 								<!-- 각 컬럼 너비 -->
 								<!-- <caption>caption</caption>
@@ -161,9 +206,8 @@
 								</thead>
 								<tbody id="outgoingList"></tbody>
 							</table>
-						</div> <!-- </form> -->
 						<div class="paging_area" id="lisOutgoingPagination"></div>
-
+						</div>
 						<div class="content">
 							<p class="conTitle">
 								<span>상세페이지</span>
@@ -202,13 +246,10 @@
 				                    </tr>
 			                    </tbody>
 							</table>
-							<button id="" class="btn btn-default" type="submit">등록</button>
-							<button id="" class="btn btn-default" type="submit">닫기</button>
 						</div> 
 					</li>
 				</ul>
 			</div>
 		</div>
-	</form>
 </body>
 </html>
