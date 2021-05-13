@@ -12,7 +12,7 @@
 	       TOO.refund_amt AS refund_amt,
 	       TSW.warehouse_nm AS warehouse_nm,
 	       TOO.refund_date AS refund_date,
-	       TOO.state AS state
+	       TOO.STTcd AS state
 	   FROM tb_order AS TOO
 		   LEFT JOIN tb_scm_refund_list AS TSRL
 		   ON TOO.order_cd = TSRL.order_cd
@@ -25,7 +25,7 @@
 		   LEFT JOIN tb_scm_warehouse AS TSW
 		   ON TOO.warehouse_cd = TSW.warehouse_cd
 			 
-		where TOO.state in ("반품 진행 중","반품 완료","입금완료")
+		where TOO.STTcd in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
 			 LIMIT #{pageIndex}, #{pageSize}
 			 
 			 
@@ -35,10 +35,10 @@
 	<select id="returnListCnt" resultType="int">
 		SELECT COUNT(*) as returnlistCnt
 			FROM tb_order od
-			WHERE od.state = '승인완료'
-			OR od.state = '반품 진행 중'
-			OR od.state = '입금완료'
-			OR od.state = '반품 완료'
+			WHERE od.STTcd = 1
+			OR od.STTcd = 6
+			OR od.STTcd = 2
+			OR od.STTcd = 7
 			ORDER BY od.order_cd DESC
 	</select>
 	<select id="returnDetailList" resultType="kr.happyjob.study.dlv.model.DlvReturnDetailModel">
@@ -54,7 +54,7 @@
 	       EMP.name AS dlv_name,
 	       EMP.tel AS dlv_tel,
 	       TSW.warehouse_nm AS warehouse_nm,
-	       TOO.state AS state,
+	       TOO.STTcd AS state,
 	       TOO.request AS request
        
    		FROM tb_order AS TOO
@@ -78,7 +78,7 @@
 		  
 	</select>
 	<update id="returnDetailInfo" >
-	 UPDATE tb_order SET state = #{state} WHERE order_cd = #{order_cd} and refund_list_no = #{refund_list_no}
+	 UPDATE tb_order SET STTcd = #{state} WHERE order_cd = #{order_cd} 
 	</update>
 <!-- 
 	<select id="returnProductList" parameterType="Map" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">
