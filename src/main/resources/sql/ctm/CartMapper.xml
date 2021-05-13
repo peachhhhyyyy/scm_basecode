@@ -3,29 +3,23 @@
 
 <mapper namespace="kr.happyjob.study.ctm.dao.CartDao">
 	<select id="listCart" resultType = "kr.happyjob.study.ctm.model.CartModel">
-		SELECT	 dv_no
-			   , loginID
-			   , dv_reg_date
-			   , dv_use_date
-			   , account_cd
-			   , detail_account_cd
-			   , dv_amt
-			   , dv_app_yn
-			   , dv_app_date
-			   , dv_app_nm
-			   , dv_memo
-			   , dv_return
-			   , att_filename
-			   , att_filepath
-			   , att_filesize
-			   , acc_name
-		FROM   tb_dv_info		
-		LIMIT #{pageIndex}, #{pageSize}
+		SELECT pd.prod_nm
+			 , lcg.l_ct_nm
+			 , mcg.m_ct_nm
+			 , pd.price
+			 , pd.product_cd
+			 , pd.detail
+          FROM tb_shopping_cart sc
+             , tb_scm_product pd
+             , tb_scm_m_category mcg
+             , tb_scm_l_category lcg
+ 	     WHERE pd.m_ct_cd = mcg.m_ct_cd AND mcg.l_ct_cd = lcg.l_ct_cd AND pd.product_cd = sc.product_cd	
+	   	 LIMIT #{pageIndex}, #{pageSize}
 	
 	</select>
 
 	<select id="countListCart" resultType="int">
-		SELECT COUNT(1) AS tot_cnt FROM tb_dv_info
+		SELECT COUNT(1) AS tot_cnt FROM tb_shopping_cart
 	</select>
 
 </mapper>
