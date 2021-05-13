@@ -18,6 +18,9 @@
                   <td>${list.tel}</td>
                   <td>${list.email}</td>
                   <td>${list.warehouse_nm}</td>
+                  <td>
+                    <a href="javascript:fPopModalDelivery('${list.supply_nm}');" class="btnType3 color1"><span>수정</span></a>
+                  </td>
                 </tr>
               <c:set var="nRow" value="${nRow + 1}" />
               </c:forEach>
