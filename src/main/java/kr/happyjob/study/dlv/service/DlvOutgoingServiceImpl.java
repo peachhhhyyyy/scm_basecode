@@ -9,9 +9,10 @@ import org.springframework.stereotype.Service;
 import kr.happyjob.study.dlv.dao.OutgoingDao;
 import kr.happyjob.study.dlv.model.DlvOutgoingDetailModel;
 import kr.happyjob.study.dlv.model.DlvOutgoingModel;
+import kr.happyjob.study.dlv.model.DlvStaffNameModel;
 
 @Service
-public class DlvOutgoingServiceImpl  implements DlvOutgoingService{
+public class DlvOutgoingServiceImpl implements DlvOutgoingService{
 
 	@Autowired
 	OutgoingDao outgoingDao;
@@ -27,9 +28,27 @@ public class DlvOutgoingServiceImpl  implements DlvOutgoingService{
 	}
 
 	@Override
+	public List<DlvOutgoingModel> outgoingSearchList(Map<String, Object> paramMap) throws Exception {
+		return outgoingDao.outgoingSearchList(paramMap);
+	}
+	
+	@Override
+	public int outgoingSearchCnt(Map<String, Object> paramMap) throws Exception {
+		return outgoingDao.outgoingSearchCnt(paramMap);
+	}
+	@Override
 	public List<DlvOutgoingDetailModel> outgoingDetailList(Map<String, Object> paramMap) throws Exception {
 		return outgoingDao.outgoingDetailList(paramMap) ;
 	}
+
+	@Override
+	public List<DlvStaffNameModel> dlvStaffNameCombo(Map<String, Object> paramMap) throws Exception {
+		return outgoingDao.dlvStaffNameCombo(paramMap);
+	}
+
+
+
+
 	
 	
 
