@@ -9,10 +9,10 @@ import kr.happyjob.study.ctm.model.CartModel;
 
 public interface CartService{
 
-	/** 지출결의 목록 조회 */
+	/** 장바구니 목록 조회 */
 	public List<CartModel> listCart(Map<String, Object> paramMap) throws Exception;
 	
-	/** 지출결의 목록 카운트 조회 */
+	/** 장바구니 목록 카운트 조회 */
 	public int countListCart(Map<String, Object> paramMap) throws Exception;
 	
 	
