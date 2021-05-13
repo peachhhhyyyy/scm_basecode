@@ -29,9 +29,7 @@ public class DlvOutgoingDetailModel {
 	// 도착예정일자
 	private String arr_prev_date;
 	// 상태
-	private String state ;
-	
-	
+	private String STTcd ;
 	
 	public String getShip_list_no() {
 		return ship_list_no;
@@ -111,12 +109,11 @@ public class DlvOutgoingDetailModel {
 	public void setArr_prev_date(String arr_prev_date) {
 		this.arr_prev_date = arr_prev_date;
 	}
-	public String getState() {
-		return state;
+	public String getSTTcd() {
+		return STTcd;
 	}
-	public void setState(String state) {
-		this.state = state;
+	public void setSTTcd(String sTTcd) {
+		STTcd = sTTcd;
 	}
-	
 	
 }
