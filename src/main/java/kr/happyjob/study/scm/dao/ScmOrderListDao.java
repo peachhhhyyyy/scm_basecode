@@ -18,4 +18,8 @@ public interface ScmOrderListDao {
 	String selectScmManagerName(Map<String, Object> paramMap) throws Exception;
 	
 	DeliveryInfoModel selectDeliveryInfo(Map<String, Object> paramMap) throws Exception;
+	
+	int updateStateToDelivery(Map<String, Object> paramMap) throws Exception;
+	
+	int insertDataToDTable(Map<String, Object> paramMap) throws Exception;
 }
