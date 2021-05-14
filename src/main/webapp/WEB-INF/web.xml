@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
 		<display-name>Servlet 3.0 Web Application</display-name>
+		<!-- Server(tomcat) 설정 dispatcher & servelet -->
 		<servlet>
 				<servlet-name>dispatcher</servlet-name>
 				<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -16,6 +17,7 @@
 				<servlet-name>dispatcher</servlet-name>
 				<url-pattern>/</url-pattern>
 		</servlet-mapping>
+		
 		<!-- 브라우저에서 보내는 요청과 응답을 모두 UTF-8로 고정하기 위한 인코딩 필터 -->
 		<filter>
 				<filter-name>encodingFilter</filter-name>
@@ -32,14 +34,15 @@
 		<session-config>
 				<session-timeout>720</session-timeout>
 		</session-config>
+		<!--  commonUtil 설정 -->
 		<jsp-config>
 				<taglib>
-						<taglib-uri>/WEB-INF/tlds/CommonUtil.tld
-						</taglib-uri>
-						<taglib-location>/WEB-INF/tlds/CommonUtil.tld
-						</taglib-location>
+						<taglib-uri>/WEB-INF/tlds/CommonUtil.tld</taglib-uri>
+						<taglib-location>/WEB-INF/tlds/CommonUtil.tld</taglib-location>
 				</taglib>
 		</jsp-config>
+		
+		<!-- http reponse error page 설정 -->
 		<error-page>
 				<error-code>404</error-code>
 				<location>/WEB-INF/view/common/error/error404.jsp</location>

@@ -414,8 +414,8 @@ table tbody .bg_gray{background: #e9ebef !important;}
 
 
 /* 페이징 */
-.paging_area {height:33px;padding:0 5px;line-height:33px;border: 1px solid #bbc2cd;vertical-align: middle;background: #dce1e6;}	
-.paging	{/* float:right; */height:23px;text-align: center;}
+.paging_area {height:33px;padding:0 5px;line-height:33px;border: 1px solid #bbc2cd;vertical-align: middle;background: #dce1e6;display: flex;justify-content: center;align-items: center;}	
+.paging	{/* float:right; */height:23px;text-align: center;margin-bottom: 4px;}
 .paging a	{display:inline-block;width:30px;height:27px;line-height:27px;text-align:center;vertical-align: middle;background: url("/images/admin/comm/set_btn.png") -396px -150px no-repeat;}
 .paging a.first	{width:28px;background-position:-287px -150px;}
 .paging a.pre	{width:28px;background-position:-320px -150px;margin-right:10px;}

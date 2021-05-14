@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.happyjob.study.scm.dao.ScmReturnListDao">
+		<!-- 반품지시서 내역 조회 -->
+	<select id="selectReturnList" resultType="kr.happyjob.study.scm.model.ScmReturnListModel">
+		
+		SELECT TSRL.refund_list_no AS refund_list_no,
+		       TSU.company_cd AS company_cd,
+		       TSP.prod_nm AS prod_nm,
+		       TSP.m_ct_cd AS m_ct_cd,
+		       TSPL.return_qty AS return_qty,
+		       TSPL.scm_id AS scm_id,
+		       DATE_FORMAT(TSRL.submit_date, '%Y-%m-%d') AS submit_date
+		 FROM tb_scm_refund_list AS TSRL
+			 LEFT JOIN tb_order AS TOO
+			 ON TOO.order_cd = TSRL.order_cd
+			 LEFT JOIN tb_userinfo AS TUU
+			 ON TOO.loginID = TUU.loginID
+			 LEFT JOIN tb_scm_product AS TSP
+			 ON TOO.product_cd = TSP.product_cd
+			 LEFT JOIN tb_scm_purchase_list AS TSPL
+			 ON TSP.supply_cd = TSPL.supply_cd
+			 LEFT JOIN tb_scm_userinfo AS TSU
+			 ON TOO.loginID = TSU.loginID
+			LIMIT #{pageIndex}, #{pageSize}
+	</select>
+		<!--지시서 목록 카운트 -->
+		<select id="scmReturnListCnt" resultType="int">
+		SELECT COUNT(*) AS scmReturnListCnt
+			FROM tb_order od
+			WHERE od.STTcd = 1
+			OR od.STTcd = 6
+			OR od.STTcd = 2
+			OR od.STTcd = 4
+			OR od.STTcd = 5
+			OR od.STTcd = 3
+			ORDER BY od.order_cd DESC
+			LIMIT 5
+	    </select>
+</mapper>
