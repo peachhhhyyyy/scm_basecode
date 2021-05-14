@@ -124,18 +124,18 @@ input[type=number]::-webkit-outer-spin-button {
 		});
 
 		// set content
-		deleteModal.setContent('<h1>here\'s some content</h1>');
+		deleteModal.setContent('<h1>정말 삭제하시겠습니까?</h1>');
 
 		// add a button
-		deleteModal.addFooterBtn('Button label', 'tingle-btn tingle-btn--primary', function() {
+		deleteModal.addFooterBtn('삭제', 'tingle-btn tingle-btn--primary', function() {
 		    // here goes some logic
-		    modal.close();
+		    deleteModal.close();
 		});
 
 		// add another button
-		deleteModal.addFooterBtn('Dangerous action !', 'tingle-btn tingle-btn--danger', function() {
+		deleteModal.addFooterBtn('취소', 'tingle-btn tingle-btn--danger', function() {
 		    // here goes some logic
-		    modal.close();
+		    deleteModal.close();
 		});
 		
 		function fDeleteModal() {
