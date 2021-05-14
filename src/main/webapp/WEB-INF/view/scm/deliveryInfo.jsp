@@ -6,8 +6,20 @@
 	<h1>데이터가 존재하지 않습니다.</h1>
 </c:if>
 <c:if test="${!empty deliveryInfo}">
-
-	<input type="hidden" id="currentPage" value="1">
+	<form name="deliveryDirectionInfo" id="deliveryDirectionInfo">
+		<input type="hidden" name="scmManager" value="${deliveryInfo.scmManager}">
+		<input type="hidden" name="orderCode" value="${deliveryInfo.orderCode}">
+		<input type="hidden" name="submitDate" value="${deliveryInfo.submitDate}">
+		<input type="hidden" name="orderDate" value="${deliveryInfo.orderDate}">
+		<input type="hidden" name="wantReceiveDate" value="${deliveryInfo.wantReceiveDate}">
+		<input type="hidden" name="customerName" value="${deliveryInfo.customerName}">
+		<input type="hidden" name="productName" value="${deliveryInfo.productName}">
+		<input type="hidden" name="middleCategory" value="${deliveryInfo.middleCategory}">
+		<input type="hidden" name="supplyName" value="${deliveryInfo.supplyName}">
+		<input type="hidden" name="orderCount" value="${deliveryInfo.orderCount}">
+		<input type="hidden" name="customerRequest" value="${deliveryInfo.customerRequest}">
+		<input type="hidden" name="STTcd" value="13">
+	</form>
 	<h1>배송 지시서</h1>
 	<div class="prodInfoContainer">
 		<div>
