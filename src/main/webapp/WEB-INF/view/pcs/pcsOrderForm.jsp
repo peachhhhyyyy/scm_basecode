@@ -17,7 +17,7 @@
   var pageBlockSizeComnDtlCod = 10;
   
   $(function() {
-    // 발주 지시서 조회
+    // 발주서 조회
     fListPcsOrderForm();
 
     // 버튼 이벤트 등록
@@ -39,17 +39,17 @@
     });
   }
 
-  /** 그룹코드 모달 실행 */  
-  function fPopPcsOrderForm(purch_list_no, order_cd, supply_nm, prod_nm, l_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name) {
+  /** 발주서 상세페이지 모달 실행 */  
+  function fPopPcsOrderForm(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name) {
     // 신규 저장
     if (purch_list_no == null || purch_list_no == "") {
     } else {
       // 발주서 버튼 클릭 시 화면 출력
-      fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, l_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name);
+      fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name);
     }
   }
 
-  /** 발주지시서 목록 조회 */
+  /** 발주서 목록 조회 */
   function fListPcsOrderForm(currentPage) {
     currentPage = currentPage || 1;
 
@@ -67,7 +67,7 @@
     callAjax("/pcs/listPcsOrderForm.do", "post", "text", true, param, resultCallback);
   }
 
-  /** 발주지시서 콜백 함수 */
+  /** 발주서 콜백 함수 */
   function fListPcsOrderFormResult(data, currentPage) {
     //alert(data);
     console.log("data: " + data);
@@ -109,14 +109,14 @@
 	}
   
   /** 발주서 화면 띄우기 */ 
-  function fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, l_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name) {
+  function fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name) {
 
     var param = {
       purch_list_no : purch_list_no,
       order_cd : order_cd,
       supply_nm : supply_nm,
       prod_nm : prod_nm,
-      l_ct_cd : l_ct_cd,
+      m_ct_cd : m_ct_cd,
       warehouse_nm : warehouse_nm,
       purch_qty : purch_qty,
       purchase_price : purchase_price,
@@ -132,7 +132,7 @@
     $("#purchListNo").text(purch_list_no);
     $("#supplyNm").text(supply_nm);
     $("#prodNm").text(prod_nm);
-    $("#lCtCd").text(l_ct_cd);
+    $("#mCtCd").text(m_ct_cd);
     $("#warehouseNm").text(warehouse_nm);
     $("#purchQty").text(purch_qty);
     $("#purchMngId").text(purch_mng_id);
@@ -148,9 +148,6 @@
     desired_delivery_date = date3 + ',' + date4;
     $("#desiredDeliveryDate").text(formatDate(desired_delivery_date));
     $("#STTcd").text(STTcd);
-    
-    console.log('purchMngId' + purch_mng_id);
-    console.log('purchasePrice' + purchase_price);
     
     var resultCallback = function(data) {
       fSelectPurchBtnResult(data);
@@ -268,7 +265,7 @@
 																						<th scope="col">발주코드</th>
 																						<th scope="col">회사명</th>
 																						<th scope="col">제품명</th>
-																						<th scope="col">품목명</th>
+																						<th scope="col">브랜드명</th>
 																						<th scope="col">발주수량</th>
 																						<th scope="col">창고명</th>
 																						<th scope="col">발주날짜</th>
@@ -316,8 +313,8 @@
                                 <td id="prodNm" colspan="3"></td>
 														</tr>
 														<tr>
-                                <th scope="row">품목명</th>
-                                <td id="lCtCd" colspan="3"></td>
+                                <th scope="row">브랜드명</th>
+                                <td id="mCtCd" colspan="3"></td>
 														</tr>
 														<tr>
 																<th scope="row">창고명</th>

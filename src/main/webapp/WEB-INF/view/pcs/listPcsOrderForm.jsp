@@ -11,10 +11,10 @@
   <c:forEach items="${listPcsOrderFormModel}" var="list">
     <tr>
       <td>${list.purch_list_no}</td>
-      <td><a href="javascript:fPopPcsOrderForm('${list.purch_list_no}', '${list.order_cd}', '${list.supply_nm}', '${list.prod_nm}', '${list.l_ct_cd}', '${list.warehouse_nm}', '${list.purch_qty}', '${list.purchase_price}', '${list.purch_mng_id}', '${list.direction_date}', '${list.desired_delivery_date}', '${list.supply_cd}', '${list.product_cd}', '${list.detail_name}');">${list.order_cd}</a></td>
+      <td><a href="javascript:fPopPcsOrderForm('${list.purch_list_no}', '${list.order_cd}', '${list.supply_nm}', '${list.prod_nm}', '${list.m_ct_cd}', '${list.warehouse_nm}', '${list.purch_qty}', '${list.purchase_price}', '${list.purch_mng_id}', '${list.direction_date}', '${list.desired_delivery_date}', '${list.supply_cd}', '${list.product_cd}', '${list.detail_name}');">${list.order_cd}</a></td>
       <td>${list.supply_nm}</td>
       <td>${list.prod_nm}</td>
-      <td>${list.l_ct_cd}</td>
+      <td>${list.m_ct_cd}</td>
       <td>${list.purch_qty}</td>
       <td>${list.warehouse_nm}</td>
       <td><fmt:formatDate value="${list.direction_date}" pattern="yyyy-MM-dd" /></td>
