@@ -15,7 +15,8 @@
       FROM tb_scm_supply SP
       LEFT OUTER JOIN tb_scm_warehouse WH
       ON WH.warehouse_cd = SP.warehouse_cd
-     
+      
+      ORDER BY SP.supply_nm
       LIMIT #{pageIndex}, #{pageSize}
   </select>
   <!-- 공급처 목록 갯수 조회 -->
