@@ -37,7 +37,7 @@
 			FROM tb_order;
 		</select>
 		
-		<!-- 하나의 제품에 대한 발주지시서 생성용 데이터 -->
+		<!-- 발주버튼 클릭 후 나타나는 발주지시서 모달창에 넣을 데이터 -->
 		<select id="selectProductInfo" resultType="kr.happyjob.study.scm.model.ProductInfoModel">
 			SELECT o.order_cd orderCode, 
 			  	   o.order_date orderDate,
@@ -57,5 +57,28 @@
 			SELECT name
 			FROM tb_userinfo
 			WHERE loginId = #{loginId}
+		</select>
+		
+		<!-- 배송 버튼 클릭 후 나타나는 배달지시서 모달창에 넣을 데이터 -->
+		<select id="selectDeliveryInfo" resultType="kr.happyjob.study.scm.model.DeliveryInfoModel">
+			SELECT o.order_cd orderCode, 
+			  	   o.order_date orderDate,
+			       NOW() submitDate,
+			  	   o.want_receive_date wantReceiveDate,
+			  	   ui.name customerName,
+			  	   prod.prod_nm productName,
+			  	   mct.m_ct_nm middleCategory,
+			  	   o.order_cnt orderCount,
+			  	   o.request customerRequest,
+			  	   sup.supply_nm supplyName
+			FROM tb_order o
+  			JOIN (
+					SELECT name, loginID 
+					FROM tb_userinfo
+				  ) ui ON ui.loginID = o.loginID
+			LEFT JOIN tb_scm_product prod ON prod.product_cd = o.product_cd
+			LEFT JOIN tb_scm_supply sup ON sup.supply_cd = prod.supply_cd
+			LEFT JOIN tb_scm_m_category mct ON mct.m_ct_cd = prod.m_ct_cd
+			WHERE o.order_cd = #{orderCode}
 		</select>
 </mapper>
