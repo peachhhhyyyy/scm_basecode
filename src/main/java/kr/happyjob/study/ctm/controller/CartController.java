@@ -49,7 +49,6 @@ public class CartController {
 	 * 장바구니 목록 조회
 	 */
 	@RequestMapping("listCart.do")
-	@ResponseBody
 	public String listCart(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 		
@@ -61,7 +60,7 @@ public class CartController {
 				
 		paramMap.put("pageIndex", pageIndex);
 		paramMap.put("pageSize", pageSize);
-		paramMap.put("loginID", session.getAttribute("loginId")); // 로그인 아이디
+		paramMap.put("loginID", (String) session.getAttribute("loginId")); // 로그인 아이디
 		
 		logger.info("   - paramMap : " + paramMap);
 		
