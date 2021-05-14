@@ -8,15 +8,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <style type="text/css">
 
-/*
-
-.ddd{
-display:flex;
-justify-content: space-around;
-}
-
-*/
-
 .btnType{
 	float:right;
 }
@@ -197,39 +188,16 @@ input[type=number]::-webkit-outer-spin-button {
 					</div>
 	
 					  
-					<div id ="CartModal" href="javascript:fCartModal()">
-						<form>
-						
-						아이디<input type = "text" id = "loginID" disabled>
-						계정대분류명<select name = "account_cd">
-								<option value = "A100">온라인매출</option>
-								<option value = "B200">영업매출</option>
-								<option value = "C300">급여</option>
-								<option	value = "D400">복리후생비</option>
-								<option value = "E500">접대비</option>
-								<option	value = "F600">통신비</option>
-						</select>
-						상세코드명<select name="detail_account_cd" id = "detail_account_cd">
-								<option value="101">장비구매액</option>
-								<option value="102">단가</option>
-								<option value="103">부가세</option>
-								<option value="104">공급가액</option>
-						</select>
-						거래처명<input type = "text" id = "loginID">
- 						신청일자<input type = "date" id = "dv_app_date" disabled>
- 						사용일자<input type = "date" id = "dv_use_date">
- 						지출금액<input type = "text" id = "dv_amt">
-						<label for = "att_file">첨부파일</label>
-						<input type = "file" id = "att_file"/>
-						비고<textarea cols="30" rows="10" ></textarea>
-						</form>
-						<button type = "submit">신청</button>
-						<button>닫기</button>
-					</div>	
-	<!-- 
-					<div class="paging_area"  id="dvListPagination">  -->
-										
-							
+					<!-- 모달팝업 -->
+					<div id="layer1" class="layerPosition layerPop layerType2" style="width: 800px;">
+						<form id="RegisterForm" action="" method="post">
+						<input type="hidden" name="action" id="action" value=""> 
+						<dl>
+							<dt>
+								<br> <br> <strong style="font-size: 120%">&nbsp;&nbsp;&nbsp;&nbsp;회원가입</strong> <br>
+							</dt>
+						</dl>
+						</form>	
 					</div>
 					</div> <!--// content -->
 
