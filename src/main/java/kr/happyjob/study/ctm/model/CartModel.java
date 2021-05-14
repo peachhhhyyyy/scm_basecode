@@ -20,6 +20,12 @@ public class CartModel {
 	/* 상세정보 */
 	private String detail;
 	
+	private String m_ct_cd;
+	
+	private String l_ct_cd; 
+	
+	private String loginID;
+	
 	public String getProd_nm() {
 		return prod_nm;
 	}
@@ -66,6 +72,30 @@ public class CartModel {
 
 	public void setDetail(String detail) {
 		this.detail = detail;
+	}
+	
+	public String getM_ct_cd() {
+		return m_ct_cd;
+	}
+
+	public void setM_ct_cd(String m_ct_cd) {
+		this.m_ct_cd = m_ct_cd;
+	}
+
+	public String getL_ct_cd() {
+		return l_ct_cd;
+	}
+
+	public void setL_ct_cd(String l_ct_cd) {
+		this.l_ct_cd = l_ct_cd;
+	}
+
+	public String getLoginID() {
+		return loginID;
+	}
+
+	public void setLoginID(String loginID) {
+		this.loginID = loginID;
 	}
 	
 	
