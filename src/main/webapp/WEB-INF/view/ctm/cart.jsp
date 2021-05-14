@@ -6,6 +6,7 @@
 <!--  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> -->
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/tingle/tingle.css" />]
 <style type="text/css">
 
 .btnType{
@@ -31,29 +32,22 @@ input[type=number]::-webkit-outer-spin-button {
    opacity: 1;
 
 }
-
-
 </style>
-
 <title>장바구니</title>
-
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
-
 <script type="text/javascript">
 
 		/*장바구니 페이징 설정*/
 
 		var pageSizeCart= 10;
 		var pageBlockSizeCart = 5;
-
-
+		
+		
 		/** OnLoad event */ 
 
 		$(document).ready(function() {
-	
-			
 			fListCart(); // 장바구니 신청건 조회
-		
+			
 		});
 
 		/** 장바구니 조회 */
@@ -109,13 +103,50 @@ input[type=number]::-webkit-outer-spin-button {
 			document.getElementById("CartModal").style.display = "block";
 		}
 		
+		var deleteModal = new tingle.modal({
+		    footer: true,
+		    stickyFooter: false,
+		    closeMethods: ['overlay', 'button', 'escape'],
+		    closeLabel: "Close",
+		    cssClass: ['custom-class-1', 'custom-class-2'],
+		    onOpen: function() {
+		        console.log('modal open');
+		    },
+		    onClose: function() {
+		        console.log('modal closed');
+		    },
+		    beforeClose: function() {
+		        // here's goes some logic
+		        // e.g. save content before closing the modal
+		        return true; // close the modal
+		        return false; // nothing happens
+		    }
+		});
+
+		// set content
+		deleteModal.setContent('<h1>here\'s some content</h1>');
+
+		// add a button
+		deleteModal.addFooterBtn('Button label', 'tingle-btn tingle-btn--primary', function() {
+		    // here goes some logic
+		    modal.close();
+		});
+
+		// add another button
+		deleteModal.addFooterBtn('Dangerous action !', 'tingle-btn tingle-btn--danger', function() {
+		    // here goes some logic
+		    modal.close();
+		});
 		
+		function fDeleteModal() {
+			console.log(deleteModal);
+			deleteModal.open();
+		}
 		
 </script>
-
+<script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/tingle/tingle.js"></script>
 </head>
 <body>
-
 	<input type="hidden" id="currentPageCart" value="1">
 	<input type="hidden" id="tmpCart" value="">
 	<input type="hidden" id="tmpCartNm" value="">
@@ -207,6 +238,5 @@ input[type=number]::-webkit-outer-spin-button {
 			</ul>
 		</div>
 	</div>
-
 </body>
 </html>
