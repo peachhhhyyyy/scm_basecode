@@ -5,7 +5,8 @@
 
   <!-- 공급처 목록 조회 -->
   <select id="getSupplierInfo" resultType = "SupplierInfoModel">
-      SELECT SP.supply_nm as supply_nm
+      SELECT SP.supply_cd as supply_cd
+           , SP.supply_nm as supply_nm
            , SP.supply_mng_nm as supply_mng_nm
            , SP.tel as tel
            , SP.email as email
@@ -36,7 +37,7 @@
       LEFT OUTER JOIN tb_scm_supply SP ON SP.supply_cd = PD.supply_cd
       LEFT OUTER JOIN tb_scm_m_category MC ON MC.m_ct_cd = PD.m_ct_cd
       LEFT OUTER JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
-     WHERE SP.supply_nm = #{supply_nm}
+     WHERE SP.supply_cd = #{supply_cd}
      
      LIMIT #{pageIndex}, #{pageSize}
   
@@ -49,12 +50,13 @@
       LEFT OUTER JOIN tb_scm_supply SP ON SP.supply_cd = PD.supply_cd
       LEFT OUTER JOIN tb_scm_m_category MC ON MC.m_ct_cd = PD.m_ct_cd
       LEFT OUTER JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
-     WHERE SP.supply_nm = #{supply_nm}
+     WHERE SP.supply_cd = #{supply_cd}
    </select>
      
    <!-- 제품 목록 단건 조회 -->
    <select id="selectDelivery" resultType="kr.happyjob.study.scm.model.SupplierInfoModel" >
-     SELECT SP.supply_nm as supply_nm
+     SELECT  SP.supply_cd as supply_cd
+           , SP.supply_nm as supply_nm
            , SP.supply_mng_nm as supply_mng_nm
            , SP.tel as tel
            , SP.email as email
@@ -62,6 +64,32 @@
       FROM tb_scm_supply SP
       LEFT OUTER JOIN tb_scm_warehouse WH
         ON WH.warehouse_cd = SP.warehouse_cd
-     WHERE SP.supply_nm = #{supply_nm}
-</select>
+     WHERE SP.supply_cd = #{supply_cd}
+   </select>
+   
+   <!-- 공급처 등록 -->
+   <insert id="insertDelivery" parameterType="java.util.Map">
+    INSERT INTO tb_scm_supply    (
+                               supply_cd, supply_nm, supply_mng_nm, tel, email, warehouse_cd
+                             )
+    VALUES
+                            (
+                               supply_cd,
+                               #{supply_nm},
+                               #{supply_mng_nm},
+                               #{tel},
+                               #{email},
+                               #{warehouse_cd} <!-- 선택할 수 있게 바꿔야함 -->
+                            ) 
+   </insert>
+   <!-- 공급처 수정 -->
+   
+   <update id="updateDelivery" parameterType="int">
+    UPDATE tb_scm_supply
+       SET supply_mng_nm = #{supply_mng_nm}
+           , tel = #{tel}
+           , email = #{email}
+    WHERE supply_cd = #{supply_cd}
+   </update>
+   <!-- 공급처 삭제 -->
 </mapper>

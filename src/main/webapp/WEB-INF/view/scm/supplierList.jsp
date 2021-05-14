@@ -13,13 +13,14 @@
             <c:set var="nRow" value="${pageSize*(currentPage-1)}" />
             <c:forEach items="${supplierInfoModelList}" var="list">           
                 <tr>
-                  <td><a href="javascript:selectSupplierProList(1,'${list.supply_nm}');">${list.supply_nm}</a></td>
+                  <td>${list.supply_cd}</td>
+                  <td><a href="javascript:selectSupplierProList(1,'${list.supply_cd}');">${list.supply_nm}</a></td>
                   <td>${list.supply_mng_nm}</td>
                   <td>${list.tel}</td>
                   <td>${list.email}</td>
                   <td>${list.warehouse_nm}</td>
                   <td>
-                    <a href="javascript:fPopModalDelivery('${list.supply_nm}');" class="btnType3 color1"><span>수정</span></a>
+                    <a href="javascript:fPopModalDelivery('${list.supply_cd}');" class="btnType3 color1"><span>수정</span></a>
                   </td>
                 </tr>
               <c:set var="nRow" value="${nRow + 1}" />

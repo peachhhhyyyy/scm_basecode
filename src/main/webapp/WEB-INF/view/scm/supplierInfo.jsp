@@ -38,18 +38,20 @@
       e.preventDefault();
       var btnId = $(this).attr('id');
       switch (btnId) {
-      case 'btnSaveSupplier':
-        fSaveSupplier(); // save 안에 저장,수정
+      case 'btnSaveDelivery':
+        fSaveDelivery(); // save 안에 저장,수정
+        gfCloseModal(); // 모달닫기 
+        window.location.reload(); // 새로고침
         break;
-      case 'btnDeleteSupplier':
-        fDeleteSupplier(); // 만들자 
+      case 'btnDeleteDelivery':
+        fDeleteDelivery(); // 만들자 
         break;
       case 'btnClose':
         gfCloseModal(); // 모달닫기 
         break;
-      case 'btnUpdateSupplier':
+      /* case 'btnUpdateSupplier':
         fUpdateSupplier(); // 수정하기
-        break;
+        break; */
       case 'searchBtn':
         board_search(); // 검색하기
         break;
@@ -70,6 +72,8 @@
     };
     callAjax("/scm/supplierList.do", "post", "text", true, param, resultCallback);
   }
+  
+  
   /*공급처 조회 콜백 함수*/
   function supplierListResult(data, currentPage) {
     
@@ -94,9 +98,12 @@
 
   /* 공급처 폼 초기화 */
   function fInitFormDelivery(object) {
-    $("#supply_nm").focus();
+    $("#supply_cd").focus();
     
     if (object == "" || object == null || object == undefined) {
+      $("#supply_cd").val("");
+      $("#supply_cd").attr("readonly", true);
+      $("#supply_cd").css("background", "#FFFFFF");
       $("#supply_nm").val("");
       $("#supply_nm").attr("readonly", true);
       $("#supply_nm").css("background", "#FFFFFF");
@@ -105,6 +112,9 @@
       $("#email").val("");
       $("#warehouse_nm").val("");
     } else{
+      $("#supply_cd").val(object.supply_cd);
+      $("#supply_cd").attr("readonly", true);
+      $("#supply_cd").css("background", "#F5F5F5");
       $("#supply_nm").val(object.supply_nm);
       $("#supply_nm").attr("readonly", true);
       $("#supply_nm").css("background", "#F5F5F5");
@@ -116,22 +126,22 @@
   } 
   
   /* 공급처 모달 실행 */
-  function fPopModalDelivery(supply_nm) {
+  function fPopModalDelivery(supply_cd) {
     //신규 저장
-    if (supply_nm == null || supply_nm == "") {
+    if (supply_cd == null || supply_cd == "") {
       $("#action").val("I");
       fInitFormSupplier();
       gfModalPop("#layer1");
     } else {
       $("#action").val("U");
-      fSelectDelivery(supply_nm);
+      fSelectDelivery(supply_cd);
     }
   }
   
   /* 공급처 단건 조회*/
-  function fSelectDelivery(supply_nm) {
+  function fSelectDelivery(supply_cd) {
     var param = {
-        supply_nm : supply_nm
+        supply_cd : supply_cd
     };
     var resultCallback = function(data) {
       fSelectDeliveryResult(data);
@@ -154,18 +164,55 @@
   
   
   
+  /* 공급처 저장 validation*/
+  function fValidateDelivery() {
+    var chk = checkNotEmpty([ 
+            [ "supply_cd", "공급처코드를 입력하세요." ],
+            [ "supply_nm", "공급처명 입력하세요." ],
+            [ "supply_mng_nm", "담당자명을 입력하세요." ],
+            [ "tel", "연락처를 입력하세요." ],
+            [ "email", "이메일 입력하세요." ], 
+            [ "warehouse_nm", "창고명을 입력하세요." ] //선택할 수 있게 바꿔줘야함 
+          ]);
+    if (!chk) {
+      return;
+      
+    }
+    return true;
+  }
+  
+  //공급처 저장
+  function fSaveDelivery() {
+    //validation 체크
+    if (!fValidateDelivery()) {
+      return;
+    }
+    var resultCallback = function(data) {
+       console.log(data);
+       console.log(data.result);
+       console.log(data.resultMsg);
+       return;
+    };
+    callAjax("/scm/saveDelivery.do", "post", "json", true, $("#myForm")
+        .serialize(), resultCallback);
+  }
+  
+  
+  
+  
+  
   /*제품 목록 조회*/
-  function selectSupplierProList(currentPage, supply_nm) {
+  function selectSupplierProList(currentPage, supply_cd) {
     //공급처명 매개변수 설정
     currentPage = currentPage || 1;
-    $("#tmpsupply_nm").val(supply_nm);
+    $("#tmpsupply_cd").val(supply_cd);
     var param = {
-        supply_nm : supply_nm //납품업체명 변수설정
+        supply_cd : supply_cd //납품업체명 변수설정
       , currentPage : currentPage
       , pageSize : pageSizeProduct
     }
     
-    console.log("supply_nm : " + supply_nm);
+    console.log("supply_cd : " + supply_cd);
     var resultCallback = function(data) {
       supplierProListResult(data, currentPage);
     };
@@ -182,17 +229,13 @@
     // 총 개수 추출
     var totalProduct = $("#totalCountPro").val();
     //페이지 네비게이션 생성
-    var supply_nm = $("#supply_nm").val();
-    var paginationHtml = getPaginationHtml(currentPage, totalProduct, pageSizeProduct, pageBlockSizeProduct, 'selectSupplierProList', [ supply_nm ]);
+    var supply_cd = $("#supply_cd").val();
+    
+    var paginationHtml = getPaginationHtml(currentPage, totalProduct, pageSizeProduct, pageBlockSizeProduct, 'selectSupplierProList');
     $("#productPagination").empty().append(paginationHtml);
     // 현재 페이지 설정
     $("#currentPage").val(currentPage);
   }
-  
-  
-  
-  
-  
   
   
   
@@ -203,7 +246,7 @@
 <form id="myForm" action="" method="">
     <input type="hidden" id="currentPage" value="1">
     <input type="hidden" id="currentPage" value="1">   
-    <input type="hidden" id="tmpsupply_nm" value="">
+    <input type="hidden" id="tmpsupply_cd" value="">
     <input type="hidden" name="action" id="action" value="">
     <div id="mask"></div>
     <div id="wrap_area">
@@ -233,7 +276,7 @@
                             <p class="conTitle">
                                  <span>공급처 관리</span>
                                  <span class="fr"> 
-                                 <a href="javascript:fPopModalSupplier()" class="btnType blue" name="modal"  style="float: right;">
+                                 <a href="javascript:fPopModalDelivery()" class="btnType blue" name="modal"  style="float: right;">
                                       <span>신규등록</span>
                                       </a>
                     
@@ -245,7 +288,7 @@
                     <div class="SupplierList">
                     <div class="conTitle" style="margin: 0 25px 10px 0; float: left;">
                         </a><select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
-                           <option value="supply_nm" selected="selected">공급처</option>
+                           <option value="supply_cd" selected="selected">공급처</option>
                            <option value="supply_mng_nm">담당자명</option>
                         </select>
                         <input type="text" style="width: 300px; height: 30px;" id="sname" name="sname">
@@ -256,8 +299,9 @@
                          <table class="col">
                                 <caption>caption</caption>
                                     <colgroup>
-                                    <col width="10%">
                                     <col width="7%">
+                                    <col width="13%">
+                                    <col width="13%">
                                     <col width="13%">
                                     <col width="18%">
                                     <col width="10%">
@@ -266,9 +310,10 @@
                                 
                                 <thead>
                                     <tr>
+                                        <th scope="col">공급처코드</th>
                                         <th scope="col">공급처명</th>
                                         <th scope="col">담당자명</th>
-                                        <th scope="col">담당자 연락처</th>
+                                        <th scope="col">연락처</th>
                                         <th scope="col">이메일</th>
                                         <th scope="col">창고명</th>   
                                         <th scope="col">비고</th>  
@@ -346,15 +391,18 @@
             </colgroup>
             <tbody>
               <tr>
+                <th scope="row">공급처코드 <span class="font_red">*</span></th>
+                 <td><input type="text" class="inputTxt p100"
+                  name="supply_cd" id="supply_cd" /></td>
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
-                <td colspan="3"><input type="text" class="inputTxt p100"
+                 <td><input type="text" class="inputTxt p100"
                   name="supply_nm" id="supply_nm" /></td>
               </tr>
               <tr>
                 <th scope="row">담당자명 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
                   name="supply_mng_nm" id="supply_mng_nm" /></td>                  
-                <th scope="row">담당자 연락처<span class="font_red">*</span></th>
+                <th scope="row">연락처<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100" name="tel"
                   id="tel" /></td>
               </tr>
@@ -374,7 +422,7 @@
           <div class="btn_areaC mt30">
             <a href="" class="btnType blue" id="btnSaveDelivery" name="btn"><span>저장</span></a>
             <a href="" class="btnType blue" id="btnDeleteDelivery" name="btn"><span>삭제</span></a>  
-            <a href="" class="btnType gray" id="btnCloseDelivery" name="btn"><span>취소</span></a>
+            <a href="" class="btnType gray" id="btnClose" name="btn"><span>취소</span></a>
             
           </div>
         
