@@ -39,9 +39,7 @@
       var btnId = $(this).attr('id');
       switch (btnId) {
       case 'btnSaveDelivery':
-        fSaveDelivery(); // save 안에 저장,수정
-        gfCloseModal(); // 모달닫기 
-        window.location.reload(); // 새로고침
+        fSaveDelivery(); // save 안에 저장,수정  
         break;
       case 'btnDeleteDelivery':
         fDeleteDelivery(); // 만들자 
@@ -49,9 +47,6 @@
       case 'btnClose':
         gfCloseModal(); // 모달닫기 
         break;
-      /* case 'btnUpdateSupplier':
-        fUpdateSupplier(); // 수정하기
-        break; */
       case 'searchBtn':
         board_search(); // 검색하기
         break;
@@ -103,11 +98,17 @@
     if (object == "" || object == null || object == undefined) {
       $("#supply_cd").val("");
       $("#supply_nm").val("");
-      $("#supply_mng_nm").val("");
+      $("#supply_mng_nm").val("");    
       $("#tel").val("");
+      $("#mng_tel").val("");
       $("#email").val("");
       $("#warehouse_cd").val("");
       $("#warehouse_nm").val("");
+      
+      $("#supply_cd").attr("readonly", false);
+      $("#supply_cd").css("background", "#FFFFFF");
+      $("#supply_nm").attr("readonly", false);
+      $("#supply_nm").css("background", "#FFFFFF");
     } else{
       $("#supply_cd").val(object.supply_cd);
       $("#supply_cd").attr("readonly", true);
@@ -117,6 +118,7 @@
       $("#supply_nm").css("background", "#F5F5F5");
       $("#supply_mng_nm").val(object.supply_mng_nm);
       $("#tel").val(object.tel);
+      $("#mng_tel").val(object.mng_tel);
       $("#email").val(object.email);
       $("#warehouse_cd").val(object.warehouse_cd);
       $("#warehouse_nm").val(object.warehouse_nm);
@@ -171,6 +173,7 @@
             [ "tel", "연락처를 입력하세요." ],
             [ "email", "이메일 입력하세요." ], 
             [ "warehouse_cd", "창고코드를 입력하세요." ],
+            [ "mng_tel", "담당자 연락처를 입력하세요." ]
             /* [ "warehouse_nm", "창고명을 입력하세요." ] */
           ]);
     if (!chk) {
@@ -190,6 +193,19 @@
        console.log(data);
        console.log(data.result);
        console.log(data.resultMsg);
+       
+       gfCloseModal();
+       fInitFormDelivery();
+       
+       var status = $("#action").val();
+       var cur = $("#currentPage").val();
+       
+       if (status == 'U') {
+         selectSupplierList(cur);
+       } else {
+         selectSupplierList();
+       }
+       
        return;
     };
     callAjax("/scm/saveDelivery.do", "post", "json", true, $("#myForm")
@@ -300,19 +316,21 @@
                                     <colgroup>
                                     <col width="7%">
                                     <col width="13%">
+                                    <col width="10%">
                                     <col width="13%">
                                     <col width="13%">
                                     <col width="18%">
                                     <col width="10%">
-                                    <col width="10%">
+                                    <col width="5%">
                                 </colgroup> 
                                 
                                 <thead>
                                     <tr>
                                         <th scope="col">공급처코드</th>
                                         <th scope="col">공급처명</th>
-                                        <th scope="col">담당자명</th>
                                         <th scope="col">연락처</th>
+                                        <th scope="col">담당자명</th>
+                                        <th scope="col">담당자 연락처</th>
                                         <th scope="col">이메일</th>
                                         <th scope="col">창고명</th>   
                                         <th scope="col">비고</th>  
@@ -390,20 +408,27 @@
             </colgroup>
             <tbody>
               <tr>
+                <th scope="row">공급처명 <span class="font_red">*</span></th>
+                 <td colspan=3><input type="text" class="inputTxt p100"
+                  name="supply_nm" id="supply_nm" /></td>
+              </tr>
+              <tr>
                 <th scope="row">공급처코드 <span class="font_red">*</span></th>
                  <td><input type="text" class="inputTxt p100"
                   name="supply_cd" id="supply_cd" /></td>
-                <th scope="row">공급처명 <span class="font_red">*</span></th>
-                 <td><input type="text" class="inputTxt p100"
-                  name="supply_nm" id="supply_nm" /></td>
+                <th scope="row">연락처<span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100" name="tel"
+                  id="tel" /></td>
               </tr>
               <tr>
                 <th scope="row">담당자명 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="supply_mng_nm" id="supply_mng_nm" /></td>                  
-                <th scope="row">연락처<span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100" name="tel"
-                  id="tel" /></td>
+                  name="supply_mng_nm" id="supply_mng_nm" /></td>  
+                                  
+                <th scope="row">담당자 연락처<span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100" 
+                name="mng_tel" id="mng_tel" /></td>
+              
               </tr>
               
               <tr>
@@ -415,8 +440,8 @@
                   name="warehouse_cd" id="warehouse_cd" /></td>
               </tr>
               <tr>
-                <th scope="row">창고명 <span class="font_red">*</span></th>
-                <td colspan=3><input type="text" class="inputTxt p100"
+                <th scope="row">창고명</th>
+                <td><input type="text" class="inputTxt p100"
                   name="warehouse_nm" id="warehouse_nm" /></td>
               </tr>
             </tbody>
@@ -433,7 +458,7 @@
        
         </dd>
       </dl>
-      <a href="" class="closePop"><span class="hidden">닫기</span></a>
+      <a href="" class="closePop" id="btnClose" name="btn"><span class="hidden">닫기</span></a>
     </div>
 </form>
 </body>

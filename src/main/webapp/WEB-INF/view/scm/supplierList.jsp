@@ -15,8 +15,9 @@
                 <tr>
                   <td>${list.supply_cd}</td>
                   <td><a href="javascript:selectSupplierProList(1,'${list.supply_cd}');">${list.supply_nm}</a></td>
-                  <td>${list.supply_mng_nm}</td>
                   <td>${list.tel}</td>
+                  <td>${list.supply_mng_nm}</td>
+                  <td>${list.mng_tel}</td>
                   <td>${list.email}</td>
                   <td>${list.warehouse_nm}</td>
                   <td>

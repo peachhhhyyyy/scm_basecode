@@ -7,8 +7,10 @@ public class SupplierInfoModel {
   private String supply_nm;
   // 공급처 담당자명
   private String supply_mng_nm;
-  // 공급처 담당자 연락처
+  // 공급처  연락처
   private String tel;
+  // 공급처 담당자 연락처
+  private String mng_tel;
   // 공급처 담당자 이메일
   private String email;
   // 창고 코드
@@ -61,6 +63,12 @@ public class SupplierInfoModel {
   }
   public void setTel(String tel) {
     this.tel = tel;
+  }
+  public String getMng_tel() {
+    return mng_tel;
+  }
+  public void setMng_tel(String mng_tel) {
+    this.mng_tel = mng_tel;
   }
   public String getEmail() {
     return email;
