@@ -32,7 +32,7 @@
 			//Ajax실행 방식
 			//callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
 			//html로 받을거라 text
-			callAjax("/scm/scmReturnList.do", "post", "text", true, param, resultCallback);
+			callAjax("/scmReturn/scmReturnList.do", "post", "text", true, param, resultCallback);
 		}
          function fReturnListResult(data, currentPage) {
         	    //alert(data);
@@ -49,27 +49,8 @@
         	   // 현재 페이지 설정
         	    $("#listInfPagination").empty().append(paginationHtml);
         	  }
-         /* 반품내역 상세 조회*/
-			function fReturnDetailList(refund_list_no) {
-			  // 그룹코드 정보 설정
-			  $("#refund_list_no").val(refund_list_no);
-			  var param = {
-					  refund_list_no : refund_list_no,
-			  }
-			  var resultCallback = function(data) {
-				  fReturnDetailResult(data);
-			  };
-			  callAjax("/dlv/returnDetailList.do", "post", "text", true, param, resultCallback);
-			}
-			/** 반품내역 상세조회 콜백 함수 */
-			function fReturnDetailResult(data) {
-			    console.log(data);
-			    // 기존 목록 삭제
-			    $('#returnDetailList').empty();
-			    var $data = $($(data).html());
-			    var $returnDetailList = $data.find("#returnDetailList");
-			    $("#returnDetailList").append($returnDetailList.children());
-			}
+        
+			
       </script>
    </head>
    <body>

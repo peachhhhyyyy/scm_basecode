@@ -31,12 +31,13 @@ public class ScmReturnController {
 	public String getReturnList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 		//지시서 조회페이징
-		int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재페이지
+		int currentPage = Integer.parseInt((String) paramMap.get("currentPage"));
 	    int pageSize = Integer.parseInt((String) paramMap.get("pageSize"));
 	    int pageIndex = (currentPage - 1) * pageSize;
 	    
 	    paramMap.put("pageIndex", pageIndex);
 		paramMap.put("pageSize", pageSize);
+		
 		logger.info("이건 paramMap" + paramMap);
 		//반품지시서 조회
 		List<ScmReturnListModel> returnList = srtservice.getReturnList(paramMap);
@@ -47,9 +48,10 @@ public class ScmReturnController {
 		int scmReturnCnt = srtservice.scmReturnListCnt(paramMap);
 		
 		model.addAttribute("scmReturnCnt", scmReturnCnt);
+		
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageIndex", pageIndex);
-		
+		model.addAttribute("currentPage", currentPage);
 		return "/scm/scmReturnMain";
 	}
 	
