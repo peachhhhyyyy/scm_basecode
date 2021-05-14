@@ -1,6 +1,7 @@
 _<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 				
 							<c:if test="${totalCntCart eq 0 }">
 								<tr>
@@ -28,7 +29,9 @@ _<%@ page language="java" contentType="text/html; charset=UTF-8"
 												   value="${list.shopping_cart_qty}"
 												   style="width: 50px; text-align: right;"/>
 						   		        </td>		
-						   		       	<td>${list.price}</td>	<!-- 가격 -->
+						   		       	<td>
+						   		       		<fmt:formatNumber value = "${list.price}" pattern = "###,###,###" /> <!-- 가격 --> 
+						   		       	</td>	
 										<td>						
 											<a class="btnType3 color1" href="javascript:fPopModalCart();"><span>삭제하기</span></a>
 										</td> <!-- 신청취소 버튼 -->
