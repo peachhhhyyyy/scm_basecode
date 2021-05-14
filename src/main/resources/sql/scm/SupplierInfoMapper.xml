@@ -74,12 +74,12 @@
                              )
     VALUES
                             (
-                               supply_cd,
+                               #{supply_cd},
                                #{supply_nm},
                                #{supply_mng_nm},
                                #{tel},
                                #{email},
-                               #{warehouse_cd} <!-- 선택할 수 있게 바꿔야함 -->
+                               #{warehouse_cd}
                             ) 
    </insert>
    <!-- 공급처 수정 -->

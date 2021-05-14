@@ -102,14 +102,11 @@
     
     if (object == "" || object == null || object == undefined) {
       $("#supply_cd").val("");
-      $("#supply_cd").attr("readonly", true);
-      $("#supply_cd").css("background", "#FFFFFF");
       $("#supply_nm").val("");
-      $("#supply_nm").attr("readonly", true);
-      $("#supply_nm").css("background", "#FFFFFF");
       $("#supply_mng_nm").val("");
       $("#tel").val("");
       $("#email").val("");
+      $("#warehouse_cd").val("");
       $("#warehouse_nm").val("");
     } else{
       $("#supply_cd").val(object.supply_cd);
@@ -121,6 +118,7 @@
       $("#supply_mng_nm").val(object.supply_mng_nm);
       $("#tel").val(object.tel);
       $("#email").val(object.email);
+      $("#warehouse_cd").val(object.warehouse_cd);
       $("#warehouse_nm").val(object.warehouse_nm);
     } 
   } 
@@ -130,7 +128,7 @@
     //신규 저장
     if (supply_cd == null || supply_cd == "") {
       $("#action").val("I");
-      fInitFormSupplier();
+      fInitFormDelivery();
       gfModalPop("#layer1");
     } else {
       $("#action").val("U");
@@ -172,7 +170,8 @@
             [ "supply_mng_nm", "담당자명을 입력하세요." ],
             [ "tel", "연락처를 입력하세요." ],
             [ "email", "이메일 입력하세요." ], 
-            [ "warehouse_nm", "창고명을 입력하세요." ] //선택할 수 있게 바꿔줘야함 
+            [ "warehouse_cd", "창고코드를 입력하세요." ],
+            /* [ "warehouse_nm", "창고명을 입력하세요." ] */
           ]);
     if (!chk) {
       return;
@@ -411,8 +410,13 @@
                 <th scope="row">이메일 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
                   name="email" id="email" /></td>
-                <th scope="row">창고명 <span class="font_red">*</span></th>
+                <th scope="row">창고코드 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
+                  name="warehouse_cd" id="warehouse_cd" /></td>
+              </tr>
+              <tr>
+                <th scope="row">창고명 <span class="font_red">*</span></th>
+                <td colspan=3><input type="text" class="inputTxt p100"
                   name="warehouse_nm" id="warehouse_nm" /></td>
               </tr>
             </tbody>
