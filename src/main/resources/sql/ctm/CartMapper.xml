@@ -9,7 +9,7 @@
 			 , pd.price as price
 			 , pd.product_cd as product_cd
 			 , pd.detail as detail
-			 , sc. shopping_cart_qty
+			 , sc.shopping_cart_qty
           FROM tb_shopping_cart sc
              , tb_scm_product pd
              , tb_scm_m_category mcg
