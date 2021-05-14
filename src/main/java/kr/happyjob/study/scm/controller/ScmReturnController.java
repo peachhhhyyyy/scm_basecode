@@ -55,7 +55,7 @@ public class ScmReturnController {
 		
 		model.addAttribute("scmReturnCnt", scmReturnCnt);
 		model.addAttribute("pageSize", pageSize);
-		model.addAttribute("pageIndex", pageIndex);
+		
 		model.addAttribute("currentPage", currentPage);
 		return "/scm/scmReturnList";
 	}

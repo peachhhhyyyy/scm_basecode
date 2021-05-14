@@ -10,7 +10,7 @@
       <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
       <script type="text/javascript">
       	var pageSizeinf = 5;
-  		var pageBlockSizeinquiry = 10;
+  		var pageBlockSizeinquiry = 5;
   		
          $(document).ready(function(){
          	fReturnList();
@@ -42,7 +42,6 @@
         	    $('#returnList').empty();
         	    // 신규 목록 생성
         	    $("#returnList").append(data);
-        	    console.log("================"+ data);
         	    // 총 개수 추출
         	    var totalReturnListCnt = $("#scmReturnCnt").val();
         	    // 페이지 네비게이션 생성
@@ -104,12 +103,12 @@
                            <table class="col">
                               <caption>caption</caption>
                               <colgroup>
+                                 <col width="5%">
                                  <col width="10%">
-                                 <col width="15%">
-                                 <col width="10%">
-                                 <col width="15%">
+                                 <col width="20%">
                                  <col width="10%">
                                  <col width="10%">
+                                 <col width="5%">
                                  <col width="15%">
                               </colgroup>
                               <thead>
