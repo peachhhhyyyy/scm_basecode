@@ -1,37 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.happyjob.study.scm.dao.ScmReturnListDao">
+		<!-- 반품지시서 내역 조회 -->
 	<select id="selectReturnList" resultType="kr.happyjob.study.scm.model.ScmReturnListModel">
-		<!-- 반품지시서 목록조회 -->
 		SELECT TSRL.refund_list_no AS refund_list_no,
-	       TUU.name AS cus_name,
-	       TSP.prod_nm AS prod_nm,
-	       TSP.m_ct_cd AS m_ct_cd,
-	       TSPL.return_qty AS return_qty,
-	       TSRL.scm_id AS scm_id,
-	       NOW() AS submit_date
-	   FROM tb_order AS TOO
-		   LEFT JOIN tb_scm_product AS TSP
-		   ON TSP.product_cd = TOO.product_cd
-		   LEFT JOIN tb_scm_refund_list AS TSRL
-		   ON TOO.order_cd = TSRL.order_cd
-		   LEFT JOIN tb_userinfo AS TUU
-		   ON TOO.loginID = TUU.loginID
-		   LEFT JOIN tb_scm_userinfo AS TSU
-		   ON TSU.loginID = TUU.loginID
-		   LEFT JOIN tb_scm_purchase_list AS TSPL
-		   ON TOO.order_cd = TSPL.order_cd
-		   </select>
-		   
-		   <!-- 반품지시서 데이터 갯수 카운팅 -->
+		      TUU.name AS cus_name,
+		      TSP.prod_nm AS prod_nm,
+		      TSP.m_ct_cd AS m_ct_cd,
+		      TSPL.return_qty AS return_qty,
+		      TSRL.scm_id AS scm_id,
+		      DATE_FORMAT(TSRL.submit_date, '%Y-%m-%d') AS submit_date
+		  FROM tb_order AS TOO
+			LEFT JOIN tb_scm_product AS TSP
+			ON TSP.product_cd = TOO.product_cd
+			LEFT JOIN tb_scm_refund_list AS TSRL
+			ON TOO.order_cd = TSRL.order_cd
+			LEFT JOIN tb_userinfo AS TUU
+			ON TOO.loginID = TUU.loginID
+			LEFT JOIN tb_scm_userinfo AS TSU
+			ON TSU.loginID = TUU.loginID
+			LEFT JOIN tb_scm_purchase_list AS TSPL
+			ON TOO.order_cd = TSPL.order_cd
+	</select>
+		<!--지시서 목록 카운트 -->
 		<select id="scmReturnListCnt" resultType="int">
-			SELECT COUNT(*) as returnlistCnt
+		SELECT COUNT(*) AS scmReturnListCnt
 			FROM tb_order od
 			WHERE od.STTcd = 1
 			OR od.STTcd = 6
 			OR od.STTcd = 2
 			OR od.STTcd = 7
 			ORDER BY od.order_cd DESC
-		</select>
-		
+	    </select>
 </mapper>
