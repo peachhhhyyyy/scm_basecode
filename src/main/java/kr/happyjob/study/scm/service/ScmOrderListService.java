@@ -19,4 +19,8 @@ public interface ScmOrderListService {
 
 	DeliveryInfoModel getDeliveryInfo(Map<String, Object> paramMap) throws Exception;
 
+	Map<String, String> updateState(Map<String, Object> paramMap) throws Exception;
+
+	int insertData(Map<String, Object> paramMap) throws Exception;
+
 }
