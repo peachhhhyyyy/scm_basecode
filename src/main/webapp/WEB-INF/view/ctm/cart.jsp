@@ -83,7 +83,6 @@ input[type=number]::-webkit-outer-spin-button {
 			
 			callAjax("/ctm/listCart.do", "post", "text", true, param, resultCallback);
 		}
-
 		
 		/** 그룹코드 조회 콜백 함수 */
 		function fCartResult(data, currentPage) {
@@ -189,6 +188,12 @@ input[type=number]::-webkit-outer-spin-button {
 								</thead>
 							<tbody id="listCart"></tbody>
 						</table>
+						<center>
+							<br>
+								<a class="btnType4 color1"><span>주문하기</span></a>
+							<br>
+							<br>
+						</center>
 					</div>
 	
 					  
@@ -221,10 +226,11 @@ input[type=number]::-webkit-outer-spin-button {
 						<button type = "submit">신청</button>
 						<button>닫기</button>
 					</div>	
-		
-	
-	
-					<div class="paging_area"  id="dvListPagination"> </div>
+	<!-- 
+					<div class="paging_area"  id="dvListPagination">  -->
+										
+							
+					</div>
 					</div> <!--// content -->
 
 					<h3 class="hidden">풋터 영역</h3>
