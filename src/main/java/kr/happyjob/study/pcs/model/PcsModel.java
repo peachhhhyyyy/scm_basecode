@@ -9,8 +9,10 @@ public class PcsModel {
   public String prod_nm;
   // 제품코드
   public String product_cd;
-  // 대분류 품목명
+  // 대분류
   public String l_ct_cd;
+  // 중분류 
+  public String m_ct_cd;
   // 발주수량
   public int purch_qty;
   // 장비구매액
@@ -63,6 +65,12 @@ public class PcsModel {
   }
   public void setL_ct_cd(String l_ct_cd) {
     this.l_ct_cd = l_ct_cd;
+  }
+  public String getM_ct_cd() {
+    return m_ct_cd;
+  }
+  public void setM_ct_cd(String m_ct_cd) {
+    this.m_ct_cd = m_ct_cd;
   }
   public int getPurch_qty() {
     return purch_qty;
