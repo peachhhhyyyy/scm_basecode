@@ -33,7 +33,7 @@ _<%@ page language="java" contentType="text/html; charset=UTF-8"
 						   		       		<fmt:formatNumber value = "${list.price}" pattern = "###,###,###" /> <!-- 가격 --> 
 						   		       	</td>	
 										<td>						
-											<a class="btnType3 color1" href="javascript:fPopModalCart();"><span>삭제하기</span></a>
+											<a class="btnType3 color1" href="javascript:fDeleteModal();"><span>삭제하기</span></a>
 										</td> <!-- 신청취소 버튼 -->
 									</tr>
 									<c:set var="nRow" value="${nRow + 1}" />
