@@ -3,12 +3,13 @@
 
 <mapper namespace="kr.happyjob.study.ctm.dao.CartDao">
 	<select id="listCart" resultType = "kr.happyjob.study.ctm.model.CartModel">
-		SELECT pd.prod_nm
-			 , lcg.l_ct_nm
-			 , mcg.m_ct_nm
-			 , pd.price
-			 , pd.product_cd
-			 , pd.detail
+		SELECT pd.prod_nm as prod_nm
+			 , lcg.l_ct_nm as l_ct_nm
+			 , mcg.m_ct_nm as m_ct_nm
+			 , pd.price as price
+			 , pd.product_cd as product_cd
+			 , pd.detail as detail
+			 , sc. shopping_cart_qty
           FROM tb_shopping_cart sc
              , tb_scm_product pd
              , tb_scm_m_category mcg
@@ -19,7 +20,9 @@
 	</select>
 
 	<select id="countListCart" resultType="int">
-		SELECT COUNT(1) AS tot_cnt FROM tb_shopping_cart
+		SELECT COUNT(1) AS tot_cnt 
+		  FROM tb_shopping_cart 
+		 WHERE loginID = #{loginID}
 	</select>
 
 </mapper>
