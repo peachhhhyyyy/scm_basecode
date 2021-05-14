@@ -25,8 +25,13 @@
 		   
 		   <!-- 반품지시서 데이터 갯수 카운팅 -->
 		<select id="scmReturnListCnt" resultType="int">
-			SELECT count(*) 
-			FROM tb_scm_refund_list
+			SELECT COUNT(*) as returnlistCnt
+			FROM tb_order od
+			WHERE od.STTcd = 1
+			OR od.STTcd = 6
+			OR od.STTcd = 2
+			OR od.STTcd = 7
+			ORDER BY od.order_cd DESC
 		</select>
 		
 </mapper>
