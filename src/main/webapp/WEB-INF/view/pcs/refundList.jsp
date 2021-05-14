@@ -17,12 +17,11 @@
   // 그룹코드 페이징 설정
   var pageSizeComnGrpCod = 5;
   var pageBlockSizeComnGrpCod = 5;
-  // 상세코드 페이징 설정
-  var pageSizeComnDtlCod = 5;
-  var pageBlockSizeComnDtlCod = 10;
+  
+  
   /** OnLoad event */
   $(function() {
-    
+   
     // 반품서 목록 조회
     selectList();
     
@@ -54,111 +53,6 @@
         break;
       }
     });
-  }
-  /** 그룹코드 폼 초기화 */
-  function fInitFormGrpCod(object) {
-    $("#grp_cod").focus();
-    if (object == "" || object == null || object == undefined) {
-      $("#grp_cod").val("");
-      $("#grp_cod_nm").val("");
-      $("#grp_cod_eplti").val("");
-      $("#grp_tmp_fld_01").val("");
-      $("#grp_tmp_fld_02").val("");
-      $("#grp_tmp_fld_03").val("");
-      $("input:radio[name=grp_use_poa]:input[value='Y']").attr("checked", true);
-      $("#grp_cod").attr("readonly", false);
-      $("#grp_cod").css("background", "#FFFFFF");
-      $("#grp_cod").focus();
-      $("#btnDeleteGrpCod").hide();
-    } else {
-      $("#grp_cod").val(object.grp_cod);
-      $("#grp_cod_nm").val(object.grp_cod_nm);
-      $("#grp_cod_eplti").val(object.grp_cod_eplti);
-      $("#grp_tmp_fld_01").val(object.tmp_fld_01);
-      $("#grp_tmp_fld_02").val(object.tmp_fld_02);
-      $("#grp_tmp_fld_03").val(object.tmp_fld_03);
-      $("input:radio[name=grp_use_poa]:input[value=" + object.use_poa + "]").attr("checked", true);
-      $("#grp_cod").attr("readonly", true);
-      $("#grp_cod").css("background", "#F5F5F5");
-      $("#grp_cod_nm").focus();
-      $("#btnDeleteGrpCod").show();
-    }
-  }
-  /** 그룹코드 모달 실행 */
-  function fPopModalComnGrpCod(grp_cod) {
-    // 신규 저장
-    if (grp_cod == null || grp_cod == "") {
-      // Tranjection type 설정
-      $("#action").val("I");
-      // 그룹코드 폼 초기화
-      fInitFormGrpCod();
-      // 모달 팝업
-      gfModalPop("#layer1");
-      // 수정 저장
-    } else {
-      // Tranjection type 설정
-      $("#action").val("U");
-      // 그룹코드 단건 조회
-      fSelectGrpCod(grp_cod);
-    }
-  }
-  
-  /** 그룹코드 조회 */
-  function fListComnGrpCod(currentPage) {
-    currentPage = currentPage || 1;
-    console.log("currentPage : " + currentPage);
-    var param = {
-    currentPage : currentPage,
-    pageSize : pageSizeComnGrpCod
-    }
-    var resultCallback = function(data) {
-      flistGrpCodResult(data, currentPage);
-    };
-    //Ajax실행 방식
-    //callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
-    callAjax("/pcs/refund/list.do", "post", "text", true, param, resultCallback);
-  }
-  
-  /** 그룹코드 조회 콜백 함수 */
-  function flistGrpCodResult(data, currentPage) {
-    //alert(data);
-    console.log(data);
-    // 기존 목록 삭제
-    $('#listComnGrpCod').empty();
-    // 신규 목록 생성
-    $("#listComnGrpCod").append(data);
-    // 총 개수 추출
-    var totalCntComnGrpCod = $("#totalCntComnGrpCod").val();
-    // 페이지 네비게이션 생성
-    var paginationHtml = getPaginationHtml(currentPage, totalCntComnGrpCod, pageSizeComnGrpCod, pageBlockSizeComnGrpCod, 'fListComnGrpCod');
-    console.log("paginationHtml : " + paginationHtml);
-    //alert(paginationHtml);
-    $("#comnGrpCodPagination").empty().append(paginationHtml);
-    // 현재 페이지 설정
-    $("#currentPageComnGrpCod").val(currentPage);
-  }
-  
-  /** 그룹코드 단건 조회 */
-  function fSelectGrpCod(grp_cod) {
-    var param = {
-      grp_cod : grp_cod
-    };
-    var resultCallback = function(data) {
-      fSelectGrpCodResult(data);
-    };
-    callAjax("/system/selectComnGrpCod.do", "post", "json", true, param, resultCallback);
-  }
-  
-  /** 그룹코드 단건 조회 콜백 함수*/
-  function fSelectGrpCodResult(data) {
-    if (data.result == "SUCCESS") {
-      // 모달 팝업
-      gfModalPop("#layer1");
-      // 그룹코드 폼 데이터 설정
-      fInitFormGrpCod(data.comnGrpCodModel);
-    } else {
-      alert(data.resultMsg);
-    }
   }
   
   // 반품서 목록 조회
@@ -362,7 +256,7 @@
                   <div class='col-md-3 col-xs-4'>
                     <div class="form-group">
                       <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="01/11/2020">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="">
                         <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
                           <div class="input-group-text">
                             <i class="fa fa-calendar"></i>
@@ -483,73 +377,6 @@
       </dl>
       <a href="" class="closePop"><span class="hidden">닫기</span></a>
     </div>
-    <div id="layer2" class="layerPop layerType2" style="width: 600px;">
-      <dl>
-        <dt>
-          <strong>상세코드 관리</strong>
-        </dt>
-        <dd class="content">
-          <!-- s : 여기에 내용입력 -->
-          <table class="row">
-            <caption>caption</caption>
-            <colgroup>
-              <col width="120px">
-              <col width="*">
-              <col width="120px">
-              <col width="*">
-            </colgroup>
-            <tbody>
-              <tr>
-                <th scope="row">그룹 코드 ID <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100" id="dtl_grp_cod" name="dtl_grp_cod" /></td>
-                <th scope="row">그룹 코드 명 <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100" id="dtl_grp_cod_nm" name="dtl_grp_cod_nm" /></td>
-              </tr>
-              <tr>
-                <th scope="row">상세 코드 ID <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100" id="dtl_cod" name="dtl_cod" /></td>
-                <th scope="row">상세 코드 명 <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100" id="dtl_cod_nm" name="dtl_cod_nm" /></td>
-              </tr>
-              <tr>
-                <th scope="row">순서</th>
-                <td colspan="3"><input type="text" class="inputTxt" id="dtl_odr" name="dtl_odr" /></td>
-              </tr>
-              <tr>
-                <th scope="row">코드 설명</th>
-                <td colspan="3"><input type="text" class="inputTxt p100" id="dtl_cod_eplti" name="dtl_cod_eplti" /></td>
-              </tr>
-              <tr>
-                <th scope="row">임시 필드 01</th>
-                <td colspan="3"><input type="text" class="inputTxt p100" id="dtl_tmp_fld_01" name="dtl_tmp_fld_01" /></td>
-              </tr>
-              <tr>
-                <th scope="row">임시 필드 02</th>
-                <td colspan="3"><input type="text" class="inputTxt p100" id="dtl_tmp_fld_02" name="dtl_tmp_fld_02" /></td>
-              </tr>
-              <tr>
-                <th scope="row">임시 필드 03</th>
-                <td colspan="3"><input type="text" class="inputTxt p100" id="dtl_tmp_fld_03" name="dtl_tmp_fld_03" /></td>
-              </tr>
-              <tr>
-                <th scope="row">임시 필드 04</th>
-                <td colspan="3"><input type="text" class="inputTxt p100" id="dtl_tmp_fld_04" name="dtl_tmp_fld_04" /></td>
-              </tr>
-              <tr>
-                <th scope="row">사용 유무 <span class="font_red">*</span></th>
-                <td colspan="3"><input type="radio" id="dtl_use_poa_1" name="dtl_use_poa" value="Y" /> <label for="radio1-1">사용</label> &nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" id="dtl_use_poa_2" name="dtl_use_poa" value="N" /> <label for="radio1-2">미사용</label></td>
-              </tr>
-            </tbody>
-          </table>
-          <!-- e : 여기에 내용입력 -->
-          <div class="btn_areaC mt30">
-            <a href="" class="btnType blue" id="btnSaveDtlCod" name="btn"><span>저장</span></a> <a href="" class="btnType blue" id="btnDeleteDtlCod" name="btn"><span>삭제</span></a> <a href="" class="btnType gray" id="btnCloseDtlCod" name="btn"><span>취소</span></a>
-          </div>
-        </dd>
-      </dl>
-      <a href="" class="closePop"><span class="hidden">닫기</span></a>
-    </div>
-    <!--// 모달팝업 -->
   </form>
   <script type="text/javascript">
       $(function() {
@@ -561,6 +388,8 @@
         useCurrent : false
         });
         $("#datetimepicker1").on("change.datetimepicker", function(e) {
+          var date = $("#datetimepicker1").find("input").val()
+          console.log('날짜확인', date)
           $('#datetimepicker2').datetimepicker('minDate', e.date);
         });
       });

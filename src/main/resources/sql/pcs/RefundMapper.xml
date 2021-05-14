@@ -38,8 +38,7 @@
   </select>
   
   <!-- 반품서 목록 조건별 검색. 전부 변경해야 함. 특히 파라미터 -->
-  <select id="selectConditionRefundList" resultType="kr.happyjob.study.pcs.model.RefundListModel" parameterType="String">
-    
+  <select id="selectConditionRefundList" resultType="kr.happyjob.study.pcs.model.RefundListModel" parameterType="kr.happyjob.study.pcs.model.SearchModel">
     SELECT 
            li.refund_list_no
          , li.order_cd
