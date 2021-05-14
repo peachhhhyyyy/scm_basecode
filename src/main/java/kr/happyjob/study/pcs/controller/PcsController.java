@@ -58,6 +58,8 @@ public class PcsController {
         
     paramMap.put("pageIndex", pageIndex);
     paramMap.put("pageSize", pageSize);
+    
+    logger.info("   - paramMap : " + paramMap);
 
     // 발주지시서 목록 조회
     List<PcsModel> listPcsOrderingOrderModel = pcsService.pcsOrderingOrder(paramMap);
@@ -71,7 +73,7 @@ public class PcsController {
     
     logger.info("+ End " + className + ".listPcsOrderingOrder");
     
-    return "pcs/listPcsOrderingOrder";
+    return "/pcs/listPcsOrderingOrder";
   } 
   
   // 발주 버튼 클릭 시 내용 전송
@@ -163,4 +165,20 @@ public class PcsController {
     
     return resultMap;
   } 
+  
+  // 입고완료 버튼 클릭 시 상태 변경
+  @RequestMapping("updateSTTcd.do")
+  public String updateSTTcd(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+      HttpServletResponse response, HttpSession session) throws Exception {
+
+    logger.info("+ Start " + className + ".pcsOrderForm");
+    logger.info("   - paramMap : " + paramMap);
+    logger.info("+ End " + className + ".pcsOrderForm");
+    
+    // 상태코드 수정 저장
+    int updateSTTcdModel = pcsService.updateSTTcd(paramMap);
+    model.addAttribute("updateSTTcdModel", updateSTTcdModel);
+    
+    return "pcs/listPcsUpdateSTTcd";
+  }
 }

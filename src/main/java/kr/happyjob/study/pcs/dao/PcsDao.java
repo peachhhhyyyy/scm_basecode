@@ -22,4 +22,7 @@ public interface PcsDao {
   
   /** 발주서 목록 카운트 조회 */
   public int countPcsOrderForm(Map<String, Object> paramMap);
+  
+  /** 발주서 상태 변경 */
+  public int updateSTTcd(Map<String, Object> paramMap);
 }

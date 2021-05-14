@@ -9,14 +9,10 @@
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript">
   // 그룹코드 페이징 설정
-  var pageSizeComnGrpCod = 10;
-  var pageBlockSizeComnGrpCod = 5;
+  var pageSizePcsOrderingOrder = 5;
+  var pageBlockSizePcsOrderingOrder = 5;
 
-  // 상세코드 페이징 설정
-  var pageSizeComnDtlCod = 5;
-  var pageBlockSizeComnDtlCod = 10;
-  
-  $(function() {
+  $(document).ready(function() {
     // 발주 지시서 조회
     fListPcsOrderingOrder();
 
@@ -43,13 +39,13 @@
   }
 
   /** 그룹코드 모달 실행 */
-  function fPopModalPcsOrderingOrder(purch_list_no, supply_nm, prod_nm, m_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd) {
+  function fPopModalPcsOrderingOrder(purch_list_no, supply_nm, prod_nm, m_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id) {
  
     // 신규 저장
     if (purch_list_no == null || purch_list_no == "") {
     } else {
       // 발주서 버튼 클릭 시 화면 출력
-      fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd);
+      fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id);
     }
   }
 
@@ -61,8 +57,9 @@
 
     var param = {
       currentPage : currentPage,
-      pageSize : pageSizeComnGrpCod
+      pageSize : pageSizePcsOrderingOrder
     }
+    
     var resultCallback = function(data) {
       flistPcsOrderingOrder(data, currentPage);
     };
@@ -75,7 +72,7 @@
   function flistPcsOrderingOrder(data, currentPage) {
 
     //alert(data);
-    console.log(data);
+    /* console.log(data); */
 
     // 기존 목록 삭제
     $("#listPcsOrderingOrder").empty();
@@ -87,13 +84,13 @@
     var totalCount = $("#totalCount").val();
     
     // 페이지 네비게이션 생성
-    var paginationHtml = getPaginationHtml(currentPage, totalCount, pageSizeComnGrpCod, pageBlockSizeComnGrpCod, 'fListPcsOrderingOrder');
+    var paginationHtml = getPaginationHtml(currentPage, totalCount, pageSizePcsOrderingOrder, pageBlockSizePcsOrderingOrder, 'fListPcsOrderingOrder');
     console.log("paginationHtml : " + paginationHtml);
     //alert(paginationHtml);
     $("#pcsOrderingOrderPagination").empty().append(paginationHtml);
 
     // 현재 페이지 설정
-    $("#currentPage").val(currentPage);
+    //$("#currentPage").val(currentPage);
   }
 
   /** 시간 변환 함수 
@@ -114,7 +111,7 @@
   }
   
   /** 발주서 화면 띄우기 */ 
-  function fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd) {
+  function fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id) {
     $("#purchListNo").text(purch_list_no);
     $("#supplyNm").text(supply_nm);
     $("#prodNm").text(prod_nm);
@@ -185,6 +182,8 @@
 </head>
 <body>
     <form id="myForm" action="" method="">
+    
+        <input type="hidden" id="currentPage" value="1">
         <input type="hidden" id="currentPageComnGrpCod" value="1">
         <input type="hidden" id="currentPageComnDtlCod" value="1">
         <input type="hidden" id="tmpGrpCod" value="">

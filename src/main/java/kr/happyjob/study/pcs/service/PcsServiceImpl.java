@@ -54,4 +54,10 @@ public class PcsServiceImpl implements PcsService {
     int totalCount = pcsDao.countPcsOrderForm(paramMap);
     return totalCount;
   }
+  
+  /** 발주서 상태 변경 */
+  public int updateSTTcd(Map<String, Object> paramMap) {
+    int pcsmodel = pcsDao.updateSTTcd(paramMap);
+    return pcsmodel;
+  }
 }

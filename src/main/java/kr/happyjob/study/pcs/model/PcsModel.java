@@ -23,6 +23,8 @@ public class PcsModel {
   public Date desired_delivery_date;
   // 창고명
   public String warehouse_nm;
+  // SCM담당자명
+  public String scm_id;
   // 구매담당자명
   public String purch_mng_id;
   // 창고코드
@@ -101,6 +103,12 @@ public class PcsModel {
   }
   public void setWarehouse_nm(String warehouse_nm) {
     this.warehouse_nm = warehouse_nm;
+  }
+  public String getScm_id() {
+    return scm_id;
+  }
+  public void setScm_id(String scm_id) {
+    this.scm_id = scm_id;
   }
   public String getPurch_mng_id() {
     return purch_mng_id;
