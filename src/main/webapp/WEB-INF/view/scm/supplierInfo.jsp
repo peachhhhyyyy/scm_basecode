@@ -57,10 +57,12 @@
 
   /*공급처 조회*/
   function selectSupplierList(currentPage) {
+    
     currentPage = currentPage || 1;
     var sname = $('#sname');
     var searchKey = document.getElementById("searchKey");
     var oname = searchKey.options[searchKey.selectedIndex].value;
+    
     var param = {
         sname : sname.val(),
         oname : oname,
@@ -218,7 +220,7 @@
         .serialize(), resultCallback);
   }
   
-  //납품 업체 저장 콜백 함수
+  //공급처 저장 콜백 함수
   function fSaveDeliveryResult(data) {
     var currentPage = "1";
     if ($("#action").val() != "I") {
@@ -259,7 +261,7 @@
     currentPage = currentPage || 1;
     $("#tmpsupply_cd").val(supply_cd);
     var param = {
-        supply_cd : supply_cd //납품업체명 변수설정
+        supply_cd : supply_cd //공급처 코드 변수설정
       , currentPage : currentPage
       , pageSize : pageSizeProduct
     }
@@ -366,7 +368,7 @@
                     <div class="conTitle" style="margin: 0 25px 10px 0; float: left;">
                         </a><select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
                            <option value="supply_cd" selected="selected">공급처명</option>
-                           <option value="prod_nm">제품명</option>
+                           <option value="supply_mng_nm">담당자명</option>
                         </select>
                         <input type="text" style="width: 300px; height: 30px;" id="sname" name="sname">
                             <a href="" class="btnType blue" id="searchBtn" name="btn"> 
