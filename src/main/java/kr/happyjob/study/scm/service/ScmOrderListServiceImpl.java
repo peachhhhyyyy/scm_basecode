@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.happyjob.study.scm.dao.ScmOrderListDao;
+import kr.happyjob.study.scm.model.DeliveryInfoModel;
 import kr.happyjob.study.scm.model.ProductInfoModel;
 import kr.happyjob.study.scm.model.ScmOrderListModel;
 
@@ -35,5 +36,9 @@ public class ScmOrderListServiceImpl implements ScmOrderListService {
 	public String getScmManagerName(Map<String, Object> paramMap) throws Exception {
 		return ScmOrderListDao.selectScmManagerName(paramMap);
 	}
-
+	
+	@Override
+	public DeliveryInfoModel getDeliveryInfo(Map<String, Object> paramMap) throws Exception {
+		return ScmOrderListDao.selectDeliveryInfo(paramMap);
+	}
 }

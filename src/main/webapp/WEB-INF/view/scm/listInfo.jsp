@@ -24,20 +24,30 @@
       <td>${list.orderAmount}</td>
       <td>${list.orderTax}</td>
       <td>${list.depositState}</td>
-      <c:if test="${list.state eq '입금대기'}">
-      	<td><a class="btnType3 color1" href="javascript:fnotYetDeposit();">배송</a></td>
-      	<td><a class="btnType3 color1" href="javascript:fnotYetDeposit();">발주</a></td>
-      </c:if>
-      <c:if test="${list.state eq '입금완료'}">
-      	<c:if test="${list.productCount >= list.orderCount}">
-      		<td><a class="btnType3 color2" href="#">배송</a></td>
-   			<td><a class="btnType3 color1" href="javascript:purchaseModalOpen('${list.orderCode}');">발주</a></td>
-      	</c:if>
-  	 	<c:if test="${list.productCount < list.orderCount}">
-      		<td><a class="btnType3 color1" href="javascript:fnotEnoughStock();">배송</a></td>
-   			<td><a class="btnType3 color2" href="javascript:purchaseModalOpen('${list.orderCode}');">발주</a></td>
-      	</c:if>
-      </c:if>
+      <c:choose>
+      	<c:when test="${list.state eq '입금대기'}">
+      		<td><a class="btnType3 color1" href="javascript:fnotYetDeposit();">배송</a></td>
+      		<td><a class="btnType3 color1" href="javascript:fnotYetDeposit();">발주</a></td>
+      	</c:when>
+      	<c:when test="${list.state eq '입금완료'}">
+	      	<c:if test="${list.productCount >= list.orderCount}">
+	      		<td><a class="btnType3 color2" href="javascript:deliveryModalOpen('${list.orderCode}');">배송</a></td>
+	   			<td><a class="btnType3 color1" href="javascript:fgoToDeliveryBtn();">발주</a></td>
+	      	</c:if>
+	  	 	<c:if test="${list.productCount < list.orderCount}">
+	      		<td><a class="btnType3 color1" href="javascript:fnotEnoughStock();">배송</a></td>
+	   			<td><a class="btnType3 color2" href="javascript:purchaseModalOpen('${list.orderCode}');">발주</a></td>
+	      	</c:if>
+       	</c:when>
+		<c:when test="${list.state eq '입고완료'}">
+	      		<td><a class="btnType3 color2" href="javascript:deliveryModalOpen('${list.orderCode}');">배송</a></td>
+	   			<td><a class="btnType3 color1" href="javascript:fgoToDeliveryBtn();">발주</a></td>
+		</c:when>
+      	<c:otherwise>
+      		<td><a class="btnType3">배송</a></td>
+      		<td><a class="btnType3">발주</a></td>      		
+      	</c:otherwise>
+      </c:choose>
       <td>${list.state}</td>
     </tr>
     <c:set var="nRow" value="${nRow + 1}" />

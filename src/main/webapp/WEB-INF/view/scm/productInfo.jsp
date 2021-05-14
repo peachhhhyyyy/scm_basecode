@@ -16,11 +16,11 @@
 		</div>
 		<div>
 	        <c:set var="orderDate" value="${productInfo.orderDate}"/>
-			<span>주문 일자 : </span><span>${fn:substring(orderDate, 0, 19)}</span>
+			<span>주문 일자 : </span><span>${fn:substring(orderDate, 0, 11)}</span>
 		</div>
 		<div>
 			<c:set var="submitDate" value="${productInfo.submitDate}"/>
-			<span>제출 일자 : </span><span>${fn:substring(submitDate, 0, 19)}</span>
+			<span>제출 일자 : </span><span>${fn:substring(submitDate, 0, 11)}</span>
 		</div>
 		<div>
 			<span>제품명 : </span><span>${productInfo.productName}</span>
@@ -38,7 +38,7 @@
 			<span>제품 단가 : </span><span id="purchasePrice">${productInfo.purchasePrice}</span>
 		</div>
 		<div>
-			<span>수량 : </span><span><input id="purchaseCount" type="number" oninput="javascript:multiply()" value="0" min="0" max="1000"/> EA</span>
+			<span>수량 : </span><span><input id="purchaseCount" type="number" oninput="javascript:purchaseMultiply()" value="0" min="0" max="1000"/> EA</span>
 		</div>
 		<div class="bar"></div>
 		<div >

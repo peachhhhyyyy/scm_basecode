@@ -65,14 +65,25 @@ function forderListHistoryResult(data, currentPage) {
   
 };
 
-// 입금대기 상태일때 배송,발주 버튼 클릭할 때 나타나는 에러 메시지 함수
+// 입금대기 상태일때 배송,발주 버튼 클릭할 때 나타나는 경고창
 function fnotYetDeposit() {
   swal("아직 입금이 완료되지 않았습니다.");
   return;
 };
 
+// 재고량이 주문량보다 적을 때, 배송버튼 누르면 나타나는 경고창
 function fnotEnoughStock() {
-  swal("재고량이 주문 수량보다 적습니다. \n발주를 진행하여 재고 입고를 진행해주세요.");
+  swal("재고량이 주문 수량보다 적습니다.\n발주버튼을 눌러 재고 입고를 진행해주세요.");
+  return;
+};
+
+function fgoToDeliveryBtn() {
+  swal("재고량이 주문 수량보다 많습니다.\n배송버튼을 눌러 배송을 진행해주세요.");
+  return;
+};
+
+function fgoToDeliveryBtn2() {
+  swal("입고가 완료되었습니다.\n배송버튼을 눌러 배송을 진행해주세요.");
   return;
 };
 
@@ -143,7 +154,7 @@ function makePurchaseDirectionResult(data) {
   return;
 }
 
-function multiply() {
+function purchaseMultiply() {
   const price = parseInt($("#purchasePrice").text());
   const cnt = $("#purchaseCount").val();
   const result = price * cnt;
@@ -153,38 +164,108 @@ function multiply() {
   return;
 }
 
-// 숫자를 한글로
-// 출처: https://sub0709.tistory.com/93 [쓸데없는 코딩하기]
+//숫자를 한글로
+//출처: https://sub0709.tistory.com/93 [쓸데없는 코딩하기]
 function num2han(num) {
-  num = parseInt((num + '').replace(/[^0-9]/g, ''), 10) + ''; // 숫자/문자/돈 을 숫자만
-                                                              // 있는 문자열로 변환
-  if (num == '0')
-    return '영';
-  var number = [ '영', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구' ];
-  var unit = [ '', '만', '억', '조' ];
-  var smallUnit = [ '천', '백', '십', '' ];
-  var result = []; // 변환된 값을 저장할 배열
-  var unitCnt = Math.ceil(num.length / 4); // 단위 갯수. 숫자 10000은 일단위와 만단위 2개이다.
-  num = num.padStart(unitCnt * 4, '0') // 4자리 값이 되도록 0을 채운다
-  var regexp = /[\w\W]{4}/g; // 4자리 단위로 숫자 분리
-  var array = num.match(regexp);
-  // 낮은 자릿수에서 높은 자릿수 순으로 값을 만든다(그래야 자릿수 계산이 편하다)
-  for (var i = array.length - 1, unitCnt = 0; i >= 0; i--, unitCnt++) {
-    var hanValue = _makeHan(array[i]); // 한글로 변환된 숫자
-    if (hanValue == '') // 값이 없을땐 해당 단위의 값이 모두 0이란 뜻.
-      continue;
-    result.unshift(hanValue + unit[unitCnt]); // unshift는 항상 배열의 앞에 넣는다.
+num = parseInt((num + '').replace(/[^0-9]/g, ''), 10) + ''; // 숫자/문자/돈 을 숫자만
+                                                           // 있는 문자열로 변환
+if (num == '0')
+ return '영';
+var number = [ '영', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구' ];
+var unit = [ '', '만', '억', '조' ];
+var smallUnit = [ '천', '백', '십', '' ];
+var result = []; // 변환된 값을 저장할 배열
+var unitCnt = Math.ceil(num.length / 4); // 단위 갯수. 숫자 10000은 일단위와 만단위 2개이다.
+num = num.padStart(unitCnt * 4, '0') // 4자리 값이 되도록 0을 채운다
+var regexp = /[\w\W]{4}/g; // 4자리 단위로 숫자 분리
+var array = num.match(regexp);
+// 낮은 자릿수에서 높은 자릿수 순으로 값을 만든다(그래야 자릿수 계산이 편하다)
+for (var i = array.length - 1, unitCnt = 0; i >= 0; i--, unitCnt++) {
+ var hanValue = _makeHan(array[i]); // 한글로 변환된 숫자
+ if (hanValue == '') // 값이 없을땐 해당 단위의 값이 모두 0이란 뜻.
+   continue;
+ result.unshift(hanValue + unit[unitCnt]); // unshift는 항상 배열의 앞에 넣는다.
+}
+// 여기로 들어오는 값은 무조건 네자리이다. 1234 -> 일천이백삼십사
+function _makeHan(text) {
+ var str = '';
+ for (var i = 0; i < text.length; i++) {
+   var num = text[i];
+   if (num == '0') // 0은 읽지 않는다
+     continue;
+   str += number[num] + smallUnit[i];
+ }
+ return str;
+}
+return result.join('');
+}
+
+/* 
+ * 배송지시서 화면
+ */
+var deliveryModal = new tingle.modal({
+  footer: true,
+  stickyFooter: false,
+  closeMethods: ['button'],
+  closeLabel: "Close",
+  cssClass: ['custom-class-1', 'custom-class-2'],
+  onOpen: function() {
+      console.log('modal open');
+  },
+  onClose: function() {
+      console.log('modal closed');
+  },
+  beforeClose: function() {
+      // here's goes some logic
+      // e.g. save content before closing the modal
+      return true; // close the modal
+      return false; // nothing happens
   }
-  // 여기로 들어오는 값은 무조건 네자리이다. 1234 -> 일천이백삼십사
-  function _makeHan(text) {
-    var str = '';
-    for (var i = 0; i < text.length; i++) {
-      var num = text[i];
-      if (num == '0') // 0은 읽지 않는다
-        continue;
-      str += number[num] + smallUnit[i];
-    }
-    return str;
-  }
-  return result.join('');
+});
+
+//add a button
+deliveryModal.addFooterBtn('요청', 'tingle-btn tingle-btn--primary', function() {
+  var gr = $('#spanTest').length;
+  console.log(gr);
+  deliveryModal.close();
+});
+
+// add another button
+deliveryModal.addFooterBtn('취소', 'tingle-btn tingle-btn--danger', function() {
+  deliveryModal.close();
+});
+
+function deliveryModalOpen(orderCode) {
+  // set content
+  // 앞에서 한 것들과 다르게 결과 데이터를 아이디를 가지고 있는 태그에  append하는게 아닌 html을
+  // return해서 setContent 안에 넣어야함.
+  makeDeliveryDirection(orderCode)
+  // 모달창 열기
+  deliveryModal.open();
+}
+
+function makeDeliveryDirection(orderCode) {
+  console.log("=== 1.배송지시서 모달창에 뿌릴 데이터 가져오기 시작 ===");
+  
+  var param = {
+      orderCode: orderCode
+    };
+  
+  console.log(param);
+  
+  var resultCallback = function(data) {
+    makeDeliveryDirectionResult(data);
+  };
+  
+  // Ajax 실행 방식
+  // callAjax("Url", type, return, async or sync방식, 넘겨준거, Callback함수 이름)
+  // html로 받을거라 text
+  callAjax("/scm/deliveryInfo.do", "post", "text", true, param, resultCallback);
+  return;
+}
+
+function makeDeliveryDirectionResult(data) {
+  // callAjax에서 받은 html data string을 모달창에 입력
+  deliveryModal.setContent(data);
+  return;
 }
