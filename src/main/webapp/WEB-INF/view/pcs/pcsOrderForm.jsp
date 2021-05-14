@@ -9,13 +9,9 @@
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript">
   // 그룹코드 페이징 설정
-  var pageSizeComnGrpCod = 10;
-  var pageBlockSizeComnGrpCod = 5;
+  var pageSizePcsOrderForm = 10;
+  var pageBlockSizePcsOrderForm = 5;
 
-  // 상세코드 페이징 설정
-  var pageSizeComnDtlCod = 5;
-  var pageBlockSizeComnDtlCod = 10;
-  
   $(function() {
     // 발주서 조회
     fListPcsOrderForm();
@@ -57,7 +53,7 @@
 
     var param = {
       currentPage : currentPage,
-      pageSize : pageSizeComnGrpCod
+      pageSize : pageSizePcsOrderForm
     }
     var resultCallback = function(data) {
       fListPcsOrderFormResult(data, currentPage);
@@ -82,7 +78,7 @@
     var totalCount = $("#totalCount").val();
     
     // 페이지 네비게이션 생성
-    var paginationHtml = getPaginationHtml(currentPage, totalCount, pageSizeComnGrpCod, pageBlockSizeComnGrpCod, 'fListPcsOrderForm');
+    var paginationHtml = getPaginationHtml(currentPage, totalCount, pageSizePcsOrderForm, pageBlockSizePcsOrderForm, 'fListPcsOrderForm');
     console.log("paginationHtml : " + paginationHtml);
     //alert(paginationHtml);
     $("#pcsOrderFormPagination").empty().append(paginationHtml);
@@ -170,6 +166,31 @@
       alert(data.resultMsg);
     }
   }
+  
+  /** 입고완료 버튼 클릭 */
+  function fSelectUpdateSTTcd(STTcd, detail_name) {
+    var param = {
+        STTcd : STTcd,
+        detail_name : detail_name
+      };
+    
+    var resultCallback = function(data) {
+      fSelectUpdateSTTcdResult(data);
+    };
+    //Ajax실행 방식
+    //callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
+    callAjax("/pcs/updateSTTcd.do", "post", "text", true, param, resultCallback);
+  }
+  
+  /** 입고완료 버튼 클릭 콜백 함수 */
+  function fSelectUpdateSTTcdResult(data) {
+    if (data.result == "SUCCESS") {
+      // 모달 팝업
+      console.log("fSelectUpdateSTTcdResult : " + JSON.stringify(data));
+    } else {
+      location.reload();
+    }
+  }
 </script>
 </head>
 <body>
@@ -208,14 +229,11 @@
                                     <!-- searchbar -->
                                     <div class="col-lg-6">
                                         <div class="input-group">
-                                            <div class="input-group-btn">
-                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">전체 <span class="caret"></span>
-                                                </button>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <li><a href="#">업종</a></li>
-                                                    <li><a href="#">제품</a></li>
-                                                </ul>
-                                            </div>
+                                            <select style="width:90px;height:34px;">
+								                               <option value="all" selected="selected">전체</option>
+								                               <option value="category">업종</option>
+								                               <option value="product">제품</option>
+								                            </select>
                                             <input type="text" class="form-control" aria-label="...">
                                         </div>
                                     </div>
@@ -346,5 +364,17 @@
 				</div>
 				<!--// 모달팝업 -->
 		</form>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#datetimepicker1').datetimepicker({ format: 'L'});
+            $('#datetimepicker2').datetimepicker({
+                format: 'L',
+                useCurrent: false
+            });
+            $("#datetimepicker1").on("change.datetimepicker", function (e) {
+                $('#datetimepicker2').datetimepicker('minDate', e.date);
+            });
+        });
+    </script>
 </body>
 </html>

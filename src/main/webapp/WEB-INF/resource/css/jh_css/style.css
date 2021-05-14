@@ -599,7 +599,7 @@
 
 .input-group {
     position: relative;
-    display: table;
+    display: flex;
     border-collapse: separate
 }
 
