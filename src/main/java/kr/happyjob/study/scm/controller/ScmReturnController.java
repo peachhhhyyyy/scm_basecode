@@ -26,6 +26,12 @@ public class ScmReturnController {
 	
 	private final Logger logger = LogManager.getLogger(this.getClass());
 	
+	@RequestMapping("scmReturnMain.do")
+	public String returnMain(){
+		logger.info("반품지시서 메인페이지");
+		
+		return "/scm/scmReturnMain";
+	}
 	
 	@RequestMapping("scmReturnList.do")
 	public String getReturnList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
@@ -42,17 +48,16 @@ public class ScmReturnController {
 		//반품지시서 조회
 		List<ScmReturnListModel> returnList = srtservice.getReturnList(paramMap);
 		model.addAttribute("returnList",returnList);
-		logger.info("scmReturnList 값: "+paramMap);
+		logger.info("scmReturnList 값: "+ paramMap);
 		
 		//목록수 추출하기
 		int scmReturnCnt = srtservice.scmReturnListCnt(paramMap);
 		
 		model.addAttribute("scmReturnCnt", scmReturnCnt);
-		
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageIndex", pageIndex);
 		model.addAttribute("currentPage", currentPage);
-		return "/scm/scmReturnMain";
+		return "/scm/scmReturnList";
 	}
 	
 }

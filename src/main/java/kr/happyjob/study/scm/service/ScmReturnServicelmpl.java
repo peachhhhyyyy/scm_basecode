@@ -22,8 +22,8 @@ public class ScmReturnServicelmpl implements ScmReturnService {
 	//반품지시서 카운트조회
 	@Override
 	public int scmReturnListCnt(Map<String, Object> paramMap) throws Exception {
-		int totalCount = srlDao.scmReturnListCnt(paramMap);
-		return totalCount;
+		return srlDao.scmReturnListCnt(paramMap);
+		
 	}
 
 }

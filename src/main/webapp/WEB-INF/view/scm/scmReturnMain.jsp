@@ -11,6 +11,7 @@
       <script type="text/javascript">
       	var pageSizeinf = 5;
   		var pageBlockSizeinquiry = 10;
+  		
          $(document).ready(function(){
          	fReturnList();
          })
@@ -36,11 +37,12 @@
 		}
          function fReturnListResult(data, currentPage) {
         	    //alert(data);
-        	    //console.log(data);
+        	    console.log(data);
         	    // 기존 목록 삭제
         	    $('#returnList').empty();
         	    // 신규 목록 생성
         	    $("#returnList").append(data);
+        	    console.log("================"+ data);
         	    // 총 개수 추출
         	    var totalReturnListCnt = $("#scmReturnCnt").val();
         	    // 페이지 네비게이션 생성
@@ -121,8 +123,7 @@
                                     <th scope="col">제출일자</th>
                                  </tr>
                               </thead>
-                              <tbody id="returnList">
-                              </tbody>
+                              <tbody id="returnList"></tbody>
                            </table>
                            </form>
                         </div>

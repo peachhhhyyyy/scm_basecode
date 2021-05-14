@@ -14,7 +14,6 @@
     <tr>
       <td><a href="javascript:fReturnDetailList('${list.refund_list_no}');">${list.refund_list_no}</a></td>
       <td>${list.cus_name}</td>
-      <td>${list.m_ct_nm}</td>
       <td>${list.prod_nm}</td>
       <td>${list.m_ct_cd}</td>
       <td>${list.return_qty}</td>
