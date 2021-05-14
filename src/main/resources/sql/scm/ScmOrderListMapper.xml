@@ -28,6 +28,7 @@
 					SELECT prod_nm, product_cd, stock, price 
 					FROM tb_scm_product
 				  ) prod ON prod.product_cd = o.product_cd
+			ORDER BY o.order_date DESC
 		    LIMIT #{pageIndex}, #{pageSize}
 		</select>
 		
@@ -81,4 +82,24 @@
 			LEFT JOIN tb_scm_m_category mct ON mct.m_ct_cd = prod.m_ct_cd
 			WHERE o.order_cd = #{orderCode}
 		</select>
+		
+		<!-- 배송지시서 요청 후, 상태 '배송준비'로 업데이트 -->
+		<update id="updateStateToDelivery" parameterType="int">
+			UPDATE tb_order
+			SET STTcd = #{STTcd}
+			WHERE order_cd = #{orderCode}
+		</update>
+		
+		<insert id="insertDataToDTable" parameterType="int">
+			INSERT INTO tb_scm_ship_list (
+											order_cd,
+											scm_id,
+											submit_date
+			 		                      )
+			VALUES (
+						#{orderCode},
+						#{loginId},
+						#{submitDate}
+					)
+		</insert>
 </mapper>
