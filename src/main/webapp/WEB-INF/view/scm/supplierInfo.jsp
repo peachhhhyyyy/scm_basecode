@@ -58,9 +58,14 @@
   /*공급처 조회*/
   function selectSupplierList(currentPage) {
     currentPage = currentPage || 1;
+    var sname = $('#sname');
+    var searchKey = document.getElementById("searchKey");
+    var oname = searchKey.options[searchKey.selectedIndex].value;
     var param = {
-    currentPage : currentPage,
-    pageSize : userPageSize
+        sname : sname.val(),
+        oname : oname,
+        currentPage : currentPage,
+        pageSize : userPageSize
     }
     var resultCallback = function(data) {
       supplierListResult(data, currentPage);
@@ -283,6 +288,31 @@
     // 현재 페이지 설정
     $("#currentPage").val(currentPage);
   }
+  
+  /* 검색 기능*/
+  function board_search(currentPage) {
+    $('#supplierProList').empty();
+    currentPage = currentPage || 1;
+    var sname = $('#sname');
+    var searchKey = document.getElementById("searchKey");
+    var oname = searchKey.options[searchKey.selectedIndex].value;
+    
+    var param = {
+      sname : sname.val(),
+      oname : oname,
+      currentPage : currentPage,
+      pageSize : userPageSize,
+    }
+    
+    
+    var resultCallback = function(data) {
+      supplierListResult(data, currentPage);
+    };
+    callAjax("/scm/supplierList.do", "post", "text", true, param,
+        resultCallback);
+  }
+  
+  
   
   
   
