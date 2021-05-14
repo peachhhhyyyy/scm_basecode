@@ -32,7 +32,13 @@ justify-content: space-around;
 }
 
 #CartModal{
-	display: none;	
+	display: none;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+   opacity: 1;
+
 }
 
 
@@ -59,11 +65,10 @@ justify-content: space-around;
 		
 		});
 
-		/** 장바구니 신청건 조회 */
+		/** 장바구니 조회 */
 		function fListCart(currentPage) {
 			
 			currentPage = currentPage || 1;
-			
 			
 			console.log("currentPage : " + currentPage);
 			
@@ -103,6 +108,7 @@ justify-content: space-around;
 			
 			// 현재 페이지 설정
 			$("#currentPageCart").val(currentPage);
+			console.log("totalCntCart:: " + totalCntCart);
 		}
 		
 		function fPopModalCart(){
@@ -151,13 +157,9 @@ justify-content: space-around;
 								장바구니</span> <a href="#" class="btn_set refresh">새로고침</a>
 						</p>
 
-						
-						
 						<p class="conTitle">
 							<span>장바구니</span> <span class="fr">
-							  <a class="btnType blue"
-										href="javascript:fListCart()" name="search"><span
-										id="searchEnter">조회</span></a><br/>
+							  <br/>
 							</span>
 						</p>						
 						
