@@ -137,8 +137,6 @@ function makePurchaseDirection(orderCode) {
       orderCode: orderCode
     };
   
-  console.log(param);
-  
   var resultCallback = function(data) {
     makePurchaseDirectionResult(data);
   };
@@ -225,10 +223,32 @@ var deliveryModal = new tingle.modal({
 
 //add a button
 deliveryModal.addFooterBtn('요청', 'tingle-btn tingle-btn--primary', function() {
-  var gr = $('#spanTest').length;
-  console.log(gr);
+  var param = $("#deliveryDirectionInfo").serialize();
+  console.log($("#deliveryDirectionInfo"));
+  
+  var resultCallback = function(data) {
+    getUpdateMessage(data);
+  }
+  
+  callAjax("/scm/sendDeliveryDirection.do", "post", "json", true, param, resultCallback);
   deliveryModal.close();
 });
+
+function getUpdateMessage(data) {
+  if (data.result === "SUCCESS") {
+    swal(data.resultMsg).then(function() {
+      window.location.reload(); // 새로고침
+    });
+    console.log("주문상태 업데이트 완료");
+    return 1;
+  } else {
+    swal(data.resultMsg).then(function() {
+      window.location.reload(); // 새로고침
+    });
+    console.log("주문상태 업데이트 실패");
+    return 0;
+  }
+}
 
 // add another button
 deliveryModal.addFooterBtn('취소', 'tingle-btn tingle-btn--danger', function() {
@@ -250,8 +270,6 @@ function makeDeliveryDirection(orderCode) {
   var param = {
       orderCode: orderCode
     };
-  
-  console.log(param);
   
   var resultCallback = function(data) {
     makeDeliveryDirectionResult(data);
