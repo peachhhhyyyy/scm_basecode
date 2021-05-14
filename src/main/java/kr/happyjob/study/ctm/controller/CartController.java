@@ -29,8 +29,14 @@ public class CartController {
 	@Autowired
 	CartService CartService;
 	
+
+	private final Logger logger = LogManager.getLogger(this.getClass());
+
+	// Get class name for logger
+	private final String className = this.getClass().toString();
 	
-	/* 지출결의서 초기화면 호출   */
+	
+	/* 장바구니 초기화면 호출   */
 	
 	@RequestMapping("cart.do")
 	public String initComnCod(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
@@ -40,12 +46,14 @@ public class CartController {
 	}
 	
 	/**
-	 * 지출결의서 목록 조회
+	 * 장바구니 목록 조회
 	 */
 	@RequestMapping("listCart.do")
+	@ResponseBody
 	public String listCart(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 		
+		logger.info("+ Start " + className + ".init");
 		
 		int currentPage = Integer.parseInt((String)paramMap.get("currentPage"));	// 현재 페이지 번호
 		int pageSize    = Integer.parseInt((String)paramMap.get("pageSize"));	    // 페이지 사이즈
@@ -53,11 +61,15 @@ public class CartController {
 				
 		paramMap.put("pageIndex", pageIndex);
 		paramMap.put("pageSize", pageSize);
-		paramMap.put("loginID", session.getAttribute("loginID")); // 로그인 아이디
+		paramMap.put("loginID", session.getAttribute("loginId")); // 로그인 아이디
+		
+		logger.info("   - paramMap : " + paramMap);
 		
 		// 공통 그룹코드 목록 조회
 		List<CartModel> listCartModel = CartService.listCart(paramMap);
 		model.addAttribute("listCartModel", listCartModel);
+		
+		logger.info("+ end " + className + ".init");
 		
 		// 공통 그룹코드 목록 카운트 조회
 		int totalCount = CartService.countListCart(paramMap);
