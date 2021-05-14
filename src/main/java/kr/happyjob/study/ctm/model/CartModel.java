@@ -20,10 +20,13 @@ public class CartModel {
 	/* 상세정보 */
 	private String detail;
 	
+	/* 중분류코드 */
 	private String m_ct_cd;
 	
+	/* 대분류코드 */
 	private String l_ct_cd; 
 	
+	/* 로그인ID */
 	private String loginID;
 	
 	public String getProd_nm() {
