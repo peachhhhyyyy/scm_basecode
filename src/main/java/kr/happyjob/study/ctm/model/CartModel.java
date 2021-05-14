@@ -30,7 +30,7 @@ public class CartModel {
 	private String loginID;
 	
 	/* 장바구니 개수 */
-	private String shopping_cart_qty;
+	private int shopping_cart_qty;
 	
 
 	public String getProd_nm() {
@@ -105,11 +105,11 @@ public class CartModel {
 		this.loginID = loginID;
 	}
 	
-	public String getShopping_cart_qty() {
+	public int getShopping_cart_qty() {
 		return shopping_cart_qty;
 	}
 
-	public void setShopping_cart_qty(String shopping_cart_qty) {
+	public void setShopping_cart_qty(int shopping_cart_qty) {
 		this.shopping_cart_qty = shopping_cart_qty;
 	}
 
