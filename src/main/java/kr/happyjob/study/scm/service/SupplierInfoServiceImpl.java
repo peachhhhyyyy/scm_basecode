@@ -58,5 +58,11 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
     int ret = supplierInfoDao.updateDelivery(paramMap);
     return ret;
   }
+  //공급처 삭제
+  @Override
+  public int deleteDelivery(Map<String, Object> paramMap) throws Exception {
+    int ret = supplierInfoDao.deleteDelivery(paramMap);
+    return ret;
+  }
 
 }

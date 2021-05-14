@@ -24,4 +24,6 @@ public interface SupplierInfoDao {
   public int insertDelivery(Map<String, Object> paramMap) throws Exception;
   // 공급처 수정
   public int updateDelivery(Map<String, Object> paramMap) throws Exception;
+  // 공급처 삭제
+  public int deleteDelivery(Map<String, Object> paramMap) throws Exception;
 }

@@ -111,7 +111,7 @@ public class SupplierInfoController {
 //납품 업체 저장
  @RequestMapping("saveDelivery.do")
  @ResponseBody
- public Map<String, String> saveDelivery (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+ public Map<String, Object> saveDelivery (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
      HttpServletResponse response, HttpSession session) throws Exception{
    
    String action = (String)paramMap.get("action");
@@ -125,20 +125,19 @@ public class SupplierInfoController {
      resultMsg = "등록 완료";
    } else if("U".equals(action)){
      //납품 업체 수정
-     int updateResult = supplierInfoService.updateDelivery(paramMap);
-     if (updateResult == 1) {
-       System.out.println("업데이트 성공");
-     } else {
-       System.out.println("업데이트 실패");
-     }
+     supplierInfoService.updateDelivery(paramMap);
      resultMsg = "수정 완료";
-   } 
+   } else if("D".equals(action)){
+     //납품 업체 삭제
+     supplierInfoService.deleteDelivery(paramMap);
+     resultMsg = "삭제 완료";
+   }
    else{
      result = "FALSE";
      resultMsg = "저장 실패";
    }
    
-   Map<String, String> resultMap = new HashMap<String, String>();
+   Map<String, Object> resultMap = new HashMap<String, Object>();
    resultMap.put("result", result);
    resultMap.put("resultMsg", resultMsg);
    

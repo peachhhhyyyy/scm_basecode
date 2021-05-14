@@ -191,10 +191,11 @@
     }
     var resultCallback = function(data) {
        console.log(data);
-       console.log(data.result);
-       console.log(data.resultMsg);
+       fSaveDeliveryResult(data);
+       /* console.log(data.result);
+       console.log(data.resultMsg); */
        
-       gfCloseModal();
+       /* gfCloseModal();
        fInitFormDelivery();
        
        var status = $("#action").val();
@@ -206,13 +207,44 @@
          selectSupplierList();
        }
        
-       return;
+       return; */
     };
     callAjax("/scm/saveDelivery.do", "post", "json", true, $("#myForm")
         .serialize(), resultCallback);
   }
   
+  //납품 업체 저장 콜백 함수
+  function fSaveDeliveryResult(data) {
+    var currentPage = "1";
+    if ($("#action").val() != "I") {
+      currentPage = $("#currentPage").val();
+    }
+    if (data.result == "SUCCESS") {
+      alert(data.resultMsg);
+      gfCloseModal();
+      selectSupplierList(currentPage);
+    } else {
+      alert(data.resultMsg);
+    }
+    fInitFormDelivery();
+  }
   
+  //공급처 삭제
+    function fDeleteDelivery(deli_no){
+    var con = confirm("삭제하시겠습니까 ?");
+    var currentPage = "1";
+    if (con){
+      var resultCallback = function(data) {
+      fSaveDeliveryResult(data);
+    }
+    $("#action").val("D");
+    callAjax("/scm/saveDelivery.do", "post", "json", true, $("#myForm").serialize(), resultCallback );
+    } else {
+      gfCloseModal();
+      fListDelivery(currentPage);
+      fInitFormDelivery();
+    }
+  } 
   
   
   

@@ -20,4 +20,6 @@ public interface SupplierInfoService {
   int insertDelivery(Map<String, Object> paramMap) throws Exception;
   /* 공급처 수정*/
   int updateDelivery(Map<String, Object> paramMap) throws Exception;
+  /* 공급처 삭제*/
+  int deleteDelivery(Map<String, Object> paramMap) throws Exception;
 }

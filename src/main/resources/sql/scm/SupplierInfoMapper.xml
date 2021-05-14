@@ -86,9 +86,9 @@
                                #{warehouse_cd}
                             ) 
    </insert>
-   <!-- 공급처 수정 -->
    
-   <update id="updateDelivery" parameterType="int">
+   <!-- 공급처 수정 -->
+   <update id="updateDelivery" parameterType="java.util.Map">
     UPDATE tb_scm_supply
        SET supply_mng_nm = #{supply_mng_nm}
            , mng_tel = #{mng_tel}
@@ -96,5 +96,10 @@
            , email = #{email}
     WHERE supply_cd = #{supply_cd}
    </update>
+   
    <!-- 공급처 삭제 -->
+   <delete id="deleteDelivery" parameterType="java.util.Map">
+    DELETE FROM tb_scm_supply
+     WHERE supply_cd = #{supply_cd}
+   </delete>
 </mapper>
