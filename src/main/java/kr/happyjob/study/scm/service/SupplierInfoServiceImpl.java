@@ -45,5 +45,18 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
     SupplierInfoModel selectDelivery = supplierInfoDao.selectDelivery(paramMap);
     return selectDelivery;
   }
+  
+  //공급처 등록
+  @Override
+  public int insertDelivery(Map<String, Object> paramMap) throws Exception {
+    int ret = supplierInfoDao.insertDelivery(paramMap);
+    return ret;
+  }
+  //공급처 수정
+  @Override
+  public int updateDelivery(Map<String, Object> paramMap) throws Exception {
+    int ret = supplierInfoDao.updateDelivery(paramMap);
+    return ret;
+  }
 
 }

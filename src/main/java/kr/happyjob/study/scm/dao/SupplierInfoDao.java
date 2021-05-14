@@ -19,4 +19,9 @@ public interface SupplierInfoDao {
   
   // 공급처 단건 조회
   public SupplierInfoModel selectDelivery(Map<String, Object> paramMap) throws Exception;
+  
+  // 공급처 추가
+  public int insertDelivery(Map<String, Object> paramMap) throws Exception;
+  // 공급처 수정
+  public int updateDelivery(Map<String, Object> paramMap) throws Exception;
 }

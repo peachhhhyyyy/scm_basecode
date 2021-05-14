@@ -16,4 +16,8 @@ public interface SupplierInfoService {
   int countSupplierProInfo(Map<String, Object> paramMap) throws Exception;
   /* 공급처 단건 조회*/
   public SupplierInfoModel selectDelivery(Map<String, Object> paraMap) throws Exception;
+  /* 공급처 등록*/
+  int insertDelivery(Map<String, Object> paramMap) throws Exception;
+  /* 공급처 수정*/
+  int updateDelivery(Map<String, Object> paramMap) throws Exception;
 }
