@@ -12,7 +12,7 @@
                 <c:set var="nRow" value="${pageSize*(currentPage - 1)}" />
                 <c:forEach items="${refundList}" var="list">
                   <tr>
-                    <td><a href="javascript:fadeInModal(null, '${list.purch_list_no}')">${list.purch_list_no}</a></td>
+                    <td><a href="javascript:fadeInModal('${list.purch_list_no}')">${list.purch_list_no}</a></td>
                     <td>${list.order_cd}</td>
                     <td>${list.supply_nm}</td>
                     <td>${list.supply_cd}</td>
@@ -27,12 +27,12 @@
                     </c:if>
                     <c:if  test="${ list.return_date eq null}">
                       <td>
-                        <a class="btnType3 color2" href="javascript:fPopModalComnGrpCod('${list.purch_list_no}');"><span>반품완료</span></a>
+                        <a class="btnType3 color2" href="javascript:insertReturnDate('${list.purch_list_no}')"><span>반품완료</span></a>
                       </td>
                     </c:if>
                     <c:if  test="${ list.return_date ne null}">
                       <td>
-                        <a class="btnType3 color1");"><span>반품완료</span></a>
+                        <a class="btnType3 color1"><span>반품완료</span></a>
                       </td>
                     </c:if>
                   </tr>

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.happyjob.study.pcs.model.RefundModel;
+import kr.happyjob.study.pcs.model.RefundDetailModel;
 import kr.happyjob.study.pcs.service.RefundService;
 
 @Controller
@@ -35,6 +35,7 @@ public class RefundConller {
   }
   
   // 반품 목록 조회
+  // calllAjax수정해야 함
   @RequestMapping(value="/list.do", method=RequestMethod.POST)
   public String getList(Model model, @RequestParam Map<String, Object> paramMap) throws Exception{
     
@@ -45,11 +46,14 @@ public class RefundConller {
     // 한 페이지에 보이 로우의 개수
     int pageSize = Integer.parseInt((String) paramMap.get("pageSize")); 
     // 페이지 시작 로우 번호
-    //    int pageIndex = (currentPage - 1) * pageSize; 
+    int pageIndex = (currentPage - 1) * pageSize; 
     // 총 페이지 개수
     int totalCount = refundService.countRefundList();
     
-    List<RefundModel> refundList = refundService.selectRefundList(paramMap);
+    paramMap.put("pageIndex", pageIndex);
+    paramMap.put("pageSize", pageSize);
+    
+    List<RefundDetailModel> refundList = refundService.selectRefundList(paramMap);
     model.addAttribute("refundList", refundList);
     
     model.addAttribute("totalCount", totalCount);
@@ -63,26 +67,30 @@ public class RefundConller {
 
   // 반품서 단건 조회
   @ResponseBody
-  @RequestMapping(value="/one.do", method=RequestMethod.POST)
-  public Map<String,Object> getOneRefund(@RequestParam Map<String,Object> paramMap, Model model) throws Exception {
-    logger.info("단건 파라미터 확인:" +  paramMap.get("refund_list_no"));
+  @RequestMapping(value="/detail.do", method=RequestMethod.POST)
+  public RefundDetailModel getOneRefund(@RequestParam int param, Model model, RefundDetailModel refundDetail) throws Exception {
+    int refund_list_no = param;
+    logger.info("단건 파라미터 확인:" +  refund_list_no);
     
-    String refund_list_no = (String) paramMap.get("refund_list_no");
-    Map<String, Object> refund = refundService.selectOneRefund(refund_list_no);
-    logger.info("단건 조회내역 확인" + refund);
+    refundDetail = refundService.selectOneRefund(refund_list_no);
+    logger.info("단건 조회내역 확인" + refund_list_no);
     
-    Map<String, Object> result = new HashMap<String,Object>();
-    result.put("refund", refund);
-    
-    // Map으로 보낸 데이터가 클라이언트에게 객체로 전달됨(@R
-    return result;
+    return refundDetail;
   }
   
   // 반품 완료 처리
-  @RequestMapping(value="", method=RequestMethod.POST)
-  public int insertReturnDate(RefundModel refund, Model model) {
-    model.addAttribute("temp", refund);
-    return 0;
+  @ResponseBody
+  @RequestMapping(value="returndate.do", method=RequestMethod.POST)
+  public int insertReturnDate(@RequestParam Map<String,Object> paramMap, RefundDetailModel refundModel) throws Exception {
+    
+    logger.info("purch_list_no확인" + paramMap);
+    logger.info("purch_list_no내용확인" + paramMap.get("purch_list_no"));
+    logger.info("refundmodel" + refundModel.getPurch_list_no());
+    
+    int result = refundService.insertReturnDate(refundModel);
+    
+    logger.info("update결과:" + result);
+    return result;
   }
   
 

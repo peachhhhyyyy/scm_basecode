@@ -4,7 +4,7 @@
 <mapper namespace="kr.happyjob.study.pcs.dao.RefundDao">
 
   <!-- 반품서 목록 조회(기본)  -->
-  <select id="selectRefundList" resultType="kr.happyjob.study.pcs.model.RefundModel">
+  <select id="selectRefundList" resultType="kr.happyjob.study.pcs.model.RefundListModel">
     
     SELECT 
            pur.purch_list_no
@@ -24,7 +24,7 @@
            LEFT JOIN tb_scm_supply sup
            ON pro.supply_cd = sup.supply_cd
   ORDER BY purch_list_no DESC
-   
+     LIMIT #{pageIndex}, #{pageSize}
   
   </select>
   
@@ -37,8 +37,8 @@
      
   </select>
   
-  <!-- 반품서 목록 조건별 검색. 전부 변경해야 함 -->
-  <select id="selectConditionRefundList" resultType="kr.happyjob.study.pcs.model.RefundModel" parameterType="String">
+  <!-- 반품서 목록 조건별 검색. 전부 변경해야 함. 특히 파라미터 -->
+  <select id="selectConditionRefundList" resultType="kr.happyjob.study.pcs.model.RefundListModel" parameterType="String">
     
     SELECT 
            li.refund_list_no
@@ -68,7 +68,7 @@
   </select>
   
   <!-- 반품서 단건 조회  -->
-  <select id="selectOneRefund" resultType="java.util.Map" parameterType="String">
+  <select id="selectOneRefund" resultType="kr.happyjob.study.pcs.model.RefundDetailModel" parameterType="String">
     
     SELECT 
            pur.purch_list_no
@@ -99,12 +99,12 @@
   </select>
   
   <!-- 반품 완료 처리 -->
-  <insert  id="insertReturnDate" parameterType="kr.happyjob.study.pcs.model.RefundModel" >
+  <update id="insertReturnDate" parameterType="kr.happyjob.study.pcs.model.RefundListModel" >
    
-    INSERT INTO tb_scm_purchase_list(return_date)
-         VALUES NOW()
-          WHERE purch_list_no = #{purch_list_no} AND return_date IS NULL 
+    UPDATE tb_scm_purchase_list
+       SET return_date = NOW()
+     WHERE purch_list_no = #{purch_list_no} AND return_date IS NULL
   
-  </insert>
+  </update>
    
 </mapper>

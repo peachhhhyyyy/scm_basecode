@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.happyjob.study.pcs.dao.RefundDao;
-import kr.happyjob.study.pcs.model.RefundModel;
+import kr.happyjob.study.pcs.model.RefundDetailModel;
 
 @Service
 public class RefundServiceImpl implements RefundService {
@@ -17,7 +17,7 @@ public class RefundServiceImpl implements RefundService {
   
   // 반품서 목록 조회(기본)
   @Override
-  public List<RefundModel> selectRefundList(Map<String, Object> paramMap) throws Exception {
+  public List<RefundDetailModel> selectRefundList(Map<String, Object> paramMap) throws Exception {
     return refundDao.selectRefundList(paramMap);
   }
   
@@ -29,14 +29,14 @@ public class RefundServiceImpl implements RefundService {
 
   // 반품서 단건 조회
   @Override
-  public Map<String, Object> selectOneRefund(String refund_list_no) throws Exception {
+  public RefundDetailModel selectOneRefund(int refund_list_no) throws Exception {
     // TODO Auto-generated method stub
-    return (Map<String, Object>) refundDao.selectOneRefund(refund_list_no);
+    return refundDao.selectOneRefund(refund_list_no);
   }
 
   // 반품 완료 처리
   @Override
-  public int insertReturnDate(RefundModel refundModel) throws Exception {
+  public int insertReturnDate(RefundDetailModel refundModel) throws Exception {
     // TODO Auto-generated method stub
     return refundDao.insertReturnDate(refundModel);
   }

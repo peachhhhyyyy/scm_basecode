@@ -8,7 +8,7 @@
 <title>JobKorea</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <style>
- .forbidden-event {
+ .forbclick-event {
        pointer-events: none;
  }
 </style>
@@ -17,25 +17,29 @@
   // 그룹코드 페이징 설정
   var pageSizeComnGrpCod = 5;
   var pageBlockSizeComnGrpCod = 5;
+
   // 상세코드 페이징 설정
   var pageSizeComnDtlCod = 5;
   var pageBlockSizeComnDtlCod = 10;
+
   /** OnLoad event */
+
   $(function() {
+
     // 그룹코드 조회
-    //fListComnGrpCod();
-    
-    // 반품서 목록 조회
-    selectList();
-    
+    fListComnGrpCod();
+
     // 버튼 이벤트 등록
     fRegisterButtonClickEvent();
   });
+
   /** 버튼 이벤트 등록 */
   function fRegisterButtonClickEvent() {
     $('a[name=btn]').click(function(e) {
       e.preventDefault();
+
       var btnId = $(this).attr('id');
+
       switch (btnId) {
       case 'btnSaveGrpCod':
         fSaveGrpCod();
@@ -56,10 +60,12 @@
       }
     });
   }
+
   /** 그룹코드 폼 초기화 */
   function fInitFormGrpCod(object) {
     $("#grp_cod").focus();
     if (object == "" || object == null || object == undefined) {
+
       $("#grp_cod").val("");
       $("#grp_cod_nm").val("");
       $("#grp_cod_eplti").val("");
@@ -71,7 +77,9 @@
       $("#grp_cod").css("background", "#FFFFFF");
       $("#grp_cod").focus();
       $("#btnDeleteGrpCod").hide();
+
     } else {
+
       $("#grp_cod").val(object.grp_cod);
       $("#grp_cod_nm").val(object.grp_cod_nm);
       $("#grp_cod_eplti").val(object.grp_cod_eplti);
@@ -85,137 +93,465 @@
       $("#btnDeleteGrpCod").show();
     }
   }
+
+  /** 상세코드 폼 초기화 */
+  function fInitFormDtlCod(object) {
+
+    var grpCod = $("#tmpGrpCod").val();
+    var grpCodNm = $("#tmpGrpCodNm").val();
+
+    if (object == "" || object == null || object == undefined) {
+
+      $("#dtl_grp_cod").val(grpCod);
+      $("#dtl_grp_cod_nm").val(grpCodNm);
+      $("#dtl_cod").val("");
+      $("#dtl_cod_nm").val("");
+      $("#dtl_odr").val("");
+      $("#dtl_cod_eplti").val("");
+      $("#dtl_tmp_fld_01").val("");
+      $("#dtl_tmp_fld_02").val("");
+      $("#dtl_tmp_fld_03").val("");
+      $("#dtl_tmp_fld_04").val("");
+      $("input:radio[name=dtl_use_poa]:input[value='Y']").attr("checked", true);
+
+      $("#dtl_grp_cod").attr("readonly", true);
+      $("#dtl_grp_cod").css("background", "#F5F5F5");
+      $("#dtl_grp_cod_nm").attr("readonly", true);
+      $("#dtl_grp_cod_nm").css("background", "#F5F5F5");
+      $("#dtl_cod").attr("readonly", false);
+      $("#dtl_cod").css("background", "#FFFFFF");
+      $("#btnDeleteDtlCod").hide();
+      $("#dtl_cod").focus();
+
+    } else {
+
+      $("#dtl_grp_cod").val(object.grp_cod);
+      $("#dtl_grp_cod_nm").val(object.grp_cod_nm);
+      $("#dtl_cod").val(object.dtl_cod);
+      $("#dtl_cod_nm").val(object.dtl_cod_nm);
+      $("#dtl_odr").val(object.odr);
+      $("#dtl_cod_eplti").val(object.dtl_cod_eplti);
+      $("#dtl_tmp_fld_01").val(object.tmp_fld_01);
+      $("#dtl_tmp_fld_02").val(object.tmp_fld_02);
+      $("#dtl_tmp_fld_03").val(object.tmp_fld_03);
+      $("#dtl_tmp_fld_04").val(object.tmp_fld_04);
+      $("input:radio[name=dtl_use_poa]:input[value='" + object.use_poa + "']").attr("checked", true);
+
+      $("#dtl_grp_cod").attr("readonly", true);
+      $("#dtl_grp_cod").css("background", "#F5F5F5");
+      $("#dtl_grp_cod_nm").attr("readonly", true);
+      $("#dtl_grp_cod_nm").css("background", "#F5F5F5");
+      $("#dtl_cod").attr("readonly", true);
+      $("#dtl_cod").css("background", "#F5F5F5");
+      $("#btnDeleteDtlCod").show();
+      $("#dtl_cod_nm").focus();
+    }
+  }
+
+  /** 그룹코드 저장 validation */
+  function fValidateGrpCod() {
+    var chk = checkNotEmpty([ [ "grp_cod", "그룹 코드를 입력해 주세요." ], [ "grp_cod_nm", "그룹 코드 명을 입력해 주세요" ], [ "grp_cod_eplti", "그룹 코드 설명을 입력해 주세요." ] ]);
+
+    if (!chk) {
+      return;
+    }
+
+    return true;
+  }
+
+  /** 상세코드 저장 validation */
+  function fValidateDtlCod() {
+
+    var chk = checkNotEmpty([ [ "dtl_grp_cod", "그룹 코드를 선택해 주세요." ], [ "dtl_cod", "상세 코드를 입력해 주세요." ], [ "dtl_cod_nm", "상세 코드 명을 입력해 주세요" ], [ "dtl_cod_eplti", "상세 코드 설명을 입력해 주세요." ], [ "dtl_odr", "상세 코드 설명을 입력해 주세요." ] ]);
+
+    if (!chk) {
+      return;
+    }
+
+    return true;
+  }
+
   /** 그룹코드 모달 실행 */
   function fPopModalComnGrpCod(grp_cod) {
+
     // 신규 저장
     if (grp_cod == null || grp_cod == "") {
+
       // Tranjection type 설정
       $("#action").val("I");
+
       // 그룹코드 폼 초기화
       fInitFormGrpCod();
+
       // 모달 팝업
       gfModalPop("#layer1");
+
       // 수정 저장
     } else {
+
       // Tranjection type 설정
       $("#action").val("U");
+
       // 그룹코드 단건 조회
       fSelectGrpCod(grp_cod);
     }
   }
+
   /** 그룹코드 조회 */
   function fListComnGrpCod(currentPage) {
+
     currentPage = currentPage || 1;
+
     console.log("currentPage : " + currentPage);
+
     var param = {
     currentPage : currentPage,
     pageSize : pageSizeComnGrpCod
     }
+
     var resultCallback = function(data) {
       flistGrpCodResult(data, currentPage);
+      
     };
     //Ajax실행 방식
     //callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
     callAjax("/pcs/refund/list.do", "post", "text", true, param, resultCallback);
   }
-  
+
   /** 그룹코드 조회 콜백 함수 */
   function flistGrpCodResult(data, currentPage) {
+
     //alert(data);
     console.log(data);
+
     // 기존 목록 삭제
     $('#listComnGrpCod').empty();
+
     // 신규 목록 생성
     $("#listComnGrpCod").append(data);
+
     // 총 개수 추출
     var totalCntComnGrpCod = $("#totalCntComnGrpCod").val();
+
     // 페이지 네비게이션 생성
     var paginationHtml = getPaginationHtml(currentPage, totalCntComnGrpCod, pageSizeComnGrpCod, pageBlockSizeComnGrpCod, 'fListComnGrpCod');
     console.log("paginationHtml : " + paginationHtml);
     //alert(paginationHtml);
     $("#comnGrpCodPagination").empty().append(paginationHtml);
+
     // 현재 페이지 설정
     $("#currentPageComnGrpCod").val(currentPage);
   }
-  
+
   /** 그룹코드 단건 조회 */
   function fSelectGrpCod(grp_cod) {
+
     var param = {
       grp_cod : grp_cod
     };
+
     var resultCallback = function(data) {
       fSelectGrpCodResult(data);
     };
+
     callAjax("/system/selectComnGrpCod.do", "post", "json", true, param, resultCallback);
   }
-  
+
   /** 그룹코드 단건 조회 콜백 함수*/
   function fSelectGrpCodResult(data) {
+
     if (data.result == "SUCCESS") {
+
       // 모달 팝업
       gfModalPop("#layer1");
+
       // 그룹코드 폼 데이터 설정
       fInitFormGrpCod(data.comnGrpCodModel);
+
+    } else {
+      alert(data.resultMsg);
+    }
+  }
+
+  /** 그룹코드 저장 */
+  function fSaveGrpCod() {
+
+    // vaildation 체크
+    if (!fValidateGrpCod()) {
+      return;
+    }
+
+    var resultCallback = function(data) {
+      fSaveGrpCodResult(data);
+    };
+
+    callAjax("/system/saveComnGrpCod.do", "post", "json", true, $("#myForm").serialize(), resultCallback);
+  }
+
+  /** 그룹코드 저장 콜백 함수 */
+  function fSaveGrpCodResult(data) {
+
+    // 목록 조회 페이지 번호
+    var currentPage = "1";
+    if ($("#action").val() != "I") {
+      currentPage = $("#currentPageComnGrpCod").val();
+    }
+
+    if (data.result == "SUCCESS") {
+
+      // 응답 메시지 출력
+      alert(data.resultMsg);
+
+      // 모달 닫기
+      gfCloseModal();
+
+      // 목록 조회
+      fListComnGrpCod(currentPage);
+
+    } else {
+      // 오류 응답 메시지 출력
+      alert(data.resultMsg);
+    }
+
+    // 입력폼 초기화
+    fInitFormGrpCod();
+  }
+
+  /** 그룹코드 삭제 */
+  function fDeleteGrpCod() {
+
+    var resultCallback = function(data) {
+      fDeleteGrpCodResult(data);
+    };
+
+    callAjax("/system/deleteComnGrpCod.do", "post", "json", true, $("#myForm").serialize(), resultCallback);
+  }
+
+  /** 그룹코드 삭제 콜백 함수 */
+  function fDeleteGrpCodResult(data) {
+
+    var currentPage = $("#currentPageComnGrpCod").val();
+
+    if (data.result == "SUCCESS") {
+
+      // 응답 메시지 출력
+      alert(data.resultMsg);
+
+      // 모달 닫기
+      gfCloseModal();
+
+      // 그룹코드 목록 조회
+      fListComnGrpCod(currentPage);
+
+    } else {
+      alert(data.resultMsg);
+    }
+  }
+
+  /** 상세코드 모달 실행 */
+  function fPopModalComnDtlCod(grp_cod, dtl_cod) {
+
+    // 신규 저장
+    if (dtl_cod == null || dtl_cod == "") {
+
+      if ($("#tmpGrpCod").val() == "") {
+        alert("그룹 코드를 선택해 주세요.");
+        return;
+      }
+
+      // Tranjection type 설정
+      $("#action").val("I");
+
+      // 상세코드 폼 초기화
+      fInitFormDtlCod();
+
+      // 모달 팝업
+      gfModalPop("#layer2");
+
+      // 수정 저장
+    } else {
+
+      // Tranjection type 설정
+      $("#action").val("U");
+
+      // 상세코드 단건 조회
+      fSelectDtlCod(grp_cod, dtl_cod);
+    }
+  }
+
+  /** 상세코드 목록 조회 */
+  function fListComnDtlCod(currentPage, grp_cod, grp_cod_nm) {
+
+    currentPage = currentPage || 1;
+
+    // 그룹코드 정보 설정
+    $("#tmpGrpCod").val(grp_cod);
+    $("#tmpGrpCodNm").val(grp_cod_nm);
+
+    var param = {
+    grp_cod : grp_cod,
+    currentPage : currentPage,
+    pageSize : pageSizeComnDtlCod
+    }
+
+    var resultCallback = function(data) {
+      flistDtlCodResult(data, currentPage);
+    };
+
+    callAjax("/system/listComnDtlCod.do", "post", "text", true, param, resultCallback);
+  }
+
+  /** 상세코드 조회 콜백 함수 */
+  function flistDtlCodResult(data, currentPage) {
+
+    // 기존 목록 삭제
+    $('#listComnDtlCod').empty();
+
+    var $data = $($(data).html());
+
+    // 신규 목록 생성
+    var $listComnDtlCod = $data.find("#listComnDtlCod");
+    $("#listComnDtlCod").append($listComnDtlCod.children());
+
+    // 총 개수 추출
+    var $totalCntComnDtlCod = $data.find("#totalCntComnDtlCod");
+    var totalCntComnDtlCod = $totalCntComnDtlCod.text();
+
+    // 페이지 네비게이션 생성
+    var grp_cod = $("#tmpGrpCod").val();
+    var grp_cod_nm = $("#tmpGrpCodNm").val();
+    var paginationHtml = getPaginationHtml(currentPage, totalCntComnDtlCod, pageSizeComnDtlCod, pageBlockSizeComnDtlCod, 'fListComnDtlCod', [ grp_cod ]);
+    $("#comnDtlCodPagination").empty().append(paginationHtml);
+
+    // 현재 페이지 설정
+    $("#currentPageComnDtlCod").val(currentPage);
+  }
+
+  /** 상세코드 단건 조회 */
+  function fSelectDtlCod(grp_cod, dtl_cod) {
+
+    var param = {
+    grp_cod : grp_cod,
+    dtl_cod : dtl_cod
+    };
+
+    var resultCallback = function(data) {
+      fSelectDtlCodResult(data);
+    };
+
+    callAjax("/system/selectComnDtlCod.do", "post", "json", true, param, resultCallback);
+  }
+
+  /** 상세코드 단건 조회 콜백 함수*/
+  function fSelectDtlCodResult(data) {
+
+    if (data.result == "SUCCESS") {
+
+      // 모달 팝업
+      gfModalPop("#layer2");
+
+      // 그룹코드 폼 데이터 설정
+      fInitFormDtlCod(data.comnDtlCodModel);
+
+    } else {
+      alert(data.resultMsg);
+    }
+  }
+
+  /** 상세코드 저장 */
+  function fSaveDtlCod() {
+
+    // vaildation 체크
+    if (!fValidateDtlCod()) {
+      return;
+    }
+
+    var resultCallback = function(data) {
+      fSaveDtlCodResult(data);
+    };
+
+    callAjax("/system/saveComnDtlCod.do", "post", "json", true, $("#myForm").serialize(), resultCallback);
+  }
+
+  /** 상세코드 저장 콜백 함수 */
+  function fSaveDtlCodResult(data) {
+
+    // 목록 조회 페이지 번호
+    var currentPage = "1";
+    if ($("#action").val() != "I") {
+      currentPage = $("#currentPageComnDtlCod").val();
+    }
+
+    if (data.result == "SUCCESS") {
+
+      // 응답 메시지 출력
+      alert(data.resultMsg);
+
+      // 모달 닫기
+      gfCloseModal();
+
+      // 목록 조회
+      var grp_cod = $("#tmpGrpCod").val();
+      var grp_cod_nm = $("#tmpGrpCodNm").val();
+      fListComnDtlCod(currentPage, grp_cod, grp_cod_nm);
+
+    } else {
+      // 오류 응답 메시지 출력
+      alert(data.resultMsg);
+    }
+
+    // 입력폼 초기화
+    fInitFormDtlCod();
+  }
+
+  /** 상세코드 삭제 */
+  function fDeleteDtlCod() {
+
+    var resultCallback = function(data) {
+      fDeleteDtlCodResult(data);
+    };
+
+    callAjax("/system/deleteComnDtlCod.do", "post", "json", true, $("#myForm").serialize(), resultCallback);
+  }
+
+  /** 상세코드 삭제 콜백 함수 */
+  function fDeleteDtlCodResult(data) {
+
+    var currentPage = $("#currentPageComnDtlCod").val();
+
+    if (data.result == "SUCCESS") {
+
+      // 응답 메시지 출력
+      alert(data.resultMsg);
+
+      // 모달 닫기
+      gfCloseModal();
+
+      // 그룹코드 목록 조회
+      var grp_cod = $("#tmpGrpCod").val();
+      var grp_cod_nm = $("#tmpGrpCodNm").val();
+      fListComnDtlCod(currentPage, grp_cod, grp_cod_nm);
+
     } else {
       alert(data.resultMsg);
     }
   }
   
-  // 반품서 목록 조회
-   function selectList(currentPage) {
-    currentPage = currentPage || 1;
-    console.log("currentPage : " + currentPage);
-    var param = {
-    currentPage : currentPage,
-    pageSize : pageSizeComnGrpCod
-    }
-    
-    var resultCallback = function(data) {
-      selectListCallBack(data, currentPage);
-    };
-    
-    //Ajax실행 방식
-    //callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
-    callAjax("/pcs/refund/list.do", "post", "text", true, param, resultCallback);
-  }
-  
-  // 반품서 목록 조회 콜백 함수
-  function selectListCallBack(data, currentPage) {
-    //alert(data);
-    console.log('반품서 목록:', data);
-    // 기존 목록 삭제
-    $('#listComnGrpCod').empty();
-    // 신규 목록 생성
-    $("#listComnGrpCod").append(data);
-    // 총 개수 추출
-    var totalCntComnGrpCod = $("#totalCntComnGrpCod").val();
-    // 페이지 네비게이션 생성
-    var paginationHtml = getPaginationHtml(currentPage, totalCntComnGrpCod, pageSizeComnGrpCod, pageBlockSizeComnGrpCod, 'fListComnGrpCod');
-    console.log("paginationHtml : " + paginationHtml);
-    //alert(paginationHtml);
-    $("#comnGrpCodPagination").empty().append(paginationHtml);
-    // 현재 페이지 설정
-    $("#currentPageComnGrpCod").val(currentPage);
-  }
-  
-  
   // 반품서 단건 조회 모달 
-  function fadeInModal(grp_cod, refund_list_no) {
+  function fadeInModal(refund_list_no) {
     console.log('모달', refund_list_no)
     // 신규 저장
-    if (grp_cod == null || grp_cod == "") {
+
       // Tranjection type 설정
       $("#action").val("I");
+
       // 그룹코드 폼 초기화
       fInitFormGrpCod();
+
       // 모달 팝업
       gfModalPop("#layer1");
+
       // 수정 저장
-    } else {
-      // Tranjection type 설정
-      $("#action").val("U");
-      //fSelectGrpCod(grp_cod);
-    }
       // 반품서 단건 조회
     selectOne(refund_list_no);
   }
@@ -232,7 +568,7 @@
       console.log('콜백:',data);
       selectOneCallBack(data);
     };
-    //callAjax("/pcs/refund/one.do", "post", "text", true, param, resultCallback);
+    //callAjax("/pcs/refund/detail.do", "post", "text", true, param, resultCallback);
      callAjax("/pcs/refund/detail.do", "post", "json", true, param, resultCallback);
   }
   
@@ -251,9 +587,7 @@
     console.log('object 타입확인:',typeof(object));
     console.log('refund확인:',object);
     console.log('값확인:',object.refund.sup_cd);
-    var date = new Date(object.refund.purch_date)
-    console.log(date.getFullYear(),date.getMonth(),date.getDate());
-    console.log('포맷:', moment().subtract(date));
+    
     if( object == "" || object == null || object == undefined) {
       
       $("#purch_list_no").val("");
@@ -286,12 +620,28 @@
       $("#purch_date").val(object.refund.purch_date);
       $("#desired_delivery_date").val(object.refund.desired_delivery_date);
       
-      
     }
-    
   }
   
-  
+  // 반품 완료 처리
+  function insertReturnDate(purch_list_no) {
+    
+    var param = {
+        purch_list_no : purch_list_no
+    }
+    
+    function resultCallback(data) {
+      if(data === 1){
+        window.location.reload();
+    
+      } else {
+        alert('서버에서 에러가 발생했습니다.');
+      }
+    }
+    
+    callAjax("/pcs/refund/returndate.do", "post", "json", true, param, resultCallback);
+    
+  }
  
 </script>
 </head>
