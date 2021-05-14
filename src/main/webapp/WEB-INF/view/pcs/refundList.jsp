@@ -22,15 +22,14 @@
   var pageBlockSizeComnDtlCod = 10;
   /** OnLoad event */
   $(function() {
-    // 그룹코드 조회
-    //fListComnGrpCod();
     
     // 반품서 목록 조회
     selectList();
     
     // 버튼 이벤트 등록
     fRegisterButtonClickEvent();
-  });
+    });
+  
   /** 버튼 이벤트 등록 */
   function fRegisterButtonClickEvent() {
     $('a[name=btn]').click(function(e) {
@@ -103,6 +102,7 @@
       fSelectGrpCod(grp_cod);
     }
   }
+  
   /** 그룹코드 조회 */
   function fListComnGrpCod(currentPage) {
     currentPage = currentPage || 1;
@@ -200,14 +200,16 @@
   
   
   // 반품서 단건 조회 모달 
-  function fadeInModal(grp_cod, refund_list_no) {
+  function fadeInModal(refund_list_no) {
     console.log('모달', refund_list_no)
+    console.log('타입확인', typeof(refund_list_no))
     // 신규 저장
-    if (grp_cod == null || grp_cod == "") {
+    if (refund_list_no === null || refund_list_no === 0 ) {
       // Tranjection type 설정
       $("#action").val("I");
       // 그룹코드 폼 초기화
-      fInitFormGrpCod();
+      // fInitFormGrpCod();
+      initModal();
       // 모달 팝업
       gfModalPop("#layer1");
       // 수정 저장
@@ -217,28 +219,28 @@
       //fSelectGrpCod(grp_cod);
     }
       // 반품서 단건 조회
-    selectOne(refund_list_no);
+    selectDetail(refund_list_no);
   }
   
   // 반품서 단건 조회 함수
   // fSelectGrpCodResult 참고
-  function selectOne(refund_list_no) {
-    console.log('호출', refund_list_no);
-    var param = {
-        refund_list_no : refund_list_no
-    }
+  function selectDetail(refund_list_no) {
+    console.log('단건 조회 호출!!', refund_list_no);
+    var param = { refund_list_no: refund_list_no};
+    
     // 콜백
     var resultCallback = function(data) {
       console.log('콜백:',data);
-      selectOneCallBack(data);
+      selectDetailCallBack(data);
     };
+    
     //callAjax("/pcs/refund/one.do", "post", "text", true, param, resultCallback);
      callAjax("/pcs/refund/detail.do", "post", "json", true, param, resultCallback);
   }
   
   // 반품서 단건 조회  콜백 함수
   // fSelectGrpCodResult참고
-  function selectOneCallBack(data) {
+  function selectDetailCallBack(data) {
     gfModalPop("#layer1");
     console.log('서버로부터 받은 데이터',data);
     initModal(data);
@@ -250,15 +252,14 @@
     console.log('object 확인:',object);
     console.log('object 타입확인:',typeof(object));
     console.log('refund확인:',object);
-    console.log('값확인:',object.refund.sup_cd);
-    var date = new Date(object.refund.purch_date)
-    console.log(date.getFullYear(),date.getMonth(),date.getDate());
-    console.log('포맷:', moment().subtract(date));
+    console.log('값확인:',object.supply_cd);
+    
     if( object == "" || object == null || object == undefined) {
       
       $("#purch_list_no").val("");
       $("#supply_nm").val("");
       $("#supply_cd").val("");
+      $("#m_ct_cd").val("");
       $("#m_ct_cd").val("");
       $("#product_cd").val("");
       $("#prod_nm").val("");
@@ -272,25 +273,45 @@
       
     } else {
       
-      $("#purch_list_no").val(object.refund.purch_list_no);
-      $("#supply_nm").val(object.refund.supply_nm);
-      $("#supply_cd").val(object.refund.supply_cd);
-      $("#m_ct_cd").val(object.refund.m_ct_cd);
-      $("#product_cd").val(object.refund.product_cd);
-      $("#prod_nm").val(object.refund.prod_nm);
-      $("#return_qty").val(object.refund.return_qty);
-      $("#return_price").val(object.refund.return_price);
-      $("#warehouse_cd").val(object.refund.warehouse_cd);
-      $("#addr").val(object.refund.addr);
-      $("#return_mng_id").val(object.refund.return_mng_id);
-      $("#purch_date").val(object.refund.purch_date);
-      $("#desired_delivery_date").val(object.refund.desired_delivery_date);
+      $("#purch_list_no").val(object.purch_list_no);
+      $("#supply_nm").val(object.supply_nm);
+      $("#supply_cd").val(object.supply_cd);
+      $("#m_ct_cd").val(object.m_ct_cd);
+      $("#product_cd").val(object.product_cd);
+      $("#prod_nm").val(object.prod_nm);
+      $("#return_qty").val(object.return_qty);
+      $("#return_price").val(object.return_price);
+      $("#warehouse_cd").val(object.warehouse_cd);
+      $("#addr").val(object.addr);
+      $("#return_mng_id").val(object.return_mng_id);
+      $("#purch_date").val(object.purch_date);
+      $("#desired_delivery_date").val(object.desired_delivery_date);
       
       
     }
     
   }
   
+//반품 완료 처리
+  function insertReturnDate(purch_list_no) {
+    console.log("반품완료처리",purch_list_no)
+    purch_list_no = parseInt(purch_list_no)
+    var param = {
+        purch_list_no : purch_list_no
+    }
+    console.log('파라미터 점검', param)
+    
+    function resultCallback(data) {
+      if(data === 1){
+        window.location.reload();
+    
+      } else {
+        alert('서버에서 에러가 발생했습니다.');
+      }
+    }
+    callAjax("/pcs/refund/returndate.do", "post", "json", true, param, resultCallback);
+    
+  }
   
  
 </script>

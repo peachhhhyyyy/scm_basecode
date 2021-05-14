@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.happyjob.study.pcs.model.RefundDetailModel;
+import kr.happyjob.study.pcs.model.RefundListModel;
 import kr.happyjob.study.pcs.service.RefundService;
 
 @Controller
@@ -68,12 +69,18 @@ public class RefundConller {
   // 반품서 단건 조회
   @ResponseBody
   @RequestMapping(value="/detail.do", method=RequestMethod.POST)
-  public RefundDetailModel getOneRefund(@RequestParam int param, Model model, RefundDetailModel refundDetail) throws Exception {
-    int refund_list_no = param;
-    logger.info("단건 파라미터 확인:" +  refund_list_no);
+  public RefundDetailModel getOneRefund(@RequestParam(required=false)Map<String, Object> param, Model model, RefundDetailModel refundDetail) throws Exception {
+    logger.info("단건 파라미터 확인:" +  param);
+    logger.info("파라미터 타입확인" + param.get("refund_list_no").getClass().getName());
     
+    
+    String temp = (String) param.get("refund_list_no");
+    int refund_list_no = Integer.parseInt(temp);
+    
+//    
     refundDetail = refundService.selectOneRefund(refund_list_no);
-    logger.info("단건 조회내역 확인" + refund_list_no);
+    logger.info("단건 조회내역 확인" + refundDetail);
+    logger.info("날짜 확인" + refundDetail.getPurch_date());
     
     return refundDetail;
   }
@@ -81,17 +88,38 @@ public class RefundConller {
   // 반품 완료 처리
   @ResponseBody
   @RequestMapping(value="returndate.do", method=RequestMethod.POST)
-  public int insertReturnDate(@RequestParam Map<String,Object> paramMap, RefundDetailModel refundModel) throws Exception {
+  public int insertReturnDate(@RequestParam Map<String,Object> param) throws Exception {
+//    Map<String,Integer>로 받아서 테스트
+//    위의 방법이 실패시 <String,Object>로 실행 -> 실패. 아래는 에러메시지
+//    java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
+    logger.info("purch_list_no확인" + param);
+    logger.info("purch_list_no타입" + param.get("purch_list_no").getClass().getName());
+    logger.info("refundmodel" + param.get("purch_list_no"));
+   
+    String temp = (String) param.get("purch_list_no");
+    int purch_list_no = Integer.parseInt(temp);
+//    logger.info("refund_list_no확인" + purch_list_no.getClass().getName());
     
-    logger.info("purch_list_no확인" + paramMap);
-    logger.info("purch_list_no내용확인" + paramMap.get("purch_list_no"));
-    logger.info("refundmodel" + refundModel.getPurch_list_no());
+    int result = refundService.insertReturnDate(purch_list_no);
     
-    int result = refundService.insertReturnDate(refundModel);
-    
-    logger.info("update결과:" + result);
+//    logger.info("update결과:" + result);
     return result;
   }
+//  @ResponseBody
+//  @RequestMapping(value="returndate.do", method=RequestMethod.POST)
+//  public int insertReturnDate(@RequestParam Map<String,Object> param, RefundListModel refundList) throws Exception {
+//    
+//    logger.info("purch_list_no확인" + param);
+//    logger.info("purch_list_no내용확인" + param.get("purch_list_no"));
+//    logger.info("refundmodel" + refundList.getPurch_list_no());
+//    
+////    String temp = (String) param.get("purch_list_no");
+////    int purch_list_no = Integer.parseInt(temp);
+//    int result = refundService.insertReturnDate(purch_list_no);
+//    
+//    logger.info("update결과:" + result);
+//    return result;
+//  }
   
 
 

@@ -17,5 +17,5 @@ public interface RefundService {
   public RefundDetailModel selectOneRefund(int refund_list_no) throws Exception;
   
   // 반품 완료 처리
-  public int insertReturnDate(RefundDetailModel refundModel) throws Exception;
+  public int insertReturnDate(int purch_list_no) throws Exception;
 }

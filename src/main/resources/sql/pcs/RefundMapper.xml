@@ -72,8 +72,10 @@
     
     SELECT 
            pur.purch_list_no
+         , pur.order_cd
          , DATE_FORMAT(pur.purch_date, '%Y-%m-%d') as purch_date
          , DATE_FORMAT(pur.desired_delivery_date, '%Y-%m-%d') as desired_delivery_date  
+         , DATE_FORMAT(pur.return_date, '%Y-%m-%d') as return_date
          , pur.return_mng_id
          , pur.return_price
          , pur.return_qty
@@ -83,6 +85,7 @@
          , pro.m_ct_cd
          , pro.product_cd
          , war.warehouse_cd
+         , war.warehouse_nm
          , war.addr
          
       FROM tb_scm_purchase_list pur
@@ -99,7 +102,7 @@
   </select>
   
   <!-- 반품 완료 처리 -->
-  <update id="insertReturnDate" parameterType="kr.happyjob.study.pcs.model.RefundListModel" >
+  <update id="insertReturnDate" parameterType="int">
    
     UPDATE tb_scm_purchase_list
        SET return_date = NOW()

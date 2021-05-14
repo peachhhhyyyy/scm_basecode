@@ -36,9 +36,10 @@ public class RefundServiceImpl implements RefundService {
 
   // 반품 완료 처리
   @Override
-  public int insertReturnDate(RefundDetailModel refundModel) throws Exception {
+  public int insertReturnDate(int purch_list_no) throws Exception {
     // TODO Auto-generated method stub
-    return refundDao.insertReturnDate(refundModel);
+    return refundDao.insertReturnDate(purch_list_no);
   }
+
   
 }
