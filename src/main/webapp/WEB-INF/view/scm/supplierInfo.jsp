@@ -335,8 +335,8 @@
                     <div class="SupplierList">
                     <div class="conTitle" style="margin: 0 25px 10px 0; float: left;">
                         </a><select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
-                           <option value="supply_cd" selected="selected">공급처</option>
-                           <option value="supply_mng_nm">담당자명</option>
+                           <option value="supply_cd" selected="selected">공급처명</option>
+                           <option value="prod_nm">제품명</option>
                         </select>
                         <input type="text" style="width: 300px; height: 30px;" id="sname" name="sname">
                             <a href="" class="btnType blue" id="searchBtn" name="btn"> 
@@ -465,13 +465,13 @@
               
               <tr>
                 <th scope="row">이메일 <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100"
-                  name="email" id="email" /></td>
+                <td colspan=3><input type="text" class="inputTxt p100"
+                  name="email" id="email" /></td>           
+              </tr>
+              <tr>
                 <th scope="row">창고코드 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
                   name="warehouse_cd" id="warehouse_cd" /></td>
-              </tr>
-              <tr>
                 <th scope="row">창고명</th>
                 <td><input type="text" class="inputTxt p100"
                   name="warehouse_nm" id="warehouse_nm" /></td>
