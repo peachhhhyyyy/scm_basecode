@@ -73,6 +73,7 @@
   <select id="selectPurchBtn" resultType="kr.happyjob.study.pcs.model.PcsModel">
     /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
       SELECT 
+           DISTINCT
              PL.purch_list_no
          ,   SP.supply_nm
          ,   PD.prod_nm
@@ -92,7 +93,7 @@
         LEFT JOIN tb_scm_supply as SP
         ON PL.supply_cd = SP.supply_cd
         LEFT JOIN tb_scm_product as PD
-        ON PL.supply_cd = PD.supply_cd
+        ON OD.product_cd = PD.product_cd
         LEFT JOIN (
             SELECT detail_code, group_code, detail_name
           FROM tb_detail_code
@@ -108,6 +109,7 @@
   <select id="pcsOrderForm" resultType="kr.happyjob.study.pcs.model.PcsModel">
     /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
         SELECT 
+            DISTINCT
              PL.purch_list_no
          ,   OD.order_cd
          ,   SP.supply_nm
@@ -136,7 +138,8 @@
           WHERE group_code = 'STTcd'
         ) DC ON OD.STTcd = DC.detail_code
       WHERE OD.STTcd = 2
-      ORDER BY purch_list_no DESC
+         OR OD.STTcd = 12
+      ORDER BY purch_list_no DESC;
   </select>
   
   <!-- 발주서 목록 조회 원본-->
@@ -188,6 +191,9 @@
   <!-- 발주서 상태 변경 -->
   <update id="updateSTTcd">
     /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
-    
+    UPDATE tb_order
+       SET STTcd = 12 
+     WHERE STTcd = 2 
+       AND STTcd is not null;
   </update>
 </mapper>
