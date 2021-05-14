@@ -1,8 +1,7 @@
-_<%@ page language="java" contentType="text/html; charset=UTF-8"0
+_<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-					
-					
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
+				
 							<c:if test="${totalCntCart eq 0 }">
 								<tr>
 									<td colspan="11">데이터가 존재하지 않습니다.</td>
@@ -13,14 +12,25 @@ _<%@ page language="java" contentType="text/html; charset=UTF-8"0
 								<c:set var="nRow" value="${pageSize*(currentPageCart-1)}" />
 								<c:forEach items="${listCartModel}" var="list">
 									<tr>
-										<td>${list.prod_nm}</td>		<!-- 제품명 -->
+										<td>
+											<img style="height: 200px;" src="http://img.danawa.com/prod_img/500000/135/584/img/12584135_1.jpg?shrink=360:360&_v=20201030144612"/>
+											<div>${list.prod_nm}</div>
+											<br>
+											<div>${list.detail}</div>
+											<br>
+										</td>		<!-- 제품명 -->
 										<td>${list.l_ct_nm}</td>		<!-- 품목명 -->
 										<td>${list.m_ct_nm}</td>		<!-- 브랜드명 -->
-										<td>${list.price}</td>			<!-- 가격 -->
 										<td>${list.product_cd}</td>		<!-- 제품코드 -->
-										<td>${list.detail}</td>			<!-- 상세정보 -->							
-										<td>
-											<a class="btnType3 color1" href="javascript:fPopModalCart();"><span>신청취소</span></a>
+										<td><input id="${list.product_cd}count" 
+												   type="number" 
+												   min="0" 
+												   value="${list.shopping_cart_qty}"
+												   style="width: 50px; text-align: right;"/>
+						   		        </td>		
+						   		       	<td>${list.price}</td>	<!-- 가격 -->
+										<td>						
+											<a class="btnType3 color1" href="javascript:fPopModalCart();"><span>삭제하기</span></a>
 										</td> <!-- 신청취소 버튼 -->
 									</tr>
 									<c:set var="nRow" value="${nRow + 1}" />
