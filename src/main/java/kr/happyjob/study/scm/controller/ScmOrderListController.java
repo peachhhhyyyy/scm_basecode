@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.happyjob.study.scm.model.DeliveryInfoModel;
 import kr.happyjob.study.scm.model.ProductInfoModel;
 import kr.happyjob.study.scm.model.ScmOrderListModel;
 import kr.happyjob.study.scm.service.ScmOrderListService;
@@ -83,20 +84,35 @@ public class ScmOrderListController {
 	public String productInfo(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 		
-		paramMap.put("loginId", session.getAttribute("loginId")); // 로그인 아이디
+		paramMap.put("loginId", session.getAttribute("loginId")); // 로그인 아이디, SCM 관리자명 가져올 때 쓰임
 	    logger.info("paramMap:" + paramMap);
 	    
 	    ProductInfoModel productInfo = ScmOrderListService.getProductInfo(paramMap);
 		String scmManager = ScmOrderListService.getScmManagerName(paramMap);
-		
 		productInfo.setScmManager(scmManager);
-
-		logger.info("productInfo.getProductName: " + productInfo.getProductName());
-		logger.info("productInfo.getScmManager: " + productInfo.getScmManager());
 	    
 		model.addAttribute("productInfo", productInfo);
 		
 		return "/scm/productInfo";
+	}
+	
+	@RequestMapping("deliveryInfo.do")
+	public String deliveryInfo(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+		
+		paramMap.put("loginId", session.getAttribute("loginId")); // 로그인 아이디, SCM 관리자명 가져올 때 쓰임
+	    logger.info("paramMap:" + paramMap);
+	    
+	    DeliveryInfoModel deliveryInfo = ScmOrderListService.getDeliveryInfo(paramMap);
+		String scmManager = ScmOrderListService.getScmManagerName(paramMap);
+		deliveryInfo.setScmManager(scmManager);
+
+		logger.info("productInfo.getProductName: " + deliveryInfo.getProductName());
+		logger.info("productInfo.getScmManager: " + deliveryInfo.getScmManager());
+	    
+		model.addAttribute("deliveryInfo", deliveryInfo);
+		
+		return "/scm/deliveryInfo";
 	}
 
 }
