@@ -376,14 +376,14 @@
                          <table class="col">
                                 <caption>caption</caption>
                                     <colgroup>
-                                    <col width="7%">
-                                    <col width="13%">
                                     <col width="10%">
-                                    <col width="13%">
-                                    <col width="13%">
-                                    <col width="18%">
                                     <col width="10%">
-                                    <col width="5%">
+                                    <col width="17%">
+                                    <col width="10%">
+                                    <col width="17%">
+                                    <col width="16%">
+                                    <col width="10%">
+                                    <col width="10%">
                                 </colgroup> 
                                 
                                 <thead>
