@@ -61,3 +61,12 @@ h1 {
 #customerRequest {
 	margin-top: 10px;
 }
+
+#purchaseCount {
+	text-align: right;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+   opacity: 1;
+}
