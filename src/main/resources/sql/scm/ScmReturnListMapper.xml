@@ -22,4 +22,11 @@
 		   LEFT JOIN tb_scm_purchase_list AS TSPL
 		   ON TOO.order_cd = TSPL.order_cd
 		   </select>
+		   
+		   <!-- 반품지시서 데이터 갯수 카운팅 -->
+		<select id="scmReturnListCnt" resultType="int">
+			SELECT count(*) 
+			FROM tb_scm_refund_list
+		</select>
+		
 </mapper>
