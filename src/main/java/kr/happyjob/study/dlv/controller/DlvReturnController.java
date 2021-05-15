@@ -79,10 +79,7 @@ public class DlvReturnController {
 		 	
 		 	
 			logger.info("returnDetailInfo 페이지");
-			String order_cd = (String)paramMap.get("order_cd");
-			String state = (String)paramMap.get("state");
-			String refund_list_no = (String)paramMap.get("refund_list_no");
-			logger.info("order_cd:"+ order_cd+"state: "+state+"refund_list_n:" +refund_list_no);
+			
 			int returnDetailInfo = dlvReturnService.returnDetailInfo(paramMap);
 			
 			logger.info("returnDetailInfo 값:"+ returnDetailInfo);
