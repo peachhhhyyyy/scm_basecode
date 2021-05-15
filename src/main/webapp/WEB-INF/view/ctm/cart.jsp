@@ -21,7 +21,7 @@
 
 .bbb li{
 	float:left;
-	margin-right: 30px;
+	margin-right: 30px; 
 		
 }
 
@@ -275,20 +275,6 @@ input[type=number]::-webkit-outer-spin-button {
 							<br>
 						</center>
 					</div>
-	
-					  
-					<!-- 모달팝업 -->
-					<div id="layer1" class="layerPosition layerPop layerType2" style="width: 800px;">
-						<form id="RegisterForm" action="" method="post">
-						<input type="hidden" name="action" id="action" value=""> 
-						<dl>
-							<dt>
-								<br> <br> <strong style="font-size: 120%">&nbsp;&nbsp;&nbsp;&nbsp;회원가입</strong> <br>
-							</dt>
-						</dl>
-						</form>	
-					</div>
-					</div> <!--// content -->
 
 					<h3 class="hidden">풋터 영역</h3>
 						<jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
