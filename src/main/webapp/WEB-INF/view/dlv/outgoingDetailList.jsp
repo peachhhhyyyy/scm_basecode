@@ -37,22 +37,24 @@
 					<!-- 배송사원설정 -->
 					<td>
 						<c:if test="${!empty dlvStaffNameCombo}">
-							<select style="width: 75px;">
-								<c:forEach items="${dlvStaffNameCombo}" var="list">
-								    <option value="${list.dlv_staff_name}">${list.dlv_staff_name}</option>
+							<select style="width: 75px;" id="getDlvStaffName" name="DlvStaffName" onchange="javascript:fSelectDlvStaffTel();">
+							    <option>선택</option>
+								<c:forEach items="${dlvStaffNameCombo}" var="listDlvStaffCombo">
+								    <!-- 진수형 -> 약간의 꼼수로 DB에서 받아온 name과 ID를 긴 스트링으로 submit함. -->
+								    <option value="${listDlvStaffCombo.dlv_staff_name} ${listDlvStaffCombo.loginID}">${listDlvStaffCombo.dlv_staff_name}</option>
 								</c:forEach>
 							</select>
 					   </c:if>
 				    </td>
-					<td>${list.tel_delivery}</td>
+			        <td id="dlvStaffTel"></td>			   
 					<td>${list.warehouse_nm}</td>
 					<!-- 도착예정일자 -->
 					<td><input type="date" name="arrPrevDate" id="arrPrevDate" style="width: 110px; height: 28px;"></td>
 					<!-- 주문상태변경 -->
 					<td>
-						<select style="width: 75px;">
-							<option value="dlving">배송중</option>
-							<option value="comdlv">배송완료</option>
+						<select name="state" style="width: 75px;">
+							<option value="14">배송중</option>
+							<option value="15">배송완료</option>
 						</select>
                     </td>
 				</tr>
