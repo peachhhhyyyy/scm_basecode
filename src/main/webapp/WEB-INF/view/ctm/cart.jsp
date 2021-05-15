@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/tingle/tingle.css" />]
+<link rel="stylesheet" href="${CTX_PATH}/css/view/ctm/cartList.css">
+
 <style type="text/css">
 
 .btnType{
