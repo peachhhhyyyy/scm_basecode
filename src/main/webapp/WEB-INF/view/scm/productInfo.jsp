@@ -6,6 +6,15 @@
 	<h1>데이터가 존재하지 않습니다.</h1>
 </c:if>
 <c:if test="${!empty productInfo}">
+	<form name="purchaseDirectionInfo" id="purchaseDirectionInfo">
+		<input type="hidden" name="orderCode" value="${productInfo.orderCode}">
+		<input type="hidden" name="submitDate" value="${productInfo.submitDate}">
+		<input type="hidden" name="supplyCode" value="${productInfo.supplyCode}">
+		<input type="hidden" name="purchaseCount" value="">
+		<input type="hidden" name="purchasePrice" value="${productInfo.purchasePrice}">
+		<input type="hidden" name="totalAmount" value="">
+		<input type="hidden" name="STTcd" value="9">
+	</form>
 	<h1>발주 지시서</h1>
 	<div class="prodInfoContainer">
 		<div>
