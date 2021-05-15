@@ -83,11 +83,17 @@
 			    //console.log(data);
 			
 			    // 기존 목록 삭제
-			    $('#outgoingDetailList').empty();
+			    $('#outgoingDetailListTop').empty();
+			    $('#outgoingDetailListBottom').empty();
 			    
 			    var $data = $($(data).html());
-			    var $outgoingDetailList = $data.find("#outgoingDetailList");
-			    $("#outgoingDetailList").append($outgoingDetailList.children());
+			    // topList
+			    var $outgoingDetailListTop = $data.find("#outgoingDetailListTop");
+			    $("#outgoingDetailListTop").append($outgoingDetailListTop.children());
+			    
+			    // bottomList
+			    var $outgoingDetailListBottom = $data.find("#outgoingDetailListBottom");
+			    $("#outgoingDetailListBottom").append($outgoingDetailListBottom.children());
 			}
 			
 			
@@ -230,7 +236,7 @@
 								<thead>
 									<tr>
 										<th scope="col">접수일자</th>
-										<th scope="col">도착일자</th>
+										<th scope="col">배송완료일자</th>
 										<th scope="col">도착예정일자</th>
 										<th scope="col">주문코드</th>
 										<th scope="col">배송담당자</th>
@@ -243,20 +249,23 @@
 						<div class="paging_area" id="lisOutgoingPagination"></div>
 						</div>
 						<form action="submitDlvInfo.do" method="post">
-						<div class="content">
+						<div class="content" style="overflow-x:scroll;">
 							<p class="conTitle">
 								<span>상세페이지</span>
 							</p>
 							<!--주문내용  -->
 							<table class="col">
-<!-- 								<caption>caption</caption>
 								<colgroup>
-									<col width="10%">
+									<col width="5%">
+									<col width="5%">
+									<col width="5%">
 									<col width="15%">
+									<col width="2.5%">
+									<col width="5%">
 									<col width="10%">
-									<col width="15%">
 									<col width="10%">
-								</colgroup> -->
+									<col width="10%">
+								</colgroup>
 								<thead>
 									<tr>
 										<th scope="col">배송코드</th>
@@ -267,18 +276,36 @@
 										<th scope="col">고객명</th>
 										<th scope="col">고객연락처</th>
 										<th scope="col">주소</th>
+									</tr>
+								</thead>
+							    <tbody id="outgoingDetailListTop"></tbody>
+		                    </table>
+		                    <table class="col">
+								<colgroup>
+									<col width="10%">
+									<col width="10%">
+									<col width="15%">
+									<col width="10%">
+									<col width="10%">
+									<col width="15%">
+									<col width="5%">
+									<col width="10%">
+								</colgroup>
+								<thead>
+									<tr>
 										<th scope="col">SCM담당자명</th>
 										<th scope="col">배송사원</th>
 										<th scope="col">배송사원 연락처</th>
 										<th scope="col">창고명</th>
 										<th scope="col">도착예정일자</th>
 										<th scope="col">배송상태</th>
+										<th scope="col" colspan="2">요구사항</th>
 									</tr>
 								</thead>
-								<tbody id="outgoingDetailList">
-				                    <tr>
-				                      <td colspan="14">주문코드를 선택해 주세요.</td>
-				                    </tr>
+								    <tbody id="outgoingDetailListBottom">
+					                    <tr>
+					                      <td colspan="14">주문코드를 선택해 주세요.</td>
+					                    </tr>
 			                    </tbody>
 							</table>
 						<button type="submit" value="Submit" class="col-1-4 btnType blue" style="
