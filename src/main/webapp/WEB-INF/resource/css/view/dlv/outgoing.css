@@ -11,3 +11,7 @@
 	width: 13%;
 	display:inline-block;
 }
+
+::-webkit-calendar-picker-indicator{
+        margin-left: -20px;
+}
