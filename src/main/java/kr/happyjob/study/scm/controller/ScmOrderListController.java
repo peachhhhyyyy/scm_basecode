@@ -46,11 +46,9 @@ public class ScmOrderListController {
 
 		logger.info("   - paramMap : " + paramMap);
 
-		String returnType = "/scm/orderList";
-
 		logger.info("+ end " + className + ".init");
 
-		return returnType;
+		return "/scm/orderList";
 	}
 
 	@RequestMapping("listInfo.do")
