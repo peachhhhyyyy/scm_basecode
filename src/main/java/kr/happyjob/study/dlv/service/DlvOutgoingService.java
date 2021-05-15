@@ -24,6 +24,12 @@ public interface DlvOutgoingService {
 	// 배송 준비 중 부터 한건에 대한 상세 조회
 	public List<DlvOutgoingDetailModel> outgoingDetailList(Map<String, Object> paramMap)throws Exception ;
 	
-	// 배송 사원 이름 조회
+	// 배송 사원 이름,loginID 조회
 	public List<DlvStaffNameModel> dlvStaffNameCombo(Map<String, Object> paramMap)throws Exception ;
+	
+	// 배송 사원 연락처 조회
+	public String getDlvStaffTel(Map<String, Object> paramMap)throws Exception ;
+	
+	// 배송지시서 업데이트(배송사원, 도착예정일자, 상태(STTcd))
+	public int updateDlvPaper(Map<String, Object> paramMap)throws Exception;
 }
