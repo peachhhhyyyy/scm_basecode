@@ -113,6 +113,15 @@ var purchaseModal = new tingle.modal({
 // add a button
 purchaseModal.addFooterBtn('승인요청', 'tingle-btn tingle-btn--primary', function() {
     // here goes some logic
+  console.log($("#purchaseDirectionInfo"));
+  var param = $("#purchaseDirectionInfo").serialize();
+  
+  console.log(param);
+  var resultCallback = function(data) {
+    getUpdateMessage(data);
+  }
+  
+  callAjax("/scm/sendPurchaseDirection.do", "post", "json", true, param, resultCallback);
   purchaseModal.close();
 });
 
@@ -158,6 +167,8 @@ function purchaseMultiply() {
   const result = price * cnt;
   $("#sumAmt").empty().append("합계 (원) : " + result.toLocaleString('ko-KR'));
   $("#sumAmt-han").empty().append(num2han(result)+"원");
+  $("input[name=purchaseCount").empty().val(cnt);
+  $("input[name=totalAmount]").empty().val(result);
   return;
 }
 
@@ -238,13 +249,13 @@ function getUpdateMessage(data) {
     swal(data.resultMsg).then(function() {
       window.location.reload(); // 새로고침
     });
-    console.log("주문상태 업데이트 완료");
+    console.log("상태 업데이트 완료");
     return 1;
   } else {
     swal(data.resultMsg).then(function() {
       window.location.reload(); // 새로고침
     });
-    console.log("주문상태 업데이트 실패");
+    console.log("상태 업데이트 실패");
     return 0;
   }
 }
