@@ -95,10 +95,10 @@
 	<!-- 상세 정보 조회 -->
     <select id="outgoingDetailList" resultType="kr.happyjob.study.dlv.model.DlvOutgoingDetailModel">
         SELECT shipList.ship_list_no AS ship_list_no
-				, od.order_cd AS order_cd
+				, OD.order_cd AS order_cd
 				, tsp.m_ct_nm
 				, tsp.prod_nm
-				, od.order_cnt AS order_cnt
+				, OD.order_cnt AS order_cnt
 				, customer.name AS name_customer
 				, customer.tel AS tel_customer
 				, customer.addr AS addr
@@ -106,9 +106,11 @@
 				, shipList.staff_name AS name_delivery
 				, shipList.staff_tel AS tel_delivery
 				, warehouse.warehouse_nm AS warehouse_nm
+				, DATE_FORMAT(shipList.arr_date, '%Y-%m-%d') AS arr_date
 				, DATE_FORMAT(shipList.arr_prev_date, '%Y-%m-%d') AS arr_prev_date
-				, od.STTcd AS STTcd
-            FROM tb_order od
+				, OD.STTcd AS STTcd
+				, OD.request AS request
+            FROM tb_order OD
 
             LEFT JOIN(
                 SELECT tb_scm_product.product_cd AS product_cd
@@ -117,7 +119,7 @@
                     FROM tb_scm_product
                     LEFT JOIN tb_scm_m_category
                     ON tb_scm_product.m_ct_cd = tb_scm_m_category.m_ct_cd) AS tsp
-                ON od.product_cd = tsp.product_cd
+                ON OD.product_cd = tsp.product_cd
 
             LEFT JOIN(
                 SELECT tssl.order_cd AS order_cd
@@ -132,7 +134,7 @@
 					LEFT JOIN tb_userinfo AS scm ON tssl.scm_id = scm.loginID
 					LEFT JOIN tb_userinfo AS staff ON tssl.ship_staff_id = staff.loginID
 					LEFT JOIN tb_userinfo AS mng ON tssl.ship_mng_id = mng.loginID) AS shipList
-                ON od.order_cd = shipList.order_cd
+                ON OD.order_cd = shipList.order_cd
 
             LEFT JOIN(
                 SELECT loginID
@@ -140,15 +142,15 @@
 						, tel
 						, addr
 				FROM tb_userinfo) AS customer
-				ON od.loginID = customer.loginID
+				ON OD.loginID = customer.loginID
 
             LEFT JOIN(
                 SELECT warehouse_cd
                         , warehouse_nm
                     FROM tb_scm_warehouse) AS warehouse
-                ON od.warehouse_cd = warehouse.warehouse_cd
+                ON OD.warehouse_cd = warehouse.warehouse_cd
 
-			WHERE od.order_cd = #{order_cd}
+			WHERE OD.order_cd = #{order_cd}
 	</select>
 	
 	<!-- 배송사원이름 조회 -->
@@ -166,9 +168,19 @@
 	       WHERE name = #{selDlvName}
 	</select>
 	
-	<!-- 배송지시서 업데이트(배송사원, 도착예정일자, 상태) -->
-<!-- 	<update id="updateDlvPaper">
-	</update> -->
+	<!-- 배송지시서 업데이트(배송사원, 도착예정일자, 상태(STTcd) -->
+    <update id="updateDlvPaper">
+        UPDATE
+            tb_scm_ship_list AS TSSL
+                , tb_order AS OD
+	        SET
+	            TSSL.arr_prev_date = DATE_FORMAT(#{arrPrevDate}, '%Y-%m-%d %h:%m:%s'),
+	            TSSL.ship_staff_id = #{dlvStaffId},
+	            OD.STTcd = #{state}
+	        WHERE OD.order_cd = #{order_cd}
+	           AND TSSL.ship_list_no = #{ship_list_no}
+	           AND TSSL.order_cd = #{order_cd}
+	</update>
 	
 	
 </mapper>
