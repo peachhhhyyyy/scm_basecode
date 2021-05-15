@@ -14,6 +14,9 @@ _<%@ page language="java" contentType="text/html; charset=UTF-8"
 								<c:forEach items="${listCartModel}" var="list">
 									<tr>
 										<td>
+											<input type="checkbox" name="selectCartItem" value="${list.product_cd}">
+										</td>
+										<td>
 											<img style="height: 200px;" src="http://img.danawa.com/prod_img/500000/135/584/img/12584135_1.jpg?shrink=360:360&_v=20201030144612"/>
 											<div>${list.prod_nm}</div>
 											<br>
