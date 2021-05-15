@@ -72,13 +72,24 @@ public class ScmOrderListServiceImpl implements ScmOrderListService {
 				result = "FAIL";
 				resultMsg = "배송 요청에 실패하였습니다.";
 			}
+		} else if (STTcd.equals("9")) {
+			logger.info("====== 주문상태를 승인대기(발주)로 변경합니다. ======");
+			mapperResult = ScmOrderListDao.updateStateToPurchase(paramMap);
+			
+			if (mapperResult == 1) {
+				result = "SUCCESS";
+				resultMsg = "발주 요청을 완료하였습니다.";
+			} else {
+				result = "FAIL";
+				resultMsg = "발주 요청에 실패하였습니다.";
+			}
 		}
 		
 		Map<String, String> resultMap = new HashMap<String, String>();
 		resultMap.put("result", result);
 		resultMap.put("resultMsg", resultMsg);
 		
-		logger.info("+ end " + className + ".deliveryInfo");
+		logger.info("+ end " + className + ".updateState");
 		
 		return resultMap;
 	}
@@ -91,6 +102,10 @@ public class ScmOrderListServiceImpl implements ScmOrderListService {
 		
 		if (STTcd.equals("13")) {
 			return ScmOrderListDao.insertDataToDTable(paramMap);
+		}
+		
+		if (STTcd.equals("9")) {
+			return ScmOrderListDao.insertDataToPTable(paramMap);
 		}
 		
 		logger.info("+ end " + className + ".insertData");
