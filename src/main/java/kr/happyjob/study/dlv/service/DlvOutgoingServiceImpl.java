@@ -46,6 +46,16 @@ public class DlvOutgoingServiceImpl implements DlvOutgoingService{
 		return outgoingDao.dlvStaffNameCombo(paramMap);
 	}
 
+	@Override
+	public String getDlvStaffTel(Map<String, Object> paramMap) throws Exception {
+		return outgoingDao.getDlvStaffTel(paramMap); 
+	}
+
+	@Override
+	public int updateDlvPaper(Map<String, Object> paramMap) throws Exception {
+		return outgoingDao.updateDlvPaper(paramMap);
+	}
+
 
 
 
