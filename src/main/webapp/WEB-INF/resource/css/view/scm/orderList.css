@@ -70,3 +70,19 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {  
    opacity: 1;
 }
+
+#orderListSearchBtn {
+	display: inline-block;
+	margin-left: 15px;
+}
+
+#excelExport {
+	height: 28px; 
+	width: 28px; 
+	margin-right: 10px; 
+	margin-bottom: 10px; 
+	position: absolute;
+	right: 35px;
+	top: 220px;
+
+}
