@@ -30,10 +30,12 @@ public class DlvReturnController {
 	
 	@RequestMapping("returnMain.do")
 	public String returnMain(){
+		
 		logger.info("반품메인페이지");
 		
 		return "/dlv/returnMain";
 	}
+	
 	// 반품리스트 조회
 	@RequestMapping("returnList.do")
 	public String returnlist(Model model, @RequestParam Map<String, Object> paramMap,
