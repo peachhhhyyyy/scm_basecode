@@ -140,26 +140,28 @@ public class DlvOutgoingController {
 	}
 	
 	@RequestMapping("submitDlvInfo.do")
-	public int submitDlvInfo(Model model, @RequestParam Map<String, Object> paramMap,
+	public String submitDlvInfo(Model model, @RequestParam Map<String, Object> paramMap,
 			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
 		 	
-			logger.info("submit 정보 : "+ paramMap);
+			logger.info("===== submit 정보 ===== : "+ paramMap);
 			
-			String staffNameAndId = (String) paramMap.get("DlvStaffName");
+			String staffNameAndId = (String) paramMap.get("dlvStaffName");
 			String[] staffNameAndIdArray = staffNameAndId.split(" ");
-			logger.info("이름과 아이디 배열 : " + staffNameAndIdArray);
+			logger.info("===== 이름과 아이디 배열 ===== : " + staffNameAndIdArray);
 			
 			String staffName = staffNameAndIdArray[0];
 			String staffId = staffNameAndIdArray[1];
 			
-			paramMap.put("DlvStaffName", staffName);
-			paramMap.put("DlvStaffId", staffId);
+			paramMap.put("dlvStaffName", staffName);
+			paramMap.put("dlvStaffId", staffId);
 			
-			logger.info("수정된 submit 정보 : "+ paramMap);
+			logger.info("===== 수정된 submit 정보 ===== : "+ paramMap);
 
 			
 			int ResultDBReturn = dlvOutgoingService.updateDlvPaper(paramMap);
 			
-		return ResultDBReturn;
+			logger.info("===== SHIP_LIST Update Result ===== : " + ResultDBReturn);
+			
+		return "/dlv/outgoing";
 	}
 }
