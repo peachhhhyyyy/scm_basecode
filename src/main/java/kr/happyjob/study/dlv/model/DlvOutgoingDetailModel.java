@@ -26,10 +26,14 @@ public class DlvOutgoingDetailModel {
 	private String tel_delivery;
 	// 창고명
 	private String warehouse_nm;
-	// 도착예정일자
+	// 도착일자
 	private String arr_prev_date;
+	// 도착예정일자
+	private String arr_date;
 	// 상태
 	private String state ;
+	
+	private String request ;
 	
 	public String getShip_list_no() {
 		return ship_list_no;
@@ -116,5 +120,18 @@ public class DlvOutgoingDetailModel {
 	public void setState(String state) {
 		this.state = state;
 	}
+	public String getRequest() {
+		return request;
+	}
+	public void setRequest(String request) {
+		this.request = request;
+	}
+	public String getArr_date() {
+		return arr_date;
+	}
+	public void setArr_date(String arr_date) {
+		this.arr_date = arr_date;
+	}
+	
 	
 }
