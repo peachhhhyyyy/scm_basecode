@@ -19,11 +19,6 @@
          //반품리스트 조회
          function fReturnList(currentPage) {
 			
-			// 상태와 날짜 변수
-			/* state = $('#state').val()
-			startDate = $('#startDate').val()
-			endDate = $('#endDate').val() */
-	
 			currentPage = currentPage || 1;
 	
 			console.log("currentPage : " + currentPage);
@@ -45,7 +40,6 @@
 
          function fReturnListResult(data, currentPage) {
 
-        	    //alert(data);
         	    //console.log(data);
 
         	    // 기존 목록 삭제
@@ -150,7 +144,7 @@
                             
                            <table class="col">
                               <caption>caption</caption>
-                              <colgroup>
+                              <%-- <colgroup>
                                  <col width="10%">
                                  <col width="15%">
                                  <col width="10%">
@@ -161,7 +155,7 @@
                                  <col width="10%">
                                  <col width="15%">
                                  <col width="10%">
-                              </colgroup>
+                              </colgroup> --%>
                               <thead>
                                  <tr>
                                     <th scope="col">반품번호</th>
