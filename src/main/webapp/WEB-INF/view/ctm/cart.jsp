@@ -25,10 +25,6 @@
 		
 }
 
-#CartModal{
-	display: none;
-}
-
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button {  
    opacity: 1;
@@ -48,8 +44,8 @@ input[type=number]::-webkit-outer-spin-button {
 		/** OnLoad event */ 
 
 		$(document).ready(function() {
-			fListCart(); // 장바구니 신청건 조회
-			
+			fListCart(); // 장바구니 목록 조회
+
 		});
 
 		/** 장바구니 조회 */
@@ -71,7 +67,7 @@ input[type=number]::-webkit-outer-spin-button {
 			callAjax("/ctm/listCart.do", "post", "text", true, param, resultCallback);
 		}
 		
-		/** 그룹코드 조회 콜백 함수 */
+		/** 장바구니 목록 콜백 함수 */
 		function fCartResult(data, currentPage) {
 			
 			//alert(data);
@@ -95,14 +91,6 @@ input[type=number]::-webkit-outer-spin-button {
 			// 현재 페이지 설정
 			$("#currentPageCart").val(currentPage);
 			console.log("totalCntCart:: " + totalCntCart);
-		}
-		
-		function fPopModalCart(){
-			gfModalPop('#layer1');
-		}
-
-		function fEmpModalShow(){
-			document.getElementById("CartModal").style.display = "block";
 		}
 		
 		// 장바구니 삭제하기 클릭시 모달창
@@ -227,7 +215,8 @@ input[type=number]::-webkit-outer-spin-button {
 						<table class="col">
 							<caption>caption</caption>
 								<colgroup>
-									<col width="40%">
+									<col width="5%">
+									<col width="35%">
 									<col width="10%">
 									<col width="10%">
 									<col width="10%">
@@ -238,6 +227,7 @@ input[type=number]::-webkit-outer-spin-button {
 	
 								<thead>
 									<tr>
+										<th scope="col">선택</th>
 										<th scope="col">제품명</th>
 										<th scope="col">품목명</th>
 										<th scope="col">제조사명</th>
