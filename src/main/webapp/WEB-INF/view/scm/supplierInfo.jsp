@@ -38,11 +38,11 @@
       e.preventDefault();
       var btnId = $(this).attr('id');
       switch (btnId) {
-      case 'btnSaveDelivery':
-        fSaveDelivery(); // save 안에 저장,수정  
+      case 'btnSaveSupplier':
+        fSaveSupplier(); // save 안에 저장,수정  
         break;
-      case 'btnDeleteDelivery':
-        fDeleteDelivery(); // 만들자 
+      case 'btnDeleteSupplier':
+        fDeleteSupplier(); // 만들자 
         break;
       case 'btnClose':
         gfCloseModal(); // 모달닫기 
@@ -99,7 +99,7 @@
   
 
   /* 공급처 폼 초기화 */
-  function fInitFormDelivery(object) {
+  function fInitFormSupplier(object) {
     $("#supply_cd").focus();
     
     if (object == "" || object == null || object == undefined) {
@@ -133,35 +133,35 @@
   } 
   
   /* 공급처 모달 실행 */
-  function fPopModalDelivery(supply_cd) {
+  function fPopModalSupplier(supply_cd) {
     //신규 저장
     if (supply_cd == null || supply_cd == "") {
       $("#action").val("I");
-      fInitFormDelivery();
+      fInitFormSupplier();
       gfModalPop("#layer1");
     } else {
       $("#action").val("U");
-      fSelectDelivery(supply_cd);
+      fSelectSupplierDetail(supply_cd);
     }
   }
   
   /* 공급처 단건 조회*/
-  function fSelectDelivery(supply_cd) {
+  function fSelectSupplierDetail(supply_cd) {
     var param = {
         supply_cd : supply_cd
     };
     var resultCallback = function(data) {
-      fSelectDeliveryResult(data);
+      fSelectSupplierDetailResult(data);
     };
-    callAjax("/scm/selectDelivery.do", "post", "json", true, param,
+    callAjax("/scm/selectSupplierDetail.do", "post", "json", true, param,
         resultCallback);
   }
   
   // 공급처 단건 조회 콜백 함수
-  function fSelectDeliveryResult(data) {
+  function fSelectSupplierDetailResult(data) {
     if (data.result == "SUCCESS") {
       gfModalPop("#layer1")
-      fInitFormDelivery(data.supplierInfoModel);
+      fInitFormSupplier(data.supplierInfoModel);
     } else {
       alert(data.resultMsg);
     }
@@ -172,7 +172,7 @@
   
   
   /* 공급처 저장 validation*/
-  function fValidateDelivery() {
+  function fValidateSupplier() {
     var chk = checkNotEmpty([ 
             [ "supply_cd", "공급처코드를 입력하세요." ],
             [ "supply_nm", "공급처명 입력하세요." ],
@@ -191,19 +191,19 @@
   }
   
   //공급처 저장
-  function fSaveDelivery() {
+  function fSaveSupplier() {
     //validation 체크
-    if (!fValidateDelivery()) {
+    if (!fValidateSupplier()) {
       return;
     }
     var resultCallback = function(data) {
        console.log(data);
-       fSaveDeliveryResult(data);
+       fSaveSupplierResult(data);
        /* console.log(data.result);
        console.log(data.resultMsg); */
        
        /* gfCloseModal();
-       fInitFormDelivery();
+       fInitFormSupplier();
        
        var status = $("#action").val();
        var cur = $("#currentPage").val();
@@ -216,12 +216,12 @@
        
        return; */
     };
-    callAjax("/scm/saveDelivery.do", "post", "json", true, $("#myForm")
+    callAjax("/scm/saveSupplier.do", "post", "json", true, $("#myForm")
         .serialize(), resultCallback);
   }
   
   //공급처 저장 콜백 함수
-  function fSaveDeliveryResult(data) {
+  function fSaveSupplierResult(data) {
     var currentPage = "1";
     if ($("#action").val() != "I") {
       currentPage = $("#currentPage").val();
@@ -233,23 +233,23 @@
     } else {
       alert(data.resultMsg);
     }
-    fInitFormDelivery();
+    fInitFormSupplier();
   }
   
   //공급처 삭제
-    function fDeleteDelivery(deli_no){
+    function fDeleteSupplier(deli_no){
     var con = confirm("삭제하시겠습니까 ?");
     var currentPage = "1";
     if (con){
       var resultCallback = function(data) {
-      fSaveDeliveryResult(data);
+      fSaveSupplierResult(data);
     }
     $("#action").val("D");
-    callAjax("/scm/saveDelivery.do", "post", "json", true, $("#myForm").serialize(), resultCallback );
+    callAjax("/scm/saveSupplier.do", "post", "json", true, $("#myForm").serialize(), resultCallback );
     } else {
       gfCloseModal();
-      fListDelivery(currentPage);
-      fInitFormDelivery();
+      selectSupplierList(currentPage);
+      fInitFormSupplier();
     }
   } 
   
@@ -355,7 +355,7 @@
                             <p class="conTitle">
                                  <span>공급처 관리</span>
                                  <span class="fr"> 
-                                 <a href="javascript:fPopModalDelivery()" class="btnType blue" name="modal"  style="float: right;">
+                                 <a href="javascript:fPopModalSupplier()" class="btnType blue" name="modal"  style="float: right;">
                                       <span>신규등록</span>
                                       </a>
                     
@@ -513,8 +513,8 @@
           
           
           <div class="btn_areaC mt30">
-            <a href="" class="btnType blue" id="btnSaveDelivery" name="btn"><span>저장</span></a>
-            <a href="" class="btnType blue" id="btnDeleteDelivery" name="btn"><span>삭제</span></a>  
+            <a href="" class="btnType blue" id="btnSaveSupplier" name="btn"><span>저장</span></a>
+            <a href="" class="btnType blue" id="btnDeleteSupplier" name="btn"><span>삭제</span></a>  
             <a href="" class="btnType gray" id="btnClose" name="btn"><span>취소</span></a>
             
           </div>

@@ -41,27 +41,27 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
   }
   //공급처 단건 조회
   @Override
-  public SupplierInfoModel selectDelivery(Map<String, Object> paramMap) throws Exception {
-    SupplierInfoModel selectDelivery = supplierInfoDao.selectDelivery(paramMap);
-    return selectDelivery;
+  public SupplierInfoModel selectSupplierDetail(Map<String, Object> paramMap) throws Exception {
+    SupplierInfoModel selectSupplierDetail = supplierInfoDao.selectSupplierDetail(paramMap);
+    return selectSupplierDetail;
   }
   
   //공급처 등록
   @Override
-  public int insertDelivery(Map<String, Object> paramMap) throws Exception {
-    int ret = supplierInfoDao.insertDelivery(paramMap);
+  public int insertSupplier(Map<String, Object> paramMap) throws Exception {
+    int ret = supplierInfoDao.insertSupplier(paramMap);
     return ret;
   }
   //공급처 수정
   @Override
-  public int updateDelivery(Map<String, Object> paramMap) throws Exception {
-    int ret = supplierInfoDao.updateDelivery(paramMap);
+  public int updateSupplier(Map<String, Object> paramMap) throws Exception {
+    int ret = supplierInfoDao.updateSupplier(paramMap);
     return ret;
   }
   //공급처 삭제
   @Override
-  public int deleteDelivery(Map<String, Object> paramMap) throws Exception {
-    int ret = supplierInfoDao.deleteDelivery(paramMap);
+  public int deleteSupplier(Map<String, Object> paramMap) throws Exception {
+    int ret = supplierInfoDao.deleteSupplier(paramMap);
     return ret;
   }
 

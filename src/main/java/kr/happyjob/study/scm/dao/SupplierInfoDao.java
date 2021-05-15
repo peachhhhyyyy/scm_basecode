@@ -18,12 +18,12 @@ public interface SupplierInfoDao {
   public int countSupplierProInfo(Map<String, Object> paramMap) throws Exception;
   
   // 공급처 단건 조회
-  public SupplierInfoModel selectDelivery(Map<String, Object> paramMap) throws Exception;
+  public SupplierInfoModel selectSupplierDetail(Map<String, Object> paramMap) throws Exception;
   
   // 공급처 추가
-  public int insertDelivery(Map<String, Object> paramMap) throws Exception;
+  public int insertSupplier(Map<String, Object> paramMap) throws Exception;
   // 공급처 수정
-  public int updateDelivery(Map<String, Object> paramMap) throws Exception;
+  public int updateSupplier(Map<String, Object> paramMap) throws Exception;
   // 공급처 삭제
-  public int deleteDelivery(Map<String, Object> paramMap) throws Exception;
+  public int deleteSupplier(Map<String, Object> paramMap) throws Exception;
 }

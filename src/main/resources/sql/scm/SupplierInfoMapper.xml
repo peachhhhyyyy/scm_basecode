@@ -56,7 +56,7 @@
    </select>
      
    <!-- 제품 목록 단건 조회 -->
-   <select id="selectDelivery" resultType="kr.happyjob.study.scm.model.SupplierInfoModel" >
+   <select id="selectSupplierDetail" resultType="kr.happyjob.study.scm.model.SupplierInfoModel" >
      SELECT  SP.supply_cd as supply_cd
            , SP.supply_nm as supply_nm
            , SP.supply_mng_nm as supply_mng_nm
@@ -72,7 +72,7 @@
    </select>
    
    <!-- 공급처 등록 -->
-   <insert id="insertDelivery" parameterType="java.util.Map">
+   <insert id="insertSupplier" parameterType="java.util.Map">
     INSERT INTO tb_scm_supply    (
                                supply_nm, supply_cd, tel, supply_mng_nm, mng_tel, email, warehouse_cd
                              )
@@ -89,7 +89,7 @@
    </insert>
    
    <!-- 공급처 수정 -->
-   <update id="updateDelivery" parameterType="java.util.Map">
+   <update id="updateSupplier" parameterType="java.util.Map">
     UPDATE tb_scm_supply
        SET supply_mng_nm = #{supply_mng_nm}
            , mng_tel = #{mng_tel}
@@ -99,7 +99,7 @@
    </update>
    
    <!-- 공급처 삭제 -->
-   <delete id="deleteDelivery" parameterType="java.util.Map">
+   <delete id="deleteSupplier" parameterType="java.util.Map">
     DELETE FROM tb_scm_supply
      WHERE supply_cd = #{supply_cd}
    </delete>

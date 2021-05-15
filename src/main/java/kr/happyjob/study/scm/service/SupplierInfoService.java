@@ -15,11 +15,11 @@ public interface SupplierInfoService {
   /* 제품정보 목록 카운트 조회*/
   int countSupplierProInfo(Map<String, Object> paramMap) throws Exception;
   /* 공급처 단건 조회*/
-  public SupplierInfoModel selectDelivery(Map<String, Object> paraMap) throws Exception;
+  public SupplierInfoModel selectSupplierDetail(Map<String, Object> paraMap) throws Exception;
   /* 공급처 등록*/
-  int insertDelivery(Map<String, Object> paramMap) throws Exception;
+  int insertSupplier(Map<String, Object> paramMap) throws Exception;
   /* 공급처 수정*/
-  int updateDelivery(Map<String, Object> paramMap) throws Exception;
+  int updateSupplier(Map<String, Object> paramMap) throws Exception;
   /* 공급처 삭제*/
-  int deleteDelivery(Map<String, Object> paramMap) throws Exception;
+  int deleteSupplier(Map<String, Object> paramMap) throws Exception;
 }

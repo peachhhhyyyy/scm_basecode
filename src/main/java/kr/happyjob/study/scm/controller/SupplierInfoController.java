@@ -89,15 +89,15 @@ public class SupplierInfoController {
   }
   
   //공급처 단건 조회
-  @RequestMapping("selectDelivery.do")
+  @RequestMapping("selectSupplierDetail.do")
   @ResponseBody
-  public Map<String, Object> selectDelivery (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+  public Map<String, Object> selectSupplierDetail (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception{
 
     String result = "SUCCESS";
     String resultMsg = "조회 되었습니다.";
     
-    SupplierInfoModel supplierInfoModel = supplierInfoService.selectDelivery(paramMap);
+    SupplierInfoModel supplierInfoModel = supplierInfoService.selectSupplierDetail(paramMap);
     
     Map<String, Object> resultMap = new HashMap<String, Object>();
     resultMap.put("result", result);
@@ -109,9 +109,9 @@ public class SupplierInfoController {
   }
   
 //납품 업체 저장
- @RequestMapping("saveDelivery.do")
+ @RequestMapping("saveSupplier.do")
  @ResponseBody
- public Map<String, Object> saveDelivery (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+ public Map<String, Object> saveSupplier (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
      HttpServletResponse response, HttpSession session) throws Exception{
    
    String action = (String)paramMap.get("action");
@@ -121,15 +121,15 @@ public class SupplierInfoController {
    
    if("I".equals(action)){
      //납품 업체 등록
-     supplierInfoService.insertDelivery(paramMap);
+     supplierInfoService.insertSupplier(paramMap);
      resultMsg = "등록 완료";
    } else if("U".equals(action)){
      //납품 업체 수정
-     supplierInfoService.updateDelivery(paramMap);
+     supplierInfoService.updateSupplier(paramMap);
      resultMsg = "수정 완료";
    } else if("D".equals(action)){
      //납품 업체 삭제
-     supplierInfoService.deleteDelivery(paramMap);
+     supplierInfoService.deleteSupplier(paramMap);
      resultMsg = "삭제 완료";
    }
    else{
