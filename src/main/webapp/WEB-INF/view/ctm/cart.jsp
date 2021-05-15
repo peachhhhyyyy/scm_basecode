@@ -231,14 +231,14 @@ input[type=number]::-webkit-outer-spin-button {
 						<p class="Location">
 							<a href="#" class="btn_set home">메인으로</a> <a href="#"
 								class="btn_nav">주문</a> <span class="btn_nav bold">
-								장바구니</span> <a href="#" class="btn_set refresh">새로고침</a>
+								장바구니</span> <a href="javascript:fListCart();" class="btn_set refresh">새로고침</a>
 						</p>
 
 						<p class="conTitle" style="margin-bottom: 1%; display: flex; justify-content: center; align-items: space-between;">
 							<span>장바구니</span>
 						</p>						
 						
-					<div class="divDvList">
+					<div class="CartListFrame">
 						<table class="col">
 							<caption>caption</caption>
 								<colgroup>
