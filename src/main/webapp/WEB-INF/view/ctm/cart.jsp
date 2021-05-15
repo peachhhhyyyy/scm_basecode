@@ -40,6 +40,8 @@ input[type=number]::-webkit-outer-spin-button {
 		var pageSizeCart= 10;
 		var pageBlockSizeCart = 5;
 		
+		/* 장바구니 부분 선택 구매 */
+		var selectedCartItem = document.getElementsByName("selectCartItem");
 		
 		/** OnLoad event */ 
 
@@ -116,12 +118,36 @@ input[type=number]::-webkit-outer-spin-button {
 
 		// set content
 		deleteModal.setContent('<h1>정말 삭제하시겠습니까?</h1>');
-		
 
 		// add a button
 		deleteModal.addFooterBtn('삭제', 'tingle-btn tingle-btn--primary', function() {
-		    deleteModal.close();
+			
+		    console.log("========== myform : "+$("#myForm").serialize());
+		    
+			var resultCallback = function(data) {
+				fDeleteCartItemResult(data);
+		    };
+		    
+		    callAjax("/ctm/deleteCartItem.do", "post", "json", true, $("#myForm").serialize(), resultCallback);    
+		   
 		});
+		
+		function fDeleteCartItemResult(data) {
+		    
+		    var currentPage = $("#currentPageCart").val();
+		    
+		    if (data.result == "SUCCESS") {
+		      
+		      // 모달 닫기
+		      deleteModal.close();
+		      
+		      // 장바구니 목록 조회
+		      fListCart(currentPage);
+		      
+		    } else {
+		      swal(data.resultMsg);
+		    } 
+		  }
 
 		// add another button
 		deleteModal.addFooterBtn('취소', 'tingle-btn tingle-btn--danger', function() {
@@ -176,6 +202,7 @@ input[type=number]::-webkit-outer-spin-button {
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/tingle/tingle.js"></script>
 </head>
 <body>
+<form id="myForm" action=""  method="">
 	<input type="hidden" id="currentPageCart" value="1">
 	<input type="hidden" id="tmpCart" value="">
 	<input type="hidden" id="tmpCartNm" value="">
@@ -269,5 +296,6 @@ input[type=number]::-webkit-outer-spin-button {
 			</ul>
 		</div>
 	</div>
+	</form>
 </body>
 </html>
