@@ -8,7 +8,7 @@
                 , DATE_FORMAT(SHIPINFO.arr_date, '%Y-%m-%d') AS arr_date
                 , DATE_FORMAT(SHIPINFO.arr_prev_date, '%Y-%m-%d') AS arr_prev_date
 				, OD.order_cd AS order_cd
-				, OD.STTcd AS STTcd
+				, DC.detail_name AS state
 				, SHIPINFO.staff_name AS name_delivery
 				, WH.warehouse_nm AS warehouse_nm
             FROM tb_order OD
@@ -26,6 +26,13 @@
                     LEFT JOIN tb_userinfo AS staff 
                     ON tssl.ship_staff_id = staff.loginID) AS SHIPINFO
             ON OD.order_cd = SHIPINFO.order_cd
+            
+            LEFT JOIN(
+                SELECT detail_code, group_code, detail_name
+                    FROM tb_detail_code
+                    WHERE group_code = 'STTcd' ) AS DC
+            ON OD.STTcd = DC.detail_code
+            
 			WHERE OD.STTcd IN (13, 14, 15)
 			ORDER BY OD.order_cd DESC
 			LIMIT #{pageIndex}, #{pageSize}
@@ -33,7 +40,7 @@
 	
 	<!-- 목록의 총 row수 조회 -->
 	<select id="outgoingCnt" resultType="int">
-		SELECT COUNT(*) as tot_cnt
+		SELECT COUNT(*) AS tot_cnt
 			FROM tb_order
 			WHERE STTcd IN (13, 14, 15)
 			ORDER BY order_cd DESC
@@ -45,7 +52,7 @@
                 , DATE_FORMAT(SHIPINFO.arr_date, '%Y-%m-%d') AS arr_date
                 , DATE_FORMAT(SHIPINFO.arr_prev_date, '%Y-%m-%d') AS arr_prev_date
                 , OD.order_cd AS order_cd
-                , OD.STTcd AS STTcd
+                , DC.detail_name AS state
                 , SHIPINFO.staff_name AS name_delivery
                 , WH.warehouse_nm AS warehouse_nm
             FROM tb_order OD
@@ -63,6 +70,13 @@
                     LEFT JOIN tb_userinfo AS staff 
                     ON tssl.ship_staff_id = staff.loginID) AS SHIPINFO
             ON OD.order_cd = SHIPINFO.order_cd
+            
+            LEFT JOIN(
+                SELECT detail_code, group_code, detail_name
+                    FROM tb_detail_code
+                    WHERE group_code = 'STTcd' ) AS DC
+            ON OD.STTcd = DC.detail_code
+            
             WHERE OD.STTcd = #{STTcd}
             AND OD.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
             ORDER BY OD.order_cd DESC
@@ -71,7 +85,7 @@
     
     <!-- 검색 조건 출하내역 건수 -->
     <select id="outgoingSearchCnt" resultType="int">
-        SELECT COUNT(*) as tot_cnt
+        SELECT COUNT(*) AS tot_cnt
             FROM tb_order
             WHERE STTcd = #{STTcd} OR STTcd IN (13, 14, 15)
             AND order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s')
@@ -137,11 +151,24 @@
 			WHERE od.order_cd = #{order_cd}
 	</select>
 	
+	<!-- 배송사원이름 조회 -->
 	<select id="dlvStaffNameCombo" resultType="kr.happyjob.study.dlv.model.DlvStaffNameModel">
-	   SELECT name as dlv_staff_name
+	   SELECT name AS dlv_staff_name
+	           , loginID
            FROM tb_userinfo
            WHERE user_type like "H"
 	</select>
+	
+	<!-- 배송사원 연락처 조회 -->
+	<select id="getDlvStaffTel" resultType="string">
+	   SELECT tel AS dlv_staff_tel
+	       FROM tb_userinfo
+	       WHERE name = #{selDlvName}
+	</select>
+	
+	<!-- 배송지시서 업데이트(배송사원, 도착예정일자, 상태) -->
+<!-- 	<update id="updateDlvPaper">
+	</update> -->
 	
 	
 </mapper>
