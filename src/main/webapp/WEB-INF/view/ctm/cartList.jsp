@@ -40,6 +40,7 @@ _<%@ page language="java" contentType="text/html; charset=UTF-8"
 										</td> <!-- 신청취소 버튼 -->
 									</tr>
 									<c:set var="nRow" value="${nRow + 1}" />
+									<input type="hidden" id="product_cd" name="product_cd" value="${list.product_cd}"/>
 								</c:forEach>
 							</c:if>
 							
