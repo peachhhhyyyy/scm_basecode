@@ -27,5 +27,9 @@ public interface OutgoingDao {
 	// 배송사원이름 조회 -> 콤보박스로 감.
 	public List<DlvStaffNameModel> dlvStaffNameCombo(Map<String, Object> paramMap)throws Exception ;
 	
+	// 배송사원연락 조회 -> 위에서 선택된 배송사원의 이름을 기반으로 검색함.
+	public String getDlvStaffTel(Map<String, Object> paramMap)throws Exception ;
 	
+	// 배송지시서 업데이트
+	public int updateDlvPaper(Map<String, Object> paramMap)throws Exception;
 }
