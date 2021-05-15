@@ -103,6 +103,7 @@ input[type=number]::-webkit-outer-spin-button {
 			document.getElementById("CartModal").style.display = "block";
 		}
 		
+		// 장바구니 삭제하기 클릭시 모달창
 		var deleteModal = new tingle.modal({
 		    footer: true,
 		    stickyFooter: false,
@@ -125,16 +126,15 @@ input[type=number]::-webkit-outer-spin-button {
 
 		// set content
 		deleteModal.setContent('<h1>정말 삭제하시겠습니까?</h1>');
+		
 
 		// add a button
 		deleteModal.addFooterBtn('삭제', 'tingle-btn tingle-btn--primary', function() {
-		    // here goes some logic
 		    deleteModal.close();
 		});
 
 		// add another button
 		deleteModal.addFooterBtn('취소', 'tingle-btn tingle-btn--danger', function() {
-		    // here goes some logic
 		    deleteModal.close();
 		});
 		
@@ -142,6 +142,45 @@ input[type=number]::-webkit-outer-spin-button {
 			console.log(deleteModal);
 			deleteModal.open();
 		}
+		
+		// 장바구니 주문하기 클릭시 모달창
+		var orderModal = new tingle.modal({
+		    footer: true,
+		    stickyFooter: false,
+		    closeMethods: ['overlay', 'button', 'escape'],
+		    closeLabel: "Close",
+		    cssClass: ['custom-class-1', 'custom-class-2'],
+		    onOpen: function() {
+		        console.log('modal open');
+		    },
+		    onClose: function() {
+		        console.log('modal closed');
+		    },
+		    beforeClose: function() {
+		        // here's goes some logic
+		        // e.g. save content before closing the modal
+		        return true; // close the modal
+		        return false; // nothing happens
+		    }
+		});
+		
+		// set content
+		orderModal.setContent('<h1>주문하시겠습니까?</h1>');
+		
+		// add a button
+		orderModal.addFooterBtn('주문', 'tingle-btn tingle-btn--primary', function() {
+			orderModal.close();
+		});
+
+		// add another button
+		orderModal.addFooterBtn('취소', 'tingle-btn tingle-btn--danger', function() {
+			orderModal.close();
+		});
+		
+		function fOrderModal() {
+			console.log(orderModal);
+			orderModal.open();
+		};
 		
 </script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/tingle/tingle.js"></script>
@@ -178,10 +217,8 @@ input[type=number]::-webkit-outer-spin-button {
 								장바구니</span> <a href="#" class="btn_set refresh">새로고침</a>
 						</p>
 
-						<p class="conTitle">
-							<span>장바구니</span> <span class="fr">
-							  <br/>
-							</span>
+						<p class="conTitle" style="margin-bottom: 1%; display: flex; justify-content: center; align-items: space-between;">
+							<span>장바구니</span>
 						</p>						
 						
 					<div class="divDvList">
@@ -212,7 +249,9 @@ input[type=number]::-webkit-outer-spin-button {
 						</table>
 						<center>
 							<br>
-								<a class="btnType4 color1"><span>주문하기</span></a>
+								<td>						
+									<a class="btnType3 color2" href="javascript:fOrderModal();"><span>주문하기</span></a>
+								</td>
 							<br>
 							<br>
 						</center>
