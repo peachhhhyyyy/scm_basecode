@@ -34,7 +34,17 @@ public class CartServiceImpl implements CartService{
 			
 			return totalCount;
 		}	
+	
+	/** 장바구니 삭제 */
+	public int deleteCartItem(Map<String, Object> paramMap) throws Exception {
+		
+		int ret = CartDao.deleteCartItem(paramMap);
+		
+		return ret;
 	}
+	
+}
+
 	
 	
 	

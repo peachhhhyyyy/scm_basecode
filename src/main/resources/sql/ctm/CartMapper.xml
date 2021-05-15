@@ -24,6 +24,12 @@
 		  FROM tb_shopping_cart 
 		 WHERE loginID = #{loginID}
 	</select>
+	
+		<!-- 장바구니 삭제 -->
+	<delete id="deleteCartItem">
+		/*kr.kosmo.jobkorea.system.dao.CartDao.deleteCartItem*/
+		DELETE FROM tb_shopping_cart WHERE product_cd = #{product_cd}
+	</delete>
 
 </mapper>
 
