@@ -16,7 +16,7 @@
 		            <td><a href="javascript:fOrderDetailList('${list.order_cd}');">${list.order_cd}</a></td>
 		            <td>${list.name_delivery}</td>
 		            <td>${list.warehouse_nm}</td>
-		            <td>${list.STTcd}</td>
+		            <td>${list.state}</td>
 		        </tr>
 		    </c:forEach>
 		</c:if>
@@ -37,7 +37,7 @@
 					<td><a href="javascript:fOrderDetailList('${list.order_cd}');">${list.order_cd}</a></td>
 					<td>${list.name_delivery}</td>
 					<td>${list.warehouse_nm}</td>
-					<td>${list.STTcd}</td>
+					<td> ${list.state}</td>
 				</tr>
 			</c:forEach>
 		</c:if>
