@@ -13,4 +13,7 @@ public interface CartDao {
 	/** 장바구니 목록 카운트 조회 */
 	public int countListCart(Map<String, Object> paramMap);
 	
+	/** 장바구니 삭제 */
+	public int deleteCartItem(Map<String, Object> paramMap);
+	
 }
