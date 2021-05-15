@@ -80,4 +80,30 @@ public class CartController {
 		return "ctm/cartList";
 	}	
 	
+	 /**
+	   * 장바구니 삭제
+	   */
+	  @RequestMapping("deleteCartItem.do")
+	  @ResponseBody
+	  public Map<String, Object> deleteComnGrpCod(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			  HttpServletResponse response, HttpSession session) throws Exception {
+	    
+	    logger.info("+ Start " + className + ".deleteCartItem");
+	    logger.info("   - paramMap : " + paramMap);
+	    
+	    String result = "SUCCESS";
+	    String resultMsg = "삭제 되었습니다.";
+	    
+	    // 그룹코드 삭제
+	    CartService.deleteCartItem(paramMap);
+	    
+	    Map<String, Object> resultMap = new HashMap<String, Object>();
+	    resultMap.put("result", result);
+	    resultMap.put("resultMsg", resultMsg);
+	    
+	    logger.info("+ End " + className + ".deleteCartItem");
+	    
+	    return resultMap;
+	  }
+	
 }
