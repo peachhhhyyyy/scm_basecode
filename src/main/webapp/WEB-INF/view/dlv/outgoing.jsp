@@ -23,7 +23,7 @@
 		
 				currentPage = currentPage || 1;
 		
-				console.log("currentPage : " + currentPage);
+				// console.log("currentPage : " + currentPage);
 				
 				var param = {
 					currentPage : currentPage,
@@ -64,7 +64,6 @@
 			/* 출하내역 상세 조회*/
 			function fOrderDetailList(order_cd) {
 			
-			  // 그룹코드 정보 설정
 			  $("#order_cd").val(order_cd);
 			
 			  var param = {
@@ -79,9 +78,9 @@
 			}
 			
 			
-			/** 출하내역 상세조회 콜백 함수 */
+			// 출하내역 상세조회 콜백 함수 
 			function fOrderListDetailResult(data) {
-			    console.log(data);
+			    //console.log(data);
 			
 			    // 기존 목록 삭제
 			    $('#outgoingDetailList').empty();
@@ -100,7 +99,13 @@
 				currentPage = currentPage || 1;
 		        
                 console.log("currentPage : " + currentPage);
-        
+                
+                // 날짜 비교 후 알맞지 않으면 랜딩
+                if(startDate > endDate){
+                	alert("시작일자는 종료일자보다 클 수가 없습니다.");
+                	location.href= "/dlv/outgoing.do";
+                }
+                
                 var param = {
                 		currentPage : currentPage,
                 		pageSize : pageSizeinfo,
@@ -140,6 +145,35 @@
                 $("#lisOutgoingPagination").empty().append(paginationHtml);
         
             }
+		    
+		    // 콤보박스로 선택된 배송기사이름으로 연락처 받아오기
+		    function fSelectDlvStaffTel(){
+		    	
+		    	var selDlvName = $('#getDlvStaffName > option:selected').val().split(' ')[0];
+		    	
+		    	// console.log(selDlvName);
+		    	
+		    	var param = {
+		    		    selDlvName : selDlvName
+		    	}
+		    	
+		    	var resultCallback = function(data) {
+		    		fDlvStaffTelResult(data);
+                };
+        
+                //Ajax실행 방식
+                //callAjax("Url",type,return,async or sync방식,넘겨준 값,Callback함수 이름)
+                callAjax("/dlv/selDlvTel.do", "post", "json", true, param, resultCallback);
+		    }
+		    
+		    function fDlvStaffTelResult(data) {
+                
+                console.log("연락처 결과 : " + data.dlvStaffTel);
+                
+                $('#dlvStaffTel').text(data.dlvStaffTel)
+        
+            }
+		    
 			
 		</script>
 </head>
@@ -208,6 +242,7 @@
 							</table>
 						<div class="paging_area" id="lisOutgoingPagination"></div>
 						</div>
+						<form action="submitDlvInfo.do" method="post">
 						<div class="content">
 							<p class="conTitle">
 								<span>상세페이지</span>
@@ -246,7 +281,18 @@
 				                    </tr>
 			                    </tbody>
 							</table>
+						<button type="submit" value="Submit" class="col-1-4 btnType blue" style="
+                                        margin-right: -2px;
+                                        font-size: 15px;
+                                        color: #fff;
+                                        background: #3cb3eb;
+                                        padding: 7px 0;
+                                        margin-left: 339px;
+                                        width: 9%;
+                                        margin-top: 55px;
+                                       " formmethod="post">등록</button>
 						</div> 
+						</form>
 					</li>
 				</ul>
 			</div>
