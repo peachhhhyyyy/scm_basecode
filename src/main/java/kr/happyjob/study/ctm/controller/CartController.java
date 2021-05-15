@@ -64,13 +64,13 @@ public class CartController {
 		
 		logger.info("   - paramMap : " + paramMap);
 		
-		// 공통 그룹코드 목록 조회
+		// 공통 장바구니 목록 조회
 		List<CartModel> listCartModel = CartService.listCart(paramMap);
 		model.addAttribute("listCartModel", listCartModel);
 		
 		logger.info("+ end " + className + ".init");
 		
-		// 공통 그룹코드 목록 카운트 조회
+		// 공통 장바구니 목록 카운트 조회
 		int totalCount = CartService.countListCart(paramMap);
 		model.addAttribute("totalCntCart", totalCount);
 		
@@ -94,7 +94,7 @@ public class CartController {
 	    String result = "SUCCESS";
 	    String resultMsg = "삭제 되었습니다.";
 	    
-	    // 그룹코드 삭제
+	    // 장바구니 삭제
 	    CartService.deleteCartItem(paramMap);
 	    
 	    Map<String, Object> resultMap = new HashMap<String, Object>();
