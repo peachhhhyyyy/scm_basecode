@@ -171,9 +171,9 @@ public class PcsController {
   public String updateSTTcd(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception {
 
-    logger.info("+ Start " + className + ".pcsOrderForm");
+    logger.info("+ Start " + className + ".updateSTTcd");
     logger.info("   - paramMap : " + paramMap);
-    logger.info("+ End " + className + ".pcsOrderForm");
+    logger.info("+ End " + className + ".updateSTTcd");
     
     // 상태코드 수정 저장
     int updateSTTcdModel = pcsService.updateSTTcd(paramMap);
