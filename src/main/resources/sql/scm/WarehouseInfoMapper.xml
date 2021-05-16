@@ -1,3 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="sql.scm.WarehouseInfoMapper"></mapper>
+<mapper namespace="kr.happyjob.study.scm.dao.WarehouseInfoDao"> <!--DAO파일이 위치한 디렉터리와 매핑 (내 담당 DAO는 누구이다.) -->
+  <!-- 창고 조회 -->
+  <select id="listWarehouse" resultType="kr.happyjob.study.scm.model.WarehouseInfoModel"> <!--id=DAO가 호출할 별명 작성 , resultType 반환 값을 담을 model의 디렉터리와 매핑 -->
+    SELECT DISTINCT WH.warehouse_cd as warehouse_cd, 
+                    WH.warehouse_nm as warehouse_nm, 
+                    UI.name as wh_mng_nm, 
+                    UI.tel as tel, 
+                    UI.mail as email, 
+                    WH.zip_cd as zip_cd, 
+                    WH.addr as addr 
+      FROM tb_scm_warehouse WH 
+ LEFT JOIN tb_userinfo UI 
+        ON WH.wh_mng_id = UI.loginID
+     LIMIT #{pageIndex}, #{pageSize}
+  </select>
+  <!-- 창고 카운트 -->
+  <select id="totalCntWarehouse" resultType="int"> 
+    SELECT DISTINCT COUNT(*) 
+      FROM tb_scm_warehouse WH 
+ LEFT JOIN tb_userinfo UI 
+        ON WH.wh_mng_id = UI.loginID
+  </select>
+</mapper>
