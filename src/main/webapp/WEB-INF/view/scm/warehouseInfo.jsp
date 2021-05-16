@@ -105,13 +105,16 @@
                 </span>
               </p>
               <div class="WarehouseList">
-                <div class="conTitle" style="margin: 0 25px 10px 0; float: right;">
-                  <select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
-                    <option value="warehouse_nm" selected="selected">창고명</option>
-                    <option value="wh_mng_nm">담당자명</option>
-                  </select> <input type="text" style="width: 160px; height: 30px;" id="sname" name="sname"> <a href="" class="btnType blue" id="searchBtn" name="btn"> <span>검 색</span>
-                  </a>
-                </div>
+                <div class="conTitle" style="margin: 0 25px 10px 0; float: left;">
+                           <select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
+                           <option value="warehouse_nm" selected="selected">창고명</option>
+                           <option value="wh_mng_nm">담당자명</option>
+                        </select>
+                        <input type="text" style="width: 300px; height: 30px;" id="sname" name="sname">
+                            <a href="" class="btnType blue" id="searchBtn" name="btn"> 
+                            <span>검 색</span>
+                            </a> 
+                    </div>
                 <table class="col">
                   <caption>caption</caption>
                   <colgroup>
