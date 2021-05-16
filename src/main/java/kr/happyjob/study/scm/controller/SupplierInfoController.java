@@ -108,7 +108,7 @@ public class SupplierInfoController {
     return resultMap;
   }
   
-//납품 업체 저장
+//공급처 저장
  @RequestMapping("saveSupplier.do")
  @ResponseBody
  public Map<String, Object> saveSupplier (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
@@ -120,15 +120,15 @@ public class SupplierInfoController {
    String resultMsg = "";
    
    if("I".equals(action)){
-     //납품 업체 등록
+     //공급처등록
      supplierInfoService.insertSupplier(paramMap);
      resultMsg = "등록 완료";
    } else if("U".equals(action)){
-     //납품 업체 수정
+     //공급처 수정
      supplierInfoService.updateSupplier(paramMap);
      resultMsg = "수정 완료";
    } else if("D".equals(action)){
-     //납품 업체 삭제
+     //공급처 삭제
      supplierInfoService.deleteSupplier(paramMap);
      resultMsg = "삭제 완료";
    }

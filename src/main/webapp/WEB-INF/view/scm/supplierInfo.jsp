@@ -436,7 +436,7 @@
                         </thead>
                         <tbody id="supplierProList">
                              <tr>
-                                <td colspan="12">납품 업체를 선택해 주세요.</td>
+                                <td colspan="6">공급처를 선택해 주세요.</td>
                              </tr>
                         </tbody>
                         </table>

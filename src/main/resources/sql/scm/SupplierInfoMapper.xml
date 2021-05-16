@@ -55,7 +55,7 @@
      WHERE SP.supply_cd = #{supply_cd}
    </select>
      
-   <!-- 제품 목록 단건 조회 -->
+   <!-- 공급처 단건 조회 -->
    <select id="selectSupplierDetail" resultType="kr.happyjob.study.scm.model.SupplierInfoModel" >
      SELECT  SP.supply_cd as supply_cd
            , SP.supply_nm as supply_nm
