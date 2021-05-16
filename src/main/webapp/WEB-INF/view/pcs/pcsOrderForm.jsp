@@ -88,21 +88,21 @@
   }
 
   /** 시간 변환 함수 
-	  출처 : https://stackoverflow.com/questions/23593052/format-javascript-date-as-yyyy-mm-dd
-	*/
-	function formatDate(date) {
-		var d = new Date(date),
-		month = '' + (d.getMonth() + 1),
-		day = '' + d.getDate(),
-		year = d.getFullYear();
-		
-		if (month.length < 2) 
-		month = '0' + month;
-		if (day.length < 2) 
-		day = '0' + day;
-		
-		return [year, month, day].join('-');
-	}
+    출처 : https://stackoverflow.com/questions/23593052/format-javascript-date-as-yyyy-mm-dd
+  */
+  function formatDate(date) {
+    var d = new Date(date),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
+    
+    if (month.length < 2) 
+    month = '0' + month;
+    if (day.length < 2) 
+    day = '0' + day;
+    
+    return [year, month, day].join('-');
+  }
   
   /** 발주서 화면 띄우기 */ 
   function fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name) {
@@ -194,46 +194,46 @@
 </script>
 </head>
 <body>
-		<form id="myForm" action="" method="">
-				<input type="hidden" id="currentPageComnGrpCod" value="1">
-				<input type="hidden" id="currentPageComnDtlCod" value="1">
-				<input type="hidden" id="tmpGrpCod" value="">
-				<input type="hidden" id="tmpGrpCodNm" value="">
-				<input type="hidden" name="action" id="action" value="">
-				<!-- 모달 배경 -->
-				<div id="mask"></div>
-				<div id="wrap_area">
-						<h2 class="hidden">header 영역</h2>
-						<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
-						<h2 class="hidden">컨텐츠 영역</h2>
-						<div id="container">
-								<ul>
-										<li class="lnb">
-												<!-- lnb 영역 --> <jsp:include page="/WEB-INF/view/common/lnbMenu.jsp"></jsp:include> <!--// lnb 영역 -->
-										</li>
-										<li class="contents">
-												<!-- contents -->
-												<h3 class="hidden">contents 영역</h3> <!-- content -->
-												<div class="content">
-														<p class="Location">
-																<a href="#" class="btn_set home">메인으로</a>
-																<a href="pcs/pcsOrderingoOrder.do" class="btn_nav">구매</a>
-																<span class="btn_nav bold">발주서</span>
-																<a href="#" class="btn_set refresh">새로고침</a>
-														</p>
-														<p class="conTitle">
-																<span>발주서</span>
-														</p>
-														<form class="search-container">
+    <form id="myForm" action="" method="">
+        <input type="hidden" id="currentPageComnGrpCod" value="1">
+        <input type="hidden" id="currentPageComnDtlCod" value="1">
+        <input type="hidden" id="tmpGrpCod" value="">
+        <input type="hidden" id="tmpGrpCodNm" value="">
+        <input type="hidden" name="action" id="action" value="">
+        <!-- 모달 배경 -->
+        <div id="mask"></div>
+        <div id="wrap_area">
+            <h2 class="hidden">header 영역</h2>
+            <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
+            <h2 class="hidden">컨텐츠 영역</h2>
+            <div id="container">
+                <ul>
+                    <li class="lnb">
+                        <!-- lnb 영역 --> <jsp:include page="/WEB-INF/view/common/lnbMenu.jsp"></jsp:include> <!--// lnb 영역 -->
+                    </li>
+                    <li class="contents">
+                        <!-- contents -->
+                        <h3 class="hidden">contents 영역</h3> <!-- content -->
+                        <div class="content">
+                            <p class="Location">
+                                <a href="#" class="btn_set home">메인으로</a>
+                                <a href="pcs/pcsOrderingoOrder.do" class="btn_nav">구매</a>
+                                <span class="btn_nav bold">발주서</span>
+                                <a href="#" class="btn_set refresh">새로고침</a>
+                            </p>
+                            <p class="conTitle">
+                                <span>발주서</span>
+                            </p>
+                            <form class="search-container">
                                 <div class="row">
                                     <!-- searchbar -->
                                     <div class="col-lg-6">
                                         <div class="input-group">
                                             <select style="width:90px;height:34px;">
-								                               <option value="all" selected="selected">전체</option>
-								                               <option value="category">업종</option>
-								                               <option value="product">제품</option>
-								                            </select>
+                                               <option value="all" selected="selected">전체</option>
+                                               <option value="category">업종</option>
+                                               <option value="product">제품</option>
+                                            </select>
                                             <input type="text" class="form-control" aria-label="...">
                                         </div>
                                     </div>
@@ -260,110 +260,110 @@
                                 </div>
                                 <!-- /.row -->
                             </form>
-														<div class="divComGrpCodList">
-																<table class="col">
-																		<caption>caption</caption>
-																		<colgroup>
-																				<col width="5%">
-																				<col width="7%">
-																				<col width="10%">
-																				<col width="10%">
-																				<col width="7%">
-																				<col width="7%">
-																				<col width="10%">
-																				<col width="10%">
-																				<col width="10%">
-																				<col width="7%">
-																				<col width="*">
-																				<col width="6%">
-																		</colgroup>
-																		<thead>
-																				<tr>
-																						<th scope="col">발주번호</th>
-																						<th scope="col">발주코드</th>
-																						<th scope="col">회사명</th>
-																						<th scope="col">제품명</th>
-																						<th scope="col">브랜드명</th>
-																						<th scope="col">발주수량</th>
-																						<th scope="col">창고명</th>
-																						<th scope="col">발주날짜</th>
-																						<th scope="col">배송희망날짜</th>
-																						<th scope="col">상태</th>
-																						<th scope="col">입고완료</th>
-																						<th scope="col">반품</th>
-																				</tr>
-																		</thead>
-																		<tbody id="listPcsOrderForm"></tbody>
-																</table>
-														</div>
-														<div class="paging_area" id="pcsOrderFormPagination"></div>
-												</div> <!--// content -->
-												<h3 class="hidden">풋터 영역</h3> <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
-										</li>
-								</ul>
-						</div>
-				</div>
-				<!-- 모달팝업 -->
-				<div id="layer1" class="layerPop layerType2" style="width: 600px;">
-						<dl>
-								<dt>
-										<strong>발주서</strong>
-								</dt>
-								<dd class="content">
-										<!-- s : 여기에 내용입력 -->
-										<table class="row">
-												<caption>caption</caption>
-												<colgroup>
-														<col width="120px">
-														<col width="*">
-														<col width="120px">
-														<col width="*">
-												</colgroup>
-												<tbody>
-														<tr>
-																<th scope="row">발주번호</th>
-																<td id="purchListNo"></td>
-																<th scope="row">회사명</th>
-																<td id="supplyNm"></td>
-														</tr>
-														<tr>
-																<th scope="row">제품명</th>
+                            <div class="divComGrpCodList">
+                                <table class="col">
+                                    <caption>caption</caption>
+                                    <colgroup>
+                                        <col width="5%">
+                                        <col width="7%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="7%">
+                                        <col width="7%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="10%">
+                                        <col width="7%">
+                                        <col width="*">
+                                        <col width="6%">
+                                    </colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">발주번호</th>
+                                            <th scope="col">발주코드</th>
+                                            <th scope="col">회사명</th>
+                                            <th scope="col">제품명</th>
+                                            <th scope="col">브랜드명</th>
+                                            <th scope="col">발주수량</th>
+                                            <th scope="col">창고명</th>
+                                            <th scope="col">발주날짜</th>
+                                            <th scope="col">배송희망날짜</th>
+                                            <th scope="col">상태</th>
+                                            <th scope="col">입고완료</th>
+                                            <th scope="col">반품</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="listPcsOrderForm"></tbody>
+                                </table>
+                            </div>
+                            <div class="paging_area" id="pcsOrderFormPagination"></div>
+                        </div> <!--// content -->
+                        <h3 class="hidden">풋터 영역</h3> <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 모달팝업 -->
+        <div id="layer1" class="layerPop layerType2" style="width: 600px;">
+            <dl>
+                <dt>
+                    <strong>발주서</strong>
+                </dt>
+                <dd class="content">
+                    <!-- s : 여기에 내용입력 -->
+                    <table class="row">
+                        <caption>caption</caption>
+                        <colgroup>
+                            <col width="120px">
+                            <col width="*">
+                            <col width="120px">
+                            <col width="*">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th scope="row">발주번호</th>
+                                <td id="purchListNo"></td>
+                                <th scope="row">회사명</th>
+                                <td id="supplyNm"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">제품명</th>
                                 <td id="prodNm" colspan="3"></td>
-														</tr>
-														<tr>
+                            </tr>
+                            <tr>
                                 <th scope="row">브랜드명</th>
                                 <td id="mCtCd" colspan="3"></td>
-														</tr>
-														<tr>
-																<th scope="row">창고명</th>
+                            </tr>
+                            <tr>
+                                <th scope="row">창고명</th>
                                 <td id="warehouseNm"></td>
                                 <th scope="row">제품수량</th>
                                 <td id="purchQty"></td>
-														</tr>
-														<tr>
-																<th scope="row">담당자</th>
+                            </tr>
+                            <tr>
+                                <th scope="row">담당자</th>
                                 <td id="purchMngId"></td>
                                 <th scope="row">금액</th>
                                 <td id="purchasePrice"></td>
-														</tr>
-														<tr>
-																<th scope="row">발주날짜</th>
+                            </tr>
+                            <tr>
+                                <th scope="row">발주날짜</th>
                                 <td id="directionDate"></td>
                                 <th scope="row">배송희망날짜</th>
                                 <td id="desiredDeliveryDate"></td>
-														</tr>
-												</tbody>
-										</table>
-										<!-- e : 여기에 내용입력 -->
-										<div class="btn_areaC mt30">
-												<a href="" class="btnType gray" id="btnClosePcsOrderForm" name="btn"><span>닫기</span></a>
-										</div>
-								</dd>
-						</dl>
-						<a href="" class="closePop"><span class="hidden">닫기</span></a>
-				</div>
-				<!--// 모달팝업 -->
-		</form>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- e : 여기에 내용입력 -->
+                    <div class="btn_areaC mt30">
+                        <a href="" class="btnType gray" id="btnClosePcsOrderForm" name="btn"><span>닫기</span></a>
+                    </div>
+                </dd>
+            </dl>
+            <a href="" class="closePop"><span class="hidden">닫기</span></a>
+        </div>
+        <!--// 모달팝업 -->
+    </form>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#datetimepicker1').datetimepicker({ format: 'L'});
