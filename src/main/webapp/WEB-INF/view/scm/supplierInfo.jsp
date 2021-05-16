@@ -353,7 +353,7 @@
                             </p>
                             
                             <p class="conTitle">
-                                 <span>공급처 관리</span>
+                                 <span>공급처 정보</span>
                                  <span class="fr"> 
                                  <a href="javascript:fPopModalSupplier()" class="btnType blue" name="modal"  style="float: right;">
                                       <span>신규등록</span>
