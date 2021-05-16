@@ -11,4 +11,10 @@ public interface WarehouseInfoService {
   
   /* 창고 목록 카운트 조회 */
   public int totalCntWarehouse(Map<String, Object> paramMap) throws Exception;
+  
+  /* 제품 목록 조회 */
+  public List<WarehouseInfoModel> listWarehouseProduct(Map<String, Object> paramMap) throws Exception;
+  
+  /* 제품 목록 카운트 조회 */
+  public int totalCntProduct(Map<String, Object> paramMap) throws Exception;
 }

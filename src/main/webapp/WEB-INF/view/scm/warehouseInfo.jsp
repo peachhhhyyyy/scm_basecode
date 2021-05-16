@@ -10,7 +10,11 @@
   /*창고 페이징 처리*/
   var pageSizeWarehouse = 5;
   var pageBlockSizeWarehouse = 5;
-
+  
+  /*제품정보 페이징 처리*/
+  var pageSizeProduct = 5;
+  var pageBlockSizeProduct = 5;
+  
   /*OnLoad event*/
   $(function() {
     //창고 목록 조회
@@ -77,11 +81,60 @@
     console.log("totalWarehouse: " + totalWarehouse);
     $("#currentPageWarehouse").val(currentPage);
   }
+  
+  /*제품 목록 조회*/
+  function fListProduct(currentPage, warehouse_nm, warehouse_cd) {
+    //창고코드 매개변수 설정
+    currentPage = currentPage || 1;
+    
+    $("#tmpwarehouse_nm").val(warehouse_nm);
+    $("#tmpwarehouse_cd").val(warehouse_cd);
+    
+    var param = {
+        warehouse_nm : warehouse_nm
+      , warehouse_cd : warehouse_cd
+      , currentPage : currentPage
+      , pageSize : pageSizeProduct
+    }
+    
+    console.log("warehouse_cd : " + warehouse_cd);
+    var resultCallback = function(data) {
+      flistProductResult(data, currentPage);
+    };
+    callAjax("/scm/listWarehouseProduct.do", "post", "text", true, param,
+        resultCallback);
+  }
+  
+  /*제품목록 조회 콜백 함수*/
+  function flistProductResult(data, currentPage) {
+    //기존 목록 삭제
+    $("#listWarehouseProduct").empty();
+    // 신규 목록 생성
+    $("#listWarehouseProduct").append(data);
+    // 총 개수 추출
+    var totalProduct = $("#totalProduct").val();
+    //페이지 네비게이션 생성
+    var warehouse_nm = $("#tmpwarehouse_nm").val();
+    var warehouse_cd = $("#tmpwarehouse_cd").val();
+    var paginationHtml = getPaginationHtml(currentPage, totalProduct,
+        pageSizeProduct, pageBlockSizeProduct, 'fListProduct', [
+        warehouse_nm, warehouse_cd ]);
+    console.log("paginationHtml : " + paginationHtml);
+    $("#productPagination").empty().append(paginationHtml);
+    console.log("totalProduct: " + totalProduct);
+    // 현재 페이지 설정
+    $("#currentPageProduct").val(currentPage);
+  }
+  
 </script>
 </head>
 <body>
   <form id="myForm" action="" method="">
-    <input type="hidden" id="currentPageWarehouse" value="1"> <input type="hidden" id="currentPageProduct" value="1"> <input type="hidden" id="tmpwarehouse_nm" value=""> <input type="hidden" id="tmpwarehouse_cd" value=""> <input type="hidden" name="action" id="action" value="">
+    <input type="hidden" id="currentPageWarehouse" value="1"> 
+    <input type="hidden" id="currentPageProduct" value="1"> 
+    <input type="hidden" id="tmpwarehouse_nm" value=""> 
+    <input type="hidden" id="tmpwarehouse_cd" value=""> 
+    <input type="hidden" name="action" id="action" value="">
     <div id="mask"></div>
     <div id="wrap_area">
       <h2 class="hidden">header 영역</h2>
@@ -97,10 +150,10 @@
             <h3 class="hidden">contents 영역</h3> <!-- content -->
             <div class="content">
               <p class="Location">
-                <a href="/system/notice.do" class="btn_set home">메인으로</a> <a class="btn_nav">기준 정보</a> <span class="btn_nav bold">창고 정보</span> <a href="" class="btn_set refresh">새로고침</a>
+                <a href="/system/notice.do" class="btn_set home">메인으로</a> <a class="btn_nav">기준 정보</a> <span class="btn_nav bold">창고정보 관리</span> <a href="" class="btn_set refresh">새로고침</a>
               </p>
               <p class="conTitle">
-                <span>창고 정보</span> <span class="fr"> <a href="javascript:fPopModalWarehouse()" class="btnType blue" name="modal"> <span>신규등록</span>
+                <span>창고정보</span> <span class="fr"> <a href="javascript:fPopModalWarehouse()" class="btnType blue" name="modal"> <span>신규등록</span>
                 </a>
                 </span>
               </p>
@@ -143,6 +196,39 @@
                 </table>
               </div>
               <div class="paging_area" id="warehousePagination"></div>
+              <p class="conTitle mt50">
+                <span>제품정보</span>
+              </p>
+              
+              <div class="ProductList">
+                <table class="col">
+                  <caption>caption</caption>
+                  <colgroup>
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="20%">
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th scope="col">제품코드</th>
+                      <th scope="col">제품명</th>
+                      <th scope="col">모델명</th>
+                      <th scope="col">공급처명</th>
+                      <th scope="col">재고수량</th>
+                    </tr>
+                  </thead>
+                  <tbody id="listWarehouseProduct">
+                    <tr>
+                      <td colspan="5">창고를 선택해 주세요.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="paging_area" id="productPagination"></div>
+              
             </div> <!--// content -->
             <h3 class="hidden">풋터 영역</h3> <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
           </li>

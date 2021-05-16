@@ -31,4 +31,18 @@ public class WarehouseInfoServiceImpl implements WarehouseInfoService {
     int totalCntWarehouse = warehouseInfoDao.totalCntWarehouse(paramMap);
     return totalCntWarehouse;
   }
+  
+  // 제품 목록 조회
+  @Override
+  public List<WarehouseInfoModel> listWarehouseProduct(Map<String, Object> paramMap) throws Exception {
+    List<WarehouseInfoModel> listWarehouseProduct = warehouseInfoDao.listWarehouseProduct(paramMap);
+    return listWarehouseProduct;
+  }
+  
+ // 제품 카운트
+  @Override
+  public int totalCntProduct(Map<String, Object> paramMap) throws Exception {
+    int totalCntProduct = warehouseInfoDao.totalCntProduct(paramMap);
+    return totalCntProduct;
+  }
 }

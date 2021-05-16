@@ -10,4 +10,9 @@ public interface WarehouseInfoDao {
   public List<WarehouseInfoModel> listWarehouse(Map<String, Object> paramMap) throws Exception;
   //창고 카운트
   public int totalCntWarehouse(Map<String, Object> paramMap) throws Exception;
+  
+  //제품 목록 조회
+  public List<WarehouseInfoModel> listWarehouseProduct(Map<String, Object> paramMap) throws Exception;
+  //제품 카운트
+  public int totalCntProduct(Map<String, Object> paramMap) throws Exception;
 }

@@ -17,9 +17,36 @@
   </select>
   <!-- 창고 카운트 -->
   <select id="totalCntWarehouse" resultType="int"> 
-    SELECT DISTINCT COUNT(*) 
+    SELECT DISTINCT COUNT(*) as total_cnt
       FROM tb_scm_warehouse WH 
  LEFT JOIN tb_userinfo UI 
         ON WH.wh_mng_id = UI.loginID
+  </select>
+  
+  <!-- 제품 조회 -->
+  <select id="listWarehouseProduct" resultType="kr.happyjob.study.scm.model.WarehouseInfoModel">
+  SELECT DISTINCT PD.product_cd as product_cd, 
+                  PD.prod_nm as prod_nm , 
+                  LC.l_ct_nm as l_ct_nm , 
+                  SP.supply_nm as supply_nm , 
+                  PD.stock as stock 
+    FROM tb_scm_product PD
+    LEFT JOIN tb_scm_warehouse WH ON PD.warehouse_cd = WH.warehouse_cd
+    LEFT JOIN tb_scm_supply SP ON SP.supply_cd = PD.supply_cd 
+    LEFT JOIN tb_scm_m_category MC ON MC.m_ct_cd = PD.m_ct_cd 
+    LEFT JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
+   WHERE WH.warehouse_nm = #{warehouse_nm}
+     AND WH.warehouse_cd = #{warehouse_cd}
+   LIMIT #{pageIndex}, #{pageSize}
+  </select>
+  <!-- 제품 카운트 -->
+  <select id="totalCntProduct" resultType="int">
+  SELECT DISTINCT COUNT(*) as total_cnt
+    FROM tb_scm_product PD
+    LEFT JOIN tb_scm_warehouse WH ON PD.warehouse_cd = WH.warehouse_cd
+    LEFT JOIN tb_scm_supply SP ON SP.supply_cd = PD.supply_cd 
+    LEFT JOIN tb_scm_m_category MC ON MC.m_ct_cd = PD.m_ct_cd 
+    LEFT JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
+   WHERE PD.warehouse_cd = #{warehouse_cd} 
   </select>
 </mapper>

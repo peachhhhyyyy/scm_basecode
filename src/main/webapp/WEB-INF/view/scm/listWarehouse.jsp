@@ -10,7 +10,7 @@
   <c:forEach items="${listWarehouseModel}" var="list">
     <tr>
       <td>${list.warehouse_cd }</td>
-      <td><a href="javascript:fListProduct(1,  '${list.warehouse_nm}', '${list.warehouse_cd}')">${list.warehouse_nm}</a></td>
+      <td><a href="javascript:fListProduct(1, '${list.warehouse_nm}','${list.warehouse_cd}')">${list.warehouse_nm}</a></td>
       <td>${list.wh_mng_nm}</td>
       <td>${list.tel}</td>
       <td>${list.email}</td>

@@ -20,6 +20,24 @@ public class WarehouseInfoModel {
   // 로그인 아이디
   private String loginID;
   
+  //제품 코드
+  private String product_cd;
+  // 제품명
+  private String prod_nm;
+  // 모델명
+  private String l_ct_nm;
+  // 재고현황(개)
+  private int stock;
+  // 중분류 코드(for JOIN)
+  private String m_ct_cd;
+  // 대분류 코드(for JOIN)
+  private String l_ct_cd;
+  //공급처 코드
+  private String supply_cd;
+  // 공급처명
+  private String supply_nm;
+  
+  
   public String getLoginID() {
     return loginID;
   }
@@ -73,5 +91,56 @@ public class WarehouseInfoModel {
   }
   public void setAddr(String addr) {
     this.addr = addr;
+  }
+  
+  
+
+  public String getProduct_cd() {
+    return product_cd;
+  }
+  public void setProduct_cd(String product_cd) {
+    this.product_cd = product_cd;
+  }
+  public String getProd_nm() {
+    return prod_nm;
+  }
+  public void setProd_nm(String prod_nm) {
+    this.prod_nm = prod_nm;
+  }
+  public String getL_ct_nm() {
+    return l_ct_nm;
+  }
+  public void setL_ct_nm(String l_ct_nm) {
+    this.l_ct_nm = l_ct_nm;
+  }
+  public int getStock() {
+    return stock;
+  }
+  public void setStock(int stock) {
+    this.stock = stock;
+  }
+  public String getM_ct_cd() {
+    return m_ct_cd;
+  }
+  public void setM_ct_cd(String m_ct_cd) {
+    this.m_ct_cd = m_ct_cd;
+  }
+  public String getL_ct_cd() {
+    return l_ct_cd;
+  }
+  public void setL_ct_cd(String l_ct_cd) {
+    this.l_ct_cd = l_ct_cd;
+  }
+  public String getSupply_cd() {
+    return supply_cd;
+  }
+  public void setSupply_cd(String supply_cd) {
+    this.supply_cd = supply_cd;
+  }
+  public String getSupply_nm() {
+    return supply_nm;
+  }
+  public void setSupply_nm(String supply_nm) {
+    this.supply_nm = supply_nm;
   }
 }

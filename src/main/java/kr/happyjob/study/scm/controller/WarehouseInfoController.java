@@ -68,4 +68,38 @@ public class WarehouseInfoController {
     
     return "scm/listWarehouse";
   }
+  
+  //제품 조회
+  @RequestMapping("listWarehouseProduct.do")
+  public String listWarehouseProduct(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+      HttpServletResponse response, HttpSession session) throws Exception{
+    
+    logger.info("+ Start " + className + ".listWarehouseProduct");
+    logger.info("   - paramMap : " + paramMap);
+    
+    
+    int currentPage = Integer.parseInt((String)paramMap.get("currentPage"));  // 현재 페이지 번호
+    int pageSize = Integer.parseInt((String)paramMap.get("pageSize"));      // 페이지 사이즈
+    int pageIndex = (currentPage-1)*pageSize;                 // 페이지 시작 row 번호
+    
+    paramMap.put("pageIndex", pageIndex);
+    paramMap.put("pageSize", pageSize);
+    
+    // 제품 목록 조회
+    List<WarehouseInfoModel> listWarehouseProductModel = warehouseInfoService.listWarehouseProduct(paramMap);
+    model.addAttribute("listWarehouseProductModel", listWarehouseProductModel);
+    
+    // 제품 목록 카운트 조회
+    int totalCount = warehouseInfoService.totalCntProduct(paramMap);
+    model.addAttribute("totalProduct", totalCount);
+    
+    model.addAttribute("pageSize", pageSize);
+    model.addAttribute("currentPageProduct",currentPage);
+    
+    logger.info("+ End " + className + ".listWarehouseProduct");
+    
+    
+    return "scm/listWarehouseProduct";
+  }
+  
 }
