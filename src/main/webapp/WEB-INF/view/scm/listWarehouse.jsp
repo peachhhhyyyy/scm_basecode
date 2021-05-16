@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:if test="${totalWarehouse eq 0 }">
   <tr>
-    <td colspan="9">데이터가 존재하지 않습니다.</td>
+    <td colspan="8">데이터가 존재하지 않습니다.</td>
   </tr>
 </c:if>
 <c:if test="${totalWarehouse > 0}">
