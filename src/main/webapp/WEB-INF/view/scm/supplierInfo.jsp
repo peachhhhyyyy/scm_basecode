@@ -366,7 +366,7 @@
                             
                     <div class="SupplierList">
                     <div class="conTitle" style="margin: 0 25px 10px 0; float: left;">
-                        </a><select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
+                           <select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
                            <option value="supply_cd" selected="selected">공급처명</option>
                            <option value="supply_mng_nm">담당자명</option>
                         </select>
