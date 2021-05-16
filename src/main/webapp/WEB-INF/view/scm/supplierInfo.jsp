@@ -256,16 +256,18 @@
   
   
   /*제품 목록 조회*/
-  function selectSupplierProList(currentPage, supply_cd) {
+  function selectSupplierProList(currentPage, supply_nm, supply_cd) {
     //공급처명 매개변수 설정
     currentPage = currentPage || 1;
+    $("#tmpsupply_nm").val(supply_nm);
     $("#tmpsupply_cd").val(supply_cd);
     var param = {
-        supply_cd : supply_cd //공급처 코드 변수설정
+        supply_nm : supply_nm
+      , supply_cd : supply_cd //공급처 코드 변수설정
       , currentPage : currentPage
       , pageSize : pageSizeProduct
     }
-    
+
     console.log("supply_cd : " + supply_cd);
     var resultCallback = function(data) {
       supplierProListResult(data, currentPage);
@@ -283,9 +285,11 @@
     // 총 개수 추출
     var totalProduct = $("#totalCountPro").val();
     //페이지 네비게이션 생성
+    var supply_nm = $("#supply_nm").val();
     var supply_cd = $("#supply_cd").val();
     
-    var paginationHtml = getPaginationHtml(currentPage, totalProduct, pageSizeProduct, pageBlockSizeProduct, 'selectSupplierProList');
+    var paginationHtml = getPaginationHtml(currentPage, totalProduct, 
+        pageSizeProduct, pageBlockSizeProduct, 'selectSupplierProList',[supply_nm, supply_cd]);
     $("#productPagination").empty().append(paginationHtml);
     // 현재 페이지 설정
     $("#currentPage").val(currentPage);
@@ -324,7 +328,8 @@
 <body>
 <form id="myForm" action="" method="">
     <input type="hidden" id="currentPage" value="1">
-    <input type="hidden" id="currentPage" value="1">   
+    <input type="hidden" id="currentPage" value="1"> 
+    <input type="hidden" id="tmpsupply_nm" value="">  
     <input type="hidden" id="tmpsupply_cd" value="">
     <input type="hidden" name="action" id="action" value="">
     <div id="mask"></div>
