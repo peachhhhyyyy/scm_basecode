@@ -14,8 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import kr.happyjob.study.ecv.service.EcvDirectionService;
-
 @Controller
 @RequestMapping("/ecv")
 public class EcvDirectionController {
@@ -41,7 +39,6 @@ public class EcvDirectionController {
 
 		logger.info("+ end " + className + ".init");
 		
-//		model.addAttribute(attributeValue);
 
 		return "ecv/directionList.jsp";
 	}
