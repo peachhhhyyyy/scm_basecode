@@ -33,6 +33,9 @@ public interface LoginDao {
 
 	/** 사용자 회원가입*/
 	public int registerUser(Map<String, Object> paramMap);
+
+	/** 고객 정보 별도 주입 */
+	public int registerCtminfo(Map<String, Object> paramMap);
 	
 	/** 사용자스킬*/
 	public int registerUser_skill(Map<String, Object> paramMap);
@@ -41,7 +44,8 @@ public interface LoginDao {
 	public int check_loginID(LgnInfoModel model);
 	
 	/**이메일 중복체크*/
-	public int check_email(LgnInfoModel model);
+	/*
+	public int check_email(LgnInfoModel model);*/
 	
 	/**이력서 파일 업로드 */
 	public static void insertResume(Map<String, Object> paramMap) {

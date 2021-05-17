@@ -2,77 +2,23 @@ package kr.happyjob.study.login.model;
 
 public class UserInfo {
 	
-/*		loginID
-	,	user_type
-	,	name
-	,	password
-	,	email_cop
-	,	birthday
-	,	gender_cd
-	,	user_tel1
-	,	user_tel2
-	,	user_tel3
-	,	user_zipcode
-	,	user_address
-	,	user_dt_address
-,	consult_yn
-	,	del_cd
-	,	div_cd
-	,	user_email
-	,	user_company
-	,	approval_cd*/
 	private String loginID;
 	private String user_type;
 	private String name;
 	private String password;
-	private String email_cop;
+	private String mail;
 	private String birthday;
-	private String gender_cd;
-	private String tel1;
-	private String tel2;
-	private String tel3;
-	private String user_zipcode;
-	private String user_address;
-	private String user_dt_address;
+	private String sex;
+	private String tel;
+	private String zip_code;
+	private String addr;
+	private String addr_detail;
  	private String consult_yn;
 	private String del_cd;
 	private String div_cd;
-	private String user_email;
-	private String user_company;
-	private String approval_cd;
-	private	String salary;
-	private	String career_yn;
-	private	String career_mm;
-	private	String user_grade;
-	private	String user_hope_area1;
-	private	String user_hope_area2;
-	private	String user_hope_area3;
+	private String approval_cd;	
+	private String company_cd;
 	
-	
-	public String getUser_grade() {
-		return user_grade;
-	}
-	public void setUser_grade(String user_grade) {
-		this.user_grade = user_grade;
-	}
-	public String getUser_hope_area1() {
-		return user_hope_area1;
-	}
-	public void setUser_hope_area1(String user_hope_area1) {
-		this.user_hope_area1 = user_hope_area1;
-	}
-	public String getUser_hope_area2() {
-		return user_hope_area2;
-	}
-	public void setUser_hope_area2(String user_hope_area2) {
-		this.user_hope_area2 = user_hope_area2;
-	}
-	public String getUser_hope_area3() {
-		return user_hope_area3;
-	}
-	public void setUser_hope_area3(String user_hope_area3) {
-		this.user_hope_area3 = user_hope_area3;
-	}
 	public String getLoginID() {
 		return loginID;
 	}
@@ -97,11 +43,11 @@ public class UserInfo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getEmail_cop() {
-		return email_cop;
+	public String getMail() {
+		return mail;
 	}
-	public void setEmail_cop(String email_cop) {
-		this.email_cop = email_cop;
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 	public String getBirthday() {
 		return birthday;
@@ -109,47 +55,35 @@ public class UserInfo {
 	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
-	public String getGender_cd() {
-		return gender_cd;
+	public String getSex() {
+		return sex;
 	}
-	public void setGender_cd(String gender_cd) {
-		this.gender_cd = gender_cd;
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
-	public String getTel1() {
-		return tel1;
+	public String getTel() {
+		return tel;
 	}
-	public void setTel1(String tel1) {
-		this.tel1 = tel1;
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
-	public String getTel2() {
-		return tel2;
+	public String getZip_code() {
+		return zip_code;
 	}
-	public void setTel2(String tel2) {
-		this.tel2 = tel2;
+	public void setZip_code(String zip_code) {
+		this.zip_code = zip_code;
 	}
-	public String getTel3() {
-		return tel3;
+	public String getAddr() {
+		return addr;
 	}
-	public void setTel3(String tel3) {
-		this.tel3 = tel3;
+	public void setAddr(String addr) {
+		this.addr = addr;
 	}
-	public String getUser_zipcode() {
-		return user_zipcode;
+	public String getAddr_detail() {
+		return addr_detail;
 	}
-	public void setUser_zipcode(String user_zipcode) {
-		this.user_zipcode = user_zipcode;
-	}
-	public String getUser_address() {
-		return user_address;
-	}
-	public void setUser_address(String user_address) {
-		this.user_address = user_address;
-	}
-	public String getUser_dt_address() {
-		return user_dt_address;
-	}
-	public void setUser_dt_address(String user_dt_address) {
-		this.user_dt_address = user_dt_address;
+	public void setAddr_detail(String addr_detail) {
+		this.addr_detail = addr_detail;
 	}
 	public String getConsult_yn() {
 		return consult_yn;
@@ -169,43 +103,18 @@ public class UserInfo {
 	public void setDiv_cd(String div_cd) {
 		this.div_cd = div_cd;
 	}
-	public String getUser_email() {
-		return user_email;
-	}
-	public void setUser_email(String user_email) {
-		this.user_email = user_email;
-	}
-	public String getUser_company() {
-		return user_company;
-	}
-	public void setUser_company(String user_company) {
-		this.user_company = user_company;
-	}
 	public String getApproval_cd() {
 		return approval_cd;
 	}
 	public void setApproval_cd(String approval_cd) {
 		this.approval_cd = approval_cd;
 	}
-	public String getSalary() {
-		return salary;
+	public String getCompany_cd(){
+		return company_cd;
 	}
-	public void setSalary(String salary) {
-		this.salary = salary;
+	public void setCompany_cd(String company_cd){
+		this.company_cd = company_cd;
 	}
-	public String getCareer_yn() {
-		return career_yn;
-	}
-	public void setCareer_yn(String career_yn) {
-		this.career_yn = career_yn;
-	}
-	public String getCareer_mm() {
-		return career_mm;
-	}
-	public void setCareer_mm(String career_mm) {
-		this.career_mm = career_mm;
-	}
-	
 	
 	
 }

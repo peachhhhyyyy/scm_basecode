@@ -25,12 +25,15 @@ public interface LoginService {
 
 	/** 사용자 회원가입 */
 	public int registerUser(Map<String, Object> paramMap) throws Exception;
+	
+	/** 고객 정보 별도 주입 */
+	public int registerCtminfo(Map<String, Object> paramMap) throws Exception;
 
 	/* loginID 중복체크 */
 	public int check_loginID(LgnInfoModel model) throws Exception;
 
 	/* 이메일 중복체크 */
-	public int check_email(LgnInfoModel model) throws Exception;
+	/*public int check_email(LgnInfoModel model) throws Exception;*/
 
 	/** 사용자 ID 찾기 */
 	public LgnInfoModel selectFindId(Map<String, Object> paramMap) throws Exception;

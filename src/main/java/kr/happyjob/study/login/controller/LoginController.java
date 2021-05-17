@@ -205,6 +205,7 @@ public class LoginController {
 		if ("I".equals(action)) {
 
 			loginService.registerUser(paramMap);
+			loginService.registerCtminfo(paramMap);
 			resultMsg = "가입 요청 완료";
 		} else {
 
@@ -218,69 +219,11 @@ public class LoginController {
 
 		// paramMap
 
-		// 전문기술
-		List<ComnCodUtilModel> lg = ComnCodUtil.getComnCod("LanguageCD");
+		List<ComnCodUtilModel> bank = ComnCodUtil.getComnCod("BKcd");
 
-		for (ComnCodUtilModel lgitem : lg) {
-			String groupitem = lgitem.getGrp_cod();
-			String dtlitem = lgitem.getDtl_cod();
-
-			try {
-				String paramitem = (String) paramMap.get(dtlitem);
-
-				paramMap.put("skillgrpcd", groupitem);
-				paramMap.put("skilldtlcd", dtlitem);
-
-				// insert
-
-			} catch (Exception e) {
-
-			}
-		}
-
-		List<ComnCodUtilModel> web = ComnCodUtil.getComnCod("webCD");
-
-		for (ComnCodUtilModel webitem : web) {
-			String groupitem = webitem.getGrp_cod();
-			String dtlitem = webitem.getDtl_cod();
-
-			try {
-				String paramitem = (String) paramMap.get(dtlitem);
-
-				paramMap.put("skillgrpcd", groupitem);
-				paramMap.put("skilldtlcd", dtlitem);
-
-				// insert
-
-			} catch (Exception e) {
-
-			}
-		}
-
-		List<ComnCodUtilModel> db = ComnCodUtil.getComnCod("DBCD");
-
-		for (ComnCodUtilModel dbitem : db) {
-			String groupitem = dbitem.getGrp_cod();
-			String dtlitem = dbitem.getDtl_cod();
-
-			try {
-				String paramitem = (String) paramMap.get(dtlitem);
-
-				paramMap.put("skillgrpcd", groupitem);
-				paramMap.put("skilldtlcd", dtlitem);
-
-				// insert
-
-			} catch (Exception e) {
-
-			}
-		}
-
-		List<ComnCodUtilModel> ws = ComnCodUtil.getComnCod("WSCD");
-
-		for (ComnCodUtilModel wsitem : ws) {
-			String groupitem = wsitem.getGrp_cod();
-			String dtlitem = wsitem.getDtl_cod();
+		for (ComnCodUtilModel bankitem : bank) {
+			String groupitem = bankitem.getGrp_cod();
+			String dtlitem = bankitem.getDtl_cod();
 
 			try {
 				String paramitem = (String) paramMap.get(dtlitem);
@@ -315,16 +258,6 @@ public class LoginController {
 		return result;
 	}
 
-	/* 이메일 중복체크 */
-	@RequestMapping(value = "check_email", method = RequestMethod.POST)
-	@ResponseBody
-	public int check_email(LgnInfoModel model) throws Exception {
-		logger.info("+ Start " + className + ".loginID_check");
-		int result = loginService.check_email(model);
-		logger.info("+ End " + className + ".loginID_check");
-		return result;
-	}
-
 	/**
 	 * 사용자 id 찾기
 	 */
@@ -336,23 +269,10 @@ public class LoginController {
 		logger.info("+ Start " + className + ".selectFindInfoId");
 
 		logger.info("   - paramMap : " + paramMap);
-		// if(!paramMap.get("cpn_ctr").toString().equals("") &&
-		// !paramMap.get("cpn_ctr").toString().equals("000")){
-		// paramMap.put("type", "P");
-		// }else if(!paramMap.get("eml").toString().equals("")){
-		// paramMap.put("type", "E");
-		// }
+		
 		String result;
 		String resultMsg;
 		LgnInfoModel resultModel = loginService.selectFindId(paramMap);
-
-		/*
-		 * if(paramMap.get("lgn_id") == null){ // 사용자 id 조회
-		 * System.out.println(loginService.selectFindId(paramMap));
-		 * System.out.println("id조회!!!!!!!"); }else{ // 사용자 pw 조회
-		 * System.out.println(loginService.selectFindPw(paramMap));
-		 * System.out.println("pw조회!!!!!!!"); }
-		 */
 
 		if (resultModel != null) {
 			result = "SUCCESS";
@@ -495,59 +415,15 @@ public class LoginController {
 		logger.info("+ Start LoginController.checklist.do");
 		logger.info("   - ParamMap : " + paramMap);
 
-		// 전문기술 공통코드
-		List<ComnCodUtilModel> listlistCod = ComnCodUtil.getComnCod("LanguageCD");
-		List<ComnCodUtilModel> weblistCod = ComnCodUtil.getComnCod("webCD");
-		List<ComnCodUtilModel> dblistCod = ComnCodUtil.getComnCod("DBCD");
-		List<ComnCodUtilModel> wslistCod = ComnCodUtil.getComnCod("WSCD");
-		List<ComnCodUtilModel> sklcdlistCod = ComnCodUtil.getComnCod("SKLCD"); // 등급
-		List<ComnCodUtilModel> areacdlistCod = ComnCodUtil.getComnCod("areaCD"); // 희망근무지역
+		
+		List<ComnCodUtilModel> bankcdlistCod = ComnCodUtil.getComnCod("BKcd");
 
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("listlistCod", listlistCod);
-		resultMap.put("weblistCod", weblistCod);
-		resultMap.put("dblistCod", dblistCod);
-		resultMap.put("wslistCod", wslistCod);
-		resultMap.put("sklcdlistCod", sklcdlistCod);
-		resultMap.put("areacdlistCod", areacdlistCod);
+		resultMap.put("bankcdlistCod", bankcdlistCod);
 
 		logger.info("+ End LoginController.checklist.do");
-		logger.info("확인 weblistCod:" + weblistCod);
-		logger.info("확인 sklcdlistCod:" + sklcdlistCod);
+		logger.info("확인 banklistCod:" + bankcdlistCod);
 		return resultMap;
 	}
-
-	/*
-	 * @RequestMapping("saveFileTest.do")
-	 * 
-	 * @ResponseBody public Map<String, Object> saveFileTest(Model
-	 * model, @RequestParam Map<String, Object> paramMap, HttpServletRequest
-	 * request, HttpServletResponse response, HttpSession session) throws
-	 * Exception {
-	 * 
-	 * logger.info("+ Start saveFileTest"); logger.info("   - paramMap : " +
-	 * paramMap);
-	 * 
-	 * String action = (String)paramMap.get("action"); String result =
-	 * "SUCCESS"; String resultMsg = "저장 되었습니다.";
-	 * 
-	 * 
-	 * 
-	 * if ("I".equals(action)) { //CmntBbsService.insertCmntBbs(paramMap,
-	 * request); // 게시글 신규 저장 logger.info("  action  :  " + action);
-	 * LoginService.insertFile(paramMap,request); } else if("U".equals(action))
-	 * { //CmntBbsService.updateCmntBbs(paramMap, request); // 게시글 수정 저장
-	 * logger.info("  action  :  " + action);
-	 * LoginService.updateFile(paramMap,request); } else { logger.info(
-	 * "  action  :  " + action); result = "FALSE"; resultMsg = "알수 없는 요청 입니다.";
-	 * }
-	 * 
-	 * Map<String, Object> resultMap = new HashMap<String, Object>();
-	 * resultMap.put("result", result); resultMap.put("resultMsg", resultMsg);
-	 * 
-	 * logger.info("+ End saveFileTest");
-	 * 
-	 * return resultMap; }
-	 */
 
 }

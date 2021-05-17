@@ -39,8 +39,6 @@
                   ,   ta.odr
                   ,   ta.lvl
                   ,   ta.mnu_ico_cod
-<!--                   ,   ta.use_poa
-                  ,   ta.dlt_poa -->
                FROM  tm_mnu_mst ta
                WHERE EXISTS (
                              SELECT  1
@@ -85,81 +83,51 @@
      						,	user_type
      						,	name
      						,	password
-     						,	email_cop
-     						,	birthday
-     						,	gender_cd
-     						,	user_tel1
-     						,	user_tel2
-     						,	user_tel3
-     						,	user_zipcode
-     						,	user_address
-     						,	user_dt_address
-							,	consult_yn
+     						,	tel
+     						,	sex
+     						,	mail
+     						,	zip_code
+     						,	addr
+     						,	addr_detail
+     						,	account
+     						,	bank
      						,	del_cd
-     						,	div_cd
-     						,	user_email
-     						,	user_company
-     						,	approval_cd
-     						,	salary
-     						,	career_yn
-     						,	career_mm
-     						,	singular_facts
-     						,	user_describe
-     						,	user_grade
-     						,	user_hope_area1
-     						,	user_hope_area2
-     						,	user_hope_area3
-     						,	user_contents
-     						,	user_hope_work
      						) VALUES (
      								#{loginID}
 								,	#{user_type}
 								,	#{name}  
 								,	#{password}  
-								,	#{email_cop}
-								,	#{birthday}    
-								,	#{gender_cd}  
-								,	#{user_tel1}  
-								,	#{user_tel2}  
-								,	#{user_tel3}  
-								,	#{user_zipcode}  
-								,	#{user_address}  
-								,	#{user_dt_address}
-								,	#{consult_yn}					
-								,	#{del_cd}
-								,	#{div_cd}    	
-								,	#{user_email}  
-								,	#{user_company}		
-								,	#{approval_cd}			
-     							,	#{salary}								
-								,	#{career_yn}								
-								,	#{career_mm}
-	     						,	#{singular_facts}
-								,	#{user_describe}
-	     						,	#{grade}
-	     						,	#{area1}
-	     						,	#{area2}
-	     						,	#{area3}
-	     						,	#{user_contents}
-	     						,	#{user_hope_work}
+								,	#{tel}
+								,	#{sex}
+								,	#{mail} 
+								,	#{zip_code}  
+								,	#{addr}  
+								,	#{addr_detail}
+	     						,	#{account}
+	     						,	#{bank}
+	     						,	#{del_cd}
      						)
+   	
      
+     </insert>
+     <insert id="registerCtminfo" parameterType="java.util.Map">
+      /*kr.kosmo.jobkorea.login.dao.LoginDao.registerCtminfo*/
+      INSERT INTO tb_scm_userinfo (
+      							company_cd
+      						,	loginID
+     						,	company_mng
+     						,	account_holder
+     						,	active
+     						) VALUES (
+     								#{company_cd}
+	     						,	#{loginID}
+	     						,	#{company_mng}
+	     						,	#{account_holder}
+	     						,	#{active}
+     						)
      
      </insert>
      
-     <!-- 유저전문기술(tb_userskill 테이블에 따로 저장) -->
-<!--      <insert id="registerUserSkill" parameterType="java.util.Map">
-     INSERT INTO tb_userskill (
-     							
-     						VALUES (
-     							
-								
-     						)
-     
-     
-     </insert>
-      -->
-
      
      <!-- 중복 검사  loginID 중복검사 -->
 	<select id="check_loginID" parameterType="String" resultType="int">
@@ -168,13 +136,6 @@
 		WHERE loginID = #{loginID}
 	</select>
 	
-	
-	<!-- 회원가입 이메일 중복 검사  -->
-	<select id="check_email" parameterType="String" resultType="int">
-		SELECT count(*)
-		FROM tb_userinfo
-		WHERE user_email = #{user_email}
-	</select>
 	
      <!-- 사용자 ID 찾기 -->
       <select id="selectFindId" resultType="kr.happyjob.study.login.model.LgnInfoModel">

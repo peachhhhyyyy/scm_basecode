@@ -5,7 +5,7 @@ public class LgnInfoModel {
 
 
 	//사용자 이메일
-	private String user_email;
+	private String mail;
 	
 	//로그인 ID
 	private String loginID;
@@ -19,20 +19,6 @@ public class LgnInfoModel {
 	
 	//승인 코드
 	private String approval_cd;
-	
-	
-	/*// 게시판 글 번호
-	private int row_num;
-	
-	// 오피스 ID
-	private String ofc_id;
-	
-	// 오피스 명
-	private String ofc_nm;
-	
-	// 오피스 구분 코드
-	private String ofc_dvs_cod;
-	*/
 	
 	// 사용자 로그인 ID
 	private String lgn_id;
@@ -49,12 +35,12 @@ public class LgnInfoModel {
 	// 로그린 사용자 권란       mng: 관리자       gnr: 일반
 	private String mem_author;
 
-	public String getUser_email() {
-		return user_email;
+	public String getMail() {
+		return mail;
 	}
 
-	public void setUser_email(String user_email) {
-		this.user_email = user_email;
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 
 	public String getLoginID() {

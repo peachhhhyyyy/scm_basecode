@@ -61,8 +61,22 @@ public class LoginServiceImpl implements LoginService {
 	/** 사용자 회원가입 */
 	@Override
 	public int registerUser(Map<String, Object> paramMap) throws Exception {
+		String tel1 = paramMap.get("tel1").toString();
+		String tel2 = paramMap.get("tel2").toString();
+		String tel3 = paramMap.get("tel3").toString();
+		String tel = tel1+'-'+tel2+'-'+tel3;
+		
+		// tel1-tel2-te3 만들기
+		paramMap.put("tel", tel);
 		int ret = loginDao.registerUser(paramMap);
 		return ret;
+	}
+	
+	/** 고객 정보 별도 주입 */
+	@Override
+	public int registerCtminfo(Map<String, Object> paramMap) throws Exception {
+		int ctm = loginDao.registerCtminfo(paramMap);
+		return ctm;
 	}
 
 	/** loginID 중복체크 */
@@ -72,11 +86,11 @@ public class LoginServiceImpl implements LoginService {
 		return result;
 	}
 
-	@Override
+/*	@Override
 	public int check_email(LgnInfoModel model) throws Exception {
 		int result = loginDao.check_email(model);
 		return result;
-	}
+	}*/
 
 	/** 사용자 ID 찾기 */
 	public LgnInfoModel selectFindId(Map<String, Object> paramMap) throws Exception {
@@ -100,12 +114,6 @@ public class LoginServiceImpl implements LoginService {
 
 		return loginDao.registerIdCheck(paramMap);
 	}
-
-	/*	*//** select박스 은행 목록 *//*
-								 * @Override public List<LgnInfoModel>
-								 * selectBankList() { List<LgnInfoModel> list =
-								 * loginDao.selectBankList(); return list; }
-								 */
 
 	/* 이력서파일 업로드 */
 
