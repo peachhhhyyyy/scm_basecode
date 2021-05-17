@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.happyjob.study.scm.dao.ScmOrderListDao">
+		<!-- 수주내역 조회 -->
+		<select id="selectOrderList" resultType="kr.happyjob.study.scm.model.ScmOrderListModel"> 
+			SELECT o.order_cd orderCode, 
+				   o.order_date orderDate, 
+				   ui.name customerName, 
+				   prod.prod_nm productName, 
+				   prod.stock productCount, 
+				   prod.price productPrice, 
+				   o.order_cnt orderCount, 
+				   o.amount orderAmount, 
+				   o.tax orderTax, 
+				   o.deposit_yn depositState, 
+				   dc.detail_name state 
+			FROM tb_order o
+			JOIN (
+					SELECT name, loginID 
+					FROM tb_userinfo
+				  ) ui ON ui.loginID = o.loginID
+			JOIN (
+					SELECT detail_code, group_code, detail_name
+					FROM tb_detail_code
+					WHERE group_code = 'STTcd'
+				  ) dc ON o.STTcd = dc.detail_code
+			JOIN (
+					SELECT prod_nm, product_cd, stock, price 
+					FROM tb_scm_product
+				  ) prod ON prod.product_cd = o.product_cd
+			ORDER BY o.order_date DESC
+		    LIMIT #{pageIndex}, #{pageSize}
+		</select>
+		
+		<!-- 수주내역 데이터 갯수 카운팅 -->
+		<select id="selectOrderListCnt" resultType="int">
+			SELECT COUNT(*) tot_cnt
+			FROM tb_order;
+		</select>
+		
+		<!-- 발주버튼 클릭 후 나타나는 발주지시서 모달창에 넣을 데이터 -->
+		<select id="selectProductInfo" resultType="kr.happyjob.study.scm.model.ProductInfoModel">
+			SELECT o.order_cd orderCode, 
+			  	   o.order_date orderDate,
+			       NOW() submitDate,
+			  	   prod.prod_nm productName,  
+			       mct.m_ct_nm middleCategory,
+			  	   prod.stock productCount, 
+			  	   o.order_cnt orderCount, 
+			  	   prod.purchase_price purchasePrice
+			FROM tb_order o
+	        LEFT JOIN tb_scm_product prod ON prod.product_cd = o.product_cd
+			LEFT JOIN tb_scm_m_category mct ON mct.m_ct_cd = prod.m_ct_cd
+			WHERE o.order_cd = #{orderCode}
+		</select>
+		<!-- 발주지시서 담당SCM 이름 가져오기 -->
+		<select id="selectScmManagerName" resultType="String">
+			SELECT name
+			FROM tb_userinfo
+			WHERE loginId = #{loginId}
+		</select>
+		
+		<!-- 배송 버튼 클릭 후 나타나는 배달지시서 모달창에 넣을 데이터 -->
+		<select id="selectDeliveryInfo" resultType="kr.happyjob.study.scm.model.DeliveryInfoModel">
+			SELECT o.order_cd orderCode, 
+			  	   o.order_date orderDate,
+			       NOW() submitDate,
+			  	   o.want_receive_date wantReceiveDate,
+			  	   ui.name customerName,
+			  	   prod.prod_nm productName,
+			  	   mct.m_ct_nm middleCategory,
+			  	   o.order_cnt orderCount,
+			  	   o.request customerRequest,
+			  	   sup.supply_nm supplyName
+			FROM tb_order o
+  			JOIN (
+					SELECT name, loginID 
+					FROM tb_userinfo
+				  ) ui ON ui.loginID = o.loginID
+			LEFT JOIN tb_scm_product prod ON prod.product_cd = o.product_cd
+			LEFT JOIN tb_scm_supply sup ON sup.supply_cd = prod.supply_cd
+			LEFT JOIN tb_scm_m_category mct ON mct.m_ct_cd = prod.m_ct_cd
+			WHERE o.order_cd = #{orderCode}
+		</select>
+		
+		<!-- 배송지시서 요청 후, 상태 '배송준비'로 업데이트 -->
+		<update id="updateStateToDelivery" parameterType="int">
+			UPDATE tb_order
+			SET STTcd = #{STTcd}
+			WHERE order_cd = #{orderCode}
+		</update>
+		
+		<insert id="insertDataToDTable" parameterType="int">
+			INSERT INTO tb_scm_ship_list (
+											order_cd,
+											scm_id,
+											submit_date
+			 		                      )
+			VALUES (
+						#{orderCode},
+						#{loginId},
+						#{submitDate}
+					)
+		</insert>
+</mapper>

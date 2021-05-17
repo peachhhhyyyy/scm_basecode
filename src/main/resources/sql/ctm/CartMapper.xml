@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.happyjob.study.ctm.dao.CartDao">
+	<!-- 장바구니 조회 -->
+	<select id="listCart" resultType = "kr.happyjob.study.ctm.model.CartModel">
+		SELECT pd.prod_nm as prod_nm
+			 , lcg.l_ct_nm as l_ct_nm
+			 , mcg.m_ct_nm as m_ct_nm
+			 , pd.price as price
+			 , pd.product_cd as product_cd
+			 , pd.detail as detail
+			 , sc.shopping_cart_qty
+          FROM tb_shopping_cart sc
+             , tb_scm_product pd
+             , tb_scm_m_category mcg
+             , tb_scm_l_category lcg
+ 	     WHERE pd.m_ct_cd = mcg.m_ct_cd AND mcg.l_ct_cd = lcg.l_ct_cd AND pd.product_cd = sc.product_cd	AND sc.loginID = #{loginID}
+	   	 LIMIT #{pageIndex}, #{pageSize}
+	
+	</select>
+	
+	<!-- 장바구니 총 개수 조회 -->
+	<select id="countListCart" resultType="int">
+		SELECT COUNT(1) AS tot_cnt 
+		  FROM tb_shopping_cart 
+		 WHERE loginID = #{loginID}
+	</select>
+	
+		<!-- 장바구니 삭제 -->
+	<delete id="deleteCartItem">
+		/*kr.kosmo.jobkorea.system.dao.CartDao.deleteCartItem*/
+		DELETE FROM tb_shopping_cart WHERE product_cd = #{product_cd}
+	</delete>
+
+</mapper>
+

@@ -1,0 +1,63 @@
+* {
+	user-select: none;
+}
+
+.filter {
+	margin-top: 1%;
+}
+
+.filter input {
+	margin-left: 10px;
+}
+
+.date_container {
+	margin-top: 10px;
+}
+
+#container ul li.contents .content {
+	min-height: 800px;
+}
+
+.bar {
+	width: 100%;
+	border: 1px solid black;
+	background-color: black;
+}
+
+h1 {
+	font-size: 24px;
+	text-align: center;
+}
+
+.prodInfoContainer {
+	display: flex;
+	flex-direction: column;
+	margin-top: 10%;
+}
+
+.prodInfoContainer div {
+	margin-bottom: 2%;
+	font-size: 14px;
+}
+
+.bar {
+	margin: 40px 0;
+}
+
+.prodInfoContainer input {
+	width: 50px;
+}
+
+.prodInfoContainer #sumAmt,
+.prodInfoContainer #sumAmt-han {
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.prodInfoContainer #sumAmt-han {
+	margin-top: 20px;
+}
+
+#customerRequest {
+	margin-top: 10px;
+}
