@@ -39,10 +39,29 @@ public class WarehouseInfoServiceImpl implements WarehouseInfoService {
     return listWarehouseProduct;
   }
   
- // 제품 카운트
+  // 제품 카운트
   @Override
   public int totalCntProduct(Map<String, Object> paramMap) throws Exception {
     int totalCntProduct = warehouseInfoDao.totalCntProduct(paramMap);
     return totalCntProduct;
+  }
+  
+ //창고 등록
+  @Override
+  public int insertWarehouse(Map<String, Object> paramMap) throws Exception {
+    int ret = warehouseInfoDao.insertWarehouse(paramMap);
+    return ret;
+  }
+  //창고 수정
+  @Override
+  public int updateWarehouse(Map<String, Object> paramMap) throws Exception {
+    int ret = warehouseInfoDao.updateWarehouse(paramMap);
+    return ret;
+  }
+  //창고 단건 조회
+  @Override
+  public WarehouseInfoModel selectWarehouse(Map<String, Object> paramMap) throws Exception {
+    WarehouseInfoModel selectWarehouse = warehouseInfoDao.selectWarehouse(paramMap);
+    return selectWarehouse;
   }
 }

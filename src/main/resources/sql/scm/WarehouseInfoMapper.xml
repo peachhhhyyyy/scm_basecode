@@ -49,4 +49,45 @@
     LEFT JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
    WHERE PD.warehouse_cd = #{warehouse_cd} 
   </select>
+  
+  
+  <!-- 창고 단건 조회 -->
+  <select id="selectWarehouse" resultType="kr.happyjob.study.scm.model.WarehouseInfoModel">
+    SELECT warehouse_cd,
+           warehouse_nm,
+           wh_mng_id,
+           zip_cd,
+           addr,
+           addr_detail 
+      FROM tb_scm_warehouse
+     WHERE warehouse_cd = #{warehouse_cd}
+  </select>
+  
+  <!-- 창고 등록 -->
+  <insert id="insertWarehouse" parameterType="java.util.Map">
+   INSERT INTO tb_scm_warehouse 
+    ( warehouse_cd, warehouse_nm, wh_mng_id, zip_cd, addr, addr_detail)
+    VALUES
+   (
+   #{warehouse_cd},
+   #{warehouse_nm},
+   #{wh_mng_id},
+   #{zip_cd},
+   #{addr},
+   #{addr_detail}
+   ) 
+  </insert>
+  
+  
+  <!-- 창고 수정 -->
+<update id="updateWarehouse" parameterType="java.util.Map">
+  UPDATE tb_scm_warehouse 
+  SET  wh_mng_id = #{wh_mng_id}
+     , zip_cd = #{zip_cd}
+     , addr = #{addr}
+     , addr_detail = #{addr_detail}
+  WHERE warehouse_cd = #{warehouse_cd}
+</update>
+
+
 </mapper>

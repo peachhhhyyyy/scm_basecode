@@ -8,7 +8,7 @@ public class WarehouseInfoModel {
   // 창고 담당자명
   private String wh_mng_nm;
   // 창고 담당자 로그인 아이디
-  private String wh_mng_cd;
+  private String wh_mng_id;
   // 창고 담당자 연락처
   private String tel;
   // 창고 담당자 이메일
@@ -17,6 +17,8 @@ public class WarehouseInfoModel {
   private String zip_cd;
   // 주소
   private String addr;
+  // 상세주소
+  private String addr_detail;
   // 로그인 아이디
   private String loginID;
   
@@ -62,11 +64,11 @@ public class WarehouseInfoModel {
   public void setWh_mng_nm(String wh_mng_nm) {
     this.wh_mng_nm = wh_mng_nm;
   }
-  public String getWh_mng_cd() {
-    return wh_mng_cd;
+  public String getWh_mng_id() {
+    return wh_mng_id;
   }
-  public void setWh_mng_cd(String wh_mng_cd) {
-    this.wh_mng_cd = wh_mng_cd;
+  public void setWh_mng_id(String wh_mng_id) {
+    this.wh_mng_id = wh_mng_id;
   }
   public String getTel() {
     return tel;
@@ -92,7 +94,12 @@ public class WarehouseInfoModel {
   public void setAddr(String addr) {
     this.addr = addr;
   }
-  
+  public String getAddr_detail() {
+    return addr_detail;
+  }
+  public void setAddr_detail(String addr_detail) {
+    this.addr_detail = addr_detail;
+  }
   
 
   public String getProduct_cd() {

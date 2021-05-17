@@ -19,6 +19,8 @@
   $(function() {
     //창고 목록 조회
     fListWarehouse();
+    //제품 정보 목록 조회
+    fListProduct();
     //버튼 이벤트 등록
     fRegisterButtonClickEvent();
   });
@@ -161,34 +163,32 @@
   }
   /** 창고정보 폼 초기화 */
   function fInitFormWarehouse(object) {
-    $("#warehouse_nm").focus();
+    $("#warehouse_cd").focus();
     
-    console.log("object :" + JSON.stringify(object));
     if (object == "" || object == null || object == undefined) {
       $("#warehouse_cd").val("");
       $("#warehouse_nm").val("");
-      $("#wh_mng_cd").val("");
-      $("#tel").val("");
-      $("#tel").attr("readonly", true);
-      $("#email").val("");
-      $("#email").attr("readonly", true);
+      $("#wh_mng_id").val("");
       $("#zip_cd").val("");
       $("#addr").val("");
       $("#addr_detail").val("");
-      $("#btnDeleteWarehouse").hide();
+      
+      $("#warehouse_cd").attr("readonly", false);
+      $("#warehouse_cd").css("background", "#FFFFFF");
+      $("#warehouse_nm").attr("readonly", false);
+      $("#warehouse_nm").css("background", "#FFFFFF");
     } else{
       $("#warehouse_cd").val(object.warehouse_cd);
-      $("#warehouse_cd").attr("readonly", true);
       $("#warehouse_nm").val(object.warehouse_nm);
+      $("#wh_mng_id").val(object.wh_mng_id);
+      $("#zip_cd").val(object.zip_cd);
+      $("#addr").val(object.addr);
+      $("#addr_detail").val(object.addr_detail);
+      
+      $("#warehouse_cd").attr("readonly", true);
+      $("#warehouse_cd").css("background", "#F5F5F5");
       $("#warehouse_nm").attr("readonly", true);
-      $("#wh_mng_cd").val(object.wh_mng_cd);
-      $("#tel").val("object.tel");
-      $("#tel").attr("readonly", true);
-      $("#email").val("object.email");
-      $("#email").attr("readonly", true);
-      $("#zip_cd").val("object.zip_cd");
-      $("#addr").val("object.addr");
-      $("#addr_detail").val("object.addr_detail");
+      $("#warehouse_nm").css("background", "#F5F5F5");
     } 
   }
 
@@ -197,7 +197,7 @@
     var chk = checkNotEmpty([ 
             [ "warehouse_cd", "창고코드를 입력하세요." ],
             [ "warehouse_nm", "창고명 입력하세요." ],
-            [ "wh_mng_nm", "담당자ID를 입력하세요." ],
+            [ "wh_mng_id", "담당자코드를 입력하세요." ],
             [ "zip_cd", "우편주소를 입력하세요." ],
             [ "addr", "주소를 입력하세요." ], 
             [ "addr_detail", "상세주소를 입력하세요." ] 
@@ -225,7 +225,7 @@
   function fSaveWarehouseResult(data) {
     var currentPage = "1";
     if ($("#action").val() != "I") {
-      currentPage = $("#currentPageDelvery").val();
+      currentPage = $("#currentPageWarehouse").val();
     }
     if (data.result == "SUCCESS") {
       alert(data.resultMsg);
@@ -353,7 +353,7 @@
           <strong>창고 관리</strong>
         </dt>
         <dd class="content">
-          <table class="row">
+           <table class="row">
             <caption>caption</caption>
             <colgroup>
               <col width="120px">
@@ -363,51 +363,42 @@
             </colgroup>
             <tbody>
               <tr>
-                <th scope="row">창고 번호 <span class="font_red">*</span></th>
-                <td colspan="3"><input type="text" class="inputTxt p100"
+                <th scope="row">창고 코드<span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100"
                   name="warehouse_cd" id="warehouse_cd" /></td>
                 <th scope="row">창고명 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="deli_company" id="deli_company" /></td>  
+                  name="warehouse_nm" id="warehouse_nm" /></td>  
               </tr>
               <tr>
-                
-                <th scope="row">LoginID<span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100" name="deli_id"
-                  id="deli_id" /></td>
+                <th scope="row">담당자ID<span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100" name="wh_mng_id"
+                  id="wh_mng_id" /></td>
               </tr>
               <tr>
-                <th scope="row">패스워드 <span class="font_red">*</span></th>
+                <th scope="row">우편번호 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="deli_password" id="deli_password" /></td>
-                <th scope="row">담당자명 <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100"
-                  name="deli_name" id="deli_name" /></td>
+                  name="zip_cd" id="zip_cd" /></td>
               </tr>
               <tr>
-                <th scope="row">담당자 연락처 <span class="font_red">*</span></th>
+                <th scope="row">주소 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="deli_phone" id="deli_phone" /></td>
-                  <th scope="row">담당자 이메일 <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100"
-                  name="deli_email" id="deli_email" /></td>
+                  name="addr" id="addr" /></td>
               </tr>
-              <!-- <tr class="hidden">
-                <th scope="row">삭제여부 <span class="font_red">*</span></th>
-                <td colspan="3"><input type="text" class="inputTxt p100"
-                  name="del_cd" id="del_cd" /></td>
-              </tr> -->
+              <tr>
+                <th scope="row">상세주소 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100"
+                  name="addr_detail" id="addr_detail" /></td>
+              </tr>
 
             </tbody>
           </table>
 
 
           <div class="btn_areaC mt30">
-            <a href="" class="btnType blue" id="btnSaveDelivery" name="btn"><span>저장</span></a>
-            <!-- <a href="" class="btnType blue" id="btnDeleteDelivery" name="btn"><span>삭제</span></a>
-            <a href="" class="btnType blue" id="btnRecoveryDelivery"
-              name="btn"><span>복원</span></a> <a href="" class="btnType gray"
-              id="btnCloseDelivery" name="btn"><span>취소</span></a> -->
+            <a href="" class="btnType blue" id="btnSaveWarehouse" name="btn"><span>저장</span></a>
+            <a href="" class="btnType blue" id="btnDeleteWarehouse" name="btn"><span>삭제</span></a>  
+            <a href="" class="btnType gray" id="btnCloseWarehouse" name="btn"><span>취소</span></a>
           </div>
         </dd>
       </dl>

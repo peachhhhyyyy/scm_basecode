@@ -1,5 +1,6 @@
 package kr.happyjob.study.scm.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.happyjob.study.scm.model.WarehouseInfoModel;
 import kr.happyjob.study.scm.service.WarehouseInfoService;
@@ -101,5 +103,75 @@ public class WarehouseInfoController {
     
     return "scm/listWarehouseProduct";
   }
+  
+  
+ //창고 저장
+ @RequestMapping("saveWarehouse.do")
+ @ResponseBody
+ public Map<String, Object> saveWarehouse (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+     HttpServletResponse response, HttpSession session) throws Exception{
+   logger.info("+ Start " + className + ".saveWarehouse");
+   logger.info("   - paramMap : " + paramMap);
+   
+   String action = (String)paramMap.get("action");
+   
+   String result = "SUCCESS";
+   String resultMsg = "";
+   
+   if("I".equals(action)){
+     //납품 업체 등록
+     warehouseInfoService.insertWarehouse(paramMap);
+     resultMsg = "등록 완료";
+   } else if("U".equals(action)){
+     //납품 업체 수정
+     warehouseInfoService.updateWarehouse(paramMap);
+     resultMsg = "수정 완료";
+   } /*else if("D".equals(action)){
+     //납품 업체 삭제
+     warehouseInfoService.deleteWarehouse(paramMap);
+     resultMsg = "삭제 완료";
+   } else if("R".equals(action)){
+     //납품 업체 복구
+     warehouseInfoService.recoveryWarehouse(paramMap);
+     resultMsg = "복원 완료";
+   }*/
+   else{
+     result = "FALSE";
+     resultMsg = "저장 실패";
+   }
+   
+   Map<String, Object> resultMap = new HashMap<String, Object>();
+   resultMap.put("result", result);
+   resultMap.put("resultMsg", resultMsg);
+   
+   logger.info("+ End " + className + ".saveWarehouse");
+   
+   return resultMap;
+ }
+ //창고 단건 조회
+ @RequestMapping("selectWarehouse.do")
+ @ResponseBody
+ public Map<String, Object> selectWarehouse (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+     HttpServletResponse response, HttpSession session) throws Exception{
+   logger.info("+ Start " + className + ".selectWarehouse");
+   logger.info("   - paramMap : " + paramMap);
+
+   String result = "SUCCESS";
+   String resultMsg = "조회 되었습니다.";
+   
+   WarehouseInfoModel warehouseInfoModel = warehouseInfoService.selectWarehouse(paramMap);
+   
+   Map<String, Object> resultMap = new HashMap<String, Object>();
+   resultMap.put("result", result);
+   resultMap.put("resultMsg", resultMsg);
+   resultMap.put("warehouseInfoModel", warehouseInfoModel);
+   
+   logger.info("+ End " + className + ".selectWarehouse");
+   
+   System.out.println(resultMap);
+   return resultMap;
+ }
+  
+  
   
 }
