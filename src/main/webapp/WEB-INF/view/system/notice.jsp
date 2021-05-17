@@ -388,10 +388,10 @@
                 <table class="col">
                   <caption>caption</caption>
                   <colgroup>
-                    <col width="50px">
-                    <col width="200px">
-                    <col width="60px">
-                    <col width="50px">
+                    <col width="*">
+                    <col width="*">
+                    <col width="*">
+                    <col width="*">
                   </colgroup>
                   <thead>
                     <tr>
@@ -399,6 +399,7 @@
                       <th scope="col">공지 제목</th>
                       <th scope="col">공지 날짜</th>
                       <th scope="col">작성자</th>
+                      <th scope="col">조회수</th>
                     </tr>
                   </thead>
                   <tbody id="noticeList"></tbody>
