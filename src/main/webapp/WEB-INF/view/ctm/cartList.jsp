@@ -48,4 +48,4 @@ _<%@ page language="java" contentType="text/html; charset=UTF-8"
 								</c:forEach>
 							</c:if>
 									
-							<input type="hidden" id="totalCntCart" name="totalCntCart" values="${totalCntCart}"/>
+							<input type="hidden" id="totalCntCart" name="totalCntCart" value="${totalCntCart}"/>
