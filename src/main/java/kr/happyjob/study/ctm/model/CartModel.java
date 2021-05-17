@@ -2,6 +2,8 @@ package kr.happyjob.study.ctm.model;
 
 public class CartModel {
 
+	private int row_num;
+
 	/* 제품명 */
 	private String prod_nm;
 	
@@ -31,6 +33,14 @@ public class CartModel {
 	
 	/* 장바구니 개수 */
 	private int shopping_cart_qty;
+	
+	public int getRow_num() {
+		return row_num;
+	}
+
+	public void setRow_num(int row_num) {
+		this.row_num = row_num;
+	}
 	
 
 	public String getProd_nm() {
