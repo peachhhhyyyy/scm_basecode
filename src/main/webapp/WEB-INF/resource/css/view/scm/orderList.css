@@ -2,6 +2,10 @@
 	user-select: none;
 }
 
+.btnType3.color4 {
+	text-decoration: none;
+}
+
 .filter {
 	margin-top: 1%;
 }
