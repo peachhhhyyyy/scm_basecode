@@ -244,6 +244,55 @@
     fInitFormWarehouse();
   }
   
+  //창고 삭제
+  function fDeleteWarehouse(warehouse_cd){
+    var con = confirm("삭제하시겠습니까 ?");
+    var currentPage = "1";
+    if (con){
+      var resultCallback = function(data) {
+      fSaveWarehouseResult(data);
+    }
+    $("#action").val("D");
+    callAjax("/scm/saveWarehouse.do", "post", "json", true, $("#myForm").serialize(), resultCallback );
+    } else {
+      gfCloseModal();
+      fListWarehouse(currentPage);
+      fInitFormWarehouse();
+    }
+  }
+  
+  //검색 기능
+  function board_search(currentPage) {
+    $('#listWarehouseProduct').empty();
+    currentPage = currentPage || 1;
+    var sname = $('#sname');
+    var searchKey = document.getElementById("searchKey");
+    var oname = searchKey.options[searchKey.selectedIndex].value;
+    
+    /*  if ($("input:checkbox[name=delcheck]").is(":checked") == true) {
+             //체크가 되어있을때.
+             console.log('체크되었씁니당.');
+             var del_cd = 1;
+     } else {
+             //체크가 안되어있을때.
+             console.log('체크 해지용.');
+             var del_cd = 0;
+     } */
+    var param = {
+      sname : sname.val(),
+      oname : oname,
+      currentPage : currentPage,
+      pageSize : pageSizeWarehouse,
+      //del_cd : del_cd
+    }
+    
+    
+    var resultCallback = function(data) {
+      flistWarehouseResult(data, currentPage);
+    };
+    callAjax("/scm/listWarehouse.do", "post", "text", true, param,
+        resultCallback);
+  }
   
   //우편번호 api
   function execDaumPostcode(q) {

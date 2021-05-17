@@ -13,6 +13,18 @@
       FROM tb_scm_warehouse WH 
  LEFT JOIN tb_userinfo UI 
         ON WH.wh_mng_id = UI.loginID
+        <where>
+      <if test="(sname != null) and (!sname.equals(''))">
+      <choose>
+        <when test= "(oname eq 'warehouse_nm'.toString())">
+            AND WH.warehouse_nm LIKE concat('%', #{sname}, '%')
+        </when> 
+        <when test= "(oname eq 'wh_mng_nm'.toString())">
+            AND UI.name LIKE concat('%', #{sname}, '%')
+        </when>
+      </choose>
+      </if> 
+    </where>
      LIMIT #{pageIndex}, #{pageSize}
   </select>
   <!-- 창고 카운트 -->
@@ -21,6 +33,14 @@
       FROM tb_scm_warehouse WH 
  LEFT JOIN tb_userinfo UI 
         ON WH.wh_mng_id = UI.loginID
+        <choose>
+        <when test= "(oname eq 'warehouse_nm'.toString())">
+            AND WH.warehouse_nm LIKE concat('%', #{sname}, '%')
+        </when>
+        <when test= "(oname eq 'wh_mng_nm'.toString())">
+            AND UI.name LIKE concat('%', #{sname}, '%')
+        </when>
+      </choose>
   </select>
   
   <!-- 제품 조회 -->
