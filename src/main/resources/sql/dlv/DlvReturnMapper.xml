@@ -1,6 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.happyjob.study.dlv.dao.DlvReturnDao">
+<mapper namespace="kr.happyjob.study.dlv.dao.ReturnDao">
+
+	<select id="returnList" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">
+	
+		SELECT TSRL.refund_list_no AS refund_list_no,
+	       TUU.name AS cus_name,
+	       TSMC.m_ct_nm AS m_ct_nm,
+	       TSP.prod_nm AS prod_nm,
+	       TOO.refund_cnt AS refund_cnt,
+	       TOO.refund_amt AS refund_amt,
+	       TSW.warehouse_nm AS warehouse_nm,
+	       TOO.refund_date AS refund_date,
+	       TOO.STTcd AS state
+	   FROM tb_order AS TOO
+		   LEFT JOIN tb_scm_refund_list AS TSRL
+		   ON TOO.order_cd = TSRL.order_cd
+		   LEFT JOIN tb_scm_m_category AS TSMC
+		   ON TOO.order_cd = TSMC.m_ct_cd
+		   LEFT JOIN tb_scm_product AS TSP
+		   ON TOO.product_cd = TSP.product_cd
+		   LEFT JOIN tb_userinfo AS TUU
+		   ON TOO.loginID = TUU.loginID
+		   LEFT JOIN tb_scm_warehouse AS TSW
+		   ON TOO.warehouse_cd = TSW.warehouse_cd
+			 
+		where TOO.STTcd in (5, 6, 7)
+			 LIMIT #{pageIndex}, #{pageSize}
+			 
+			 
+		
+	</select>
+	
+	<select id="returnListCnt" resultType="int">
+		SELECT COUNT(*) as returnlistCnt
+			FROM tb_order OD
+			WHERE OD.STTcd IN (5, 6, 7)
+			ORDER BY OD.order_cd DESC
+	</select>
+	<select id="returnDetailList" resultType="kr.happyjob.study.dlv.model.DlvReturnDetailModel">
+		SELECT TOO.order_cd AS order_cd,
+	       TSRL.refund_list_no AS refund_list_no,
+	       TSP.prod_nm AS prod_nm,
+	       TSMC.m_ct_nm AS m_ct_nm,
+	       TOO.refund_cnt AS refund_cnt,
+	       CUS.name AS cus_name,
+	       CUS.tel AS cus_tel,
+	       MNG.name AS emp_name,
+	       CUS.addr AS emp_addr,
+	       EMP.name AS dlv_name,
+	       EMP.tel AS dlv_tel,
+	       TSW.warehouse_nm AS warehouse_nm,
+	       TOO.STTcd AS state,
+	       TOO.request AS request
+       
+   		FROM tb_order AS TOO
+		   LEFT JOIN tb_scm_refund_list AS TSRL
+		   ON TOO.order_cd = TSRL.order_cd
+		   LEFT JOIN tb_scm_product TSP
+		   ON TOO.product_cd = TSP.product_cd
+		   LEFT JOIN tb_scm_m_category AS TSMC
+		   ON TSMC.m_ct_cd = TSP.m_ct_cd
+		   LEFT JOIN tb_userinfo AS CUS
+		   ON CUS.loginID = TOO.loginID
+		   LEFT JOIN tb_userinfo AS EMP
+		   ON EMP.loginID = TSRL.ship_staff_id
+		   LEFT JOIN tb_userinfo AS MNG
+		   ON MNG.loginID = TSRL.ship_mng_id
+		   LEFT JOIN tb_scm_warehouse AS TSW
+		   ON TOO.warehouse_cd = TSW.warehouse_cd
+		  
+		  where
+		  TSRL.refund_list_no = #{refund_list_no}
+		  
+	</select>
+	<update id="returnDetailInfo" >
+	 UPDATE tb_order 
+	   SET STTcd = #{state} 
+	   WHERE order_cd = #{order_cd} 
+	</update>
 <!-- 
 	<select id="returnProductList" parameterType="Map" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">
 		SELECT od.order_cd as order_cd

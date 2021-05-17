@@ -15,7 +15,7 @@
    
    <!-- 사용자 로그인 -->
    <select id="selectLogin" resultType="kr.happyjob.study.login.model.LgnInfoModel">
-      /*kr.kosmo.jobkorea.login.dao.LoginDao.selectLogin*/
+      /*kr.happyjob.study.login.dao.LoginDao.selectLogin*/
       SELECT  loginID as lgn_id
                , name as usr_nm
                , user_Type as mem_author
@@ -29,7 +29,7 @@
      
 <!-- 사용자 메뉴 권한 -->
    <select id="listUsrMnuAtrt" resultType="kr.happyjob.study.login.model.UsrMnuAtrtModel">
-         /*kr.kosmo.jobkorea.login.dao.LoginDao.listUsrMnuAtrt*/
+         /*kr.happyjob.study.login.dao.LoginDao.listUsrMnuAtrt*/
             SELECT  ta.mnu_id
                   ,   ta.hir_mnu_id
                   ,   ta.mnu_nm
@@ -52,7 +52,7 @@
      
      <!-- 사용자 자식 메뉴 권한 -->
    <select id="listUsrChildMnuAtrt" resultType="kr.happyjob.study.login.model.UsrMnuChildAtrtModel">
-      /*kr.kosmo.jobkorea.login.dao.LoginDao.listUsrChildMnuAtrt*/
+      /*kr.happyjob.study.login.dao.LoginDao.listUsrChildMnuAtrt*/
          SELECT  ta.mnu_id
                ,   ta.hir_mnu_id
                ,   ta.mnu_nm
@@ -77,7 +77,7 @@
      
      <!-- 회원가입 -->
      <insert id="registerUser" parameterType="java.util.Map">
-     /*kr.kosmo.jobkorea.login.dao.LoginDao.registerUser*/
+     /*kr.happyjob.study.login.dao.LoginDao.registerUser*/
      INSERT INTO tb_userinfo (
      							loginID
      						,	user_type

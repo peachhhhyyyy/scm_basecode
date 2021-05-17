@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.happyjob.study.scm.dao.WarehouseInfoDao"> <!--DAO파일이 위치한 디렉터리와 매핑 (내 담당 DAO는 누구이다.) -->
+  <!-- 창고 조회 -->
+  <select id="listWarehouse" resultType="kr.happyjob.study.scm.model.WarehouseInfoModel"> <!--id=DAO가 호출할 별명 작성 , resultType 반환 값을 담을 model의 디렉터리와 매핑 -->
+    SELECT DISTINCT WH.warehouse_cd as warehouse_cd, 
+                    WH.warehouse_nm as warehouse_nm, 
+                    UI.name as wh_mng_nm, 
+                    UI.tel as tel, 
+                    UI.mail as email, 
+                    WH.zip_cd as zip_cd, 
+                    WH.addr as addr 
+      FROM tb_scm_warehouse WH 
+ LEFT JOIN tb_userinfo UI 
+        ON WH.wh_mng_id = UI.loginID
+     LIMIT #{pageIndex}, #{pageSize}
+  </select>
+  <!-- 창고 카운트 -->
+  <select id="totalCntWarehouse" resultType="int"> 
+    SELECT DISTINCT COUNT(*) as total_cnt
+      FROM tb_scm_warehouse WH 
+ LEFT JOIN tb_userinfo UI 
+        ON WH.wh_mng_id = UI.loginID
+  </select>
+  
+  <!-- 제품 조회 -->
+  <select id="listWarehouseProduct" resultType="kr.happyjob.study.scm.model.WarehouseInfoModel">
+  SELECT DISTINCT PD.product_cd as product_cd, 
+                  PD.prod_nm as prod_nm , 
+                  LC.l_ct_nm as l_ct_nm , 
+                  SP.supply_nm as supply_nm , 
+                  PD.stock as stock 
+    FROM tb_scm_product PD
+    LEFT JOIN tb_scm_warehouse WH ON PD.warehouse_cd = WH.warehouse_cd
+    LEFT JOIN tb_scm_supply SP ON SP.supply_cd = PD.supply_cd 
+    LEFT JOIN tb_scm_m_category MC ON MC.m_ct_cd = PD.m_ct_cd 
+    LEFT JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
+   WHERE WH.warehouse_nm = #{warehouse_nm}
+     AND WH.warehouse_cd = #{warehouse_cd}
+   LIMIT #{pageIndex}, #{pageSize}
+  </select>
+  <!-- 제품 카운트 -->
+  <select id="totalCntProduct" resultType="int">
+  SELECT DISTINCT COUNT(*) as total_cnt
+    FROM tb_scm_product PD
+    LEFT JOIN tb_scm_warehouse WH ON PD.warehouse_cd = WH.warehouse_cd
+    LEFT JOIN tb_scm_supply SP ON SP.supply_cd = PD.supply_cd 
+    LEFT JOIN tb_scm_m_category MC ON MC.m_ct_cd = PD.m_ct_cd 
+    LEFT JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
+   WHERE PD.warehouse_cd = #{warehouse_cd} 
+  </select>
+</mapper>

@@ -1,6 +1,5 @@
 package kr.happyjob.study.login.model;
 
-
 public class LgnInfoModel {
 
 
@@ -9,30 +8,30 @@ public class LgnInfoModel {
 	
 	//로그인 ID
 	private String loginID;
-	
-	//비밀번호
+
+	// 비밀번호
 	private String password;
-	
-	//은행 코드
+
+	// 은행 코드
 	private String detail_name;
 	private String detail_code;
-	
-	//승인 코드
+
+	// 승인 코드
 	private String approval_cd;
 	
 	// 사용자 로그인 ID
 	private String lgn_id;
-	
+
 	// 사용자 로그인 PW
 	private String pwd;
-	
+
 	// 사용자 시스템 ID
 	private String usr_sst_id;
-	
+
 	// 사용자 성명
 	private String usr_nm;
-	
-	// 로그린 사용자 권란       mng: 관리자       gnr: 일반
+
+	// 로그린 사용자 권란 mng: 관리자 gnr: 일반
 	private String mem_author;
 
 	public String getMail() {
@@ -122,8 +121,5 @@ public class LgnInfoModel {
 	public void setMem_author(String mem_author) {
 		this.mem_author = mem_author;
 	}
-
-	
-	
 
 }
