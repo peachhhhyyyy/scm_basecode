@@ -621,7 +621,7 @@
     var lhost = data.serverName;
 
     if (data.result == "SUCCESS") {
-      location.href = "system/notice.do";
+      location.href = "${CTX_PATH}/dashboard/dashboard.do";
     } else {
 
       $("<div style='text-align:center;'>" + data.resultMsg + "</div>").dialog({
