@@ -17,7 +17,6 @@ public class LgnInfoModel {
 
 	// 승인 코드
 	private String approval_cd;
-
 	// 사용자 로그인 ID
 	private String lgn_id;
 

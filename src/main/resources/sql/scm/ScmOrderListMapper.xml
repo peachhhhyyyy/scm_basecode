@@ -47,7 +47,8 @@
 			       mct.m_ct_nm middleCategory,
 			  	   prod.stock productCount, 
 			  	   o.order_cnt orderCount, 
-			  	   prod.purchase_price purchasePrice
+			  	   prod.purchase_price purchasePrice,
+			  	   prod.supply_cd supplyCode
 			FROM tb_order o
 	        LEFT JOIN tb_scm_product prod ON prod.product_cd = o.product_cd
 			LEFT JOIN tb_scm_m_category mct ON mct.m_ct_cd = prod.m_ct_cd
@@ -84,12 +85,39 @@
 		</select>
 		
 		<!-- 배송지시서 요청 후, 상태 '배송준비'로 업데이트 -->
-		<update id="updateStateToDelivery" parameterType="int">
+		<update id="updateStateToPurchase" parameterType="int">
 			UPDATE tb_order
 			SET STTcd = #{STTcd}
 			WHERE order_cd = #{orderCode}
 		</update>
 		
+		<!-- 요청한  발주지시서 '발주지시서'테이블에 INSERT -->
+		<insert id="insertDataToPTable" parameterType="int">
+			INSERT INTO tb_scm_purchase_list (
+												order_cd,
+												supply_cd,
+												scm_id,
+												direction_date,
+												purch_qty,
+												purch_total_amt
+			 		                      	  )
+			VALUES (
+						#{orderCode},
+						#{supplyCode},
+						#{loginId},
+						#{submitDate},
+						#{purchaseCount},
+						#{totalAmount}
+					)
+		</insert>
+		
+		<!-- 배송지시서 요청 후, 상태 '배송준비'로 업데이트 -->
+		<update id="updateStateToDelivery" parameterType="int">
+			UPDATE tb_order
+			SET STTcd = #{STTcd}
+			WHERE order_cd = #{orderCode}
+		</update>
+		<!-- 배송지시서 요청한 주문내역 '배송지시서'테이블에 INSERT -->
 		<insert id="insertDataToDTable" parameterType="int">
 			INSERT INTO tb_scm_ship_list (
 											order_cd,

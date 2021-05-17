@@ -16,6 +16,7 @@ public class ProductInfoModel {
 	private int productCount;
 	private int orderCount;
 	private int purchasePrice;
+	private String supplyCode;
 
 	public String getScmManager() {
 		return scmManager;
@@ -87,6 +88,14 @@ public class ProductInfoModel {
 
 	public void setpurchasePrice(int purchasePrice) {
 		this.purchasePrice = purchasePrice;
+	}
+
+	public String getSupplyCode() {
+		return supplyCode;
+	}
+
+	public void setSupplyCode(String supplyCode) {
+		this.supplyCode = supplyCode;
 	}
 
 }

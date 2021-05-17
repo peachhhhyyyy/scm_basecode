@@ -46,11 +46,9 @@ public class ScmOrderListController {
 
 		logger.info("   - paramMap : " + paramMap);
 
-		String returnType = "/scm/orderList";
-
 		logger.info("+ end " + className + ".init");
 
-		return returnType;
+		return "/scm/orderList";
 	}
 
 	@RequestMapping("listInfo.do")
@@ -147,6 +145,29 @@ public class ScmOrderListController {
 		ScmOrderListService.insertData(paramMap);
 		
 		logger.info("+ end " + className + ".sendDeliveryDirection");
+
+		return resultMap;
+	}
+	
+	@RequestMapping("sendPurchaseDirection.do")
+	@ResponseBody
+	public Map<String, String> sendPurchaseDirection(Model model, @RequestParam Map<String, Object> paramMap,
+			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+
+		logger.info("+ Start " + className + ".sendPurchaseDirection");
+
+		String loginId = (String) session.getAttribute("loginId");
+
+		paramMap.put("loginId", loginId); // 로그인 아이디, SCM관리자id 가져올 때 쓰임
+		logger.info("paramMap:" + paramMap);
+		
+		// 해당 주문 상태 '승인대기(발주)'로 업데이트
+		Map<String, String> resultMap = ScmOrderListService.updateState(paramMap);
+		
+		// 해당 발주지시서 내용을 DB '발주지시서 테이블'에 INSERT
+		ScmOrderListService.insertData(paramMap);
+		
+		logger.info("+ end " + className + ".sendPurchaseDirection");
 
 		return resultMap;
 	}

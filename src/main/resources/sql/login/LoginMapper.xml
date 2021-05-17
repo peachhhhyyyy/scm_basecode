@@ -128,6 +128,7 @@
      
      </insert>
      
+     
      <!-- 중복 검사  loginID 중복검사 -->
 	<select id="check_loginID" parameterType="String" resultType="int">
 		SELECT count(*)

@@ -17,7 +17,7 @@ public class UserInfo {
 	private String div_cd;
 	private String approval_cd;
 	private String company_cd;
-
+	
 	public String getLoginID() {
 		return loginID;
 	}
@@ -49,7 +49,6 @@ public class UserInfo {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 	public String getMail() {
 		return mail;
 	}
@@ -65,7 +64,6 @@ public class UserInfo {
 	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
-
 	public String getSex() {
 		return sex;
 	}
@@ -104,7 +102,6 @@ public class UserInfo {
 
 	public void setAddr_detail(String addr_detail) {
 		this.addr_detail = addr_detail;
-
 	}
 
 	public String getConsult_yn() {
@@ -130,7 +127,6 @@ public class UserInfo {
 	public void setDiv_cd(String div_cd) {
 		this.div_cd = div_cd;
 	}
-
 	public String getApproval_cd() {
 		return approval_cd;
 	}
