@@ -26,7 +26,7 @@
     fListProduct();
     //버튼 이벤트 등록
     fRegisterButtonClickEvent();
-    //엔터눌렀을때 검색되게하기
+    //엔터눌렀을때 창고정보 검색되게하기
     $("#sname").keypress(function (e) {
           if (e.which == 13){
                     board_search();  // 실행할 이벤트
@@ -41,7 +41,7 @@
       //alert("btnId : " + btnId);
       switch (btnId) {
       case 'searchBtn':
-        board_search(); // 검색하기
+        board_search(); // 창고정보 검색하기
         break;
       case 'btnSaveWarehouse'://저장하기
         fSaveWarehouse();
@@ -267,7 +267,7 @@
     }
   }
   
-  //검색 기능
+  //창고정보 검색 기능
   function board_search(currentPage) {
     $('#listWarehouseProduct').empty();
     currentPage = currentPage || 1;
@@ -275,23 +275,12 @@
     var searchKey = document.getElementById("searchKey");
     var oname = searchKey.options[searchKey.selectedIndex].value;
     
-    /*  if ($("input:checkbox[name=delcheck]").is(":checked") == true) {
-             //체크가 되어있을때.
-             console.log('체크되었씁니당.');
-             var del_cd = 1;
-     } else {
-             //체크가 안되어있을때.
-             console.log('체크 해지용.');
-             var del_cd = 0;
-     } */
     var param = {
       sname : sname.val(),
       oname : oname,
       currentPage : currentPage,
-      pageSize : pageSizeWarehouse,
-      //del_cd : del_cd
+      pageSize : pageSizeWarehouse
     }
-    
     
     var resultCallback = function(data) {
       flistWarehouseResult(data, currentPage);
