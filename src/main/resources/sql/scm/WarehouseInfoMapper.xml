@@ -25,7 +25,8 @@
   
   <!-- 제품 조회 -->
   <select id="listWarehouseProduct" resultType="kr.happyjob.study.scm.model.WarehouseInfoModel">
-  SELECT DISTINCT PD.product_cd as product_cd, 
+  SELECT DISTINCT WH.warehouse_nm as warehouse_nm,
+                  PD.product_cd as product_cd, 
                   PD.prod_nm as prod_nm , 
                   LC.l_ct_nm as l_ct_nm , 
                   SP.supply_nm as supply_nm , 
