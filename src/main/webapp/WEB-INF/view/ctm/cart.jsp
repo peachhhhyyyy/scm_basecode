@@ -30,6 +30,19 @@ input[type=number]::-webkit-outer-spin-button {
    opacity: 1;
 
 }
+
+.orderBtnContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 60px 0px;
+}
+
+.amount {
+	float:right;
+	padding-top: 20px;
+	padding-right: 40px;
+}
 </style>
 <title>장바구니</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
@@ -37,7 +50,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 		/*장바구니 페이징 설정*/
 
-		var pageSizeCart= 10;
+		var pageSizeCart= 5;
 		var pageBlockSizeCart = 5;
 		
 		/* 장바구니 부분 선택 구매 */
@@ -47,7 +60,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 		$(document).ready(function() {
 			fListCart(); // 장바구니 목록 조회
-
+			
 		});
 
 		/** 장바구니 조회 */
@@ -93,6 +106,17 @@ input[type=number]::-webkit-outer-spin-button {
 			// 현재 페이지 설정
 			$("#currentPageCart").val(currentPage);
 			console.log("totalCntCart:: " + totalCntCart);
+			
+			console.log($("input[name=qtyCount]"));
+			
+			var inputList = $("input[name=qtyCount]");
+			var inputCnt = $("input[name=qtyCount]").length;
+			for (i = 0; i < inputCnt; i++) {
+				console.log(inputList[i]);
+				inputList[i].addEventListener('input', updateValue);
+			}
+			
+	
 		}
 		
 		// 장바구니 삭제하기 클릭시 모달창
@@ -122,8 +146,6 @@ input[type=number]::-webkit-outer-spin-button {
 		// add a button
 		deleteModal.addFooterBtn('삭제', 'tingle-btn tingle-btn--primary', function() {
 			
-		    console.log("========== myform : "+$("#myForm").serialize());
-		    
 			var resultCallback = function(data) {
 				fDeleteCartItemResult(data);
 		    };
@@ -198,6 +220,19 @@ input[type=number]::-webkit-outer-spin-button {
 			orderModal.open();
 		};
 		
+		function updateValue(e) {
+			console.log("작동함");
+			var qty = e.target.value;
+			var prodId = e.target.id;
+			console.log(prodId);
+			var prodPrice = $("input[name="+prodId+"]").val();
+			console.log(prodPrice);
+			$(e.target.id+"amount").empty().text(qty * prodPrice);
+			console.log($(e.target.id+"amount").empty().text());
+			
+		}
+		
+		
 </script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/tingle/tingle.js"></script>
 </head>
@@ -266,16 +301,14 @@ input[type=number]::-webkit-outer-spin-button {
 								</thead>
 							<tbody id="listCart"></tbody>
 						</table>
-						<center>
-							<br>
-								<td>						
-									<a class="btnType3 color2" href="javascript:fOrderModal();"><span>주문하기</span></a>
-								</td>
-							<br>
-							<br>
-						</center>
-					</div>
-
+						</div>
+						<div class="paging_area"  id="CartPagination"> </div>
+						<div class="amount">
+							총액 : 10000000000
+						</div>
+						<div class="orderBtnContainer">
+							<a class="btnType3 color2" href="javascript:fOrderModal();"><span>주문하기</span></a>
+						</div>
 					<h3 class="hidden">풋터 영역</h3>
 						<jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
 				</li>
