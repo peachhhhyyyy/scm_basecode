@@ -314,14 +314,16 @@
                 <table class="col">
                   <caption>caption</caption>
                   <colgroup>
-                    <col width="20%">
-                    <col width="20%">
-                    <col width="20%">
-                    <col width="20%">
-                    <col width="20%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="15%">
+                    <col width="15%">
                   </colgroup>
                   <thead>
                     <tr>
+                      <th scope="col">창고명</th>
                       <th scope="col">제품코드</th>
                       <th scope="col">제품명</th>
                       <th scope="col">모델명</th>
@@ -331,7 +333,7 @@
                   </thead>
                   <tbody id="listWarehouseProduct">
                     <tr>
-                      <td colspan="5">창고를 선택해 주세요.</td>
+                      <td colspan="6">창고를 선택해 주세요.</td>
                     </tr>
                   </tbody>
                 </table>
