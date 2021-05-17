@@ -58,6 +58,12 @@ public class WarehouseInfoServiceImpl implements WarehouseInfoService {
     int ret = warehouseInfoDao.updateWarehouse(paramMap);
     return ret;
   }
+  //창고 삭제
+  @Override
+  public int deleteWarehouse(Map<String, Object> paramMap) throws Exception {
+    int ret = warehouseInfoDao.deleteWarehouse(paramMap);
+    return ret;
+  }
   //창고 단건 조회
   @Override
   public WarehouseInfoModel selectWarehouse(Map<String, Object> paramMap) throws Exception {

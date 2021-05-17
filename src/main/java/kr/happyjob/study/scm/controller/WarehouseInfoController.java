@@ -119,19 +119,19 @@ public class WarehouseInfoController {
    String resultMsg = "";
    
    if("I".equals(action)){
-     //납품 업체 등록
+     //창고 등록
      warehouseInfoService.insertWarehouse(paramMap);
      resultMsg = "등록 완료";
    } else if("U".equals(action)){
-     //납품 업체 수정
+     //창고 수정
      warehouseInfoService.updateWarehouse(paramMap);
      resultMsg = "수정 완료";
-   } /*else if("D".equals(action)){
-     //납품 업체 삭제
+   } else if("D".equals(action)){
+     //창고 삭제
      warehouseInfoService.deleteWarehouse(paramMap);
      resultMsg = "삭제 완료";
-   } else if("R".equals(action)){
-     //납품 업체 복구
+   } /*else if("R".equals(action)){
+     //창고 복구
      warehouseInfoService.recoveryWarehouse(paramMap);
      resultMsg = "복원 완료";
    }*/

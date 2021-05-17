@@ -90,5 +90,10 @@
   WHERE warehouse_cd = #{warehouse_cd}
 </update>
 
+  <!-- 창고 삭제 -->
+  <delete id="deleteWarehouse" parameterType="java.util.Map">
+  DELETE FROM tb_scm_warehouse
+  WHERE  warehouse_cd = #{warehouse_cd}
+</delete>
 
 </mapper>
