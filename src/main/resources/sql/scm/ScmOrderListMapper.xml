@@ -42,6 +42,7 @@
 		<select id="selectProductInfo" resultType="kr.happyjob.study.scm.model.ProductInfoModel">
 			SELECT o.order_cd orderCode, 
 			  	   o.order_date orderDate,
+			  	   o.product_cd productCode,
 			       NOW() submitDate,
 			  	   prod.prod_nm productName,  
 			       mct.m_ct_nm middleCategory,
@@ -99,7 +100,8 @@
 												scm_id,
 												direction_date,
 												purch_qty,
-												purch_total_amt
+												purch_total_amt,
+												product_cd
 			 		                      	  )
 			VALUES (
 						#{orderCode},
@@ -107,7 +109,8 @@
 						#{loginId},
 						#{submitDate},
 						#{purchaseCount},
-						#{totalAmount}
+						#{totalAmount},
+						#{productCode}
 					)
 		</insert>
 		
