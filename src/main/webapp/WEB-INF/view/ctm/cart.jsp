@@ -3,10 +3,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<!--  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> -->
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/tingle/tingle.css" />]
+<!-- sweet alert import -->
+<script src='${CTX_PATH}/js/sweetalert/sweetalert.min.js'></script>
+<link rel="stylesheet" type="text/css" href="${CTX_PATH}/css/tingle/tingle.css" />
 <link rel="stylesheet" href="${CTX_PATH}/css/view/ctm/cartList.css">
 
 <style type="text/css">
@@ -44,7 +45,9 @@ input[type=number]::-webkit-outer-spin-button {
 	padding-right: 40px;
 }
 </style>
+
 <title>장바구니</title>
+
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript">
 
@@ -95,7 +98,9 @@ input[type=number]::-webkit-outer-spin-button {
 			$("#listCart").append(data);
 			
 			// 총 개수 추출
-			var totalCntCart = $("#totalCntCart").val();
+			var totalCntCart = $('#totalCntCart').val();
+			
+			console.log("totalCntCart:: " + totalCntCart);
 			
 			// 페이지 네비게이션 생성
 			var paginationHtml = getPaginationHtml(currentPage, totalCntCart, pageSizeCart, pageBlockSizeCart, 'fListCart');
@@ -105,7 +110,7 @@ input[type=number]::-webkit-outer-spin-button {
 			
 			// 현재 페이지 설정
 			$("#currentPageCart").val(currentPage);
-			console.log("totalCntCart:: " + totalCntCart);
+			
 			
 			console.log($("input[name=qtyCount]"));
 			
@@ -116,8 +121,28 @@ input[type=number]::-webkit-outer-spin-button {
 				inputList[i].addEventListener('input', updateValue);
 			}
 			
+
 	
 		}
+	
+		function updateValue(e) {
+			console.log("작동함");
+			var qty = e.target.value;
+			var prodId = e.target.id;
+			console.log(prodId);
+			
+			var param = {
+					shopping_cart_qty : qty
+				,	product_cd : prodId
+		}
+			
+			var resultCallback = function(data) {
+				fchangeQtyResult(data);
+		    };
+		    
+		    callAjax("/ctm/changeQty.do", "post", "json", true, param, resultCallback); 
+			
+		}		
 		
 		// 장바구니 삭제하기 클릭시 모달창
 		var deleteModal = new tingle.modal({
@@ -201,6 +226,21 @@ input[type=number]::-webkit-outer-spin-button {
 		        return false; // nothing happens
 		    }
 		});
+	    
+		/* 수량 변경 시 page update */
+		function fchangeQtyResult(data){
+			var currentPage = $("#currentPageCart").val();
+			
+			if (data.result == "SUCCESS") {
+			      
+			      // 장바구니 목록 조회
+			      fListCart(currentPage);
+			      
+			    } else {
+			      swal(data.resultMsg);
+			    } 
+			
+		}
 		
 		// set content
 		orderModal.setContent('<h1>주문하시겠습니까?</h1>');
@@ -220,17 +260,7 @@ input[type=number]::-webkit-outer-spin-button {
 			orderModal.open();
 		};
 		
-		function updateValue(e) {
-			console.log("작동함");
-			var qty = e.target.value;
-			var prodId = e.target.id;
-			console.log(prodId);
-			var prodPrice = $("input[name="+prodId+"]").val();
-			console.log(prodPrice);
-			$(e.target.id+"amount").empty().text(qty * prodPrice);
-			console.log($(e.target.id+"amount").empty().text());
-			
-		}
+		
 		
 		
 </script>

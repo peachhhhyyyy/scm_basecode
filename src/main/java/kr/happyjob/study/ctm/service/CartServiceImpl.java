@@ -43,6 +43,15 @@ public class CartServiceImpl implements CartService{
 		return ret;
 	}
 	
+	/** 장바구니 수량변경 */
+	public int changeQty(Map<String, Object> paramMap) throws Exception {
+		
+		int cgq = CartDao.changeQty(paramMap);
+		
+		return cgq;
+	}
+	
+	
 }
 
 	

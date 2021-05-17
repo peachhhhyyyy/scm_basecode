@@ -85,7 +85,7 @@ public class CartController {
 	   */
 	  @RequestMapping("deleteCartItem.do")
 	  @ResponseBody
-	  public Map<String, Object> deleteComnGrpCod(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+	  public Map<String, Object> deleteCartItem(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			  HttpServletResponse response, HttpSession session) throws Exception {
 	    
 	    logger.info("+ Start " + className + ".deleteCartItem");
@@ -105,5 +105,31 @@ public class CartController {
 	    
 	    return resultMap;
 	  }
+	  
+	  @RequestMapping("changeQty.do")
+	  @ResponseBody
+	  public Map<String, Object> changeQty(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			  HttpServletResponse response, HttpSession session) throws Exception {
+	    
+	    logger.info("+ Start " + className + ".changeQty");
+	    logger.info("   - paramMap : " + paramMap);
+	    
+	    int shopping_cart_qty = Integer.parseInt((String)paramMap.get("shopping_cart_qty"));
+	    
+	    String result = "SUCCESS";
+	    String resultMsg = "변경되었습니다.";
+	    
+	    // 장바구니 삭제
+	    CartService.changeQty(paramMap);
+	    
+	    Map<String, Object> resultMap = new HashMap<String, Object>();
+	    resultMap.put("result", result);
+	    resultMap.put("resultMsg", resultMsg);
+	    
+	    logger.info("+ End " + className + ".changeQty");
+	    
+	    return resultMap;
+	  }
+	  
 	
 }

@@ -32,6 +32,12 @@
 		/*kr.kosmo.jobkorea.system.dao.CartDao.deleteCartItem*/
 		DELETE FROM tb_shopping_cart WHERE product_cd = #{product_cd}
 	</delete>
+	
+		<!-- 장바구니 수량변경 -->
+	<update id="changeQty">
+		/*kr.kosmo.jobkorea.system.dao.CartDao.changeQty*/
+		UPDATE tb_shopping_cart set shopping_cart_qty = #{shopping_cart_qty} WHERE product_cd = #{product_cd}
+	</update>
 
 </mapper>
 

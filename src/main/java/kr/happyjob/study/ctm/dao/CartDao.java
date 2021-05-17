@@ -16,4 +16,6 @@ public interface CartDao {
 	/** 장바구니 삭제 */
 	public int deleteCartItem(Map<String, Object> paramMap);
 	
+	/** 장바구니 수량 변경 */
+	public int changeQty(Map<String, Object> paramMap);
 }

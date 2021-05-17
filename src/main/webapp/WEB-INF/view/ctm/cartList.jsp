@@ -29,14 +29,15 @@ _<%@ page language="java" contentType="text/html; charset=UTF-8"
 										<td><input id="${list.product_cd}"
 												   type="number"
 												   name="qtyCount"
-												   min="0" 
+												   min="1" 
 												   value="${list.shopping_cart_qty}"
 												   style="width: 50px; text-align: right;"
 												   />
 						   		        </td>
 						   		       	<td id="${list.product_cd}amount">
-						   		       		<input name="${list.product_cd}" type="hidden" value="${list.price}">	
-						   		       		${list.price * list.shopping_cart_qty}
+						   		       		<input name="${list.product_cd}" type="hidden" value="${list.price}">
+						   		       		<c:set var="retailPrice" value="${list.price}"/>	
+						   		       		<fmt:formatNumber type="number" pattern="0" value="${list.price * list.shopping_cart_qty * 1.1}"/>
 						   		       		<!-- 가격 --> 
 						   		       	</td>	
 										<td>						
