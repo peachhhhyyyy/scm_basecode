@@ -25,7 +25,7 @@
     //공급처 목록 조회
     selectSupplierList();
     
-    //납품업체 목록 조회
+    //제품정보 목록 조회
     selectSupplierProList();
     
     // 버튼 이벤트 등록
