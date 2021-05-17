@@ -338,7 +338,7 @@ table.col thead th  {position:relative;height: 27px;padding:5px 10px;border: 1px
 table.col thead tr.sub th  {position:relative;height: 27px;padding:5px 10px;border: 1px solid #bbc2cd;background: #ecf1f5;font-weight: 400;text-align: center;}
 table.col tbody tr:nth-child(2n)  {background: #f3f3f3;}
 table.col tbody td	{height: 27px;padding:5px 10px;border: 1px solid #bbc2cd;color:#868686;text-align: center;}
-table.col tbody td a	{color:white;}
+table.col tbody td a	{color:#000;}
 table.col tbody td a:hover {text-decoration: underline;}
 table.col.hover tbody tr:hover  {background: #ddd;}
 
