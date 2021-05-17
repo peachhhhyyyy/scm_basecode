@@ -33,30 +33,20 @@
 						<p class="conTitle" style="margin-bottom: 1%; display: flex; justify-content: center; align-items: space-between;">
 							<span>발주 지시서</span>
 						</p>
-
-						<!-- Excel 출력 아이콘 -->
-						<img id="excelExport" src='/images/excel/excel.png' onclick="fExcelDownload('dailyOrderTable', '일별 수주 내역');">
-
-						<br>
 						<!-- 프로젝트 조회 -->
 						<div class="divListProject">
 							<table class="col" id="orderListTable">
 								<caption>caption</caption>
 								<thead>
 									<tr>
-										<th scope="col">주문코드</th>
-										<th scope="col">주문일자</th>
-										<th scope="col">기업고객명</th>
-										<th scope="col">주문제품명</th>
-										<th scope="col">총 재고 개수</th>
-										<th scope="col">단가</th>
-										<th scope="col">주문 개수</th>
-										<th scope="col">금액 합계</th>
-										<th scope="col">부가세</th>
-										<th scope="col">입금 여부</th>
-										<th scope="col">배송지시서</th>
-										<th scope="col">발주지시서</th>
-										<th scope="col">상태</th>
+										<th scope="col">공급처코드</th>
+										<th scope="col">공급처명</th>
+										<th scope="col">제품명</th>
+										<th scope="col">제품수량</th>
+										<th scope="col">합계 금액</th>
+										<th scope="col">담당자 이름</th>
+										<th scope="col">신청 일자</th>
+										<th scope="col">결제</th>
 									</tr>
 								</thead>
 								<tbody id="orderListHistory"></tbody>
