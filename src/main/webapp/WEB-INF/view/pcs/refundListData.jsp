@@ -23,7 +23,7 @@
                       <td></td>
                     </c:if>
                     <c:if test="${ list.return_date ne null}">
-                      <td><fmt:formatDate value="${list.return_date}" pattern="yyyy-MM-dd" /></td>
+                      <td>${list.return_date}</td>
                     </c:if>
                     <c:if  test="${ list.return_date eq null}">
                       <td>

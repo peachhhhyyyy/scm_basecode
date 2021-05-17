@@ -7,8 +7,13 @@ import kr.happyjob.study.system.model.NoticeModel;
 
 public interface NoticeDao {
 
+	// 공지사항 작성
+  public int insertNotice(NoticeModel noticeModel) throws Exception;
 	
-	// 공지사항 리스트 조회
+  
+  
+  
+  // 공지사항 리스트 조회
 	public List<NoticeModel> noticeList(Map<String, Object> paramMap)throws Exception ;
 	
 	// 공지사항 목록 카운트 조회

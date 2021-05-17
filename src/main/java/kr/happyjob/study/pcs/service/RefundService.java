@@ -8,7 +8,7 @@ import kr.happyjob.study.pcs.model.RefundDetailModel;
 public interface RefundService {
   
   // 반품서 목록 조회(기본)
-  public List<RefundDetailModel> selectRefundList(Map<String, Object> paramMap) throws Exception;
+  public List<RefundDetailModel> selectRefundList(Map<String, Object> param) throws Exception;
  
   // 반품서 목록 총 개수 조회
   public int countRefundList() throws Exception;

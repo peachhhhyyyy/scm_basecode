@@ -56,13 +56,43 @@
   }
   
   // 반품서 목록 조회
-   function selectList(currentPage) {
+   function selectList(currentPage, serchOptions) {
+    //추가코드 시작
+   var option = $('#options').val();
+   var keyword = $('#keyword').val();
+   console.log('옵션:',option);
+   console.log('키워드:', keyword)
+   var date = $("#datetimepicker1").find("input").val()
+   console.log('날짜확인', date);
+   
+    
+    // 
     currentPage = currentPage || 1;
+    
+    console.log('타입확인', typeof(option))
     console.log("currentPage : " + currentPage);
-    var param = {
-    currentPage : currentPage,
-    pageSize : pageSizeComnGrpCod
-    }
+    
+    if(keyword || date) {
+      console.log('검색어있음')
+      console.log('검색어있음, 현재페이지:',currentPage,pageSizeComnGrpCod)
+      var param = {
+          option : option,
+         keyword : keyword,
+             date: date,
+     currentPage : currentPage,
+        pageSize : pageSizeComnGrpCod
+      }
+      console.log('검색어 있음', param)
+      
+    } else {
+      console.log('검색어 없음')
+      var param = {
+      currentPage : currentPage,
+         pageSize : pageSizeComnGrpCod
+      }
+     
+   }    
+    
     
     var resultCallback = function(data) {
       selectListCallBack(data, currentPage);
@@ -198,14 +228,16 @@
     function resultCallback(data) {
       if(data === 1){
         window.location.reload();
-    
-      } else {
+      } 
+      else {
         alert('서버에서 에러가 발생했습니다.');
+        
       }
     }
     callAjax("/pcs/refund/returndate.do", "post", "json", true, param, resultCallback);
     
   }
+  
   
  
 </script>
@@ -238,18 +270,14 @@
                 <div class="row">
                   <!-- searchbar -->
                   <div class="col-lg-6">
-                    <div class="input-group">
-                      <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                          전체 <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="#">업체</a></li>
-                          <li><a href="#">제품</a></li>
-                        </ul>
+                      <div class="input-group">
+                          <select style="width:90px;height:34px;" id="options">
+                             <option value="all" selected>전체</option>
+                             <option value="category" id="category">업종</option>
+                             <option value="product" id="product">제품</option>
+                          </select>
+                          <input type="text" class="form-control" aria-label="..." id="keyword" autocomplete="off">
                       </div>
-                      <input type="text" class="form-control" aria-label="...">
-                    </div>
                   </div>
                   <!-- // searchbar -->
                   <!-- date -->
@@ -268,7 +296,7 @@
                   <!-- // date -->
                   <!-- button -->
                   <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default">검색</button>
+                    <button type="button" class="btn btn-default" onclick="selectList()">검색</button>
                   </div>
                   <!-- // button -->
                 </div>
@@ -379,20 +407,60 @@
     </div>
   </form>
   <script type="text/javascript">
-      $(function() {
-        $('#datetimepicker1').datetimepicker({
-          format : 'L'
-        });
-        $('#datetimepicker2').datetimepicker({
-        format : 'L',
-        useCurrent : false
-        });
-        $("#datetimepicker1").on("change.datetimepicker", function(e) {
-          var date = $("#datetimepicker1").find("input").val()
-          console.log('날짜확인', date)
-          $('#datetimepicker2').datetimepicker('minDate', e.date);
-        });
-      });
+  //스크립트 파일이 분리되었어도 내부적으로 연결되어있음
+  // 위에서 선언한 전역변수를 여기서도 사용가능
+  
+  // 검색 이벤트
+  $('#options li ').on('click', function(){
+   //  $('#datebox').val($(this).text());
+ 
+ });
+  // 페이징 처리가 들어가므로 기본 목록 호출 함수와 합칠 수 있을 것 같음
+  // 파라미터를 추가해서 그걸로 if문을 처리하면 될 듯.
+ function searchKeyword() {
+   console.log('호출', pageSizeComnGrpCod);
+   console.log( $('#suppl'));
+   var option = $('#options').val();
+   var keyword = $('#keyword').val();
+   console.log('ss',option);
+   console.log('keyword', keyword)
+   // console.log(('#keyword').text())
+    var date = $("#datetimepicker1").find("input").val()
+         console.log('날짜확인', date);
+   
+    var param = {
+          option : option
+        ,keyword : keyword
+        ,    date: date
+   }    
+    // ajax 콜백함수
+    function resultCallback() {
+      console.log('옵션검색 콜백');
+      selectList();
+    }
+    
+    // ajax 호출
+    callAjax("/pcs/refund/list.do", "post", "text", true, param, resultCallback);
+ }
+ 
+ 
+ 
+ 
+     $(function() {
+       $('#datetimepicker1').datetimepicker({
+         format : 'L'
+       });
+       $('#datetimepicker2').datetimepicker({
+       format : 'L',
+       useCurrent : false
+       });
+       $("#datetimepicker1").on("change.datetimepicker", function(e) {
+         var date = $("#datetimepicker1").find("input").val()
+         console.log('날짜확인', date)
+         $('#datetimepicker2').datetimepicker('minDate', e.date);
+       });
+     });
+ 
     </script>
 </body>
 </html>

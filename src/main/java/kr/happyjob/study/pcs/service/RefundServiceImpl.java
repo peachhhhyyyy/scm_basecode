@@ -17,8 +17,8 @@ public class RefundServiceImpl implements RefundService {
   
   // 반품서 목록 조회(기본)
   @Override
-  public List<RefundDetailModel> selectRefundList(Map<String, Object> paramMap) throws Exception {
-    return refundDao.selectRefundList(paramMap);
+  public List<RefundDetailModel> selectRefundList(Map<String, Object> param) throws Exception {
+    return refundDao.selectRefundList(param);
   }
   
   // 반품서 목록 총 개수 조회

@@ -4,12 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import kr.happyjob.study.pcs.model.RefundDetailModel;
-import kr.happyjob.study.pcs.model.RefundListModel;
 
 public interface RefundDao {
   
   // 반품서 목록 조회(기본)
-  public List<RefundDetailModel> selectRefundList(Map<String, Object> paramMap);
+  public List<RefundDetailModel> selectRefundList(Map<String, Object> param);
  
   // 반품서 목록 총 개수 조회
   public int countRefundList();
