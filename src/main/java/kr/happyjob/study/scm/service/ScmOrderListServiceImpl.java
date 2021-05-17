@@ -18,7 +18,7 @@ import kr.happyjob.study.scm.model.ScmOrderListModel;
 public class ScmOrderListServiceImpl implements ScmOrderListService {
 
 	@Autowired
-	ScmOrderListDao ScmOrderListDao;
+	ScmOrderListDao scmOrderListDao;
 
 	private final Logger logger = LogManager.getLogger(this.getClass());
 	// Get class name for logger
@@ -26,27 +26,27 @@ public class ScmOrderListServiceImpl implements ScmOrderListService {
 	
 	@Override
 	public List<ScmOrderListModel> getOrderList(Map<String, Object> paramMap) throws Exception {
-		return ScmOrderListDao.selectOrderList(paramMap);
+		return scmOrderListDao.selectOrderList(paramMap);
 	}
 	
 	@Override
 	public int getOrderListCnt(Map<String, Object> paramMap) throws Exception {
-		return ScmOrderListDao.selectOrderListCnt(paramMap);
+		return scmOrderListDao.selectOrderListCnt(paramMap);
 	}
 	
 	@Override
 	public ProductInfoModel getProductInfo(Map<String, Object> paramMap) throws Exception {
-		return ScmOrderListDao.selectProductInfo(paramMap);
+		return scmOrderListDao.selectProductInfo(paramMap);
 	}
 	
 	@Override
 	public String getScmManagerName(Map<String, Object> paramMap) throws Exception {
-		return ScmOrderListDao.selectScmManagerName(paramMap);
+		return scmOrderListDao.selectScmManagerName(paramMap);
 	}
 	
 	@Override
 	public DeliveryInfoModel getDeliveryInfo(Map<String, Object> paramMap) throws Exception {
-		return ScmOrderListDao.selectDeliveryInfo(paramMap);
+		return scmOrderListDao.selectDeliveryInfo(paramMap);
 	}
 	
 	@Override
@@ -63,7 +63,7 @@ public class ScmOrderListServiceImpl implements ScmOrderListService {
 		
 		if (STTcd.equals("13")) {
 			logger.info("====== 주문상태를 배송준비로 변경합니다. ======");
-			mapperResult = ScmOrderListDao.updateStateToDelivery(paramMap);
+			mapperResult = scmOrderListDao.updateStateToDelivery(paramMap);
 			
 			if (mapperResult == 1) {
 				result = "SUCCESS";
@@ -74,7 +74,7 @@ public class ScmOrderListServiceImpl implements ScmOrderListService {
 			}
 		} else if (STTcd.equals("9")) {
 			logger.info("====== 주문상태를 승인대기(발주)로 변경합니다. ======");
-			mapperResult = ScmOrderListDao.updateStateToPurchase(paramMap);
+			mapperResult = scmOrderListDao.updateStateToPurchase(paramMap);
 			
 			if (mapperResult == 1) {
 				result = "SUCCESS";
@@ -101,11 +101,11 @@ public class ScmOrderListServiceImpl implements ScmOrderListService {
 		String STTcd = (String) paramMap.get("STTcd");
 		
 		if (STTcd.equals("13")) {
-			return ScmOrderListDao.insertDataToDTable(paramMap);
+			return scmOrderListDao.insertDataToDTable(paramMap);
 		}
 		
 		if (STTcd.equals("9")) {
-			return ScmOrderListDao.insertDataToPTable(paramMap);
+			return scmOrderListDao.insertDataToPTable(paramMap);
 		}
 		
 		logger.info("+ end " + className + ".insertData");
