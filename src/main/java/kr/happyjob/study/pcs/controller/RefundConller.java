@@ -48,12 +48,15 @@ public class RefundConller {
     
     // 현재 페이지 번호
     int currentPage = Integer.parseInt((String)param.get("currentPage"));
+   
     // 한 페이지에 보일 로우의 개수(page사이즈로 int로 형변환해서 DB에서 조회)
     int pageSize = Integer.parseInt((String) param.get("pageSize")); 
+    
     // 페이지 시작 로우 번호
     int pageIndex = (currentPage - 1) * pageSize; 
-    // 총 페이지 개수
-    int totalCount = refundService.countRefundList();
+    
+    // 총 로우의 개수
+    int totalCount;
     
     param.put("pageIndex", pageIndex);
     param.put("pageSize", pageSize);
@@ -63,6 +66,7 @@ public class RefundConller {
       // 반품서 목록 조회(기본)
       System.out.println("파라미터없음");
     
+      totalCount = refundService.countRefundList();
     }
     else {
       // 반품서 목록 조회(검색)
@@ -72,15 +76,22 @@ public class RefundConller {
       String option = (String) param.get("option");
       String keyword = (String) param.get("keyword");
       String date = (String) param.get("date");
+      date = date.replace('/', '-');
      
       System.out.println("옵션:"+option + "키워드:"+ keyword + "날짜:" + date );
       System.out.println("옵션값타입체크:" + option.getClass().getName());
-      System.out.println("날짜값타입체크:" + option.getClass().getName());
+      System.out.println("날짜값타입체크:" + date.getClass().getName());
+      System.out.println("날짜값변경확인:" + date);
       
       // param 에 옵션, 키워드, 날짜 추가하여 DB로 보내기
+      // 총 로우의 개수도 조회해 와야 함
       param.put("option", option);
       param.put("keyword", keyword);
       param.put("date", date);
+      
+      // 
+      totalCount = refundService.countConditionList(param);
+      LOG.info("검색 목록 개수" +totalCount );
       
     }
     
@@ -88,6 +99,7 @@ public class RefundConller {
     List<RefundDetailModel> refundList = refundService.selectRefundList(param);
     model.addAttribute("refundList", refundList);
     
+    LOG.info("총 로우의 개수 확인:" + totalCount);
     model.addAttribute("totalCount", totalCount);
     model.addAttribute("pageSize", pageSize);
     model.addAttribute("currentPage", currentPage);
