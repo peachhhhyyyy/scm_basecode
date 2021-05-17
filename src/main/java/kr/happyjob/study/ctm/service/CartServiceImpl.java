@@ -18,7 +18,7 @@ public class CartServiceImpl implements CartService{
 	@Autowired
 	CartDao CartDao;
 	
-	
+	/** 장바구니 조회 */
 	public List<CartModel> listCart(Map<String, Object> paramMap) throws Exception{
 		
 		List<CartModel> listCart = CartDao.listCart(paramMap);
@@ -27,9 +27,9 @@ public class CartServiceImpl implements CartService{
 		
 	}
 	
+	/** 장바구니 카운트 조회 */
 	public int countListCart(Map<String, Object> paramMap) throws Exception{
 		
-			
 			int totalCount = CartDao.countListCart(paramMap);
 			
 			return totalCount;
