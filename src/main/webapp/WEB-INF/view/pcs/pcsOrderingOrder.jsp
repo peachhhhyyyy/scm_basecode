@@ -184,10 +184,6 @@
     <form id="myForm" action="" method="">
     
         <input type="hidden" id="currentPage" value="1">
-        <input type="hidden" id="currentPageComnGrpCod" value="1">
-        <input type="hidden" id="currentPageComnDtlCod" value="1">
-        <input type="hidden" id="tmpGrpCod" value="">
-        <input type="hidden" id="tmpGrpCodNm" value="">
         <input type="hidden" name="order_cd" id="order_cd" value="">
         <input type="hidden" name="supply_cd" id="supply_cd" value="">
         <input type="hidden" name="alertmsg" id="alertmsg" value="">
