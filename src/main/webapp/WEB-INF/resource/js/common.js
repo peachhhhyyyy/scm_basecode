@@ -168,8 +168,8 @@ function getPaginationHtml(currentPage, totalCount, pageRow, blockPage, pageFunc
 	
 	var pagingHtml = "<div class='paging'>";
 	pagingHtml += "<a class='first' href='javascript:"+pageFunc+"(1"+sExParam+")'><span class='hidden'>맨앞</span></a>";
-	pagingHtml += "<a class='pre' href='javascript:"+pageFunc+"(" + (startPage - 1 == 0 ? 1 : (startPage -1)) +sExParam+")'><span class='hidden'>이전</span></a>";
-
+    pagingHtml += "<a class='pre' href='javascript:"+pageFunc+"(" + (currentPage - 1 == 0 ? 1 : (currentPage -1))+")'><span class='hidden'>이전</span></a>";
+    
 	for (var i = startPage; i <= endPage; i++) {
 		if (i > totalPage) {
 			break;
@@ -186,7 +186,7 @@ function getPaginationHtml(currentPage, totalCount, pageRow, blockPage, pageFunc
 		}
 	}
 
-	pagingHtml += "<a class='next' href='javascript:"+pageFunc+"(" + (endPage + 1 > totalPage ? totalPage : (endPage + 1))+ sExParam + ")'><span class='hidden'>다음</span></a>";
+    pagingHtml += "<a class='next' href='javascript:"+pageFunc+"(" + (currentPage + 1 > totalPage ? currentPage : (currentPage + 1)) + ")'><span class='hidden'>다음</span></a>";
 	pagingHtml += "<a class='last' href='javascript:"+pageFunc+"(" + totalPage + sExParam + ")'><span class='hidden'>맨뒤</span></a>";
 	pagingHtml += "</div>";
 
