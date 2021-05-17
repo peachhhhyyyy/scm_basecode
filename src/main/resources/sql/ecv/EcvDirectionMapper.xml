@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.happyjob.study.ecv.dao.EcvDirectionDao">
+		<!-- 수주내역 조회 -->
+		<select id="selectPurchaseDirectionList" resultType="kr.happyjob.study.ecv.model.EcvPurchaseDirectionModel"> 
+			SELECT pl.supply_cd supplyCode,
+			       sup.supply_nm supplyName,
+			       prod.prod_nm productName,
+			       pl.purch_qty purchaseQty,
+			       pl.purch_total_amt purchaseTotalAmount,
+			       ui.name scmManager,
+			       pl.direction_date directionDate,
+			       o.STTcd sttCode,
+			       o.order_cd orderCode
+			FROM tb_scm_purchase_list pl
+			JOIN tb_order o ON o.order_cd = pl.order_cd
+			JOIN tb_userinfo ui ON ui.loginID = pl.scm_id
+			JOIN tb_scm_supply sup ON sup.supply_cd = pl.supply_cd
+			JOIN tb_scm_product prod ON prod.product_cd = pl.product_cd
+			ORDER BY pl.purch_list_no
+		    LIMIT #{pageIndex}, #{pageSize}
+		</select>
+		
+		<!-- 수주내역 데이터 갯수 카운팅 -->
+		<select id="selectPurchaseDirectionListCnt" resultType="int">
+			SELECT COUNT(*) tot_cnt
+			FROM tb_scm_purchase_list;
+		</select>
+		<update id="updatePurchaseApprove" parameterType="int">
+			UPDATE tb_order
+			SET STTcd = #{STTcd}
+			WHERE order_cd = #{orderCode}
+		</update>
+</mapper>
