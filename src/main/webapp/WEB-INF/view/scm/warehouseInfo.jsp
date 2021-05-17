@@ -127,8 +127,6 @@
   }
   
   
-  
-  
   /** 창고정보 모달 실행 */
   function fPopModalWarehouse(warehouse_cd) {
     //신규 저장
@@ -169,7 +167,7 @@
     if (object == "" || object == null || object == undefined) {
       $("#warehouse_cd").val("");
       $("#warehouse_nm").val("");
-      $("#wh_mng_nm").val("");
+      $("#wh_mng_cd").val("");
       $("#tel").val("");
       $("#tel").attr("readonly", true);
       $("#email").val("");
@@ -177,13 +175,13 @@
       $("#zip_cd").val("");
       $("#addr").val("");
       $("#addr_detail").val("");
-      $("#btnDeleteDelivery").hide();
+      $("#btnDeleteWarehouse").hide();
     } else{
       $("#warehouse_cd").val(object.warehouse_cd);
       $("#warehouse_cd").attr("readonly", true);
       $("#warehouse_nm").val(object.warehouse_nm);
       $("#warehouse_nm").attr("readonly", true);
-      $("#wh_mng_nm").val(object.wh_mng_nm);
+      $("#wh_mng_cd").val(object.wh_mng_cd);
       $("#tel").val("object.tel");
       $("#tel").attr("readonly", true);
       $("#email").val("object.email");
@@ -194,7 +192,50 @@
     } 
   }
 
+  /** 창고 저장 validation */
+  function fValidateWarehouse() {
+    var chk = checkNotEmpty([ 
+            [ "warehouse_cd", "창고코드를 입력하세요." ],
+            [ "warehouse_nm", "창고명 입력하세요." ],
+            [ "wh_mng_nm", "담당자ID를 입력하세요." ],
+            [ "zip_cd", "우편주소를 입력하세요." ],
+            [ "addr", "주소를 입력하세요." ], 
+            [ "addr_detail", "상세주소를 입력하세요." ] 
+        ]);
+    if (!chk) {
+      return;
+    }
+    return true;
+  }
   
+  //창고 저장
+  function fSaveWarehouse() {
+    //validation 체크
+    if (!fValidateWarehouse()) {
+      return;
+    }
+    var resultCallback = function(data) {
+      console.log(data);
+      fSaveWarehouseResult(data);
+    };
+    callAjax("/scm/saveWarehouse.do", "post", "json", true, $("#myForm")
+        .serialize(), resultCallback);
+  }
+  //창고 저장 콜백 함수
+  function fSaveWarehouseResult(data) {
+    var currentPage = "1";
+    if ($("#action").val() != "I") {
+      currentPage = $("#currentPageDelvery").val();
+    }
+    if (data.result == "SUCCESS") {
+      alert(data.resultMsg);
+      gfCloseModal();
+      fListWarehouse(currentPage);
+    } else {
+      alert(data.resultMsg);
+    }
+    fInitFormWarehouse();
+  }
 </script>
 </head>
 <body>
@@ -303,6 +344,74 @@
           </li>
         </ul>
       </div>
+    </div>
+    
+    <!-- 모달! -->
+    <div id="layer1" class="layerPop layerType2" style="width: 600px;">
+      <dl>
+        <dt>
+          <strong>창고 관리</strong>
+        </dt>
+        <dd class="content">
+          <table class="row">
+            <caption>caption</caption>
+            <colgroup>
+              <col width="120px">
+              <col width="*">
+              <col width="120px">
+              <col width="*">
+            </colgroup>
+            <tbody>
+              <tr>
+                <th scope="row">창고 번호 <span class="font_red">*</span></th>
+                <td colspan="3"><input type="text" class="inputTxt p100"
+                  name="warehouse_cd" id="warehouse_cd" /></td>
+                <th scope="row">창고명 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100"
+                  name="deli_company" id="deli_company" /></td>  
+              </tr>
+              <tr>
+                
+                <th scope="row">LoginID<span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100" name="deli_id"
+                  id="deli_id" /></td>
+              </tr>
+              <tr>
+                <th scope="row">패스워드 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100"
+                  name="deli_password" id="deli_password" /></td>
+                <th scope="row">담당자명 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100"
+                  name="deli_name" id="deli_name" /></td>
+              </tr>
+              <tr>
+                <th scope="row">담당자 연락처 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100"
+                  name="deli_phone" id="deli_phone" /></td>
+                  <th scope="row">담당자 이메일 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100"
+                  name="deli_email" id="deli_email" /></td>
+              </tr>
+              <!-- <tr class="hidden">
+                <th scope="row">삭제여부 <span class="font_red">*</span></th>
+                <td colspan="3"><input type="text" class="inputTxt p100"
+                  name="del_cd" id="del_cd" /></td>
+              </tr> -->
+
+            </tbody>
+          </table>
+
+
+          <div class="btn_areaC mt30">
+            <a href="" class="btnType blue" id="btnSaveDelivery" name="btn"><span>저장</span></a>
+            <!-- <a href="" class="btnType blue" id="btnDeleteDelivery" name="btn"><span>삭제</span></a>
+            <a href="" class="btnType blue" id="btnRecoveryDelivery"
+              name="btn"><span>복원</span></a> <a href="" class="btnType gray"
+              id="btnCloseDelivery" name="btn"><span>취소</span></a> -->
+          </div>
+        </dd>
+      </dl>
+      <a href="" class="closePop"><span class="hidden">닫기</span></a>
     </div>
   </form>
 </body>
