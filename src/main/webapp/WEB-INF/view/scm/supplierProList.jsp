@@ -10,7 +10,7 @@
 </c:if>
 
 <c:if test="${totalCountPro > 0 }">
-  <c:set var="nRow" value="${pageSize*(currentPage-1)}" /> 
+  <c:set var="nRow" value="${pageSize*(currentPageProduct-1)}" /> 
   <c:forEach items="${supplierProModelList}" var="list">
     <tr>
     

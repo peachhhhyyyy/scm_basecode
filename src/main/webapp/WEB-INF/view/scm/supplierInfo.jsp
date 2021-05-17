@@ -284,7 +284,7 @@
   function supplierProListResult(data, currentPage) {
     console.log("data : " + data);
     //기존 목록 삭제
-    $('#supplierProList').empty();
+    $("#supplierProList").empty();
     // 신규 목록 생성
     $("#supplierProList").append(data);
     //$("#listProduct").append($listProduct.children());  
@@ -298,7 +298,7 @@
         pageSizeProduct, pageBlockSizeProduct, 'selectSupplierProList',[supply_nm, supply_cd]);
     $("#productPagination").empty().append(paginationHtml);
     // 현재 페이지 설정
-    $("#currentPage").val(currentPage);
+    $("#currentPageProduct").val(currentPage);
   }
   
   /* 검색 기능*/
@@ -334,7 +334,7 @@
 <body>
 <form id="myForm" action="" method="">
     <input type="hidden" id="currentPage" value="1">
-    <input type="hidden" id="currentPage" value="1"> 
+    <input type="hidden" id="currentPageProduct" value="1"> 
     <input type="hidden" id="tmpsupply_nm" value="">  
     <input type="hidden" id="tmpsupply_cd" value="">
     <input type="hidden" name="action" id="action" value="">

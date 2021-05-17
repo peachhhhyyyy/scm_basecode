@@ -82,7 +82,7 @@ public class SupplierInfoController {
     model.addAttribute("totalCountPro", totalCount);
     
     model.addAttribute("pageSize", pageSize);
-    model.addAttribute("currentPage",currentPage);
+    model.addAttribute("currentPageProduct",currentPage);
     
     
     return "scm/supplierProList";
