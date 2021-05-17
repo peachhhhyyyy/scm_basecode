@@ -8,9 +8,9 @@
                 , DATE_FORMAT(SHIPINFO.arr_date, '%Y-%m-%d') AS arr_date
                 , DATE_FORMAT(SHIPINFO.arr_prev_date, '%Y-%m-%d') AS arr_prev_date
 				, OD.order_cd AS order_cd
-				, DC.detail_name AS state
 				, SHIPINFO.staff_name AS name_delivery
 				, WH.warehouse_nm AS warehouse_nm
+				, DC.detail_name AS state
             FROM tb_order OD
             LEFT JOIN (
                 SELECT warehouse_cd, warehouse_nm
@@ -94,22 +94,23 @@
 
 	<!-- 상세 정보 조회 -->
     <select id="outgoingDetailList" resultType="kr.happyjob.study.dlv.model.DlvOutgoingDetailModel">
-        SELECT shipList.ship_list_no AS ship_list_no
+        SELECT  DATE_FORMAT(OD.order_date, '%Y-%m-%d') AS order_date
+                , shipList.ship_list_no AS ship_list_no
 				, OD.order_cd AS order_cd
 				, tsp.m_ct_nm
 				, tsp.prod_nm
 				, OD.order_cnt AS order_cnt
-				, customer.name AS name_customer
-				, customer.tel AS tel_customer
-				, customer.addr AS addr
+				, CUSTOMER.name AS name_customer
+				, CUSTOMER.tel AS tel_customer
+				, CUSTOMER.addr AS addr
 				, shipList.scm_name AS name_scm
 				, shipList.staff_name AS name_delivery
 				, shipList.staff_tel AS tel_delivery
-				, warehouse.warehouse_nm AS warehouse_nm
+				, WH.warehouse_nm AS warehouse_nm
 				, DATE_FORMAT(shipList.arr_date, '%Y-%m-%d') AS arr_date
 				, DATE_FORMAT(shipList.arr_prev_date, '%Y-%m-%d') AS arr_prev_date
-				, OD.STTcd AS STTcd
-				, OD.request AS request
+				, OD.STTcd AS state
+				, IFNULL(OD.request, " - ") AS request
             FROM tb_order OD
 
             LEFT JOIN(
@@ -141,14 +142,14 @@
 						, name
 						, tel
 						, addr
-				FROM tb_userinfo) AS customer
-				ON OD.loginID = customer.loginID
-
+				    FROM tb_userinfo ) AS CUSTOMER
+			    ON OD.loginID = CUSTOMER.loginID
+			
             LEFT JOIN(
                 SELECT warehouse_cd
                         , warehouse_nm
-                    FROM tb_scm_warehouse) AS warehouse
-                ON OD.warehouse_cd = warehouse.warehouse_cd
+                    FROM tb_scm_warehouse) AS WH
+                ON OD.warehouse_cd = WH.warehouse_cd
 
 			WHERE OD.order_cd = #{order_cd}
 	</select>
@@ -174,9 +175,17 @@
             tb_scm_ship_list AS TSSL
                 , tb_order AS OD
 	        SET
-	            TSSL.arr_prev_date = DATE_FORMAT(#{arrPrevDate}, '%Y-%m-%d %h:%m:%s'),
-	            TSSL.ship_staff_id = #{dlvStaffId},
-	            OD.STTcd = #{state}
+	            <choose>
+		            <when test="state.equals('15')">
+                        TSSL.arr_date = NOW(),
+		                OD.STTcd = #{state}
+		            </when>
+		            <otherwise>
+			            TSSL.arr_prev_date = DATE_FORMAT(#{arrPrevDate}, '%Y-%m-%d %h:%m:%s'),
+	                    TSSL.ship_staff_id = #{dlvStaffLoginId},
+	                    OD.STTcd = #{state}
+		            </otherwise>
+	            </choose>
 	        WHERE OD.order_cd = #{order_cd}
 	           AND TSSL.ship_list_no = #{ship_list_no}
 	           AND TSSL.order_cd = #{order_cd}
