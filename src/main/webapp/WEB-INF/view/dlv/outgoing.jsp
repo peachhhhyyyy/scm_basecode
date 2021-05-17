@@ -227,7 +227,7 @@
 										<th scope="col">배송완료일자</th>
 										<th scope="col">도착예정일자</th>
 										<th scope="col">주문코드</th>
-										<th scope="col">배송담당자</th>
+										<th scope="col">배송사원</th>
 										<th scope="col">창고명</th>
 										<th scope="col">상태</th>
 									</tr>
@@ -282,9 +282,9 @@
 								<thead>
 									<tr>
 										<th scope="col">SCM담당자명</th>
+										<th scope="col">창고명</th>
 										<th scope="col">배송사원</th>
 										<th scope="col">배송사원 연락처</th>
-										<th scope="col">창고명</th>
 										<th scope="col">도착예정일자</th>
 										<th scope="col">배송상태</th>
 										<th scope="col" colspan="2">요구사항</th>
