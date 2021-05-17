@@ -15,7 +15,21 @@
       FROM tb_scm_supply SP
       LEFT OUTER JOIN tb_scm_warehouse WH
       ON WH.warehouse_cd = SP.warehouse_cd
-      
+      <where>
+      <if test="(sname != null) and (!sname.equals(''))">
+      <choose>
+        <when test="oname eq 'all'.toString()">
+            AND (SP.supply_nm LIKE CONCAT('%', #{sname}, '%') or SP.supply_mng_nm LIKE CONCAT('%', #{sname}, '%'))
+        </when>
+        <when test= "(oname eq 'supply_nm'.toString())">
+            AND SP.supply_nm LIKE concat('%', #{sname}, '%')
+        </when>
+        <when test= "(oname eq 'supply_mng_nm'.toString())">
+            AND SP.supply_mng_nm LIKE concat('%', #{sname}, '%')
+        </when> 
+      </choose>
+      </if> 
+    </where>
       ORDER BY SP.supply_nm
       LIMIT #{pageIndex}, #{pageSize}
   </select>
@@ -25,6 +39,21 @@
       FROM tb_scm_supply SP
       LEFT OUTER JOIN tb_scm_warehouse WH
       ON WH.warehouse_cd = SP.warehouse_cd 
+      <where>
+      <if test="(sname != null) and (!sname.equals(''))">
+      <choose>
+        <when test="oname eq 'all'.toString()">
+            AND (SP.supply_nm LIKE CONCAT('%', #{sname}, '%') or SP.supply_mng_nm LIKE CONCAT('%', #{sname}, '%'))
+        </when>
+        <when test= "(oname eq 'supply_nm'.toString())">
+            AND SP.supply_nm LIKE concat('%', #{sname}, '%')
+        </when>
+        <when test= "(oname eq 'supply_mng_nm'.toString())">
+            AND SP.supply_mng_nm LIKE concat('%', #{sname}, '%')
+        </when> 
+      </choose>
+      </if> 
+    </where>
   </select>
   
   <!-- 제품 목록 조회 -->
