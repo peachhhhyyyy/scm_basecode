@@ -114,7 +114,7 @@
     // 총 개수 추출
     var totalCntComnGrpCod = $("#totalCntComnGrpCod").val();
     // 페이지 네비게이션 생성
-    var paginationHtml = getPaginationHtml(currentPage, totalCntComnGrpCod, pageSizeComnGrpCod, pageBlockSizeComnGrpCod, 'fListComnGrpCod');
+    var paginationHtml = getPaginationHtml(currentPage, totalCntComnGrpCod, pageSizeComnGrpCod, pageBlockSizeComnGrpCod, 'selectList');
     console.log("paginationHtml : " + paginationHtml);
     //alert(paginationHtml);
     $("#comnGrpCodPagination").empty().append(paginationHtml);
@@ -436,7 +436,7 @@
     // ajax 콜백함수
     function resultCallback() {
       console.log('옵션검색 콜백');
-      selectList();
+      selectList(currentPage);
     }
     
     // ajax 호출
