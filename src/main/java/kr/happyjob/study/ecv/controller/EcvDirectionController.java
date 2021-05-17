@@ -38,6 +38,8 @@ public class EcvDirectionController {
 		logger.info("   - paramMap : " + paramMap);
 
 		logger.info("+ end " + className + ".init");
+		
+		model.addAttribute(attributeValue);
 
 		return "ecv/directionList.jsp";
 	}
