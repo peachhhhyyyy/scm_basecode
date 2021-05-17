@@ -30,7 +30,7 @@ public class RefundConller {
   RefundService refundService;
   
   // logger
-  private final Logger LOG = LogManager.getLogger(this.getClass());  
+  private final Logger log = LogManager.getLogger(this.getClass());  
 
   // 반품 화면 
   @RequestMapping(value="/list.do", method=RequestMethod.GET)
@@ -44,7 +44,7 @@ public class RefundConller {
   @RequestMapping(value="/list.do", method=RequestMethod.POST)
   public String selectList(Model model, @RequestParam Map<String, Object> param) throws Exception{
 
-    LOG.info("파라미터 확인:" + param);
+    log.info("파라미터 확인:" + param);
     
     // 현재 페이지 번호
     int currentPage = Integer.parseInt((String)param.get("currentPage"));
@@ -91,7 +91,7 @@ public class RefundConller {
       
       // 
       totalCount = refundService.countConditionList(param);
-      LOG.info("검색 목록 개수" +totalCount );
+      log.info("검색 목록 개수" +totalCount );
       
     }
     
@@ -99,12 +99,12 @@ public class RefundConller {
     List<RefundDetailModel> refundList = refundService.selectRefundList(param);
     model.addAttribute("refundList", refundList);
     
-    LOG.info("총 로우의 개수 확인:" + totalCount);
+    log.info("총 로우의 개수 확인:" + totalCount);
     model.addAttribute("totalCount", totalCount);
     model.addAttribute("pageSize", pageSize);
     model.addAttribute("currentPage", currentPage);
     
-    LOG.info("DB에서 넘어온 데이터 확인:" + refundList);
+    log.info("DB에서 넘어온 데이터 확인:" + refundList);
     
     return "/pcs/refundListData";
   }
@@ -157,8 +157,8 @@ public class RefundConller {
   @ResponseBody
   @RequestMapping(value="/detail.do", method=RequestMethod.POST)
   public RefundDetailModel selectRefundDetail(@RequestParam(required=false)Map<String, Object> param, RefundDetailModel refundDetail) throws Exception {
-    LOG.info("단건 파라미터 확인:" +  param);
-    LOG.info("파라미터 타입확인" + param.get("refund_list_no").getClass().getName());
+    log.info("단건 파라미터 확인:" +  param);
+    log.info("파라미터 타입확인" + param.get("refund_list_no").getClass().getName());
     
     
     String temp = (String) param.get("refund_list_no");
@@ -166,8 +166,8 @@ public class RefundConller {
     
 //    
     refundDetail = refundService.selectOneRefund(refund_list_no);
-    LOG.info("단건 조회내역 확인" + refundDetail);
-    LOG.info("날짜 확인" + refundDetail.getPurch_date());
+    log.info("단건 조회내역 확인" + refundDetail);
+    log.info("날짜 확인" + refundDetail.getPurch_date());
     
     return refundDetail;
   }
@@ -179,19 +179,19 @@ public class RefundConller {
 //    Map<String,Integer>로 받아서 테스트
 //    위의 방법이 실패시 <String,Object>로 실행 -> 실패. 아래는 에러메시지
 //    java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
-    LOG.info("purch_list_no확인" + param);
-    LOG.info("purch_list_no타입" + param.get("purch_list_no").getClass().getName());
-    LOG.info("refundmodel" + param.get("purch_list_no"));
+    log.info("purch_list_no확인" + param);
+    log.info("purch_list_no타입" + param.get("purch_list_no").getClass().getName());
+    log.info("refundmodel" + param.get("purch_list_no"));
     
     
       
       String temp = (String) param.get("purch_list_no");
       int purch_list_no = Integer.parseInt(temp);
-//    LOG.info("refund_list_no확인" + purch_list_no.getClass().getName());
+//    log.info("refund_list_no확인" + purch_list_no.getClass().getName());
       
       int result = refundService.insertReturnDate(purch_list_no);
       
-//    LOG.info("update결과:" + result);
+//    log.info("update결과:" + result);
       return result;
    
   }

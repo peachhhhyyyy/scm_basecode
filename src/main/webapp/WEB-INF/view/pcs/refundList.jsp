@@ -13,47 +13,20 @@
 }
 </style>
 <script type="text/javascript">
-  // 그룹코드 페이징 설정
-  var pageSizeComnGrpCod = 5;
-  var pageBlockSizeComnGrpCod = 5;
 
-  /** OnLoad event */
+  // 페이징 설정
+  var pageSize = 5;
+  var pageBlock = 5;
+
+  /* OnLoad event */ 
   $(function() {
 
     // 반품서 목록 조회
     selectList();
 
-    // 버튼 이벤트 등록
-    fRegisterButtonClickEvent();
   });
 
-  /** 버튼 이벤트 등록 */
-  function fRegisterButtonClickEvent() {
-    $('a[name=btn]').click(function(e) {
-      e.preventDefault();
-      var btnId = $(this).attr('id');
-      switch (btnId) {
-      case 'btnSaveGrpCod':
-        fSaveGrpCod();
-        break;
-      case 'btnDeleteGrpCod':
-        fDeleteGrpCod();
-        break;
-      case 'btnSaveDtlCod':
-        fSaveDtlCod();
-        break;
-      case 'btnDeleteDtlCod':
-        fDeleteDtlCod();
-        break;
-      case 'btnCloseGrpCod':
-      case 'btnCloseDtlCod':
-        gfCloseModal();
-        break;
-      }
-    });
-  }
-
-  // 반품서 목록 조회
+   /* 반품서 목록 조회 */
   function selectList(currentPage, serchOptions) {
     //추가코드 시작
     var option = $('#options').val();
@@ -61,6 +34,8 @@
     console.log('옵션:', option);
     console.log('키워드:', keyword)
     var date = $("#datetimepicker1").find("input").val()
+    // moment(new Date()).format("YYYYMMDD")
+    date = moment(date).format('YYYYMMDD')
     console.log('날짜확인', date);
 
     // 
@@ -69,14 +44,14 @@
     console.log("currentPage : " + currentPage);
 
     if (keyword || date) {
-      console.log('검색어있음, 현재페이지:', currentPage, pageSizeComnGrpCod)
+      console.log('검색어있음, 현재페이지:', currentPage, pageSize)
       
       var param = {
       option : option,
       keyword : keyword,
       date : date,
       currentPage : currentPage,
-      pageSize : pageSizeComnGrpCod
+      pageSize : pageSize
       }
 
     } else {
@@ -84,7 +59,7 @@
       
       var param = {
       currentPage : currentPage,
-      pageSize : pageSizeComnGrpCod
+      pageSize : pageSize
       }
 
     }
@@ -98,31 +73,31 @@
     callAjax("/pcs/refund/list.do", "post", "text", true, param, resultCallback);
   }
 
-  // 반품서 목록 조회 콜백 함수
+   /* 반품서 목록 조회 콜백 함수 */
   function selectListCallBack(data, currentPage) {
     
     console.log('반품서 목록:', data);
     
     // 기존 목록 삭제
-    $('#listComnGrpCod').empty();
+    $('#refundList').empty();
     
     // 신규 목록 생성
-    $("#listComnGrpCod").append(data);
+    $("#refundList").append(data);
     
     // 총 개수 추출
     var totalCount = $("#totalCount").val();
-    console.log('반품서 목록 파라미터 확인:',currentPage, totalCount, pageSizeComnGrpCod, pageBlockSizeComnGrpCod)
+    console.log('반품서 목록 파라미터 확인:',currentPage, totalCount, pageSize, pageBlock)
     
     // 페이지 네비게이션 생성
-    var paginationHtml = getPaginationHtml(currentPage, totalCount, pageSizeComnGrpCod, pageBlockSizeComnGrpCod, 'selectList');
+    var paginationHtml = getPaginationHtml(currentPage, totalCount, pageSize, pageBlock, 'selectList');
     console.log("paginationHtml : " + paginationHtml);
-    $("#comnGrpCodPagination").empty().append(paginationHtml);
+    $("#pagination").empty().append(paginationHtml);
   
     // 현재 페이지 설정
-    $("#currentPageComnGrpCod").val(currentPage);
+    $("#currentPageCod").val(currentPage);
   }
 
-  // 반품서 단건 조회 모달 
+  /* 반품서 단건 조회 모달  */
   function fadeInModal(refund_list_no) {
     console.log('모달', refund_list_no)
     console.log('타입확인', typeof (refund_list_no))
@@ -145,7 +120,7 @@
     selectDetail(refund_list_no);
   }
 
-  // 반품서 단건 조회 함수
+  /* 반품서 단건 조회 함수 */
   // fSelectGrpCodResult 참고
   function selectDetail(refund_list_no) {
     console.log('단건 조회 호출!!', refund_list_no);
@@ -163,7 +138,7 @@
     callAjax("/pcs/refund/detail.do", "post", "json", true, param, resultCallback);
   }
 
-  // 반품서 단건 조회  콜백 함수
+  /* 반품서 단건 조회  콜백 함수 */
   // fSelectGrpCodResult참고
   function selectDetailCallBack(data) {
     gfModalPop("#layer1");
@@ -171,7 +146,7 @@
     initModal(data);
   }
 
-  // 반품서 모달 데이터 설정
+  /* 반품서 모달 데이터 설정 */
   // fInitFormGrpCod 참고
   function initModal(object) {
     console.log('object 확인:', object);
@@ -216,14 +191,13 @@
 
   }
 
-  //반품 완료 처리
+  /* 반품 완료 처리 */
   function insertReturnDate(purch_list_no) {
-    console.log("반품완료처리", purch_list_no)
-    purch_list_no = parseInt(purch_list_no)
+    purch_list_no = parseInt(purch_list_no);
+
     var param = {
       purch_list_no : purch_list_no
     }
-    console.log('파라미터 점검', param)
 
     function resultCallback(data) {
       if (data === 1) {
@@ -240,7 +214,7 @@
 </head>
 <body>
   <form id="myForm" action="" method="">
-    <input type="hidden" id="currentPageComnGrpCod" value="1"> <input type="hidden" id="currentPageComnDtlCod" value="1"> <input type="hidden" id="tmpGrpCod" value=""> <input type="hidden" id="tmpGrpCodNm" value=""> <input type="hidden" name="action" id="action" value="">
+    <input type="hidden" id="currentPageCod" value="1"> <input type="hidden" id="currentPageComnDtlCod" value="1"> <input type="hidden" id="tmpGrpCod" value=""> <input type="hidden" id="tmpGrpCodNm" value=""> <input type="hidden" name="action" id="action" value="">
     <!-- 모달 배경 -->
     <div id="mask"></div>
     <div id="wrap_area">
@@ -324,10 +298,10 @@
                       <th scope="col">반품완료</th>
                     </tr>
                   </thead>
-                  <tbody id="listComnGrpCod"></tbody>
+                  <tbody id="refundList"></tbody>
                 </table>
               </div>
-              <div class="paging_area" id="comnGrpCodPagination"></div>
+              <div class="paging_area" id="pagination"></div>
               <h3 class="hidden">풋터 영역</h3>
               <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
           </li>
@@ -353,7 +327,7 @@
             <tbody class="forbidden-event">
               <tr>
                 <th scope="row">반품번호</th>
-                <td><input type="text" value="sddd" class="inputTxt p100" name="purch_list_no" id="purch_list_no" /></td>
+                <td><input type="text" class="inputTxt p100" name="purch_list_no" id="purch_list_no" /></td>
                 <th scope="row">회사명 ${refund.order_cd}</th>
                 <td><input type="text" class="inputTxt p100" name="supply_nm" id="supply_nm" /></td>
               </tr>
@@ -401,16 +375,5 @@
       <a href="" class="closePop"><span class="hidden">닫기</span></a>
     </div>
   </form>
-  <script type="text/javascript">
-      //스크립트 파일이 분리되었어도 내부적으로 연결되어있음
-      // 위에서 선언한 전역변수를 여기서도 사용가능
-
-      // 검색 이벤트
-      $('#options li ').on('click', function() {
-        //  $('#datebox').val($(this).text());
-
-      });
-      
-    </script>
 </body>
 </html>
