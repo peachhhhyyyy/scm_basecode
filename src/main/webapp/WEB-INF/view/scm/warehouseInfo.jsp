@@ -126,6 +126,75 @@
     $("#currentPageProduct").val(currentPage);
   }
   
+  
+  
+  
+  /** 창고정보 모달 실행 */
+  function fPopModalWarehouse(warehouse_cd) {
+    //신규 저장
+    if (warehouse_cd == null || warehouse_cd == "") {
+      $("#action").val("I");
+      fInitFormWarehouse();
+      gfModalPop("#layer1");
+    } else {
+      $("#action").val("U");
+      fSelectWarehouse(warehouse_cd);
+    }
+  }
+  /*창고정보 단건 조회*/
+  function fSelectWarehouse(warehouse_cd) {
+    var param = {
+      warehouse_cd : warehouse_cd
+    };
+    var resultCallback = function(data) {
+      fSelectWarehouseResult(data);
+    };
+    callAjax("/scm/selectWarehouse.do", "post", "json", true, param,
+        resultCallback);
+  }
+  //창고정보 단건 조회 콜백 함수
+  function fSelectWarehouseResult(data) {
+    if (data.result == "SUCCESS") {
+      gfModalPop("#layer1")
+      fInitFormWarehouse(data.supplierInfoModel);
+    } else {
+      alert(data.resultMsg);
+    }
+  }
+  /** 창고정보 폼 초기화 */
+  function fInitFormWarehouse(object) {
+    $("#warehouse_nm").focus();
+    
+    console.log("object :" + JSON.stringify(object));
+    if (object == "" || object == null || object == undefined) {
+      $("#warehouse_cd").val("");
+      $("#warehouse_nm").val("");
+      $("#wh_mng_nm").val("");
+      $("#tel").val("");
+      $("#tel").attr("readonly", true);
+      $("#email").val("");
+      $("#email").attr("readonly", true);
+      $("#zip_cd").val("");
+      $("#addr").val("");
+      $("#addr_detail").val("");
+      $("#btnDeleteDelivery").hide();
+    } else{
+      $("#warehouse_cd").val(object.warehouse_cd);
+      $("#warehouse_cd").attr("readonly", true);
+      $("#warehouse_nm").val(object.warehouse_nm);
+      $("#warehouse_nm").attr("readonly", true);
+      $("#wh_mng_nm").val(object.wh_mng_nm);
+      $("#tel").val("object.tel");
+      $("#tel").attr("readonly", true);
+      $("#email").val("object.email");
+      $("#email").attr("readonly", true);
+      $("#zip_cd").val("object.zip_cd");
+      $("#addr").val("object.addr");
+      $("#addr_detail").val("object.addr_detail");
+    } 
+  }
+
+  
 </script>
 </head>
 <body>
