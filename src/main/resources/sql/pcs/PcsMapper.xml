@@ -137,6 +137,21 @@
           FROM tb_detail_code
           WHERE group_code = 'STTcd'
         ) DC ON OD.STTcd = DC.detail_code
+        <where>
+		       <if test="(search_type != null) and (!search_type.equals(''))">
+		        <choose>
+			        <when test="(search_type != null) and (search_type eq 'brand'.toString())">
+			          and PD.m_ct_cd Like CONCAT('%', #{adm_key}, '%')
+			        </when>
+			        <when test="(search_type != null) and (search_type eq 'product'.toString())">
+			          and PD.prod_nm LIKE CONCAT('%', #{adm_key}, '%')
+			        </when>
+			        <when test="(search_type != null) and (search_type eq 'all'.toString())">
+			          and (PD.m_ct_cd LIKE CONCAT('%', #{adm_key}, '%') or PD.prod_nm LIKE CONCAT('%', #{adm_key}, '%'))
+			        </when>
+		        </choose>
+		      </if>
+		    </where>
       WHERE OD.STTcd = 2
          OR OD.STTcd = 12
       ORDER BY purch_list_no DESC;

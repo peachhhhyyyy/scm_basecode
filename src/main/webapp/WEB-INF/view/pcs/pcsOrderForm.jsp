@@ -191,6 +191,62 @@
       location.reload();
     }
   }
+  
+  //관리자 공지사항 리스트 데이터 받아오기
+  function fOrderFormList(currentPage) {
+    
+    var select_type = $("#select_type").val();
+    var select_key = $("#select_key").val();
+    
+    currentPage = currentPage || 1;
+
+    var param = {
+      currentPage : currentPage,
+      pageSize : pageSize,
+      select_type : select_type,
+      select_key : select_key
+    }
+
+    var resultCallback = function(data) {
+      fOrderFormListResult(data, currentPage);
+    };
+
+    //Ajax실행 방식
+    //callAjax("Controller Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
+    // json으로 보내서 오류가 났음 , -> text
+    callAjax("/pcs/orderFormList.do", "post", "text", true, param,resultCallback);
+  }
+  
+  //관리자 공지사항 리스트 데이터 출력
+  function fOrderFormListResult(data, currentPage) {
+
+    console.log("값가져오ㅏ ㅇㅅㅇ" + data);
+    
+    // 기존 목록 삭제
+    $('#listPcsOrderForm').empty();
+    //$('#listLec').find("tr").remove() 
+
+    var $data = $($(data).html());
+
+    // 신규 목록 생성
+    var $orderFormList = $data.find("#listPcsOrderForm");
+    $("#listPcsOrderForm").append($orderFormList.children());
+
+    // 총 개수 추출
+    var $orderFormCnt = $data.find("#listOrd33333erFormCnt");
+    var admNoticeCnt = $admNoticeCnt.text();
+
+    // 페이지 네비게이션 생성
+    var paginationHtml = getPaginationHtml(currentPage, admNoticeCnt,
+        pageSize, pageBlockSize, 'fAdmList');
+    
+    //alert(paginationHtml);
+    $("#admPagination").empty().append(paginationHtml);
+
+    // 현재 페이지 설정
+    $("#admCurrentPage").val(currentPage);
+
+  }
 </script>
 </head>
 <body>
@@ -229,12 +285,12 @@
                                     <!-- searchbar -->
                                     <div class="col-lg-6">
                                         <div class="input-group">
-                                            <select style="width:90px;height:34px;">
+                                            <select id="select_type" style="width:90px;height:34px;">
                                                <option value="all" selected="selected">전체</option>
                                                <option value="category">업종</option>
                                                <option value="product">제품</option>
                                             </select>
-                                            <input type="text" class="form-control" aria-label="...">
+                                            <input type="text" id="select_key" style="width: 200px;height:28px;" onKeyDown="if(event.keyCode == 13) javascript:fOrderFormList();">
                                         </div>
                                     </div>
                                     <!-- // searchbar -->
