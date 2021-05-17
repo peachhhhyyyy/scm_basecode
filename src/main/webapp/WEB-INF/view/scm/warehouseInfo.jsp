@@ -156,7 +156,7 @@
   function fSelectWarehouseResult(data) {
     if (data.result == "SUCCESS") {
       gfModalPop("#layer1")
-      fInitFormWarehouse(data.supplierInfoModel);
+      fInitFormWarehouse(data.warehouseInfoModel);
     } else {
       alert(data.resultMsg);
     }
