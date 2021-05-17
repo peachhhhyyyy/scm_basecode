@@ -1,457 +1,316 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>출하계획</title>
-
-<jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
-
-<!-- D3 -->
-<style>
-//
-click-able rows
-	.clickable-rows {tbody tr td { cursor:pointer;
-	
-}
-
-.el-table__expanded-cell {
-	cursor: default;
-}
-}
-</style>
-<script type="text/javascript">
-        var pageSizeinf  = 3;
-        var pageBlockSizeinquiry  = 10;
-
-		/* onload 이벤트  */
-		$(function(){
-			comcombo("areaCD", "areaall", "all", "2");   // Group Code, Combo Name, Option("all" : 전체     "sel" : 선택 , Select Value )  
-			comcombo("JOBCD", "joball", "all", "3");   // Group Code, Combo Name, Option("all" : 전체     "sel" : 선택 , Select Value )  
-			comcombo("industryCD", "industryall", "allindustry", "J62");   // Group Code, Combo Name, Option("all" : 전체     "sel" : 선택 , Select Value )  
+	<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>출하계획</title>
+	<jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
+	<link rel="stylesheet" href="${CTX_PATH}/css/view/dlv/outgoing.css">
+	<script type="text/javascript">
+				var pageSizeinfo = 5;
+				var pageBlockSizeinquiry = 5;
 			
-			// 공지사항 조회
-			fListInf();
+				// Onload Event //
+				$(document).ready(function() {
+					fOrderList();
+				})
 			
-			//간이차트 조회
-			//goChart();
+				/** 수주내역 조회 */
+				function fOrderList(currentPage) {
 			
-			// 버튼 이벤트 등록
-			fRegisterButtonClickEvent();
-		});
-		
-
-		//차트 뿌리러 감
-		function goChart(loginID) {
-			//alert("1");
-			//alert(JSON.stringify(data));
-			var param= {
-					loginID : loginID
+					currentPage = currentPage || 1;
 			
-			}
-		
-			var resultCallback1 = function(data) {
-		//	 alert("3");
-		//	alert(JSON.stringify(data.lec_Name_List));
-		//	alert(JSON.stringify(data.lec_Name_List)) 
+					// console.log("currentPage : " + currentPage);
+					
+					var param = {
+						currentPage : currentPage,
+						pageSize : pageSizeinfo
+					}
 			
-			fChart (data);
-		};
-		
-		alert("2");
-		callAjax("/dashboard/goChart.do", "post", "json", true, param, resultCallback1);
-	}
-		
-		
-		// bar형 chart
-		function fChart(data){
-		
-			//일단 간단한 값만
-			var cntEngineer = data.cntEngineer;
-			var cntCompany = data.cntCompany;
-			var cntProject = data.cntProject;
-			//var cntApplicant = ${cntApplicant};
-			
-			var minChart = new Chart($("#minChart"),{
-				
-				type : 'bar' ,
-				data : {
-					labels : ['가입된 엔지니어 수', '가입된 기업 수', '등록된 프로젝트 수', '일별 지원자 수'] ,
-						datasets : [{
-								label : '간이 통계' ,
-								data : [cntEngineer, cntCompany, cntProject] ,
-								borderColor: [
-												'rgba(255, 99, 132, 1)' ,
-												'rgba(255, 206, 86, 0.2)',
-												'rgba(54, 162, 235, 0.2)'
-											] ,
-								borderWidth : 1
-						}]
+					var resultCallback = function(data) {
+						fOrderListResult(data, currentPage);
+					};
+					
+					//Ajax실행 방식
+					//callAjax("Url",type,return,async or sync방식,넘겨준 값,Callback함수 이름)
+					callAjax("/dlv/outgoingList.do", "post", "text", true, param, resultCallback);
 				}
-			});
-		}
-		
-		
-		
-		/** 버튼 이벤트 등록 */
-		function fRegisterButtonClickEvent() {
-			$('a[name=btnInfo]').click(function(e) {
-				e.preventDefault();
-
-				var btnId = $(this).attr('id');
-				switch (btnId) {
-					case 'btnCloseGrpCod' :
-					case 'btnCloseDtlCod' :
-					gfCloseModal();
-					break;
-			}
-		});
-	}
-				  
+			
+				/** 출하내역 조회 콜백 함수 */
+				function fOrderListResult(data, currentPage) {
+					/* console.log(data); */
+			
+					// 기존 목록 삭제
+					$('#outgoingList').empty();
+					$("#outgoingList").append(data);
+			
+					// 총 개수 추출
+					var totcnt = $("#totcnt").val();
+			
+					// 페이지 네비게이션 생성
+					var paginationHtml = getPaginationHtml(currentPage, totcnt,
+							pageSizeinfo, pageBlockSizeinquiry, 'fOrderList');
+			
+					/* console.log("paginationHtml : " + paginationHtml); */
+			
+					$("#lisOutgoingPagination").empty().append(paginationHtml);
+			
+				}
+			
 				
-		/** 공지사항 조회 */
-		function fListInf(currentPage) {
-			
-			currentPage = currentPage || 1;
-			
-			console.log("currentPage : " + currentPage);
-			
-			var param = {
-						currentPage : currentPage
-					,	pageSize : pageSizeinf
-			}
-			
-			var resultCallback = function(data) {
-				fListInfResult(data, currentPage);
-			};
-			
-			//Ajax실행 방식
-			//callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
-			//html로 받을거라 text
-			callAjax("/inf/listinf.do", "post", "text", true, param, resultCallback);
-		}
-		
-		
-		/** 공지사항 조회 콜백 함수 */
-		function fListInfResult(data, currentPage) {
-					//alert(data);
-			console.log(data);		
-			
-			// 기존 목록 삭제
-			$('#listInf').empty();
-			$("#listInf").append(data);
-			
-			// 총 개수 추출
-			var totalCntlistInf = $("#totcnt").val();
-			var list = $("#selectedInfNo").val();
-			// 페이지 네비게이션 생성
-			var paginationHtml = getPaginationHtml(currentPage, totalCntlistInf, pageSizeinf, pageBlockSizeinquiry, 'fListInf',[list]);
-			console.log("paginationHtml : " + paginationHtml);
-		
-			$("#listInfPagination").empty().append( paginationHtml );
-		
-		}
-		
-		 /*공지사항 상세 조회*/
-		 function fNoticeModal(noticeNo) {
-		
-			 var param = {noticeNo : noticeNo};
-			 var resultCallback2 = function(data){
-				 fdetailResult(data);
-			 };
-			 
-			 callAjax("/system/detailNotice.do", "post", "json", true, param, resultCallback2);
-		 }
-		
-		 /*  공지사항 상세 조회 -> 콜백함수   */
-		 function fdetailResult(data){
-
-			 if(data.resultMsg == "SUCCESS"){
-				 //모달 띄우기 
-				 gfModalPop("#notice");
-				 
-				// 모달에 정보 넣기 
-				frealPopModal(data.result);
-			 
-			 }else{
-				 alert(data.resultMsg);
-			 }
-		 }
-		
-		 /* 팝업 _ 초기화 페이지(신규) 혹은 내용뿌리기  */
-		 function frealPopModal(object){
-			 
-			 $("#loginId").val(object.loginId);
-			 $("#loginId").attr("readonly", true); // 작성자 수정불가 
-			 
-			 $("#write_date").val(object.noticeRegdate);
-			 $("#write_date").attr("readonly", true); // 처음 작성된 날짜 수정불가 
-			 
-			 $("#noticeTitle").val(object.noticeTitle);
-			 $("#noticeTitle").attr("readonly", true);
-
-			 $("#noticeContent").val(object.noticeContent);
-			 $("#noticeContent").attr("readonly", true);
-			 
-			 $("#noticeNo").val(object.noticeNo); // 중요한 num 값도 숨겨서 받아온다. 
-			 
-		 }
-
-
-
-</script>
-
-</head>
-<body>
-<form id="myForm" action=""  method="">
-
-<input type="hidden" id="currentPage" value="1">
-<input type="hidden" id="selectedInfNo" value="">
-	<!-- 모달 배경 -->
-	<div id="mask"></div>
-
-	<div id="wrap_area">
-
-		<h2 class="hidden">컨텐츠 영역</h2>
-		<div id="container">
-			<ul>
-				<li class="lnb">
-					<!-- lnb 영역 --> <jsp:include
-						page="/WEB-INF/view/common/lnbMenu.jsp"></jsp:include> <!--// lnb 영역 -->
-				</li>
-				<li class="contents">
-					<!-- contents -->
-					<h3 class="hidden">contents 영역</h3> <!-- content -->
-	               
-					<div class="content" style="margin-bottom:20px;">
-                       
-						<p class="Location">
-							<a href="../dashboard/dashboard.do" class="btn_set home">메인으로</a> <span
-								class="btn_nav bold">메인</span> <a href="../dashboard/dashboard.do"
-								class="btn_set refresh">새로고침</a>
-						</p>
-
-						<p class="conTitle" style="margin-bottom: 1%;">
-							<span>출하계획</span> <span class="fr"> 
-								<span>로그인</span>
-								<span>회원가입</span>
-								<span>마이페이지</span>
-							</span>
-						</p>
-						
-						
-				             <div class="divComGrpCodList">
-								<table class="col">
-	<%-- 								<caption>caption</caption>
-									<colgroup>
-									   <col width="5%">
-										<col width="70%">
-										<col width="10%">
-										<col width="5%">
-									</colgroup> --%>
+				/* 출하내역 상세 조회*/
+				function fOrderDetailList(order_cd) {
 				
-									<thead>
-										<tr>
-										    <th scope="col">접수일</th>
-											<th scope="col">도착일자</th>
-											<th scope="col">도착변경일자</th>
-											<th scope="col">주문코드</th>
-											<th scope="col">배송담당자</th>
-											<th scope="col">창고명</th>
-											<th scope="col">배송상태</th>
-										</tr>
-									</thead>
-									<tbody id="listInf">
-									</tbody>
-								</table>
-							</div>
-										   
-					   <div class="paging_area"  id="listInfPagination"> </div>
-					   
-					   <br><br>
-					   
-					   <!-- 프로젝트 조회 -->
-						<div class="selectProject" >
-							<table width="100%" cellpadding="5" cellspacing="0" border="1"
-		                        align="left" 
-		                        style="border-collapse: collapse; border: 10px #50bcdf; ">
-		                        <tr style="border: 10px; border-color: blue">
-		                           <td width="20" height="25" style="font-size: 120%">&nbsp;&nbsp;</td>
-		
-		                           <td width="220" height="25" style="font-size: 150%; font-weight: bold;">프로젝트 조회</td>
-		                           <td width="30" height="25" style="font-size: 100%"></td>
-		                           <td width="40" height="25" style="font-size: 100%">지역&nbsp;</td><td><select id="areaall" name="areaall">	</select></td>          
-		                           <td width="30" height="25" style="font-size: 100%"></td>
-		                           <td width="40" height="25" style="font-size: 100%">직무&nbsp;</td><td><select id="joball" name="joball">	</select></td>          
-		                           <td width="30" height="25" style="font-size: 100%"></td>
-		                           <td width="40" height="25" style="font-size: 100%">산업&nbsp;</td><td><select id="industryall" name="industryall">	</select></td>          
-		                            
-		                           <td width="180" height="25" style="font-size: 120%">&nbsp;&nbsp;</td>        
-		                           <td width="100" height="60" style="font-size: 120%">
-		                           <a href="" class="btnType blue" id="searchBtn" name="btn"><span>검  색</span></a></td> 
-		                           <td width="20" height="25" style="font-size: 120%">&nbsp;&nbsp;</td>        
-		                        </tr>
-		                     </table>    
-						</div>
+				  $("#order_cd").val(order_cd);
 				
-						<div class="divListProject">
+				  var param = {
+				  		  order_cd : order_cd,
+				  }
+				
+				  var resultCallback = function(data) {
+					  fOrderListDetailResult(data);
+				  };
+				
+				  callAjax("/dlv/outgoingDetailList.do", "post", "text", true, param, resultCallback);
+				}
+				
+				
+				// 출하내역 상세조회 콜백 함수 
+				function fOrderListDetailResult(data) {
+				    //console.log(data);
+				
+				    // 기존 목록 삭제
+				    $('#outgoingDetailListTop').empty();
+				    $('#outgoingDetailListBottom').empty();
+				    
+				    var $data = $($(data).html());
+				    // topList
+				    var $outgoingDetailListTop = $data.find("#outgoingDetailListTop");
+				    $("#outgoingDetailListTop").append($outgoingDetailListTop.children());
+				    
+				    // bottomList
+				    var $outgoingDetailListBottom = $data.find("#outgoingDetailListBottom");
+				    $("#outgoingDetailListBottom").append($outgoingDetailListBottom.children());
+				}
+				
+				
+				// 검색조건으로 수주내역 가져오기
+				function fSearchOrderList(currentPage, STTcd, startDate, endDate) {
+					
+					console.log(STTcd, startDate, endDate)
+					
+					currentPage = currentPage || 1;
+			        
+	                console.log("currentPage : " + currentPage);
+	                
+	                // 날짜 비교 후 알맞지 않으면 랜딩
+	                if(startDate > endDate){
+	                	alert("시작일자는 종료일자보다 클 수가 없습니다.");
+	                	location.href= "/dlv/outgoing.do";
+	                }
+	                
+	                var param = {
+	                		currentPage : currentPage,
+	                		pageSize : pageSizeinfo,
+	                		STTcd : STTcd,
+	                		startDate : startDate,
+	                		endDate : endDate
+	                }
+	        
+	                var resultCallback = function(data) {
+	                	fSearchOrderListResult(data, currentPage);
+	                };
+	        
+	                //Ajax실행 방식
+	                //callAjax("Url",type,return,async or sync방식,넘겨준 값,Callback함수 이름)
+	                callAjax("/dlv/outgoingSearchList.do", "post", "text", true, param,
+	                        resultCallback);
+				}
+				
+			    // 검색 조건 콜백함수
+	            function fSearchOrderListResult(data, currentPage) {
+	                
+			    	console.log(data);
+	                
+	                // 기존 목록 삭제
+	                $('#outgoingList').empty();
+	                $("#outgoingList").append(data);
+	        
+	                // 총 개수 추출
+	                var totcnt = $("#totcnt").val();
+	        
+	                // 페이지 네비게이션 생성
+	                var paginationHtml = getPaginationHtml(currentPage, totcnt,
+	                        pageSizeinfo, pageBlockSizeinquiry, 'fSearchOrderList');
+	        
+	                /* console.log("paginationHtml : " + paginationHtml); */
+	        
+	                $("#lisOutgoingPagination").empty().append(paginationHtml);
+	        
+	            }
+			    
+			    // 콤보박스로 선택된 배송기사이름으로 연락처 받아오기
+			    function fSelectDlvStaffTel(){
+			    	
+			    	var selDlvName = $('#getDlvStaffName > option:selected').val().split(' ')[0];
+			    	
+			    	// console.log(selDlvName);
+			    	
+			    	var param = {
+			    		    selDlvName : selDlvName
+			    	}
+			    	
+			    	var resultCallback = function(data) {
+			    		fDlvStaffTelResult(data);
+	                };
+	        
+	                //Ajax실행 방식
+	                //callAjax("Url",type,return,async or sync방식,넘겨준 값,Callback함수 이름)
+	                callAjax("/dlv/selDlvTel.do", "post", "json", true, param, resultCallback);
+			    }
+			    
+			    function fDlvStaffTelResult(data) {
+	                
+	                console.log("연락처 결과 : " + data.dlvStaffTel);
+	                
+	                $('#dlvStaffTel').text(data.dlvStaffTel)
+	        
+	            }
+			    
+				
+			</script>
+	</head>
+	<body>
+		<input type="hidden" id="currentPage" value="1">
+		<!-- 모달 배경 -->
+		<div id="mask"></div>
+		<div id="wrap_area">
+			<h2 class="hidden">컨텐츠 영역</h2>
+			<div id="container">
+				<ul>
+					<li class="lnb">
+						<!-- lnb 영역 --> 
+						<jsp:include page="/WEB-INF/view/common/lnbMenu.jsp"></jsp:include>
+					</li>
+					<li class="contents">
+						<!-- contents -->
+						<h3 class="hidden">contents 영역</h3> <!-- content --> <!-- <form> -->
+						<div class="content" style="margin-bottom: 20px;">
+
+							<p class="Location">
+								<a href="../dashboard/dashboard.do" class="btn_set home">메인으로</a>
+								<span class="btn_nav bold">메인</span> <a
+									href="../dashboard/dashboard.do" class="btn_set refresh">새로고침</a>
+							</p>
+								<p class="conTitle" style="display:flex; justify-content: space-between; align-items: center;" >
+									<span>출하계획</span>
+									<!-- 상단 상태, 날짜 조회 부분 -->
+									<span style="width: 590px;">
+									    <select id="STTcd" name="STTcd" style="width: 100px;">
+											<option value="13, 14, 15">전체</option>
+											<option value="13">배송준비</option>
+											<option value="14">배송중</option>
+											<option value="15">배송완료</option>
+										</select>
+										<input type="date" name="startDate" id="startDate" style="width: 200px; height: 28px;">
+										<span>~</span>
+										<input type="date" name="endDate" id="endDate" style="width: 200px; height: 28px;">
+	                                    <a id="searchEnter" class="btn btnTypeBox" href="javascript:fSearchOrderList(1, $('#STTcd').val(), $('#startDate').val(), $('#endDate').val())">검색</a>
+                                    </span>
+								</p>
 							<table class="col">
-								<caption>caption</caption>
+								<thead>
+									<tr>
+										<th scope="col">접수일자</th>
+										<th scope="col">배송완료일자</th>
+										<th scope="col">도착예정일자</th>
+										<th scope="col">주문코드</th>
+										<th scope="col">배송담당자</th>
+										<th scope="col">창고명</th>
+										<th scope="col">상태</th>
+									</tr>
+								</thead>
+								<tbody id="outgoingList"></tbody>
+							</table>
+						<div class="paging_area" id="lisOutgoingPagination"></div>
+						</div>
+						<form action="submitDlvInfo.do" method="post">
+						<div class="content">
+							<p class="conTitle">
+								<span>상세페이지</span>
+							</p>
+							<!--주문내용  -->
+							<table class="col">
 								<colgroup>
-									<col width="10%">
-									<col width="8%">
-									<col width="10%">
-									<col width="10%">
+									<col width="5%">
+									<col width="5%">
+									<col width="5%">
+									<col width="15%">
+									<col width="2.5%">
+									<col width="5%">
 									<col width="10%">
 									<col width="10%">
 									<col width="10%">
 								</colgroup>
-	
 								<thead>
 									<tr>
-										<th scope="col">회사명</th>
-										<th scope="col">지역</th>
-										<th scope="col">직무</th>
-										<th scope="col">산업</th>
-										<th scope="col">작성일</th>
-										<th scope="col">모집마감일</th>
-										<th scope="col">작성 회사</th>
+										<th scope="col">배송코드</th>
+										<th scope="col">주문코드</th>
+										<th scope="col">품목명</th>
+										<th scope="col">제품명</th>
+										<th scope="col">수량</th>
+										<th scope="col">고객명</th>
+										<th scope="col">고객연락처</th>
+										<th scope="col">주소</th>
 									</tr>
 								</thead>
-								<tbody id="listProject">
+							    <tbody id="outgoingDetailListTop"></tbody>
+		                    </table>
+		                    <table class="col">
+								<colgroup>
+									<col width="10%">
+									<col width="10%">
+									<col width="15%">
+									<col width="10%">
+									<col width="10%">
+									<col width="15%">
+									<col width="5%">
+									<col width="10%">
+								</colgroup>
+								<thead>
 									<tr>
-										<td colspan="12">조건에 맞는 프로젝트 목록이 조회됩니다.</td>
+										<th scope="col">SCM담당자명</th>
+										<th scope="col">배송사원</th>
+										<th scope="col">배송사원 연락처</th>
+										<th scope="col">창고명</th>
+										<th scope="col">도착예정일자</th>
+										<th scope="col">배송상태</th>
+										<th scope="col" colspan="2">요구사항</th>
 									</tr>
-								</tbody>
+								</thead>
+								    <tbody id="outgoingDetailListBottom">
+					                    <tr>
+					                      <td colspan="14">주문코드를 선택해 주세요.</td>
+					                    </tr>
+			                    </tbody>
 							</table>
-						</div>
-						
-						<div class="paging_area"  id="listProjectPagination"> </div>
-						
-						<!-- 통계 -->
-						<div class="stat" >
-							<table width="100%" cellpadding="5" cellspacing="0" border="1" align="left" 
-		                        style="border-collapse: collapse; border: 10px #50bcdf; ">
-		                        <tr style="border: 10px; border-color: blue">
-		                           <td width="20" height="25" style="font-size: 120%">&nbsp;&nbsp;</td>
-		                           <td width="950" height="25" style="font-size: 150%; font-weight: bold;">간이 통계</td>
-		                           <td width="30" height="25" style="font-size: 100%"></td>
-		                      		<br><br>
-		                        </tr>
-		                     </table>    
-						</div>
-						
-						<div class="statView">
-							<table class="col">
-								<canvas id="minChart" style="height:30vh;"/>
-							</table>
-						</div>
-						
-					</div> <!--// content -->
-
+							<button type="submit" value="Submit" class="col-1-4 btnType blue" style="
+	                                        margin-right: -2px;
+	                                        font-size: 15px;
+	                                        color: #fff;
+	                                        background: #3cb3eb;
+	                                        padding: 7px 0;
+	                                        margin-left: 339px;
+	                                        width: 9%;
+	                                        margin-top: 55px;" 
+                                    formmethod="post">등록</button>
+                            </div> 
+						</form>
 					</li>
-			</ul>
+				</ul>
+			</div>
 		</div>
-	</div>
-					
-
-				
-				
-		<div id="infModal" class="layerPop layerType2" style="width: 900px;">
-								
-		<dl>
-			<dt>
-				<strong>1:1문의</strong>
-			</dt>
-			<dd class="content">
-				<!-- s : 여기에 내용입력 -->
-				<table class="row">
-					<caption>caption</caption>
-					<colgroup>
-						<col width="120px">
-						<col width="*">
-						<col width="120px">
-						<col width="*">
-					</colgroup>
-					
-					<tbody>
-					
-					<tr>
-							<th scope="row">제목 </th>
-							<td colspan="3"><input type="text" class="inputTxt p100"
-								name="grp_cod_eplti" id="inf_title" maxlength="100"readonly/></td>
-						</tr>
-						
-						<tr>
-							<th scope="row">내용</th>
-							<td colspan="3" ><textarea class="inputTxt p100"
-							style="height: 200px; word-break : break-all;"
-								name="grp_cod_eplti" id="inf_content"readonly></textarea></td>
-						</tr>
-						<tr>
-							<th scope="row">첨부 파일 </th>
-							<td>
-								<div id="filedown"></div>
-							</td>
-						</tr>
-				</tbody>
-		</table>
-				<div class="btn_areaC mt30">
-					<a href="" class="btnType gray" id="btnCloseGrpCod" name="btnInfo"><span>취소</span></a>
-				</div>
-		</dl>
-		</div>
-		
-		
-	<!-- 모달팝업 -->
-	<div id="notice" class="layerPop layerType2" style="width: 600px;">
-		<input type="hidden" id="noticeNo" name="noticeNo" value="${noticeNo}"> <!-- 수정시 필요한 num 값을 넘김  -->
-		
-		<dl>
-			<dt>
-				<strong>공지사항</strong>
-			</dt>
-			<dd class="content">
-				<!-- s : 여기에 내용입력 -->
-				<table class="row">
-					<caption>caption</caption>
-
-					<tbody>
-						<tr>
-							<th scope="row">작성자 <span class="font_red">*</span></th>
-							<td><input type="text" class="inputTxt p100" name="loginId" id="loginId" /></td>
-							<!-- <th scope="row">작성일<span class="font_red">*</span></th>
-							<td><input type="text" class="inputTxt p100" name="write_date" id="write_date" /></td> -->
-						</tr>
-						<tr>
-							<th scope="row">제목 <span class="font_red">*</span></th>
-							<td colspan="3"><input type="text" class="inputTxt p100"
-								name="noticeTitle" id="noticeTitle" /></td>
-						</tr>
-						<tr>
-							<th scope="row">내용</th>
-							<td colspan="3">
-								<textarea class="inputTxt p100" name="noticeContent" id="noticeContent">
-								</textarea>
-							</td>
-						</tr>
-						
-					</tbody>
-				</table>
-
-				<!-- e : 여기에 내용입력 -->
-
-				<div class="btn_areaC mt30">
-					<a href=""	class="btnType gray"  id="btnClose" name="btn"><span>닫기</span></a>
-				</div>
-			</dd>
-
-		</dl>
-	</div>
-</form>
-</body>
+	</body>
 </html>

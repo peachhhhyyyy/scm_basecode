@@ -367,7 +367,6 @@ table.row3 > tbody > tr > td	{height: 27px;padding:5px 10px;border: 1px solid #b
 
 
 table.qna {}
-table.qna tr.view {display: ;}
 table.qna tr.view td {position:relative;padding: 20px 20px 20px 60px;text-align: left;vertical-align: top;}
 table.qna tbody tr:nth-child(3), table.qna tbody tr:nth-child(7), table.qna tbody tr:nth-child(11),
 table.qna tbody tr:nth-child(15), table.qna tbody tr:nth-child(19), table.qna tbody tr:nth-child(23),
