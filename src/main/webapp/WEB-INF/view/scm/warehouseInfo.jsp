@@ -26,6 +26,12 @@
     fListProduct();
     //버튼 이벤트 등록
     fRegisterButtonClickEvent();
+    //엔터눌렀을때 검색되게하기
+    $("#sname").keypress(function (e) {
+          if (e.which == 13){
+                    board_search();  // 실행할 이벤트
+          }
+    });
   });
   /** 버튼 이벤트 등록 */
   function fRegisterButtonClickEvent() {
