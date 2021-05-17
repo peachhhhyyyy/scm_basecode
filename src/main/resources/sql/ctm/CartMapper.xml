@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.happyjob.study.ctm.dao.CartDao">
+	<!-- 장바구니 조회 -->
 	<select id="listCart" resultType = "kr.happyjob.study.ctm.model.CartModel">
 		SELECT pd.prod_nm as prod_nm
 			 , lcg.l_ct_nm as l_ct_nm
@@ -18,7 +19,8 @@
 	   	 LIMIT #{pageIndex}, #{pageSize}
 	
 	</select>
-
+	
+	<!-- 장바구니 총 개수 조회 -->
 	<select id="countListCart" resultType="int">
 		SELECT COUNT(1) AS tot_cnt 
 		  FROM tb_shopping_cart 
