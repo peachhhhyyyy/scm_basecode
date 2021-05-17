@@ -16,6 +16,9 @@
         <where>
       <if test="(sname != null) and (!sname.equals(''))">
       <choose>
+        <when test="oname eq 'all'.toString()">
+            AND (WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%') or UI.name LIKE CONCAT('%', #{sname}, '%'))
+        </when>
         <when test= "(oname eq 'warehouse_nm'.toString())">
             AND WH.warehouse_nm LIKE concat('%', #{sname}, '%')
         </when> 
@@ -34,6 +37,9 @@
  LEFT JOIN tb_userinfo UI 
         ON WH.wh_mng_id = UI.loginID
         <choose>
+        <when test="oname eq 'all'.toString()">
+            AND (WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%') or UI.name LIKE CONCAT('%', #{sname}, '%'))
+        </when>
         <when test= "(oname eq 'warehouse_nm'.toString())">
             AND WH.warehouse_nm LIKE concat('%', #{sname}, '%')
         </when>
