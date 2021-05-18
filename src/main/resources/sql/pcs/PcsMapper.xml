@@ -28,6 +28,7 @@
           LEFT JOIN tb_scm_warehouse as WH
           ON SP.warehouse_cd = WH.warehouse_cd
       ORDER BY purch_list_no DESC
+      LIMIT #{pageIndex}, #{pageSize}
 	</select>
 
 	<!-- 발주지시서 목록 조회  원본-->
@@ -69,7 +70,7 @@
         ON OD.warehouse_cd = WH.warehouse_cd
 	</select>
 	
-	 <!-- 발주지시서 버튼 -->
+	<!-- 발주지시서 버튼 -->
   <select id="selectPurchBtn" resultType="kr.happyjob.study.pcs.model.PcsModel">
     /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
       SELECT 
@@ -137,24 +138,25 @@
           FROM tb_detail_code
           WHERE group_code = 'STTcd'
         ) DC ON OD.STTcd = DC.detail_code
-        <where>
-		       <if test="(search_type != null) and (!search_type.equals(''))">
-		        <choose>
-			        <when test="(search_type != null) and (search_type eq 'brand'.toString())">
-			          and PD.m_ct_cd Like CONCAT('%', #{adm_key}, '%')
-			        </when>
-			        <when test="(search_type != null) and (search_type eq 'product'.toString())">
-			          and PD.prod_nm LIKE CONCAT('%', #{adm_key}, '%')
-			        </when>
-			        <when test="(search_type != null) and (search_type eq 'all'.toString())">
-			          and (PD.m_ct_cd LIKE CONCAT('%', #{adm_key}, '%') or PD.prod_nm LIKE CONCAT('%', #{adm_key}, '%'))
-			        </when>
-		        </choose>
-		      </if>
-		    </where>
-      WHERE OD.STTcd = 2
-         OR OD.STTcd = 12
-      ORDER BY purch_list_no DESC;
+      WHERE OD.STTcd in (10,12)
+        <if test="(sname != null) and (!sname.equals(''))">
+	        <choose>
+            <when
+              test="oname eq 'all'.toString()">
+              and (OD.order_cd LIKE CONCAT('%', #{sname}, '%') or PD.m_ct_cd LIKE CONCAT('%', #{sname}, '%') or PD.prod_nm LIKE CONCAT('%', #{sname}, '%'))
+            </when>
+            <when
+              test="oname eq 'brand'.toString()">
+              and PD.m_ct_cd LIKE CONCAT('%', #{sname}, '%')
+            </when>
+	          <when
+	            test="oname eq 'product'.toString()">
+	             and PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+	          </when>
+	        </choose>
+        </if>
+      ORDER BY purch_list_no DESC
+      LIMIT #{pageIndex}, #{pageSize}
   </select>
   
   <!-- 발주서 목록 조회 원본-->
@@ -188,26 +190,50 @@
           FROM tb_detail_code
           WHERE group_code = 'STTcd'
         ) DC ON OD.STTcd = DC.detail_code
-      WHERE OD.STTcd = 2
+      WHERE OD.STTcd = 10
       ORDER BY purch_list_no DESC
   </select>
   
   <!-- 발주서 목록 총 갯수 조회 -->
   <select id="countPcsOrderForm" resultType="int">
     /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
-    SELECT COUNT(1) AS tot_cnt 
+    SELECT DISTINCT COUNT(1) AS tot_cnt 
       FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_order as OD
         ON PL.order_cd = OD.order_cd
         LEFT JOIN tb_scm_warehouse as WH
         ON OD.warehouse_cd = WH.warehouse_cd
+        LEFT JOIN tb_scm_product as PD
+        ON PL.supply_cd = PD.supply_cd
+        LEFT JOIN (
+            SELECT detail_code, group_code, detail_name
+          FROM tb_detail_code
+          WHERE group_code = 'STTcd'
+        ) DC ON OD.STTcd = DC.detail_code
+     WHERE OD.STTcd in (10,12)
+        <if test="(sname != null) and (!sname.equals(''))">
+          <choose>
+            <when
+              test="oname eq 'all'.toString()">
+              and (OD.order_cd LIKE CONCAT('%', #{sname}, '%') or PD.m_ct_cd LIKE CONCAT('%', #{sname}, '%') or PD.prod_nm LIKE CONCAT('%', #{sname}, '%'))
+            </when>
+            <when
+              test="oname eq 'brand'.toString()">
+              and PD.m_ct_cd LIKE CONCAT('%', #{sname}, '%')
+            </when>
+            <when
+              test="oname eq 'product'.toString()">
+              and PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+            </when>
+          </choose>
+        </if>
   </select>
   
   <!-- 발주서 상태 변경 -->
   <update id="updateSTTcd">
     /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
     UPDATE tb_order
-       SET STTcd = 12 
-     WHERE STTcd = 2;
+       SET STTcd = 12
+     WHERE order_cd = #{order_cd} AND STTcd = 10;
   </update>
 </mapper>
