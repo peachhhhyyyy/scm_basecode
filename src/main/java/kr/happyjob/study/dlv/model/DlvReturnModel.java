@@ -1,14 +1,12 @@
 package kr.happyjob.study.dlv.model;
 
-import java.util.Date;
-
 public class DlvReturnModel {
 	//반품지시서 번호
 	private String refund_list_no;
 	//고객명
 	private String cus_name;
 	//분류명
-	private String m_ct_nm;
+	private String l_ct_cd;
 	//제품명
 	private String prod_nm;
 	//반품 수량
@@ -18,7 +16,7 @@ public class DlvReturnModel {
 	//창고명
 	private String warehouse_nm;
 	//반품 날짜 
-	private Date refund_date;
+	private String refund_date;
 	//상태
 	private String state;
 	
@@ -42,11 +40,11 @@ public class DlvReturnModel {
 	}
 
 	public String getM_ct_nm() {
-		return m_ct_nm;
+		return l_ct_cd;
 	}
 
 	public void setM_ct_nm(String m_ct_nm) {
-		this.m_ct_nm = m_ct_nm;
+		this.l_ct_cd = m_ct_nm;
 	}
 
 	public String getProd_nm() {
@@ -81,11 +79,11 @@ public class DlvReturnModel {
 		this.warehouse_nm = warehouse_nm;
 	}
 
-	public Date getRefund_date() {
+	public String getRefund_date() {
 		return refund_date;
 	}
 
-	public void setRefund_date(Date refund_date) {
+	public void setRefund_date(String refund_date) {
 		this.refund_date = refund_date;
 	}
 
