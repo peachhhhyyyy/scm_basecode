@@ -10,13 +10,18 @@
 			       o.refund_date refundDate,
 			       o.refund_cnt refundCount,
 			       o.refund_amt refundAmount,
-			       o.STTcd STTcd
+			       dc.detail_name state
 			FROM tb_order o
+			JOIN (
+					SELECT detail_code, group_code, detail_name
+					FROM tb_detail_code
+					WHERE group_code = 'STTcd'
+				  ) dc ON o.STTcd = dc.detail_code
 			LEFT JOIN tb_userinfo ui ON ui.loginID = o.loginID
 			LEFT JOIN tb_scm_product prod ON prod.product_cd = o.order_cd
 			LEFT JOIN tb_scm_m_category mct ON mct.m_ct_cd = prod.m_ct_cd
 			WHERE STTcd IN (3, 4, 5, 6, 7)
-			ORDER BY o.order_date
+			ORDER BY o.order_date DESC
 		    LIMIT #{pageIndex}, #{pageSize}
 		</select>
 		
@@ -25,5 +30,31 @@
 			SELECT COUNT(*) tot_cnt
 			FROM tb_order
 			WHERE STTcd IN (3, 4, 5, 6, 7)
+		</select>
+		
+		<select id="selectRefundDetail" resultType="kr.happyjob.study.scm.model.ScmRefundListModel">
+			SELECT o.product_cd productCode,
+			       prod.prod_nm productName,
+			       mct.m_ct_nm middleCategory,
+			       sup.supply_nm supplyName,
+			       o.order_date orderDate,
+			       o.refund_date refundDate,
+			       wh.warehouse_nm warehouseName,
+			       o.refund_cnt refundCount,
+			       NOW() refundDirectionDate,
+			       o.refund_amt refundAmount
+			FROM tb_order o
+			LEFT JOIN tb_scm_product prod ON prod.product_cd = o.order_cd
+			LEFT JOIN tb_scm_m_category mct ON mct.m_ct_cd = prod.m_ct_cd
+			LEFT JOIN tb_scm_supply sup ON sup.supply_cd = prod.supply_cd
+			LEFT JOIN tb_scm_warehouse wh ON wh.warehouse_cd = prod.warehouse_cd
+			WHERE o.order_cd = #{orderCode}
+			ORDER BY o.order_date DESC
+		</select>
+		
+		<select id="selectScmManagerName" resultType="String">
+			SELECT name
+			FROM tb_userinfo
+			WHERE loginID = #{loginId}
 		</select>
 </mapper>

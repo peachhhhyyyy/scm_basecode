@@ -10,4 +10,9 @@ public interface ScmRefundListDao {
 	List<ScmRefundListModel> selectRefundList(Map<String, Object> paramMap) throws Exception;
 
 	int selectRefundListCnt(Map<String, Object> paramMap) throws Exception;
+	
+	ScmRefundListModel selectRefundDetail(Map<String, Object> paramMap) throws Exception;
+
+	String selectScmManagerName(Map<String, Object> paramMap) throws Exception;
+	
 }
