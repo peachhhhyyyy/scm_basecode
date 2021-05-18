@@ -64,8 +64,10 @@ public class ScmOrderListServiceImpl implements ScmOrderListService {
 		if (STTcd.equals("13")) {
 			logger.info("====== 주문상태를 배송준비로 변경합니다. ======");
 			mapperResult = scmOrderListDao.updateStateToDelivery(paramMap);
+			// 창고에 있는 재고 수 차감 Dao
+			int updateProductResult = scmOrderListDao.updateProductCount(paramMap);
 			
-			if (mapperResult == 1) {
+			if (mapperResult == 1 && updateProductResult == 1) {
 				result = "SUCCESS";
 				resultMsg = "배송 요청을 완료하였습니다.";
 			} else {
