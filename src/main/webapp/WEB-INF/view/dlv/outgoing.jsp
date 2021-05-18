@@ -295,10 +295,10 @@
 										<th scope="col" colspan="2">요구사항</th>
 									</tr>
 								</thead>
-								    <tbody id="outgoingDetailListBottom">
-					                    <tr>
-					                      <td colspan="14">주문코드를 선택해 주세요.</td>
-					                    </tr>
+							    <tbody id="outgoingDetailListBottom">
+				                    <tr>
+				                      <td colspan="14">주문코드를 선택해 주세요.</td>
+				                    </tr>
 			                    </tbody>
 							</table>
 							<button type="submit" value="Submit" class="col-1-4 btnType blue" style="
