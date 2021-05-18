@@ -26,9 +26,10 @@
 			SELECT COUNT(DISTINCT order_cd) tot_cnt
 			FROM tb_scm_purchase_list;
 		</select>
+		<!-- 발주지시서 업데이트 -->
 		<update id="updatePurchaseApprove" parameterType="int">
-			UPDATE tb_order
-			SET STTcd = #{STTcd}
-			WHERE order_cd = #{orderCode}
+			UPDATE tb_order AS o, tb_scm_purchase_list AS purch
+			SET o.STTcd = #{STTcd}, purch.approve_id = #{loginId}
+			WHERE o.order_cd = #{orderCode} AND purch.order_cd = #{orderCode}
 		</update>
 </mapper>

@@ -89,6 +89,8 @@ public class EcvDirectionController {
 		String STTcd = (String) paramMap.get("STTcd");
 		paramMap.put("STTcd", STTcd);
 		
+		paramMap.put("loginId", session.getAttribute("loginId")); // 임원 로그인 아이디
+		
 		int mapperResult;
 		String result = "";
 		String resultMsg = "";
@@ -97,7 +99,7 @@ public class EcvDirectionController {
 			logger.info("====== 주문상태를 승인완료(발주)로 변경합니다. ======");
 			mapperResult = ecvDirectionService.updateStateToPurchase(paramMap);
 			
-			if (mapperResult == 1) {
+			if (mapperResult == 2) {
 				result = "SUCCESS";
 				resultMsg = "발주요청 승인을 완료하였습니다.";
 			} else {
@@ -108,7 +110,7 @@ public class EcvDirectionController {
 			logger.info("====== 주문상태를 승인완료(반품)로 변경합니다. ======");
 			mapperResult = ecvDirectionService.updateStateToRefund(paramMap);
 			
-			if (mapperResult == 1) {
+			if (mapperResult == 2) {
 				result = "SUCCESS";
 				resultMsg = "반품요청 승인을 완료하였습니다.";
 			} else {
