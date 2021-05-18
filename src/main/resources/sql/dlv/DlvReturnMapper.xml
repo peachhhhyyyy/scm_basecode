@@ -3,128 +3,173 @@
 <mapper namespace="kr.happyjob.study.dlv.dao.ReturnDao">
 
 	<select id="returnList" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">
-	
-		SELECT TSRL.refund_list_no AS refund_list_no,
-	       TUU.name AS cus_name,
-	       TSMC.m_ct_nm AS m_ct_nm,
-	       TSP.prod_nm AS prod_nm,
-	       TOO.refund_cnt AS refund_cnt,
-	       TOO.refund_amt AS refund_amt,
-	       TSW.warehouse_nm AS warehouse_nm,
-	       TOO.refund_date AS refund_date,
-	       TOO.STTcd AS state
-	   FROM tb_order AS TOO
-		   LEFT JOIN tb_scm_refund_list AS TSRL
-		   ON TOO.order_cd = TSRL.order_cd
-		   LEFT JOIN tb_scm_m_category AS TSMC
-		   ON TOO.order_cd = TSMC.m_ct_cd
-		   LEFT JOIN tb_scm_product AS TSP
-		   ON TOO.product_cd = TSP.product_cd
-		   LEFT JOIN tb_userinfo AS TUU
-		   ON TOO.loginID = TUU.loginID
-		   LEFT JOIN tb_scm_warehouse AS TSW
-		   ON TOO.warehouse_cd = TSW.warehouse_cd
-			 
-		where TOO.STTcd in (5, 6, 7)
-			 LIMIT #{pageIndex}, #{pageSize}
-			 
-			 
-		
+		SELECT TSRL.refund_list_no AS refund_list_no
+		        , TUU.name AS cus_name
+		        , TSP.l_ct_cd AS l_ct_cd
+		        , TSP.prod_nm AS prod_nm
+		        , TOO.refund_cnt AS refund_cnt
+		        , TOO.refund_amt AS refund_amt
+		        , TSW.warehouse_nm
+		        , DATE_FORMAT(TOO.refund_date, '%Y-%m-%d') AS refund_date
+		        , DC.detail_name AS state
+	       FROM tb_order AS TOO
+           LEFT JOIN tb_scm_refund_list AS TSRL
+           ON TOO.order_cd = TSRL.order_cd
+           
+           LEFT JOIN ( 
+                  SELECT PROD.product_cd, PROD.prod_nm, CATEGORY.m_ct_nm, CATEGORY.l_ct_cd
+                      FROM tb_scm_product AS PROD
+                      LEFT JOIN tb_scm_m_category AS CATEGORY
+                      ON PROD.m_ct_cd = CATEGORY.m_ct_cd ) AS TSP
+           ON TOO.product_cd = TSP.product_cd
+           
+           LEFT JOIN tb_userinfo AS TUU
+           ON TOO.loginID = TUU.loginID
+           
+           LEFT JOIN (
+                  SELECT warehouse_cd, warehouse_nm
+                      FROM tb_scm_warehouse ) AS TSW
+           ON TOO.warehouse_cd = TSW.warehouse_cd
+           
+           LEFT JOIN(
+                SELECT detail_code, group_code, detail_name
+                    FROM tb_detail_code
+                    WHERE group_code = 'STTcd' ) AS DC
+           ON TOO.STTcd = DC.detail_code
+	             
+	       WHERE TOO.STTcd IN (5, 6, 7)
+		   LIMIT #{pageIndex}, #{pageSize}
 	</select>
 	
 	<select id="returnListCnt" resultType="int">
 		SELECT COUNT(*) as returnlistCnt
-			FROM tb_order OD
-			WHERE OD.STTcd IN (5, 6, 7)
-			ORDER BY OD.order_cd DESC
+			FROM tb_order TOO
+			WHERE TOO.STTcd IN (5, 6, 7)
 	</select>
+	
+	<select id="returnSearchList" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">
+	   SELECT TSRL.refund_list_no AS refund_list_no,
+           TUU.name AS cus_name,
+           TSMC.m_ct_nm AS m_ct_nm,
+           TSP.prod_nm AS prod_nm,
+           TOO.refund_cnt AS refund_cnt,
+           TOO.refund_amt AS refund_amt,
+           TSW.warehouse_nm AS warehouse_nm,
+           TOO.refund_date AS refund_date,
+           DC.detail_name AS state
+       FROM tb_order AS TOO
+           LEFT JOIN tb_scm_refund_list AS TSRL
+           ON TOO.order_cd = TSRL.order_cd
+           LEFT JOIN tb_scm_m_category AS TSMC
+           ON TOO.order_cd = TSMC.m_ct_cd
+           LEFT JOIN tb_scm_product AS TSP
+           ON TOO.product_cd = TSP.product_cd
+           LEFT JOIN tb_userinfo AS TUU
+           ON TOO.loginID = TUU.loginID
+           LEFT JOIN tb_scm_warehouse AS TSW
+           ON TOO.warehouse_cd = TSW.warehouse_cd
+           
+           LEFT JOIN(
+                SELECT detail_code, group_code, detail_name
+                    FROM tb_detail_code
+                    WHERE group_code = 'STTcd' ) AS DC
+           ON TOO.STTcd = DC.detail_code
+             
+        WHERE TOO.STTcd IN (#{STTcd})
+        AND TOO.refund_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+        ORDER BY TOO.refund_date DESC
+        LIMIT #{pageIndex}, #{pageSize}
+	</select>
+	
+	<!-- 검색 조건 반품내역 건수 -->
+    <select id="returnSearchCnt" resultType="int">
+        SELECT COUNT(*) AS tot_cnt
+            FROM tb_order
+            WHERE STTcd = #{STTcd} OR STTcd IN (5, 6, 7)
+            AND refund_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+            ORDER BY order_cd DESC
+    </select>
+	
 	<select id="returnDetailList" resultType="kr.happyjob.study.dlv.model.DlvReturnDetailModel">
-		SELECT TOO.order_cd AS order_cd,
-	       TSRL.refund_list_no AS refund_list_no,
-	       TSP.prod_nm AS prod_nm,
-	       TSMC.m_ct_nm AS m_ct_nm,
-	       TOO.refund_cnt AS refund_cnt,
-	       CUS.name AS cus_name,
-	       CUS.tel AS cus_tel,
-	       MNG.name AS emp_name,
-	       CUS.addr AS emp_addr,
-	       EMP.name AS dlv_name,
-	       EMP.tel AS dlv_tel,
-	       TSW.warehouse_nm AS warehouse_nm,
-	       TOO.STTcd AS state,
-	       TOO.request AS request
+		SELECT TOO.order_cd AS order_cd
+		          , TSRL.refund_list_no AS refund_list_no
+		          , TSP.prod_nm AS prod_nm
+		          , TSMC.m_ct_nm AS m_ct_nm
+		          , TOO.refund_cnt AS refund_cnt
+		          , CUSTOMER.name AS cus_name
+		          , CUSTOMER.tel AS cus_tel
+		          , CUSTOMER.addr AS cus_addr
+		          , TSRL.scm_name AS scm_name
+		          , TSRL.staff_name AS dlv_name
+		          , TSRL.staff_tel AS dlv_tel
+		          , TSW.warehouse_nm AS warehouse_nm
+		          , TOO.STTcd AS state
+		          , TOO.request AS request
        
    		FROM tb_order AS TOO
-		   LEFT JOIN tb_scm_refund_list AS TSRL
+		   LEFT JOIN ( 
+		          SELECT tsrl.order_cd AS order_cd
+		                  , tsrl.refund_list_no AS refund_list_no
+		                  , scm.name AS scm_name
+		                  , staff.name AS staff_name
+		                  , staff.tel AS staff_tel
+		              FROM tb_scm_refund_list AS tsrl
+		              LEFT JOIN tb_userinfo AS scm ON tsrl.scm_id = scm.loginID
+		              LEFT JOIN tb_userinfo AS staff ON tsrl.ship_staff_id = staff.loginID ) AS TSRL
 		   ON TOO.order_cd = TSRL.order_cd
+		   
+		   LEFT JOIN(
+                SELECT loginID
+                        , name
+                        , tel
+                        , addr
+                    FROM tb_userinfo ) AS CUSTOMER
+           ON TOO.loginID = CUSTOMER.loginID
+		   
 		   LEFT JOIN tb_scm_product TSP
 		   ON TOO.product_cd = TSP.product_cd
+		   
 		   LEFT JOIN tb_scm_m_category AS TSMC
 		   ON TSMC.m_ct_cd = TSP.m_ct_cd
-		   LEFT JOIN tb_userinfo AS CUS
-		   ON CUS.loginID = TOO.loginID
-		   LEFT JOIN tb_userinfo AS EMP
-		   ON EMP.loginID = TSRL.ship_staff_id
-		   LEFT JOIN tb_userinfo AS MNG
-		   ON MNG.loginID = TSRL.ship_mng_id
+		   
 		   LEFT JOIN tb_scm_warehouse AS TSW
 		   ON TOO.warehouse_cd = TSW.warehouse_cd
 		  
-		  where
-		  TSRL.refund_list_no = #{refund_list_no}
+		   WHERE TSRL.refund_list_no = #{refund_list_no}
 		  
 	</select>
-	<update id="returnDetailInfo" >
-	 UPDATE tb_order 
-	   SET STTcd = #{state} 
-	   WHERE order_cd = #{order_cd} 
-	</update>
-<!-- 
-	<select id="returnProductList" parameterType="Map" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">
-		SELECT od.order_cd as order_cd
-			, tsrl.refund_list_no as refund_list_no
-			, tsu.company as company
-			, tsu.company_cd as company_cd
-			, tsp.prod_nm as prod_nm
-			, tsmc.m_ct_nm as m_ct_nm
-			, od.order_cnt as order_cnt
-			, od.amount as amount
-			, tsw.warehouse_nm as warehouse_nm
-			, od.refund_date as refund_date
-			, od.state as state
-			, tu.tel as tel
-			, tsrl.scm_id as scm_id
-			, od.addr as addr
-			, od.addr_detail as addr_detail
-			, od.request as request
-			, tsrl.ship_staff_id as ship_staff_id
-		FROM order as od
-		
-		LEFT JOIN tb_scm_userinfo as tsu
-		ON od.loginID = tsu.loginID
-		
-		LEFT JOIN tb_scm_warehouse as tsw
-		ON od.warehouse_cd = tsw.warehouse_cd
-		
-		LEFT JOIN (select name, tel, addr, addr_detail, loginID
-					from tb_userinfo) as tu
-		ON od.loginID = tu.loginID
-		
-		LEFT JOIN tb_scm_refund_list as tsrl
-		ON od.loginID = tsrl.scm_id
-		
-		LEFT JOIN tb_scm_product as tsp
-		ON od.product_cd = tsp.product_cd
-		
-		LEFT JOIN (select m_ct_cd, m_ct_nm from tb_scm_m_catagory) as tsmc
-		ON tsp.m_ct_cd = tsmc.m_ct_cd
-
-		<where>
-			AND od.state like '승인완료'
-			AND od.state like '반품진행중'
-			AND od.state like '반품완료'
-		</where> 
-	</select>
-	 -->
-
+	
+	<select id="dlvStaffNameCombo" resultType="kr.happyjob.study.dlv.model.DlvStaffNameModel">
+       SELECT name AS dlv_staff_name
+               , loginID
+           FROM tb_userinfo
+           WHERE user_type like "H"
+    </select>
+    
+    <!-- 배송사원 연락처 조회 -->
+    <select id="getDlvStaffTel" resultType="string">
+       SELECT tel AS dlv_staff_tel
+           FROM tb_userinfo
+           WHERE name = #{selDlvName}
+    </select>
+    
+    <update id="updateReturnPaper">
+         UPDATE
+            tb_scm_refund_list AS TSRL
+                , tb_order AS OD
+            SET
+                <choose>
+                    <when test="state.equals('7')">
+                        OD.STTcd = #{state}
+                    </when>
+                    <otherwise>
+                        TSRL.ship_staff_id = #{dlvStaffLoginId},
+                        TSRL.ship_mng_id = #{mngLoginId},
+                        OD.STTcd = #{state}
+                    </otherwise>
+                </choose>
+            WHERE OD.order_cd = #{order_cd}
+            AND TSRL.refund_list_no = #{refund_list_no}
+            AND TSRL.order_cd = #{order_cd}
+    </update>
 </mapper>
