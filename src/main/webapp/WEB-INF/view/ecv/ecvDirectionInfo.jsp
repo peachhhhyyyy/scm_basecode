@@ -10,6 +10,7 @@
 <!-- 갯수가 있는 경우  -->
 <c:if test="${purchaseListCnt > 0 }">
   <c:set var="nRow" value="${pageSize*(currentPage-1)}" />
+  <c:set var="nRow" value="${nRow + 1}" />
   <c:forEach items="${purchaseList}" var="list">
     <tr>
       <!-- List에 있는 js 함수 호출가능 이거 그대로 가지고 가기 때문에 !!  -->
@@ -25,10 +26,9 @@
 	  	<td><a class="btnType3 color2" href="javascript:allowPurchase('${list.orderCode}');">승인</a></td>
       </c:if>
       <c:if test="${list.sttCode eq 10}">
-	  	<td><a class="btnType3 color3">승인완료</a></td>
+	  	<td>승인완료</td>
       </c:if>
     </tr>
-    <c:set var="nRow" value="${nRow + 1}" />
   </c:forEach>
 </c:if>
 <!-- 이거 중간에 있으면 table 안먹힘  -->
