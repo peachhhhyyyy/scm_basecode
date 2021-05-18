@@ -153,7 +153,6 @@ public class DlvOutgoingController {
 			if(paramMap.get("state").equals("14")) {
 				String staffNameAndId = (String) paramMap.get("dlvStaffNameAndLoginId");
 				String[] staffNameAndIdArray = staffNameAndId.split(" ");
-				logger.info("===== 이름과 아이디 배열 ===== : " + staffNameAndIdArray);
 				
 				String staffName = staffNameAndIdArray[0];
 				String staffId = staffNameAndIdArray[1];
