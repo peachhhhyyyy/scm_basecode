@@ -37,7 +37,7 @@ function getPurchaseDirectionListResult(data, currentPage) {
   console.log(data);
 
   // 기존 목록 삭제
-  $('#orderListHistory').empty().append(data);
+  $('#purchDirListHistory').empty().append(data);
 
   // 총 개수 추출
   let totalCnt = $("#totcnt").val();
@@ -46,7 +46,7 @@ function getPurchaseDirectionListResult(data, currentPage) {
   var paginationHtml = getPaginationHtml(currentPage, totalCnt, pageSizeOrderList, pageBlockSizeOrderList, 'getPurchaseDirectionList');
   console.log("paginationHtml : " + paginationHtml);
 
-  $("#orderListPagination").empty().append(paginationHtml);
+  $("#purchDirListPagination").empty().append(paginationHtml);
 
   // 현재 페이지 설정
   $("#currentPage").val(currentPage);
