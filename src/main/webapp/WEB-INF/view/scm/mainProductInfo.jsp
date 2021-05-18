@@ -284,7 +284,7 @@
               </tr>
               <tr>
                 <th scope="row">상세정보 <span class="font_red">*</span></th>
-                <td colspan = "5"><input type="text" class="inputTxt p100" style="width:100px; height:50px;"
+                <td colspan = "7"><input type="text" class="inputTxt p100" style="width:100px; height:50px;"
                   name="detail" id="detail" /></td>
               </tr>
 
