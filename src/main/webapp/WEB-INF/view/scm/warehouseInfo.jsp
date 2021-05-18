@@ -46,8 +46,8 @@
       case 'btnSaveWarehouse'://저장하기
         fSaveWarehouse();
         break;
-      case 'btnDeleteWarehouse'://삭제하기
-        fDeleteWarehouse();
+      case 'btnDeactivateWarehouse'://비활성화하기
+        fDeactivateWarehouse();
         break;
       case 'btnCloseWarehouse': //닫기
         gfCloseModal();
@@ -80,7 +80,7 @@
   function flistWarehouseResult(data, currentPage) {
     //alert(data);
     console.log(data);
-    //기존 목록 삭제
+    //기존 목록 비활성화
     $('#listWarehouse').empty();
     $("#listWarehouse").append(data);
     // 총 개수 추출
@@ -118,7 +118,7 @@
   
   /*제품목록 조회 콜백 함수*/
   function flistProductResult(data, currentPage) {
-    //기존 목록 삭제
+    //기존 목록 비활성화
     $("#listWarehouseProduct").empty();
     // 신규 목록 생성
     $("#listWarehouseProduct").append(data);
@@ -181,7 +181,7 @@
       $("#zip_cd").val("");
       $("#addr").val("");
       $("#addr_detail").val("");
-      $("#btnDeleteWarehouse").hide();
+      $("#btnDeactivateWarehouse").hide();
       
       $("#warehouse_cd").attr("readonly", false);
       $("#warehouse_cd").css("background", "#FFFFFF");
@@ -196,7 +196,7 @@
       $("#zip_cd").val(object.zip_cd);
       $("#addr").val(object.addr);
       $("#addr_detail").val(object.addr_detail);
-      $("#btnDeleteWarehouse").show();
+      $("#btnDeactivateWarehouse").show();
       
       $("#warehouse_cd").attr("readonly", true);
       $("#warehouse_cd").css("background", "#F5F5F5");
@@ -252,9 +252,9 @@
     fInitFormWarehouse();
   }
   
-  //창고 삭제
-  function fDeleteWarehouse(warehouse_cd){
-    var con = confirm("삭제하시겠습니까 ?");
+  //창고 비활성화
+  function fDeactivateWarehouse(warehouse_cd){
+    var con = confirm("비활성화하시겠습니까 ?");
     var currentPage = "1";
     if (con){
       var resultCallback = function(data) {
@@ -496,7 +496,7 @@
 
           <div class="btn_areaC mt30">
             <a href="" class="btnType blue" id="btnSaveWarehouse" name="btn"><span>저장</span></a>
-            <a href="" class="btnType blue" id="btnDeleteWarehouse" name="btn"><span>삭제</span></a>  
+            <a href="" class="btnType blue" id="btnDeactivateWarehouse" name="btn"><span>비활성화</span></a>  
             <a href="" class="btnType gray" id="btnCloseWarehouse" name="btn"><span>취소</span></a>
           </div>
         </dd>

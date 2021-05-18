@@ -127,9 +127,9 @@ public class WarehouseInfoController {
      warehouseInfoService.updateWarehouse(paramMap);
      resultMsg = "수정 완료";
    } else if("D".equals(action)){
-     //창고 삭제
-     warehouseInfoService.deleteWarehouse(paramMap);
-     resultMsg = "삭제 완료";
+     //창고 비활성화
+     warehouseInfoService.deactivateWarehouse(paramMap);
+     resultMsg = "비활성화 완료";
    } /*else if("R".equals(action)){
      //창고 복구
      warehouseInfoService.recoveryWarehouse(paramMap);
