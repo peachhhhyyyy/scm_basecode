@@ -73,7 +73,10 @@
 			  	   mct.m_ct_nm middleCategory,
 			  	   o.order_cnt orderCount,
 			  	   o.request customerRequest,
-			  	   sup.supply_nm supplyName
+			  	   sup.supply_nm supplyName,
+			  	   prod.stock productStock,
+			  	   prod.warehouse_cd warehouseCode
+			  	   
 			FROM tb_order o
   			JOIN (
 					SELECT name, loginID 
@@ -117,7 +120,7 @@
 		<!-- 배송지시서 요청 후, 상태 '배송준비'로 업데이트 -->
 		<update id="updateStateToDelivery" parameterType="int">
 			UPDATE tb_order
-			SET STTcd = #{STTcd}
+			SET STTcd = #{STTcd}, warehouse_cd = #{warehouseCode}
 			WHERE order_cd = #{orderCode}
 		</update>
 		<!-- 배송지시서 요청한 주문내역 '배송지시서'테이블에 INSERT -->
@@ -133,4 +136,10 @@
 						#{submitDate}
 					)
 		</insert>
+		
+		<update id="updateProductCount" parameterType="int">
+			UPDATE tb_scm_product
+			SET stock = #{productStock} - #{orderCount}
+			WHERE prod_nm = #{productName}
+		</update>
 </mapper>
