@@ -25,8 +25,18 @@
            <where>
             <if test="keyword != ''">
               <choose>
+                <when test="option eq 'all'.toString()">
+                  AND pur.order_cd LIKE CONCAT('%', #{keyword},'%') 
+                   OR sup.supply_nm LIKE CONCAT('%', #{keyword}, '%')
+                   OR sup.supply_cd LIKE CONCAT('%', #{keyword}, '%')
+                   OR pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
+                   OR pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
+                </when>
                 <when test="option eq 'category'.toString()">
                   AND pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <when test="option eq 'product'.toString()">
+                  AND pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
                 </when>
               </choose>
            </if>
@@ -77,7 +87,7 @@
    <select id="countConditionList"  resultType="int">
    SELECT 
           count(pur.purch_list_no)
-      FROM 
+  FROM 
            tb_scm_purchase_list pur
            LEFT JOIN tb_order ord
            ON pur.order_cd  = ord.order_cd
@@ -88,17 +98,25 @@
            <where>
             <if test="keyword != ''">
               <choose>
+                <when test="option eq 'all'.toString()">
+                  AND pur.order_cd LIKE CONCAT('%', #{keyword},'%') 
+                   OR sup.supply_nm LIKE CONCAT('%', #{keyword}, '%')
+                   OR sup.supply_cd LIKE CONCAT('%', #{keyword}, '%')
+                   OR pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
+                   OR pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
+                </when>
                 <when test="option eq 'category'.toString()">
                   AND pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <when test="option eq 'product'.toString()">
+                  AND pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
                 </when>
               </choose>
            </if>
            <if test="date">
            </if>
            
-           </where>
-   
-   
+           </where>   
    </select>
   
   

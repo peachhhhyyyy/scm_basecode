@@ -8,10 +8,13 @@
 <title>JobKorea</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <style>
+/* 모달 클릭 방지 */
 .forbidden-event {
  pointer-events: none;
 }
 </style>
+<!-- 테스트용 datetpicker -->
+<script src="/build/jquery.datetimepicker.full.min.js"></script>
 <script type="text/javascript">
 
   // 페이징 설정
@@ -21,7 +24,7 @@
   /* OnLoad event */ 
   $(function() {
 
-    // 반품서 목록 조회
+    // 반품서 목록 조회 호출
     selectList();
 
   });
@@ -34,11 +37,28 @@
     console.log('옵션:', option);
     console.log('키워드:', keyword)
     var date = $("#datetimepicker1").find("input").val()
-    // moment(new Date()).format("YYYYMMDD")
-    date = moment(date).format('YYYYMMDD')
-    console.log('날짜확인', date);
-
-    // 
+    
+    // datepicker설정
+     $(function() {
+        $('#datetimepicker1').datetimepicker({
+           //format : 'L',
+           format: 'YYYY-MM-DD',
+           formatDate: 'YYYY-MM-DD'
+        });
+        
+        $('#datetimepicker2').datetimepicker({
+        format : 'L',
+        useCurrent : false
+        });
+        
+        $("#datetimepicker1").on("change.datetimepicker", function(e) {
+          var date = $("#datetimepicker1").find("input").val()
+          console.log('날짜확인', date)
+          $('#datetimepicker2').datetimepicker('minDate', e.date);
+        });
+      });
+    // 추가 코드 끝
+    
     currentPage = currentPage || 1;
 
     console.log("currentPage : " + currentPage);
@@ -84,7 +104,7 @@
     // 신규 목록 생성
     $("#refundList").append(data);
     
-    // 총 개수 추출
+    // 리스트 로우의 총 개수 추출
     var totalCount = $("#totalCount").val();
     console.log('반품서 목록 파라미터 확인:',currentPage, totalCount, pageSize, pageBlock)
     
@@ -105,16 +125,16 @@
     if (refund_list_no === null || refund_list_no === 0) {
       // Tranjection type 설정
       $("#action").val("I");
+      
       // 그룹코드 폼 초기화
-      // fInitFormGrpCod();
       initModal();
+      
       // 모달 팝업
       gfModalPop("#layer1");
-      // 수정 저장
+      
     } else {
       // Tranjection type 설정
       $("#action").val("U");
-      //fSelectGrpCod(grp_cod);
     }
     // 반품서 단건 조회
     selectDetail(refund_list_no);
@@ -128,7 +148,7 @@
       refund_list_no : refund_list_no
     };
 
-    // 콜백
+    /* 반품서 단건 조회 콜백 함수 */
     var resultCallback = function(data) {
       console.log('콜백:', data);
       selectDetailCallBack(data);
@@ -138,21 +158,16 @@
     callAjax("/pcs/refund/detail.do", "post", "json", true, param, resultCallback);
   }
 
-  /* 반품서 단건 조회  콜백 함수 */
+  // 반품서 단건 조회  데이터 설정 함수 호출 
   // fSelectGrpCodResult참고
   function selectDetailCallBack(data) {
     gfModalPop("#layer1");
-    console.log('서버로부터 받은 데이터', data);
     initModal(data);
   }
 
-  /* 반품서 모달 데이터 설정 */
+  /* 반품서 모달 초기화,데이터 설정 함수 */
   // fInitFormGrpCod 참고
   function initModal(object) {
-    console.log('object 확인:', object);
-    console.log('object 타입확인:', typeof (object));
-    console.log('refund확인:', object);
-    console.log('값확인:', object.supply_cd);
 
     if (object == "" || object == null || object == undefined) {
 
@@ -328,7 +343,7 @@
               <tr>
                 <th scope="row">반품번호</th>
                 <td><input type="text" class="inputTxt p100" name="purch_list_no" id="purch_list_no" /></td>
-                <th scope="row">회사명 ${refund.order_cd}</th>
+                <th scope="row">회사명 </th>
                 <td><input type="text" class="inputTxt p100" name="supply_nm" id="supply_nm" /></td>
               </tr>
               <tr>
