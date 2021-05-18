@@ -285,9 +285,6 @@ function makeDeliveryDirection(orderCode) {
     makeDeliveryDirectionResult(data);
   };
   
-  // Ajax 실행 방식
-  // callAjax("Url", type, return, async or sync방식, 넘겨준거, Callback함수 이름)
-  // html로 받을거라 text
   callAjax("/scm/deliveryInfo.do", "post", "text", true, param, resultCallback);
   return;
 }
