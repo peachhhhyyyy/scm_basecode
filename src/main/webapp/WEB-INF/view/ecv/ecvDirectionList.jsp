@@ -28,14 +28,14 @@
 							<a href="../dashboard/dashboard.do" class="btn_set home"></a> 
 							<span class="btn_nav bold">임원</span> 
 							<span class="btn_nav bold">발주 지시서</span> 
-							<a href="../scm/scmOrderList.do" class="btn_set refresh"></a>
+							<a href="../ecv/purchaseDirec.do" class="btn_set refresh"></a>
 						</p>
 						<p class="conTitle" style="margin-bottom: 1%; display: flex; justify-content: center; align-items: space-between;">
 							<span>발주 지시서</span>
 						</p>
 						<!-- 프로젝트 조회 -->
 						<div class="divListProject">
-							<table class="col" id="orderListTable">
+							<table class="col" id="purchDirListTable">
 								<caption>caption</caption>
 								<thead>
 									<tr>
@@ -49,10 +49,10 @@
 										<th scope="col">결제</th>
 									</tr>
 								</thead>
-								<tbody id="orderListHistory"></tbody>
+								<tbody id="purchDirListHistory"></tbody>
 							</table>
 						</div>
-						<div class="paging_area" id="orderListPagination"></div>
+						<div class="paging_area" id="purchDirListPagination"></div>
 					</div>
 				</li>
 			</ul>
