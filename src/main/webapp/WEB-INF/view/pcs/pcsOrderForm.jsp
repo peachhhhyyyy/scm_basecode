@@ -39,38 +39,57 @@
   }
 
   /** 발주서 상세페이지 모달 실행 */  
-  function fPopPcsOrderForm(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name) {
+  function fPopPcsOrderForm(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, purch_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name) {
     // 신규 저장
     if (purch_list_no == null || purch_list_no == "") {
     } else {
       // 발주서 버튼 클릭 시 화면 출력
-      fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name);
+      fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, purch_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name);
     }
   }
 
+  /** 발주서 검색 */  
   function board_search(currentPage) {
-    var sname = $('#sname').val();
-    var searchKey = document.getElementById("searchKey");
-    var oname = searchKey.options[searchKey.selectedIndex].value;
+		var sname = $('#sname').val();
+		var searchKey = document.getElementById("searchKey");
+		var oname = searchKey.options[searchKey.selectedIndex].value;
+		
+		console.log("sname : " + sname);
+		console.log("oname : " + oname);
+		
+		currentPage = currentPage || 1;
+		console.log("currentPage : " + currentPage);
+		
+		var date = $("#datetimepicker1").find("input").val()
+		
+		console.log("date : " + date);
     
-    console.log("sname : " + sname);
-    console.log("oname : " + oname);
+		// datepicker설정
+		$(document).ready(function() {
+		  $('#datetimepicker1').datetimepicker({
+			    format: 'YYYY-MM-DD',
+	        formatDate: 'YYYY-MM-DD'
+		  });
+		  $("#datetimepicker1").on("change.datetimepicker", function(e) {
+/* 		    var date = $("#datetimepicker1").find("input").val() */
+		    console.log('날짜확인 :', date)
+		    $('#datetimepicker2').datetimepicker('minDate', e.date);
+		  });
+		});
     
-    currentPage = currentPage || 1;
-    console.log("currentPage : " + currentPage);
-    
-        var param = {
-              sname : sname
-              , oname : oname
-              , currentPage : currentPage
-              , pageSize : pageSizePcsOrderForm
-        }
-        //swal(JSON.stringify(param));
-        var resultCallback = function(data) {
-          fListPcsOrderFormResult(data, currentPage);
-        };
-        callAjax("/pcs/listPcsOrderForm.do", "post", "text", true, param, resultCallback);
-    } 
+		var param = {
+		      sname : sname
+		      , oname : oname
+		      , date : date
+		      , currentPage : currentPage
+		      , pageSize : pageSizePcsOrderForm
+		}
+		//swal(JSON.stringify(param));
+		var resultCallback = function(data) {
+		  fListPcsOrderFormResult(data, currentPage);
+		};
+		callAjax("/pcs/listPcsOrderForm.do", "post", "text", true, param, resultCallback);
+  }
   
   /** 발주서 목록 조회 */
   function fListPcsOrderForm(currentPage) {
@@ -132,7 +151,7 @@
   }
   
   /** 발주서 화면 띄우기 */ 
-  function fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name) {
+  function fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, purch_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name) {
 
     var param = {
       purch_list_no : purch_list_no,
@@ -145,6 +164,7 @@
       purchase_price : purchase_price,
       purch_mng_id : purch_mng_id,
       direction_date : direction_date,
+      purch_date : purch_date,
       desired_delivery_date : desired_delivery_date,
       supply_cd : supply_cd,
       product_cd : product_cd,
@@ -162,10 +182,10 @@
     $("#purchasePrice").text(purchase_price);
     
     // 날짜 타입 변환
-    var date1 = direction_date.substr(0, 10);
-    var date2 = direction_date.substr(24, 29);
-    direction_date = date1 + ',' + date2;
-    $("#directionDate").text(formatDate(direction_date));
+    var date1 = purch_date.substr(0, 10);
+    var date2 = purch_date.substr(24, 29);
+    purch_date = date1 + ',' + date2;
+    $("#purchDate").text(formatDate(purch_date));
     var date3 = desired_delivery_date.substr(0, 10);
     var date4 = desired_delivery_date.substr(24, 29);
     desired_delivery_date = date3 + ',' + date4;
@@ -264,19 +284,19 @@
                                     </div>
                                     <!-- // searchbar -->
                                     <!-- date -->
-                                    <div class='col-md-3 col-xs-4'>
-                                        <div class="form-group">
-                                            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="01/11/2020">
-                                                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-                                                    <div class="input-group-text">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- // date -->
+									                  <div class='col-md-3 col-xs-4'>
+									                    <div class="form-group">
+									                      <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+									                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="">
+									                        <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+									                          <div class="input-group-text">
+									                            <i class="fa fa-calendar"></i>
+									                          </div>
+									                        </div>
+									                      </div>
+									                    </div>
+									                  </div>
+									                  <!-- // date -->
                                     <!-- button -->
                                     <div class="btn-group" role="group" aria-label="...">
                                       <a class="btn btn-default" id="btnSearchOrderForm" name="btn" href="">검색</a>
@@ -373,7 +393,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">발주날짜</th>
-                                <td id="directionDate"></td>
+                                <td id="purchDate"></td>
                                 <th scope="row">배송희망날짜</th>
                                 <td id="desiredDeliveryDate"></td>
                             </tr>
@@ -389,14 +409,20 @@
         </div>
         <!--// 모달팝업 -->
     </form>
-    <script type="text/javascript">
-        $(document).ready(function (e) {
-            $('#datetimepicker1').datetimepicker({ 
-                locale: 'ko',
-                format: 'YYYY-MM-DD HH:mm',
-                defaultDate: new Date()
-            });
-        });
+    <script>
+    $(document).ready(function() {
+      $('#datetimepicker1').datetimepicker({
+          format: 'YYYY-MM-DD',
+          formatDate: 'YYYY-MM-DD',
+          language: 'ko',
+          autoclose: true,
+      });
+      $("#datetimepicker1").on("change.datetimepicker", function(e) {
+        var date = $("#datetimepicker1").find("input").val();
+        console.log('날짜확인 :', date)
+        $('#datetimepicker2').datetimepicker('minDate', e.date);
+      });
+    });
     </script>
 </body>
 </html>
