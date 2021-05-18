@@ -3,8 +3,6 @@ package kr.happyjob.study.scm.service;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +23,15 @@ public class ScmRefundListServiceImpl implements ScmRefundListService {
 	@Override
 	public int getRefundListCnt(Map<String, Object> paramMap) throws Exception {
 		return scmRefundListDao.selectRefundListCnt(paramMap);
+	}
+	
+	@Override
+	public ScmRefundListModel getRefundDetail(Map<String, Object> paramMap) throws Exception {
+		return scmRefundListDao.selectRefundDetail(paramMap);
+	}
+	
+	@Override
+	public String getScmManagerName(Map<String, Object> paramMap) throws Exception {
+		return scmRefundListDao.selectScmManagerName(paramMap);
 	}
 }

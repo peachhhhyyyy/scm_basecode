@@ -11,4 +11,8 @@ public interface ScmRefundListService {
 
 	int getRefundListCnt(Map<String, Object> paramMap) throws Exception;
 
+	ScmRefundListModel getRefundDetail(Map<String, Object> paramMap) throws Exception;
+
+	String getScmManagerName(Map<String, Object> paramMap) throws Exception;
+
 }
