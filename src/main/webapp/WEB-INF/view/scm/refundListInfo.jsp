@@ -13,7 +13,7 @@
   <c:forEach items="${refundList}" var="list">
     <tr>
       <!-- List에 있는 js 함수 호출가능 이거 그대로 가지고 가기 때문에 !!  -->
-      <td>${list.orderCode}</td>
+      <td><a href="javascript:getRefundDetail('${list.orderCode}')">${list.orderCode}</a></td>
       <td>${list.customerName}</td>
       <td>${list.productName}</td>
       <td>${list.middleCategory}</td>
@@ -21,7 +21,8 @@
       <td>${fn:substring(date, 0, 11)}</td>
       <td>${list.refundCount}</td>
       <td>${list.refundAmount}</td>
-      <td>${list.STTcd}</td>
+      <c:set var="state" value="${list.state}"/>
+      <td>${fn:substring(state, 0, 4)}</td>
     </tr>
     <c:set var="nRow" value="${nRow + 1}" />
   </c:forEach>
