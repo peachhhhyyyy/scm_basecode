@@ -76,4 +76,24 @@ public class ScmRefundListController {
 
 		return "/scm/refundListInfo";
 	}
+	
+	@RequestMapping("refundDetailInfo.do")
+	public String getRefundDetail(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+
+		logger.info("+ Start " + className + ".getRefundDetail");
+		logger.info("   - paramMap : " + paramMap);
+		
+		paramMap.put("loginId", session.getAttribute("loginId"));	// SCM 관리자 아이디
+
+		ScmRefundListModel refundDetail = scmRefundListService.getRefundDetail(paramMap);
+		String scmManager = scmRefundListService.getScmManagerName(paramMap);
+		refundDetail.setScmManager(scmManager);
+		
+		model.addAttribute("refundDetail", refundDetail);
+
+		logger.info("+ end " + className + ".getRefundDetail");
+
+		return "/scm/refundDetail";
+	}
 }
