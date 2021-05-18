@@ -181,13 +181,14 @@
       $("#zip_cd").val("");
       $("#addr").val("");
       $("#addr_detail").val("");
+      $("#btnDeleteWarehouse").hide();
       
       $("#warehouse_cd").attr("readonly", false);
       $("#warehouse_cd").css("background", "#FFFFFF");
       $("#warehouse_nm").attr("readonly", false);
       $("#warehouse_nm").css("background", "#FFFFFF");
       $("#zip_cd").attr("readonly", true);
-      $("#zip_cd").css("background", "#F5F5F5");
+      $("#zip_cd").css("background", "#F5F5F5");      
     } else{
       $("#warehouse_cd").val(object.warehouse_cd);
       $("#warehouse_nm").val(object.warehouse_nm);
@@ -195,6 +196,7 @@
       $("#zip_cd").val(object.zip_cd);
       $("#addr").val(object.addr);
       $("#addr_detail").val(object.addr_detail);
+      $("#btnDeleteWarehouse").show();
       
       $("#warehouse_cd").attr("readonly", true);
       $("#warehouse_cd").css("background", "#F5F5F5");
