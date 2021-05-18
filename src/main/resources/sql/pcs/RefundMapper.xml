@@ -37,6 +37,7 @@
                    </if>
                    
                 </when>
+                
                 <when test="option eq 'category'.toString()">
                   AND pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
                   
@@ -45,6 +46,7 @@
                    </if>
                    
                 </when>
+                
                 <when test="option eq 'product'.toString()">
                   AND pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
                   
@@ -69,30 +71,6 @@
            
   ORDER BY purch_list_no DESC
      LIMIT #{pageIndex}, #{pageSize}    
-  
-  </select>
-  <!-- 반품서 목록 조회(기본). 원본  -->
-  <select id="selectRefundListOriginal" resultType="kr.happyjob.study.pcs.model.RefundDetailModel">
-    
-    SELECT 
-           pur.purch_list_no
-         , pur.order_cd
-         , DATE_FORMAT(pur.return_date, '%Y-%m-%d') as return_date
-         , pur.return_qty
-         , sup.supply_nm
-         , sup.supply_cd
-         , pro.prod_nm
-         , pro.m_ct_cd
-      FROM 
-           tb_scm_purchase_list pur
-           LEFT JOIN tb_order ord
-           ON pur.order_cd  = ord.order_cd
-           LEFT JOIN tb_scm_product pro
-           ON ord.product_cd = pro.product_cd
-           LEFT JOIN tb_scm_supply sup
-           ON pro.supply_cd = sup.supply_cd
-  ORDER BY purch_list_no DESC
-     LIMIT #{pageIndex}, #{pageSize}
   
   </select>
   
