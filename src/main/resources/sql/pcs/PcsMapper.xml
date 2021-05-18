@@ -119,6 +119,7 @@
          ,   PD.m_ct_cd
          ,   PL.purch_qty
          ,   WH.warehouse_nm
+         ,   PL.purch_date
          ,   PL.direction_date
          ,   PL.desired_delivery_date
          ,   OD.STTcd
@@ -144,17 +145,36 @@
             <when
               test="oname eq 'all'.toString()">
               and (OD.order_cd LIKE CONCAT('%', #{sname}, '%') or PD.m_ct_cd LIKE CONCAT('%', #{sname}, '%') or PD.prod_nm LIKE CONCAT('%', #{sname}, '%'))
+              <if test="date != ''">
+                AND (PL.purch_date = STR_TO_DATE(#{date}, '%Y-%m-%d') or PL.desired_delivery_date = STR_TO_DATE(#{date}, '%Y-%m-%d'))
+              </if>
             </when>
             <when
               test="oname eq 'brand'.toString()">
               and PD.m_ct_cd LIKE CONCAT('%', #{sname}, '%')
+              <if test="date != ''">
+                AND PL.purch_date = STR_TO_DATE(#{date}, '%Y-%m-%d') 
+                or PL.desired_delivery_date = STR_TO_DATE(#{date}, '%Y-%m-%d')
+              </if>
             </when>
 	          <when
 	            test="oname eq 'product'.toString()">
 	             and PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+	             <if test="date != ''">
+                AND PL.purch_date = STR_TO_DATE(#{date}, '%Y-%m-%d') 
+                or PL.desired_delivery_date = STR_TO_DATE(#{date}, '%Y-%m-%d')
+              </if>
 	          </when>
 	        </choose>
         </if>
+        <if test="sname == ''">
+            <choose>
+              <when test="date != ''">
+                AND PL.purch_date = STR_TO_DATE(#{date}, '%Y-%m-%d') 
+                or PL.desired_delivery_date = STR_TO_DATE(#{date}, '%Y-%m-%d')
+              </when>
+            </choose>
+         </if>
       ORDER BY purch_list_no DESC
       LIMIT #{pageIndex}, #{pageSize}
   </select>
@@ -197,7 +217,7 @@
   <!-- 발주서 목록 총 갯수 조회 -->
   <select id="countPcsOrderForm" resultType="int">
     /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
-    SELECT DISTINCT COUNT(1) AS tot_cnt 
+    SELECT COUNT(DISTINCT PL.purch_list_no) AS tot_cnt
       FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_order as OD
         ON PL.order_cd = OD.order_cd
@@ -216,17 +236,36 @@
             <when
               test="oname eq 'all'.toString()">
               and (OD.order_cd LIKE CONCAT('%', #{sname}, '%') or PD.m_ct_cd LIKE CONCAT('%', #{sname}, '%') or PD.prod_nm LIKE CONCAT('%', #{sname}, '%'))
+              <if test="date != ''">
+                AND (PL.purch_date = STR_TO_DATE(#{date}, '%Y-%m-%d') or PL.desired_delivery_date = STR_TO_DATE(#{date}, '%Y-%m-%d'))
+              </if>
             </when>
             <when
               test="oname eq 'brand'.toString()">
               and PD.m_ct_cd LIKE CONCAT('%', #{sname}, '%')
+              <if test="date != ''">
+                AND PL.purch_date = STR_TO_DATE(#{date}, '%Y-%m-%d') 
+                or PL.desired_delivery_date = STR_TO_DATE(#{date}, '%Y-%m-%d')
+              </if>
             </when>
             <when
               test="oname eq 'product'.toString()">
               and PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+              <if test="date != ''">
+                AND PL.purch_date = STR_TO_DATE(#{date}, '%Y-%m-%d') 
+                or PL.desired_delivery_date = STR_TO_DATE(#{date}, '%Y-%m-%d')
+              </if>
             </when>
           </choose>
         </if>
+        <if test="sname == ''">
+            <choose>
+              <when test="date != ''">
+                AND PL.purch_date = STR_TO_DATE(#{date}, '%Y-%m-%d') 
+                or PL.desired_delivery_date = STR_TO_DATE(#{date}, '%Y-%m-%d')
+              </when>
+            </choose>
+         </if>
   </select>
   
   <!-- 발주서 상태 변경 -->
