@@ -21,6 +21,8 @@ public class WarehouseInfoModel {
   private String addr_detail;
   // 로그인 아이디
   private String loginID;
+  // 활성화 여부
+  private String use_yn;
   
   //제품 코드
   private String product_cd;
@@ -99,6 +101,12 @@ public class WarehouseInfoModel {
   }
   public void setAddr_detail(String addr_detail) {
     this.addr_detail = addr_detail;
+  }
+  public String getUse_yn() {
+    return use_yn;
+  }
+  public void setUse_yn(String use_yn) {
+    this.use_yn = use_yn;
   }
   
 

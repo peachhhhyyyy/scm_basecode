@@ -13,7 +13,7 @@
       FROM tb_scm_warehouse WH 
  LEFT JOIN tb_userinfo UI 
         ON WH.wh_mng_id = UI.loginID
-        <where>
+     WHERE WH.use_yn="Y"
       <if test="(sname != null) and (!sname.equals(''))">
       <choose>
         <when test="oname eq 'all'.toString()">
@@ -27,7 +27,6 @@
         </when>
       </choose>
       </if> 
-    </where>
      LIMIT #{pageIndex}, #{pageSize}
   </select>
   <!-- 창고 카운트 -->
@@ -36,6 +35,7 @@
       FROM tb_scm_warehouse WH 
  LEFT JOIN tb_userinfo UI 
         ON WH.wh_mng_id = UI.loginID
+     WHERE WH.use_yn="Y"  
         <choose>
         <when test="oname eq 'all'.toString()">
             AND (WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%') or UI.name LIKE CONCAT('%', #{sname}, '%'))
@@ -93,7 +93,7 @@
   <!-- 창고 등록 -->
   <insert id="insertWarehouse" parameterType="java.util.Map">
    INSERT INTO tb_scm_warehouse 
-    ( warehouse_cd, warehouse_nm, wh_mng_id, zip_cd, addr, addr_detail)
+    ( warehouse_cd, warehouse_nm, wh_mng_id, zip_cd, addr, addr_detail, use_yn)
     VALUES
    (
    #{warehouse_cd},
@@ -101,7 +101,8 @@
    #{wh_mng_id},
    #{zip_cd},
    #{addr},
-   #{addr_detail}
+   #{addr_detail},
+   "Y"
    ) 
   </insert>
   
@@ -117,9 +118,11 @@
 </update>
 
   <!-- 창고 삭제 -->
-  <delete id="deleteWarehouse" parameterType="java.util.Map">
-  DELETE FROM tb_scm_warehouse
-  WHERE  warehouse_cd = #{warehouse_cd}
-</delete>
+  <update id="deleteWarehouse" parameterType="java.util.Map">
+  UPDATE tb_scm_warehouse 
+  SET  use_yn = "N"
+  WHERE warehouse_cd = #{warehouse_cd}
+  </update>
+  
 
 </mapper>
