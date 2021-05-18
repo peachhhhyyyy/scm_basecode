@@ -9,83 +9,159 @@
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/popFindZipCode.js"></script>
 <script type="text/javascript">
  /*제품정보 페이징 처리*/
- var pageSizeMainProduct = 10;
- var pageBlockSizeMainProduct = 5;
- 
- /*OnLoad event*/
- $(document).ready(function() {
-   //제품 목록 조회
-   fListMainProduct();
-   //버튼 이벤트 등록
-   fRegisterButtonClickEvent();
-   //엔터눌렀을때 창고정보 검색되게하기
-   $("#sname").keypress(function (e) {
-         if (e.which == 13){
-                   board_search();  // 실행할 이벤트
-         }
-   });
- });
- 
- /** 버튼 이벤트 등록 */
- function fRegisterButtonClickEvent() {
-   $('a[name=btn]').click(function(e) {
-     e.preventDefault();
-     var btnId = $(this).attr('id');
-     //alert("btnId : " + btnId);
-     switch (btnId) {
-     case 'searchBtn':
-       board_search(); //  검색하기
-       break;
-     case 'btnSaveMainProduct'://저장하기
-       fSaveMainProduct();
-       break;
-     case 'btnDeactivateMainProduct'://비활성화하기
-       fDeactivateMainProduct();
-       break;
-     case 'btnCloseMainProduct': //닫기
-       gfCloseModal();
-       break;
-     }
-   });
- }
- 
- /*제품 조회*/
- function fListMainProduct(currentPage) {
-   currentPage = currentPage || 1;
-   var sname = $('#sname');
-   var searchKey = document.getElementById("searchKey");
-   var oname = searchKey.options[searchKey.selectedIndex].value;
 
-   console.log("currentPage : " + currentPage);
+  var pageSizeMainProduct = 10;
+  var pageBlockSizeMainProduct = 5;
 
-   var param = {
-   sname : sname.val(),
-   oname : oname,
-   currentPage : currentPage,
-   pageSize : pageSizeMainProduct,
-   }
-   var resultCallback = function(data) {
-     flistMainProductResult(data, currentPage);
-   }
-   callAjax("/scm/listMainProduct.do", "post", "text", true, param, resultCallback);
- }
- /*제품 조회 콜백 함수*/
- function flistMainProductResult(data, currentPage) {
-   //alert(data);
-   console.log(data);
-   //기존 목록 비활성화
-   $('#listMainProduct').empty();
-   $("#listMainProduct").append(data);
-   // 총 개수 추출
-   var totalMainProduct = $("#totalMainProduct").val();
-   //페이지 네비게이션 생성
-   var paginationHtml = getPaginationHtml(currentPage, totalMainProduct, pageSizeMainProduct, pageBlockSizeMainProduct, 'fListMainProduct');
-   $("#mainProductPagination").empty().append(paginationHtml);
-   //현재 페이지 설정
-   console.log("totalMainProduct: " + totalMainProduct);
-   $("#currentPageMainProduct").val(currentPage);
- }
+  /*OnLoad event*/
+  $(document).ready(function() {
+    //제품 목록 조회
+    fListMainProduct();
+    //버튼 이벤트 등록
+    fRegisterButtonClickEvent();
+    //엔터눌렀을때 창고정보 검색되게하기
+    $("#sname").keypress(function(e) {
+      if (e.which == 13) {
+        board_search(); // 실행할 이벤트
+      }
+    });
+  });
 
+  /** 버튼 이벤트 등록 */
+
+  function fRegisterButtonClickEvent() {
+    $('a[name=btn]').click(function(e) {
+      e.preventDefault();
+      var btnId = $(this).attr('id');
+      //alert("btnId : " + btnId);
+      switch (btnId) {
+      case 'searchBtn':
+        board_search(); //  검색하기
+        break;
+      case 'btnSaveMainProduct'://저장하기
+        fSaveMainProduct();
+        break;
+      case 'btnDeleteMainProduct'://삭제하기
+        fDeleteMainProduct();
+        break;
+      case 'btnCloseMainProduct': //닫기
+        gfCloseModal();
+        break;
+      }
+    });
+  }
+
+  /* 제품 조회*/
+
+  function fListMainProduct(currentPage) {
+    currentPage = currentPage || 1;
+    var sname = $('#sname');
+    var searchKey = document.getElementById("searchKey");
+    var oname = searchKey.options[searchKey.selectedIndex].value;
+
+    console.log("currentPage : " + currentPage);
+
+    var param = {
+    sname : sname.val(),
+    oname : oname,
+    currentPage : currentPage,
+    pageSize : pageSizeMainProduct,
+    }
+    var resultCallback = function(data) {
+      flistMainProductResult(data, currentPage);
+    }
+    callAjax("/scm/listMainProduct.do", "post", "text", true, param, resultCallback);
+  }
+  /* 제품 조회 콜백 함수*/
+
+  function flistMainProductResult(data, currentPage) {
+    //alert(data);
+    console.log(data);
+    //기존 목록 비활성화
+    $('#listMainProduct').empty();
+    $("#listMainProduct").append(data);
+    // 총 개수 추출
+    var totalMainProduct = $("#totalMainProduct").val();
+    //페이지 네비게이션 생성
+    var paginationHtml = getPaginationHtml(currentPage, totalMainProduct, pageSizeMainProduct, pageBlockSizeMainProduct, 'fListMainProduct');
+    $("#mainProductPagination").empty().append(paginationHtml);
+    //현재 페이지 설정
+    console.log("totalMainProduct: " + totalMainProduct);
+    $("#currentPageMainProduct").val(currentPage);
+  }
+
+  /* 검색기능*/
+
+  function board_search(currentPage) {
+    $('#listMainProduct').empty();
+    currentPage = currentPage || 1;
+    var sname = $('#sname');
+    var searchKey = document.getElementById("searchKey");
+    var oname = searchKey.options[searchKey.selectedIndex].value;
+
+    var param = {
+    sname : sname.val(),
+    oname : oname,
+    currentPage : currentPage,
+    pageSize : pageSizeMainProduct,
+    }
+
+    var resultCallback = function(data) {
+      flistMainProductResult(data, currentPage);
+    };
+    callAjax("/scm/listMainProduct.do", "post", "text", true, param, resultCallback);
+  }
+
+  /*제품 상세정보*/
+  function fSelectMainProduct(product_cd) {
+    var param = {
+      product_cd : product_cd
+    };
+
+    var resultCallback = function(data) {
+      fSelectMainProductResult(data);
+    };
+
+    callAjax("/scm/selectMainProduct.do", "post", "json", true, param, resultCallback);
+  }
+  
+  /*제품 상세정보 콜백 함수*/
+  function fSelectMainProductResult(data) {
+    if (data.result == "SUCCESS") {
+      gfModalPop("#layer1")
+      fInitFormMainProduct(data.mainProductInfoModel);
+    } else {
+      alert(data.resultMsg);
+    }
+  }
+  
+  /* 제품 상세정보 폼 초기화 */
+  function fInitFormMainProduct(object) {
+    $("#product_cd").focus();
+    
+    console.log("object :" + JSON.stringify(object));
+    if (object == "" || object == null || object == undefined) {
+      $("#product_cd").val("");
+      $("#prod_nm").val("");
+      $("#l_ct_nm").val("");
+      $("#supply_nm").val("");
+      $("#purchase_price").val("");
+      $("#price").val("");
+      $("#warehouse_nm").val("");
+      $("#stock").val("");
+      $("#detail").val("");
+    } else{
+      $("#product_cd").val(object.product_cd);
+      $("#prod_nm").val(object.prod_nm);
+      $("#l_ct_nm").val(object.l_ct_nm);
+      $("#supply_nm").val(object.supply_nm);
+      $("#purchase_price").val(object.purchase_price);
+      $("#price").val(object.price);
+      $("#warehouse_nm").val(object.warehouse_nm);
+      $("#stock").val(object.stock);
+      $("#detail").val(object.detail);
+    } 
+  }
 </script>
 </head>
 <body>
@@ -117,8 +193,9 @@
               <div class="MainProductList">
                 <div class="conTitle" style="margin: 0 25px 10px 0; float: left;">
                            <select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
-                            <option value="all" selected="selected">전체</option>
                            <option value="prod_nm">제품명</option>
+                           <option value="l_ct_nm">모델명</option>
+                           <option value="supply_nm">공급처명</option>
                         </select>
                         <input type="text" style="width: 300px; height: 30px;" id="sname" name="sname">
                             <a href="" class="btnType blue" id="searchBtn" name="btn"> 
@@ -159,7 +236,64 @@
         </ul>
       </div>
     </div>
-    
+    <!-- 모달! -->
+    <div id="layer1" class="layerPop layerType2" style="width: 1500px;">
+      <dl>
+        <dt>
+          <strong>제품 상세정보</strong>
+        </dt>
+        <dd class="content">
+          <table class="row">
+            <caption>caption</caption>
+            <colgroup>
+              <col width="120px">
+              <col width="*">
+              <col width="120px">
+              <col width="*">
+            </colgroup>
+            <tbody>
+              <tr>
+                <th scope="row">제품 번호 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100"
+                  name="product_cd" id="product_cd" /></td>
+                <th scope="row">제품명 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100"
+                  name="prod_nm" id="prod_nm" /></td>
+                <th scope="row">모델명<span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100" 
+                  name="l_ct_nm" id="l_ct_nm" /></td>
+              </tr>
+              <tr>
+                <th scope="row">공급처명 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100"
+                  name="supply_nm" id="supply_nm" /></td>
+                <th scope="row">장비구매액 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100"
+                  name="purchase_price" id="purchase_price" /></td>
+                <th scope="row">단가<span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100" 
+                  name="price" id="price" /></td>
+              </tr>
+              <tr>
+                <th scope="row">창고명 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100"
+                  name="warehouse_nm" id="warehouse_nm" /></td>
+                <th scope="row">재고개수<span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100"
+                  name="stock" id="stock" /></td>
+              </tr>
+              <tr>
+                <th scope="row">상세정보 <span class="font_red">*</span></th>
+                <td colspan = "5"><input type="text" class="inputTxt p100" style="width:100px; height:50px;"
+                  name="detail" id="detail" /></td>
+              </tr>
+
+            </tbody>
+          </table>
+        </dd>
+      </dl>
+      <a href="" class="closePop"><span class="hidden">닫기</span></a>
+    </div>
   </form>
 </body>
 </html>

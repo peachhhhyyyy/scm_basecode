@@ -15,18 +15,24 @@ public class MainProductInfoServiceImpl implements MainProductInfoService{
   @Autowired
   MainProductInfoDao mainProductInfoDao;
   
-//창고 목록 조회
+//제품 목록 조회
  @Override
  public List<MainProductInfoModel> listMainProduct(Map<String, Object> paramMap) throws Exception {
-
-   List<MainProductInfoModel> listMainProduct = mainProductInfoDao.listMainProduct(paramMap);
+  List<MainProductInfoModel> listMainProduct = mainProductInfoDao.listMainProduct(paramMap);
   return listMainProduct;
  }
  
- // 창고 카운트
+ //제품 카운트
  @Override
  public int totalCntMainProduct(Map<String, Object> paramMap) throws Exception {
    int totalCntMainProduct = mainProductInfoDao.totalCntMainProduct(paramMap);
    return totalCntMainProduct;
+ }
+ 
+ //제품정보 상세조회
+ @Override
+ public MainProductInfoModel selectMainProduct(Map<String, Object> paramMap) throws Exception {
+   MainProductInfoModel selectMainProduct = mainProductInfoDao.selectMainProduct(paramMap);
+   return selectMainProduct;
  }
 }

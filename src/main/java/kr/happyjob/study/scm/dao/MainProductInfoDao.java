@@ -10,5 +10,7 @@ public interface MainProductInfoDao {
   public List<MainProductInfoModel> listMainProduct(Map<String, Object> paramMap) throws Exception;
   //제품 카운트
   public int totalCntMainProduct(Map<String, Object> paramMap) throws Exception;
+  //제품정보 상세조회
+  public MainProductInfoModel selectMainProduct(Map<String, Object> paramMap) throws Exception;
   
 }

@@ -10,7 +10,7 @@
   <c:forEach items="${listMainProductModel}" var="list">
     <tr>
       <td>${list.product_cd }</td>
-      <td><a href="javascript:fListProduct(1, '${list.product_cd}','${list.product_cd}')">${list.prod_nm}</a></td>
+      <td><a href="javascript:fSelectMainProduct('${list.product_cd}')">${list.prod_nm}</a></td>
       <td>${list.l_ct_nm}</td>
       <td>${list.supply_nm}</td>
       <td>${list.warehouse_nm}</td>

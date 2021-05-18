@@ -1,5 +1,6 @@
 package kr.happyjob.study.scm.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.happyjob.study.scm.model.MainProductInfoModel;
 import kr.happyjob.study.scm.service.MainProductInfoService;
@@ -66,5 +68,29 @@ public class MainProductInfoController {
    logger.info("+ End " + className + ".listMainProduct");
    
    return "scm/listMainProduct";
+ }
+ 
+ // 제품 상세정보 조회
+ @RequestMapping("selectMainProduct.do")
+ @ResponseBody
+ public Map<String, Object> selectMainProduct (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+     HttpServletResponse response, HttpSession session) throws Exception{
+   logger.info("+ Start " + className + ".selectMainProduct");
+   logger.info("   - paramMap : " + paramMap);
+
+   String result = "SUCCESS";
+   String resultMsg = "조회 되었습니다.";
+   
+   MainProductInfoModel mainProductInfoModel = mainProductInfoService.selectMainProduct(paramMap);
+   
+   Map<String, Object> resultMap = new HashMap<String, Object>();
+   resultMap.put("result", result);
+   resultMap.put("resultMsg", resultMsg);
+   resultMap.put("mainProductInfoModel", mainProductInfoModel);
+   
+   logger.info("+ End " + className + ".selectMainProduct");
+   
+   System.out.println(resultMap);
+   return resultMap;
  }
 }

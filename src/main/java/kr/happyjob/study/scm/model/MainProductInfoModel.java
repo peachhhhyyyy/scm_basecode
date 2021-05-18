@@ -12,6 +12,8 @@ public class MainProductInfoModel {
   private String l_ct_cd;
   private String supply_cd;
   private String warehouse_cd;
+  private String detail;
+  private String stock;
   
   public String getProduct_cd() {
     return product_cd;
@@ -78,5 +80,17 @@ public class MainProductInfoModel {
   }
   public void setWarehouse_cd(String warehouse_cd) {
     this.warehouse_cd = warehouse_cd;
+  }
+  public String getDetail() {
+    return detail;
+  }
+  public void setDetail(String detail) {
+    this.detail = detail;
+  }
+  public String getStock() {
+    return stock;
+  }
+  public void setStock(String stock) {
+    this.stock = stock;
   }
 }
