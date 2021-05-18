@@ -21,9 +21,9 @@
 		    LIMIT #{pageIndex}, #{pageSize}
 		</select>
 		
-		<!-- 수주내역 데이터 갯수 카운팅 -->
+		<!-- 발주지시서 데이터 갯수 카운팅 -->
 		<select id="selectPurchaseDirectionListCnt" resultType="int">
-			SELECT COUNT(*) tot_cnt
+			SELECT COUNT(DISTINCT order_cd) tot_cnt
 			FROM tb_scm_purchase_list;
 		</select>
 		<update id="updatePurchaseApprove" parameterType="int">
