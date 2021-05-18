@@ -43,7 +43,6 @@
 		SELECT COUNT(*) AS tot_cnt
 			FROM tb_order
 			WHERE STTcd IN (13, 14, 15)
-			ORDER BY order_cd DESC
 	</select>
 	
 	<!-- 검색조건 출하내역 조회 -->
@@ -77,7 +76,7 @@
                     WHERE group_code = 'STTcd' ) AS DC
             ON OD.STTcd = DC.detail_code
             
-            WHERE OD.STTcd = #{STTcd}
+            WHERE OD.STTcd = #{STTcd} OR STTcd IN (13, 14, 15)
             AND OD.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
             ORDER BY OD.order_cd DESC
             LIMIT #{pageIndex}, #{pageSize}
@@ -88,7 +87,7 @@
         SELECT COUNT(*) AS tot_cnt
             FROM tb_order
             WHERE STTcd = #{STTcd} OR STTcd IN (13, 14, 15)
-            AND order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s')
+            AND order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
             ORDER BY order_cd DESC
     </select>
 
@@ -183,6 +182,7 @@
 		            <otherwise>
 			            TSSL.arr_prev_date = DATE_FORMAT(#{arrPrevDate}, '%Y-%m-%d %h:%m:%s'),
 	                    TSSL.ship_staff_id = #{dlvStaffLoginId},
+	                    TSSL.ship_mng_id = #{mngLoginId},
 	                    OD.STTcd = #{state}
 		            </otherwise>
 	            </choose>
