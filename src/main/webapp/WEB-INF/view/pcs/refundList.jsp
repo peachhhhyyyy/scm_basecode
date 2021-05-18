@@ -13,8 +13,6 @@
  pointer-events: none;
 }
 </style>
-<!-- 테스트용 datetpicker -->
-<script src="/build/jquery.datetimepicker.full.min.js"></script>
 <script type="text/javascript">
 
   // 페이징 설정

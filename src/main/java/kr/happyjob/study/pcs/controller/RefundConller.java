@@ -76,7 +76,6 @@ public class RefundConller {
       String option = (String) param.get("option");
       String keyword = (String) param.get("keyword");
       String date = (String) param.get("date");
-      date = date.replace('/', '-');
      
       System.out.println("옵션:"+option + "키워드:"+ keyword + "날짜:" + date );
       System.out.println("옵션값타입체크:" + option.getClass().getName());

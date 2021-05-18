@@ -25,22 +25,44 @@
            <where>
             <if test="keyword != ''">
               <choose>
-                <when test="option eq 'all'.toString()">
+                <when test="option eq 'all'.toString() ">
                   AND pur.order_cd LIKE CONCAT('%', #{keyword},'%') 
                    OR sup.supply_nm LIKE CONCAT('%', #{keyword}, '%')
                    OR sup.supply_cd LIKE CONCAT('%', #{keyword}, '%')
                    OR pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
                    OR pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
+                   
+                   <if test="date != ''">
+                    AND DATE(pur.return_date) in (#{date})
+                   </if>
+                   
                 </when>
                 <when test="option eq 'category'.toString()">
                   AND pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
+                  
+                  <if test="date != ''">
+                    AND DATE(pur.return_date) in (#{date})
+                   </if>
+                   
                 </when>
                 <when test="option eq 'product'.toString()">
                   AND pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
+                  
+                  <if test="date != ''">
+                    AND DATE(pur.return_date) in (#{date})
+                   </if>
+                   
                 </when>
+                
               </choose>
            </if>
-           <if test="date">
+           <if test="keyword == ''">
+              <choose>
+                <when test="date != ''">
+                  AND DATE(pur.return_date) in (#{date})
+                </when>
+              </choose>
+              
            </if>
            
            </where>
@@ -79,7 +101,6 @@
   
     SELECT COUNT(*)
       FROM tb_scm_purchase_list
-     WHERE return_mng_id IS NOT NULL
      
   </select>
   
@@ -87,7 +108,7 @@
    <select id="countConditionList"  resultType="int">
    SELECT 
           count(pur.purch_list_no)
-  FROM 
+   FROM 
            tb_scm_purchase_list pur
            LEFT JOIN tb_order ord
            ON pur.order_cd  = ord.order_cd
@@ -98,25 +119,48 @@
            <where>
             <if test="keyword != ''">
               <choose>
-                <when test="option eq 'all'.toString()">
+                <when test="option eq 'all'.toString() ">
                   AND pur.order_cd LIKE CONCAT('%', #{keyword},'%') 
                    OR sup.supply_nm LIKE CONCAT('%', #{keyword}, '%')
                    OR sup.supply_cd LIKE CONCAT('%', #{keyword}, '%')
                    OR pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
                    OR pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
+                   
+                   <if test="date != ''">
+                    AND DATE(pur.return_date) in (#{date})
+                   </if>
+                   
                 </when>
                 <when test="option eq 'category'.toString()">
                   AND pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
+                  
+                  <if test="date != ''">
+                    AND DATE(pur.return_date) in (#{date})
+                   </if>
+                   
                 </when>
                 <when test="option eq 'product'.toString()">
                   AND pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
+                  
+                  <if test="date != ''">
+                    AND DATE(pur.return_date) in (#{date})
+                   </if>
+                   
                 </when>
+                
               </choose>
            </if>
-           <if test="date">
+           <if test="keyword == ''">
+              <choose>
+                <when test="date != ''">
+                  AND DATE(pur.return_date) in (#{date})
+                </when>
+              </choose>
+              
            </if>
            
-           </where>   
+           </where>
+           
    </select>
   
   
