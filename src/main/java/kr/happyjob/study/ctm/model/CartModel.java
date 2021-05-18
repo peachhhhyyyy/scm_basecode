@@ -34,6 +34,9 @@ public class CartModel {
 	/* 장바구니 개수 */
 	private int shopping_cart_qty;
 	
+	/* 장바구니 총 가격 */
+	private int totalAmount;
+
 	public int getRow_num() {
 		return row_num;
 	}
@@ -42,7 +45,6 @@ public class CartModel {
 		this.row_num = row_num;
 	}
 	
-
 	public String getProd_nm() {
 		return prod_nm;
 	}
@@ -123,6 +125,12 @@ public class CartModel {
 		this.shopping_cart_qty = shopping_cart_qty;
 	}
 
-	
+	public int getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(int totalAmount) {
+		this.totalAmount = totalAmount;
+	}
 	
 }

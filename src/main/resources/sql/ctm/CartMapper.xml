@@ -38,6 +38,14 @@
 		/*kr.kosmo.jobkorea.system.dao.CartDao.changeQty*/
 		UPDATE tb_shopping_cart set shopping_cart_qty = #{shopping_cart_qty} WHERE product_cd = #{product_cd}
 	</update>
-
+	
+	<!-- 장바구니 총 합계 금액 출력 -->
+	<select id="totalCartPrice" resultType="int">
+		SELECT SUM(rowAmount.row) AS totalAmount
+ 		  FROM (SELECT sc.shopping_cart_qty * pd.price AS row      
+         		  FROM tb_shopping_cart sc
+             		 , tb_scm_product pd
+        		 WHERE sc.loginID = #{loginID} AND sc.product_cd = pd.product_cd ) AS rowAmount
+	</select>
 </mapper>
 

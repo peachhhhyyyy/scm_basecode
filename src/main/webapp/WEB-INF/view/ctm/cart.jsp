@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -36,13 +38,14 @@ input[type=number]::-webkit-outer-spin-button {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin: 60px 0px;
+	margin: 30px 0px;
 }
 
 .amount {
 	float:right;
-	padding-top: 20px;
-	padding-right: 40px;
+	padding-top: 10px;
+	padding-right: 100px;
+	font-size: 15px;
 }
 </style>
 
@@ -120,9 +123,6 @@ input[type=number]::-webkit-outer-spin-button {
 				console.log(inputList[i]);
 				inputList[i].addEventListener('input', updateValue);
 			}
-			
-
-	
 		}
 	
 		function updateValue(e) {
@@ -235,6 +235,7 @@ input[type=number]::-webkit-outer-spin-button {
 			      
 			      // 장바구니 목록 조회
 			      fListCart(currentPage);
+			      location.href = "/ctm/cart.do";
 			      
 			    } else {
 			      swal(data.resultMsg);
@@ -259,9 +260,6 @@ input[type=number]::-webkit-outer-spin-button {
 			console.log(orderModal);
 			orderModal.open();
 		};
-		
-		
-		
 		
 </script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/tingle/tingle.js"></script>
@@ -334,7 +332,7 @@ input[type=number]::-webkit-outer-spin-button {
 						</div>
 						<div class="paging_area"  id="CartPagination"> </div>
 						<div class="amount">
-							총액 : 10000000000
+							<fmt:formatNumber type="number" pattern="0" value="${totalPrice*1.1}"/>원
 						</div>
 						<div class="orderBtnContainer">
 							<a class="btnType3 color2" href="javascript:fOrderModal();"><span>주문하기</span></a>

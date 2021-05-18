@@ -37,10 +37,20 @@ public class CartController {
 	
 	
 	/* 장바구니 초기화면 호출   */
-	
 	@RequestMapping("cart.do")
-	public String initComnCod(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+	public String totalCartPrice(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
+		
+		logger.info("+ Start " + className + ".init");
+		
+		// 장바구니 총 합계 금액 출력
+		paramMap.put("loginID", session.getAttribute("loginId"));
+		int totalPrice = CartService.totalCartPrice(paramMap);
+		model.addAttribute("totalPrice", totalPrice);
+		
+		logger.info("   - paramMap : " + paramMap);
+		
+		logger.info("+ end " + className + ".init");
 		
 		return "ctm/cart"; /* 호출할 jsp 파일명 */
 	}

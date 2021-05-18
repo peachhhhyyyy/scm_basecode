@@ -18,4 +18,7 @@ public interface CartDao {
 	
 	/** 장바구니 수량 변경 */
 	public int changeQty(Map<String, Object> paramMap);
+	
+	/** 장바구니 총 합계 금액 출력 */
+	public int totalCartPrice(Map<String, Object> paramMap);
 }

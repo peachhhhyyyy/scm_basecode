@@ -52,6 +52,14 @@ public class CartServiceImpl implements CartService{
 	}
 	
 	
+	/** 장바구니 총 합계 금액 출력 */
+	public int totalCartPrice(Map<String, Object> paramMap) throws Exception {
+		
+		int totalPrice = CartDao.totalCartPrice(paramMap);
+		
+		return totalPrice;
+	}
+		
 }
 
 	
