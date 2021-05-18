@@ -152,7 +152,6 @@
       selectDetailCallBack(data);
     };
 
-    //callAjax("/pcs/refund/one.do", "post", "text", true, param, resultCallback);
     callAjax("/pcs/refund/detail.do", "post", "json", true, param, resultCallback);
   }
 
@@ -244,7 +243,7 @@
             <h3 class="hidden">contents 영역</h3> <!-- content -->
             <div class="content">
               <p class="Location">
-                <a href="#" class="btn_set home">메인으로</a> <a href="pcs/pcsOrderingoOrder.do" class="btn_nav">구매</a> <span class="btn_nav bold">반품서</span> <a href="#" class="btn_set refresh">새로고침</a>
+                <a href="#" class="btn_set home">메인으로</a> <a href="../pcsOrderForm.do" class="btn_nav">구매</a> <span class="btn_nav bold">반품서</span> <a href="${request.getContextPath}" class="btn_set refresh">새로고침</a>
               </p>
               <p class="conTitle">
                 <span>반품서 목록</span>

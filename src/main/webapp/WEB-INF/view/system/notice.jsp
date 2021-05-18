@@ -12,6 +12,11 @@
 .forbidden-event {
  pointer-events: none;
 }
+
+/* 모달 닫기 */
+#close-modal{
+  display:"none"
+  }
 </style>
 <script type="text/javascript">
 
@@ -239,7 +244,8 @@
       // 제목, 내용이 입력되었는지 확인
       var title = $('#title').val();
       var contents = $('#contents').val();
-      console.log('타이틀:', title, '내용',contents);
+      var auth = $('#auth').val();
+      console.log('타이틀:', title, '내용',contents,'권한', auth);
       
       if(title === '') {
         
@@ -253,19 +259,27 @@
         alert('내용을  입력해주세요');
         $('#contents').focus();
         return false;
-      }
+      } 
       
       // 콜백 함수
       function resultCallback() {
         
       }
       
+      var param = {
+          title: title,
+          contentes: contents,
+          
+      }
+      
       // AJAX호출
-      callAjax("/system/noticeList.do", "post", "json", true, param, resultCallback);
+      callAjax("/system/writeNotice.do", "post", "json", true, param, resultCallback);
     };
     
     /* 모달 닫기 */
     function fadeOutModal() {
+      $('#mask').hide();
+      $('.layerPop').hide();
     }
 </script>
 </head>
@@ -402,10 +416,11 @@
               </tr>
               <tr>
                 <th scope="row">열람권한</th>
-                <td colspan="3"><select>
-                    <option>전체</option>
-                    <option>고객</option>
-                    <option>직원</option>
+                <td colspan="3">
+                <select id="auth">
+                    <option value="all">전체</option>
+                    <option value="customer">고객</option>
+                    <option value="employee">직원</option>
                 </select>
                   <div class="btn-group" >
                     <button class="btn-default  btn-sm" onclick="writeNotice()">저장</button>

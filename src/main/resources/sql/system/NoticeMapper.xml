@@ -2,7 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.happyjob.study.system.dao.NoticeDao">
-  <!-- 공지사항 작성 -->
+
+  <!-- 공지사항 작성(일단, 파일 경로 제외하고 작성) -->
+  <insert id="writeNotice" parameterType="kr.happyjob.study.system.model.NoticeModel">
+    
+    INSERT INTO 
+                tb_scm_notice(title, content, date, view_cnt, auth)
+         VALUES 
+                (#{title}, #{content}, NOW(),0, #{auth})
+  
+  </insert>  
  
 	<!-- 공지사항 목록 조회 -->
 	<select id = "noticeList" resultType = "kr.happyjob.study.system.model.NoticeModel">
