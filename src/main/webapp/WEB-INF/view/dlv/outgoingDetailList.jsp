@@ -16,21 +16,21 @@
 				<th scope="col">주소</th>
 			</tr>
 		</thead>
-			<tbody id="outgoingDetailListTop">
-	            <c:forEach items="${outgoingDetailList}" var="topList">
-	                <tr>
-	                    <td><input type="hidden" name="ship_list_no" value="${topList.ship_list_no}"/>${topList.ship_list_no}</td>
-	                    <td><input type="hidden" name="order_cd" value="${topList.order_cd}"/>${topList.order_cd}</td>
-	                    <td>${topList.m_ct_nm}</td>
-	                    <td>${topList.prod_nm}</td>
-	                    <td>${topList.order_cnt}</td>
-	                    <td>${topList.name_customer}</td>
-	                    <td>${topList.tel_customer}</td>
-	                    <td>${topList.addr}</td>
-	                </tr>
-	            </c:forEach>
-	        </tbody>
-        </table>
+		<tbody id="outgoingDetailListTop">
+            <c:forEach items="${outgoingDetailList}" var="topList">
+                <tr>
+                    <td><input type="hidden" name="ship_list_no" value="${topList.ship_list_no}"/>${topList.ship_list_no}</td>
+                    <td><input type="hidden" name="order_cd" value="${topList.order_cd}"/>${topList.order_cd}</td>
+                    <td>${topList.m_ct_nm}</td>
+                    <td>${topList.prod_nm}</td>
+                    <td>${topList.order_cnt}</td>
+                    <td>${topList.name_customer}</td>
+                    <td>${topList.tel_customer}</td>
+                    <td>${topList.addr}</td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
        <table class="col">
 		<thead>
 			<tr>
