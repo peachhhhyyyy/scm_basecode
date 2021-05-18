@@ -77,3 +77,11 @@ function getRefundDetailResult(data) {
   
   $('#detailRefund').empty().append(data);
 };
+
+function closeRefundDetail() {
+  $('#detailRefund').empty();
+}
+
+function requestApprove() {
+  
+}
