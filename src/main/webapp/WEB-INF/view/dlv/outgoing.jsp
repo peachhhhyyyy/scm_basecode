@@ -105,10 +105,15 @@
 			        
 	                console.log("currentPage : " + currentPage);
 	                
-	                // 날짜 비교 후 알맞지 않으면 랜딩
+	                // 날짜가 올바르지 않거나 널값인 경우 랜딩
+	                if(startDate == '' || endDate == ''){
+	                    alert("날짜를 설정해주세요.");
+	                    location.href= "/dlv/outgoing.do";
+	                }
+	                
 	                if(startDate > endDate){
-	                	alert("시작일자는 종료일자보다 클 수가 없습니다.");
-	                	location.href= "/dlv/outgoing.do";
+	                    alert("시작일자는 종료일자보다 클 수가 없습니다.");
+	                    location.href= "/dlv/outgoing.do";
 	                }
 	                
 	                var param = {
