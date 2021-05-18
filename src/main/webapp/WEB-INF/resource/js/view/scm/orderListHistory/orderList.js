@@ -44,10 +44,6 @@ function forderListHistory(currentPage) {
 
 /** 일별 수주 내역 조회 콜백 함수 */
 function forderListHistoryResult(data, currentPage) {
-
-  // alert(data);
-  console.log(data);
-
   // 기존 목록 삭제
   $('#orderListHistory').empty().append(data);
 
@@ -56,7 +52,6 @@ function forderListHistoryResult(data, currentPage) {
   console.log(totalCnt);
   // 페이지 네비게이션 생성
   var paginationHtml = getPaginationHtml(currentPage, totalCnt, pageSizeOrderList, pageBlockSizeOrderList, 'forderListHistory');
-  console.log("paginationHtml : " + paginationHtml);
 
   $("#orderListPagination").empty().append(paginationHtml);
 
@@ -234,7 +229,6 @@ var deliveryModal = new tingle.modal({
 //add a button
 deliveryModal.addFooterBtn('요청', 'tingle-btn tingle-btn--primary', function() {
   var param = $("#deliveryDirectionInfo").serialize();
-  console.log($("#deliveryDirectionInfo"));
   
   var resultCallback = function(data) {
     getUpdateMessage(data);
