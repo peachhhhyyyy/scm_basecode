@@ -1,9 +1,9 @@
-// 수주내역 조회 페이징 설정
+// 반품신청 목록 페이징 설정
 var pageSizerefundList = 5;
 var pageBlockSizerefundList = 10;
 
 $(document).ready(function() {
-  // 일일 수주 조회
+  // 반품신청 목록
   getRefundList();
   
 });
@@ -20,7 +20,7 @@ $(document).ready(function() {
 //     });
 //}
 
-/** 일별 수주 내역 조회 */
+/** 반품신청 목록 조회 */
 function getRefundList(currentPage) {
   
   currentPage = currentPage || 1;
@@ -36,13 +36,10 @@ function getRefundList(currentPage) {
     getRefundListResult(data, currentPage);
   };
   
-  // Ajax 실행 방식
-  // callAjax("Url", type, return, async or sync방식, 넘겨준거, Callback함수 이름)
-  // html로 받을거라 text
   callAjax("/scm/refundListInfo.do", "post", "text", true, param, resultCallback);
-}
+};
 
-/** 일별 수주 내역 조회 콜백 함수 */
+/** 반품신청 목록 조회 콜백 함수 */
 function getRefundListResult(data, currentPage) {
   console.log(data);
   // 기존 목록 삭제
@@ -59,4 +56,24 @@ function getRefundListResult(data, currentPage) {
   // 현재 페이지 설정
   $("#currentPage").val(currentPage);
   
+};
+
+function getRefundDetail(orderCode) {
+  console.log(orderCode);
+  
+  var param = {
+      orderCode: orderCode
+  };
+  
+  var resultCallback = function(data) {
+    getRefundDetailResult(data);
+  }
+  
+  callAjax("/scm/refundDetailInfo.do", "post", "text", true, param, resultCallback);
+};
+
+function getRefundDetailResult(data) {
+  console.log(data);
+  
+  $('#detailRefund').empty().append(data);
 };
