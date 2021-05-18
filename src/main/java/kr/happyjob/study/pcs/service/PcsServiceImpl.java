@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import kr.happyjob.study.pcs.dao.PcsDao;
 import kr.happyjob.study.pcs.model.PcsModel;
 import kr.happyjob.study.pcs.service.PcsService;
-import kr.happyjob.study.system.model.ComnGrpCodModel;
 
 @Service
 public class PcsServiceImpl implements PcsService {
