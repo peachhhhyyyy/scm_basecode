@@ -2,6 +2,7 @@ package kr.happyjob.study.scm.model;
 
 public class ScmRefundListModel {
 
+	// 반품신청목록
 	String orderCode;
 	String customerName;
 	String productName;
@@ -9,7 +10,15 @@ public class ScmRefundListModel {
 	String refundDate;
 	int refundCount;
 	int refundAmount;
-	int STTcd;
+	String state;
+
+	// 반품지시서
+	String productCode;
+	String supplyName;
+	String orderDate;
+	String WarehouseName;
+	String scmManager;
+	String refundDirectionDate;
 
 	public String getOrderCode() {
 		return orderCode;
@@ -67,12 +76,68 @@ public class ScmRefundListModel {
 		this.refundAmount = refundAmount;
 	}
 
-	public int getSTTcd() {
-		return STTcd;
+	public String getstate() {
+		return state;
 	}
 
-	public void setSTTcd(int sTTcd) {
-		STTcd = sTTcd;
+	public void setstate(String state) {
+		this.state = state;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getProductCode() {
+		return productCode;
+	}
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+
+	public String getSupplyName() {
+		return supplyName;
+	}
+
+	public void setSupplyName(String supplyName) {
+		this.supplyName = supplyName;
+	}
+
+	public String getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(String orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public String getWarehouseName() {
+		return WarehouseName;
+	}
+
+	public void setWarehouseName(String WarehouseName) {
+		this.WarehouseName = WarehouseName;
+	}
+
+	public String getScmManager() {
+		return scmManager;
+	}
+
+	public void setScmManager(String scmManager) {
+		this.scmManager = scmManager;
+	}
+
+	public String getRefundDirectionDate() {
+		return refundDirectionDate;
+	}
+
+	public void setRefundDirectionDate(String refundDirectionDate) {
+		this.refundDirectionDate = refundDirectionDate;
 	}
 
 }
