@@ -1,0 +1,13 @@
+package kr.happyjob.study.scm.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import kr.happyjob.study.scm.model.ScmRefundListModel;
+
+public interface ScmRefundListDao {
+	
+	List<ScmRefundListModel> selectRefundList(Map<String, Object> paramMap) throws Exception;
+
+	int selectRefundListCnt(Map<String, Object> paramMap) throws Exception;
+}
