@@ -119,7 +119,7 @@
                     FROM tb_scm_product
                     LEFT JOIN tb_scm_m_category
                     ON tb_scm_product.m_ct_cd = tb_scm_m_category.m_ct_cd) AS tsp
-                ON OD.product_cd = tsp.product_cd
+            ON OD.product_cd = tsp.product_cd
 
             LEFT JOIN(
                 SELECT tssl.order_cd AS order_cd
@@ -134,7 +134,7 @@
 					LEFT JOIN tb_userinfo AS scm ON tssl.scm_id = scm.loginID
 					LEFT JOIN tb_userinfo AS staff ON tssl.ship_staff_id = staff.loginID
 					LEFT JOIN tb_userinfo AS mng ON tssl.ship_mng_id = mng.loginID) AS shipList
-                ON OD.order_cd = shipList.order_cd
+            ON OD.order_cd = shipList.order_cd
 
             LEFT JOIN(
                 SELECT loginID
@@ -142,13 +142,13 @@
 						, tel
 						, addr
 				    FROM tb_userinfo ) AS CUSTOMER
-			    ON OD.loginID = CUSTOMER.loginID
+	        ON OD.loginID = CUSTOMER.loginID
 			
             LEFT JOIN(
                 SELECT warehouse_cd
                         , warehouse_nm
                     FROM tb_scm_warehouse) AS WH
-                ON OD.warehouse_cd = WH.warehouse_cd
+            ON OD.warehouse_cd = WH.warehouse_cd
 
 			WHERE OD.order_cd = #{order_cd}
 	</select>
@@ -187,8 +187,8 @@
 		            </otherwise>
 	            </choose>
 	        WHERE OD.order_cd = #{order_cd}
-	           AND TSSL.ship_list_no = #{ship_list_no}
-	           AND TSSL.order_cd = #{order_cd}
+            AND TSSL.ship_list_no = #{ship_list_no}
+            AND TSSL.order_cd = #{order_cd}
 	</update>
 	
 	
