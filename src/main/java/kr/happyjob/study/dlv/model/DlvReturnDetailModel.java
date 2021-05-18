@@ -14,15 +14,15 @@ public class DlvReturnDetailModel {
 	//고객명
 	private String cus_name;
 	//고객연락처
-	private int cus_tel;
-	//담당자 이름
-	private String emp_name;
-	//담당자 주소
-	private String emp_addr;
+	private String cus_tel;
+	//고객주소
+	private String cus_addr;
 	//배송사원 이름
 	private String dlv_name;
 	//배송사원 연락처
-	private int dlv_tel;
+	private String dlv_tel;
+	//SCM 명
+	private String scm_name;
 	//창고명
 	private String warehouse_nm;
 	//상태
@@ -30,8 +30,6 @@ public class DlvReturnDetailModel {
 	//적요
 	private String request;
 	
-	public DlvReturnDetailModel() {
-	}
 	public String getOrder_cd() {
 		return order_cd;
 	}
@@ -68,23 +66,11 @@ public class DlvReturnDetailModel {
 	public void setCus_name(String cus_name) {
 		this.cus_name = cus_name;
 	}
-	public int getCus_tel() {
+	public String getCus_tel() {
 		return cus_tel;
 	}
-	public void setCus_tel(int cus_tel) {
+	public void setCus_tel(String cus_tel) {
 		this.cus_tel = cus_tel;
-	}
-	public String getEmp_name() {
-		return emp_name;
-	}
-	public void setEmp_name(String emp_name) {
-		this.emp_name = emp_name;
-	}
-	public String getEmp_addr() {
-		return emp_addr;
-	}
-	public void setEmp_addr(String emp_addr) {
-		this.emp_addr = emp_addr;
 	}
 	public String getDlv_name() {
 		return dlv_name;
@@ -92,10 +78,10 @@ public class DlvReturnDetailModel {
 	public void setDlv_name(String dlv_name) {
 		this.dlv_name = dlv_name;
 	}
-	public int getDlv_tel() {
+	public String getDlv_tel() {
 		return dlv_tel;
 	}
-	public void setDlv_tel(int dlv_tel) {
+	public void setDlv_tel(String dlv_tel) {
 		this.dlv_tel = dlv_tel;
 	}
 	public String getWarehouse_nm() {
@@ -116,5 +102,18 @@ public class DlvReturnDetailModel {
 	public void setRequest(String request) {
 		this.request = request;
 	}
+	public String getCus_addr() {
+		return cus_addr;
+	}
+	public void setCus_addr(String cus_addr) {
+		this.cus_addr = cus_addr;
+	}
+	public String getScm_name() {
+		return scm_name;
+	}
+	public void setScm_name(String scm_name) {
+		this.scm_name = scm_name;
+	}
+	
 	
 }
