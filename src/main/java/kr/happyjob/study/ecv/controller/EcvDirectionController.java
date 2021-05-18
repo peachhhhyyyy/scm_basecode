@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.happyjob.study.ecv.model.EcvPurchaseDirectionModel;
 import kr.happyjob.study.ecv.service.EcvDirectionService;
@@ -80,6 +81,7 @@ public class EcvDirectionController {
 	}
 	
 	@RequestMapping("ecvApprove.do")
+	@ResponseBody
 	public Map<String, String> ecvApprove(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 		
@@ -118,7 +120,7 @@ public class EcvDirectionController {
 		Map<String, String> resultMap = new HashMap<String, String>();
 		resultMap.put("result", result);
 		resultMap.put("resultMsg", resultMsg);
-		
+		logger.info("resultMap: " + resultMap);
 		logger.info("+ end " + className + ".updateState");
 		
 		return resultMap;
