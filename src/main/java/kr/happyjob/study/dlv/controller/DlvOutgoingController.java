@@ -106,7 +106,7 @@ public class DlvOutgoingController {
 	    paramMap.put("pageIndex", pageIndex);
 		paramMap.put("pageSize", pageSize);
 		
-//		logger.info(" 상세조회 paramMap" + paramMap);
+//		logger.info(" 검색조건 paramMap" + paramMap);
 		
 		// 출하내역 가져오기 //
 		List<DlvOutgoingModel> outgoingSearchList = dlvOutgoingService.outgoingSearchList(paramMap);
@@ -164,7 +164,9 @@ public class DlvOutgoingController {
 			}
 			// ============================================== //
 			
-
+			logger.info("======== loginID ======== : " + session.getAttribute("loginId"));
+			
+			paramMap.put("mngLoginId", session.getAttribute("loginId"));
 			
 			int ResultDBReturn = dlvOutgoingService.updateDlvPaper(paramMap);
 //			logger.info("===== SHIP_LIST Update Result ===== : " + ResultDBReturn);
