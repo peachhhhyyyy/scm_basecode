@@ -139,7 +139,7 @@ public class PcsController {
   // 발주서 목록 조회
   @RequestMapping("listPcsOrderForm.do")
   public String listPcsOrderForm(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-      HttpServletResponse response, HttpSession session) throws Exception {
+      HttpServletResponse response, HttpSession session, @RequestParam Map<String, Object> param) throws Exception {
     
     logger.info("+ Start " + className + ".listPcsOrderForm");
     logger.info("   - paramMap : " + paramMap);
@@ -151,7 +151,13 @@ public class PcsController {
     paramMap.put("pageIndex", pageIndex);
     paramMap.put("pageSize", pageSize);
 
-    logger.info("################: "+ paramMap.get("sname"));
+    // 값이 없는 경우 주의 (분기 처리 해야 함)
+    String date = (String) param.get("date");
+   
+    System.out.println("날짜 :" + date);
+    System.out.println("날짜값변경확인 :" + date);
+    
+    param.put("date", date);
     
     // 발주지시서 목록 조회
     List<PcsModel> listPcsOrderFormModel = pcsService.pcsOrderForm(paramMap);
