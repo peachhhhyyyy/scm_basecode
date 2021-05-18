@@ -65,6 +65,7 @@
 							</table>
 						</div>
 						<div class="paging_area" id="refundListPagination"></div>
+						<div id="detailRefund"></div>
 					</div>
 				</li>
 			</ul>
