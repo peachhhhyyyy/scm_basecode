@@ -35,16 +35,51 @@ public class NoticeController {
 
 	
 	
-	// 처음 로딩될 때 공지사항 연결
-	@RequestMapping("notice.do")
-	public String init(@RequestParam Map<String, Object> paramMap, HttpSession session) throws Exception {
+	// 공지사항 화면
+	@RequestMapping(value="notice.do", method=RequestMethod.GET)
+//	public String init(@RequestParam Map<String, Object> param, HttpSession session) throws Exception {
+	  public String notice() throws Exception {
 
-		String loginID = (String) session.getAttribute("loginId");
-		paramMap.put("loginID", loginID);
-		System.out.println(loginID);
+		//String loginID = (String) session.getAttribute("loginId");
+		//param.put("loginID", loginID);
+		//System.out.println(loginID);
 //		paramMap.put("writer", loginID);
 		
 		return "system/notice";
+	}
+	
+	// 공지사항 목록 조회
+	@RequestMapping(value="notice.do", method=RequestMethod.POST)
+	public String selectNotice(@RequestParam Map<String, Object> param, Model model)throws Exception {
+	  
+	  System.out.println("공지사항 목록 조회 파라미터: " + param);
+	  
+	  // 현재 페이지 정보
+	  int currentPage = Integer.parseInt((String) param.get("currentPage"));
+	  
+	  // 한 페이지에 보일 로우의 개수
+	  int pageSize = Integer.parseInt((String)param.get("pageSize"));
+	  
+	  // 페이지 시작 로우 번호
+	  int pageIndex = (currentPage - 1) * pageSize;
+	  
+	  // 총 로우의 개수
+	  int totalCount = noticeService.countNoticeList();
+	  
+	  System.out.println("총로우개수 확인" + totalCount);
+	  
+	  param.put("pageIndex", pageIndex);
+	  param.put("pageSize", pageSize);
+	  
+	  List<NoticeModel> noticeList = noticeService.selectNoticeList(param); 
+	  
+	  model.addAttribute("noticeList", noticeList);
+	  model.addAttribute("totalCount", totalCount);
+	  model.addAttribute("pageSize", pageSize);
+	  model.addAttribute("currentPage", currentPage);
+	  
+	  
+	  return "/system/noticeList";
 	}
 	
 	// 공지사항 리스트 출력
@@ -80,27 +115,17 @@ public class NoticeController {
 	// 공지사항 작성
 	@ResponseBody
 	@RequestMapping(value="writeNotice.do", method=RequestMethod.POST)
-	public int writeNotice(HttpSession session) {
-	  System.out.println("공지사항 작성");
+	public int writeNotice(@RequestParam Map<String, Object> param) throws Exception {
+	  System.out.println("공지사항 작성 parameter확인:" + param);
 	  
-	  String msg;
+	  int auth = Integer.parseInt((String) param.get("auth"));
+	  
+	  param.put("auth", auth);
+	  
+	  int result = noticeService.insertNotice(param);
 	 
-	  // 세션에서 userType= 'A'(관리자) 확인
-	  char userType = (char) session.getAttribute("userType");
 	  
-	  if(userType == 'A') {
-	    // 글 작성 진행
-	    
-	  } 
-	  else {
-	    // JSP에서는 글작성 버튼이 관리자만 보이도록 처리
-	    //  -> 글 조회해 올 때, Model에 userType 저장해주기
-	    msg = "글 작성은 관리자만 가능합니다.";
-	  }
-	  
-	  // 
-	  
-	  return 0;
+	  return result;
 	}
 	
 	// 공지사항 상세 조회

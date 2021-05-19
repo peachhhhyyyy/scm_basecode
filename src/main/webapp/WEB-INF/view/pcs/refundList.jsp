@@ -166,7 +166,7 @@
   // fInitFormGrpCod 참고
   function initModal(object) {
 
-    if (object == "" || object == null || object == undefined) {
+    if (object === "" || object === null || object == undefined) {
 
       $("#purch_list_no").val("");
       $("#supply_nm").val("");

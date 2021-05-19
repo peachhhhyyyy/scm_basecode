@@ -15,11 +15,25 @@ public class NoticeServiceImpl implements NoticeService {
 	@Autowired
 	NoticeDao noticeDao;
   
-  // 공지사항 작성
+	// 공지사항 목록 조회
+	@Override
+	public List<NoticeModel> selectNoticeList(Map<String, Object> param) throws Exception {
+	  // TODO Auto-generated method stub
+	  return noticeDao.selectNoticeList(param);
+	}
+
+	//공지사항 목록 총 개수 조회
+	@Override
+	public int countNoticeList() throws Exception {
+	  // TODO Auto-generated method stub
+	  return noticeDao.countNoticeList();
+	}
+
+	// 공지사항 작성
   @Override
-  public int writeNotice(NoticeModel noticeModel) throws Exception {
+  public int insertNotice(Map<String, Object> param) throws Exception {
     // TODO Auto-generated method stub
-    return noticeDao.writeNotice(noticeModel);
+    return noticeDao.insertNotice(param);
   }
 
 //

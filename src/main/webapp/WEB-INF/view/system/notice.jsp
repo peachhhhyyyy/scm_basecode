@@ -27,12 +27,12 @@
   /* OnLoad event */ 
   $(function() {
 
-    // 반품서 목록 조회 호출
+    // 공지사항 목록 조회
     selectList();
 
   });
 
-   /* 반품서 목록 조회 */
+   /* 공지사항 목록 조회 함수 */
   function selectList(currentPage, serchOptions) {
     //추가코드 시작
     var option = $('#options').val();
@@ -43,6 +43,7 @@
     
     // datepicker설정
      $(function() {
+       //
         $('#datetimepicker1').datetimepicker({
            //format : 'L',
            format: 'YYYY-MM-DD',
@@ -59,6 +60,31 @@
           console.log('날짜확인', date)
           $('#datetimepicker2').datetimepicker('minDate', e.date);
         });
+        
+        $("#datetimepicker1").on("change.datetimepicker", function(e) {
+          var date = $("#datetimepicker1").find("input").val()
+          console.log('날짜확인', date)
+          $('#datetimepicker2').datetimepicker('minDate', e.date);
+        });
+        
+        //
+        $('#datetimepicker3').datetimepicker({
+           //format : 'L',
+           format: 'YYYY-MM-DD',
+           formatDate: 'YYYY-MM-DD'
+        });
+        
+        $('#datetimepicker4').datetimepicker({
+        format : 'L',
+        useCurrent : false
+        });
+        
+        $("#datetimepicker3").on("change.datetimepicker", function(e) {
+          var date = $("#datetimepicker3").find("input").val()
+          console.log('날짜확인', date)
+          $('#datetimepicker4').datetimepicker('minDate', e.date);
+        });
+        
       });
     // 추가 코드 끝
     
@@ -93,23 +119,24 @@
 
     //Ajax실행 방식
     //callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
-    callAjax("/pcs/refund/list.do", "post", "text", true, param, resultCallback);
+    callAjax("/system/notice.do", "post", "text", true, param, resultCallback);
   }
 
-   /* 반품서 목록 조회 콜백 함수 */
+   /* 공지사항 목록 조회 콜백 함수 */
   function selectListCallBack(data, currentPage) {
     
-    console.log('반품서 목록:', data);
+    console.log('공지사항 목록:', data);
     
     // 기존 목록 삭제
-    $('#refundList').empty();
+    $('#noticeList').empty();
     
     // 신규 목록 생성
-    $("#refundList").append(data);
+    $("#noticeList").append(data);
     
     // 리스트 로우의 총 개수 추출
     var totalCount = $("#totalCount").val();
-    console.log('반품서 목록 파라미터 확인:',currentPage, totalCount, pageSize, pageBlock)
+    console.log("공지사항 전체 건수", totalCount)
+    console.log('공지사항 목록 파라미터 확인:',currentPage, totalCount, pageSize, pageBlock)
     
     // 페이지 네비게이션 생성
     var paginationHtml = getPaginationHtml(currentPage, totalCount, pageSize, pageBlock, 'selectList');
@@ -120,7 +147,7 @@
     $("#currentPageCod").val(currentPage);
   }
 
-  /* 반품서 단건 조회 모달  */
+  /* 공지사항 단건 조회 모달  */
   function fadeInModal(refund_list_no) {
     
     // 신규 저장
@@ -128,7 +155,7 @@
       // Tranjection type 설정
       $("#action").val("I");
       
-      // 그룹코드 폼 초기화
+      // 공지사항 모달 초기화
       initModal();
       
       // 모달 팝업
@@ -238,14 +265,22 @@
     
   }
     
-    /* 글 작성  함수 */
+    /* 공지사항 글 작성  함수 */
     function writeNotice() {
       
       // 제목, 내용이 입력되었는지 확인
       var title = $('#title').val();
-      var contents = $('#contents').val();
+      var content = $('#content').val();
       var auth = $('#auth').val();
-      console.log('타이틀:', title, '내용',contents,'권한', auth);
+      console.log('타이틀:', title, '내용',content,'권한', auth);
+      
+      // 날짜 추가
+      // var date = moment();
+     // date = date.format('YYYY-MM-DD');
+      
+     // console.log('글작성일확인:', date);
+      
+      // 파일 경로 추가 예정
       
       if(title === '') {
         
@@ -254,21 +289,30 @@
         return false;
         
       } 
-      else if(contents === '') {
+      else if(content === '') {
         
         alert('내용을  입력해주세요');
-        $('#contents').focus();
+        $('#content').focus();
         return false;
       } 
       
       // 콜백 함수
-      function resultCallback() {
-        
+      function resultCallback(data) {
+        console.log('글작성 반환값 확인:', data)
+        if(data === 1) {
+          
+          window.location.reload();
+        } 
+        else {
+          alert('서버에서 에러가 발생했습니다');
+        }
       }
       
       var param = {
+          
           title: title,
-          contentes: contents,
+          content: content,
+          auth: auth 
           
       }
       
@@ -319,7 +363,7 @@
                     </div>
                   </div>
                   <!-- // searchbar -->
-                  <!-- date -->
+                  <!-- datepicker -->
                   <div class='col-md-3 col-xs-4'>
                     <div class="form-group">
                       <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
@@ -335,9 +379,9 @@
                   <span class="divider">~</span>
                   <div class='col-md-3 col-xs-4'>
                     <div class="form-group">
-                      <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="">
-                        <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                      <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker3" value="">
+                        <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
                           <div class="input-group-text">
                             <i class="fa fa-calendar"></i>
                           </div>
@@ -345,7 +389,7 @@
                       </div>
                     </div>
                   </div>
-                  <!-- // date -->
+                  <!-- // datepicker -->
                   <!-- button -->
                   <div class="btn-group" role="group" aria-label="...">
                     <button type="button" class="btn btn-default" onclick="selectList()">검색</button>
@@ -358,10 +402,10 @@
                 <table class="col">
                   <caption>caption</caption>
                   <colgroup>
-                    <col width="*%">
-                    <col width="*%">
-                    <col width="*%">
-                    <col width="*%">
+                    <col width="10%">
+                    <col width="50%">
+                    <col width="30%">
+                    <col width="20%">
                   </colgroup>
                   <thead>
                     <tr>
@@ -371,13 +415,15 @@
                       <th scope="col">조회수</th>
                     </tr>
                   </thead>
-                  <tbody id="refundList"></tbody>
+                  <tbody id="noticeList"></tbody>
                 </table>
               </div>
               <div class="paging_area" id="pagination"></div>
               <div class="btn-wrap">
-                <button type="button" class="btn btn-default">수정</button>
-                <button type="button" class="btn btn-default" onclick="fadeInModal()">글쓰기</button>
+                  <c:if test="${sessionScope.userType eq 'E'}">
+                    <button type="button" class="btn btn-default">수정</button>
+                    <button type="button" class="btn btn-default" onclick="fadeInModal()">글쓰기</button>
+                  </c:if>
               </div>
               <h3 class="hidden">풋터 영역</h3>
               <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
@@ -404,11 +450,11 @@
             <tbody>
               <tr>
                 <th scope="row">제목</th>
-                <td colspan="3"><input type="text" class="inputTxt p100" name="title" id="title" /></td>
+                <td colspan="3"><input type="text" class="inputTxt p100" name="title" id="title" autocomplete="off"/></td>
               </tr>
               <tr>
                 <th scope="row">내용</th>
-                <td colspan="3"><textarea class="inputTxt p100" name="contents" id="contents" /></textarea></td>
+                <td colspan="3"><textarea class="inputTxt p100" name="content" id="content" autocomplete="off"/></textarea></td>
               </tr>
               <tr>
                 <th scope="row">첨부파일</th>
@@ -418,9 +464,10 @@
                 <th scope="row">열람권한</th>
                 <td colspan="3">
                 <select id="auth">
-                    <option value="all">전체</option>
-                    <option value="customer">고객</option>
-                    <option value="employee">직원</option>
+                    <option value="0">전체</option>
+                    <option value="1">고객</option>
+                    <option value="2
+                    ">직원</option>
                 </select>
                   <div class="btn-group" >
                     <button class="btn-default  btn-sm" onclick="writeNotice()">저장</button>

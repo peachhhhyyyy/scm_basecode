@@ -38,16 +38,14 @@ public class RefundConller {
     return "/pcs/refundList";
   }
   
-  // 반품 목록 조회(기본, 검색)
+  // 반품 목록 조회(기본,검색)
   @RequestMapping(value="/list.do", method=RequestMethod.POST)
   public String selectList(Model model, @RequestParam Map<String, Object> param) throws Exception{
 
-    log.info("파라미터 확인:" + param);
-    
     // 현재 페이지 번호
     int currentPage = Integer.parseInt((String)param.get("currentPage"));
    
-    // 한 페이지에 보일 로우의 개수(page사이즈로 int로 형변환해서 DB에서 조회)
+    // 한 페이지에 보일 로우의 개수
     int pageSize = Integer.parseInt((String) param.get("pageSize")); 
     
     // 페이지 시작 로우 번호
@@ -62,7 +60,7 @@ public class RefundConller {
     // 검색어 유무 확인
     if(!param.containsKey("option")) {
 
-      // 반품서 목록 조회(기본)
+      // 반품서 목록(기본)의 총 로우의 개수
       totalCount = refundService.countRefundList();
       
     }
@@ -78,7 +76,7 @@ public class RefundConller {
       param.put("keyword", keyword);
       param.put("date", date);
 
-      // 반품서 목록  조회(검색)의 총 로우 개수
+      // 반품서 목록(검색)의 총 로우의 개수
       totalCount = refundService.countConditionList(param);
       
     }

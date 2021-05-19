@@ -34,7 +34,7 @@
                    OR pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
                    )
                    <if test="date != ''">
-                    AND DATE(pur.return_date) in (#{date})
+                    AND DATE(pur.return_date) = (#{date})
                    </if>
                    
                  </when>
@@ -43,7 +43,7 @@
                    AND pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
                   
                    <if test="date != ''">
-                     AND DATE(pur.return_date) in (#{date})
+                     AND DATE(pur.return_date) = (#{date})
                    </if>
                    
                  </when>
@@ -52,7 +52,7 @@
                    AND pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
                   
                    <if test="date != ''">
-                     AND DATE(pur.return_date) in (#{date})
+                     AND DATE(pur.return_date) = (#{date})
                    </if>
                  </when>
                </choose>
@@ -60,7 +60,7 @@
            <if test="keyword == ''">
               <choose>
                 <when test="date != ''">
-                  AND DATE(pur.return_date) in (#{date})
+                  AND DATE(pur.return_date) = (#{date})
                 </when>
               </choose>
               
@@ -96,43 +96,45 @@
              <if test="keyword != ''">
                <choose>
                  <when test="option eq 'all'.toString() ">
-                   AND pur.order_cd LIKE CONCAT('%', #{keyword},'%') 
+                   
+                   AND (pur.order_cd LIKE CONCAT('%', #{keyword},'%') 
                    OR sup.supply_nm LIKE CONCAT('%', #{keyword}, '%')
                    OR sup.supply_cd LIKE CONCAT('%', #{keyword}, '%')
                    OR pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
                    OR pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
-                   
+                   )
                    <if test="date != ''">
-                    AND DATE(pur.return_date) in (#{date})
+                    AND DATE(pur.return_date) = (#{date})
                    </if>
                    
-                </when>
-                <when test="option eq 'category'.toString()">
-                  AND pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
-                  
-                  <if test="date != ''">
-                    AND DATE(pur.return_date) in (#{date})
-                   </if>
-                   
-                </when>
-                <when test="option eq 'product'.toString()">
-                  AND pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
-                  
-                  <if test="date != ''">
-                    AND DATE(pur.return_date) in (#{date})
-                   </if>
-                   
-                </when>
+                 </when>
                 
-              </choose>
-             </if>
-             <if test="keyword == ''">
+                 <when test="option eq 'category'.toString()">
+                   AND pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
+                  
+                   <if test="date != ''">
+                     AND DATE(pur.return_date) = (#{date})
+                   </if>
+                   
+                 </when>
+                
+                 <when test="option eq 'product'.toString()">
+                   AND pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
+                  
+                   <if test="date != ''">
+                     AND DATE(pur.return_date) = (#{date})
+                   </if>
+                 </when>
+               </choose>
+           </if>
+           <if test="keyword == ''">
               <choose>
                 <when test="date != ''">
-                  AND DATE(pur.return_date) in (#{date})
+                  AND DATE(pur.return_date) = (#{date})
                 </when>
               </choose>
-             </if>
+              
+           </if>
            </where>
            
    </select>

@@ -7,8 +7,14 @@ import kr.happyjob.study.system.model.NoticeModel;
 
 public interface NoticeService {
   
+  // 공지사항 목록 조회
+  public List<NoticeModel> selectNoticeList(Map<String, Object> param) throws Exception;
+  
+  //공지사항 목록 총 개수 조회
+  public int countNoticeList()throws Exception;
+  
   // 공지사항 작성
-  public int writeNotice(NoticeModel noticeModel) throws Exception;
+  public int insertNotice(Map<String, Object> param) throws Exception;
 
 //	// 공지사항 리스트 조회
 //	public List<NoticeModel> noticeList(Map<String, Object> paramMap)throws Exception ;
