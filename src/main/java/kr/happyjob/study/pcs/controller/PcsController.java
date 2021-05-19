@@ -73,7 +73,7 @@ public class PcsController {
     
     logger.info("+ End " + className + ".listPcsOrderingOrder");
     
-    return "/pcs/listPcsOrderingOrder";
+    return "pcs/listPcsOrderingOrder";
   } 
   
   // 발주 버튼 클릭 시 내용 전송
