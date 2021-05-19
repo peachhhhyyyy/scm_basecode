@@ -291,10 +291,9 @@
               </tr>
               <tr>
                 <th scope="row">상세정보 <span class="font_red">*</span></th>
-                <td colspan = "7"><input type="text" class="inputTxt p100" style="width:100px; height:50px;"
-                  name="detail" id="detail" /></td>
+                <td colspan = "5"><textarea class = "ui-widget ui-widget-content ui-corner-all" id="detail" maxlength="500" name="detail" 
+                                            style="height:130px;outline:none;resize:none;" placeholder="여기에 상세정보를 적어주세요.(500자 이내)"></textarea></td>
               </tr>
-
             </tbody>
           </table>
         </dd>
