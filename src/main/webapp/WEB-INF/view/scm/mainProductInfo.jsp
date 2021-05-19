@@ -289,19 +289,22 @@
                 <th scope="row">제품명 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
                   name="prod_nm" id="prod_nm" /></td>
-                <th scope="row">모델명<span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100" 
-                  name="l_ct_nm" id="l_ct_nm" /></td>
+        
               </tr>
               <tr>
               
-              <td rowspan="3" style="text-align:center;">
+              <td rowspan="4" style="text-align:center;">
                   <img id="tempImg" style="object-fit: cover;max-width:100%" src="/images/admin/comm/no_image.png" alt="제품사진미리보기">
                  </td>   
-                 
+                
+                 <th scope="row">모델명<span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100" 
+                  name="l_ct_nm" id="l_ct_nm" /></td>
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
                   name="supply_nm" id="supply_nm" /></td>
+                  </tr>
+                  <tr>
                 <th scope="row">장비구매액 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
                   name="purchase_price" id="purchase_price" /></td>
@@ -317,9 +320,9 @@
                 <td><input type="text" class="inputTxt p100"
                   name="stock" id="stock" /></td>
               </tr>
-              <tr>
+              <tr rowspan="2">
                 <th scope="row">상세정보 <span class="font_red">*</span></th>
-                <td colspan = "5"><textarea class = "ui-widget ui-widget-content ui-corner-all" id="detail" maxlength="500" name="detail" 
+                <td colspan = "3"><textarea class = "ui-widget ui-widget-content ui-corner-all" id="detail" maxlength="500" name="detail" 
                                             style="height:130px;outline:none;resize:none;" placeholder="여기에 상세정보를 적어주세요.(500자 이내)"></textarea></td>
               </tr>
               <tr>
