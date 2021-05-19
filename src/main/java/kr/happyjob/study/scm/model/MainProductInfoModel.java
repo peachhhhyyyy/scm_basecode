@@ -14,7 +14,14 @@ public class MainProductInfoModel {
   private String warehouse_cd;
   private String detail;
   private String stock;
+  private String file_local_path;
   
+  public String getFile_local_path() {
+    return file_local_path;
+  }
+  public void setFile_local_path(String file_local_path) {
+    this.file_local_path = file_local_path;
+  }
   public String getProduct_cd() {
     return product_cd;
   }

@@ -7,6 +7,8 @@
 <title>제품정보 관리</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/popFindZipCode.js"></script>
+<link rel="stylesheet" href="${CTX_PATH}/css/chosen/chosen.css">
+<script src="${CTX_PATH}/js/chosen/chosen.jquery.js"></script>
 <script type="text/javascript">
  /*제품정보 페이징 처리*/
 
@@ -150,6 +152,7 @@
       $("#warehouse_nm").val("");
       $("#stock").val("");
       $("#detail").val("");
+      $("#file_local_path").val("");
     } else{
       $("#product_cd").val(object.product_cd);
       $("#prod_nm").val(object.prod_nm);
@@ -160,6 +163,7 @@
       $("#warehouse_nm").val(object.warehouse_nm);
       $("#stock").val(object.stock);
       $("#detail").val(object.detail);
+      $("#file_local_path").val("object.file_local_path");
     } 
   }
 </script>
@@ -253,6 +257,8 @@
             </colgroup>
             <tbody>
               <tr>
+                <th scope="row">제품 이미지 <span class="font_red">*</span></th>
+                
                 <th scope="row">제품 번호 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
                   name="product_cd" id="product_cd" /></td>
@@ -264,6 +270,7 @@
                   name="l_ct_nm" id="l_ct_nm" /></td>
               </tr>
               <tr>
+                <td rowspan="3"><img alt="제품 이미지" src="/images/admin/comm/byebye.jpg" width="500" height="300"></td>
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
                   name="supply_nm" id="supply_nm" /></td>

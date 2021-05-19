@@ -67,12 +67,14 @@ LEFT JOIN tb_scm_warehouse WH ON WH.warehouse_cd = PD.warehouse_cd
        PD.price as price,
        WH.warehouse_nm as warehouse_nm,
        PD.stock as stock,
-       PD.detail as detail
+       PD.detail as detail,
+       FL.file_local_path
 FROM tb_scm_product PD
 LEFT JOIN tb_scm_m_category MC ON MC.m_ct_cd = PD.m_ct_cd
 LEFT JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
 LEFT JOIN tb_scm_supply SP ON SP.supply_cd = PD.supply_cd
 LEFT JOIN tb_scm_warehouse WH ON WH.warehouse_cd = PD.warehouse_cd
+LEFT JOIN tb_file FL ON PD.file_no = FL.file_no
 WHERE  PD.product_cd = #{product_cd}
     </select>
   </mapper>
