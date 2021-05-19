@@ -152,7 +152,18 @@
       $("#warehouse_nm").val("");
       $("#stock").val("");
       $("#detail").val("");
-      $("#file_local_path").val("");
+      $("#thumbnail").val("");
+      $("#tempImg").attr("src", "/images/admin/comm/no_image.png");
+      
+      $("#product_cd").attr("readonly", false);
+      $("#prod_nm").attr("readonly", false);
+      $("#l_ct_nm").attr("readonly", false);
+      $("#supply_nm").attr("readonly", false);
+      $("#purchase_price").attr("readonly", false);
+      $("#price").attr("readonly", false);
+      $("#warehouse_nm").attr("readonly", false);
+      $("#detail").attr("readonly", false);
+      $("#stock").attr("readonly", false);
     } else{
       $("#product_cd").val(object.product_cd);
       $("#prod_nm").val(object.prod_nm);
@@ -163,7 +174,20 @@
       $("#warehouse_nm").val(object.warehouse_nm);
       $("#stock").val(object.stock);
       $("#detail").val(object.detail);
-      $("#file_local_path").val("object.file_local_path");
+      $("#thumbnail").val("");
+      $("#tempImg").attr("src", object.file_local_path);
+      
+      $("#product_cd").attr("readonly", true);
+      $("#prod_nm").attr("readonly", true);
+      $("#l_ct_nm").attr("readonly", true);
+      $("#supply_nm").attr("readonly", true);
+      $("#purchase_price").attr("readonly", true);
+      $("#price").attr("readonly", true);
+      $("#warehouse_nm").attr("readonly", true);
+      $("#detail").attr("readonly", true);
+      $("#stock").attr("readonly", true);
+      
+
     } 
   }
 </script>
@@ -270,7 +294,11 @@
                   name="l_ct_nm" id="l_ct_nm" /></td>
               </tr>
               <tr>
-                <td rowspan="3"><img alt="제품 이미지" src="/images/admin/comm/byebye.jpg" width="500" height="300"></td>
+              
+              <td rowspan="3" style="text-align:center;">
+                  <img id="tempImg" style="object-fit: cover;max-width:100%" src="/images/admin/comm/no_image.png" alt="제품사진미리보기">
+                 </td>   
+                 
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
                   name="supply_nm" id="supply_nm" /></td>
@@ -293,6 +321,53 @@
                 <th scope="row">상세정보 <span class="font_red">*</span></th>
                 <td colspan = "5"><textarea class = "ui-widget ui-widget-content ui-corner-all" id="detail" maxlength="500" name="detail" 
                                             style="height:130px;outline:none;resize:none;" placeholder="여기에 상세정보를 적어주세요.(500자 이내)"></textarea></td>
+              </tr>
+              <tr>
+              <td class="thumb">
+                            <span> 
+                <input name="thumbnail" type="file" id="thumbnail" accept="image/* " required>
+    
+                    <!-- 파일 미리보기 스크립트 영역 -->
+                       <script>
+                       var file = document.querySelector('#thumbnail');
+                    
+                       file.onchange = function () { 
+                           var fileList = file.files ;
+                           
+                           // 읽기
+                           var reader = new FileReader();
+                           reader.readAsDataURL(fileList [0]);
+                           //로드 한 후
+                           reader.onload = function  () {
+                               //로컬 이미지를 보여주기
+                               
+                               //썸네일 이미지 생성
+                               var tempImage = new Image(); //drawImage 메서드에 넣기 위해 이미지 객체화
+                               tempImage.src = reader.result; //data-uri를 이미지 객체에 주입
+                               tempImage.onload = function() {
+                                   //리사이즈를 위해 캔버스 객체 생성
+                                   var canvas = document.createElement('canvas');
+                                   var canvasContext = canvas.getContext("2d");
+                                   
+                                   //캔버스 크기 설정
+                                   canvas.width = 400; //가로 400px
+                                   canvas.height = 400; //세로 400px
+                                   
+                                   
+                                   //이미지를 캔버스에 그리기
+                                   canvasContext.drawImage(this, 0, 0, 400, 400);
+                                   //캔버스에 그린 이미지를 다시 data-uri 형태로 변환
+                                   var dataURI = canvas.toDataURL("image/jpeg");
+                                   
+                                   //썸네일 이미지 보여주기
+                                   document.querySelector('#tempImg').src = dataURI;
+                               };
+                           }; 
+                       };
+                                </script>
+                                <!-- 파일 미리보기 스크립트 영역 끝 -->
+                                </span>
+                 </td>
               </tr>
             </tbody>
           </table>
