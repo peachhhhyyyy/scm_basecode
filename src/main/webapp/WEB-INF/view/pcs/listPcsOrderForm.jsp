@@ -7,7 +7,6 @@
   </tr>
 </c:if>
 <c:if test="${totalCount > 0 }">
-  <c:set var="nRow" value="${pageSize*(currentPage-1)}" />
   <c:forEach items="${listPcsOrderFormModel}" var="list">
     <tr>
       <td>${list.purch_list_no}</td>
@@ -29,7 +28,6 @@
       <td><a class="btnType3 color2" href="/pcs/refund/list.do"><span>반품</span></a></td>
       </c:if>
     </tr>
-    <c:set var="nRow" value="${nRow + 1}" />
   </c:forEach>
 </c:if>
 <input type="hidden" id="totalCount" name="totalCount" value="${totalCount}" />
