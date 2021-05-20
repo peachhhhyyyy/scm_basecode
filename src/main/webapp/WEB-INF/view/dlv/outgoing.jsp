@@ -19,6 +19,8 @@
 			
 				/** 수주내역 조회 */
 				function fOrderList(currentPage) {
+					
+					$('#submitBtn').hide();
 			
 					currentPage = currentPage || 1;
 			
@@ -62,8 +64,9 @@
 				
 				/* 출하내역 상세 조회*/
 				function fOrderDetailList(order_cd) {
+					
+				  $('#submitBtn').show();
 				
-				  $("#order_cd").val(order_cd);
 				
 				  var param = {
 				  		  order_cd : order_cd,
@@ -98,6 +101,8 @@
 				
 				// 검색조건으로 수주내역 가져오기
 				function fSearchOrderList(currentPage, STTcd, startDate, endDate) {
+					
+					$('#submitBtn').hide();
 					
 					console.log(STTcd, startDate, endDate)
 					
@@ -299,7 +304,7 @@
 				                    </tr>
 			                    </tbody>
 							</table>
-							<button type="submit" value="Submit" class="col-1-4 btnType blue" style="
+							<button id="submitBtn" type="submit" value="Submit" class="col-1-4 btnType blue" style="
 	                                        margin-right: -2px;
 	                                        font-size: 15px;
 	                                        color: #fff;
