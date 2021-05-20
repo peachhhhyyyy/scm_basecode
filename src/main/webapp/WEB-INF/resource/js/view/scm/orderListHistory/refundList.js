@@ -83,5 +83,27 @@ function closeRefundDetail() {
 }
 
 function requestApprove() {
+  var param = $('#refundForm').serialize();
   
+  var resultCallback = function(data) {
+    getRefundApproveResult(data);
+  }
+  
+  callAjax("/scm/refundDirectionInsert.do", "post", "json", true, param, resultCallback);
+}
+
+function getRefundApproveResult(data) {
+  if (data.result === "SUCCESS") {
+    swal(data.resultMsg).then(function() {
+      window.location.reload(); // 새로고침
+    });
+    console.log("상태 업데이트 완료");
+    return 1;
+  } else {
+    swal(data.resultMsg).then(function() {
+      window.location.reload(); // 새로고침
+    });
+    console.log("상태 업데이트 실패");
+    return 0;
+  }
 }
