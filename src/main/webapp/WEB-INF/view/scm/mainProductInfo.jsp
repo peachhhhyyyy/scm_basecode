@@ -327,7 +327,7 @@
       </div>
     </div>
     <!-- 모달! -->
-    <div id="layer1" class="layerPop layerType2" style="width: 1500px;">
+    <div id="layer1" class="layerPop layerType2" style="width: 1000px;">
       <dl>
         <dt>
           <strong>제품 상세정보</strong>
@@ -345,18 +345,18 @@
               <tr>
                 <th scope="row">제품 이미지 <span class="font_red">*</span></th>
                 
-                <th scope="row">제품코드 <span class="font_red">*</span></th>
+                <th scope="row" width="100px">제품코드 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100" name="product_cd" id="product_cd" maxlength="11" placeholder="제품코드"/>  
                   </td>
-                <th scope="row">제품명 <span class="font_red">*</span></th>
+                <th scope="row" width="100px">제품명 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
                   name="prod_nm" id="prod_nm" maxlength="100" placeholder="제품명"/></td>
         
               </tr>
               <tr>
               
-              <td rowspan="4" style="text-align:center;">
-                  <img id="tempImg" style="object-fit: cover;max-width:100%" src="/images/admin/comm/no_image.png" alt="제품사진미리보기">
+              <td rowspan="4" style="text-align:center; width:300px; hight:300px;">
+                  <img id="tempImg" style="object-fit:cover; max-width:100%; " src="/images/admin/comm/no_image.png" alt="제품사진미리보기">
                  </td>   
                 
                  <th scope="row">모델명<span class="font_red">*</span></th>
