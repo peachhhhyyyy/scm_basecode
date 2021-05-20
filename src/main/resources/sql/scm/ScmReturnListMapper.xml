@@ -3,38 +3,64 @@
 <mapper namespace="kr.happyjob.study.scm.dao.ScmReturnListDao">
 		<!-- 반품지시서 내역 조회 -->
 	<select id="selectReturnList" resultType="kr.happyjob.study.scm.model.ScmReturnListModel">
-		
-		SELECT TSRL.refund_list_no AS refund_list_no,
-		       TSU.company_cd AS company_cd,
-		       TSP.prod_nm AS prod_nm,
-		       TSP.m_ct_cd AS m_ct_cd,
-		       TSPL.return_qty AS return_qty,
-		       TSPL.scm_id AS scm_id,
-		       DATE_FORMAT(TSRL.submit_date, '%Y-%m-%d') AS submit_date
-		 FROM tb_scm_refund_list AS TSRL
-			 LEFT JOIN tb_order AS TOO
-			 ON TOO.order_cd = TSRL.order_cd
-			 LEFT JOIN tb_userinfo AS TUU
-			 ON TOO.loginID = TUU.loginID
-			 LEFT JOIN tb_scm_product AS TSP
-			 ON TOO.product_cd = TSP.product_cd
-			 LEFT JOIN tb_scm_purchase_list AS TSPL
-			 ON TSP.supply_cd = TSPL.supply_cd
-			 LEFT JOIN tb_scm_userinfo AS TSU
-			 ON TOO.loginID = TSU.loginID
+		SELECT TSRL.refund_list_no AS refund_list_no
+                , TSRL.order_cd
+                , OD.order_cd
+                , CUSTOMER.cus_nm AS cus_nm
+                , PROD_INFO.l_ct_nm AS l_ct_nm
+                , PROD_INFO.prod_nm AS prod_nm
+                , OD.refund_cnt AS return_cnt
+                , TSRL.scm_nm AS scm_nm
+                , TSRL.approve_nm AS approve_nm
+                , DATE_FORMAT(TSRL.submit_date, '%Y-%m-%d') AS submit_date
+                , WH.warehouse_nm AS warehouse_nm
+                , OD.refund_amt
+                , PROD_INFO.supply_nm
+            FROM tb_order AS OD
+            
+            LEFT JOIN (
+                  SELECT loginID
+                          , name AS cus_nm
+                      FROM tb_userinfo ) AS CUSTOMER
+            ON OD.loginID = CUSTOMER.loginID
+            
+            LEFT JOIN (
+                  SELECT refund.refund_list_no
+                          , refund.order_cd
+                          , refund.submit_date
+                          , scm.name AS scm_nm
+                          , approve.name AS approve_nm
+                      FROM tb_scm_refund_list AS refund
+                      LEFT JOIN tb_userinfo AS scm ON refund.scm_id = scm.loginID
+                      LEFT JOIN tb_userinfo AS approve ON refund.approve_id = approve.loginID ) AS TSRL
+            ON OD.order_cd = TSRL.order_cd
+            
+            LEFT JOIN tb_scm_warehouse AS WH
+            ON OD.warehouse_cd = WH.warehouse_cd
+            
+            LEFT JOIN(
+                  SELECT TSP.product_cd
+                          , TSP.prod_nm
+                          , TSLC.l_ct_nm
+                          , TSS.supply_nm
+                      FROM tb_scm_product AS TSP
+                      LEFT JOIN tb_scm_m_category AS TSMC
+                      ON TSP.m_ct_cd = TSMC.m_ct_cd
+                      LEFT JOIN tb_scm_l_category AS TSLC
+                      ON TSMC.l_ct_cd = TSLC.l_ct_cd
+                      LEFT JOIN tb_scm_supply AS TSS
+                      ON TSP.supply_cd = TSS.supply_cd ) AS PROD_INFO
+            ON OD.product_cd = PROD_INFO.product_cd
+            
+            WHERE TSRL.refund_list_no IS NOT NULL
+            ORDER BY TSRL.refund_list_no DESC
 			LIMIT #{pageIndex}, #{pageSize}
 	</select>
-		<!--지시서 목록 카운트 -->
-		<select id="scmReturnListCnt" resultType="int">
+	
+	<!--지시서 목록 카운트 -->
+	<select id="scmReturnListCnt" resultType="int">
 		SELECT COUNT(*) AS scmReturnListCnt
-			FROM tb_order od
-			WHERE od.STTcd = 1
-			OR od.STTcd = 6
-			OR od.STTcd = 2
-			OR od.STTcd = 4
-			OR od.STTcd = 5
-			OR od.STTcd = 3
-			ORDER BY od.order_cd DESC
-			LIMIT 5
-	    </select>
+			FROM tb_scm_refund_list
+			WHERE refund_list_no IS NOT NULL
+    </select>
 </mapper>
