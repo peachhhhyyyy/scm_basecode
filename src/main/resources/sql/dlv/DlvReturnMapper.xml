@@ -50,7 +50,7 @@
 	<select id="returnSearchList" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">
 	   SELECT TSRL.refund_list_no AS refund_list_no,
            TUU.name AS cus_name,
-           TSMC.m_ct_nm AS m_ct_nm,
+           TSP.l_ct_cd AS l_ct_cd,
            TSP.prod_nm AS prod_nm,
            TOO.refund_cnt AS refund_cnt,
            TOO.refund_amt AS refund_amt,
@@ -58,14 +58,20 @@
            TOO.refund_date AS refund_date,
            DC.detail_name AS state
        FROM tb_order AS TOO
+       
            LEFT JOIN tb_scm_refund_list AS TSRL
            ON TOO.order_cd = TSRL.order_cd
-           LEFT JOIN tb_scm_m_category AS TSMC
-           ON TOO.order_cd = TSMC.m_ct_cd
-           LEFT JOIN tb_scm_product AS TSP
+           
+           LEFT JOIN ( 
+                  SELECT PROD.product_cd, PROD.prod_nm, CATEGORY.m_ct_nm, CATEGORY.l_ct_cd
+                      FROM tb_scm_product AS PROD
+                      LEFT JOIN tb_scm_m_category AS CATEGORY
+                      ON PROD.m_ct_cd = CATEGORY.m_ct_cd ) AS TSP
            ON TOO.product_cd = TSP.product_cd
+           
            LEFT JOIN tb_userinfo AS TUU
            ON TOO.loginID = TUU.loginID
+           
            LEFT JOIN tb_scm_warehouse AS TSW
            ON TOO.warehouse_cd = TSW.warehouse_cd
            
@@ -93,8 +99,8 @@
 	<select id="returnDetailList" resultType="kr.happyjob.study.dlv.model.DlvReturnDetailModel">
 		SELECT TOO.order_cd AS order_cd
 		          , TSRL.refund_list_no AS refund_list_no
+		          , TSP.l_ct_cd AS l_ct_cd
 		          , TSP.prod_nm AS prod_nm
-		          , TSMC.m_ct_nm AS m_ct_nm
 		          , TOO.refund_cnt AS refund_cnt
 		          , CUSTOMER.name AS cus_name
 		          , CUSTOMER.tel AS cus_tel
@@ -118,6 +124,13 @@
 		              LEFT JOIN tb_userinfo AS staff ON tb_scm_refund_list.ship_staff_id = staff.loginID ) AS TSRL
 		   ON TOO.order_cd = TSRL.order_cd
 		   
+		   LEFT JOIN ( 
+                  SELECT PROD.product_cd, PROD.prod_nm, CATEGORY.m_ct_nm, CATEGORY.l_ct_cd
+                      FROM tb_scm_product AS PROD
+                      LEFT JOIN tb_scm_m_category AS CATEGORY
+                      ON PROD.m_ct_cd = CATEGORY.m_ct_cd ) AS TSP
+           ON TOO.product_cd = TSP.product_cd
+		   
 		   LEFT JOIN(
                 SELECT loginID
                         , name
@@ -125,12 +138,6 @@
                         , addr
                     FROM tb_userinfo ) AS CUSTOMER
            ON TOO.loginID = CUSTOMER.loginID
-		   
-		   LEFT JOIN tb_scm_product TSP
-		   ON TOO.product_cd = TSP.product_cd
-		   
-		   LEFT JOIN tb_scm_m_category AS TSMC
-		   ON TSMC.m_ct_cd = TSP.m_ct_cd
 		   
 		   LEFT JOIN tb_scm_warehouse AS TSW
 		   ON TOO.warehouse_cd = TSW.warehouse_cd
@@ -157,6 +164,7 @@
          UPDATE
             tb_scm_refund_list AS TSRL
                 , tb_order AS OD
+                , tb_scm_product AS TSP
             SET
                 <choose>
                     <when test='state.equals("6")'>
@@ -165,7 +173,8 @@
                         OD.STTcd = #{state}
                     </when>
                     <otherwise>
-                        OD.STTcd = #{state}
+                        OD.STTcd = #{state},
+                        TSP.stock = TSP.stock + #{refund_cnt}
                     </otherwise>
                 </choose>
             WHERE '1'='1'
@@ -177,6 +186,7 @@
                     </when>
                     <otherwise>
                         AND OD.order_cd = #{order_cd}
+                        AND TSP.prod_nm = #{prod_nm}
                     </otherwise>
                 </choose>
     </update>
