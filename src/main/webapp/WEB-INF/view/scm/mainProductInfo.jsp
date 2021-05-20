@@ -146,6 +146,18 @@
       $("#tempImg").attr("src", "/images/admin/comm/no_image.png");
       
       $("#btnDeleteMainProduct").hide();
+      $("#product_cd").attr("readonly", false);
+      $("#prod_nm").attr("readonly", false);
+      $("#l_ct_nm").attr("readonly", false);
+      $("#supply_nm").attr("readonly", false);
+      $("#purchase_price").attr("readonly", false);
+      $("#price").attr("readonly", false);
+      $("#warehouse_nm").attr("readonly", false);
+      $("#stock").attr("readonly", false);
+      $("#detail").attr("readonly", false);
+      $("#thumbnail").attr("readonly", false);
+      $("#tempImg").attr("readonly", false);
+      $("#thumbnail").show();
     } else{
       $("#product_cd").val(object.product_cd);
       $("#prod_nm").val(object.prod_nm);
@@ -159,7 +171,19 @@
       $("#thumbnail").val("");
       $("#tempImg").attr("src", object.file_relative_path);
       
+      $("#btnSaveMainProduct").hide();
       $("#btnDeleteMainProduct").show();
+      $("#product_cd").attr("readonly", true);
+      $("#prod_nm").attr("readonly", true);
+      $("#l_ct_nm").attr("readonly", true);
+      $("#supply_nm").attr("readonly", true);
+      $("#purchase_price").attr("readonly", true);
+      $("#price").attr("readonly", true);
+      $("#warehouse_nm").attr("readonly", true);
+      $("#stock").attr("readonly", true);
+      $("#detail").attr("readonly", true);
+      $("#thumbnail").hide();
+
     } 
   }
   
