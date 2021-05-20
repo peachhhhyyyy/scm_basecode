@@ -32,8 +32,6 @@
     //추가코드 시작
     var option = $('#options').val();
     var keyword = $('#keyword').val();
-    console.log('옵션:', option);
-    console.log('키워드:', keyword)
     var date = $("#datetimepicker1").find("input").val()
     
     // datepicker설정
@@ -50,8 +48,6 @@
         });
         
         $("#datetimepicker1").on("change.datetimepicker", function(e) {
-          var date = $("#datetimepicker1").find("input").val()
-          console.log('날짜확인', date)
           $('#datetimepicker2').datetimepicker('minDate', e.date);
         });
       });
@@ -212,12 +208,13 @@
     }
 
     function resultCallback(data) {
+      
       if (data === 1) {
         window.location.reload();
       } else {
         alert('서버에서 에러가 발생했습니다.');
-
       }
+      
     }
     callAjax("/pcs/refund/returndate.do", "post", "json", true, param, resultCallback);
 
@@ -243,7 +240,7 @@
             <h3 class="hidden">contents 영역</h3> <!-- content -->
             <div class="content">
               <p class="Location">
-                <a href="#" class="btn_set home">메인으로</a> <a href="../pcsOrderForm.do" class="btn_nav">구매</a> <span class="btn_nav bold">반품서</span> <a href="${request.getContextPath}" class="btn_set refresh">새로고침</a>
+                <a href="#" class="btn_set home">메인으로</a> <a href="../pcsOrderForm.do" class="btn_nav">구매</a> <span class="btn_nav bold">반품서</span> <a href="javascript:window.location.reload();" class="btn_set refresh">새로고침</a>
               </p>
               <p class="conTitle">
                 <span>반품서 목록</span>

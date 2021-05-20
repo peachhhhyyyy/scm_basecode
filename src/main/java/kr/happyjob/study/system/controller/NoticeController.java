@@ -50,7 +50,7 @@ public class NoticeController {
 	
 	// 공지사항 목록 조회(기본, 검색)
 	@RequestMapping(value="notice.do", method=RequestMethod.POST)
-	public String selectNotice(@RequestParam Map<String, Object> param, Model model)throws Exception {
+	public String selectNotice(@RequestParam Map<String, Object> param, Model model, HttpSession session)throws Exception {
 	  
 	  System.out.println("공지사항 목록 조회 파라미터: " + param);
 	  
@@ -69,6 +69,38 @@ public class NoticeController {
 	  // 총 로우의 개수
 //	  int totalCount = noticeService.countNoticeList();
 	  int totalCount;
+	  
+	  // 권한 
+	  String userType = (String) session.getAttribute("userType");
+	  
+	  int auth;
+	  // E = SCM, F = PCS, F = DLV >> 2(직원)
+	  // J = 고객
+	  
+	  // 비교할 때 주의!! == 이 아니다. 정리하기
+	  // 직원은 auth 0, 2를 조회
+	  // 고객은 auth 0, 1을 조회
+	  
+	  switch(userType) {
+	    // switch에서 or사용하기. 정리하기
+	    case "E" :
+	    case "F" :
+	    case "G" :
+	      auth = 2;
+	      break;
+	      
+	    case "J" :
+	      auth = 1;
+	      break;
+	      
+	     default:
+	      auth = 0;
+	      break;
+	  }
+	   
+	  System.out.println("권한확인switch:" +  auth);
+	  
+	  param.put("auth", auth);
 	  
 	  // 검색어 유무 확인
 	  if(!param.containsKey("opton")) {

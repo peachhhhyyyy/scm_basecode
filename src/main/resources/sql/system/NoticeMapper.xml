@@ -13,7 +13,8 @@
            DATE_FORMAT(date, '%Y-%m-%d') as date,
            view_cnt,
            auth
-      FROM tb_scm_notice 
+      FROM tb_scm_notice
+     WHERE (auth = #{auth} or auth = 0)
   ORDER BY notice_id DESC
      LIMIT #{pageIndex}, #{pageSize}  
                
@@ -22,10 +23,11 @@
   <!-- 공지사항 목록(기본) 총 개수 조회 -->
   <select id="countNoticeList" resultType="int">
   
-    SELECT COUNT(notice_id)
-      FROM tb_scm_notice
-  
-  </select>
+      SELECT count(*)
+        FROM tb_scm_notice
+       WHERE (auth = #{auth} or auth = 0)
+       
+   </select>
   
   <!-- 공지사항 목록(검색) 총 개수 조회 -->
   <select id="countConditionList" resultType="int">

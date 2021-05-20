@@ -59,9 +59,7 @@
         });
         
         $("#datetimepicker1").on("change.datetimepicker", function(e) {
-          // 이 코드 지우기
           var date = $("#datetimepicker1").find("input").val()
-          console.log('날짜확인1', date)
           $('#datetimepicker2').datetimepicker('minDate', e.date);
         });
         
@@ -85,11 +83,11 @@
         });
         
       });
-    // 추가 코드 끝
     
     currentPage = currentPage || 1;
 
     console.log("currentPage : " + currentPage);
+    
 
     if (keyword || formerDate || latterDate) {
       console.log('검색어있음, 현재페이지:', currentPage, pageSize)
@@ -444,7 +442,7 @@
             <h3 class="hidden">contents 영역</h3> <!-- content -->
             <div class="content">
               <p class="Location">
-                <a href="#" class="btn_set home">메인으로</a> <a href="pcs/pcsOrderingoOrder.do" class="btn_nav">구매</a> <span class="btn_nav bold">반품서</span> <a href="#" class="btn_set refresh">새로고침</a>
+                <a href="#" class="btn_set home">메인으로</a><span class="btn_nav bold">공지사항</span> <a href="javascript:window.location.reload();" class="btn_set refresh">새로고침</a>
               </p>
               <p class="conTitle">
                 <span>공지사항</span>
