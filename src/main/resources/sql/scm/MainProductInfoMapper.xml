@@ -79,7 +79,7 @@ WHERE  PD.product_cd = #{product_cd}
     </select>
     
     <!-- 제품정보 등록 -->
-    <select id="insertMainProduct" parameterType="java.util.Map">
+    <insert id="insertMainProduct" parameterType="java.util.Map">
         INSERT INTO tb_scm_product(product_cd, prod_nm, purchase_price, price, stock, detail)
      VALUES (
              #{product_cd},
@@ -89,5 +89,5 @@ WHERE  PD.product_cd = #{product_cd}
              #{stock}, 
              #{detail}
              )
-    </select>
+    </insert>
   </mapper>
