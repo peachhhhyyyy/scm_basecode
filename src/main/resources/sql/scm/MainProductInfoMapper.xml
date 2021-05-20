@@ -92,4 +92,12 @@ WHERE  PD.product_cd = #{product_cd}
              #{detail}
              )
     </insert>
+    
+    <!-- 제품정보 삭제 -->
+    <delete id="deleteMainProduct" parameterType="java.util.Map">
+    DELETE 
+      FROM tb_scm_product
+     WHERE product_cd = #{product_cd}
+    
+    </delete>
   </mapper>

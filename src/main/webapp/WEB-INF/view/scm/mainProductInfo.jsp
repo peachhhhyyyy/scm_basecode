@@ -192,7 +192,14 @@
 
   /** 제품정보 저장 validation */
   function fValidateMainProduct() {
-    var chk = checkNotEmpty([ [ "product_cd", "제품코드를 입력하세요." ] ]);
+    var chk = checkNotEmpty([ 
+                              [ "product_cd", "제품코드를 입력하세요." ],
+                              [ "prod_nm", "제품명을 입력하세요." ],
+                              [ "purchase_price", "장비구매액을 입력하세요." ],
+                              [ "price", "단가를 입력하세요." ],
+                              [ "stock", "재고개수를 입력하세요." ],
+                              [ "detail", "상세정보를 입력하세요." ]
+                            ]);
     if (!chk) {
       return;
     }
@@ -225,6 +232,23 @@
       alert(data.resultMsg);
     }
     fInitFormMainProduct();
+  }
+  
+  //제품정보 삭제
+  function fDeleteMainProduct(product_cd){
+    var con = confirm("삭제하시겠습니까 ? 삭제시 복구가 불가능합니다.");
+    var currentPage = "1";
+    if (con){
+      var resultCallback = function(data) {
+      fSaveMainProductResult(data);
+    }
+    $("#action").val("D");
+    callAjax("/scm/saveMainProduct.do", "post", "json", true, $("#myForm").serialize(), resultCallback );
+    } else {
+      gfCloseModal();
+      fListMainProduct(currentPage);
+      fInitFormMainProduct();
+    }
   }
 
   /* 검색기능*/
@@ -322,7 +346,7 @@
       </div>
     </div>
     <!-- 모달! -->
-    <div id="layer1" class="layerPop layerType2" style="width: 1000px;">
+    <div id="layer1" class="layerPop layerType2" style="width: 1300px;">
       <dl>
         <dt>
           <strong>제품 상세정보</strong>
