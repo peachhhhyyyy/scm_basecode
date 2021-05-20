@@ -5,7 +5,7 @@
 	<head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<title>반품계획서</title>
+	<title>SCM | 반품지시서</title>
 	<jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 	<link rel="stylesheet" href="${CTX_PATH}/css/view/scm/returnPaper.css">
 	<script type="text/javascript">
