@@ -19,7 +19,7 @@ import kr.happyjob.study.scm.model.ScmReturnListModel;
 import kr.happyjob.study.scm.service.ScmReturnService;
 
 @Controller
-@RequestMapping("/scmReturn")
+@RequestMapping("/scm")
 public class ScmReturnController {
 	@Autowired
 	ScmReturnService srtservice;
@@ -28,6 +28,7 @@ public class ScmReturnController {
 	
 	@RequestMapping("scmReturnMain.do")
 	public String returnMain(){
+		
 		logger.info("반품지시서 메인페이지");
 		
 		return "/scm/scmReturnMain";
@@ -52,6 +53,7 @@ public class ScmReturnController {
 		
 		//목록수 추출하기
 		int scmReturnCnt = srtservice.scmReturnListCnt(paramMap);
+		System.out.println("scmReturnCnt : " + scmReturnCnt);
 		
 		model.addAttribute("scmReturnCnt", scmReturnCnt);
 		model.addAttribute("pageSize", pageSize);
