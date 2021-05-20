@@ -155,15 +155,7 @@
       $("#thumbnail").val("");
       $("#tempImg").attr("src", "/images/admin/comm/no_image.png");
       
-      $("#product_cd").attr("readonly", false);
-      $("#prod_nm").attr("readonly", false);
-      $("#l_ct_nm").attr("readonly", false);
-      $("#supply_nm").attr("readonly", false);
-      $("#purchase_price").attr("readonly", false);
-      $("#price").attr("readonly", false);
-      $("#warehouse_nm").attr("readonly", false);
-      $("#detail").attr("readonly", false);
-      $("#stock").attr("readonly", false);
+      $("#btnDeleteMainProduct").hide();
     } else{
       $("#product_cd").val(object.product_cd);
       $("#prod_nm").val(object.prod_nm);
@@ -175,19 +167,9 @@
       $("#stock").val(object.stock);
       $("#detail").val(object.detail);
       $("#thumbnail").val("");
-      $("#tempImg").attr("src", object.file_local_path);
+      $("#tempImg").attr("src", object.file_relative_path);
       
-      $("#product_cd").attr("readonly", true);
-      $("#prod_nm").attr("readonly", true);
-      $("#l_ct_nm").attr("readonly", true);
-      $("#supply_nm").attr("readonly", true);
-      $("#purchase_price").attr("readonly", true);
-      $("#price").attr("readonly", true);
-      $("#warehouse_nm").attr("readonly", true);
-      $("#detail").attr("readonly", true);
-      $("#stock").attr("readonly", true);
-      
-
+      $("#btnDeleteMainProduct").show();
     } 
   }
 </script>
@@ -214,7 +196,7 @@
                 <a href="/system/notice.do" class="btn_set home">메인으로</a> <a class="btn_nav">기준 정보</a> <span class="btn_nav bold">제품정보 관리</span> <a href="" class="btn_set refresh">새로고침</a>
               </p>
               <p class="conTitle">
-                <span>제품정보</span> <span class="fr"> <a href="javascript:fPopModalMainProduct()" class="btnType blue" name="modal"> <span>신규등록</span>
+                <span>제품정보</span> <span class="fr"> <a href="javascript:fSelectMainProduct()" class="btnType blue" name="modal"> <span>신규등록</span>
                 </a>
                 </span>
               </p>
@@ -374,6 +356,14 @@
               </tr>
             </tbody>
           </table>
+          
+          
+          <div class="btn_areaC mt30">
+            <a href="" class="btnType blue" id="btnSaveMainProduct" name="btn"><span>저장</span></a>
+             <a href="" class="btnType blue" id="btnDeleteMainProduct" name="btn"><span>삭제</span></a>   
+             <a href="" class="btnType gray" id="btnCloseMainProduct" name="btn"><span>닫기</span></a>
+          </div>
+          
         </dd>
       </dl>
       <a href="" class="closePop"><span class="hidden">닫기</span></a>

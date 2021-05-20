@@ -68,7 +68,7 @@ LEFT JOIN tb_scm_warehouse WH ON WH.warehouse_cd = PD.warehouse_cd
        WH.warehouse_nm as warehouse_nm,
        PD.stock as stock,
        PD.detail as detail,
-       FL.file_local_path
+       FL.file_relative_path
 FROM tb_scm_product PD
 LEFT JOIN tb_scm_m_category MC ON MC.m_ct_cd = PD.m_ct_cd
 LEFT JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
