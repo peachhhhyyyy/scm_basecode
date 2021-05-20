@@ -122,8 +122,6 @@
 
 	/* 반품내역 상세 조회*/
 	function fReturnDetailList(refund_list_no) {
-		// 그룹코드 정보 설정
-		$("#refund_list_no").val(refund_list_no);
 
 		var param = {
 			refund_list_no : refund_list_no,
@@ -158,8 +156,7 @@
 	// 콤보박스로 선택된 배송기사이름으로 연락처 받아오기
 	function fSelectDlvStaffTel() {
 
-		var selDlvName = $('#getDlvStaffName > option:selected').val().split(
-				' ')[0];
+		var selDlvName = $('#getDlvStaffName > option:selected').val().split(' ')[0];
 
 		// console.log(selDlvName);
 
@@ -188,38 +185,35 @@
 </head>
 <body>
 	<input type="hidden" id="currentPage" value="1">
-	<input type="hidden" id="selectedInfNo" value="">
 	<div id="mask"></div>
 	<div id="wrap_area">
-		<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
+	    <h2 class="hidden">컨텐츠 영역</h2>
 		<div id="container">
 			<ul>
-				<li class="lnb"><jsp:include
-						page="/WEB-INF/view/common/lnbMenu.jsp"></jsp:include></li>
+				<li class="lnb">
+				    <jsp:include page="/WEB-INF/view/common/lnbMenu.jsp"></jsp:include>
+			    </li>
 				<li class="contents">
 					<h3 class="hidden">contents 영역</h3>
-					<div class="content" style="min-height: 203px;">
+					<div class="content" style="min-height: 20px;">
 						<p class="Location">
 							<a href="../dashboard/dashboard.do" class="btn_set home">메인으로</a>
 							<span class="btn_nav bold">메인</span> <a
 								href="../dashboard/dashboard.do" class="btn_set refresh">새로고침</a>
 						</p>
-						<!-- 반품 리스트 조회  -->
-						<input name="product_name" type="hidden"
-							value="${productDes.product_name}">
-						<p class="conTitle"
-							style="display: flex; justify-content: space-between; align-items: center;">
-							<span>반품계획</span> <span style="width: 590px;"> <select
-								id="STTcd" name="STTcd" style="width: 100px;">
-									<option value="5, 6, 7" selected="selected">전체</option>
-									<option value="5">승인완료</option>
-									<option value="6">반품 진행 중</option>
-									<option value="7">반품완료</option>
-							</select> <input type="date" id="startDate"
-								style="width: 200px; height: 28px;"> <span>~</span> <input
-								type="date" id="endDate" style="width: 200px; height: 28px;">
-								<a id="searchEnter" class="btn btnTypeBox"
-								href="javascript:fSearchReturnList(1, $('#STTcd').val(), $('#startDate').val(), $('#endDate').val())">검색</a>
+						<p class="conTitle" style="display: flex; justify-content: space-between; align-items: center;">
+							<span>반품계획</span> 
+							<span style="width: 590px;"> 
+								<select id="STTcd" name="STTcd" style="width: 100px;">
+										<option value="5, 6, 7" selected="selected">전체</option>
+										<option value="5">승인완료</option>
+										<option value="6">반품 진행 중</option>
+										<option value="7">반품완료</option>
+								</select> 
+								<input type="date" id="startDate" style="width: 200px; height: 28px;">
+								<span>~</span>
+								<input type="date" id="endDate" style="width: 200px; height: 28px;">
+								<a id="searchEnter" class="btn btnTypeBox" href="javascript:fSearchReturnList(1, $('#STTcd').val(), $('#startDate').val(), $('#endDate').val())">검색</a>
 							</span>
 						</p>
 						<!-- 반품 리스트 조회  -->
