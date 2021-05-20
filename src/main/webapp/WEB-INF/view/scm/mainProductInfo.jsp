@@ -321,12 +321,12 @@
               <tr>
                 <th scope="row">제품 이미지 <span class="font_red">*</span></th>
                 
-                <th scope="row">제품 번호 <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100"
-                  name="product_cd" id="product_cd" /></td>
+                <th scope="row">제품코드 <span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100" name="product_cd" id="product_cd" maxlength="11" placeholder="제품코드"/>  
+                  </td>
                 <th scope="row">제품명 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="prod_nm" id="prod_nm" /></td>
+                  name="prod_nm" id="prod_nm" maxlength="100" placeholder="제품명"/></td>
         
               </tr>
               <tr>
@@ -337,30 +337,30 @@
                 
                  <th scope="row">모델명<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100" 
-                  name="l_ct_nm" id="l_ct_nm" /></td>
+                  name="l_ct_nm" id="l_ct_nm" maxlength="50" placeholder="모델명"/></td>
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="supply_nm" id="supply_nm" /></td>
+                  name="supply_nm" id="supply_nm" maxlength="100" placeholder="공급처명"/></td>
                   </tr>
                   <tr>
                 <th scope="row">장비구매액 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="purchase_price" id="purchase_price" /></td>
+                  name="purchase_price" id="purchase_price" maxlength="11" placeholder="장비구매액"/></td>
                 <th scope="row">단가<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100" 
-                  name="price" id="price" /></td>
+                  name="price" id="price" maxlength="11" placeholder="단가"/></td>
               </tr>
               <tr>
                 <th scope="row">창고명 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="warehouse_nm" id="warehouse_nm" /></td>
+                  name="warehouse_nm" id="warehouse_nm" maxlength="50" placeholder="창고명"/></td>
                 <th scope="row">재고개수<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="stock" id="stock" /></td>
+                  name="stock" id="stock" maxlength="11" placeholder="제고개수"/></td>
               </tr>
-              <tr rowspan="2">
-                <th scope="row">상세정보 <span class="font_red">*</span></th>
-                <td colspan = "3"><textarea class = "ui-widget ui-widget-content ui-corner-all" id="detail" maxlength="500" name="detail" 
+              <tr>
+                <th rowspan="2" scope="row">상세정보 <span class="font_red">*</span></th>
+                <td rowspan="2" colspan = "3"><textarea class = "ui-widget ui-widget-content ui-corner-all" id="detail" maxlength="500" name="detail" 
                                             style="height:130px;outline:none;resize:none;" placeholder="여기에 상세정보를 적어주세요.(500자 이내)"></textarea></td>
               </tr>
               <tr>
