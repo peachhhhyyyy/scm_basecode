@@ -18,41 +18,43 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.happyjob.study.ecv.model.EcvPurchaseDirectionModel;
+import kr.happyjob.study.ecv.model.EcvRefundDirectionModel;
 import kr.happyjob.study.ecv.service.EcvDirectionService;
 
 @Controller
 @RequestMapping("/ecv")
 public class EcvDirectionController {
-    
-    @Autowired
-    EcvDirectionService ecvDirectionService;
-    
-    private final Logger logger = LogManager.getLogger(this.getClass());
-    private final String className = this.getClass().toString();
-    
-    @RequestMapping("purchaseDirec.do")
-    public String init(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-            HttpServletResponse response, HttpSession session) throws Exception {
 
-        logger.info("+ Start " + className + ".init");
+	@Autowired
+	EcvDirectionService ecvDirectionService;
 
-        /* ############## set input data################# */
-        paramMap.put("loginId", session.getAttribute("loginId")); // 로그인 아이디
-        paramMap.put("userType", session.getAttribute("userType")); // 유저 타입
-        paramMap.put("reg_date", session.getAttribute("reg_date")); // 가입일
+	private final Logger logger = LogManager.getLogger(this.getClass());
+	private final String className = this.getClass().toString();
 
-        logger.info("   - paramMap : " + paramMap);
-
-        logger.info("+ end " + className + ".init");
-
-        return "/ecv/ecvDirectionList";
-    }
-    
-	@RequestMapping("directionListInfo.do")
-	public String getPurchaseDirectionList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+	// 발주 지시서
+	@RequestMapping("purchaseDirec.do")
+	public String purchaseDirecInit(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
 
-		logger.info("+ Start " + className + ".directionListInfo");
+		logger.info("+ Start " + className + ".purchaseDirecInit");
+
+		/* ############## set input data################# */
+		paramMap.put("loginId", session.getAttribute("loginId")); // 로그인 아이디
+		paramMap.put("userType", session.getAttribute("userType")); // 유저 타입
+		paramMap.put("reg_date", session.getAttribute("reg_date")); // 가입일
+
+		logger.info("   - paramMap : " + paramMap);
+
+		logger.info("+ end " + className + ".purchaseDirecInit");
+
+		return "/ecv/ecvPurchaseDirectionList";
+	}
+
+	@RequestMapping("purchaseDirectionListInfo.do")
+	public String getPurchaseDirectionList(Model model, @RequestParam Map<String, Object> paramMap,
+			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+
+		logger.info("+ Start " + className + ".purchaseDirectionListInfo");
 
 		int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재페이지
 		int pageSize = Integer.parseInt((String) paramMap.get("pageSize"));
@@ -75,30 +77,30 @@ public class EcvDirectionController {
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("currentPage", currentPage);
 
-		logger.info("+ end " + className + ".directionListInfo");
+		logger.info("+ end " + className + ".purchaseDirectionListInfo");
 
-		return "/ecv/ecvDirectionInfo";
+		return "/ecv/ecvPurchaseDirectionInfo";
 	}
-	
+
 	@RequestMapping("ecvApprove.do")
 	@ResponseBody
-	public Map<String, String> ecvApprove(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-			HttpServletResponse response, HttpSession session) throws Exception {
-		
-		// paramMap에 있는 SSTcd int형으로 변환해주기
+	public Map<String, String> ecvApprove(Model model, @RequestParam Map<String, Object> paramMap,
+			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+
+		// paramMap에 있는 SSTcd String으로 변환해주기
 		String STTcd = (String) paramMap.get("STTcd");
 		paramMap.put("STTcd", STTcd);
-		
 		paramMap.put("loginId", session.getAttribute("loginId")); // 임원 로그인 아이디
+		logger.info("paramMap : " + paramMap);
 		
 		int mapperResult;
 		String result = "";
 		String resultMsg = "";
-		
+
 		if (STTcd.equals("10")) {
 			logger.info("====== 주문상태를 승인완료(발주)로 변경합니다. ======");
 			mapperResult = ecvDirectionService.updateStateToPurchase(paramMap);
-			
+
 			if (mapperResult == 2) {
 				result = "SUCCESS";
 				resultMsg = "발주요청 승인을 완료하였습니다.";
@@ -109,7 +111,7 @@ public class EcvDirectionController {
 		} else if (STTcd.equals("5")) {
 			logger.info("====== 주문상태를 승인완료(반품)로 변경합니다. ======");
 			mapperResult = ecvDirectionService.updateStateToRefund(paramMap);
-			
+
 			if (mapperResult == 2) {
 				result = "SUCCESS";
 				resultMsg = "반품요청 승인을 완료하였습니다.";
