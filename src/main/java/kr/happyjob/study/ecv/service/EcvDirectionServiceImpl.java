@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.happyjob.study.ecv.dao.EcvDirectionDao;
-import kr.happyjob.study.ecv.model.EcvDeliveryDirectionModel;
 import kr.happyjob.study.ecv.model.EcvPurchaseDirectionModel;
+import kr.happyjob.study.ecv.model.EcvRefundDirectionModel;
 
 @Service
 public class EcvDirectionServiceImpl implements EcvDirectionService {
@@ -27,13 +27,13 @@ public class EcvDirectionServiceImpl implements EcvDirectionService {
 	}
 	
 	@Override
-	public List<EcvDeliveryDirectionModel> getDeliveryDirectionList(Map<String, Object> paramMap) throws Exception {
-		return ecvDirectionDao.selectDeliveryDirectionList(paramMap);
+	public List<EcvRefundDirectionModel> getRefundDirectionList(Map<String, Object> paramMap) throws Exception {
+		return ecvDirectionDao.selectRefundDirectionList(paramMap);
 	}
 	
 	@Override
-	public int getDeliveryDirectionListCnt(Map<String, Object> paramMap) throws Exception {
-		return ecvDirectionDao.selectDeliveryDirectionListCnt(paramMap);
+	public int getRefundDirectionListCnt(Map<String, Object> paramMap) throws Exception {
+		return ecvDirectionDao.selectRefundDirectionListCnt(paramMap);
 	}
 	
 	@Override
