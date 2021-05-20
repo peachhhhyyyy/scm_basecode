@@ -56,14 +56,10 @@ input[type=number]::-webkit-outer-spin-button {
     var pageSizeCart= 5;
     var pageBlockSizeCart = 5;
     
-    /* 장바구니 부분 선택 구매 */
-    var selectedCartItem = document.getElementsByName("selectCartItem");
-    
     /** OnLoad event */ 
 
     $(document).ready(function() {
       fListCart(); // 장바구니 목록 조회
-      
     });
 
     /** 장바구니 조회 */
@@ -112,11 +108,26 @@ input[type=number]::-webkit-outer-spin-button {
       
       console.log($("input[name=qtyCount]"));
       
+      /* 장바구니 수량 변경 */
       var inputList = $("input[name=qtyCount]");
       var inputCnt = $("input[name=qtyCount]").length;
+      
+      /* 장바구니 부분 선택 구매 */
+      var checkedCount = $("input[name='selectCartItem']:checked").length;
+      var checkArr = $("input[name=selectCartItem]");
+      /* 
+      if(checkedCount > 1){
+        $("input[name='selectCartItem']:checked").each(function(e){
+          var value = $(this).val();
+          checkArr.push(value);
+        })
+      }
+      */
+      
       for (i = 0; i < inputCnt; i++) {
         console.log(inputList[i]);
         inputList[i].addEventListener('input', updateValue);
+        checkArr[i].addEventListener('input', checkValue);
       }
     }
     
@@ -137,6 +148,11 @@ input[type=number]::-webkit-outer-spin-button {
 
         callAjax("/ctm/changeQty.do", "post", "json", true, param, resultCallback);
     }
+    
+    function checkValue(e){
+    	console.log("작동2함");
+    }
+    
     
     function fchangeQtyResult(data) {
         var currentPage = $("#currentPageCart").val();
@@ -252,7 +268,7 @@ input[type=number]::-webkit-outer-spin-button {
     function fOrderModal() {
       console.log(orderModal);
       orderModal.open();
-    };
+    };    
         
 </script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/tingle/tingle.js"></script>

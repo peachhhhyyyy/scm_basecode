@@ -27,7 +27,7 @@
 			<!-- 브랜드명 -->
 			<td>${list.product_cd}</td>
 			<!-- 제품코드 -->
-			<td><input id="${list.product_cd}" type="number" name="qtyCount"
+			<td><input id="${list.product_cd}chk" type="number" name="qtyCount"
 				min="1" value="${list.shopping_cart_qty}"
 				style="width: 50px; text-align: right;" /></td>
 			<td id="${list.product_cd}amount"><input
