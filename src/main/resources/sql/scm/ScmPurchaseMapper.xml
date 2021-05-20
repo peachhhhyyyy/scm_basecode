@@ -12,8 +12,10 @@
          ,   SP.supply_nm
          ,   PL.purch_qty
          ,   PL.scm_id
-         ,   PL.direction_date
+         ,   DATE_FORMAT(PL.direction_date, "%Y-%m-%d") as direction_date
          ,   PL.approve_id
+         ,   PD.purchase_price
+         ,   PD.price
       FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_scm_supply as SP
           ON PL.supply_cd = SP.supply_cd
@@ -21,6 +23,27 @@
           ON PL.supply_cd = PD.supply_cd
           LEFT JOIN tb_scm_m_category as MC
           ON MC.m_ct_cd = PD.m_ct_cd
+      <where>
+	      <if test="(sname != null) and (!sname.equals(''))">
+				  <choose>
+				    <when
+				      test="oname eq 'product'.toString()">
+				      and PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+				    </when>
+				    <when test="oname eq 'supply'.toString()">
+				      and SP.supply_nm LIKE CONCAT('%', #{sname}, '%')
+				    </when>
+				    <when test="oname eq 'scm'.toString()">
+				       and PL.scm_id LIKE CONCAT('%', #{sname}, '%')
+				    </when>
+				  </choose>
+				</if>
+        <if test="(date != null) and (!date.equals(''))"> 
+           and (pl.direction_date 
+                BETWEEN DATE_FORMAT((#{date1}), "%Y-%m-%d")
+                    AND DATE_FORMAT((#{date2}), "%Y-%m-%d"));
+        </if>
+      </where>
       ORDER BY purch_list_no DESC
       LIMIT #{pageIndex}, #{pageSize}
   </select>
@@ -36,6 +59,27 @@
           ON PL.supply_cd = PD.supply_cd
           LEFT JOIN tb_scm_m_category as MC
           ON MC.m_ct_cd = PD.m_ct_cd
+      <where>
+        <if test="(sname != null) and (!sname.equals(''))">
+          <choose>
+            <when
+              test="oname eq 'product'.toString()">
+              and PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+            </when>
+            <when test="oname eq 'supply'.toString()">
+              and SP.supply_nm LIKE CONCAT('%', #{sname}, '%')
+            </when>
+            <when test="oname eq 'scm'.toString()">
+               and PL.scm_id LIKE CONCAT('%', #{sname}, '%')
+            </when>
+          </choose>
+        </if>
+        <if test="(date != null) and (!date.equals(''))"> 
+           and (pl.direction_date 
+                BETWEEN DATE_FORMAT((#{date1}), "%Y-%m-%d")
+                    AND DATE_FORMAT((#{date2}), "%Y-%m-%d"));
+        </if>
+      </where>
       ORDER BY purch_list_no DESC
   </select>
 </mapper>
