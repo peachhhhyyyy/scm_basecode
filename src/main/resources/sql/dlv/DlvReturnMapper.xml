@@ -100,22 +100,22 @@
 		          , CUSTOMER.tel AS cus_tel
 		          , CUSTOMER.addr AS cus_addr
 		          , TSRL.scm_name AS scm_name
-		          , TSRL.staff_name AS dlv_name
-		          , TSRL.staff_tel AS dlv_tel
+		          , TSRL.staff_name AS staff_name
+		          , TSRL.staff_tel AS staff_tel
 		          , TSW.warehouse_nm AS warehouse_nm
 		          , TOO.STTcd AS state
 		          , TOO.request AS request
        
    		FROM tb_order AS TOO
 		   LEFT JOIN ( 
-		          SELECT tsrl.order_cd AS order_cd
-		                  , tsrl.refund_list_no AS refund_list_no
+		          SELECT tb_scm_refund_list.order_cd AS order_cd
+		                  , tb_scm_refund_list.refund_list_no AS refund_list_no
 		                  , scm.name AS scm_name
 		                  , staff.name AS staff_name
 		                  , staff.tel AS staff_tel
-		              FROM tb_scm_refund_list AS tsrl
-		              LEFT JOIN tb_userinfo AS scm ON tsrl.scm_id = scm.loginID
-		              LEFT JOIN tb_userinfo AS staff ON tsrl.ship_staff_id = staff.loginID ) AS TSRL
+		              FROM tb_scm_refund_list
+		              LEFT JOIN tb_userinfo AS scm ON tb_scm_refund_list.scm_id = scm.loginID
+		              LEFT JOIN tb_userinfo AS staff ON tb_scm_refund_list.ship_staff_id = staff.loginID ) AS TSRL
 		   ON TOO.order_cd = TSRL.order_cd
 		   
 		   LEFT JOIN(
@@ -153,23 +153,31 @@
            WHERE name = #{selDlvName}
     </select>
     
-    <update id="updateReturnPaper">
+    <update id="updateReturnPaper" parameterType="int">
          UPDATE
             tb_scm_refund_list AS TSRL
                 , tb_order AS OD
             SET
                 <choose>
-                    <when test="state.equals('7')">
-                        OD.STTcd = #{state}
-                    </when>
-                    <otherwise>
+                    <when test='state.equals("6")'>
                         TSRL.ship_staff_id = #{dlvStaffLoginId},
                         TSRL.ship_mng_id = #{mngLoginId},
                         OD.STTcd = #{state}
+                    </when>
+                    <otherwise>
+                        OD.STTcd = #{state}
                     </otherwise>
                 </choose>
-            WHERE OD.order_cd = #{order_cd}
-            AND TSRL.refund_list_no = #{refund_list_no}
-            AND TSRL.order_cd = #{order_cd}
+            WHERE '1'='1'
+            <choose>
+                    <when test='state.equals("6")'>
+                        AND OD.order_cd = #{order_cd}
+			            AND TSRL.refund_list_no = #{refund_list_no}
+			            AND TSRL.order_cd = #{order_cd}
+                    </when>
+                    <otherwise>
+                        AND OD.order_cd = #{order_cd}
+                    </otherwise>
+                </choose>
     </update>
 </mapper>
