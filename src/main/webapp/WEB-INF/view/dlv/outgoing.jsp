@@ -231,7 +231,10 @@
 									<input type="date" name="startDate" id="startDate" style="width: 200px; height: 28px;">
 									<span>~</span>
 									<input type="date" name="endDate" id="endDate" style="width: 200px; height: 28px;">
-                                    <a id="searchEnter" class="btn btnTypeBox" href="javascript:fSearchOrderList(1, $('#STTcd').val(), $('#startDate').val(), $('#endDate').val())">검색</a>
+                                    <a id="searchEnter" 
+                                        class="btn btnTypeBox" 
+                                        href="javascript:fSearchOrderList(1, $('#STTcd').val(), $('#startDate').val(), $('#endDate').val())"
+                                        style="border:1px solid #adb0b5;">검색</a>
                                 </span>
 							</p>
 							<table class="col">
