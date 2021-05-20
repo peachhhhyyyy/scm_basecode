@@ -120,8 +120,8 @@
     // 총 개수 추출
     var totalProduct = $("#totalProduct").val();
     //페이지 네비게이션 생성
-    var supply_nm = $("#supply_nm").val();
-    var supply_cd = $("#supply_cd").val();
+    var supply_nm = $("#tmpsupply_nm").val();
+    var supply_cd = $("#tmpsupply_cd").val();
     
     var paginationHtml = getPaginationHtml(currentPage, totalProduct, 
         pageSizeProduct, pageBlockSizeProduct, 'fListProduct',[supply_nm, supply_cd]);
