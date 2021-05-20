@@ -48,8 +48,6 @@
 				<tr>
 					<td>${bottomList.name_scm}</td>
 					<td>${bottomList.warehouse_nm}</td>
-					<!-- 배송사원설정 -->
-					
 					<!-- 배송 상태에 따른 뷰값 변화 -->
 					<c:choose>
 						<c:when test="${empty bottomList.name_delivery}">
@@ -88,6 +86,14 @@
 						<c:when test="${bottomList.state eq '15'}">
 							<td>
 								<select name="state" disabled style="width: 75px;">
+									<option value="14">배송중</option>
+									<option value="15" selected>배송완료</option>
+								</select>
+		                    </td>
+						</c:when>
+						<c:when test="${bottomList.state eq '14'}">
+							<td>
+								<select name="state" style="width: 75px;">
 									<option value="14">배송중</option>
 									<option value="15" selected>배송완료</option>
 								</select>
