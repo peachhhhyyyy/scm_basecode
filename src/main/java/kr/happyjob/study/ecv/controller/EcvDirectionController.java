@@ -120,14 +120,65 @@ public class EcvDirectionController {
 				resultMsg = "반품요청 승인에 실패하였습니다.";
 			}
 		}
-		
+
 		Map<String, String> resultMap = new HashMap<String, String>();
 		resultMap.put("result", result);
 		resultMap.put("resultMsg", resultMsg);
 		logger.info("resultMap: " + resultMap);
 		logger.info("+ end " + className + ".updateState");
-		
+
 		return resultMap;
 	}
-    
+
+	// 반품 지시서
+	@RequestMapping("refundDirec.do")
+	public String refundDirecInit(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+
+		logger.info("+ Start " + className + ".refundDirecInit");
+
+		/* ############## set input data################# */
+		paramMap.put("loginId", session.getAttribute("loginId")); // 로그인 아이디
+		paramMap.put("userType", session.getAttribute("userType")); // 유저 타입
+		paramMap.put("reg_date", session.getAttribute("reg_date")); // 가입일
+
+		logger.info("   - paramMap : " + paramMap);
+
+		logger.info("+ end " + className + ".refundDirecInit");
+
+		return "/ecv/ecvRefundDirectionList";
+	}
+
+	@RequestMapping("refundDirectionListInfo.do")
+	public String getRefundDirectionList(Model model, @RequestParam Map<String, Object> paramMap,
+			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+
+		logger.info("+ Start " + className + ".refundDirectionListInfo");
+
+		int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재페이지
+		int pageSize = Integer.parseInt((String) paramMap.get("pageSize"));
+		int pageIndex = (currentPage - 1) * pageSize;
+
+		paramMap.put("pageIndex", pageIndex);
+		paramMap.put("pageSize", pageSize);
+		logger.info("paramMap:" + paramMap);
+
+		// 반품지시서 목록
+		List<EcvRefundDirectionModel> refundList = ecvDirectionService.getRefundDirectionList(paramMap);
+		model.addAttribute("refundList", refundList);
+		model.addAttribute("listName", "refund");
+
+		// 반품지시서 목록 갯수 추출
+		int refundListCnt = ecvDirectionService.getRefundDirectionListCnt(paramMap);
+		model.addAttribute("refundListCnt", refundListCnt);
+
+		// 페이징 처리에 사용될 값들
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("currentPage", currentPage);
+
+		logger.info("+ end " + className + ".refundDirectionListInfo");
+
+		return "/ecv/ecvRefundDirectionInfo";
+	}
+
 }
