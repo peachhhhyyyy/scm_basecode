@@ -264,7 +264,7 @@
                                 <a href="#" class="btn_set home">메인으로</a>
                                 <a href="pcsOrderingoOrder.do" class="btn_nav">구매</a>
                                 <span class="btn_nav bold">발주서</span>
-                                <a href="#" class="btn_set refresh">새로고침</a>
+                                <a href="../pcs/pcsOrderForm.do" class="btn_set refresh">새로고침</a>
                             </p>
                             <p class="conTitle">
                                 <span>발주서</span>
