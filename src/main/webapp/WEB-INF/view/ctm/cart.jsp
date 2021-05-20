@@ -115,14 +115,6 @@ input[type=number]::-webkit-outer-spin-button {
       /* 장바구니 부분 선택 구매 */
       var checkedCount = $("input[name='selectCartItem']:checked").length;
       var checkArr = $("input[name=selectCartItem]");
-      /* 
-      if(checkedCount > 1){
-        $("input[name='selectCartItem']:checked").each(function(e){
-          var value = $(this).val();
-          checkArr.push(value);
-        })
-      }
-      */
       
       for (i = 0; i < inputCnt; i++) {
         console.log(inputList[i]);
@@ -150,9 +142,17 @@ input[type=number]::-webkit-outer-spin-button {
     }
     
     function checkValue(e){
-    	console.log("작동2함");
+    	console.log(e.target.value);
+    	var checkedTotal = e.target.value;
+    	var totalAmount = $("#amount").value;
+    	alert(totalAmount);
+    	 if(e.target.checked == true){
+             
+         }else{
+             
+         }
+    		
     }
-    
     
     function fchangeQtyResult(data) {
         var currentPage = $("#currentPageCart").val();
@@ -340,7 +340,7 @@ input[type=number]::-webkit-outer-spin-button {
             </table>
             </div>
             <div class="paging_area"  id="CartPagination"> </div>
-            <div class="amount">
+            <div class="amount" id="amount">
               <fmt:formatNumber type="number" pattern="0"  value="${totalPrice*1.1}" /> 원
             </div>
             <div class="orderBtnContainer">
