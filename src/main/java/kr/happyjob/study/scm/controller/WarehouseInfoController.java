@@ -71,18 +71,16 @@ public class WarehouseInfoController {
     return "scm/listWarehouse";
   }
   
-  //제품 조회
+  // 제품 조회
   @RequestMapping("listWarehouseProduct.do")
-  public String listWarehouseProduct(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-      HttpServletResponse response, HttpSession session) throws Exception{
+  public String listWarehouseProduct(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
     
     logger.info("+ Start " + className + ".listWarehouseProduct");
     logger.info("   - paramMap : " + paramMap);
     
-    
-    int currentPage = Integer.parseInt((String)paramMap.get("currentPage"));  // 현재 페이지 번호
-    int pageSize = Integer.parseInt((String)paramMap.get("pageSize"));      // 페이지 사이즈
-    int pageIndex = (currentPage-1)*pageSize;                 // 페이지 시작 row 번호
+    int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재 페이지 번호
+    int pageSize = Integer.parseInt((String) paramMap.get("pageSize")); // 페이지 사이즈
+    int pageIndex = (currentPage - 1) * pageSize; // 페이지 시작 row 번호
     
     paramMap.put("pageIndex", pageIndex);
     paramMap.put("pageSize", pageSize);
@@ -96,82 +94,75 @@ public class WarehouseInfoController {
     model.addAttribute("totalProduct", totalCount);
     
     model.addAttribute("pageSize", pageSize);
-    model.addAttribute("currentPageProduct",currentPage);
+    model.addAttribute("currentPageProduct", currentPage);
     
     logger.info("+ End " + className + ".listWarehouseProduct");
-    
     
     return "scm/listWarehouseProduct";
   }
   
+  // 창고 저장
+  @RequestMapping("saveWarehouse.do")
+  @ResponseBody
+  public Map<String, Object> saveWarehouse(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+    logger.info("+ Start " + className + ".saveWarehouse");
+    logger.info("   - paramMap : " + paramMap);
+    
+    String action = (String) paramMap.get("action");
+    
+    String result = "SUCCESS";
+    String resultMsg = "";
+    
+    if ("I".equals(action)) {
+      // 창고 등록
+      warehouseInfoService.insertWarehouse(paramMap);
+      resultMsg = "등록 완료";
+    } else if ("U".equals(action)) {
+      // 창고 수정
+      warehouseInfoService.updateWarehouse(paramMap);
+      resultMsg = "수정 완료";
+    } else if ("D".equals(action)) {
+      // 창고 비활성화
+      warehouseInfoService.deactivateWarehouse(paramMap);
+      resultMsg = "비활성화 완료";
+    } /*
+       * else if("R".equals(action)){ //창고 복구 warehouseInfoService.recoveryWarehouse(paramMap); resultMsg = "복원 완료"; }
+       */
+    else {
+      result = "FALSE";
+      resultMsg = "저장 실패";
+    }
+    
+    Map<String, Object> resultMap = new HashMap<String, Object>();
+    resultMap.put("result", result);
+    resultMap.put("resultMsg", resultMsg);
+    
+    logger.info("+ End " + className + ".saveWarehouse");
+    
+    return resultMap;
+  }
   
- //창고 저장
- @RequestMapping("saveWarehouse.do")
- @ResponseBody
- public Map<String, Object> saveWarehouse (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-     HttpServletResponse response, HttpSession session) throws Exception{
-   logger.info("+ Start " + className + ".saveWarehouse");
-   logger.info("   - paramMap : " + paramMap);
-   
-   String action = (String)paramMap.get("action");
-   
-   String result = "SUCCESS";
-   String resultMsg = "";
-   
-   if("I".equals(action)){
-     //창고 등록
-     warehouseInfoService.insertWarehouse(paramMap);
-     resultMsg = "등록 완료";
-   } else if("U".equals(action)){
-     //창고 수정
-     warehouseInfoService.updateWarehouse(paramMap);
-     resultMsg = "수정 완료";
-   } else if("D".equals(action)){
-     //창고 비활성화
-     warehouseInfoService.deactivateWarehouse(paramMap);
-     resultMsg = "비활성화 완료";
-   } /*else if("R".equals(action)){
-     //창고 복구
-     warehouseInfoService.recoveryWarehouse(paramMap);
-     resultMsg = "복원 완료";
-   }*/
-   else{
-     result = "FALSE";
-     resultMsg = "저장 실패";
-   }
-   
-   Map<String, Object> resultMap = new HashMap<String, Object>();
-   resultMap.put("result", result);
-   resultMap.put("resultMsg", resultMsg);
-   
-   logger.info("+ End " + className + ".saveWarehouse");
-   
-   return resultMap;
- }
- //창고 단건 조회
- @RequestMapping("selectWarehouse.do")
- @ResponseBody
- public Map<String, Object> selectWarehouse (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-     HttpServletResponse response, HttpSession session) throws Exception{
-   logger.info("+ Start " + className + ".selectWarehouse");
-   logger.info("   - paramMap : " + paramMap);
-
-   String result = "SUCCESS";
-   String resultMsg = "조회 되었습니다.";
-   
-   WarehouseInfoModel warehouseInfoModel = warehouseInfoService.selectWarehouse(paramMap);
-   
-   Map<String, Object> resultMap = new HashMap<String, Object>();
-   resultMap.put("result", result);
-   resultMap.put("resultMsg", resultMsg);
-   resultMap.put("warehouseInfoModel", warehouseInfoModel);
-   
-   logger.info("+ End " + className + ".selectWarehouse");
-   
-   System.out.println(resultMap);
-   return resultMap;
- }
-  
-  
+  // 창고 단건 조회
+  @RequestMapping("selectWarehouse.do")
+  @ResponseBody
+  public Map<String, Object> selectWarehouse(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+    logger.info("+ Start " + className + ".selectWarehouse");
+    logger.info("   - paramMap : " + paramMap);
+    
+    String result = "SUCCESS";
+    String resultMsg = "조회 되었습니다.";
+    
+    WarehouseInfoModel warehouseInfoModel = warehouseInfoService.selectWarehouse(paramMap);
+    
+    Map<String, Object> resultMap = new HashMap<String, Object>();
+    resultMap.put("result", result);
+    resultMap.put("resultMsg", resultMsg);
+    resultMap.put("warehouseInfoModel", warehouseInfoModel);
+    
+    logger.info("+ End " + className + ".selectWarehouse");
+    
+    System.out.println(resultMap);
+    return resultMap;
+  }
   
 }
