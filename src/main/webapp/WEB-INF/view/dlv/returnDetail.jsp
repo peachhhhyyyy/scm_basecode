@@ -10,8 +10,8 @@
 				<th scope="col">반품번호</th>
 				<th scope="col">품목명</th>
 				<th scope="col">제품명</th>
-				<th scope="col">반품 수량</th>
-				<th scope="col">고객 명</th>
+				<th scope="col">반품수량</th>
+				<th scope="col">고객명</th>
 				<th scope="col">고객연락처</th>
 				<th scope="col">주소</th>
 			</tr>
@@ -22,8 +22,8 @@
 					<td><input name="order_cd" type="hidden" value="${topList.order_cd}"/>${topList.order_cd}</td>
 					<td><input name="refund_list_no" type="hidden" value="${topList.refund_list_no}"/>${topList.refund_list_no}</td>
 					<td>${topList.m_ct_nm}</td>
-					<td>${topList.prod_nm}</td>
-					<td><input name="refund_list_no" type="hidden" value="${topList.refund_cnt}"/>${topList.refund_cnt}</td>
+					<td><input name="prod_nm" type="hidden" value="${topList.prod_nm}"/>${topList.prod_nm}</td>
+					<td><input name="refund_cnt" type="hidden" value="${topList.refund_cnt}"/>${topList.refund_cnt}</td>
 					<td>${topList.cus_name}</td>
 					<td>${topList.cus_tel}</td>
 					<td>${topList.cus_addr}</td>
