@@ -17,6 +17,8 @@ public class ScmPurchaseModel {
   public int purchase_price;
   // 발주총금액
   public int purch_total_amt;
+  // 합계금액
+  public int price;
   // SCM담당자명
   public String scm_id;
   // 발주지시날짜
@@ -64,6 +66,12 @@ public class ScmPurchaseModel {
   }
   public void setPurch_total_amt(int purch_total_amt) {
     this.purch_total_amt = purch_total_amt;
+  }
+  public int getPrice() {
+    return price;
+  }
+  public void setPrice(int price) {
+    this.price = price;
   }
   public String getScm_id() {
     return scm_id;
