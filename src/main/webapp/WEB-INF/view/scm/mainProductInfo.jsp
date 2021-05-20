@@ -91,29 +91,20 @@
     console.log("totalMainProduct: " + totalMainProduct);
     $("#currentPageMainProduct").val(currentPage);
   }
-
-  /* 검색기능*/
-
-  function board_search(currentPage) {
-    $('#listMainProduct').empty();
-    currentPage = currentPage || 1;
-    var sname = $('#sname');
-    var searchKey = document.getElementById("searchKey");
-    var oname = searchKey.options[searchKey.selectedIndex].value;
-
-    var param = {
-    sname : sname.val(),
-    oname : oname,
-    currentPage : currentPage,
-    pageSize : pageSizeMainProduct,
+  
+  /** 제품정보 모달 실행 */
+  function fPopModalMainProduct(product_cd) {
+    //신규 저장
+    if (product_cd == null || product_cd == "") {
+      $("#action").val("I");
+      fInitFormMainProduct();
+      gfModalPop("#layer1");
+    } else {
+      $("#action").val("U");
+      fSelectMainProduct(product_cd);
     }
-
-    var resultCallback = function(data) {
-      flistMainProductResult(data, currentPage);
-    };
-    callAjax("/scm/listMainProduct.do", "post", "text", true, param, resultCallback);
   }
-
+  
   /*제품 상세정보*/
   function fSelectMainProduct(product_cd) {
     var param = {
@@ -141,7 +132,6 @@
   function fInitFormMainProduct(object) {
     $("#product_cd").focus();
     
-    console.log("object :" + JSON.stringify(object));
     if (object == "" || object == null || object == undefined) {
       $("#product_cd").val("");
       $("#prod_nm").val("");
@@ -172,6 +162,72 @@
       $("#btnDeleteMainProduct").show();
     } 
   }
+  
+  /** 제품정보 저장 validation */
+  function fValidateMainProduct() {
+    var chk = checkNotEmpty([ 
+            [ "product_cd", "제품코드를 입력하세요." ] 
+        ]);
+    if (!chk) {
+      return;
+    }
+    return true;
+  }
+  
+  //제품정보 저장
+  function fSaveMainProduct() {
+    //validation 체크
+    if (!fValidateMainProduct()) {
+      return;
+    }
+    var resultCallback = function(data) {
+      console.log(data);
+      fSaveMainProductResult(data);
+    };
+    callAjax("/scm/saveMainProduct.do", "post", "json", true, $("#myForm")
+        .serialize(), resultCallback);
+  }
+  //제품정보 저장 콜백 함수
+  function fSaveMainProductResult(data) {
+    var currentPage = "1";
+    if ($("#action").val() != "I") {
+      currentPage = $("#currentPageMainProduct").val();
+    }
+    if (data.result == "SUCCESS") {
+      alert(data.resultMsg);
+      gfCloseModal();
+      fListMainProduct(currentPage);
+    } else {
+      alert(data.resultMsg);
+    }
+    fInitFormMainProduct();
+  }
+
+  /* 검색기능*/
+
+  function board_search(currentPage) {
+    $('#listMainProduct').empty();
+    currentPage = currentPage || 1;
+    var sname = $('#sname');
+    var searchKey = document.getElementById("searchKey");
+    var oname = searchKey.options[searchKey.selectedIndex].value;
+
+    var param = {
+    sname : sname.val(),
+    oname : oname,
+    currentPage : currentPage,
+    pageSize : pageSizeMainProduct,
+    }
+
+    var resultCallback = function(data) {
+      flistMainProductResult(data, currentPage);
+    };
+    callAjax("/scm/listMainProduct.do", "post", "text", true, param, resultCallback);
+  }
+
+  
+  
+  
 </script>
 </head>
 <body>
@@ -196,7 +252,7 @@
                 <a href="/system/notice.do" class="btn_set home">메인으로</a> <a class="btn_nav">기준 정보</a> <span class="btn_nav bold">제품정보 관리</span> <a href="" class="btn_set refresh">새로고침</a>
               </p>
               <p class="conTitle">
-                <span>제품정보</span> <span class="fr"> <a href="javascript:fSelectMainProduct()" class="btnType blue" name="modal"> <span>신규등록</span>
+                <span>제품정보</span> <span class="fr"> <a href="javascript:fPopModalMainProduct()" class="btnType blue" name="modal"> <span>신규등록</span>
                 </a>
                 </span>
               </p>

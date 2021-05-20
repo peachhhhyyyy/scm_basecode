@@ -40,97 +40,94 @@ public class MainProductInfoController {
     return "scm/mainProductInfo";
   }
   
- //제품 조회
- @RequestMapping("listMainProduct.do")
- public String listWarehouse(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-   
-   logger.info("+ Start " + className + ".listWarehouse");
-   logger.info("   - paramMap : " + paramMap);
-   
-   int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재 페이지 번호
-   int pageSize = Integer.parseInt((String) paramMap.get("pageSize")); // 페이지 사이즈
-   int pageIndex = (currentPage - 1) * pageSize; // 페이지 시작 row 번호
-   
-   paramMap.put("pageIndex", pageIndex);
-   paramMap.put("pageSize", pageSize);
-   
-   // 제품 목록 조회
-   List<MainProductInfoModel> listMainProductModel = mainProductInfoService.listMainProduct(paramMap);
-   model.addAttribute("listMainProductModel", listMainProductModel);
-   
-   // 제품 목록 카운트 조회
-   int totalCount = mainProductInfoService.totalCntMainProduct(paramMap);
-   model.addAttribute("totalMainProduct", totalCount);
-   
-   model.addAttribute("pageSize", pageSize);
-   model.addAttribute("currentPageMainProduct", currentPage);
-   
-   logger.info("+ End " + className + ".listMainProduct");
-   
-   return "scm/listMainProduct";
- }
- 
- // 제품 상세정보 조회
- @RequestMapping("selectMainProduct.do")
- @ResponseBody
- public Map<String, Object> selectMainProduct (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-     HttpServletResponse response, HttpSession session) throws Exception{
-   logger.info("+ Start " + className + ".selectMainProduct");
-   logger.info("   - paramMap : " + paramMap);
-
-   String result = "SUCCESS";
-   String resultMsg = "조회 되었습니다.";
-   
-   MainProductInfoModel mainProductInfoModel = mainProductInfoService.selectMainProduct(paramMap);
-   
-   Map<String, Object> resultMap = new HashMap<String, Object>();
-   resultMap.put("result", result);
-   resultMap.put("resultMsg", resultMsg);
-   resultMap.put("mainProductInfoModel", mainProductInfoModel);
-   
-   logger.info("+ End " + className + ".selectMainProduct");
-   
-   System.out.println(resultMap);
-   return resultMap;
- }
- 
-//제품정보 저장
-@RequestMapping("saveMainProduct.do")
-@ResponseBody
-public Map<String, Object> saveMainProduct (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-    HttpServletResponse response, HttpSession session) throws Exception{
-  logger.info("+ Start " + className + ".saveMainProduct");
-  logger.info("   - paramMap : " + paramMap);
-  
-  String action = (String)paramMap.get("action");
-  
-  String result = "SUCCESS";
-  String resultMsg = "";
-  
-  if("I".equals(action)){
-    // 등록
-    mainProductInfoService.insertMainProduct(paramMap);
-    resultMsg = "등록 완료";
-  } else if("U".equals(action)){
-    // 수정
-    mainProductInfoService.updateMainProduct(paramMap);
-    resultMsg = "수정 완료";
-  } else if("D".equals(action)){
-    // 삭제
-    mainProductInfoService.deleteMainProduct(paramMap);
-    resultMsg = "삭제 완료";
-  } 
-  else{
-    result = "FALSE";
-    resultMsg = "저장 실패";
+  // 제품 조회
+  @RequestMapping("listMainProduct.do")
+  public String listWarehouse(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+    
+    logger.info("+ Start " + className + ".listWarehouse");
+    logger.info("   - paramMap : " + paramMap);
+    
+    int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재 페이지 번호
+    int pageSize = Integer.parseInt((String) paramMap.get("pageSize")); // 페이지 사이즈
+    int pageIndex = (currentPage - 1) * pageSize; // 페이지 시작 row 번호
+    
+    paramMap.put("pageIndex", pageIndex);
+    paramMap.put("pageSize", pageSize);
+    
+    // 제품 목록 조회
+    List<MainProductInfoModel> listMainProductModel = mainProductInfoService.listMainProduct(paramMap);
+    model.addAttribute("listMainProductModel", listMainProductModel);
+    
+    // 제품 목록 카운트 조회
+    int totalCount = mainProductInfoService.totalCntMainProduct(paramMap);
+    model.addAttribute("totalMainProduct", totalCount);
+    
+    model.addAttribute("pageSize", pageSize);
+    model.addAttribute("currentPageMainProduct", currentPage);
+    
+    logger.info("+ End " + className + ".listMainProduct");
+    
+    return "scm/listMainProduct";
   }
   
-  Map<String, Object> resultMap = new HashMap<String, Object>();
-  resultMap.put("result", result);
-  resultMap.put("resultMsg", resultMsg);
+  // 제품 상세정보 조회
+  @RequestMapping("selectMainProduct.do")
+  @ResponseBody
+  public Map<String, Object> selectMainProduct(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+    logger.info("+ Start " + className + ".selectMainProduct");
+    logger.info("   - paramMap : " + paramMap);
+    
+    String result = "SUCCESS";
+    String resultMsg = "조회 되었습니다.";
+    
+    MainProductInfoModel mainProductInfoModel = mainProductInfoService.selectMainProduct(paramMap);
+    
+    Map<String, Object> resultMap = new HashMap<String, Object>();
+    resultMap.put("result", result);
+    resultMap.put("resultMsg", resultMsg);
+    resultMap.put("mainProductInfoModel", mainProductInfoModel);
+    
+    logger.info("+ End " + className + ".selectMainProduct");
+    
+    System.out.println(resultMap);
+    return resultMap;
+  }
   
-  logger.info("+ End " + className + ".saveMainProduct");
-  
-  return resultMap;
-}
+  // 제품정보 저장
+  @RequestMapping("saveMainProduct.do")
+  @ResponseBody
+  public Map<String, Object> saveMainProduct(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+    logger.info("+ Start " + className + ".saveMainProduct");
+    logger.info("   - paramMap : " + paramMap);
+    
+    String action = (String) paramMap.get("action");
+    
+    String result = "SUCCESS";
+    String resultMsg = "";
+    
+    if ("I".equals(action)) {
+      // 등록
+      mainProductInfoService.insertMainProduct(paramMap);
+      resultMsg = "등록 완료";
+    } else if ("U".equals(action)) {
+      // 수정
+      mainProductInfoService.updateMainProduct(paramMap);
+      resultMsg = "수정 완료";
+    } else if ("D".equals(action)) {
+      // 삭제
+      mainProductInfoService.deleteMainProduct(paramMap);
+      resultMsg = "삭제 완료";
+    } else {
+      result = "FALSE";
+      resultMsg = "저장 실패";
+    }
+    
+    Map<String, Object> resultMap = new HashMap<String, Object>();
+    resultMap.put("result", result);
+    resultMap.put("resultMsg", resultMsg);
+    
+    logger.info("+ End " + className + ".saveMainProduct");
+    
+    return resultMap;
+  }
 }
