@@ -200,10 +200,8 @@
 						<jsp:include page="/WEB-INF/view/common/lnbMenu.jsp"></jsp:include>
 					</li>
 					<li class="contents">
-						<!-- contents -->
 						<h3 class="hidden">contents 영역</h3> <!-- content --> <!-- <form> -->
 						<div class="content" style="margin-bottom: 20px;">
-
 							<p class="Location">
 								<a href="../dashboard/dashboard.do" class="btn_set home">메인으로</a>
 								<span class="btn_nav bold">메인</span> <a
@@ -240,7 +238,7 @@
 								<tbody id="outgoingList"></tbody>
 							</table>
 						<div class="paging_area" id="lisOutgoingPagination"></div>
-						</div>
+					</div>
 						<form action="submitDlvInfo.do" method="post">
 						<div class="content">
 							<p class="conTitle">
