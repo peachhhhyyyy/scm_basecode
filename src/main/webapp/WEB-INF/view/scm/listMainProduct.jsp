@@ -12,7 +12,7 @@
       <td>${list.product_cd }</td>
       <td><a href="javascript:fPopModalMainProduct('${list.product_cd}')">${list.prod_nm}</a></td>
       <td>${list.l_ct_nm}</td>
-      <td>${list.supply_nm}</td>
+      <td>${list.m_ct_nm}</td>
       <td>${list.warehouse_nm}</td>
       <td>${list.purchase_price}</td>
       <td>${list.price}</td>

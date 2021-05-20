@@ -15,8 +15,15 @@ public class MainProductInfoModel {
   private String detail;
   private String stock;
   private String file_relative_path;
+  private String m_ct_nm;
   
 
+  public String getM_ct_nm() {
+    return m_ct_nm;
+  }
+  public void setM_ct_nm(String m_ct_nm) {
+    this.m_ct_nm = m_ct_nm;
+  }
   public String getFile_relative_path() {
     return file_relative_path;
   }

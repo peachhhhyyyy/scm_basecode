@@ -6,7 +6,7 @@
 SELECT DISTINCT PD.product_cd as product_cd,
        PD.prod_nm as prod_nm, 
        LC.l_ct_nm as l_ct_nm,
-       SP.supply_nm as supply_nm,
+       MC.m_ct_nm as m_ct_nm,
        WH.warehouse_nm as warehouse_nm,
        PD.purchase_price as purchase_price,
        PD.price as price
@@ -24,8 +24,8 @@ LEFT JOIN tb_scm_warehouse WH ON WH.warehouse_cd = PD.warehouse_cd
         <when test= "(oname eq 'l_ct_nm'.toString())">
             AND LC.l_ct_nm LIKE concat('%', #{sname}, '%')
         </when>
-        <when test= "(oname eq 'supply_nm'.toString())">
-            AND SP.supply_nm LIKE concat('%', #{sname}, '%')
+        <when test= "(oname eq 'm_ct_nm'.toString())">
+            AND MC.m_ct_nm LIKE concat('%', #{sname}, '%')
         </when>  
       </choose>
       </if> 
@@ -49,8 +49,8 @@ LEFT JOIN tb_scm_warehouse WH ON WH.warehouse_cd = PD.warehouse_cd
         <when test= "(oname eq 'l_ct_nm'.toString())">
             AND LC.l_ct_nm LIKE concat('%', #{sname}, '%')
         </when>
-        <when test= "(oname eq 'supply_nm'.toString())">
-            AND SP.supply_nm LIKE concat('%', #{sname}, '%')
+        <when test= "(oname eq 'm_ct_nm'.toString())">
+            AND MC.m_ct_nm LIKE concat('%', #{sname}, '%')
         </when>  
       </choose>
       </if> 
@@ -62,6 +62,7 @@ LEFT JOIN tb_scm_warehouse WH ON WH.warehouse_cd = PD.warehouse_cd
       SELECT PD.product_cd as product_cd,
        PD.prod_nm as prod_nm, 
        LC.l_ct_nm as l_ct_nm,
+       MC.m_ct_nm as m_ct_nm,
        SP.supply_nm as supply_nm,
        PD.purchase_price as purchase_price,
        PD.price as price,

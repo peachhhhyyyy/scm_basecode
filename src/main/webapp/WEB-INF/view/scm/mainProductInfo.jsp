@@ -134,6 +134,7 @@
       $("#product_cd").val("");
       $("#prod_nm").val("");
       $("#l_ct_nm").val("");
+      $("#m_ct_nm").val("");
       $("#supply_nm").val("");
       $("#purchase_price").val("");
       $("#price").val("");
@@ -143,10 +144,12 @@
       $("#thumbnail").val("");
       $("#tempImg").attr("src", "/images/admin/comm/no_image.png");
 
+      $("#btnSaveMainProduct").show();
       $("#btnDeleteMainProduct").hide();
       $("#product_cd").attr("readonly", false);
       $("#prod_nm").attr("readonly", false);
       $("#l_ct_nm").attr("readonly", false);
+      $("#m_ct_nm").attr("readonly", false);
       $("#supply_nm").attr("readonly", false);
       $("#purchase_price").attr("readonly", false);
       $("#price").attr("readonly", false);
@@ -160,6 +163,7 @@
       $("#product_cd").val(object.product_cd);
       $("#prod_nm").val(object.prod_nm);
       $("#l_ct_nm").val(object.l_ct_nm);
+      $("#m_ct_nm").val(object.m_ct_nm);
       $("#supply_nm").val(object.supply_nm);
       $("#purchase_price").val(object.purchase_price);
       $("#price").val(object.price);
@@ -174,6 +178,7 @@
       $("#product_cd").attr("readonly", true);
       $("#prod_nm").attr("readonly", true);
       $("#l_ct_nm").attr("readonly", true);
+      $("#m_ct_nm").attr("readonly", true);
       $("#supply_nm").attr("readonly", true);
       $("#purchase_price").attr("readonly", true);
       $("#price").attr("readonly", true);
@@ -275,7 +280,7 @@
                            <select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
                            <option value="prod_nm">제품명</option>
                            <option value="l_ct_nm">모델명</option>
-                           <option value="supply_nm">공급처명</option>
+                           <option value="m_ct_nm">제조사</option>
                         </select>
                         <input type="text" style="width: 300px; height: 30px;" id="sname" name="sname">
                             <a href="" class="btnType blue" id="searchBtn" name="btn"> 
@@ -299,7 +304,7 @@
                       <th scope="col">제품코드</th>
                       <th scope="col">제품명</th>
                       <th scope="col">모델명</th>
-                      <th scope="col">공급처명</th>
+                      <th scope="col">제조사</th>
                       <th scope="col">창고명</th>
                       <th scope="col">장비구매액(원)</th>
                       <th scopt="col">단가(원)</th>
@@ -339,7 +344,7 @@
                 <td><input type="text" class="inputTxt p100" name="product_cd" id="product_cd" maxlength="11" placeholder="제품코드"/>  
                   </td>
                 <th scope="row" width="100px">제품명 <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100"
+                <td colspan="3"><input type="text" class="inputTxt p100"
                   name="prod_nm" id="prod_nm" maxlength="100" placeholder="제품명"/></td>
         
               </tr>
@@ -352,6 +357,9 @@
                  <th scope="row">모델명<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100" 
                   name="l_ct_nm" id="l_ct_nm" maxlength="50" placeholder="모델명"/></td>
+                  <th scope="row">제조사<span class="font_red">*</span></th>
+                <td><input type="text" class="inputTxt p100" 
+                  name="m_ct_nm" id="m_ct_nm" maxlength="50" placeholder="제조사"/></td>
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
                   name="supply_nm" id="supply_nm" maxlength="100" placeholder="공급처명"/></td>
@@ -361,7 +369,7 @@
                 <td><input type="text" class="inputTxt p100"
                   name="purchase_price" id="purchase_price" maxlength="11" placeholder="장비구매액"/></td>
                 <th scope="row">단가<span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100" 
+                <td colspan="3"><input type="text" class="inputTxt p100" 
                   name="price" id="price" maxlength="11" placeholder="단가"/></td>
               </tr>
               <tr>
@@ -369,12 +377,12 @@
                 <td><input type="text" class="inputTxt p100"
                   name="warehouse_nm" id="warehouse_nm" maxlength="50" placeholder="창고명"/></td>
                 <th scope="row">재고개수<span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100"
+                <td colspan="3"><input type="text" class="inputTxt p100"
                   name="stock" id="stock" maxlength="11" placeholder="제고개수"/></td>
               </tr>
               <tr>
                 <th rowspan="2" scope="row">상세정보 <span class="font_red">*</span></th>
-                <td rowspan="2" colspan = "3"><textarea class = "ui-widget ui-widget-content ui-corner-all" id="detail" maxlength="500" name="detail" 
+                <td rowspan="2" colspan = "5"><textarea class = "ui-widget ui-widget-content ui-corner-all" id="detail" maxlength="500" name="detail" 
                                             style="height:130px;outline:none;resize:none;" placeholder="여기에 상세정보를 적어주세요.(500자 이내)"></textarea></td>
               </tr>
               <tr>
