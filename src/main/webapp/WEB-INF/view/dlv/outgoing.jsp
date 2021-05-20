@@ -204,25 +204,25 @@
 						<div class="content" style="margin-bottom: 20px;">
 							<p class="Location">
 								<a href="../dashboard/dashboard.do" class="btn_set home">메인으로</a>
-								<span class="btn_nav bold">메인</span> <a
-									href="../dashboard/dashboard.do" class="btn_set refresh">새로고침</a>
+								<span class="btn_nav bold">메인</span>
+								<a href="../dashboard/dashboard.do" class="btn_set refresh">새로고침</a>
 							</p>
-								<p class="conTitle" style="display:flex; justify-content: space-between; align-items: center;" >
-									<span>출하계획</span>
-									<!-- 상단 상태, 날짜 조회 부분 -->
-									<span style="width: 590px;">
-									    <select id="STTcd" name="STTcd" style="width: 100px;">
-											<option value="13, 14, 15">전체</option>
-											<option value="13">배송준비</option>
-											<option value="14">배송중</option>
-											<option value="15">배송완료</option>
-										</select>
-										<input type="date" name="startDate" id="startDate" style="width: 200px; height: 28px;">
-										<span>~</span>
-										<input type="date" name="endDate" id="endDate" style="width: 200px; height: 28px;">
-	                                    <a id="searchEnter" class="btn btnTypeBox" href="javascript:fSearchOrderList(1, $('#STTcd').val(), $('#startDate').val(), $('#endDate').val())">검색</a>
-                                    </span>
-								</p>
+							<p class="conTitle" style="display:flex; justify-content: space-between; align-items: center;" >
+								<span>출하계획</span>
+								<!-- 상단 상태, 날짜 조회 부분 -->
+								<span style="width: 590px;">
+								    <select id="STTcd" name="STTcd" style="width: 100px;">
+										<option value="13, 14, 15">전체</option>
+										<option value="13">배송준비</option>
+										<option value="14">배송중</option>
+										<option value="15">배송완료</option>
+									</select>
+									<input type="date" name="startDate" id="startDate" style="width: 200px; height: 28px;">
+									<span>~</span>
+									<input type="date" name="endDate" id="endDate" style="width: 200px; height: 28px;">
+                                    <a id="searchEnter" class="btn btnTypeBox" href="javascript:fSearchOrderList(1, $('#STTcd').val(), $('#startDate').val(), $('#endDate').val())">검색</a>
+                                </span>
+							</p>
 							<table class="col">
 								<thead>
 									<tr>
