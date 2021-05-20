@@ -8,8 +8,8 @@
 			<tr>
 				<th scope="col">주문코드</th>
 				<th scope="col">반품번호</th>
-				<th scope="col">제품명</th>
 				<th scope="col">품목명</th>
+				<th scope="col">제품명</th>
 				<th scope="col">반품 수량</th>
 				<th scope="col">고객 명</th>
 				<th scope="col">고객연락처</th>
@@ -21,8 +21,8 @@
 				<tr>
 					<td><input name="order_cd" type="hidden" value="${topList.order_cd}"/>${topList.order_cd}</td>
 					<td><input name="refund_list_no" type="hidden" value="${topList.refund_list_no}"/>${topList.refund_list_no}</td>
-					<td>${topList.prod_nm}</td>
 					<td>${topList.m_ct_nm}</td>
+					<td>${topList.prod_nm}</td>
 					<td><input name="refund_list_no" type="hidden" value="${topList.refund_cnt}"/>${topList.refund_cnt}</td>
 					<td>${topList.cus_name}</td>
 					<td>${topList.cus_tel}</td>
@@ -47,7 +47,7 @@
 				<tr>
 					<td>${bottomList.scm_name}</td>
 					<c:choose>
-						<c:when test="${empty bottomList.dlv_name}">
+						<c:when test="${empty bottomList.staff_name}">
 							<td>
 								<c:if test="${!empty dlvStaffNameCombo}">
 			                         <select style="width: 75px;" id="getDlvStaffName" name="dlvStaffNameAndLoginId" onchange="javascript:fSelectDlvStaffTel();">
@@ -61,15 +61,24 @@
 							<td id="dlvStaffTel"></td>
 						</c:when>
 						<c:otherwise>
-						  <td>${bottomList.dlv_name}</td>
-						  <td>${bottomList.dlv_tel}</td>
+						  <td>${bottomList.staff_name}</td>
+						  <td>${bottomList.staff_tel}</td>
 						</c:otherwise>
 					</c:choose>
-					<td>${bottomList.warehouse_nm}</td>
+				    <td>${bottomList.warehouse_nm}</td>
+				    <!-- 상태에 따른 콤보박스 조건문 -->
 					<c:choose>
 					   <c:when test="${bottomList.state eq '7'}">
 							<td>
 							   <select name="state" disabled style="width: 81px;">
+									<option value="6" >반품진행중</option>
+									<option value="7" selected>반품완료</option>
+							   </select>
+							</td>
+						</c:when>
+					   <c:when test="${bottomList.state eq '6'}">
+							<td>
+							   <select name="state" style="width: 81px;">
 									<option value="6" >반품진행중</option>
 									<option value="7" selected>반품완료</option>
 							   </select>
