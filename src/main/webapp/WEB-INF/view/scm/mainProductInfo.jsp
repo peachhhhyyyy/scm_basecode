@@ -10,8 +10,8 @@
 <link rel="stylesheet" href="${CTX_PATH}/css/chosen/chosen.css">
 <script src="${CTX_PATH}/js/chosen/chosen.jquery.js"></script>
 <script type="text/javascript">
- /*제품정보 페이징 처리*/
-
+ 
+  /*제품정보 페이징 처리*/
   var pageSizeMainProduct = 10;
   var pageBlockSizeMainProduct = 5;
 
@@ -30,7 +30,6 @@
   });
 
   /** 버튼 이벤트 등록 */
-
   function fRegisterButtonClickEvent() {
     $('a[name=btn]').click(function(e) {
       e.preventDefault();
@@ -54,7 +53,6 @@
   }
 
   /* 제품 조회*/
-
   function fListMainProduct(currentPage) {
     currentPage = currentPage || 1;
     var sname = $('#sname');
@@ -74,8 +72,8 @@
     }
     callAjax("/scm/listMainProduct.do", "post", "text", true, param, resultCallback);
   }
+  
   /* 제품 조회 콜백 함수*/
-
   function flistMainProductResult(data, currentPage) {
     //alert(data);
     console.log(data);
@@ -91,7 +89,7 @@
     console.log("totalMainProduct: " + totalMainProduct);
     $("#currentPageMainProduct").val(currentPage);
   }
-  
+
   /** 제품정보 모달 실행 */
   function fPopModalMainProduct(product_cd) {
     //신규 저장
@@ -104,7 +102,7 @@
       fSelectMainProduct(product_cd);
     }
   }
-  
+
   /*제품 상세정보*/
   function fSelectMainProduct(product_cd) {
     var param = {
@@ -117,7 +115,7 @@
 
     callAjax("/scm/selectMainProduct.do", "post", "json", true, param, resultCallback);
   }
-  
+
   /*제품 상세정보 콜백 함수*/
   function fSelectMainProductResult(data) {
     if (data.result == "SUCCESS") {
@@ -127,11 +125,11 @@
       alert(data.resultMsg);
     }
   }
-  
+
   /* 제품 상세정보 폼 초기화 */
   function fInitFormMainProduct(object) {
     $("#product_cd").focus();
-    
+
     if (object == "" || object == null || object == undefined) {
       $("#product_cd").val("");
       $("#prod_nm").val("");
@@ -144,7 +142,7 @@
       $("#detail").val("");
       $("#thumbnail").val("");
       $("#tempImg").attr("src", "/images/admin/comm/no_image.png");
-      
+
       $("#btnDeleteMainProduct").hide();
       $("#product_cd").attr("readonly", false);
       $("#prod_nm").attr("readonly", false);
@@ -158,7 +156,7 @@
       $("#thumbnail").attr("readonly", false);
       $("#tempImg").attr("readonly", false);
       $("#thumbnail").show();
-    } else{
+    } else {
       $("#product_cd").val(object.product_cd);
       $("#prod_nm").val(object.prod_nm);
       $("#l_ct_nm").val(object.l_ct_nm);
@@ -170,7 +168,7 @@
       $("#detail").val(object.detail);
       $("#thumbnail").val("");
       $("#tempImg").attr("src", object.file_relative_path);
-      
+
       $("#btnSaveMainProduct").hide();
       $("#btnDeleteMainProduct").show();
       $("#product_cd").attr("readonly", true);
@@ -184,20 +182,18 @@
       $("#detail").attr("readonly", true);
       $("#thumbnail").hide();
 
-    } 
+    }
   }
-  
+
   /** 제품정보 저장 validation */
   function fValidateMainProduct() {
-    var chk = checkNotEmpty([ 
-            [ "product_cd", "제품코드를 입력하세요." ] 
-        ]);
+    var chk = checkNotEmpty([ [ "product_cd", "제품코드를 입력하세요." ] ]);
     if (!chk) {
       return;
     }
     return true;
   }
-  
+
   //제품정보 저장
   function fSaveMainProduct() {
     //validation 체크
@@ -208,8 +204,7 @@
       console.log(data);
       fSaveMainProductResult(data);
     };
-    callAjax("/scm/saveMainProduct.do", "post", "json", true, $("#myForm")
-        .serialize(), resultCallback);
+    callAjax("/scm/saveMainProduct.do", "post", "json", true, $("#myForm").serialize(), resultCallback);
   }
   //제품정보 저장 콜백 함수
   function fSaveMainProductResult(data) {
@@ -228,7 +223,6 @@
   }
 
   /* 검색기능*/
-
   function board_search(currentPage) {
     $('#listMainProduct').empty();
     currentPage = currentPage || 1;
@@ -248,10 +242,6 @@
     };
     callAjax("/scm/listMainProduct.do", "post", "text", true, param, resultCallback);
   }
-
-  
-  
-  
 </script>
 </head>
 <body>
@@ -420,7 +410,7 @@
                                    
                                    
                                    //이미지를 캔버스에 그리기
-                                   canvasContext.drawImage(this, 0, 0, 400, 400);
+                                   canvasContext.drawImage(this, 0, 0, 300, 300);
                                    //캔버스에 그린 이미지를 다시 data-uri 형태로 변환
                                    var dataURI = canvas.toDataURL("image/jpeg");
                                    
