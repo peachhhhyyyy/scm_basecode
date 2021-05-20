@@ -40,7 +40,18 @@
 				<th>창고명</th>
 				<th>반품수량</th>
 				<th>반품금액</th>
-				<th>승인 요청</th>
+				<c:choose>
+					<c:when test="${refundDetail.STTcd eq 3}">
+						<th>승인</th>
+					</c:when>
+					<c:when test="${refundDetail.STTcd eq 7}">
+						<th>승인자</th>
+					</c:when>
+					<c:otherwise>
+						<th>상태</th>
+					</c:otherwise>
+				</c:choose>
+
 			</tr>
 		</thead>
 		<tbody>
@@ -51,10 +62,21 @@
 				<td>${refundDetail.warehouseName}</td>
 				<td>${refundDetail.refundCount}</td>
 				<td>${refundDetail.refundAmount}</td>
-				<td style="display: flex; justify-content: space-around; align-items:center;">
-					<a class="btnType3 color2" href="javascript:requestApprove();">승인 요청</a>
-					<a class="btnType3 color1" href="javascript:closeRefundDetail();">닫기</a>
-				</td>
+				<c:choose>
+					<c:when test="${refundDetail.STTcd eq 3}">
+						<td style="display: flex; justify-content: space-around; align-items:center;">
+							<a class="btnType3 color2" href="javascript:requestApprove();">승인 요청</a>
+							<a class="btnType3 color1" href="javascript:closeRefundDetail();">닫기</a>
+						</td>
+					</c:when>
+					<c:when test="${refundDetail.STTcd eq 7}">
+						<td>${refundDetail.approver}</td>
+					</c:when>
+					<c:otherwise>
+						<c:set var="state" value="${refundDetail.state}"/>
+						<td>${fn:substring(state, 0, 4)}</td>
+					</c:otherwise>
+				</c:choose>
 			</tr>
 		</tbody>
 	</table>
@@ -63,4 +85,8 @@
 	</div>
 </c:if>
 <!-- 이거 중간에 있으면 table 안먹힘  -->
-<input type="hidden" id="" name="" value="" />
+<form id="refundForm">
+	<input type="hidden" name="orderCode" value="${refundDetail.orderCode}" />
+	<input type="hidden" name="refundDirectionDate" value="${refundDetail.refundDirectionDate}" />
+	<input type="hidden" name="STTcd" value="${refundDetail.STTcd}"/>
+</form>
