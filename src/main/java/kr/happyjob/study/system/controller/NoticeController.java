@@ -48,13 +48,13 @@ public class NoticeController {
 		return "system/notice";
 	}
 	
-	// 공지사항 목록 조회
+	// 공지사항 목록 조회(기본, 검색)
 	@RequestMapping(value="notice.do", method=RequestMethod.POST)
 	public String selectNotice(@RequestParam Map<String, Object> param, Model model)throws Exception {
 	  
 	  System.out.println("공지사항 목록 조회 파라미터: " + param);
 	  
-	  // 현재 페이지 정보
+	  // 현재 페이지 번호
 	  int currentPage = Integer.parseInt((String) param.get("currentPage"));
 	  
 	  // 한 페이지에 보일 로우의 개수
@@ -63,13 +63,33 @@ public class NoticeController {
 	  // 페이지 시작 로우 번호
 	  int pageIndex = (currentPage - 1) * pageSize;
 	  
-	  // 총 로우의 개수
-	  int totalCount = noticeService.countNoticeList();
-	  
-	  System.out.println("총로우개수 확인" + totalCount);
-	  
 	  param.put("pageIndex", pageIndex);
 	  param.put("pageSize", pageSize);
+	  
+	  // 총 로우의 개수
+//	  int totalCount = noticeService.countNoticeList();
+	  int totalCount;
+	  
+	  // 검색어 유무 확인
+	  if(!param.containsKey("opton")) {
+	    totalCount = noticeService.countNoticeList();
+	  }
+	  else {
+	    
+	    String option = (String) param.get("option");
+      String keyword = (String) param.get("keyword");
+      String formerDate = (String) param.get("formerDate");
+      String latterDate = (String) param.get("latterDate");
+      
+      param.put("option", option);
+      param.put("keyword", keyword);
+      param.put("formerDate", formerDate);
+      param.put("latterDate", latterDate);
+      
+      totalCount = noticeService.countConditionList();
+	    
+	  }
+	  
 	  
 	  List<NoticeModel> noticeList = noticeService.selectNoticeList(param); 
 	  
@@ -82,40 +102,11 @@ public class NoticeController {
 	  return "/system/noticeList";
 	}
 	
-	// 공지사항 리스트 출력
-//	@RequestMapping("noticeList.do")
-//	public String noticeList(Model model, @RequestParam Map<String, Object> paramMap, 
-//			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-//		
-//		logger.info("   - paramMap : " + paramMap);
-//		String title = (String) paramMap.get("title");
-//		
-//		int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재페이지
-//	    int pageSize = Integer.parseInt((String) paramMap.get("pageSize"));
-//	    int pageIndex = (currentPage - 1) * pageSize;
-//		
-//		paramMap.put("pageIndex", pageIndex);
-//		paramMap.put("pageSize", pageSize);
-//		paramMap.put("title", title);
-//		
-//		// 공지사항 목록 조회
-//		List<NoticeModel> noticeList = noticeService.noticeList(paramMap);
-//		model.addAttribute("notice", noticeList);
-//		
-//		// 목록 수 추출해서 보내기
-//		int noticeCnt = noticeService.noticeCnt(paramMap);
-//		
-//	    model.addAttribute("noticeCnt", noticeCnt);
-//	    model.addAttribute("pageSize", pageSize);
-//	    model.addAttribute("currentPage",currentPage);
-//	    
-//	    return "system/noticeList";
-//	}
 	
 	// 공지사항 작성
 	@ResponseBody
 	@RequestMapping(value="writeNotice.do", method=RequestMethod.POST)
-	public int writeNotice(@RequestParam Map<String, Object> param) throws Exception {
+	public int insertNotice(@RequestParam Map<String, Object> param) throws Exception {
 	  System.out.println("공지사항 작성 parameter확인:" + param);
 	  
 	  int auth = Integer.parseInt((String) param.get("auth"));
@@ -127,6 +118,56 @@ public class NoticeController {
 	  
 	  return result;
 	}
+	
+	// 공지사항 단건 조회
+	@ResponseBody
+	@RequestMapping(value="detailNotice.do", method=RequestMethod.POST)
+	public NoticeModel selectDetailNotice(@RequestParam Map<String, Object> param) throws Exception {
+//	  public NoticeModel selectDetailNotice(@RequestParam Map<String, Object> notice_id) {
+	  
+	  int notice_id = Integer.parseInt((String) param.get("notice_id"));
+	  
+	  System.out.println("nitic_id확인:" + notice_id);
+	  
+	  // 조회수 증가
+	  int updateViewCount = noticeService.updateViewCount(param);
+	  
+	  NoticeModel notice;
+	  
+	  if(updateViewCount == 1) {
+	    notice = noticeService.selectNoticeDetail(notice_id);
+	  } else {
+	    log.info("조회수 증가 실패");
+	    return null;
+	  }
+	  
+	  return notice;
+	}
+	
+	// 공지사항 수정
+	@ResponseBody
+	@RequestMapping(value="modifyNotice.do", method=RequestMethod.POST)
+	public int updateNotice(@RequestParam Map<String, Object> param) throws Exception {
+// 파라미터를 int가 아니라 map으로 던져보자
+	  int auth = Integer.parseInt((String)param.get("auth"));
+	  param.put("auth", auth);
+	  
+	  int result = noticeService.updateNotice(param);
+	  
+	  return result;
+	}
+	
+	// 공지사항 삭제
+	@ResponseBody
+	@RequestMapping(value="deleteNotice.do", method=RequestMethod.POST)
+	public int deleteNotice(@RequestParam Map<String, Object> param) throws Exception {
+	  
+	  int result = noticeService.deleteNotice(param);
+	  
+	  return result;
+	}
+	
+	
 	
 	// 공지사항 상세 조회
 //	@RequestMapping("detailNotice.do")

@@ -22,11 +22,33 @@ public class NoticeServiceImpl implements NoticeService {
 	  return noticeDao.selectNoticeList(param);
 	}
 
-	//공지사항 목록 총 개수 조회
+	// 공지사항 목록 총 개수 조회
 	@Override
 	public int countNoticeList() throws Exception {
 	  // TODO Auto-generated method stub
 	  return noticeDao.countNoticeList();
+	}
+	
+  // 공지사항 검색 목록 총 개수 조회
+	@Override
+	public int countConditionList() throws Exception {
+	  // TODO Auto-generated method stub
+	  return noticeDao.countConditionList();
+	}
+	
+	
+  // 공지사항 단건 조회	
+	@Override
+	public NoticeModel selectNoticeDetail(int notice_id) throws Exception {
+	  // TODO Auto-generated method stub
+	  return noticeDao.selectNoticeDetail(notice_id);
+	}
+
+	// 공지사항 조회수 증가
+	@Override
+	public int updateViewCount(Map<String, Object> param) throws Exception {
+	  // TODO Auto-generated method stub
+	  return noticeDao.updateViewCount(param);
 	}
 
 	// 공지사항 작성
@@ -35,6 +57,22 @@ public class NoticeServiceImpl implements NoticeService {
     // TODO Auto-generated method stub
     return noticeDao.insertNotice(param);
   }
+ 
+  // 공지사항 수정
+  @Override
+  public int updateNotice(Map<String, Object> param) throws Exception {
+    // TODO Auto-generated method stub
+    return noticeDao.updateNotice(param);
+  }
+  
+  // 공지사항 삭제
+  @Override
+  public int deleteNotice(Map<String, Object> param) throws Exception {
+    // TODO Auto-generated method stub
+    return noticeDao.deleteNotice(param);
+  }
+
+
 
 //
 //	@Override

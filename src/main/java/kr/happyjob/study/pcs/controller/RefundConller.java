@@ -51,11 +51,12 @@ public class RefundConller {
     // 페이지 시작 로우 번호
     int pageIndex = (currentPage - 1) * pageSize; 
     
+    param.put("pageIndex", pageIndex);
+    param.put("pageSize", pageSize);
+
     // 총 로우의 개수
     int totalCount;
     
-    param.put("pageIndex", pageIndex);
-    param.put("pageSize", pageSize);
     
     // 검색어 유무 확인
     if(!param.containsKey("option")) {

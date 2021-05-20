@@ -3,7 +3,7 @@
 
 <mapper namespace="kr.happyjob.study.system.dao.NoticeDao">
   
-  <!-- 공지사항 목록 조회 -->
+  <!-- 공지사항 목록 조회(기본, 검색) -->
   <select id="selectNoticeList" resultType="kr.happyjob.study.system.model.NoticeModel">
     
     SELECT 
@@ -13,19 +13,50 @@
            DATE_FORMAT(date, '%Y-%m-%d') as date,
            view_cnt,
            auth
-      FROM tb_scm_notice
+      FROM tb_scm_notice 
   ORDER BY notice_id DESC
      LIMIT #{pageIndex}, #{pageSize}  
                
   </select>
   
-  <!-- 공지사항 목록 총 개수 조회 -->
+  <!-- 공지사항 목록(기본) 총 개수 조회 -->
   <select id="countNoticeList" resultType="int">
   
     SELECT COUNT(notice_id)
       FROM tb_scm_notice
   
   </select>
+  
+  <!-- 공지사항 목록(검색) 총 개수 조회 -->
+  <select id="countConditionList" resultType="int">
+  
+    
+  
+  </select>
+  
+  <!-- 공지사항 단건 조회 -->
+  <select id="selectNoticeDetail" resultType="kr.happyjob.study.system.model.NoticeModel" parameterType="int">
+  
+    SELECT notice_id, 
+           title,
+           content,
+           DATE_FORMAT(date, '%Y-%m-%d %H:%m') as date,
+           auth
+      FROM
+           tb_scm_notice
+     WHERE 
+           notice_id = #{notice_id}
+  
+  </select>
+  
+  <!-- 조회수 증가 -->
+  <update id="updateViewCount">
+  
+    UPDATE tb_scm_notice
+       SET view_cnt = view_cnt + 1 
+     WHERE notice_id = #{notice_id}
+     
+  </update>
   
   <!-- 공지사항 작성(일단, 파일 경로 제외하고 작성) -->
   <insert id="insertNotice" parameterType="java.util.Map">
@@ -36,8 +67,22 @@
                 (#{title}, #{content}, NOW(),0, #{auth})
   
   </insert>  
- 
   
+  <!-- 공지사항 수정 -->
+  <update id="updateNotice">
+    UPDATE tb_scm_notice
+       SET 
+           title = #{title},
+           content = #{content},
+           auth = #{auth}
+     WHERE notice_id = #{notice_id}
+  </update>
+  
+  <!-- 공지사항 삭제 -->
+  <delete id="deleteNotice">
+    DELETE FROM tb_scm_notice
+          WHERE notice_id = #{notice_id}
+  </delete>
 
 </mapper>
 

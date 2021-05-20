@@ -13,10 +13,10 @@
  pointer-events: none;
 }
 
-/* 모달 닫기 */
-#close-modal{
-  display:"none"
-  }
+/* 글 수정 첨부파일 */
+.display_none {
+ display: none;
+}
 </style>
 <script type="text/javascript">
 
@@ -39,7 +39,10 @@
     var keyword = $('#keyword').val();
     console.log('옵션:', option);
     console.log('키워드:', keyword)
-    var date = $("#datetimepicker1").find("input").val()
+    var formerDate = $("#datetimepicker1").find("input").val();
+    var latterDate = $("#datetimepicker3").find("input").val()
+    
+    console.log('전:', formerDate, '후', latterDate);
     
     // datepicker설정
      $(function() {
@@ -56,16 +59,12 @@
         });
         
         $("#datetimepicker1").on("change.datetimepicker", function(e) {
+          // 이 코드 지우기
           var date = $("#datetimepicker1").find("input").val()
-          console.log('날짜확인', date)
+          console.log('날짜확인1', date)
           $('#datetimepicker2').datetimepicker('minDate', e.date);
         });
         
-        $("#datetimepicker1").on("change.datetimepicker", function(e) {
-          var date = $("#datetimepicker1").find("input").val()
-          console.log('날짜확인', date)
-          $('#datetimepicker2').datetimepicker('minDate', e.date);
-        });
         
         //
         $('#datetimepicker3').datetimepicker({
@@ -81,7 +80,7 @@
         
         $("#datetimepicker3").on("change.datetimepicker", function(e) {
           var date = $("#datetimepicker3").find("input").val()
-          console.log('날짜확인', date)
+          console.log('날짜확인3', date)
           $('#datetimepicker4').datetimepicker('minDate', e.date);
         });
         
@@ -92,13 +91,14 @@
 
     console.log("currentPage : " + currentPage);
 
-    if (keyword || date) {
+    if (keyword || formerDate || latterDate) {
       console.log('검색어있음, 현재페이지:', currentPage, pageSize)
       
       var param = {
       option : option,
       keyword : keyword,
-      date : date,
+      formerDate : formerDate,
+      latterDate : latterDate,
       currentPage : currentPage,
       pageSize : pageSize
       }
@@ -113,8 +113,8 @@
 
     }
 
-    var resultCallback = function(data) {
-      selectListCallBack(data, currentPage);
+    var resultCallback = function(result) {
+      selectListCallBack(result, currentPage);
     };
 
     //Ajax실행 방식
@@ -147,159 +147,62 @@
     $("#currentPageCod").val(currentPage);
   }
 
-  /* 공지사항 단건 조회 모달  */
-  function fadeInModal(refund_list_no) {
-    
-    // 신규 저장
-    if (refund_list_no === null || refund_list_no === 0) {
-      // Tranjection type 설정
-      $("#action").val("I");
-      
-      // 공지사항 모달 초기화
-      initModal();
-      
-      // 모달 팝업
-      gfModalPop("#layer1");
-      
-    } else {
-      // Tranjection type 설정
-      $("#action").val("U");
-    }
-    // 반품서 단건 조회
-    selectDetail(refund_list_no);
-  }
-
-  /* 반품서 단건 조회 함수 */
-  // fSelectGrpCodResult 참고
-  function selectDetail(refund_list_no) {
-    console.log('단건 조회 호출!!', refund_list_no);
-    var param = {
-      refund_list_no : refund_list_no
-    };
-
-    /* 반품서 단건 조회 콜백 함수 */
-    var resultCallback = function(data) {
-      console.log('콜백:', data);
-      selectDetailCallBack(data);
-    };
-
-    //callAjax("/pcs/refund/one.do", "post", "text", true, param, resultCallback);
-    callAjax("/pcs/refund/detail.do", "post", "json", true, param, resultCallback);
-  }
-
-  // 반품서 단건 조회  데이터 설정 함수 호출 
-  // fSelectGrpCodResult참고
-  function selectDetailCallBack(data) {
-    gfModalPop("#layer1");
-    initModal(data);
-  }
-
-  /* 반품서 모달 초기화,데이터 설정 함수 */
-  // fInitFormGrpCod 참고
-  function initModal(object) {
-
-    if (object == "" || object == null || object == undefined) {
-
-      $("#purch_list_no").val("");
-      $("#supply_nm").val("");
-      $("#supply_cd").val("");
-      $("#m_ct_cd").val("");
-      $("#m_ct_cd").val("");
-      $("#product_cd").val("");
-      $("#prod_nm").val("");
-      $("#return_qty").val("");
-      $("#return_price").val("");
-      $("#warehouse_cd").val("");
-      $("#addr").val("");
-      $("#return_mng_id").val("");
-      $("#purch_date").val("");
-      $("#desired_delivery_date").val("");
-
-    } else {
-
-      $("#purch_list_no").val(object.purch_list_no);
-      $("#supply_nm").val(object.supply_nm);
-      $("#supply_cd").val(object.supply_cd);
-      $("#m_ct_cd").val(object.m_ct_cd);
-      $("#product_cd").val(object.product_cd);
-      $("#prod_nm").val(object.prod_nm);
-      $("#return_qty").val(object.return_qty);
-      $("#return_price").val(object.return_price);
-      $("#warehouse_cd").val(object.warehouse_cd);
-      $("#addr").val(object.addr);
-      $("#return_mng_id").val(object.return_mng_id);
-      $("#purch_date").val(object.purch_date);
-      $("#desired_delivery_date").val(object.desired_delivery_date);
-
-    }
-
-  }
-
-  /* 반품 완료 처리 */
-  function insertReturnDate(purch_list_no) {
-    purch_list_no = parseInt(purch_list_no);
-
-    var param = {
-      purch_list_no : purch_list_no
-    }
-
-    function resultCallback(data) {
-      if (data === 1) {
-        window.location.reload();
-      } else {
-        alert('서버에서 에러가 발생했습니다.');
-
-      }
-    }
-    callAjax("/pcs/refund/returndate.do", "post", "json", true, param, resultCallback);
-
-  }
   
-  /* 공지사항 작성  모달 활성화 함수 */
-  function fadeInModal() {
-    // 그룹코드 폼 초기화
-    initModal();
-    
+
+  
+  /* 공지사항 작성, 수정  모달 활성화 함수 */
+  /* 작성, 수정 여부에 따라 첨부파일이 변경되니 주의 html도 분기처리*/
+  function fadeInWriteModal() {
+    // 모달 초기화
+    initWriteModal();
     // 모달 팝업
     gfModalPop("#layer1");
     
+  }
+  
+  /* 공지사항 작성 모달 초기화 */
+  function initWriteModal() {
+    var title = $('#write_title').val();
+    
+    if(title) {
+      $('#write_title').val('');
+      $('#write_content').val('');
+      $('#write_auth').val('0');
+    }
   }
     
     /* 공지사항 글 작성  함수 */
     function writeNotice() {
       
       // 제목, 내용이 입력되었는지 확인
-      var title = $('#title').val();
-      var content = $('#content').val();
-      var auth = $('#auth').val();
+      var title = $('#write_title').val();
+      var content = $('#write_content').val();
+      var auth = $('#write_auth').val();
       console.log('타이틀:', title, '내용',content,'권한', auth);
       
       // 날짜 추가
-      // var date = moment();
-     // date = date.format('YYYY-MM-DD');
       
-     // console.log('글작성일확인:', date);
       
       // 파일 경로 추가 예정
       
-      if(title === '') {
+      if(title == '') {
         
         alert('제목을  입력해주세요');
-        $('#title').focus();
+        $('#write_title').focus();
         return false;
         
       } 
-      else if(content === '') {
+      else if(content == '') {
         
         alert('내용을  입력해주세요');
-        $('#content').focus();
+        $('#write_content').focus();
         return false;
       } 
       
       // 콜백 함수
-      function resultCallback(data) {
-        console.log('글작성 반환값 확인:', data)
-        if(data === 1) {
+      function resultCallback(result) {
+        console.log('글작성 반환값 확인:', result)
+        if(result == 1) {
           
           window.location.reload();
         } 
@@ -320,10 +223,205 @@
       callAjax("/system/writeNotice.do", "post", "json", true, param, resultCallback);
     };
     
+    /* 공지사항 단건 조회 함수 */
+    function selectDetail(notice_id, identifier) {
+      console.log('???', notice_id)
+      console.log('identifier확인:', identifier)
+      var param = notice_id;
+      //console.log('타입확인.num은 아님:',typeof(param));
+      // 숫자로 형변환
+      //param = Number(param);
+      param = {
+          notice_id : notice_id
+      }
+     
+            
+      /* 공지사항 단건 조회 콜백 함수  */
+      function resultCallback(result) {
+        console.log('단건조회 콜백 호출', result);
+        // 첨부파일 다운로드 버튼도 있어야 함 -> 이건 처음이니 조사 필요
+       // gfModalPop("#layer2");
+        
+        if(identifier == undefined) {
+          // 공지사항  작성 모달
+          gfModalPop("#layer2");
+          initDetailModal(result);
+        
+        }
+        else {
+          console.log('글수정 콜백 호출')
+        // 공지사항 수정 모달 
+          gfModalPop("#layer1");
+        // 이 부분이 변경되어야 함
+          initModifyModal(result);
+        
+        }
+       
+        
+      }
+      
+      callAjax("/system/detailNotice.do", "post", "json", true, param, resultCallback);
+    }
+    
+    /* 공지사항 단건 조회 모달 초기화,데이터 설정 함수 */
+    // fInitFormGrpCod 참고
+    function initDetailModal(result) {
+      
+      if (result == "" || result == null || result == undefined) {
+        $("#detail_title").val('');
+        $("#detail_date").val('');
+        $("#detail_content").val('');
+        
+      } else {
+        $('#detail_notice_id').val(result.notice_id);
+        // 모달에 값 설정하기
+        $("#detail_title").val(result.title);
+        $("#detail_date").text(result.date);
+        $("#detail_content").val(result.content);
+      }
+
+    }
+    
+    
+    /* 공지사항 단건 조회 모달  */
+    function fadeInDetailModal(notice_id) {
+      
+      // 신규 저장
+      if (notice_id == null || notice_id == 0) {
+        // Tranjection type 설정
+        $("#action").val("I");
+        
+        // 공지사항 모달 초기화
+        initDetailModal();
+        
+        // 모달 팝업
+        gfModalPop("#layer2");
+        
+      } else {
+        // Tranjection type 설정
+        $("#action").val("U");
+      }
+      // 공지사항 단건 조회
+       selectDetail(notice_id);
+    }
+
+    
     /* 모달 닫기 */
     function fadeOutModal() {
       $('#mask').hide();
       $('.layerPop').hide();
+    }
+    
+    
+    /* 공지사항 수정 모달 호출 함수 */
+    function modifyNoticeModal() {
+      
+      // 단건 조회 모달 닫기
+      fadeOutModal();
+      fadeInWriteModal();
+      
+      // 글작성 모달 활성화
+      // 글작성의 첨부파일이 안 보이게 클래스 변경
+      $('#add_file').addClass('display_none');
+      $('#writeNoticeButton').addClass('display_none');
+      $('#modifyNoticeButton').removeClass('display_none');
+      $('#modify_file').removeClass('display_none');
+      $('#deleteNoticeButton').removeClass('display_none')
+      
+      // 해당 글의 notice_id로 글 내용 읽어오기
+      // 저장, 삭제, 취소 버튼 3가지
+      
+      var notice_id = $('#detail_notice_id').val();
+      
+      // 글 수정을 식별하기 위한 식별 변수
+      var identifier = 'm';
+      console.log('notice_id는?', notice_id)
+      
+      // 공지사항 단건 조회
+      selectDetail(notice_id, identifier);
+      
+     
+    }
+    
+    /* 공지사항 수정 모달 */
+    function initModifyModal(result) {
+      console.log('initModifyModal 호출', result);
+      
+      if(result) {
+        //$('#detail_notice_id').val(result.notice_id);
+        // 모달에 값 설정하기
+        $("#write_title").val(result.title);
+        $("#write_content").text(result.content);
+        $("#write_auth").val(result.auth);
+      }
+      else {
+        alert('서버에서 에러가 발생했습니다');
+      }
+    }
+    
+    /* 공지사항 수정 함수*/
+    function modifyNotice() {
+      var notice_id = $('#detail_notice_id').val();
+      console.log('수정할 글번호 확인:', notice_id);
+      var title =  $("#write_title").val();
+      var content =  $("#write_content").val();
+      var auth =  $("#write_auth").val();
+      
+      param = {
+          notice_id : notice_id,
+          title : title,
+          content: content,
+          auth: auth
+      }
+      
+      function resultCallback(result) {
+        if(result == 1){
+          window.location.reload();
+        } 
+        else {
+          alert('서버에서 에러가 발생했습니다.')
+        }
+      }
+      
+      callAjax("/system/modifyNotice.do", "post", "text", true, param, resultCallback);
+      
+    }
+    
+    /* 공지사항 삭제 함수 */
+    function deleteNotice() {
+      
+      var isDelete = confirm('정말 삭제하시겠습니까?');
+      
+      // 삭제
+      if(isDelete) {
+        
+        var notice_id = $('#detail_notice_id').val();
+        
+        console.log('게시글 번호 확인',notice_id);
+        
+        var param = {
+            notice_id : notice_id
+        }
+        
+        function resultCallback(result) {
+          console.log('삭제확인', result)
+          console.log('삭제확인', typeof(result))
+          if(result == 1) {
+            window.location.reload();
+          } 
+          else {
+            alert('서버에서 에러가 발생했습니다');
+          }
+        };
+        
+        callAjax("/system/deleteNotice.do", "post", "text", true, param, resultCallback);
+        
+      }
+      else { 
+        return false;
+      }
+      
+      
     }
 </script>
 </head>
@@ -420,10 +518,9 @@
               </div>
               <div class="paging_area" id="pagination"></div>
               <div class="btn-wrap">
-                  <c:if test="${sessionScope.userType eq 'E'}">
-                    <button type="button" class="btn btn-default">수정</button>
-                    <button type="button" class="btn btn-default" onclick="fadeInModal()">글쓰기</button>
-                  </c:if>
+                <c:if test="${sessionScope.userType eq 'E'}">
+                  <button type="button" class="btn btn-default" onclick="fadeInWriteModal()">글쓰기</button>
+                </c:if>
               </div>
               <h3 class="hidden">풋터 영역</h3>
               <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
@@ -431,7 +528,7 @@
         </ul>
       </div>
     </div>
-    <!-- 글쓰기 모달팝업 -->
+    <!-- 공지사항 작성 모달팝업 시작-->
     <div id="layer1" class="layerPop layerType2" style="width: 600px;">
       <dl>
         <dt>
@@ -450,29 +547,35 @@
             <tbody>
               <tr>
                 <th scope="row">제목</th>
-                <td colspan="3"><input type="text" class="inputTxt p100" name="title" id="title" autocomplete="off"/></td>
+                <td colspan="3"><input type="text" class="inputTxt p100" name="write_title" id="write_title" autocomplete="off" /></td>
               </tr>
               <tr>
                 <th scope="row">내용</th>
-                <td colspan="3"><textarea class="inputTxt p100" name="content" id="content" autocomplete="off"/></textarea></td>
+                <td colspan="3"><textarea class="inputTxt p100" name="write_content" id="write_content" autocomplete="off" /></textarea></td>
               </tr>
-              <tr>
-                <th scope="row">첨부파일</th>
+              <tr id="add_file" class="">
+                <th scope="row">첨부파일(글작성)</th>
+                <td colspan="3"><input type="file" class="inputTxt p100" name="return_mng_id" id="return_mng_id" /></td>
+              </tr>
+              <tr id="modify_file" class="display_none">
+                <th scope="row">첨부파일(글수정)</th>
                 <td colspan="3"><input type="file" class="inputTxt p100" name="return_mng_id" id="return_mng_id" /></td>
               </tr>
               <tr>
                 <th scope="row">열람권한</th>
                 <td colspan="3">
-                <select id="auth">
+                  <select id="write_auth">
                     <option value="0">전체</option>
                     <option value="1">고객</option>
-                    <option value="2
-                    ">직원</option>
+                    <option value="2">직원</option>
                 </select>
-                  <div class="btn-group" >
-                    <button class="btn-default  btn-sm" onclick="writeNotice()">저장</button>
-                    <button class="btn-default  btn-sm">삭제</button>
-                    <button class="btn-default  btn-sm" onclick="fadeOutModal()">취소</button>
+                  <div class="btn-group">
+                    <!-- 공지사항 신규 작성 버튼 -->
+                    <button class="btn-default btn-sm" id="writeNoticeButton" onclick="writeNotice()">저장</button>
+                    <!-- 공지사항 수정글 작성 버튼 -->
+                    <button class="display_none btn-default btn-sm" id="modifyNoticeButton" onclick="modifyNotice()">글수정저장</button>
+                    <button class="display_none btn-default btn-sm" id="deleteNoticeButton">삭제</button>
+                    <button class="btn-default btn-sm" onclick="fadeOutModal()">취소</button>
                   </div></td>
               </tr>
             </tbody>
@@ -482,6 +585,59 @@
       </dl>
       <a href="" class="closePop"><span class="hidden">닫기</span></a>
     </div>
+    <!-- 공지사항 작성 모달 끝 -->
+    <!-- 공지사항 단건 조회(상세조회)모달 시작 -->
+    <div id="layer2" class="layerPop layerType2" style="width: 600px;">
+      <dl>
+        <dt>
+          <strong>공지사항</strong>
+        </dt>
+        <dd class="content">
+          <!-- s : 여기에 내용입력 -->
+          <table class="row">
+            <caption>caption</caption>
+            <colgroup>
+              <col width="120px">
+              <col width="*">
+              <col width="120px">
+              <col width="*">
+            </colgroup>
+            <input type="hidden" id="detail_notice_id">
+            <tbody>
+              <tr>
+                <th scope="row">제목</th>
+                <td colspan="3"><input type="text" class="inputTxt p100 forbidden-event" name="detail_title" id="detail_title" autocomplete="off" /></td>
+              </tr>
+              <tr>
+                <th scope="row">작성시간</th>
+                <td colspan="3"><p id="detail_date"></p></td>
+              </tr>
+              <tr>
+                <th scope="row">내용</th>
+                <td colspan="3"><textarea class="inputTxt p100 forbidden-event" name="detail_content" id="detail_content" autocomplete="off" /></textarea></td>
+              </tr>
+              <tr>
+                <th scope="row">첨부파일(다운로드기능 추가해야 함)</th>
+                <td colspan="3"><input type="file" class="inputTxt p100" name="return_mng_id" id="return_mng_id" /></td>
+              </tr>
+              <tr>
+                <td colspan="6">
+                  <div>
+                    <c:if test="${sessionScope.userType eq 'E'}">
+                      <button type="button" class="btn-default btn-sm" onclick="modifyNoticeModal()">수정</button>
+                      <button type="button" class="btn-default btn-sm" onclick="deleteNotice()">삭제</button>
+                    </c:if>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- e : 여기에 내용입력 -->
+        </dd>
+      </dl>
+      <a href="" class="closePop"><span class="hidden">닫기</span></a>
+    </div>
+    <!-- 공지사항 단건 조회(상세조회) 끝 -->
   </form>
 </body>
 </html>

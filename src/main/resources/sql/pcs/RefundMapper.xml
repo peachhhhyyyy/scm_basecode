@@ -27,11 +27,12 @@
                <choose>
                  <when test="option eq 'all'.toString() ">
                    
-                   AND (pur.order_cd LIKE CONCAT('%', #{keyword},'%') 
-                   OR sup.supply_nm LIKE CONCAT('%', #{keyword}, '%')
-                   OR sup.supply_cd LIKE CONCAT('%', #{keyword}, '%')
-                   OR pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
-                   OR pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
+                   AND (
+                        pur.order_cd LIKE CONCAT('%', #{keyword},'%') 
+                        OR sup.supply_nm LIKE CONCAT('%', #{keyword}, '%')
+                        OR sup.supply_cd LIKE CONCAT('%', #{keyword}, '%')
+                        OR pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
+                        OR pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
                    )
                    <if test="date != ''">
                     AND DATE(pur.return_date) = (#{date})
