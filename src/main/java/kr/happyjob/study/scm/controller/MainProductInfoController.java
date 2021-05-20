@@ -93,4 +93,44 @@ public class MainProductInfoController {
    System.out.println(resultMap);
    return resultMap;
  }
+ 
+//제품정보 저장
+@RequestMapping("saveMainProduct.do")
+@ResponseBody
+public Map<String, Object> saveMainProduct (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+    HttpServletResponse response, HttpSession session) throws Exception{
+  logger.info("+ Start " + className + ".saveMainProduct");
+  logger.info("   - paramMap : " + paramMap);
+  
+  String action = (String)paramMap.get("action");
+  
+  String result = "SUCCESS";
+  String resultMsg = "";
+  
+  if("I".equals(action)){
+    // 등록
+    mainProductInfoService.insertMainProduct(paramMap);
+    resultMsg = "등록 완료";
+  } else if("U".equals(action)){
+    // 수정
+    mainProductInfoService.updateMainProduct(paramMap);
+    resultMsg = "수정 완료";
+  } else if("D".equals(action)){
+    // 삭제
+    mainProductInfoService.deleteMainProduct(paramMap);
+    resultMsg = "삭제 완료";
+  } 
+  else{
+    result = "FALSE";
+    resultMsg = "저장 실패";
+  }
+  
+  Map<String, Object> resultMap = new HashMap<String, Object>();
+  resultMap.put("result", result);
+  resultMap.put("resultMsg", resultMsg);
+  
+  logger.info("+ End " + className + ".saveMainProduct");
+  
+  return resultMap;
+}
 }
