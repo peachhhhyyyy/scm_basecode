@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.happyjob.study.ecv.dao.EcvDirectionDao">
+		<!-- 발주지시서 데이터 조회 -->
+		<select id="selectPurchaseDirectionList" resultType="kr.happyjob.study.ecv.model.EcvPurchaseDirectionModel"> 
+			SELECT pl.supply_cd supplyCode,
+			       sup.supply_nm supplyName,
+			       prod.prod_nm productName,
+			       pl.purch_qty purchaseQty,
+			       pl.purch_total_amt purchaseTotalAmount,
+			       ui.name scmManager,
+			       pl.direction_date directionDate,
+			       o.STTcd sttCode,
+			       o.order_cd orderCode
+			FROM tb_scm_purchase_list pl
+			JOIN tb_order o ON o.order_cd = pl.order_cd
+			JOIN tb_userinfo ui ON ui.loginID = pl.scm_id
+			JOIN tb_scm_supply sup ON sup.supply_cd = pl.supply_cd
+			JOIN tb_scm_product prod ON prod.product_cd = pl.product_cd
+			ORDER BY pl.purch_list_no
+		    LIMIT #{pageIndex}, #{pageSize}
+		</select>
+		
+		<!-- 발주지시서 데이터 갯수 카운팅 -->
+		<select id="selectPurchaseDirectionListCnt" resultType="int">
+			SELECT COUNT(DISTINCT order_cd) tot_cnt
+			FROM tb_scm_purchase_list;
+		</select>
+		
+		<!-- 발주지시서 업데이트 -->
+		<update id="updatePurchaseApprove" parameterType="int">
+			UPDATE tb_order AS o, tb_scm_purchase_list AS purch
+			SET o.STTcd = #{STTcd}, purch.approve_id = #{loginId}
+			WHERE o.order_cd = #{orderCode} AND purch.order_cd = #{orderCode}
+		</update>
+		
+		<!-- 반품지시서 데이터 조회 -->
+		<select id="selectRefundDirectionList" resultType="kr.happyjob.study.ecv.model.EcvRefundDirectionModel">
+			SELECT rl.submit_date submitDate,
+			       sui.company_cd customerCode,
+			       ui.name customerName,
+			       prod.prod_nm productName,
+			       o.refund_cnt refundQty,
+			       ROUND(o.refund_amt*(10/11)) refundAmount,
+			       ROUND(o.refund_amt*(10/11)*0.1) refundTax,
+			       o.refund_amt totalRefundAmount,
+			       uscm.name scmManager,
+			       o.STTcd sttCode,
+			       o.order_cd orderCode
+			FROM tb_scm_refund_list rl
+			LEFT JOIN tb_order o ON o.order_cd = rl.order_cd
+			LEFT JOIN tb_userinfo ui ON o.loginID = ui.loginID
+			LEFT JOIN tb_userinfo uscm ON rl.scm_id = uscm.loginID
+			LEFT JOIN tb_scm_userinfo sui ON sui.loginID = o.loginID
+			LEFT JOIN tb_scm_product prod ON prod.product_cd = o.product_cd
+		</select>
+		
+		<!-- 반품지시서 데이터 갯수 카운팅 -->
+		<select id="selectRefundDirectionListCnt" resultType="int">
+			SELECT COUNT(order_cd) tot_cnt
+			FROM tb_scm_refund_list;
+		</select>
+		
+		<!-- 해당 주문 상태 업데이트 -->
+		<update id="updateRefundApprove" parameterType="int">
+			UPDATE tb_order AS o, tb_scm_refund_list AS rl
+			SET o.STTcd = #{STTcd}, rl.approve_id = #{loginId}
+			WHERE o.order_cd = #{orderCode} AND rl.order_cd = #{orderCode}
+		</update>
+</mapper>

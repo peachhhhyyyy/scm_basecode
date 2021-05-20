@@ -44,8 +44,8 @@
 	   			<td><a class="btnType3 color1" href="javascript:fgoToDeliveryBtn();">발주</a></td>
 		</c:when>
       	<c:otherwise>
-      		<td><a class="btnType3">배송</a></td>
-      		<td><a class="btnType3">발주</a></td>      		
+      		<td><a class="btnType3 color4">배송</a></td>
+      		<td><a class="btnType3 color4">발주</a></td>      		
       	</c:otherwise>
       </c:choose>
       <td>${list.state}</td>
