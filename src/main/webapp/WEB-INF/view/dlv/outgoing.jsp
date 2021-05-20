@@ -20,7 +20,9 @@
 				/** 수주내역 조회 */
 				function fOrderList(currentPage) {
 					
+					// 필요하기 전까지 숨기기
 					$('#submitBtn').hide();
+					$('#detailList').hide();
 			
 					currentPage = currentPage || 1;
 			
@@ -65,7 +67,9 @@
 				/* 출하내역 상세 조회*/
 				function fOrderDetailList(order_cd) {
 					
-				  $('#submitBtn').show();
+					// 필요하기 전까지 숨기기
+                    $('#submitBtn').show();
+                    $('#detailList').show();
 				
 				
 				  var param = {
@@ -102,7 +106,9 @@
 				// 검색조건으로 수주내역 가져오기
 				function fSearchOrderList(currentPage, STTcd, startDate, endDate) {
 					
-					$('#submitBtn').hide();
+					// 필요하기 전까지 숨기기
+                    $('#submitBtn').hide();
+                    $('#detailList').hide();
 					
 					console.log(STTcd, startDate, endDate)
 					
@@ -245,7 +251,7 @@
 						<div class="paging_area" id="lisOutgoingPagination"></div>
 					</div>
 						<form action="submitDlvInfo.do" method="post">
-						<div class="content">
+						<div id="detailList" class="content">
 							<p class="conTitle">
 								<span>상세페이지</span>
 							</p>
