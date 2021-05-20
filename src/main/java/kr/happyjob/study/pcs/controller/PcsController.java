@@ -76,6 +76,30 @@ public class PcsController {
     return "pcs/listPcsOrderingOrder";
   } 
   
+  // 발주 버튼 클릭 시 모달팝업 창 띄우기
+  @RequestMapping("selectPurchBtn.do")
+  @ResponseBody
+  public Map<String, Object> selectPurchBtn(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+      HttpServletResponse response, HttpSession session) throws Exception {
+    
+    logger.info("+ Start " + className + ".selectPurchBtn");
+    logger.info("   - paramMap : " + paramMap);
+    
+    String result = "SUCCESS";
+    String resultMsg = "전송 되었습니다.";
+   
+    PcsModel pcsModel = pcsService.selectPurchBtn(paramMap);
+    
+    Map<String, Object> resultMap = new HashMap<String, Object>();
+    resultMap.put("result", result);
+    resultMap.put("resultMsg", resultMsg);
+    resultMap.put("pcsModel", pcsModel);
+    
+    logger.info("+ End " + className + ".selectPurchBtn");
+    
+    return resultMap;
+  }
+  
   // 발주 버튼 클릭 시 내용 전송
   @RequestMapping("sendproc.do")
   @ResponseBody
