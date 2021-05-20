@@ -153,7 +153,7 @@
            WHERE name = #{selDlvName}
     </select>
     
-    <update id="updateReturnPaper" parameterType="int">
+    <update id="updateReturnPaper">
          UPDATE
             tb_scm_refund_list AS TSRL
                 , tb_order AS OD
