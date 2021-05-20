@@ -19,6 +19,8 @@ public class ScmRefundListModel {
 	String WarehouseName;
 	String scmManager;
 	String refundDirectionDate;
+	int STTcd;
+	String approver;
 
 	public String getOrderCode() {
 		return orderCode;
@@ -138,6 +140,22 @@ public class ScmRefundListModel {
 
 	public void setRefundDirectionDate(String refundDirectionDate) {
 		this.refundDirectionDate = refundDirectionDate;
+	}
+
+	public int getSTTcd() {
+		return STTcd;
+	}
+
+	public void setSTTcd(int sTTcd) {
+		STTcd = sTTcd;
+	}
+
+	public String getApprover() {
+		return approver;
+	}
+
+	public void setApprover(String approver) {
+		this.approver = approver;
 	}
 
 }
