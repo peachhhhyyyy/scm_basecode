@@ -42,8 +42,22 @@
 			       wh.warehouse_nm warehouseName,
 			       o.refund_cnt refundCount,
 			       NOW() refundDirectionDate,
-			       o.refund_amt refundAmount
+			       o.refund_amt refundAmount,
+			       o.STTcd STTcd,
+			       dc.detail_name state,
+			       o.order_cd orderCode,
+			       (
+			       		SELECT ui.name
+			       		FROM tb_scm_refund_list rl
+			       		JOIN tb_userinfo ui ON ui.loginID = rl.approve_id 
+			       		WHERE order_cd = #{orderCode}
+			       ) approver
 			FROM tb_order o
+			JOIN (
+					SELECT detail_code, group_code, detail_name
+					FROM tb_detail_code
+					WHERE group_code = 'STTcd'
+				  ) dc ON o.STTcd = dc.detail_code
 			LEFT JOIN tb_scm_product prod ON prod.product_cd = o.order_cd
 			LEFT JOIN tb_scm_m_category mct ON mct.m_ct_cd = prod.m_ct_cd
 			LEFT JOIN tb_scm_supply sup ON sup.supply_cd = prod.supply_cd
@@ -57,4 +71,23 @@
 			FROM tb_userinfo
 			WHERE loginID = #{loginId}
 		</select>
+		
+		<update id="updateStateToRefund" parameterType="int">
+			UPDATE tb_order
+			SET STTcd = 4
+			WHERE order_cd = #{orderCode}
+		</update>
+		
+		<insert id="insertDataToRTable" parameterType="int">
+			INSERT INTO tb_scm_refund_list (
+												order_cd,
+												scm_id,
+												submit_date
+			 		                        )
+			VALUES (
+						#{orderCode},
+						#{loginId},
+						#{refundDirectionDate}
+					)
+		</insert>
 </mapper>
