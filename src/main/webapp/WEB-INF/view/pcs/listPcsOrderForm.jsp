@@ -20,8 +20,8 @@
       <td><fmt:formatDate value="${list.direction_date}" pattern="yyyy-MM-dd" /></td>
       <td><fmt:formatDate value="${list.desired_delivery_date}" pattern="yyyy-MM-dd" /></td>
       <td>${list.detail_name}</td>
-      <c:if test="${list.STTcd eq 2}">
-      <td><a class="btnType3 color2" href="javascript:fSelectUpdateSTTcd('${list.STTcd}', '${list.detail_name}');"><span>입고완료</span></a></td>
+      <c:if test="${list.STTcd eq 10}">
+      <td><a class="btnType3 color2" href="javascript:fSelectUpdateSTTcd('${list.STTcd}', '${list.detail_name}', '${list.order_cd}');"><span>입고완료</span></a></td>
       <td><a class="btnType3 color1" href="javascript:void(0);"><span>반품</span></a></td>
       </c:if>
       <c:if test="${list.STTcd eq 12}">

@@ -3,8 +3,6 @@ package kr.happyjob.study.pcs.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Repository;
-
 import kr.happyjob.study.pcs.model.PcsModel;
 
 public interface PcsDao {
@@ -25,4 +23,10 @@ public interface PcsDao {
   
   /** 발주서 상태 변경 */
   public int updateSTTcd(Map<String, Object> paramMap);
+  
+  /** 발주서 검색 */
+  public List<PcsModel> searchOrderForm(Map<String, Object> paramMap);
+  
+  /** 발주서 검색 카운트 조회 */
+  public int searchOrderFormCnt(Map<String, Object> paramMap);
 }
