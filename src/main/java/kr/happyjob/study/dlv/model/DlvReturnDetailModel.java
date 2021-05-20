@@ -18,9 +18,9 @@ public class DlvReturnDetailModel {
 	//고객주소
 	private String cus_addr;
 	//배송사원 이름
-	private String dlv_name;
+	private String staff_name;
 	//배송사원 연락처
-	private String dlv_tel;
+	private String staff_tel;
 	//SCM 명
 	private String scm_name;
 	//창고명
@@ -29,7 +29,6 @@ public class DlvReturnDetailModel {
 	private String state;
 	//적요
 	private String request;
-	
 	public String getOrder_cd() {
 		return order_cd;
 	}
@@ -72,17 +71,29 @@ public class DlvReturnDetailModel {
 	public void setCus_tel(String cus_tel) {
 		this.cus_tel = cus_tel;
 	}
-	public String getDlv_name() {
-		return dlv_name;
+	public String getCus_addr() {
+		return cus_addr;
 	}
-	public void setDlv_name(String dlv_name) {
-		this.dlv_name = dlv_name;
+	public void setCus_addr(String cus_addr) {
+		this.cus_addr = cus_addr;
 	}
-	public String getDlv_tel() {
-		return dlv_tel;
+	public String getStaff_name() {
+		return staff_name;
 	}
-	public void setDlv_tel(String dlv_tel) {
-		this.dlv_tel = dlv_tel;
+	public void setStaff_name(String staff_name) {
+		this.staff_name = staff_name;
+	}
+	public String getStaff_tel() {
+		return staff_tel;
+	}
+	public void setStaff_tel(String staff_tel) {
+		this.staff_tel = staff_tel;
+	}
+	public String getScm_name() {
+		return scm_name;
+	}
+	public void setScm_name(String scm_name) {
+		this.scm_name = scm_name;
 	}
 	public String getWarehouse_nm() {
 		return warehouse_nm;
@@ -101,18 +112,6 @@ public class DlvReturnDetailModel {
 	}
 	public void setRequest(String request) {
 		this.request = request;
-	}
-	public String getCus_addr() {
-		return cus_addr;
-	}
-	public void setCus_addr(String cus_addr) {
-		this.cus_addr = cus_addr;
-	}
-	public String getScm_name() {
-		return scm_name;
-	}
-	public void setScm_name(String scm_name) {
-		this.scm_name = scm_name;
 	}
 	
 	
