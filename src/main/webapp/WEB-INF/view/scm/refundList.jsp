@@ -58,7 +58,7 @@
 										<th scope="col">반품신청날짜</th>
 										<th scope="col">반품수량</th>
 										<th scope="col">반품금액</th>
-										<th scope="col">처리상태</th>
+										<th scope="col">상태</th>
 									</tr>
 								</thead>
 								<tbody id="refundListHistory"></tbody>
