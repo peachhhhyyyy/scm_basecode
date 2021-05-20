@@ -4,7 +4,7 @@
 <mapper namespace="kr.happyjob.study.scm.dao.SupplierInfoDao">
 
   <!-- 공급처 목록 조회 -->
-  <select id="getSupplierInfo" resultType = "SupplierInfoModel">
+  <select id="listSupplier" resultType = "kr.happyjob.study.scm.model.SupplierInfoModel">
       SELECT SP.supply_cd as supply_cd
            , SP.supply_nm as supply_nm
            , SP.tel as tel
@@ -30,11 +30,10 @@
       </choose>
       </if> 
     </where>
-      ORDER BY SP.supply_nm
       LIMIT #{pageIndex}, #{pageSize}
   </select>
-  <!-- 공급처 목록 갯수 조회 -->
-  <select id="countSupplierInfo"  resultType="int">
+  <!-- 공급처 카운트 -->
+  <select id="totalCntSupplier"  resultType="int">
     SELECT COUNT(1) AS tot_cnt 
       FROM tb_scm_supply SP
       LEFT OUTER JOIN tb_scm_warehouse WH
@@ -57,7 +56,7 @@
   </select>
   
   <!-- 제품 목록 조회 -->
-  <select id="getSupplierProInfo" resultType = "kr.happyjob.study.scm.model.SupplierInfoModel" >
+  <select id="listSupplierProduct" resultType = "kr.happyjob.study.scm.model.SupplierInfoModel" >
     SELECT SP.supply_nm as supply_nm
          , PD.product_cd as product_cd
          , PD.prod_nm as prod_nm
@@ -75,7 +74,7 @@
   
   </select>
   <!-- 제품 목록 갯수 카운트 -->
-  <select id="countSupplierProInfo" resultType="int">
+  <select id="totalCntProduct" resultType="int">
     SELECT COUNT(1) as tot_proCnt
       FROM tb_scm_product PD
       LEFT OUTER JOIN tb_scm_supply SP ON SP.supply_cd = PD.supply_cd
@@ -85,7 +84,7 @@
    </select>
      
    <!-- 공급처 단건 조회 -->
-   <select id="selectSupplierDetail" resultType="kr.happyjob.study.scm.model.SupplierInfoModel" >
+   <select id="selectSupplier" resultType="kr.happyjob.study.scm.model.SupplierInfoModel" >
      SELECT  SP.supply_cd as supply_cd
            , SP.supply_nm as supply_nm
            , SP.supply_mng_nm as supply_mng_nm

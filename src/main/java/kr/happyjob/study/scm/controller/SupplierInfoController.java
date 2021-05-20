@@ -26,15 +26,15 @@ public class SupplierInfoController {
   
   
   @RequestMapping("supplierInfo.do")
-  public String supplierInfo(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+  public String initSupplierInfo(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession Session) throws Exception{
  
     return "scm/supplierInfo";
   }
   
   //공급처 조회
-  @RequestMapping("supplierList.do")
-  public String supplierList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+  @RequestMapping("listSupplier.do")
+  public String listSupplier(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception{
     
     int currentPage = Integer.parseInt((String)paramMap.get("currentPage"));  // 현재 페이지 번호
@@ -45,22 +45,22 @@ public class SupplierInfoController {
     paramMap.put("pageSize", pageSize);
     
     // 공급처 목록 조회
-    List<SupplierInfoModel> supplierInfoModelList = supplierInfoService.getSupplierInfo(paramMap);
-    model.addAttribute("supplierInfoModelList", supplierInfoModelList);
+    List<SupplierInfoModel> listSupplierModel = supplierInfoService.listSupplier(paramMap);
+    model.addAttribute("listSupplierModel", listSupplierModel);
     
     // 공급처 목록 카운트 조회
-    int totalCount = supplierInfoService.countSupplierInfo(paramMap);
-    model.addAttribute("totalCountSupplier", totalCount);
+    int totalCount = supplierInfoService.totalCntSupplier(paramMap);
+    model.addAttribute("totalSupplier", totalCount);
     
     model.addAttribute("pageSize", pageSize);
-    model.addAttribute("currentPage",currentPage);  
+    model.addAttribute("currentPageSupplier",currentPage);  
     
-    return "scm/supplierList";
+    return "scm/listSupplier";
   }
   
   //제품목록 조회
-  @RequestMapping("supplierProList.do")
-  public String supplierProList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+  @RequestMapping("listSupplierProduct.do")
+  public String listSupplierProduct(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception{
     
     int currentPage = Integer.parseInt((String)paramMap.get("currentPage"));  // 현재 페이지 번호
@@ -74,38 +74,18 @@ public class SupplierInfoController {
    
     
     // 제품 목록 조회
-    List<SupplierInfoModel> supplierProModelList = supplierInfoService.getSupplierProInfo(paramMap);
-    model.addAttribute("supplierProModelList", supplierProModelList);
+    List<SupplierInfoModel> listSupplierProductModel = supplierInfoService.listSupplierProduct(paramMap);
+    model.addAttribute("listSupplierProductModel", listSupplierProductModel);
     
     // 제품 목록 카운트 조회
-    int totalCount = supplierInfoService.countSupplierProInfo(paramMap);
-    model.addAttribute("totalCountPro", totalCount);
+    int totalCount = supplierInfoService.totalCntProduct(paramMap);
+    model.addAttribute("totalProduct", totalCount);
     
     model.addAttribute("pageSize", pageSize);
     model.addAttribute("currentPageProduct",currentPage);
     
     
-    return "scm/supplierProList";
-  }
-  
-  //공급처 단건 조회
-  @RequestMapping("selectSupplierDetail.do")
-  @ResponseBody
-  public Map<String, Object> selectSupplierDetail (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-      HttpServletResponse response, HttpSession session) throws Exception{
-
-    String result = "SUCCESS";
-    String resultMsg = "조회 되었습니다.";
-    
-    SupplierInfoModel supplierInfoModel = supplierInfoService.selectSupplierDetail(paramMap);
-    
-    Map<String, Object> resultMap = new HashMap<String, Object>();
-    resultMap.put("result", result);
-    resultMap.put("resultMsg", resultMsg);
-    resultMap.put("supplierInfoModel", supplierInfoModel);
-    
-    System.out.println(resultMap);
-    return resultMap;
+    return "scm/listSupplierProduct";
   }
   
 //공급처 저장
@@ -143,5 +123,27 @@ public class SupplierInfoController {
    
    return resultMap;
  }
+  
+  //공급처 단건 조회
+  @RequestMapping("selectSupplier.do")
+  @ResponseBody
+  public Map<String, Object> selectSupplier (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+      HttpServletResponse response, HttpSession session) throws Exception{
+
+    String result = "SUCCESS";
+    String resultMsg = "조회 되었습니다.";
+    
+    SupplierInfoModel supplierInfoModel = supplierInfoService.selectSupplier(paramMap);
+    
+    Map<String, Object> resultMap = new HashMap<String, Object>();
+    resultMap.put("result", result);
+    resultMap.put("resultMsg", resultMsg);
+    resultMap.put("supplierInfoModel", supplierInfoModel);
+    
+    System.out.println(resultMap);
+    return resultMap;
+  }
+  
+
   
 }

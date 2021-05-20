@@ -1,20 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page import="kr.happyjob.study.scm.model.SupplierInfoModel"%>
-<%@ page import="java.util.List"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>공급처 관리</title>
-<script src='${CTX_PATH}/js/sweetalert/sweetalert.min.js'></script>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript">
   //공급처정보 페이징 처리
-  var userPageSize = 5; //공급처정보 페이지 사이즈
-  var userPageBlock = 5; //공급처정보 페이지 블록 갯수
+  var pageSizeSupplier = 5; //공급처정보 페이지 사이즈
+  var pageBlockSizeSupplier = 5; //공급처정보 페이지 블록 갯수
   
   //제품정보 페이징 처리 
   var pageSizeProduct = 5; //제품정보 페이지 사이즈
@@ -23,38 +18,36 @@
   //OnLoad event
   $(document).ready(function() {
     //공급처 목록 조회
-    selectSupplierList();
-    
-    //제품정보 목록 조회
-    selectSupplierProList();
-    
-    // 버튼 이벤트 등록
-    fButtonClickEvent();
-    //엔터눌렀을때 공급처정보 검색되게하기
+    fListSupplier();
+    //제품 정보 목록 조회
+    fListProduct();
+    //버튼 이벤트 등록
+    fRegisterButtonClickEvent();
+    //엔터눌렀을때 창고정보 검색되게하기
     $("#sname").keypress(function (e) {
-      if (e.which == 13){
-                board_search();  // 실행할 이벤트
-      }
-});
+          if (e.which == 13){
+                    board_search();  // 실행할 이벤트
+          }
+    });
   });
   
   /*버튼 이벤트 등록*/
-  function fButtonClickEvent() {
+  function fRegisterButtonClickEvent() {
     $('a[name=btn]').click(function(e) {
       e.preventDefault();
       var btnId = $(this).attr('id');
       switch (btnId) {
+      case 'searchBtn':
+        board_search(); // 검색하기
+        break;
       case 'btnSaveSupplier':
         fSaveSupplier(); // save 안에 저장,수정  
         break;
-      case 'btnDeleteSupplier':
-        fDeleteSupplier(); // 만들자 
+      case 'btnDeleteSupplier'://삭제하기
+        fDeleteSupplier();
         break;
-      case 'btnClose':
+      case 'btnCloseSupplier':
         gfCloseModal(); // 모달닫기 
-        break;
-      case 'searchBtn':
-        board_search(); // 검색하기
         break;
       }
     });
@@ -62,8 +55,7 @@
   
 
   /*공급처 조회*/
-  function selectSupplierList(currentPage) {
-    
+  function fListSupplier(currentPage) {
     currentPage = currentPage || 1;
     var sname = $('#sname');
     var searchKey = document.getElementById("searchKey");
@@ -73,35 +65,106 @@
         sname : sname.val(),
         oname : oname,
         currentPage : currentPage,
-        pageSize : userPageSize
+        pageSize : pageSizeSupplier
     }
     var resultCallback = function(data) {
-      supplierListResult(data, currentPage);
+      flistSupplierResult(data, currentPage);
     };
-    callAjax("/scm/supplierList.do", "post", "text", true, param, resultCallback);
+    callAjax("/scm/listSupplier.do", "post", "text", true, param, resultCallback);
   }
   
   
   /*공급처 조회 콜백 함수*/
-  function supplierListResult(data, currentPage) {
+  function flistSupplierResult(data, currentPage) {
     
     console.log("data : " + data);
     //기존 목록 삭제
-    $("#supplierList").empty();
-    $("#supplierList").append(data);
+    $("#listSupplier").empty();
+    $("#listSupplier").append(data);
     // 총 개수 추출
-    var totalCnt = $("#totalCountSupplier").val();
+    var totalSupplier = $("#totalSupplier").val();
     //페이지 네비게이션 생성
-    var paginationHtml = getPaginationHtml(currentPage, totalCnt, userPageSize, userPageBlock, 'selectSupplierList');
-    $("#paginationHtml").empty().append(paginationHtml);
+    var paginationHtml = getPaginationHtml(currentPage, totalSupplier, pageSizeSupplier, pageBlockSizeSupplier, 'fListSupplier');
+    $("#supplierPagination").empty().append(paginationHtml);
     //현재 페이지 설정
-    $("#currentPage").val(currentPage);
-    console.log("totalCnt : ", totalCnt);
+    $("#currentPageSupplier").val(currentPage);
   }
   
+  /*제품 목록 조회*/
+  function fListProduct(currentPage, supply_nm, supply_cd) {
+    //공급처명 매개변수 설정
+    currentPage = currentPage || 1;
+    $("#tmpsupply_nm").val(supply_nm);
+    $("#tmpsupply_cd").val(supply_cd);
+    var param = {
+        supply_nm : supply_nm
+      , supply_cd : supply_cd //공급처 코드 변수설정
+      , currentPage : currentPage
+      , pageSize : pageSizeProduct
+    }
+
+    console.log("supply_cd : " + supply_cd);
+    var resultCallback = function(data) {
+      flistProductResult(data, currentPage);
+    };
+    callAjax("/scm/listSupplierProduct.do", "post", "text", true, param, resultCallback);
+  }
+  /*제품목록 조회 콜백 함수*/
+  function flistProductResult(data, currentPage) {
+    console.log("data : " + data);
+    //기존 목록 삭제
+    $("#listSupplierProduct").empty();
+    // 신규 목록 생성
+    $("#listSupplierProduct").append(data);
+    //$("#listProduct").append($listProduct.children());  
+    // 총 개수 추출
+    var totalProduct = $("#totalProduct").val();
+    //페이지 네비게이션 생성
+    var supply_nm = $("#supply_nm").val();
+    var supply_cd = $("#supply_cd").val();
+    
+    var paginationHtml = getPaginationHtml(currentPage, totalProduct, 
+        pageSizeProduct, pageBlockSizeProduct, 'fListProduct',[supply_nm, supply_cd]);
+    $("#productPagination").empty().append(paginationHtml);
+    // 현재 페이지 설정
+    $("#currentPageProduct").val(currentPage);
+  }
   
+  /* 공급처 모달 실행 */
+  function fPopModalSupplier(supply_cd) {
+    //신규 저장
+    if (supply_cd == null || supply_cd == "") {
+      $("#action").val("I");
+      fInitFormSupplier();
+      gfModalPop("#layer1");
+    } else {
+      $("#action").val("U");
+      fSelectSupplier(supply_cd);
+    }
+  }
   
+
+  /* 공급처 단건 조회*/
+  function fSelectSupplier(supply_cd) {
+    var param = {
+        supply_cd : supply_cd
+    };
+    var resultCallback = function(data) {
+      fSelectSupplierResult(data);
+    };
+    callAjax("/scm/selectSupplier.do", "post", "json", true, param,
+        resultCallback);
+  }
   
+  // 공급처 단건 조회 콜백 함수
+  function fSelectSupplierResult(data) {
+    if (data.result == "SUCCESS") {
+      gfModalPop("#layer1")
+      fInitFormSupplier(data.supplierInfoModel);
+    } else {
+      alert(data.resultMsg);
+    }
+  }
   
 
   /* 공급처 폼 초기화 */
@@ -122,6 +185,8 @@
       $("#supply_cd").css("background", "#FFFFFF");
       $("#supply_nm").attr("readonly", false);
       $("#supply_nm").css("background", "#FFFFFF");
+      
+      $("#btnDeleteSupplier").hide();
     } else{
       $("#supply_cd").val(object.supply_cd);
       $("#supply_cd").attr("readonly", true);
@@ -135,48 +200,12 @@
       $("#email").val(object.email);
       $("#warehouse_cd").val(object.warehouse_cd);
       $("#warehouse_nm").val(object.warehouse_nm);
+      
+      $("#btnDeleteSupplier").show();
     } 
   } 
   
-  /* 공급처 모달 실행 */
-  function fPopModalSupplier(supply_cd) {
-    //신규 저장
-    if (supply_cd == null || supply_cd == "") {
-      $("#action").val("I");
-      fInitFormSupplier();
-      gfModalPop("#layer1");
-    } else {
-      $("#action").val("U");
-      fSelectSupplierDetail(supply_cd);
-    }
-  }
-  
-  /* 공급처 단건 조회*/
-  function fSelectSupplierDetail(supply_cd) {
-    var param = {
-        supply_cd : supply_cd
-    };
-    var resultCallback = function(data) {
-      fSelectSupplierDetailResult(data);
-    };
-    callAjax("/scm/selectSupplierDetail.do", "post", "json", true, param,
-        resultCallback);
-  }
-  
-  // 공급처 단건 조회 콜백 함수
-  function fSelectSupplierDetailResult(data) {
-    if (data.result == "SUCCESS") {
-      gfModalPop("#layer1")
-      fInitFormSupplier(data.supplierInfoModel);
-    } else {
-      alert(data.resultMsg);
-    }
-  }
-  
-  
-  
-  
-  
+
   /* 공급처 저장 validation*/
   function fValidateSupplier() {
     var chk = checkNotEmpty([ 
@@ -205,22 +234,6 @@
     var resultCallback = function(data) {
        console.log(data);
        fSaveSupplierResult(data);
-       /* console.log(data.result);
-       console.log(data.resultMsg); */
-       
-       /* gfCloseModal();
-       fInitFormSupplier();
-       
-       var status = $("#action").val();
-       var cur = $("#currentPage").val();
-       
-       if (status == 'U') {
-         selectSupplierList(cur);
-       } else {
-         selectSupplierList();
-       }
-       
-       return; */
     };
     callAjax("/scm/saveSupplier.do", "post", "json", true, $("#myForm")
         .serialize(), resultCallback);
@@ -230,12 +243,12 @@
   function fSaveSupplierResult(data) {
     var currentPage = "1";
     if ($("#action").val() != "I") {
-      currentPage = $("#currentPage").val();
+      currentPage = $("#currentPageSupplier").val();
     }
     if (data.result == "SUCCESS") {
       alert(data.resultMsg);
       gfCloseModal();
-      selectSupplierList(currentPage);
+      fListSupplier(currentPage);
     } else {
       alert(data.resultMsg);
     }
@@ -243,7 +256,7 @@
   }
   
   //공급처 삭제
-    function fDeleteSupplier(deli_no){
+    function fDeleteSupplier(supply_cd){
     var con = confirm("삭제하시겠습니까 ?");
     var currentPage = "1";
     if (con){
@@ -254,56 +267,14 @@
     callAjax("/scm/saveSupplier.do", "post", "json", true, $("#myForm").serialize(), resultCallback );
     } else {
       gfCloseModal();
-      selectSupplierList(currentPage);
+      fListSupplier(currentPage);
       fInitFormSupplier();
     }
   } 
   
-  
-  
-  /*제품 목록 조회*/
-  function selectSupplierProList(currentPage, supply_nm, supply_cd) {
-    //공급처명 매개변수 설정
-    currentPage = currentPage || 1;
-    $("#tmpsupply_nm").val(supply_nm);
-    $("#tmpsupply_cd").val(supply_cd);
-    var param = {
-        supply_nm : supply_nm
-      , supply_cd : supply_cd //공급처 코드 변수설정
-      , currentPage : currentPage
-      , pageSize : pageSizeProduct
-    }
-
-    console.log("supply_cd : " + supply_cd);
-    var resultCallback = function(data) {
-      supplierProListResult(data, currentPage);
-    };
-    callAjax("/scm/supplierProList.do", "post", "text", true, param, resultCallback);
-  }
-  /*제품목록 조회 콜백 함수*/
-  function supplierProListResult(data, currentPage) {
-    console.log("data : " + data);
-    //기존 목록 삭제
-    $("#supplierProList").empty();
-    // 신규 목록 생성
-    $("#supplierProList").append(data);
-    //$("#listProduct").append($listProduct.children());  
-    // 총 개수 추출
-    var totalProduct = $("#totalCountPro").val();
-    //페이지 네비게이션 생성
-    var supply_nm = $("#supply_nm").val();
-    var supply_cd = $("#supply_cd").val();
-    
-    var paginationHtml = getPaginationHtml(currentPage, totalProduct, 
-        pageSizeProduct, pageBlockSizeProduct, 'selectSupplierProList',[supply_nm, supply_cd]);
-    $("#productPagination").empty().append(paginationHtml);
-    // 현재 페이지 설정
-    $("#currentPageProduct").val(currentPage);
-  }
-  
   /* 검색 기능*/
   function board_search(currentPage) {
-    $('#supplierProList').empty();
+    $('#listSupplierProduct').empty();
     currentPage = currentPage || 1;
     var sname = $('#sname');
     var searchKey = document.getElementById("searchKey");
@@ -313,14 +284,14 @@
       sname : sname.val(),
       oname : oname,
       currentPage : currentPage,
-      pageSize : userPageSize,
+      pageSize : pageSizeSupplier
     }
     
     
     var resultCallback = function(data) {
-      supplierListResult(data, currentPage);
+      flistSupplierResult(data, currentPage);
     };
-    callAjax("/scm/supplierList.do", "post", "text", true, param,
+    callAjax("/scm/listSupplier.do", "post", "text", true, param,
         resultCallback);
   }
   
@@ -333,7 +304,7 @@
 </head>
 <body>
 <form id="myForm" action="" method="">
-    <input type="hidden" id="currentPage" value="1">
+    <input type="hidden" id="currentPageSupplier" value="1">
     <input type="hidden" id="currentPageProduct" value="1"> 
     <input type="hidden" id="tmpsupply_nm" value="">  
     <input type="hidden" id="tmpsupply_cd" value="">
@@ -412,11 +383,11 @@
                                         <th scope="col">비고</th>  
                                     </tr>
                                 </thead> 
-                                <tbody id="supplierList"></tbody>                      
+                                <tbody id="listSupplier"></tbody>                      
                          </table>  
                    </div>
                        
-                   <div class="paging_area" id="paginationHtml"></div>
+                   <div class="paging_area" id="supplierPagination"></div>
                    
                    
                    
@@ -425,7 +396,7 @@
                       <span>공급 제품정보</span>
                    </p>
                    
-                   <div class="supplierProList">
+                   <div class="ProductList">
                         <table class="col">
                              <caption>caption</caption>
                              <colgroup>
@@ -446,7 +417,7 @@
                                 <th scope="col">제품단가(원)</th>
                              </tr>
                         </thead>
-                        <tbody id="supplierProList">
+                        <tbody id="listSupplierProduct">
                              <tr>
                                 <td colspan="6">공급처를 선택해 주세요.</td>
                              </tr>
@@ -527,7 +498,7 @@
           <div class="btn_areaC mt30">
             <a href="" class="btnType blue" id="btnSaveSupplier" name="btn"><span>저장</span></a>
             <a href="" class="btnType blue" id="btnDeleteSupplier" name="btn"><span>삭제</span></a>  
-            <a href="" class="btnType gray" id="btnClose" name="btn"><span>취소</span></a>
+            <a href="" class="btnType gray" id="btnCloseSupplier" name="btn"><span>닫기</span></a>
             
           </div>
         
