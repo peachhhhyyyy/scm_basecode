@@ -50,45 +50,45 @@
 
   /** 발주서 검색 */  
   function board_search(currentPage) {
-		var sname = $('#sname').val();
-		var searchKey = document.getElementById("searchKey");
-		var oname = searchKey.options[searchKey.selectedIndex].value;
-		
-		console.log("sname : " + sname);
-		console.log("oname : " + oname);
-		
-		currentPage = currentPage || 1;
-		console.log("currentPage : " + currentPage);
-		
-		var date = $("#datetimepicker1").find("input").val()
-		
-		console.log("date : " + date);
+    var sname = $('#sname').val();
+    var searchKey = document.getElementById("searchKey");
+    var oname = searchKey.options[searchKey.selectedIndex].value;
     
-		// datepicker설정
-		$(document).ready(function() {
-		  $('#datetimepicker1').datetimepicker({
-			    format: 'YYYY-MM-DD',
-	        formatDate: 'YYYY-MM-DD'
-		  });
-		  $("#datetimepicker1").on("change.datetimepicker", function(e) {
-/* 		    var date = $("#datetimepicker1").find("input").val() */
-		    console.log('날짜확인 :', date)
-		    $('#datetimepicker2').datetimepicker('minDate', e.date);
-		  });
-		});
+    console.log("sname : " + sname);
+    console.log("oname : " + oname);
     
-		var param = {
-		      sname : sname
-		      , oname : oname
-		      , date : date
-		      , currentPage : currentPage
-		      , pageSize : pageSizePcsOrderForm
-		}
-		//swal(JSON.stringify(param));
-		var resultCallback = function(data) {
-		  fListPcsOrderFormResult(data, currentPage);
-		};
-		callAjax("/pcs/listPcsOrderForm.do", "post", "text", true, param, resultCallback);
+    currentPage = currentPage || 1;
+    console.log("currentPage : " + currentPage);
+    
+    var date = $("#datetimepicker1").find("input").val()
+    
+    console.log("date : " + date);
+    
+    // datepicker설정
+    $(document).ready(function() {
+      $('#datetimepicker1').datetimepicker({
+          format: 'YYYY-MM-DD',
+          formatDate: 'YYYY-MM-DD'
+      });
+      $("#datetimepicker1").on("change.datetimepicker", function(e) {
+/*        var date = $("#datetimepicker1").find("input").val() */
+        console.log('날짜확인 :', date)
+        $('#datetimepicker2').datetimepicker('minDate', e.date);
+      });
+    });
+    
+    var param = {
+          sname : sname
+          , oname : oname
+          , date : date
+          , currentPage : currentPage
+          , pageSize : pageSizePcsOrderForm
+    }
+    //swal(JSON.stringify(param));
+    var resultCallback = function(data) {
+      fListPcsOrderFormResult(data, currentPage);
+    };
+    callAjax("/pcs/listPcsOrderForm.do", "post", "text", true, param, resultCallback);
   }
   
   /** 발주서 목록 조회 */
@@ -205,8 +205,8 @@
       // 모달 팝업
       gfModalPop("#layer1");
       
-      $("#purchMngId").text(data.pcsModel.purch_mng_id);
-      $("#purchasePrice").text(data.pcsModel.purchase_price);
+      //$("#purchMngId").text(data.pcsModel.purch_mng_id);
+      //$("#purchasePrice").text(data.pcsModel.purchase_price);
       
       console.log("fSelectPurchBtnResult : " + JSON.stringify(data));
     } else {
@@ -284,19 +284,19 @@
                                     </div>
                                     <!-- // searchbar -->
                                     <!-- date -->
-									                  <div class='col-md-3 col-xs-4'>
-									                    <div class="form-group">
-									                      <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-									                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="">
-									                        <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-									                          <div class="input-group-text">
-									                            <i class="fa fa-calendar"></i>
-									                          </div>
-									                        </div>
-									                      </div>
-									                    </div>
-									                  </div>
-									                  <!-- // date -->
+                                    <div class='col-md-3 col-xs-4'>
+                                      <div class="form-group">
+                                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                          <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="">
+                                          <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                            <div class="input-group-text">
+                                              <i class="fa fa-calendar"></i>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <!-- // date -->
                                     <!-- button -->
                                     <div class="btn-group" role="group" aria-label="...">
                                       <a class="btn btn-default" id="btnSearchOrderForm" name="btn" href="">검색</a>
