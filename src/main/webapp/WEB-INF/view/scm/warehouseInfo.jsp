@@ -69,7 +69,7 @@
     sname : sname.val(),
     oname : oname,
     currentPage : currentPage,
-    pageSize : pageSizeWarehouse,
+    pageSize : pageSizeWarehouse
     }
     var resultCallback = function(data) {
       flistWarehouseResult(data, currentPage);
@@ -128,8 +128,7 @@
     var warehouse_nm = $("#tmpwarehouse_nm").val();
     var warehouse_cd = $("#tmpwarehouse_cd").val();
     var paginationHtml = getPaginationHtml(currentPage, totalProduct,
-        pageSizeProduct, pageBlockSizeProduct, 'fListProduct', [
-        warehouse_nm, warehouse_cd ]);
+        pageSizeProduct, pageBlockSizeProduct, 'fListProduct', [ warehouse_nm, warehouse_cd ]);
     console.log("paginationHtml : " + paginationHtml);
     $("#productPagination").empty().append(paginationHtml);
     console.log("totalProduct: " + totalProduct);
