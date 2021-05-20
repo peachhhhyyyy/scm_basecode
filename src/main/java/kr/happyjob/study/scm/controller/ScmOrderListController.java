@@ -137,18 +137,18 @@ public class ScmOrderListController {
 
 		paramMap.put("loginId", loginId); // 로그인 아이디, SCM 관리자명 가져올 때 쓰임
 		logger.info("paramMap:" + paramMap);
-		
+
 		// 해당 주문 상태 '배송준비'로 업데이트
 		Map<String, String> resultMap = scmOrderListService.updateState(paramMap);
-		
+
 		// 해당 배송지시서 내용을 DB 배송지시서 테이블에 INSERT
 		scmOrderListService.insertData(paramMap);
-		
+
 		logger.info("+ end " + className + ".sendDeliveryDirection");
 
 		return resultMap;
 	}
-	
+
 	@RequestMapping("sendPurchaseDirection.do")
 	@ResponseBody
 	public Map<String, String> sendPurchaseDirection(Model model, @RequestParam Map<String, Object> paramMap,
@@ -160,13 +160,13 @@ public class ScmOrderListController {
 
 		paramMap.put("loginId", loginId); // 로그인 아이디, SCM관리자id 가져올 때 쓰임
 		logger.info("paramMap:" + paramMap);
-		
+
 		// 해당 주문 상태 '승인대기(발주)'로 업데이트
 		Map<String, String> resultMap = scmOrderListService.updateState(paramMap);
-		
+
 		// 해당 발주지시서 내용을 DB '발주지시서 테이블'에 INSERT
 		scmOrderListService.insertData(paramMap);
-		
+
 		logger.info("+ end " + className + ".sendPurchaseDirection");
 
 		return resultMap;
