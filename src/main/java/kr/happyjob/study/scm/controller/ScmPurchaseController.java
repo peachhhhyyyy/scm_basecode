@@ -1,5 +1,6 @@
 package kr.happyjob.study.scm.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.happyjob.study.scm.model.ScmPurchaseModel;
 import kr.happyjob.study.scm.service.ScmPurchaseService;
@@ -41,7 +43,7 @@ public class ScmPurchaseController {
   // 발주지시서 목록 조회
   @RequestMapping("scmPurchaseList.do")
   public String scmPurchaseList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-      HttpServletResponse response, HttpSession session) throws Exception {
+      HttpServletResponse response, HttpSession session, @RequestParam Map<String, Object> param) throws Exception {
     
     logger.info("+ Start " + className + ".scmPurchaseList");
     logger.info("   - paramMap : " + paramMap);
@@ -52,6 +54,16 @@ public class ScmPurchaseController {
         
     paramMap.put("pageIndex", pageIndex);
     paramMap.put("pageSize", pageSize);
+    
+    // 값이 없는 경우 주의 (분기 처리 해야 함)
+    String date1 = (String) param.get("date");
+    String date2 = (String) param.get("date");
+   
+    System.out.println("날짜 1 : " + date1);
+    System.out.println("날짜 2 : " + date2);
+    
+    param.put("date1", date1);
+    param.put("date2", date2);
     
     logger.info("   - paramMap : " + paramMap);
 
@@ -68,5 +80,30 @@ public class ScmPurchaseController {
     logger.info("+ End " + className + ".scmPurchaseList");
     
     return "scm/scmPurchaseList";
+  } 
+  
+  // 발주 버튼 클릭 시 내용 전송
+  @RequestMapping("sendproc.do")
+  @ResponseBody
+  public Map<String, Object> sendproc(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+      HttpServletResponse response, HttpSession session) throws Exception {
+    
+    logger.info("+ Start " + className + ".sendproc");
+    logger.info("   - paramMap : " + paramMap);
+
+    String result = "SUCCESS";
+    String resultMsg = "전송 되었습니다.";
+   
+    //하단에 전송 후에 구현되어야 할 로직 작성
+    //pcsService.selectPurchBtn(paramMap);
+    
+    Map<String, Object> resultMap = new HashMap<String, Object>();
+    resultMap.put("result", result);
+    resultMap.put("resultMsg", resultMsg);
+    //resultMap.put("pcsModel", pcsModel);
+    
+    logger.info("+ End " + className + ".sendproc");
+    
+    return resultMap;
   } 
 }
