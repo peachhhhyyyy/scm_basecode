@@ -17,7 +17,7 @@
       <if test="(sname != null) and (!sname.equals(''))">
       <choose>
         <when test="oname eq 'all'.toString()">
-            AND (WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%')
+            AND (WH.warehouse_cd LIKE CONCAT('%', #{sname}, '%')
                  or WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%')
                  or UI.name LIKE CONCAT('%', #{sname}, '%')
                  or UI.tel LIKE CONCAT('%', #{sname}, '%')
@@ -45,7 +45,7 @@
         <choose>
         <when test="oname eq 'all'.toString()">
             <!-- AND (WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%') or UI.name LIKE CONCAT('%', #{sname}, '%')) -->
-            AND (WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%')
+            AND (WH.warehouse_cd LIKE CONCAT('%', #{sname}, '%')
                  or WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%')
                  or UI.name LIKE CONCAT('%', #{sname}, '%')
                  or UI.tel LIKE CONCAT('%', #{sname}, '%')
