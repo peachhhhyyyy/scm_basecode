@@ -341,7 +341,7 @@ input[type=number]::-webkit-outer-spin-button {
             </div>
             <div class="paging_area"  id="CartPagination"> </div>
             <div class="amount" id="amount">
-              <fmt:formatNumber type="number" pattern="0"  value="${totalPrice*1.1}" /> 원
+              <fmt:formatNumber type="number" minFractionDigits="0"  value="${totalPrice*1.1}" /> 원
             </div>
             <div class="orderBtnContainer">
               <a class="btnType3 color2" href="javascript:fOrderModal();"><span>주문하기</span></a>

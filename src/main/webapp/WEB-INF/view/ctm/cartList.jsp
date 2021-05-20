@@ -31,7 +31,7 @@
 				style="width: 50px; text-align: right;" /></td>
 			<td id="${list.product_cd}amount">
 			   <input name="${list.product_cd}" type="hidden" value="${list.price}">
-				 <fmt:formatNumber type="number" pattern="0" value="${list.price * list.shopping_cart_qty * 1.1}" /> <!-- 가격 -->
+				 <fmt:formatNumber type="number" minFractionDigits="0" value="${list.price * list.shopping_cart_qty * 1.1}" /><!-- 가격 -->
 			</td>
 			<td><a class="btnType3 color1" href="javascript:fDeleteModal();"><span>삭제하기</span></a>
 			</td>
