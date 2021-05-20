@@ -1,18 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<!-- 갯수가 0인 경우  -->
 <c:if test="${totalCount eq 0 }">
   <tr>
     <td colspan="7">데이터가 존재하지 않습니다.</td>
   </tr>
 </c:if>
-<!-- 갯수가 있는 경우  -->
 <c:if test="${totalCount > 0 }">
   <c:forEach items="${scmPurchaseOrderingOrderModel}" var="list">
     <tr>
-      <td><a href="javascript:fReturnDetailList('${list.purch_list_no}');">${list.purch_list_no}</a></td>
-      <td>${list.prod_nm}</td>
+      <td>${list.purch_list_no}</td>
+      <td><a href="javascript:fPopScmPcsOrderingOrder('${list.scm_id}', '${list.direction_date}', '${list.prod_nm}', '${list.purch_qty}', '${list.m_ct_cd}', '${list.purchase_price}', '${list.supply_nm}', '${list.purch_total_amt}', '${list.approve_id}', '${list.price}');">${list.prod_nm}</a></td>
       <td>${list.m_ct_cd}</td>
       <td>${list.supply_nm}</td>
       <td>${list.purch_qty}</td>
