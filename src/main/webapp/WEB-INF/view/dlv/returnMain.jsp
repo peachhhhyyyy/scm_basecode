@@ -22,6 +22,8 @@
 	function fReturnList(currentPage) {
 		currentPage = currentPage || 1;
 		console.log("currentPage : " + currentPage);
+		
+		$('#submitBtn').hide();
 
 		var param = {
 			currentPage : currentPage,
@@ -60,7 +62,7 @@
 		$("#listInfPagination").empty().append(paginationHtml);
 	}
 
-	// 검색조건으로 반내역 가져오기
+	// 검색조건으로 반품내역 가져오기
 	function fSearchReturnList(currentPage, STTcd, startDate, endDate) {
 
 		console.log(STTcd, startDate, endDate)
@@ -68,6 +70,8 @@
 		currentPage = currentPage || 1;
 
 		console.log("currentPage : " + currentPage);
+		
+		$('#submitBtn').hide();
 
 		// 날짜 비교, 널값 알맞지 않으면 랜딩
 		if (startDate == '' || endDate == '') {
@@ -122,6 +126,8 @@
 
 	/* 반품내역 상세 조회*/
 	function fReturnDetailList(refund_list_no) {
+		
+		$('#submitBtn').show();
 
 		var param = {
 			refund_list_no : refund_list_no,
@@ -247,8 +253,8 @@
 									<tr>
 										<th scope="col">주문코드</th>
 										<th scope="col">반품번호</th>
-										<th scope="col">제품명</th>
 										<th scope="col">품목명</th>
+										<th scope="col">제품명</th>
 										<th scope="col">반품수량</th>
 										<th scope="col">고객명</th>
 										<th scope="col">고객연락처</th>
@@ -274,7 +280,7 @@
 									</tr>
 								</tbody>
 							</table>
-							<button type="submit" value="Submit" class="col-1-4 btnType blue"
+							<button id="submitBtn" type="submit" value="Submit" class="col-1-4 btnType blue"
 								style="
 								    margin-right: -2px; 
 								    font-size: 15px; 
