@@ -13,8 +13,7 @@
 	<c:set var="nRow" value="${pageSize*(currentPageCart-1)}" />
 	<c:forEach items="${listCartModel}" var="list">
 		<tr>
-			<td><input id="selectCartItem" type="checkbox"
-				name="selectCartItem" checked="checked" value="${list.product_cd}">
+			<td><input id="selectCartItem" type="checkbox" name="selectCartItem" checked="checked" value="${list.price * list.shopping_cart_qty * 1.1}">
 			</td>
 			<td><img style="height: 200px;"
 				src="http://img.danawa.com/prod_img/500000/135/584/img/12584135_1.jpg?shrink=360:360&_v=20201030144612" />
@@ -27,13 +26,12 @@
 			<!-- 브랜드명 -->
 			<td>${list.product_cd}</td>
 			<!-- 제품코드 -->
-			<td><input id="${list.product_cd}chk" type="number" name="qtyCount"
+			<td><input id="${list.product_cd}" type="number" name="qtyCount"
 				min="1" value="${list.shopping_cart_qty}"
 				style="width: 50px; text-align: right;" /></td>
-			<td id="${list.product_cd}amount"><input
-				name="${list.product_cd}" type="hidden" value="${list.price}">
-				<c:set var="retailPrice" value="${list.price}" /> <fmt:formatNumber
-					type="number" pattern="0" value="${list.price * list.shopping_cart_qty * 1.1}" /> <!-- 가격 -->
+			<td id="${list.product_cd}amount">
+			   <input name="${list.product_cd}" type="hidden" value="${list.price}">
+				 <fmt:formatNumber type="number" pattern="0" value="${list.price * list.shopping_cart_qty * 1.1}" /> <!-- 가격 -->
 			</td>
 			<td><a class="btnType3 color1" href="javascript:fDeleteModal();"><span>삭제하기</span></a>
 			</td>
