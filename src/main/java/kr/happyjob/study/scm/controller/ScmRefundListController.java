@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.happyjob.study.scm.model.ScmRefundListModel;
 import kr.happyjob.study.scm.service.ScmRefundListService;
@@ -95,5 +96,31 @@ public class ScmRefundListController {
 		logger.info("+ end " + className + ".getRefundDetail");
 
 		return "/scm/refundDetail";
+	}
+	
+	@RequestMapping("refundDirectionInsert.do")
+	@ResponseBody
+	public Map<String, String> sendRefundDirection(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+
+		logger.info("+ Start " + className + ".sendRefundDirection");
+		
+		paramMap.put("loginId", session.getAttribute("loginId"));
+		logger.info("   - paramMap : " + paramMap);
+
+		// 해당 주문 상태 '승인대기(반품)'으로 업데이트
+		Map<String, String> resultMap = scmRefundListService.updateState(paramMap);
+		
+		// 해당 반품 내용을 DB '반품지시서 테이블'에 INSERT
+		int insertResult = scmRefundListService.insertData(paramMap);
+		if (insertResult == 1) {
+			logger.info("====== 반품지시서 INSERT 성공 ======");
+		} else {
+			logger.info("====== 반품지시서 INSERT 실패 ======");
+		}
+		
+		logger.info("+ end " + className + ".sendRefundDirection");
+
+		return resultMap;
 	}
 }
