@@ -106,10 +106,12 @@ public class DlvReturnController {
 		
 		List<DlvReturnDetailModel> returnDetailList = dlvReturnService.returnDetailList(paramMap);
 		model.addAttribute("returnDetailList", returnDetailList);
-		logger.info("returnDetailList"+returnDetailList);
+		logger.info("returnDetailList : "+returnDetailList);
 		
 		List<DlvStaffNameModel> dlvStaffNameCombo = dlvReturnService.dlvStaffNameCombo(paramMap);
 		model.addAttribute("dlvStaffNameCombo", dlvStaffNameCombo);
+		
+//		System.out.println("====== Return Dlv Name ====== : " + dlvStaffNameCombo.toString());
 		
 		return "/dlv/returnDetail";
 	}
@@ -150,12 +152,13 @@ public class DlvReturnController {
 				logger.info("===== 수정된 submit 정보 ===== : "+ paramMap);
 			}
 			
-			logger.info("======== loginID ======== : " + session.getAttribute("loginId"));
+//			logger.info("======== loginID ======== : " + session.getAttribute("loginId"));
 			
 			paramMap.put("mngLoginId", session.getAttribute("loginId"));
 			
 			int ResultDBReturn = dlvReturnService.updateReturnPaper(paramMap);
 			logger.info("===== SHIP_LIST Update Result ===== : " + ResultDBReturn);
+			
 			
 		return "/dlv/returnMain";
 	}
