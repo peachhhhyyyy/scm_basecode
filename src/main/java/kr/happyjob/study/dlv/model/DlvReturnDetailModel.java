@@ -5,10 +5,10 @@ public class DlvReturnDetailModel {
 	private String order_cd;
 	//반품코드
 	private String refund_list_no;
+	//카테고리명
+	private String l_ct_cd;
 	//제품명
 	private String prod_nm;
-	//카테고리명
-	private String m_ct_nm;
 	//반품수량
 	private int refund_cnt;
 	//고객명
@@ -48,10 +48,10 @@ public class DlvReturnDetailModel {
 		this.prod_nm = prod_nm;
 	}
 	public String getM_ct_nm() {
-		return m_ct_nm;
+		return l_ct_cd;
 	}
 	public void setM_ct_nm(String m_ct_nm) {
-		this.m_ct_nm = m_ct_nm;
+		this.l_ct_cd = m_ct_nm;
 	}
 	public int getRefund_cnt() {
 		return refund_cnt;
