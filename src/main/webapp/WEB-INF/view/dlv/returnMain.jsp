@@ -24,6 +24,7 @@
 		console.log("currentPage : " + currentPage);
 		
 		$('#submitBtn').hide();
+		$('#detailList').hide();
 
 		var param = {
 			currentPage : currentPage,
@@ -72,6 +73,7 @@
 		console.log("currentPage : " + currentPage);
 		
 		$('#submitBtn').hide();
+		$('#detailList').hide();
 
 		// 날짜 비교, 널값 알맞지 않으면 랜딩
 		if (startDate == '' || endDate == '') {
@@ -128,6 +130,7 @@
 	function fReturnDetailList(refund_list_no) {
 		
 		$('#submitBtn').show();
+		$('#detailList').show();
 
 		var param = {
 			refund_list_no : refund_list_no,
@@ -219,7 +222,10 @@
 								<input type="date" id="startDate" style="width: 200px; height: 28px;">
 								<span>~</span>
 								<input type="date" id="endDate" style="width: 200px; height: 28px;">
-								<a id="searchEnter" class="btn btnTypeBox" href="javascript:fSearchReturnList(1, $('#STTcd').val(), $('#startDate').val(), $('#endDate').val())">검색</a>
+								<a id="searchEnter" 
+								    class="btn btnTypeBox" 
+								    href="javascript:fSearchReturnList(1, $('#STTcd').val(), $('#startDate').val(), $('#endDate').val())"
+								    style="border:1px solid #adb0b5;">검색</a>
 							</span>
 						</p>
 						<!-- 반품 리스트 조회  -->
@@ -243,7 +249,7 @@
 						<div class="paging_area" id="listInfPagination"></div>
 					</div> <!-- 상세페이지 조회 -->
 					<form action="updateSubmitInfo.do" method="post">
-						<div class="content">
+						<div id="detailList" class="content">
 							<p class="conTitle">
 								<span>상세페이지</span>
 							</p>
