@@ -38,6 +38,7 @@
            ON TOO.STTcd = DC.detail_code
 	             
 	       WHERE TOO.STTcd IN (5, 6, 7)
+	       ORDER BY TSRL.refund_list_no DESC
 		   LIMIT #{pageIndex}, #{pageSize}
 	</select>
 	
@@ -83,7 +84,7 @@
              
         WHERE TOO.STTcd IN (#{STTcd})
         AND TOO.refund_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
-        ORDER BY TOO.refund_date DESC
+        ORDER BY TSRL.refund_list_no
         LIMIT #{pageIndex}, #{pageSize}
 	</select>
 	
