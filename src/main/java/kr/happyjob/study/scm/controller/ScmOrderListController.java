@@ -26,7 +26,7 @@ import kr.happyjob.study.scm.service.ScmOrderListService;
 public class ScmOrderListController {
 
 	@Autowired
-	ScmOrderListService ScmOrderListService;
+	ScmOrderListService scmOrderListService;
 
 	private final Logger logger = LogManager.getLogger(this.getClass());
 
@@ -66,11 +66,11 @@ public class ScmOrderListController {
 		logger.info("After putting pageIndex, pageSize, paramMap:" + paramMap);
 
 		// 수주내역 목록 조회
-		List<ScmOrderListModel> orderList = ScmOrderListService.getOrderList(paramMap);
+		List<ScmOrderListModel> orderList = scmOrderListService.getOrderList(paramMap);
 		model.addAttribute("orderList", orderList);
 
 		// 수주내역 목록 갯수 추출
-		int orderListCnt = ScmOrderListService.getOrderListCnt(paramMap);
+		int orderListCnt = scmOrderListService.getOrderListCnt(paramMap);
 		model.addAttribute("orderListCnt", orderListCnt);
 
 		// 페이징 처리에 사용될 값들
@@ -93,8 +93,8 @@ public class ScmOrderListController {
 																	// 가져올 때 쓰임
 		logger.info("paramMap:" + paramMap);
 
-		ProductInfoModel productInfo = ScmOrderListService.getProductInfo(paramMap);
-		String scmManager = ScmOrderListService.getScmManagerName(paramMap);
+		ProductInfoModel productInfo = scmOrderListService.getProductInfo(paramMap);
+		String scmManager = scmOrderListService.getScmManagerName(paramMap);
 		productInfo.setScmManager(scmManager);
 
 		model.addAttribute("productInfo", productInfo);
@@ -115,8 +115,8 @@ public class ScmOrderListController {
 		paramMap.put("loginId", loginId); // 로그인 아이디, SCM 관리자명 가져올 때 쓰임
 		logger.info("paramMap:" + paramMap);
 
-		DeliveryInfoModel deliveryInfo = ScmOrderListService.getDeliveryInfo(paramMap);
-		String scmManager = ScmOrderListService.getScmManagerName(paramMap);
+		DeliveryInfoModel deliveryInfo = scmOrderListService.getDeliveryInfo(paramMap);
+		String scmManager = scmOrderListService.getScmManagerName(paramMap);
 		deliveryInfo.setScmManager(scmManager);
 
 		model.addAttribute("deliveryInfo", deliveryInfo);
@@ -137,18 +137,18 @@ public class ScmOrderListController {
 
 		paramMap.put("loginId", loginId); // 로그인 아이디, SCM 관리자명 가져올 때 쓰임
 		logger.info("paramMap:" + paramMap);
-		
+
 		// 해당 주문 상태 '배송준비'로 업데이트
-		Map<String, String> resultMap = ScmOrderListService.updateState(paramMap);
-		
+		Map<String, String> resultMap = scmOrderListService.updateState(paramMap);
+
 		// 해당 배송지시서 내용을 DB 배송지시서 테이블에 INSERT
-		ScmOrderListService.insertData(paramMap);
-		
+		scmOrderListService.insertData(paramMap);
+
 		logger.info("+ end " + className + ".sendDeliveryDirection");
 
 		return resultMap;
 	}
-	
+
 	@RequestMapping("sendPurchaseDirection.do")
 	@ResponseBody
 	public Map<String, String> sendPurchaseDirection(Model model, @RequestParam Map<String, Object> paramMap,
@@ -160,13 +160,13 @@ public class ScmOrderListController {
 
 		paramMap.put("loginId", loginId); // 로그인 아이디, SCM관리자id 가져올 때 쓰임
 		logger.info("paramMap:" + paramMap);
-		
+
 		// 해당 주문 상태 '승인대기(발주)'로 업데이트
-		Map<String, String> resultMap = ScmOrderListService.updateState(paramMap);
-		
+		Map<String, String> resultMap = scmOrderListService.updateState(paramMap);
+
 		// 해당 발주지시서 내용을 DB '발주지시서 테이블'에 INSERT
-		ScmOrderListService.insertData(paramMap);
-		
+		scmOrderListService.insertData(paramMap);
+
 		logger.info("+ end " + className + ".sendPurchaseDirection");
 
 		return resultMap;

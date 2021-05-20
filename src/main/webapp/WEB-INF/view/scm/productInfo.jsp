@@ -9,6 +9,7 @@
 	<form name="purchaseDirectionInfo" id="purchaseDirectionInfo">
 		<input type="hidden" name="orderCode" value="${productInfo.orderCode}">
 		<input type="hidden" name="submitDate" value="${productInfo.submitDate}">
+		<input type="hidden" name="productCode" value="${productInfo.productCode}">
 		<input type="hidden" name="supplyCode" value="${productInfo.supplyCode}">
 		<input type="hidden" name="purchaseCount" value="">
 		<input type="hidden" name="purchasePrice" value="${productInfo.purchasePrice}">

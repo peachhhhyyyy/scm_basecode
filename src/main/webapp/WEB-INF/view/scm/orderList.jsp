@@ -28,7 +28,7 @@
 							<span class="btn_nav bold">수주내역 조회</span> 
 							<a href="../scm/scmOrderList.do" class="btn_set refresh"></a>
 						</p>
-						<p class="conTitle" style="margin-bottom: 1%; display: flex; justify-content: center; align-items: space-between;">
+						<p class="conTitle" style="margin-bottom: 1%;">
 							<span>수주내역 조회</span>
 						</p>
 						<div>

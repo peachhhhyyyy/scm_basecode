@@ -59,6 +59,7 @@
   opacity: 1;
   cursor: auto;
   will-change: transform, opacity;
+  border: 1px solid gray;
 }
 
 .tingle-modal-box__content {
