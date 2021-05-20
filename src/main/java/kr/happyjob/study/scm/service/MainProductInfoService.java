@@ -14,4 +14,13 @@ public interface MainProductInfoService {
   
   /* 제품 상세정보 조회*/
   public MainProductInfoModel selectMainProduct(Map<String, Object> paramMap) throws Exception;
+  
+  /* 제품정보 저장 */
+  public int insertMainProduct(Map<String, Object> paramMap) throws Exception;
+  
+  /* 제품정보 수정 */
+  public int updateMainProduct(Map<String, Object> paramMap) throws Exception;
+  
+  /* 제품정보 삭제 */
+  public int deleteMainProduct(Map<String, Object> paramMap) throws Exception;
 }

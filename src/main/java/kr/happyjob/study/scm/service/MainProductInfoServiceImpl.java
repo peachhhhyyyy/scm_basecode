@@ -35,4 +35,22 @@ public class MainProductInfoServiceImpl implements MainProductInfoService{
    MainProductInfoModel selectMainProduct = mainProductInfoDao.selectMainProduct(paramMap);
    return selectMainProduct;
  }
+ 
+ //제품정보 저장
+ public int insertMainProduct(Map<String, Object> paramMap) throws Exception {
+   int insertMainProduct = mainProductInfoDao.insertMainProduct(paramMap);
+   return insertMainProduct;
+ };
+ 
+ //제품정보 수정
+ public int updateMainProduct(Map<String, Object> paramMap) throws Exception {
+   int updateMainProduct = mainProductInfoDao.updateMainProduct(paramMap);
+   return updateMainProduct;
+ };
+ 
+ //제품정보 삭제
+ public int deleteMainProduct(Map<String, Object> paramMap) throws Exception {
+   int deleteMainProduct = mainProductInfoDao.deleteMainProduct(paramMap);
+   return deleteMainProduct;
+ };
 }
