@@ -374,7 +374,7 @@
               </tr>
               <tr>
               
-              <td rowspan="4" style="text-align:center; width:300px; hight:300px;">
+              <td rowspan="4" style="text-align:center; width:400px; hight:400px;">
                   <img id="tempImg" style="object-fit:cover; max-width:100%; " src="/images/admin/comm/no_image.png" alt="제품사진미리보기">
                  </td>   
                 
