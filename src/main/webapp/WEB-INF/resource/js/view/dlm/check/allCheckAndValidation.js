@@ -61,7 +61,7 @@ function numCheck(num) {
 // 아이템 총 개수와 처리 개수 비교 함수
 function checkItems(items) {
   let result = true;
-  for (let i = 0; i < items.length; i++) {
+  for (var i = 0; i < items.length; i++) {
     let origin = items[i].parentElement.parentElement.children[7].innerText;
     let compare = items[i].parentElement.parentElement.children[8].children[0].value;
     if (origin !== compare) {
