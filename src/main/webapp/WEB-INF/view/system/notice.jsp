@@ -29,6 +29,42 @@
 
     // 공지사항 목록 조회
     selectList();
+    
+    //datepicker설정
+    // formerDate datepicker
+    $('#datetimepicker1').datetimepicker({
+       //format : 'L',
+       format: 'YYYY-MM-DD',
+       formatDate: 'YYYY-MM-DD'
+    });
+    
+    $('#datetimepicker2').datetimepicker({
+    format : 'L',
+    useCurrent : false
+    });
+    
+    $("#datetimepicker1").on("change.datetimepicker", function(e) {
+      var date = $("#datetimepicker1").find("input").val()
+      $('#datetimepicker2').datetimepicker('minDate', e.date);
+    });
+    
+    
+    // latterDate datepicker
+    $('#datetimepicker3').datetimepicker({
+       //format : 'L',
+       format: 'YYYY-MM-DD',
+       formatDate: 'YYYY-MM-DD'
+    });
+    
+    $('#datetimepicker4').datetimepicker({
+    format : 'L',
+    useCurrent : false
+    });
+    
+    $("#datetimepicker3").on("change.datetimepicker", function(e) {
+      var date = $("#datetimepicker3").find("input").val()
+      $('#datetimepicker4').datetimepicker('minDate', e.date);
+    });
 
   });
 
@@ -37,51 +73,8 @@
      
     var option = $('#options').val();
     var keyword = $('#keyword').val();
-    console.log('옵션:', option);
-    console.log('키워드:', keyword)
     var formerDate = $("#datetimepicker1").find("input").val();
-    var latterDate = $("#datetimepicker3").find("input").val()
-    
-    console.log('전:', formerDate, '후', latterDate);
-    
-    // datepicker설정
-     $(function() {
-       //
-        $('#datetimepicker1').datetimepicker({
-           //format : 'L',
-           format: 'YYYY-MM-DD',
-           formatDate: 'YYYY-MM-DD'
-        });
-        
-        $('#datetimepicker2').datetimepicker({
-        format : 'L',
-        useCurrent : false
-        });
-        
-        $("#datetimepicker1").on("change.datetimepicker", function(e) {
-          var date = $("#datetimepicker1").find("input").val()
-          $('#datetimepicker2').datetimepicker('minDate', e.date);
-        });
-        
-        
-        //
-        $('#datetimepicker3').datetimepicker({
-           //format : 'L',
-           format: 'YYYY-MM-DD',
-           formatDate: 'YYYY-MM-DD'
-        });
-        
-        $('#datetimepicker4').datetimepicker({
-        format : 'L',
-        useCurrent : false
-        });
-        
-        $("#datetimepicker3").on("change.datetimepicker", function(e) {
-          var date = $("#datetimepicker3").find("input").val()
-          $('#datetimepicker4').datetimepicker('minDate', e.date);
-        });
-        
-      });
+    var latterDate = $("#datetimepicker3").find("input").val();
     
     currentPage = currentPage || 1;
 
@@ -118,15 +111,15 @@
   }
 
    /* 공지사항 목록 조회 콜백 함수 */
-  function selectListCallBack(data, currentPage) {
+  function selectListCallBack(result, currentPage) {
     
-    console.log('공지사항 목록:', data);
+    console.log('공지사항 목록:', result);
     
     // 기존 목록 삭제
     $('#noticeList').empty();
     
     // 신규 목록 생성
-    $("#noticeList").append(data);
+    $("#noticeList").append(result);
     
     // 리스트 로우의 총 개수 추출
     var totalCount = $("#totalCount").val();
@@ -176,9 +169,17 @@
       var auth = $('#write_auth').val();
       console.log('타이틀:', title, '내용',content,'권한', auth);
       
+      //*** 파일 추가 ***
+      var uploadFile = $('#file-form')[0];
+      var fileData = new FormData(uploadFile);
+      
+      // 
+      fileData.append("empty", "empty");
+      
+      console.log('파일폼확인', uploadFile)
+      console.log('파일확인', fileData)
       
       
-      // ***파일 추가 예정***
       
       if(title == '') {
         
@@ -194,6 +195,15 @@
         return false;
       } 
       
+      var param = {
+          
+          title: title,
+          content: content,
+          auth: auth 
+          
+      }
+      
+      
       // 콜백 함수
       function resultCallback(result) {
         
@@ -206,13 +216,8 @@
         }
       }
       
-      var param = {
-          
-          title: title,
-          content: content,
-          auth: auth 
-          
-      }
+      // 파일 업로드 AJAX호출(fileUploadCallback작성 해야 함)
+      
       
       // AJAX호출
       callAjax("/system/writeNotice.do", "post", "json", true, param, resultCallback);
@@ -305,9 +310,8 @@
     
     /* 글 작성 ,글 수정 모달 변경 */
     function swapModal(identifier) {
-      console.log('스왑');
+      
      if(identifier == undefined) {
-       console.log('글수정 -> 글작성')
        $('#add_file').removeClass('display_none');
        $('#writeNoticeButton').removeClass('display_none');
        $('#modifyNoticeButton').addClass('display_none');
@@ -319,9 +323,9 @@
        
        // 단건 조회 모달 닫기
        fadeOutModal();
+       // 글작성 모달 활성화
        fadeInWriteModal();
        
-       // 글작성 모달 활성화
        $('#add_file').addClass('display_none');
        $('#writeNoticeButton').addClass('display_none');
        $('#modifyNoticeButton').removeClass('display_none');
@@ -460,7 +464,7 @@
                     <div class="input-group">
                       <select style="width: 90px; height: 34px;" id="options">
                         <option value="all" selected>제목+내용</option>
-                        <option value="category" id="category">제목</option>
+                        <option value="title" id="title">제목</option>
                       </select> <input type="text" class="form-control" aria-label="..." id="keyword" autocomplete="off">
                     </div>
                   </div>
@@ -557,14 +561,16 @@
                 <th scope="row">내용</th>
                 <td colspan="3"><textarea class="inputTxt p100" name="write_content" id="write_content" autocomplete="off" /></textarea></td>
               </tr>
-              <tr id="add_file" class="">
-                <th scope="row">첨부파일(글작성)</th>
-                <td colspan="3"><input type="file" class="inputTxt p100" name="return_mng_id" id="return_mng_id" /></td>
-              </tr>
-              <tr id="modify_file" class="display_none">
-                <th scope="row">첨부파일(글수정)</th>
-                <td colspan="3"><input type="file" class="inputTxt p100" name="return_mng_id" id="return_mng_id" /></td>
-              </tr>
+              <form enctype="multipart/form-data" id="file-form">
+                <tr id="add_file" class="">
+                  <th scope="row">첨부파일(글작성)</th>
+                  <td colspan="3"><input type="file" class="inputTxt p100" name="return_mng_id" id="return_mng_id" accept="image/*" /></td>
+                </tr>
+                <tr id="modify_file" class="display_none">
+                  <th scope="row">첨부파일(글수정)</th>
+                  <td colspan="3"><input type="file" class="inputTxt p100" name="return_mng_id" id="return_mng_id" accept="image/*"/></td>
+                </tr>
+              </form>
               <tr>
                 <th scope="row">열람권한</th>
                 <td colspan="3">

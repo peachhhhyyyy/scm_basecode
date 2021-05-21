@@ -31,9 +31,9 @@ public class NoticeServiceImpl implements NoticeService {
 	
   // 공지사항 검색 목록 총 개수 조회
 	@Override
-	public int countConditionList() throws Exception {
+	public int countConditionList(Map<String, Object> param) throws Exception {
 	  // TODO Auto-generated method stub
-	  return noticeDao.countConditionList();
+	  return noticeDao.countConditionList(param);
 	}
 	
 	

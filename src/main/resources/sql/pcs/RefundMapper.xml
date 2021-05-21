@@ -25,7 +25,7 @@
            <where>
              <if test="keyword != ''">
                <choose>
-                 <when test="option eq 'all'.toString() ">
+                 <when test="option eq 'all'.toString()">
                    
                    AND (
                         pur.order_cd LIKE CONCAT('%', #{keyword},'%') 

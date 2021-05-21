@@ -21,6 +21,22 @@
 
   /* OnLoad event */ 
   $(function() {
+    
+    //  datepicker설정
+    $('#datetimepicker1').datetimepicker({
+         //format : 'L',
+         format: 'YYYY-MM-DD',
+         formatDate: 'YYYY-MM-DD'
+      });
+      
+      $('#datetimepicker2').datetimepicker({
+      format : 'L',
+      useCurrent : false
+      });
+      
+      $("#datetimepicker1").on("change.datetimepicker", function(e) {
+        $('#datetimepicker2').datetimepicker('minDate', e.date);
+      });
 
     // 반품서 목록 조회 호출
     selectList();
@@ -34,24 +50,6 @@
     var keyword = $('#keyword').val();
     var date = $("#datetimepicker1").find("input").val()
     
-    // datepicker설정
-     $(function() {
-        $('#datetimepicker1').datetimepicker({
-           //format : 'L',
-           format: 'YYYY-MM-DD',
-           formatDate: 'YYYY-MM-DD'
-        });
-        
-        $('#datetimepicker2').datetimepicker({
-        format : 'L',
-        useCurrent : false
-        });
-        
-        $("#datetimepicker1").on("change.datetimepicker", function(e) {
-          $('#datetimepicker2').datetimepicker('minDate', e.date);
-        });
-      });
-    // 추가 코드 끝
     
     currentPage = currentPage || 1;
 

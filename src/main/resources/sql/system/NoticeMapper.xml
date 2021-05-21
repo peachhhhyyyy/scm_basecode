@@ -15,6 +15,22 @@
            auth
       FROM tb_scm_notice
      WHERE (auth = #{auth} or auth = 0)
+     <if test="keyword != ''">
+       <choose>
+        <when test="option eq 'all'.toString()">
+         AND (title LIKE CONCAT('%', #{keyword}, '%') or content LIKE CONCAT('%', #{keyword}, '%'))
+        </when>
+        <when test="option eq 'title'.toString()">
+          AND title LIKE CONCAT('%', #{keyword}, '%')
+        </when>
+       </choose>
+     </if>
+     
+     <if test="keyword == ''">
+      <if test="formerDate != ''">
+          
+      </if>
+     </if>
   ORDER BY notice_id DESC
      LIMIT #{pageIndex}, #{pageSize}  
                
@@ -23,17 +39,30 @@
   <!-- 공지사항 목록(기본) 총 개수 조회 -->
   <select id="countNoticeList" resultType="int">
   
-      SELECT count(*)
+      SELECT count(notice_id)
         FROM tb_scm_notice
        WHERE (auth = #{auth} or auth = 0)
-       
+         
    </select>
   
   <!-- 공지사항 목록(검색) 총 개수 조회 -->
   <select id="countConditionList" resultType="int">
   
-    
-  
+     SELECT 
+            COUNT(notice_id)
+      FROM tb_scm_notice
+      WHERE (auth = #{auth} or auth = 0)
+       <if test="keyword != ''">
+       <choose>
+        <when test="option eq 'all'.toString()">
+         AND (title LIKE CONCAT('%', #{keyword}, '%') or content LIKE CONCAT('%', #{keyword}, '%'))
+        </when>
+        <when test="option eq 'title'.toString()">
+          AND title LIKE CONCAT('%', #{keyword}, '%')
+        </when>
+       </choose>
+     </if>
+     
   </select>
   
   <!-- 공지사항 단건 조회 -->

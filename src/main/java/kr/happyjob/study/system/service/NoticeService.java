@@ -14,7 +14,7 @@ public interface NoticeService {
   public int countNoticeList()throws Exception;
   
   // 공지사항 검색 목록 총 개수 조회
-  public int countConditionList() throws Exception;
+  public int countConditionList(Map<String, Object> param) throws Exception;
   
   // 공지사항 단건 조회
   public NoticeModel selectNoticeDetail(int notice_id)throws Exception;
