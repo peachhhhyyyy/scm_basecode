@@ -19,6 +19,10 @@
 			
 				/** 수주내역 조회 */
 				function fOrderList(currentPage) {
+					
+					// 필요하기 전까지 숨기기
+					$('#submitBtn').hide();
+					$('#detailList').hide();
 			
 					currentPage = currentPage || 1;
 			
@@ -62,8 +66,11 @@
 				
 				/* 출하내역 상세 조회*/
 				function fOrderDetailList(order_cd) {
+					
+					// 필요하기 전까지 숨기기
+                    $('#submitBtn').show();
+                    $('#detailList').show();
 				
-				  $("#order_cd").val(order_cd);
 				
 				  var param = {
 				  		  order_cd : order_cd,
@@ -99,16 +106,25 @@
 				// 검색조건으로 수주내역 가져오기
 				function fSearchOrderList(currentPage, STTcd, startDate, endDate) {
 					
+					// 필요하기 전까지 숨기기
+                    $('#submitBtn').hide();
+                    $('#detailList').hide();
+					
 					console.log(STTcd, startDate, endDate)
 					
 					currentPage = currentPage || 1;
 			        
 	                console.log("currentPage : " + currentPage);
 	                
-	                // 날짜 비교 후 알맞지 않으면 랜딩
+	                // 날짜가 올바르지 않거나 널값인 경우 랜딩
+	                if(startDate == '' || endDate == ''){
+	                    alert("날짜를 설정해주세요.");
+	                    location.href= "/dlv/outgoing.do";
+	                }
+	                
 	                if(startDate > endDate){
-	                	alert("시작일자는 종료일자보다 클 수가 없습니다.");
-	                	location.href= "/dlv/outgoing.do";
+	                    alert("시작일자는 종료일자보다 클 수가 없습니다.");
+	                    location.href= "/dlv/outgoing.do";
 	                }
 	                
 	                var param = {
@@ -195,31 +211,32 @@
 						<jsp:include page="/WEB-INF/view/common/lnbMenu.jsp"></jsp:include>
 					</li>
 					<li class="contents">
-						<!-- contents -->
 						<h3 class="hidden">contents 영역</h3> <!-- content --> <!-- <form> -->
 						<div class="content" style="margin-bottom: 20px;">
-
 							<p class="Location">
 								<a href="../dashboard/dashboard.do" class="btn_set home">메인으로</a>
-								<span class="btn_nav bold">메인</span> <a
-									href="../dashboard/dashboard.do" class="btn_set refresh">새로고침</a>
+								<span class="btn_nav bold">메인</span>
+								<a href="../dashboard/dashboard.do" class="btn_set refresh">새로고침</a>
 							</p>
-								<p class="conTitle" style="display:flex; justify-content: space-between; align-items: center;" >
-									<span>출하계획</span>
-									<!-- 상단 상태, 날짜 조회 부분 -->
-									<span style="width: 590px;">
-									    <select id="STTcd" name="STTcd" style="width: 100px;">
-											<option value="13, 14, 15">전체</option>
-											<option value="13">배송준비</option>
-											<option value="14">배송중</option>
-											<option value="15">배송완료</option>
-										</select>
-										<input type="date" name="startDate" id="startDate" style="width: 200px; height: 28px;">
-										<span>~</span>
-										<input type="date" name="endDate" id="endDate" style="width: 200px; height: 28px;">
-	                                    <a id="searchEnter" class="btn btnTypeBox" href="javascript:fSearchOrderList(1, $('#STTcd').val(), $('#startDate').val(), $('#endDate').val())">검색</a>
-                                    </span>
-								</p>
+							<p class="conTitle" style="display:flex; justify-content: space-between; align-items: center;" >
+								<span>출하계획</span>
+								<!-- 상단 상태, 날짜 조회 부분 -->
+								<span style="width: 590px;">
+								    <select id="STTcd" name="STTcd" style="width: 100px;">
+										<option value="13, 14, 15">전체</option>
+										<option value="13">배송준비</option>
+										<option value="14">배송중</option>
+										<option value="15">배송완료</option>
+									</select>
+									<input type="date" name="startDate" id="startDate" style="width: 200px; height: 28px;">
+									<span>~</span>
+									<input type="date" name="endDate" id="endDate" style="width: 200px; height: 28px;">
+                                    <a id="searchEnter" 
+                                        class="btn btnTypeBox" 
+                                        href="javascript:fSearchOrderList(1, $('#STTcd').val(), $('#startDate').val(), $('#endDate').val())"
+                                        style="border:1px solid #adb0b5;">검색</a>
+                                </span>
+							</p>
 							<table class="col">
 								<thead>
 									<tr>
@@ -227,7 +244,7 @@
 										<th scope="col">배송완료일자</th>
 										<th scope="col">도착예정일자</th>
 										<th scope="col">주문코드</th>
-										<th scope="col">배송담당자</th>
+										<th scope="col">배송사원</th>
 										<th scope="col">창고명</th>
 										<th scope="col">상태</th>
 									</tr>
@@ -235,9 +252,9 @@
 								<tbody id="outgoingList"></tbody>
 							</table>
 						<div class="paging_area" id="lisOutgoingPagination"></div>
-						</div>
+					</div>
 						<form action="submitDlvInfo.do" method="post">
-						<div class="content">
+						<div id="detailList" class="content">
 							<p class="conTitle">
 								<span>상세페이지</span>
 							</p>
@@ -282,21 +299,21 @@
 								<thead>
 									<tr>
 										<th scope="col">SCM담당자명</th>
+										<th scope="col">창고명</th>
 										<th scope="col">배송사원</th>
 										<th scope="col">배송사원 연락처</th>
-										<th scope="col">창고명</th>
 										<th scope="col">도착예정일자</th>
 										<th scope="col">배송상태</th>
 										<th scope="col" colspan="2">요구사항</th>
 									</tr>
 								</thead>
-								    <tbody id="outgoingDetailListBottom">
-					                    <tr>
-					                      <td colspan="14">주문코드를 선택해 주세요.</td>
-					                    </tr>
+							    <tbody id="outgoingDetailListBottom">
+				                    <tr>
+				                      <td colspan="14">주문코드를 선택해 주세요.</td>
+				                    </tr>
 			                    </tbody>
 							</table>
-							<button type="submit" value="Submit" class="col-1-4 btnType blue" style="
+							<button id="submitBtn" type="submit" value="Submit" class="col-1-4 btnType blue" style="
 	                                        margin-right: -2px;
 	                                        font-size: 15px;
 	                                        color: #fff;

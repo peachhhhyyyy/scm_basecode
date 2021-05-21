@@ -2,6 +2,8 @@ package kr.happyjob.study.dlv.model;
 
 public class DlvOutgoingDetailModel {
 	
+	// 배송접수일자
+	private String order_date;
 	// 배송지시서번호
 	private String ship_list_no;
 	// 주문코드
@@ -132,6 +134,11 @@ public class DlvOutgoingDetailModel {
 	public void setArr_date(String arr_date) {
 		this.arr_date = arr_date;
 	}
-	
+	public String getOrder_date() {
+		return order_date;
+	}
+	public void setOrder_date(String order_date) {
+		this.order_date = order_date;
+	}
 	
 }

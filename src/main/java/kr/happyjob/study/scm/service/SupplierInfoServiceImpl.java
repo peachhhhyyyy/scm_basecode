@@ -16,34 +16,34 @@ public class SupplierInfoServiceImpl implements SupplierInfoService {
   
   //공급처 목록 조회
   @Override
-  public List<SupplierInfoModel> getSupplierInfo(Map<String, Object> paramMap) throws Exception {
-    List<SupplierInfoModel> supplierList = supplierInfoDao.getSupplierInfo(paramMap);
-    return supplierList;
+  public List<SupplierInfoModel> listSupplier(Map<String, Object> paramMap) throws Exception {
+    List<SupplierInfoModel> listSupplier = supplierInfoDao.listSupplier(paramMap);
+    return listSupplier;
   }
   //공급처 목록 카운트
   @Override
-  public int countSupplierInfo(Map<String, Object> paramMap) throws Exception {
-    int supllierCount = supplierInfoDao.countSupplierInfo(paramMap);
-    return supllierCount;
+  public int totalCntSupplier(Map<String, Object> paramMap) throws Exception {
+    int totalCntSupplier = supplierInfoDao.totalCntSupplier(paramMap);
+    return totalCntSupplier;
   }
   
   //제품정보 목록 조회
   @Override
-  public List<SupplierInfoModel> getSupplierProInfo(Map<String, Object> paramMap) throws Exception{
-    List<SupplierInfoModel> supplierProList = supplierInfoDao.getSupplierProInfo(paramMap);
-    return supplierProList;
+  public List<SupplierInfoModel> listSupplierProduct(Map<String, Object> paramMap) throws Exception{
+    List<SupplierInfoModel> listSupplierProduct = supplierInfoDao.listSupplierProduct(paramMap);
+    return listSupplierProduct;
   }
   //제품정보 목록 카운트
   @Override
-  public int countSupplierProInfo(Map<String, Object>paramMap) throws Exception{
-    int countSupplierProInfo = supplierInfoDao.countSupplierProInfo(paramMap);
-    return countSupplierProInfo;
+  public int totalCntProduct(Map<String, Object>paramMap) throws Exception{
+    int totalCntProduct = supplierInfoDao.totalCntProduct(paramMap);
+    return totalCntProduct;
   }
   //공급처 단건 조회
   @Override
-  public SupplierInfoModel selectSupplierDetail(Map<String, Object> paramMap) throws Exception {
-    SupplierInfoModel selectSupplierDetail = supplierInfoDao.selectSupplierDetail(paramMap);
-    return selectSupplierDetail;
+  public SupplierInfoModel selectSupplier(Map<String, Object> paramMap) throws Exception {
+    SupplierInfoModel selectSupplier = supplierInfoDao.selectSupplier(paramMap);
+    return selectSupplier;
   }
   
   //공급처 등록

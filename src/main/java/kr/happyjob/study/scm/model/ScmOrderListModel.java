@@ -22,6 +22,7 @@ public class ScmOrderListModel {
 	private int orderTax;
 	private String depositState;
 	private String state;
+	private int STTcd;
 
 	public String getOrderCode() {
 		return orderCode;
@@ -109,6 +110,14 @@ public class ScmOrderListModel {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public int getSTTcd() {
+		return STTcd;
+	}
+
+	public void setSTTcd(int sTTcd) {
+		STTcd = sTTcd;
 	}
 
 }

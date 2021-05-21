@@ -5,33 +5,30 @@ public class DlvReturnDetailModel {
 	private String order_cd;
 	//반품코드
 	private String refund_list_no;
+	//카테고리명
+	private String l_ct_cd;
 	//제품명
 	private String prod_nm;
-	//카테고리명
-	private String m_ct_nm;
 	//반품수량
 	private int refund_cnt;
 	//고객명
 	private String cus_name;
 	//고객연락처
-	private int cus_tel;
-	//담당자 이름
-	private String emp_name;
-	//담당자 주소
-	private String emp_addr;
+	private String cus_tel;
+	//고객주소
+	private String cus_addr;
 	//배송사원 이름
-	private String dlv_name;
+	private String staff_name;
 	//배송사원 연락처
-	private int dlv_tel;
+	private String staff_tel;
+	//SCM 명
+	private String scm_name;
 	//창고명
 	private String warehouse_nm;
 	//상태
 	private String state;
 	//적요
 	private String request;
-	
-	public DlvReturnDetailModel() {
-	}
 	public String getOrder_cd() {
 		return order_cd;
 	}
@@ -51,10 +48,10 @@ public class DlvReturnDetailModel {
 		this.prod_nm = prod_nm;
 	}
 	public String getM_ct_nm() {
-		return m_ct_nm;
+		return l_ct_cd;
 	}
 	public void setM_ct_nm(String m_ct_nm) {
-		this.m_ct_nm = m_ct_nm;
+		this.l_ct_cd = m_ct_nm;
 	}
 	public int getRefund_cnt() {
 		return refund_cnt;
@@ -68,35 +65,35 @@ public class DlvReturnDetailModel {
 	public void setCus_name(String cus_name) {
 		this.cus_name = cus_name;
 	}
-	public int getCus_tel() {
+	public String getCus_tel() {
 		return cus_tel;
 	}
-	public void setCus_tel(int cus_tel) {
+	public void setCus_tel(String cus_tel) {
 		this.cus_tel = cus_tel;
 	}
-	public String getEmp_name() {
-		return emp_name;
+	public String getCus_addr() {
+		return cus_addr;
 	}
-	public void setEmp_name(String emp_name) {
-		this.emp_name = emp_name;
+	public void setCus_addr(String cus_addr) {
+		this.cus_addr = cus_addr;
 	}
-	public String getEmp_addr() {
-		return emp_addr;
+	public String getStaff_name() {
+		return staff_name;
 	}
-	public void setEmp_addr(String emp_addr) {
-		this.emp_addr = emp_addr;
+	public void setStaff_name(String staff_name) {
+		this.staff_name = staff_name;
 	}
-	public String getDlv_name() {
-		return dlv_name;
+	public String getStaff_tel() {
+		return staff_tel;
 	}
-	public void setDlv_name(String dlv_name) {
-		this.dlv_name = dlv_name;
+	public void setStaff_tel(String staff_tel) {
+		this.staff_tel = staff_tel;
 	}
-	public int getDlv_tel() {
-		return dlv_tel;
+	public String getScm_name() {
+		return scm_name;
 	}
-	public void setDlv_tel(int dlv_tel) {
-		this.dlv_tel = dlv_tel;
+	public void setScm_name(String scm_name) {
+		this.scm_name = scm_name;
 	}
 	public String getWarehouse_nm() {
 		return warehouse_nm;
@@ -116,5 +113,6 @@ public class DlvReturnDetailModel {
 	public void setRequest(String request) {
 		this.request = request;
 	}
+	
 	
 }

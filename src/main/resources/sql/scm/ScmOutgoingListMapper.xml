@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.happyjob.study.scm.dao.ScmReturnListDao">
+		<!-- 반품지시서 내역 조회 -->
+	<select id="getOutgoingList" resultType="kr.happyjob.study.scm.model.ScmOutgoingListModel">
+		SELECT TSSL.ship_list_no AS ship_list_no
+		        , CUSTOMER.cus_nm AS cus_nm
+		        , TSSL.scm_nm AS scm_nm
+		        , DATE_FORMAT(OD.order_date, '%Y-%m-%d') AS order_date
+		        , DATE_FORMAT(TSSL.submit_date, '%Y-%m-%d') AS submit_date
+		        , PROD_INFO.l_ct_nm AS l_ct_nm
+		        , PROD_INFO.prod_nm AS prod_nm
+		        , PROD_INFO.supply_nm AS supply_nm
+		        , OD.order_cnt AS order_cnt
+		        , WH.warehouse_nm AS warehouse_nm
+		        , DATE_FORMAT(OD.want_receive_date, '%Y-%m-%d') AS want_receive_date
+		        , OD.request AS request
+		    FROM tb_order AS OD
+		    
+		    LEFT JOIN (
+                  SELECT loginID
+                          , name AS cus_nm
+                      FROM tb_userinfo ) AS CUSTOMER
+            ON OD.loginID = CUSTOMER.loginID
+            
+            LEFT JOIN (
+                  SELECT ship.ship_list_no
+                          , ship.order_cd
+                          , ship.submit_date
+                          , scm.name AS scm_nm
+                      FROM tb_scm_ship_list AS ship
+                      LEFT JOIN tb_userinfo AS scm ON ship.scm_id = scm.loginID ) AS TSSL
+            ON OD.order_cd = TSSL.order_cd
+            
+            LEFT JOIN tb_scm_warehouse AS WH
+            ON OD.warehouse_cd = WH.warehouse_cd
+            
+            LEFT JOIN(
+                  SELECT TSP.product_cd
+                          , TSP.prod_nm
+                          , TSLC.l_ct_nm
+                          , TSS.supply_nm
+                      FROM tb_scm_product AS TSP
+                      LEFT JOIN tb_scm_m_category AS TSMC
+                      ON TSP.m_ct_cd = TSMC.m_ct_cd
+                      LEFT JOIN tb_scm_l_category AS TSLC
+                      ON TSMC.l_ct_cd = TSLC.l_ct_cd
+                      LEFT JOIN tb_scm_supply AS TSS
+                      ON TSP.supply_cd = TSS.supply_cd ) AS PROD_INFO
+            ON OD.product_cd = PROD_INFO.product_cd
+            
+            WHERE TSSL.ship_list_no IS NOT NULL
+            ORDER BY TSSL.ship_list_no DESC
+            LIMIT #{pageIndex}, #{pageSize}
+	</select>
+	
+	<!--지시서 목록 카운트 -->
+	<select id="scmOutgoingListCnt" resultType="int">
+		SELECT COUNT(*) AS scmOutgoingCnt
+			FROM tb_scm_ship_list
+			WHERE ship_list_no IS NOT NULL
+    </select>
+</mapper>

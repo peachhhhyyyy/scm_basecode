@@ -15,6 +15,8 @@ public class DeliveryInfoModel {
 	private int orderCount;
 	private String customerRequest;
 	private String supplyName;
+	private int productStock;
+	private String warehouseCode;
 
 	public String getScmManager() {
 		return scmManager;
@@ -102,6 +104,22 @@ public class DeliveryInfoModel {
 
 	public void setsupplyName(String supplyName) {
 		this.supplyName = supplyName;
+	}
+
+	public int getProductStock() {
+		return productStock;
+	}
+
+	public void setProductStock(int productStock) {
+		this.productStock = productStock;
+	}
+
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
 	}
 
 }
