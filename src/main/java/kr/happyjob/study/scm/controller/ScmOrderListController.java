@@ -1,5 +1,6 @@
 package kr.happyjob.study.scm.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -64,7 +65,19 @@ public class ScmOrderListController {
 		paramMap.put("pageIndex", pageIndex);
 		paramMap.put("pageSize", pageSize);
 		logger.info("After putting pageIndex, pageSize, paramMap:" + paramMap);
+		
 		logger.info("startDate: " + paramMap.get("startDate"));
+		
+		// paramMap에 check(배송상태 체크박스)가 있으면 걸러내기
+		ArrayList<Integer> checkedStateList = new ArrayList<Integer>(); 
+		paramMap.forEach((key, value) -> {
+			System.out.println(String.format("key -> %s, value -> %s", key, value));
+			if (key.substring(0, 5).equals("check")) {
+				checkedStateList.add(Integer.parseInt((String) value));
+			}
+		});
+		logger.info("checkedStateList: "+checkedStateList);
+		paramMap.put("checkedStateList", checkedStateList);
 		
 		// 수주내역 목록 조회
 		List<ScmOrderListModel> orderList = scmOrderListService.getOrderList(paramMap);
