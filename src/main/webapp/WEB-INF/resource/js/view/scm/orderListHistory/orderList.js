@@ -292,7 +292,7 @@ function makeDeliveryDirectionResult(data) {
 // 수주내역 검색 기능
 function searchOrderList() {
   var param = $('#orderListForm').serialize();
-
+  console.log(param);
   param += "&currentPage="+$('#currentPage').val();
   param += "&pageSize="+pageSizeOrderList;
   

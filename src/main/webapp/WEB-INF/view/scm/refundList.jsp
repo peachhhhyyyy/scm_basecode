@@ -33,13 +33,29 @@
 						<p class="conTitle" style="margin-bottom: 1%;">
 							<span>반품신청 목록</span>
 						</p>
-						<!-- 날짜 필터링 -->
-						<div class="date_container">
-							<input type="date" name="startDate" id="startDate"> 
-							<span>~</span> 
-							<input type="date" name="endDate" id="endDate">
-							<a class="btnType3 color2" id="refundListSearchBtn">검색</a>
-						</div>
+						<!-- 주문상태 체크박스 필터링 -->
+						<form id="orderListForm">
+							<div class="filter filter-perchase">
+								<strong>구매</strong> 
+								<input type="checkbox" id="check_3" name="check_3" value="3"> 
+									<label for="check_9">반품대기</label> 
+								<input type="checkbox" id="check_4" name="check_4" value="4"> 
+									<label for="check_10">승인대기(반품)</label> 
+								<input type="checkbox" id="check_5" name="check_5" value="5"> 
+									<label for="check_11">승인완료(반품)</label> 
+								<input type="checkbox" id="check_6" name="check_6" value="6"> 
+									<label for="check_12">반품진행중</label>
+								<input type="checkbox" id="check_7" name="check_7" value="7"> 
+									<label for="check_13">반품완료</label> 
+							</div>
+							<!-- 날짜 필터링 -->
+							<div class="date_container">
+								<input type="date" name="startDate" id="startDate" > 
+								<span>~</span> 
+								<input type="date" name="endDate" id="endDate">
+								<a class="btnType3 color2" id="orderListSearchBtn" href="javascript:searchOrderList();">검색</a>
+							</div>
+						</form>
 						
 						<!-- Excel 출력 아이콘 -->
 						<img id="excelExport" src='/images/excel/excel.png' onclick="fExcelDownload('dailyOrderTable', '일별 수주 내역');">
