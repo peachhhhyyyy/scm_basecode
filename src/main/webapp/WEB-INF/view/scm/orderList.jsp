@@ -53,23 +53,23 @@
 							</div>
 							<div class="filter filter-perchase">
 								<strong>구매</strong> 
-								<input type="checkbox" id="check_1" name="check_1" value="9"> 
-									<label for="check_1">승인대기(발주)</label> 
-								<input type="checkbox" id="check_2" name="check_2" value="10"> 
-									<label for="check_2">승인완료(발주)</label> 
-								<input type="checkbox" id="check_3" name="check_3" value="11"> 
-									<label for="check_3">입고대기</label> 
-								<input type="checkbox" id="check_4" name="check_4" value="12"> 
-									<label for="check_4">입고완료</label>
+								<input type="checkbox" id="check_9" name="check_9" value="9"> 
+									<label for="check_9">승인대기(발주)</label> 
+								<input type="checkbox" id="check_10" name="check_10" value="10"> 
+									<label for="check_10">승인완료(발주)</label> 
+								<input type="checkbox" id="check_11" name="check_11" value="11"> 
+									<label for="check_11">입고대기</label> 
+								<input type="checkbox" id="check_12" name="check_12" value="12"> 
+									<label for="check_12">입고완료</label>
 							</div>
 							<div class="filter filter-devliver">
 								<strong>배송</strong> 
-								<input type="checkbox" id="check_1" name="check_1" value="13"> 
-									<label for="check_1">배송준비</label> 
-								<input type="checkbox" id="check_2" name="check_2" value="14"> 
-									<label for="check_2">배송중</label> 
-								<input type="checkbox" id="check_3" name="check_3" value="15"> 
-									<label for="check_3">배송완료</label>
+								<input type="checkbox" id="check_13" name="check_13" value="13"> 
+									<label for="check_13">배송준비</label> 
+								<input type="checkbox" id="check_14" name="check_14" value="14"> 
+									<label for="check_14">배송중</label> 
+								<input type="checkbox" id="check_15" name="check_15" value="15"> 
+									<label for="check_15">배송완료</label>
 							</div>
 							<!-- 날짜 필터링 -->
 							<div class="date_container">
