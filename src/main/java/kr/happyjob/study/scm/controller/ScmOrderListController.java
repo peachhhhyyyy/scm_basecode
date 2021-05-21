@@ -64,7 +64,8 @@ public class ScmOrderListController {
 		paramMap.put("pageIndex", pageIndex);
 		paramMap.put("pageSize", pageSize);
 		logger.info("After putting pageIndex, pageSize, paramMap:" + paramMap);
-
+		logger.info("startDate: " + paramMap.get("startDate"));
+		
 		// 수주내역 목록 조회
 		List<ScmOrderListModel> orderList = scmOrderListService.getOrderList(paramMap);
 		model.addAttribute("orderList", orderList);
