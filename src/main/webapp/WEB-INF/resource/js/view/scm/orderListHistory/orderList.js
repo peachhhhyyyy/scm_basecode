@@ -316,9 +316,9 @@ function searchOrderList() {
 //  }
 
   var resultCallback = function(data) {
-    console.log("resultCallback start");
+    // 수주내역 기본 조회 result 함수를 그대로 사용. HTML 내용만 바꿔주는 것이기 때문
+    // pagenation도 그대로 사용 할 수 있음
     forderListHistoryResult(data, $('#currentPage').val());
-    console.log("resultCallback end");
   };
   
   callAjax("/scm/listInfo.do", "post", "text", true, param, resultCallback);
