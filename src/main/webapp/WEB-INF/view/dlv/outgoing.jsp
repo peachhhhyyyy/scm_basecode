@@ -64,43 +64,6 @@
 				}
 			
 				
-				/* 출하내역 상세 조회*/
-				function fOrderDetailList(order_cd) {
-					
-					// 필요하기 전까지 숨기기
-                    $('#submitBtn').show();
-                    //$('#detailList').show();
-				
-				
-				  var param = {
-				  		  order_cd : order_cd,
-				  }
-				
-				  var resultCallback = function(data) {
-					  fOrderListDetailResult(data);
-				  };
-				
-				  callAjax("/dlv/outgoingDetailList.do", "post", "text", true, param, resultCallback);
-				}
-				
-				
-				// 출하내역 상세조회 콜백 함수 
-				function fOrderListDetailResult(data) {
-				    //console.log(data);
-				
-				    // 기존 목록 삭제
-				    $('#outgoingDetailListTop').empty();
-				    $('#outgoingDetailListBottom').empty();
-				    
-				    var $data = $($(data).html());
-				    // topList
-				    var $outgoingDetailListTop = $data.find("#outgoingDetailListTop");
-				    $("#outgoingDetailListTop").append($outgoingDetailListTop.children());
-				    
-				    // bottomList
-				    var $outgoingDetailListBottom = $data.find("#outgoingDetailListBottom");
-				    $("#outgoingDetailListBottom").append($outgoingDetailListBottom.children());
-				}
 				
 				
 				// 검색조건으로 수주내역 가져오기
@@ -166,6 +129,44 @@
 	                $("#lisOutgoingPagination").empty().append(paginationHtml);
 	        
 	            }
+			    
+				/* 출하내역 상세 조회*/
+				function fOrderDetailList(order_cd) {
+					
+					// 필요하기 전까지 숨기기
+                    $('#submitBtn').show();
+                    //$('#detailList').show();
+				
+				
+				  var param = {
+				  		  order_cd : order_cd,
+				  }
+				
+				  var resultCallback = function(data) {
+					  fOrderListDetailResult(data);
+				  };
+				
+				  callAjax("/dlv/outgoingDetailList.do", "post", "text", true, param, resultCallback);
+				}
+				
+				
+				// 출하내역 상세조회 콜백 함수 
+				function fOrderListDetailResult(data) {
+				    //console.log(data);
+				
+				    // 기존 목록 삭제
+				    $('#outgoingDetailListTop').empty();
+				    $('#outgoingDetailListBottom').empty();
+				    
+				    var $data = $($(data).html());
+				    // topList
+				    var $outgoingDetailListTop = $data.find("#outgoingDetailListTop");
+				    $("#outgoingDetailListTop").append($outgoingDetailListTop.children());
+				    
+				    // bottomList
+				    var $outgoingDetailListBottom = $data.find("#outgoingDetailListBottom");
+				    $("#outgoingDetailListBottom").append($outgoingDetailListBottom.children());
+				}
 			    
 			    // 콤보박스로 선택된 배송기사이름으로 연락처 받아오기
 			    function fSelectDlvStaffTel(){
