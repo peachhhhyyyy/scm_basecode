@@ -184,7 +184,6 @@ function getPaginationHtml(currentPage, totalCount, pageRow, blockPage, pageFunc
 			pagingHtml += " <a href=javascript:"+pageFunc+"(" + i + sExParam +")>" + i + "</a>";
 		}
 	}
-
 	pagingHtml += "<a class='next' href='javascript:"+pageFunc+"(" + (currentPage + 1 > totalPage ? currentPage : (currentPage + 1)) + ")'><span class='hidden'>다음</span></a>";
 	pagingHtml += "<a class='last' href='javascript:"+pageFunc+"(" + totalPage + sExParam + ")'><span class='hidden'>맨뒤</span></a>";
 	pagingHtml += "</div>";
