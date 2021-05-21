@@ -54,6 +54,9 @@ public class DlvOutgoingController {
 		
 //		logger.info("paramMap" + paramMap);
 		
+//		logger.info("=============== 세션ID =============== : "+ session.getAttribute("loginId"));
+//		paramMap.put("loginID", session.getAttribute("loginId"));
+		
 		// 출하내역 가져오기 //
 		List<DlvOutgoingModel> outgoingList = dlvOutgoingService.outgoingList(paramMap);
 		model.addAttribute("outgoingList", outgoingList);
@@ -77,13 +80,14 @@ public class DlvOutgoingController {
 		List<DlvOutgoingDetailModel> outgoingDetailList = dlvOutgoingService.outgoingDetailList(paramMap);
 		model.addAttribute("outgoingDetailList", outgoingDetailList);
 		
-		logger.info("상세조회 내용" + outgoingDetailList.toString());
+//		logger.info("상세조회 내용" + outgoingDetailList.toString());
+		
 		
 		// 배송사원 이름
 		List<DlvStaffNameModel> dlvStaffNameCombo = dlvOutgoingService.dlvStaffNameCombo(paramMap);
 		model.addAttribute("dlvStaffNameCombo", dlvStaffNameCombo);
 		
-		logger.info(dlvStaffNameCombo.toString());
+//		logger.info(dlvStaffNameCombo.toString());
 		
 		return "/dlv/outgoingDetailList";
 	}
@@ -102,7 +106,7 @@ public class DlvOutgoingController {
 	    paramMap.put("pageIndex", pageIndex);
 		paramMap.put("pageSize", pageSize);
 		
-//		logger.info(" 상세조회 paramMap" + paramMap);
+//		logger.info(" 검색조건 paramMap" + paramMap);
 		
 		// 출하내역 가져오기 //
 		List<DlvOutgoingModel> outgoingSearchList = dlvOutgoingService.outgoingSearchList(paramMap);
@@ -111,7 +115,7 @@ public class DlvOutgoingController {
 
 		//출하내역 목록 수 추출하기 //
 		int outgoingSearchCnt = dlvOutgoingService.outgoingSearchCnt(paramMap);
-		logger.info("======= outgoingSearchCnt ======= : " + outgoingSearchCnt);
+//		logger.info("======= outgoingSearchCnt ======= : " + outgoingSearchCnt);
 	    model.addAttribute("outgoingSearchCnt", outgoingSearchCnt);
 	    
 	    model.addAttribute("pageSize", pageSize);
@@ -145,22 +149,26 @@ public class DlvOutgoingController {
 		 	
 			logger.info("===== submit 정보 ===== : "+ paramMap);
 			
-			String staffNameAndId = (String) paramMap.get("dlvStaffName");
-			String[] staffNameAndIdArray = staffNameAndId.split(" ");
-			logger.info("===== 이름과 아이디 배열 ===== : " + staffNameAndIdArray);
+			// ================== 진수형 작성 ================== //
+			if(paramMap.get("state").equals("14")) {
+				String staffNameAndId = (String) paramMap.get("dlvStaffNameAndLoginId");
+				String[] staffNameAndIdArray = staffNameAndId.split(" ");
+				
+				String staffName = staffNameAndIdArray[0];
+				String staffId = staffNameAndIdArray[1];
+				
+				paramMap.put("dlvStaffName", staffName);
+				paramMap.put("dlvStaffLoginId", staffId);
+				logger.info("===== 수정된 submit 정보 ===== : "+ paramMap);
+			}
+			// ============================================== //
 			
-			String staffName = staffNameAndIdArray[0];
-			String staffId = staffNameAndIdArray[1];
+			logger.info("======== loginID ======== : " + session.getAttribute("loginId"));
 			
-			paramMap.put("dlvStaffName", staffName);
-			paramMap.put("dlvStaffId", staffId);
-			
-			logger.info("===== 수정된 submit 정보 ===== : "+ paramMap);
-
+			paramMap.put("mngLoginId", session.getAttribute("loginId"));
 			
 			int ResultDBReturn = dlvOutgoingService.updateDlvPaper(paramMap);
-			
-			logger.info("===== SHIP_LIST Update Result ===== : " + ResultDBReturn);
+//			logger.info("===== SHIP_LIST Update Result ===== : " + ResultDBReturn);
 			
 		return "/dlv/outgoing";
 	}

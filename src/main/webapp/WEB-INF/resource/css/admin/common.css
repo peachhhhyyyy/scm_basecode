@@ -136,6 +136,7 @@ a.btnType3	{display:inline-block;padding:0 10px;min-width:50px;height: 30px;line
 a.btnType3.color1	{border-color:#59626c;background:url(/images/admin/comm/btn_bg1.png) 0 0 repeat-x;color:#fff;}
 a.btnType3.color2	{border-color:#175795;background:url(/images/admin/comm/btn_bg2.png) 0 0 repeat-x;color:#fff;}
 a.btnType3.color3	{height:40px;width:90px;color:#fff;margin-top:10px;margin-left:10px;padding-top: 5px;}
+a.btnType3.color4	{color:#000;border-color:#59626c;background:url(/images/admin/comm/btn_bg1.png) 0 0}
 
 a.btnType4	{display:inline-block;padding:0 10px;min-width:50px;height: 30px;line-height: 30px;border:1px solid #333;text-align:center;background:#000000;color:#fff;vertical-align: middle;box-sizing: border-box;}
 a.btnType4.color1	{border: 1px solid #333; border-color:#59626c;background:#000000 0 0 repeat-x;color:#fff;}

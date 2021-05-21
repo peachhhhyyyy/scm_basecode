@@ -26,4 +26,6 @@ public interface ScmOrderListDao {
 	int updateStateToPurchase(Map<String, Object> paramMap) throws Exception;
 	
 	int insertDataToPTable(Map<String, Object> paramMap) throws Exception;
+	
+	int updateProductCount(Map<String, Object> paramMap) throws Exception;
 }

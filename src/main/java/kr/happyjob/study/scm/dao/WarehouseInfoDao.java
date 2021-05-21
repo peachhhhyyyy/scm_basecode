@@ -15,4 +15,13 @@ public interface WarehouseInfoDao {
   public List<WarehouseInfoModel> listWarehouseProduct(Map<String, Object> paramMap) throws Exception;
   //제품 카운트
   public int totalCntProduct(Map<String, Object> paramMap) throws Exception;
+  
+  //창고 추가
+  public int insertWarehouse(Map<String, Object> paramMap) throws Exception;
+  //창고 수정
+  public int updateWarehouse(Map<String, Object> paramMap) throws Exception;
+  //창고 비활성화
+  public int deactivateWarehouse(Map<String, Object> paramMap) throws Exception;
+  //창고 단건 조회
+  public WarehouseInfoModel selectWarehouse(Map<String, Object> paramMap) throws Exception;
 }

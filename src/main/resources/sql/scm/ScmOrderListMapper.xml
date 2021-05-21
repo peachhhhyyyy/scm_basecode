@@ -12,8 +12,9 @@
 				   o.order_cnt orderCount, 
 				   o.amount orderAmount, 
 				   o.tax orderTax, 
-				   o.deposit_yn depositState, 
-				   dc.detail_name state 
+				   o.deposit_yn depositState,
+				   dc.detail_name state,
+				   o.STTcd STTcd
 			FROM tb_order o
 			JOIN (
 					SELECT name, loginID 
@@ -28,6 +29,16 @@
 					SELECT prod_nm, product_cd, stock, price 
 					FROM tb_scm_product
 				  ) prod ON prod.product_cd = o.product_cd
+			WHERE 1=1
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND DATE_FORMAT(o.order_date, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+			</if>
+			<if test="checkedStateList != null and checkedStateList.size() != 0">
+				AND o.STTcd IN
+				<foreach collection="checkedStateList" item="state" open="(" close=")" separator=",">
+					#{state}
+				</foreach>
+			</if>
 			ORDER BY o.order_date DESC
 		    LIMIT #{pageIndex}, #{pageSize}
 		</select>
@@ -42,6 +53,7 @@
 		<select id="selectProductInfo" resultType="kr.happyjob.study.scm.model.ProductInfoModel">
 			SELECT o.order_cd orderCode, 
 			  	   o.order_date orderDate,
+			  	   o.product_cd productCode,
 			       NOW() submitDate,
 			  	   prod.prod_nm productName,  
 			       mct.m_ct_nm middleCategory,
@@ -72,7 +84,10 @@
 			  	   mct.m_ct_nm middleCategory,
 			  	   o.order_cnt orderCount,
 			  	   o.request customerRequest,
-			  	   sup.supply_nm supplyName
+			  	   sup.supply_nm supplyName,
+			  	   prod.stock productStock,
+			  	   prod.warehouse_cd warehouseCode
+			  	   
 			FROM tb_order o
   			JOIN (
 					SELECT name, loginID 
@@ -99,7 +114,8 @@
 												scm_id,
 												direction_date,
 												purch_qty,
-												purch_total_amt
+												purch_total_amt,
+												product_cd
 			 		                      	  )
 			VALUES (
 						#{orderCode},
@@ -107,14 +123,15 @@
 						#{loginId},
 						#{submitDate},
 						#{purchaseCount},
-						#{totalAmount}
+						#{totalAmount},
+						#{productCode}
 					)
 		</insert>
 		
 		<!-- 배송지시서 요청 후, 상태 '배송준비'로 업데이트 -->
 		<update id="updateStateToDelivery" parameterType="int">
 			UPDATE tb_order
-			SET STTcd = #{STTcd}
+			SET STTcd = #{STTcd}, warehouse_cd = #{warehouseCode}
 			WHERE order_cd = #{orderCode}
 		</update>
 		<!-- 배송지시서 요청한 주문내역 '배송지시서'테이블에 INSERT -->
@@ -130,4 +147,10 @@
 						#{submitDate}
 					)
 		</insert>
+		
+		<update id="updateProductCount" parameterType="int">
+			UPDATE tb_scm_product
+			SET stock = #{productStock} - #{orderCount}
+			WHERE prod_nm = #{productName}
+		</update>
 </mapper>

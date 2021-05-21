@@ -15,7 +15,15 @@
   align-items: center;
   overflow: hidden;
   -webkit-overflow-scrolling: touch;
+  background: rgba(0, 0, 0, .9);
   opacity: 0;
+  cursor: url("data:image/svg+xml,%3Csvg width='19' height='19' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15.514.535l-6.42 6.42L2.677.536a1.517 1.517 0 00-2.14 0 1.517 1.517 0 000 2.14l6.42 6.419-6.42 6.419a1.517 1.517 0 000 2.14 1.517 1.517 0 002.14 0l6.419-6.42 6.419 6.42a1.517 1.517 0 002.14 0 1.517 1.517 0 000-2.14l-6.42-6.42 6.42-6.418a1.517 1.517 0 000-2.14 1.516 1.516 0 00-2.14 0z' fill='%23FFF' fill-rule='nonzero'/%3E%3C/svg%3E"), auto;
+}
+
+@supports (backdrop-filter: blur(12px)) {
+  .tingle-modal {
+    backdrop-filter: blur(12px);
+  }
 }
 
 /* confirm and alerts
@@ -36,6 +44,20 @@
   display: none;
 }
 
+.tingle-modal__close {
+  position: fixed;
+  top: 2.5rem;
+  right: 2.5rem;
+  z-index: 1000;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
 .tingle-modal__close svg * {
   fill: currentColor;
 }
@@ -53,12 +75,13 @@
   flex-shrink: 0;
   margin-top: auto;
   margin-bottom: auto;
-  width: 40%;
+  width: 60%;
   border-radius: 4px;
   background: #fff;
   opacity: 1;
   cursor: auto;
   will-change: transform, opacity;
+  border: 1px solid gray;
 }
 
 .tingle-modal-box__content {
@@ -72,8 +95,6 @@
   border-bottom-left-radius: 4px;
   background-color: #f5f5f5;
   cursor: auto;
-  display: flex;
-  justify-content: center;
 }
 
 .tingle-modal-box__footer::after {
@@ -139,15 +160,11 @@
 }
 
 .tingle-btn--primary {
-    border-color: #175795;
-    background: url(/images/admin/comm/btn_bg2.png) 0 0 repeat-x;
-    color: #fff;
+  background-color: #3498db;
 }
 
 .tingle-btn--danger {
-    border-color: #59626c;
-    background: url(/images/admin/comm/btn_bg1.png) 0 0 repeat-x;
-    color: #fff;
+  background-color: #e74c3c;
 }
 
 .tingle-btn--default {

@@ -18,6 +18,8 @@
 		<input type="hidden" name="supplyName" value="${deliveryInfo.supplyName}">
 		<input type="hidden" name="orderCount" value="${deliveryInfo.orderCount}">
 		<input type="hidden" name="customerRequest" value="${deliveryInfo.customerRequest}">
+		<input type="hidden" name="productStock" value="${deliveryInfo.productStock}">
+		<input type="hidden" name="warehouseCode" value="${deliveryInfo.warehouseCode}">
 		<input type="hidden" name="STTcd" value="13">
 	</form>
 	<h1>배송 지시서</h1>

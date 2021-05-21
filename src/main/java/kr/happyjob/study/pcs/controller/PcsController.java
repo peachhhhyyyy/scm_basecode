@@ -38,8 +38,8 @@ public class PcsController {
       HttpServletResponse response, HttpSession session) throws Exception {
    
     // 발주버튼 조회시 필요목록
-    List<PcsModel> listPcsOrderingOrderModel = pcsService.pcsOrderingOrder(paramMap);
-    model.addAttribute("listPcsOrderingOrderModel", listPcsOrderingOrderModel);
+    //List<PcsModel> listPcsOrderingOrderModel = pcsService.pcsOrderingOrder(paramMap);
+    //model.addAttribute("listPcsOrderingOrderModel", listPcsOrderingOrderModel);
     
     return "pcs/pcsOrderingOrder";
   }
@@ -73,72 +73,7 @@ public class PcsController {
     
     logger.info("+ End " + className + ".listPcsOrderingOrder");
     
-    return "/pcs/listPcsOrderingOrder";
-  } 
-  
-  // 발주 버튼 클릭 시 내용 전송
-  @RequestMapping("selectPurchBtn.do")
-  @ResponseBody
-  public Map<String, Object> selectPurchBtn(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-      HttpServletResponse response, HttpSession session) throws Exception {
-    
-    logger.info("+ Start " + className + ".selectPurchBtn");
-    logger.info("   - paramMap : " + paramMap);
-
-    String result = "SUCCESS";
-    String resultMsg = "전송 되었습니다.";
-   
-    PcsModel pcsModel = pcsService.selectPurchBtn(paramMap);
-    
-    Map<String, Object> resultMap = new HashMap<String, Object>();
-    resultMap.put("result", result);
-    resultMap.put("resultMsg", resultMsg);
-    resultMap.put("pcsModel", pcsModel);
-    logger.info("+ End " + className + ".selectPurchBtn");
-    
-    return resultMap;
-  }
-  
-  // 처음 로딩될 때 발주서 목록 연결
-  @RequestMapping("pcsOrderForm.do")
-  public String pcsOrderForm(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-      HttpServletResponse response, HttpSession session) throws Exception {
-
-    logger.info("+ Start " + className + ".pcsOrderForm");
-    logger.info("   - paramMap : " + paramMap);
-    logger.info("+ End " + className + ".pcsOrderForm");
-    
-    return "pcs/pcsOrderForm";
-  }
-  
-  // 발주서 목록 조회
-  @RequestMapping("listPcsOrderForm.do")
-  public String listPcsOrderForm(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-      HttpServletResponse response, HttpSession session) throws Exception {
-    
-    logger.info("+ Start " + className + ".listPcsOrderForm");
-    logger.info("   - paramMap : " + paramMap);
-    
-    int currentPage = Integer.parseInt((String)paramMap.get("currentPage"));  // 현재 페이지 번호
-    int pageSize = Integer.parseInt((String)paramMap.get("pageSize"));      // 페이지 사이즈
-    int pageIndex = (currentPage-1)*pageSize;                       // 페이지 시작 row 번호
-        
-    paramMap.put("pageIndex", pageIndex);
-    paramMap.put("pageSize", pageSize);
-
-    // 발주지시서 목록 조회
-    List<PcsModel> listPcsOrderFormModel = pcsService.pcsOrderForm(paramMap);
-    model.addAttribute("listPcsOrderFormModel", listPcsOrderFormModel);
-
-    // 발주지시서 목록 카운트 조회
-    int totalCount =  pcsService.countPcsOrderForm(paramMap);
-    model.addAttribute("totalCount", totalCount);
-    model.addAttribute("pageSize", pageSize);
-    model.addAttribute("currentPage", currentPage);
-    
-    logger.info("+ End " + className + ".listPcsOrderForm");
-    
-    return "pcs/listPcsOrderForm";
+    return "pcs/listPcsOrderingOrder";
   } 
   
   // 발주 버튼 클릭 시 내용 전송
@@ -166,18 +101,93 @@ public class PcsController {
     return resultMap;
   } 
   
+  // 처음 로딩될 때 발주서 목록 연결
+  @RequestMapping("pcsOrderForm.do")
+  public String pcsOrderForm(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+      HttpServletResponse response, HttpSession session) throws Exception {
+
+    logger.info("+ Start " + className + ".pcsOrderForm");
+    logger.info("   - paramMap : " + paramMap);
+    logger.info("+ End " + className + ".pcsOrderForm");
+
+    return "pcs/pcsOrderForm";
+  }
+  
+  // 발주서 목록 조회
+  @RequestMapping("listPcsOrderForm.do")
+  public String listPcsOrderForm(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+      HttpServletResponse response, HttpSession session, @RequestParam Map<String, Object> param) throws Exception {
+    
+    logger.info("+ Start " + className + ".listPcsOrderForm");
+    logger.info("   - paramMap : " + paramMap);
+    
+    int currentPage = Integer.parseInt((String)paramMap.get("currentPage"));  // 현재 페이지 번호
+    int pageSize = Integer.parseInt((String)paramMap.get("pageSize"));      // 페이지 사이즈
+    int pageIndex = (currentPage-1)*pageSize;                       // 페이지 시작 row 번호
+        
+    paramMap.put("pageIndex", pageIndex);
+    paramMap.put("pageSize", pageSize);
+
+    // 값이 없는 경우 주의 (분기 처리 해야 함)
+    String date = (String) param.get("date");
+   
+    System.out.println("날짜 :" + date);
+    System.out.println("날짜값변경확인 :" + date);
+    
+    param.put("date", date);
+    
+    // 발주지시서 목록 조회
+    List<PcsModel> listPcsOrderFormModel = pcsService.pcsOrderForm(paramMap);
+    model.addAttribute("listPcsOrderFormModel", listPcsOrderFormModel);
+
+    // 발주지시서 목록 카운트 조회
+    int totalCount =  pcsService.countPcsOrderForm(paramMap);
+    model.addAttribute("totalCount", totalCount);
+    model.addAttribute("pageSize", pageSize);
+    model.addAttribute("currentPage", currentPage);
+    
+    logger.info("+ End " + className + ".listPcsOrderForm");
+    
+    return "pcs/listPcsOrderForm";
+  } 
+  
+  // 발주서 내용 클릭 시 모달팝업 창 띄우기
+  @RequestMapping("selectPurchBtn.do")
+  @ResponseBody
+  public Map<String, Object> selectPurchBtn(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+      HttpServletResponse response, HttpSession session) throws Exception {
+    
+    logger.info("+ Start " + className + ".selectPurchBtn");
+    logger.info("   - paramMap : " + paramMap);
+    
+    String result = "SUCCESS";
+    String resultMsg = "전송 되었습니다.";
+   
+    PcsModel pcsModel = pcsService.selectPurchBtn(paramMap);
+    
+    Map<String, Object> resultMap = new HashMap<String, Object>();
+    resultMap.put("result", result);
+    resultMap.put("resultMsg", resultMsg);
+    resultMap.put("pcsModel", pcsModel);
+    
+    logger.info("+ End " + className + ".selectPurchBtn");
+    
+    return resultMap;
+  }
+  
   // 입고완료 버튼 클릭 시 상태 변경
   @RequestMapping("updateSTTcd.do")
   public String updateSTTcd(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-      HttpServletResponse response, HttpSession session) throws Exception {
+      HttpServletResponse response, HttpSession session, Map<String, Object> param) throws Exception {
 
     logger.info("+ Start " + className + ".updateSTTcd");
     logger.info("   - paramMap : " + paramMap);
-    logger.info("+ End " + className + ".updateSTTcd");
     
     // 상태코드 수정 저장
     int updateSTTcdModel = pcsService.updateSTTcd(paramMap);
     model.addAttribute("updateSTTcdModel", updateSTTcdModel);
+    
+    logger.info("+ End " + className + ".updateSTTcd");
     
     return "pcs/listPcsUpdateSTTcd";
   }

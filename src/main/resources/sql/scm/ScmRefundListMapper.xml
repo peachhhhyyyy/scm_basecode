@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.happyjob.study.scm.dao.ScmRefundListDao">
+		<!-- 반품신청 목록 조회 -->
+		<select id="selectRefundList" resultType="kr.happyjob.study.scm.model.ScmRefundListModel"> 
+			SELECT o.order_cd orderCode,
+			       ui.name customerName,
+			       prod.prod_nm productName,
+			       mct.m_ct_nm middleCategory,
+			       o.refund_date refundDate,
+			       o.refund_cnt refundCount,
+			       o.refund_amt refundAmount,
+			       dc.detail_name state
+			FROM tb_order o
+			JOIN (
+					SELECT detail_code, group_code, detail_name
+					FROM tb_detail_code
+					WHERE group_code = 'STTcd'
+				  ) dc ON o.STTcd = dc.detail_code
+			LEFT JOIN tb_userinfo ui ON ui.loginID = o.loginID
+			LEFT JOIN tb_scm_product prod ON prod.product_cd = o.order_cd
+			LEFT JOIN tb_scm_m_category mct ON mct.m_ct_cd = prod.m_ct_cd
+			WHERE STTcd IN (3, 4, 5, 6, 7)
+			ORDER BY o.order_date DESC
+		    LIMIT #{pageIndex}, #{pageSize}
+		</select>
+		
+		<!-- 반품신청 목록 데이터 갯수 카운팅 -->
+		<select id="selectRefundListCnt" resultType="int">
+			SELECT COUNT(*) tot_cnt
+			FROM tb_order
+			WHERE STTcd IN (3, 4, 5, 6, 7)
+		</select>
+		
+		<select id="selectRefundDetail" resultType="kr.happyjob.study.scm.model.ScmRefundListModel">
+			SELECT o.product_cd productCode,
+			       prod.prod_nm productName,
+			       mct.m_ct_nm middleCategory,
+			       sup.supply_nm supplyName,
+			       o.order_date orderDate,
+			       o.refund_date refundDate,
+			       wh.warehouse_nm warehouseName,
+			       o.refund_cnt refundCount,
+			       NOW() refundDirectionDate,
+			       o.refund_amt refundAmount,
+			       o.STTcd STTcd,
+			       dc.detail_name state,
+			       o.order_cd orderCode,
+			       (
+			       		SELECT ui.name
+			       		FROM tb_scm_refund_list rl
+			       		JOIN tb_userinfo ui ON ui.loginID = rl.approve_id 
+			       		WHERE order_cd = #{orderCode}
+			       ) approver
+			FROM tb_order o
+			JOIN (
+					SELECT detail_code, group_code, detail_name
+					FROM tb_detail_code
+					WHERE group_code = 'STTcd'
+				  ) dc ON o.STTcd = dc.detail_code
+			LEFT JOIN tb_scm_product prod ON prod.product_cd = o.order_cd
+			LEFT JOIN tb_scm_m_category mct ON mct.m_ct_cd = prod.m_ct_cd
+			LEFT JOIN tb_scm_supply sup ON sup.supply_cd = prod.supply_cd
+			LEFT JOIN tb_scm_warehouse wh ON wh.warehouse_cd = prod.warehouse_cd
+			WHERE o.order_cd = #{orderCode}
+			ORDER BY o.order_date DESC
+		</select>
+		
+		<select id="selectScmManagerName" resultType="String">
+			SELECT name
+			FROM tb_userinfo
+			WHERE loginID = #{loginId}
+		</select>
+		
+		<update id="updateStateToRefund" parameterType="int">
+			UPDATE tb_order
+			SET STTcd = 4
+			WHERE order_cd = #{orderCode}
+		</update>
+		
+		<insert id="insertDataToRTable" parameterType="int">
+			INSERT INTO tb_scm_refund_list (
+												order_cd,
+												scm_id,
+												submit_date
+			 		                        )
+			VALUES (
+						#{orderCode},
+						#{loginId},
+						#{refundDirectionDate}
+					)
+		</insert>
+</mapper>

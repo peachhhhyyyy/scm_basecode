@@ -13,6 +13,26 @@
       FROM tb_scm_warehouse WH 
  LEFT JOIN tb_userinfo UI 
         ON WH.wh_mng_id = UI.loginID
+     WHERE WH.use_yn="Y"
+      <if test="(sname != null) and (!sname.equals(''))">
+      <choose>
+        <when test="oname eq 'all'.toString()">
+            AND (WH.warehouse_cd LIKE CONCAT('%', #{sname}, '%')
+                 or WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%')
+                 or UI.name LIKE CONCAT('%', #{sname}, '%')
+                 or UI.tel LIKE CONCAT('%', #{sname}, '%')
+                 or UI.mail LIKE CONCAT('%', #{sname}, '%')
+                 or WH.zip_cd LIKE CONCAT('%', #{sname}, '%')
+                 or WH.addr LIKE CONCAT('%', #{sname}, '%'))
+        </when>
+        <when test= "(oname eq 'warehouse_nm'.toString())">
+            AND WH.warehouse_nm LIKE concat('%', #{sname}, '%')
+        </when> 
+        <when test= "(oname eq 'wh_mng_nm'.toString())">
+            AND UI.name LIKE concat('%', #{sname}, '%')
+        </when>
+      </choose>
+      </if> 
      LIMIT #{pageIndex}, #{pageSize}
   </select>
   <!-- 창고 카운트 -->
@@ -21,11 +41,31 @@
       FROM tb_scm_warehouse WH 
  LEFT JOIN tb_userinfo UI 
         ON WH.wh_mng_id = UI.loginID
+     WHERE WH.use_yn="Y"  
+        <choose>
+        <when test="oname eq 'all'.toString()">
+            <!-- AND (WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%') or UI.name LIKE CONCAT('%', #{sname}, '%')) -->
+            AND (WH.warehouse_cd LIKE CONCAT('%', #{sname}, '%')
+                 or WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%')
+                 or UI.name LIKE CONCAT('%', #{sname}, '%')
+                 or UI.tel LIKE CONCAT('%', #{sname}, '%')
+                 or UI.mail LIKE CONCAT('%', #{sname}, '%')
+                 or WH.zip_cd LIKE CONCAT('%', #{sname}, '%')
+                 or WH.addr LIKE CONCAT('%', #{sname}, '%'))
+        </when>
+        <when test= "(oname eq 'warehouse_nm'.toString())">
+            AND WH.warehouse_nm LIKE concat('%', #{sname}, '%')
+        </when>
+        <when test= "(oname eq 'wh_mng_nm'.toString())">
+            AND UI.name LIKE concat('%', #{sname}, '%')
+        </when>
+      </choose>
   </select>
   
   <!-- 제품 조회 -->
   <select id="listWarehouseProduct" resultType="kr.happyjob.study.scm.model.WarehouseInfoModel">
-  SELECT DISTINCT PD.product_cd as product_cd, 
+  SELECT DISTINCT WH.warehouse_nm as warehouse_nm,
+                  PD.product_cd as product_cd, 
                   PD.prod_nm as prod_nm , 
                   LC.l_ct_nm as l_ct_nm , 
                   SP.supply_nm as supply_nm , 
@@ -49,4 +89,53 @@
     LEFT JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
    WHERE PD.warehouse_cd = #{warehouse_cd} 
   </select>
+  
+  
+  <!-- 창고 단건 조회 -->
+  <select id="selectWarehouse" resultType="kr.happyjob.study.scm.model.WarehouseInfoModel">
+    SELECT warehouse_cd,
+           warehouse_nm,
+           wh_mng_id,
+           zip_cd,
+           addr,
+           addr_detail 
+      FROM tb_scm_warehouse
+     WHERE warehouse_cd = #{warehouse_cd}
+  </select>
+  
+  <!-- 창고 등록 -->
+  <insert id="insertWarehouse" parameterType="java.util.Map">
+   INSERT INTO tb_scm_warehouse 
+    ( warehouse_cd, warehouse_nm, wh_mng_id, zip_cd, addr, addr_detail, use_yn)
+    VALUES
+   (
+   #{warehouse_cd},
+   #{warehouse_nm},
+   #{wh_mng_id},
+   #{zip_cd},
+   #{addr},
+   #{addr_detail},
+   "Y"
+   ) 
+  </insert>
+  
+  
+  <!-- 창고 수정 -->
+<update id="updateWarehouse" parameterType="java.util.Map">
+  UPDATE tb_scm_warehouse 
+  SET  wh_mng_id = #{wh_mng_id}
+     , zip_cd = #{zip_cd}
+     , addr = #{addr}
+     , addr_detail = #{addr_detail}
+  WHERE warehouse_cd = #{warehouse_cd}
+</update>
+
+  <!-- 창고 비활성화 -->
+  <update id="deactivateWarehouse" parameterType="java.util.Map">
+  UPDATE tb_scm_warehouse 
+  SET  use_yn = "N"
+  WHERE warehouse_cd = #{warehouse_cd}
+  </update>
+  
+
 </mapper>

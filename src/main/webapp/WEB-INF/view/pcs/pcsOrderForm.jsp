@@ -5,14 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>JobKorea</title>
+<title>발주서</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript">
-  // 그룹코드 페이징 설정
-  var pageSizePcsOrderForm = 10;
+  // 발주서 페이징 설정
+  var pageSizePcsOrderForm = 5;
   var pageBlockSizePcsOrderForm = 5;
 
-  $(function() {
+  $(document).ready(function() {
     // 발주서 조회
     fListPcsOrderForm();
 
@@ -31,20 +31,66 @@
       case 'btnClosePcsOrderForm':
         gfCloseModal();
         break;
+      case 'btnSearchOrderForm':
+        board_search();
+        break;
       }
     });
   }
 
   /** 발주서 상세페이지 모달 실행 */  
-  function fPopPcsOrderForm(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name) {
+  function fPopPcsOrderForm(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, purch_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name) {
     // 신규 저장
     if (purch_list_no == null || purch_list_no == "") {
     } else {
       // 발주서 버튼 클릭 시 화면 출력
-      fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name);
+      fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, purch_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name);
     }
   }
 
+  /** 발주서 검색 */  
+  function board_search(currentPage) {
+    var sname = $('#sname').val();
+    var searchKey = document.getElementById("searchKey");
+    var oname = searchKey.options[searchKey.selectedIndex].value;
+    
+    console.log("sname : " + sname);
+    console.log("oname : " + oname);
+    
+    currentPage = currentPage || 1;
+    console.log("currentPage : " + currentPage);
+    
+    var date = $("#datetimepicker1").find("input").val()
+    
+    console.log("date : " + date);
+    
+    // datepicker설정
+    $(document).ready(function() {
+      $('#datetimepicker1').datetimepicker({
+          format: 'YYYY-MM-DD',
+          formatDate: 'YYYY-MM-DD'
+      });
+      $("#datetimepicker1").on("change.datetimepicker", function(e) {
+        var date = $("#datetimepicker1").find("input").val();
+        console.log('날짜확인 :', date);
+        $('#datetimepicker2').datetimepicker('minDate', e.date);
+      });
+    });
+    
+    var param = {
+          sname : sname
+          , oname : oname
+          , date : date
+          , currentPage : currentPage
+          , pageSize : pageSizePcsOrderForm
+    }
+    //swal(JSON.stringify(param));
+    var resultCallback = function(data) {
+      fListPcsOrderFormResult(data, currentPage);
+    };
+    callAjax("/pcs/listPcsOrderForm.do", "post", "text", true, param, resultCallback);
+  }
+  
   /** 발주서 목록 조회 */
   function fListPcsOrderForm(currentPage) {
     currentPage = currentPage || 1;
@@ -105,7 +151,7 @@
   }
   
   /** 발주서 화면 띄우기 */ 
-  function fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name) {
+  function fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, purch_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name) {
 
     var param = {
       purch_list_no : purch_list_no,
@@ -118,6 +164,7 @@
       purchase_price : purchase_price,
       purch_mng_id : purch_mng_id,
       direction_date : direction_date,
+      purch_date : purch_date,
       desired_delivery_date : desired_delivery_date,
       supply_cd : supply_cd,
       product_cd : product_cd,
@@ -135,10 +182,10 @@
     $("#purchasePrice").text(purchase_price);
     
     // 날짜 타입 변환
-    var date1 = direction_date.substr(0, 10);
-    var date2 = direction_date.substr(24, 29);
-    direction_date = date1 + ',' + date2;
-    $("#directionDate").text(formatDate(direction_date));
+    var date1 = purch_date.substr(0, 10);
+    var date2 = purch_date.substr(24, 29);
+    purch_date = date1 + ',' + date2;
+    $("#purchDate").text(formatDate(purch_date));
     var date3 = desired_delivery_date.substr(0, 10);
     var date4 = desired_delivery_date.substr(24, 29);
     desired_delivery_date = date3 + ',' + date4;
@@ -157,9 +204,9 @@
     if (data.result == "SUCCESS") {
       // 모달 팝업
       gfModalPop("#layer1");
-      
-      $("#purchMngId").text(data.pcsModel.purch_mng_id);
-      $("#purchasePrice").text(data.pcsModel.purchase_price);
+          
+      $("#purchMngId").text(data.pcsModel);
+      $("#purchasePrice").text(data.pcsModel);
       
       console.log("fSelectPurchBtnResult : " + JSON.stringify(data));
     } else {
@@ -168,10 +215,11 @@
   }
   
   /** 입고완료 버튼 클릭 */
-  function fSelectUpdateSTTcd(STTcd, detail_name) {
+  function fSelectUpdateSTTcd(STTcd, detail_name, order_cd) {
     var param = {
         STTcd : STTcd,
-        detail_name : detail_name
+        detail_name : detail_name,
+        order_cd : order_cd
       };
     
     var resultCallback = function(data) {
@@ -191,70 +239,11 @@
       location.reload();
     }
   }
-  
-  //관리자 공지사항 리스트 데이터 받아오기
-  function fOrderFormList(currentPage) {
-    
-    var select_type = $("#select_type").val();
-    var select_key = $("#select_key").val();
-    
-    currentPage = currentPage || 1;
-
-    var param = {
-      currentPage : currentPage,
-      pageSize : pageSize,
-      select_type : select_type,
-      select_key : select_key
-    }
-
-    var resultCallback = function(data) {
-      fOrderFormListResult(data, currentPage);
-    };
-
-    //Ajax실행 방식
-    //callAjax("Controller Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
-    // json으로 보내서 오류가 났음 , -> text
-    callAjax("/pcs/orderFormList.do", "post", "text", true, param,resultCallback);
-  }
-  
-  //관리자 공지사항 리스트 데이터 출력
-  function fOrderFormListResult(data, currentPage) {
-
-    console.log("값가져오ㅏ ㅇㅅㅇ" + data);
-    
-    // 기존 목록 삭제
-    $('#listPcsOrderForm').empty();
-    //$('#listLec').find("tr").remove() 
-
-    var $data = $($(data).html());
-
-    // 신규 목록 생성
-    var $orderFormList = $data.find("#listPcsOrderForm");
-    $("#listPcsOrderForm").append($orderFormList.children());
-
-    // 총 개수 추출
-    var $orderFormCnt = $data.find("#listOrd33333erFormCnt");
-    var admNoticeCnt = $admNoticeCnt.text();
-
-    // 페이지 네비게이션 생성
-    var paginationHtml = getPaginationHtml(currentPage, admNoticeCnt,
-        pageSize, pageBlockSize, 'fAdmList');
-    
-    //alert(paginationHtml);
-    $("#admPagination").empty().append(paginationHtml);
-
-    // 현재 페이지 설정
-    $("#admCurrentPage").val(currentPage);
-
-  }
 </script>
 </head>
 <body>
     <form id="myForm" action="" method="">
-        <input type="hidden" id="currentPageComnGrpCod" value="1">
-        <input type="hidden" id="currentPageComnDtlCod" value="1">
-        <input type="hidden" id="tmpGrpCod" value="">
-        <input type="hidden" id="tmpGrpCodNm" value="">
+        <input type="hidden" id="currentPage" value="1">
         <input type="hidden" name="action" id="action" value="">
         <!-- 모달 배경 -->
         <div id="mask"></div>
@@ -273,9 +262,9 @@
                         <div class="content">
                             <p class="Location">
                                 <a href="#" class="btn_set home">메인으로</a>
-                                <a href="pcs/pcsOrderingoOrder.do" class="btn_nav">구매</a>
+                                <a href="pcsOrderingoOrder.do" class="btn_nav">구매</a>
                                 <span class="btn_nav bold">발주서</span>
-                                <a href="#" class="btn_set refresh">새로고침</a>
+                                <a href="../pcs/pcsOrderForm.do" class="btn_set refresh">새로고침</a>
                             </p>
                             <p class="conTitle">
                                 <span>발주서</span>
@@ -285,32 +274,32 @@
                                     <!-- searchbar -->
                                     <div class="col-lg-6">
                                         <div class="input-group">
-                                            <select id="select_type" style="width:90px;height:34px;">
-                                               <option value="all" selected="selected">전체</option>
-                                               <option value="category">업종</option>
+                                            <select id="searchKey" name="searchKey" style="width:90px;height:34px;">
+                                               <option value="all">전체</option>
+                                               <option value="brand">브랜드</option>
                                                <option value="product">제품</option>
                                             </select>
-                                            <input type="text" id="select_key" style="width: 200px;height:28px;" onKeyDown="if(event.keyCode == 13) javascript:fOrderFormList();">
+                                            <input type="text" id="sname" name="sname" class="form-control">
                                         </div>
                                     </div>
                                     <!-- // searchbar -->
                                     <!-- date -->
                                     <div class='col-md-3 col-xs-4'>
-                                        <div class="form-group">
-                                            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="01/11/2020">
-                                                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-                                                    <div class="input-group-text">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </div>
-                                                </div>
+                                      <div class="form-group">
+                                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                          <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="">
+                                          <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                            <div class="input-group-text">
+                                              <i class="fa fa-calendar"></i>
                                             </div>
+                                          </div>
                                         </div>
+                                      </div>
                                     </div>
                                     <!-- // date -->
                                     <!-- button -->
                                     <div class="btn-group" role="group" aria-label="...">
-                                      <button type="button" class="btn btn-default">검색</button>
+                                      <a class="btn btn-default" id="btnSearchOrderForm" name="btn" href="">검색</a>
                                     </div>
                                     <!-- // button -->
                                 </div>
@@ -404,7 +393,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">발주날짜</th>
-                                <td id="directionDate"></td>
+                                <td id="purchDate"></td>
                                 <th scope="row">배송희망날짜</th>
                                 <td id="desiredDeliveryDate"></td>
                             </tr>
@@ -420,17 +409,20 @@
         </div>
         <!--// 모달팝업 -->
     </form>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#datetimepicker1').datetimepicker({ format: 'L'});
-            $('#datetimepicker2').datetimepicker({
-                format: 'L',
-                useCurrent: false
-            });
-            $("#datetimepicker1").on("change.datetimepicker", function (e) {
-                $('#datetimepicker2').datetimepicker('minDate', e.date);
-            });
-        });
+    <script>
+    $(document).ready(function() {
+      $('#datetimepicker1').datetimepicker({
+          format: 'YYYY-MM-DD',
+          formatDate: 'YYYY-MM-DD',
+          language: 'ko',
+          autoclose: true,
+      });
+      $("#datetimepicker1").on("change.datetimepicker", function(e) {
+        var date = $("#datetimepicker1").find("input").val();
+        console.log('날짜확인 :', date)
+        $('#datetimepicker2').datetimepicker('minDate', e.date);
+      });
+    });
     </script>
 </body>
 </html>
