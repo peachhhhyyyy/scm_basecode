@@ -374,8 +374,8 @@
               </tr>
               <tr>
               
-              <td rowspan="4" style="text-align:center; width:400px; hight:400px;">
-                  <img id="tempImg" style="object-fit:cover; max-width:100%; " src="/images/admin/comm/no_image.png" alt="제품사진미리보기">
+              <td rowspan="4" style="text-align:center; width:300px; hight:300px;">
+                  <img id="tempImg" style="object-fit: cover; max-width:100%;" src="/images/admin/comm/no_image.png" alt="제품사진미리보기">
                  </td>   
                 
                  <th scope="row">모델명<span class="font_red">*</span></th>
@@ -437,8 +437,8 @@
                                    var canvasContext = canvas.getContext("2d");
                                    
                                    //캔버스 크기 설정
-                                   canvas.width = 400; //가로 400px
-                                   canvas.height = 400; //세로 400px
+                                   canvas.width = 300; //가로 300px
+                                   canvas.height = 300; //세로 300px
                                    
                                    
                                    //이미지를 캔버스에 그리기
