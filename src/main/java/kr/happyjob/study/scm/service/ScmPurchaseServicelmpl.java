@@ -34,4 +34,10 @@ public class ScmPurchaseServicelmpl implements ScmPurchaseService {
     int totalCount = scmPurchaseDao.countScmPcsOrderingOrder(paramMap);
     return totalCount;
   }
+  
+  /** 발주서 전송 누르고 조회 */
+  public ScmPurchaseModel selectPurchBtn(Map<String, Object> paramMap) {
+    ScmPurchaseModel scmPurchaseModel = scmPurchaseDao.selectPurchBtn(paramMap);
+    return scmPurchaseModel;
+  }
 }

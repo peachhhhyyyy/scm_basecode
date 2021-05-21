@@ -71,8 +71,8 @@
           formatDate: 'YYYY-MM-DD'
       });
       $("#datetimepicker1").on("change.datetimepicker", function(e) {
-/*        var date = $("#datetimepicker1").find("input").val() */
-        console.log('날짜확인 :', date)
+        var date = $("#datetimepicker1").find("input").val();
+        console.log('날짜확인 :', date);
         $('#datetimepicker2').datetimepicker('minDate', e.date);
       });
     });
@@ -204,9 +204,9 @@
     if (data.result == "SUCCESS") {
       // 모달 팝업
       gfModalPop("#layer1");
-      
-      //$("#purchMngId").text(data.pcsModel.purch_mng_id);
-      //$("#purchasePrice").text(data.pcsModel.purchase_price);
+          
+      $("#purchMngId").text(data.pcsModel);
+      $("#purchasePrice").text(data.pcsModel);
       
       console.log("fSelectPurchBtnResult : " + JSON.stringify(data));
     } else {

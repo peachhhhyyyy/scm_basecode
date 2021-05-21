@@ -184,7 +184,7 @@
       fSelectPurchBtnResult(data);
     };
 
-    callAjax("/scm/sendproc.do", "post", "json", true, param, resultCallback);
+    callAjax("/scm/selectPurchBtn.do", "post", "json", true, param, resultCallback);
   }
   
   /** SCM 발주지시서 화면 콜백 함수*/
@@ -192,6 +192,17 @@
     if (data.result == "SUCCESS") {
       // 모달 팝업
       gfModalPop("#layer1");
+      
+/*    // 날짜 타입 변환
+      var date1 = data.scmPurchaseModel.substr(0, 10);
+      var date2 = data.scmPurchaseModel.substr(24, 29);
+      purch_date = date1 + ',' + date2;
+      $("#directionDate").text(formatDate(data.scmPurchaseModel));
+      $("#purchasePrice").text(data.scmPurchaseModel);
+      $("#price").text(data.scmPurchaseModel);
+      $("#approveId").text(data.scmPurchaseModel); */
+      
+      console.log("fSelectPurchBtnResult : " + JSON.stringify(data));
     } else {
       alert(data.resultMsg);
     }
