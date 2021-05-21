@@ -26,6 +26,8 @@
     fListProduct();
     //버튼 이벤트 등록
     fRegisterButtonClickEvent();
+    //비활성화된 정보 표시 체크 클릭
+    checkClickEvent();
     //엔터눌렀을때 창고정보 검색되게하기
     $("#sname").keypress(function (e) {
           if (e.which == 13){
@@ -268,6 +270,43 @@
     }
   }
   
+  //비활성화 정보 표시 체크
+  function checkClickEvent(currentPage) {
+    currentPage = currentPage || 1;
+    
+    $("#delcheck").change(
+        function() {
+          
+          if ($("#delcheck").is(":checked")) {
+            $("#sname").val("");
+            var use_yn = "N";
+            var param = {
+              currentPage : currentPage,
+              pageSize : pageSizeWarehouse,
+              use_yn : use_yn
+            }
+            var resultCallback = function(data) {
+              flistWarehouseResult(data, currentPage);
+            };
+            callAjax("/scm/listWarehouse.do", "post", "text", true,
+                param, resultCallback);
+          } else {
+            $("#sname").val("");
+            var use_yn = "Y";
+            var param = {
+              currentPage : currentPage,
+              pageSize : pageSizeWarehouse,
+              use_yn : use_yn
+            }
+            var resultCallback = function(data) {
+              flistWarehouseResult(data, currentPage);
+            };
+            callAjax("/scm/listWarehouse.do", "post", "text", true,
+                param, resultCallback);
+          }
+        });
+  }
+  
   //창고정보 검색 기능
   function board_search(currentPage) {
     $('#listWarehouseProduct').empty();
@@ -364,6 +403,10 @@
               </p>
               <div class="WarehouseList">
                 <div class="conTitle" style="margin: 0 25px 10px 0; float: left;">
+                  <label>
+                    <input type="checkbox" id="delcheck" name="delcheck" value="del"> 
+                                        비활성화된 정보 표시
+                 </label>
                            <select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
                             <option value="all" selected="selected">전체</option>
                            <option value="warehouse_nm">창고명</option>
