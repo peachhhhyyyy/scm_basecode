@@ -37,10 +37,20 @@ public class CartController {
 	
 	
 	/* 장바구니 초기화면 호출   */
-	
 	@RequestMapping("cart.do")
-	public String initComnCod(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+	public String totalCartPrice(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
+		
+		logger.info("+ Start " + className + ".init");
+		
+		// 장바구니 총 합계 금액 출력
+		paramMap.put("loginID", session.getAttribute("loginId"));
+		int totalPrice = CartService.totalCartPrice(paramMap);
+		model.addAttribute("totalPrice", totalPrice);
+		
+		logger.info("   - paramMap : " + paramMap);
+		
+		logger.info("+ end " + className + ".init");
 		
 		return "ctm/cart"; /* 호출할 jsp 파일명 */
 	}
@@ -85,7 +95,7 @@ public class CartController {
 	   */
 	  @RequestMapping("deleteCartItem.do")
 	  @ResponseBody
-	  public Map<String, Object> deleteComnGrpCod(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+	  public Map<String, Object> deleteCartItem(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			  HttpServletResponse response, HttpSession session) throws Exception {
 	    
 	    logger.info("+ Start " + className + ".deleteCartItem");
@@ -105,5 +115,31 @@ public class CartController {
 	    
 	    return resultMap;
 	  }
+	  
+	  @RequestMapping("changeQty.do")
+	  @ResponseBody
+	  public Map<String, Object> changeQty(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			  HttpServletResponse response, HttpSession session) throws Exception {
+	    
+	    logger.info("+ Start " + className + ".changeQty");
+	    logger.info("   - paramMap : " + paramMap);
+	    
+	    int shopping_cart_qty = Integer.parseInt((String)paramMap.get("shopping_cart_qty"));
+	    
+	    String result = "SUCCESS";
+	    String resultMsg = "변경되었습니다.";
+	    
+	    // 장바구니 삭제
+	    CartService.changeQty(paramMap);
+	    
+	    Map<String, Object> resultMap = new HashMap<String, Object>();
+	    resultMap.put("result", result);
+	    resultMap.put("resultMsg", resultMsg);
+	    
+	    logger.info("+ End " + className + ".changeQty");
+	    
+	    return resultMap;
+	  }
+	  
 	
 }
