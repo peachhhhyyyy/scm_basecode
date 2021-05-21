@@ -28,6 +28,10 @@
 					SELECT prod_nm, product_cd, stock, price 
 					FROM tb_scm_product
 				  ) prod ON prod.product_cd = o.product_cd
+			WHERE 1=1
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND DATE_FORMAT(o.order_date, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+			</if>
 			ORDER BY o.order_date DESC
 		    LIMIT #{pageIndex}, #{pageSize}
 		</select>
