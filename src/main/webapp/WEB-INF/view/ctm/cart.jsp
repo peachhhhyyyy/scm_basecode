@@ -148,17 +148,23 @@ input[type=number]::-webkit-outer-spin-button {
 
     /* 체크박스 선택 제품 지정 */
     function checkValue(e){
-    	console.log("totalamount:::"+totalAmount)
+    	
     	var checkedEachPrice = Math.round(e.target.value);
+    
     	console.log("checkedEachPrice", checkedEachPrice);
+    	
     	 if(e.target.checked == true){
+    		 
     		 totalAmount += checkedEachPrice
     		 $("#totalPrice").empty().text(totalAmount.toLocaleString('ko-KR')+"원");
+    		 
        }else{
+    	   
     	   totalAmount -= checkedEachPrice	 
     	   $("#totalPrice").empty().text(totalAmount.toLocaleString('ko-KR')+"원");
+    	   
        }
-    		
+    	 
     }
     
     function fchangeQtyResult(data) {
