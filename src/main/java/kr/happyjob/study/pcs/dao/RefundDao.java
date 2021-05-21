@@ -13,6 +13,9 @@ public interface RefundDao {
   // 반품서 목록 총 개수 조회
   public int countRefundList();
   
+  // 반품서 검색 목록 총 개수 조회
+  public int countConditionList(Map<String, Object> param);
+  
   // 반품서 단건 조회
   public RefundDetailModel selectOneRefund(int refund_list_no);
   

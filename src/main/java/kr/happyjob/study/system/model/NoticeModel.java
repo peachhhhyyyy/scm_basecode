@@ -9,9 +9,9 @@ public class NoticeModel {
   private String title; // 게시판 제목
   private String content; // 글 내용
   private String file_url; // 첨부파일 경로
-  private Date date; // 글 작성일
+  private String date; // 글 작성일
   private int view_cnt; // 글 조회수
-  private int auth; // 글 작성자
+  private int auth; // 권한(전체, 고객, 직원)
   
   
   public int getNotice_id() {
@@ -38,10 +38,10 @@ public class NoticeModel {
   public void setFile_url(String file_url) {
     this.file_url = file_url;
   }
-  public Date getDate() {
+  public String getDate() {
     return date;
   }
-  public void setDate(Date date) {
+  public void setDate(String date) {
     this.date = date;
   }
   public int getView_cnt() {
