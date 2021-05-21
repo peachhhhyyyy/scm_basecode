@@ -94,19 +94,19 @@ public class DashboardController {
 		String result="";
 		
 		// 선택된 게시판 1건 조회 
-		NoticeModel detailNotice = noticeService.noticeDetail(paramMap);
-		
-		if(detailNotice != null) {
-			result = "SUCCESS";  // 성공시 찍습니다. 
-		}else {
-			result = "FAIL / 불러오기에 실패했습니다.";  // null이면 실패입니다.
-		}
+//		NoticeModel detailNotice = noticeService.noticeDetail(paramMap);
+//		
+//		if(detailNotice != null) {
+//			result = "SUCCESS";  // 성공시 찍습니다. 
+//		}else {
+//			result = "FAIL / 불러오기에 실패했습니다.";  // null이면 실패입니다.
+//		}
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("resultMsg", result); // success 용어 담기 
-		resultMap.put("result", detailNotice); // 리턴 값 해쉬에 담기 
-		//resultMap.put("resultComments", comments);
-		System.out.println(detailNotice);
+//		resultMap.put("resultMsg", result); // success 용어 담기 
+//		resultMap.put("result", detailNotice); // 리턴 값 해쉬에 담기 
+//		//resultMap.put("resultComments", comments);
+//		System.out.println(detailNotice);
 		
 		logger.info("+ End " + className + ".detailNotice");
 	    
