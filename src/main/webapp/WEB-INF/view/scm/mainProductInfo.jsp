@@ -391,10 +391,10 @@
                   <tr>
                 <th scope="row">장비구매액 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="purchase_price" id="purchase_price" maxlength="11" placeholder="장비구매액"/></td>
+                  name="purchase_price" id="purchase_price" maxlength="11" placeholder="장비구매액"/>원</td>
                 <th scope="row">단가<span class="font_red">*</span></th>
                 <td colspan="3"><input type="text" class="inputTxt p100" 
-                  name="price" id="price" maxlength="11" placeholder="단가"/></td>
+                  name="price" id="price" maxlength="11" placeholder="단가"/>원</td>
               </tr>
               <tr>
                 <th scope="row">창고명 <span class="font_red">*</span></th>

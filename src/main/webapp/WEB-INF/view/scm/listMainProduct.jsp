@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:if test="${totalMainProduct eq 0 }">
   <tr>
     <td colspan="7">데이터가 존재하지 않습니다.</td>
@@ -14,8 +15,8 @@
       <td>${list.l_ct_nm}</td>
       <td>${list.m_ct_nm}</td>
       <td>${list.warehouse_nm}</td>
-      <td>${list.purchase_price}</td>
-      <td>${list.price}</td>
+      <td><fmt:formatNumber value="${list.purchase_price}" pattern="#,###"/>원</td>
+      <td><fmt:formatNumber value="${list.price}" pattern="#,###"/>원</td>
       <%-- <td><a href="javascript:fPopModalMainProduct('${list.product_cd}');" class="btnType3 color1"><span>수정</span></a></td> --%>
     </tr>
     <c:set var="nRow" value="${nRow + 1}" />

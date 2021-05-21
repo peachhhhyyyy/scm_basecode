@@ -19,7 +19,7 @@
       <td>${list.prod_nm}</td>
       <td>${list.l_ct_nm}</td>
       <td>${list.stock}</td>
-      <td>${list.price}</td>
+      <td><fmt:formatNumber value="${list.purchase_price}" pattern="#,###"/>원</td>
     </tr>
   <c:set var="nRow" value="${nRow + 1}" />
   </c:forEach>
