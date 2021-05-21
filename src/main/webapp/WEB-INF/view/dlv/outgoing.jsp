@@ -22,7 +22,7 @@
 					
 					// 필요하기 전까지 숨기기
 					$('#submitBtn').hide();
-					$('#detailList').hide();
+					//$('#detailList').hide();
 			
 					currentPage = currentPage || 1;
 			
@@ -69,7 +69,7 @@
 					
 					// 필요하기 전까지 숨기기
                     $('#submitBtn').show();
-                    $('#detailList').show();
+                    //$('#detailList').show();
 				
 				
 				  var param = {
@@ -108,7 +108,7 @@
 					
 					// 필요하기 전까지 숨기기
                     $('#submitBtn').hide();
-                    $('#detailList').hide();
+                    //$('#detailList').hide();
 					
 					console.log(STTcd, startDate, endDate)
 					
@@ -253,6 +253,11 @@
 							</table>
 						<div class="paging_area" id="lisOutgoingPagination"></div>
 					</div>
+					<!-- <div style="display:flex; justify-content: center; align-items: center; min-height:340px;">
+					   <p style="font-family:Spoqa Han Sans; font-size: 35px; color:#adb0b5; padding-bottom:80px;">
+					       <span>주문코드를 선택해주세요.</span>
+					   </p>
+					</div> -->
 						<form action="submitDlvInfo.do" method="post">
 						<div id="detailList" class="content">
 							<p class="conTitle">
