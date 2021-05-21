@@ -8,17 +8,17 @@ import kr.happyjob.study.scm.model.SupplierInfoModel;
 public interface SupplierInfoDao {
   
   // 공급처 목록 조회
-  public List<SupplierInfoModel> getSupplierInfo(Map<String, Object> paramMap) throws Exception;
+  public List<SupplierInfoModel> listSupplier(Map<String, Object> paramMap) throws Exception;
   // 공급처 목록 갯수 조회
-  public int countSupplierInfo(Map<String, Object> paramMap) throws Exception;
+  public int totalCntSupplier(Map<String, Object> paramMap) throws Exception;
   
   // 제품정보 목록 조회
-  public List<SupplierInfoModel> getSupplierProInfo(Map<String, Object> paraMap) throws Exception;
+  public List<SupplierInfoModel> listSupplierProduct(Map<String, Object> paraMap) throws Exception;
   // 제품정보 목록 갯수 조회
-  public int countSupplierProInfo(Map<String, Object> paramMap) throws Exception;
+  public int totalCntProduct(Map<String, Object> paramMap) throws Exception;
   
   // 공급처 단건 조회
-  public SupplierInfoModel selectSupplierDetail(Map<String, Object> paramMap) throws Exception;
+  public SupplierInfoModel selectSupplier(Map<String, Object> paramMap) throws Exception;
   
   // 공급처 추가
   public int insertSupplier(Map<String, Object> paramMap) throws Exception;
