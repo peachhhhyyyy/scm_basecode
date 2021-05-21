@@ -187,6 +187,8 @@
       $("#supply_cd").css("background", "#FFFFFF");
       $("#supply_nm").attr("readonly", false);
       $("#supply_nm").css("background", "#FFFFFF");
+      $("#warehouse_cd").attr("readonly", true);
+      $("#warehouse_cd").css("background", "#F5F5F5");
       
       $("#btnDeleteSupplier").hide();
     } else{
@@ -202,6 +204,9 @@
       $("#email").val(object.email);
       $("#warehouse_cd").val(object.warehouse_cd);
       $("#warehouse_nm").val(object.warehouse_cd);
+      
+      $("#warehouse_cd").attr("readonly", true);
+      $("#warehouse_cd").css("background", "#F5F5F5");
       
       
       $("#btnDeleteSupplier").show();
