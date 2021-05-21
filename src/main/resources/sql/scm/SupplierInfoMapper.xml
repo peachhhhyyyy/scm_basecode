@@ -134,6 +134,7 @@
            , mng_tel = #{mng_tel}
            , tel = #{tel}
            , email = #{email}
+           , warehouse_cd = #{warehouse_cd}
     WHERE supply_cd = #{supply_cd}
    </update>
    
