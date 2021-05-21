@@ -67,45 +67,46 @@
 				
 				
 				// 검색조건으로 수주내역 가져오기
-				function fSearchOrderList(currentPage, STTcd, startDate, endDate) {
+				function fSearchOrderList() {
 					
 					// 필요하기 전까지 숨기기
                     $('#submitBtn').hide();
                     //$('#detailList').hide();
-					
-					console.log(STTcd, startDate, endDate)
+                    
+                    var param = $('#outgoingSearchForm').serialize();
+                    
+                    param += "&currentPage="+$('#currentPage').val();
+                    param += "&pageSize="+pageSizeinfo;
+                    
+                    console.log("검색조건에 대한 param : " + param)
+                    
+                    var startDate = $('#startDate').val();
+                    var endDate = $('#endDate').val();
+
 					
 					currentPage = currentPage || 1;
 			        
 	                console.log("currentPage : " + currentPage);
 	                
 	                // 날짜가 올바르지 않거나 널값인 경우 랜딩
-	                if(startDate == '' || endDate == ''){
-	                    alert("날짜를 설정해주세요.");
-	                    location.href= "/dlv/outgoing.do";
-	                }
-	                
 	                if(startDate > endDate){
 	                    alert("시작일자는 종료일자보다 클 수가 없습니다.");
 	                    location.href= "/dlv/outgoing.do";
 	                }
 	                
-	                var param = {
-	                		currentPage : currentPage,
-	                		pageSize : pageSizeinfo,
-	                		STTcd : STTcd,
-	                		startDate : startDate,
-	                		endDate : endDate
+	                if(startDate == '' || endDate == ''){
+	                    alert("날짜를 설정해주세요.");
+	                    location.href= "/dlv/outgoing.do";
 	                }
-	        
+	                
+	                
 	                var resultCallback = function(data) {
-	                	fSearchOrderListResult(data, currentPage);
+	                	fSearchOrderListResult(data, $('#currentPage').val());
 	                };
 	        
 	                //Ajax실행 방식
 	                //callAjax("Url",type,return,async or sync방식,넘겨준 값,Callback함수 이름)
-	                callAjax("/dlv/outgoingSearchList.do", "post", "text", true, param,
-	                        resultCallback);
+	                callAjax("/dlv/outgoingList.do", "post", "text", true, param, resultCallback);
 				}
 				
 			    // 검색 조건 콜백함수
@@ -219,12 +220,13 @@
 								<span class="btn_nav bold">메인</span>
 								<a href="../dashboard/dashboard.do" class="btn_set refresh">새로고침</a>
 							</p>
+							<form id="outgoingSearchForm">
 							<p class="conTitle" style="display:flex; justify-content: space-between; align-items: center;" >
 								<span>출하계획</span>
 								<!-- 상단 상태, 날짜 조회 부분 -->
 								<span style="width: 590px;">
 								    <select id="STTcd" name="STTcd" style="width: 100px;">
-										<option value="13, 14, 15">전체</option>
+										<option value="all">전체</option>
 										<option value="13">배송준비</option>
 										<option value="14">배송중</option>
 										<option value="15">배송완료</option>
@@ -238,6 +240,7 @@
                                         style="border:1px solid #adb0b5;">검색</a>
                                 </span>
 							</p>
+                            </form>
 							<table class="col">
 								<thead>
 									<tr>
