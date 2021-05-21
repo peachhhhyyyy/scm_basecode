@@ -43,6 +43,23 @@ public class CartServiceImpl implements CartService{
 		return ret;
 	}
 	
+	/** 장바구니 수량변경 */
+	public int changeQty(Map<String, Object> paramMap) throws Exception {
+		
+		int cgq = CartDao.changeQty(paramMap);
+		
+		return cgq;
+	}
+	
+	
+	/** 장바구니 총 합계 금액 출력 */
+	public int totalCartPrice(Map<String, Object> paramMap) throws Exception {
+		
+		int totalPrice = CartDao.totalCartPrice(paramMap);
+		
+		return totalPrice;
+	}
+		
 }
 
 	
