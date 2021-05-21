@@ -12,8 +12,9 @@
 				   o.order_cnt orderCount, 
 				   o.amount orderAmount, 
 				   o.tax orderTax, 
-				   o.deposit_yn depositState, 
-				   dc.detail_name state 
+				   o.deposit_yn depositState,
+				   dc.detail_name state,
+				   o.STTcd STTcd
 			FROM tb_order o
 			JOIN (
 					SELECT name, loginID 
@@ -28,6 +29,16 @@
 					SELECT prod_nm, product_cd, stock, price 
 					FROM tb_scm_product
 				  ) prod ON prod.product_cd = o.product_cd
+			WHERE 1=1
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND DATE_FORMAT(o.order_date, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+			</if>
+			<if test="checkedStateList != null and checkedStateList.size() != 0">
+				AND o.STTcd IN
+				<foreach collection="checkedStateList" item="state" open="(" close=")" separator=",">
+					#{state}
+				</foreach>
+			</if>
 			ORDER BY o.order_date DESC
 		    LIMIT #{pageIndex}, #{pageSize}
 		</select>

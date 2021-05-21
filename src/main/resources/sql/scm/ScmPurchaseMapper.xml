@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.happyjob.study.scm.dao.ScmPurchaseDao">
+  <!-- 발주지시서 목록 조회 -->
+  <select id="scmPcsOrderingOrder" resultType="kr.happyjob.study.scm.model.ScmPurchaseModel">
+    /*kr.kosmo.jobkorea.scm.dao.ScmPurchaseDao*/
+      SELECT 
+             PL.purch_list_no
+         ,   PD.prod_nm
+         ,   MC.l_ct_cd
+         ,   PD.m_ct_cd
+         ,   SP.supply_nm
+         ,   PL.purch_qty
+         ,   PL.scm_id
+         ,   DATE_FORMAT(PL.direction_date, "%Y-%m-%d") as direction_date
+      FROM tb_scm_purchase_list as PL
+          LEFT JOIN tb_scm_supply as SP
+          ON PL.supply_cd = SP.supply_cd
+          LEFT JOIN tb_scm_product as PD
+          ON PL.supply_cd = PD.supply_cd
+          LEFT JOIN tb_scm_m_category as MC
+          ON MC.m_ct_cd = PD.m_ct_cd
+      <where>
+	      <if test="(sname != null) and (!sname.equals(''))">
+				  <choose>
+				    <when
+				      test="oname eq 'product'.toString()">
+				      and PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+				    </when>
+				    <when test="oname eq 'supply'.toString()">
+				      and SP.supply_nm LIKE CONCAT('%', #{sname}, '%')
+				    </when>
+				    <when test="oname eq 'scm'.toString()">
+				       and PL.scm_id LIKE CONCAT('%', #{sname}, '%')
+				    </when>
+				  </choose>
+				</if>
+        <if test="(date != null) and (!date.equals(''))"> 
+           and (pl.direction_date 
+                BETWEEN DATE_FORMAT((#{date1}), "%Y-%m-%d")
+                    AND DATE_FORMAT((#{date2}), "%Y-%m-%d"));
+        </if>
+      </where>
+      ORDER BY purch_list_no DESC
+      LIMIT #{pageIndex}, #{pageSize}
+  </select>
+  
+  <!-- 발주지시서 목록 총 갯수 조회 -->
+  <select id="countScmPcsOrderingOrder" resultType="int">
+    /*kr.kosmo.jobkorea.scm.dao.ScmPurchaseDao*/
+    SELECT COUNT(*) AS tot_cnt
+      FROM tb_scm_purchase_list as PL
+          LEFT JOIN tb_scm_supply as SP
+          ON PL.supply_cd = SP.supply_cd
+          LEFT JOIN tb_scm_product as PD
+          ON PL.supply_cd = PD.supply_cd
+          LEFT JOIN tb_scm_m_category as MC
+          ON MC.m_ct_cd = PD.m_ct_cd
+      <where>
+        <if test="(sname != null) and (!sname.equals(''))">
+          <choose>
+            <when
+              test="oname eq 'product'.toString()">
+              and PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+            </when>
+            <when test="oname eq 'supply'.toString()">
+              and SP.supply_nm LIKE CONCAT('%', #{sname}, '%')
+            </when>
+            <when test="oname eq 'scm'.toString()">
+               and PL.scm_id LIKE CONCAT('%', #{sname}, '%')
+            </when>
+          </choose>
+        </if>
+        <if test="(date != null) and (!date.equals(''))"> 
+           and (pl.direction_date 
+                BETWEEN DATE_FORMAT((#{date1}), "%Y-%m-%d")
+                    AND DATE_FORMAT((#{date2}), "%Y-%m-%d"));
+        </if>
+      </where>
+      ORDER BY purch_list_no DESC
+  </select>
+  
+  <!-- 발주지시서 버튼 클릭 시 모달창 띄우기 -->
+  <select id="selectPurchBtn" resultType="kr.happyjob.study.scm.model.ScmPurchaseModel">
+    /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
+      SELECT 
+             PL.purch_list_no
+         ,   PD.prod_nm
+         ,   MC.l_ct_cd
+         ,   PD.m_ct_cd
+         ,   SP.supply_nm
+         ,   PL.purch_qty
+         ,   PL.scm_id
+         ,   DATE_FORMAT(PL.direction_date, "%Y-%m-%d") as direction_date
+         ,   PL.approve_id
+         ,   PD.purchase_price
+         ,   PD.price
+      FROM tb_scm_purchase_list as PL
+          LEFT JOIN tb_scm_supply as SP
+          ON PL.supply_cd = SP.supply_cd
+          LEFT JOIN tb_scm_product as PD
+          ON PL.supply_cd = PD.supply_cd
+          LEFT JOIN tb_scm_m_category as MC
+          ON MC.m_ct_cd = PD.m_ct_cd
+     WHERE PL.purch_list_no = #{purch_list_no}
+       AND PL.order_cd = #{order_cd}
+       AND PL.supply_cd = #{supply_cd}
+       AND PD.product_cd = #{product_cd}
+  </select>
+</mapper>

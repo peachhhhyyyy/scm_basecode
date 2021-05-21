@@ -12,49 +12,108 @@ import kr.happyjob.study.system.model.NoticeModel;
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
-
 	@Autowired
 	NoticeDao noticeDao;
-
+  
+	// 공지사항 목록 조회
 	@Override
-	public List<NoticeModel> noticeList(Map<String, Object> paramMap) throws Exception{
-
-		List<NoticeModel> noticeList = noticeDao.noticeList(paramMap);
-		return noticeList;
+	public List<NoticeModel> selectNoticeList(Map<String, Object> param) throws Exception {
+	  // TODO Auto-generated method stub
+	  return noticeDao.selectNoticeList(param);
 	}
 
+	// 공지사항 목록 총 개수 조회
 	@Override
-	public int noticeCnt(Map<String, Object> paramMap) throws Exception {
-		int noticeCnt = noticeDao.noticeCnt(paramMap);
-		return noticeCnt;
+	public int countNoticeList() throws Exception {
+	  // TODO Auto-generated method stub
+	  return noticeDao.countNoticeList();
+	}
+	
+  // 공지사항 검색 목록 총 개수 조회
+	@Override
+	public int countConditionList(Map<String, Object> param) throws Exception {
+	  // TODO Auto-generated method stub
+	  return noticeDao.countConditionList(param);
+	}
+	
+	
+  // 공지사항 단건 조회	
+	@Override
+	public NoticeModel selectNoticeDetail(int notice_id) throws Exception {
+	  // TODO Auto-generated method stub
+	  return noticeDao.selectNoticeDetail(notice_id);
 	}
 
+	// 공지사항 조회수 증가
 	@Override
-	public NoticeModel noticeDetail(Map<String, Object> paramMap) throws Exception {
-
-		NoticeModel noticeModel = noticeDao.noticeDetail(paramMap);
-		return noticeModel;
+	public int updateViewCount(Map<String, Object> param) throws Exception {
+	  // TODO Auto-generated method stub
+	  return noticeDao.updateViewCount(param);
 	}
 
-	@Override
-	public int insertNotice(Map<String, Object> paramMap) throws Exception {
+	// 공지사항 작성
+  @Override
+  public int insertNotice(Map<String, Object> param) throws Exception {
+    // TODO Auto-generated method stub
+    return noticeDao.insertNotice(param);
+  }
+ 
+  // 공지사항 수정
+  @Override
+  public int updateNotice(Map<String, Object> param) throws Exception {
+    // TODO Auto-generated method stub
+    return noticeDao.updateNotice(param);
+  }
+  
+  // 공지사항 삭제
+  @Override
+  public int deleteNotice(Map<String, Object> param) throws Exception {
+    // TODO Auto-generated method stub
+    return noticeDao.deleteNotice(param);
+  }
 
-		int statusChange = noticeDao.insertNotice(paramMap);
-		return statusChange;
-	}
 
-	@Override
-	public int updateNotice(Map<String, Object> paramMap) throws Exception {
 
-		int statusChange = noticeDao.updateNotice(paramMap);
-		return statusChange;
-	}
-
-	@Override
-	public int deleteNotice(Map<String, Object> paramMap) throws Exception {
-
-		int statusChange = noticeDao.deleteNotice(paramMap);
-		return statusChange;
-	}
+//
+//	@Override
+//	public List<NoticeModel> noticeList(Map<String, Object> paramMap) throws Exception{
+//
+//		List<NoticeModel> noticeList = noticeDao.noticeList(paramMap);
+//		return noticeList;
+//	}
+//
+//	@Override
+//	public int noticeCnt(Map<String, Object> paramMap) throws Exception {
+//		int noticeCnt = noticeDao.noticeCnt(paramMap);
+//		return noticeCnt;
+//	}
+//
+//	@Override
+//	public NoticeModel noticeDetail(Map<String, Object> paramMap) throws Exception {
+//
+//		NoticeModel noticeModel = noticeDao.noticeDetail(paramMap);
+//		return noticeModel;
+//	}
+//
+//	@Override
+//	public int insertNotice(Map<String, Object> paramMap) throws Exception {
+//
+//		int statusChange = noticeDao.insertNotice(paramMap);
+//		return statusChange;
+//	}
+//
+//	@Override
+//	public int updateNotice(Map<String, Object> paramMap) throws Exception {
+//
+//		int statusChange = noticeDao.updateNotice(paramMap);
+//		return statusChange;
+//	}
+//
+//	@Override
+//	public int deleteNotice(Map<String, Object> paramMap) throws Exception {
+//
+//		int statusChange = noticeDao.deleteNotice(paramMap);
+//		return statusChange;
+//	}
 
 }

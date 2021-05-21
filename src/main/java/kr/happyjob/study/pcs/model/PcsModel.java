@@ -19,6 +19,8 @@ public class PcsModel {
   public int purchase_price;
   // 발주총량
   public int purch_total_amt;
+  // 발주날짜
+  public Date purch_date;
   // 배송희망날짜
   public Date desired_delivery_date;
   // 창고명
@@ -43,7 +45,7 @@ public class PcsModel {
   public String detail_code;
   // 상세코드명
   public String detail_name;
-  
+ 
   public String getPurch_list_no() {
     return purch_list_no;
   }
@@ -91,6 +93,12 @@ public class PcsModel {
   }
   public void setPurch_total_amt(int purch_total_amt) {
     this.purch_total_amt = purch_total_amt;
+  }
+  public Date getPurch_date() {
+    return purch_date;
+  }
+  public void setPurch_date(Date purch_date) {
+    this.purch_date = purch_date;
   }
   public Date getDesired_delivery_date() {
     return desired_delivery_date;
