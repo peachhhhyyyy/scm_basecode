@@ -16,7 +16,7 @@
       <td>${list.email}</td>
       <td>${list.zip_cd}</td>
       <td>${list.addr}</td>
-      <td><a href="javascript:fPopModalWarehouse('${warehouse_cd}');" class="btnType3 color1"><span>수정</span></a></td>
+      <td><a href="javascript:fPopModalWarehouse('${list.warehouse_cd}');" class="btnType3 color1"><span>수정</span></a></td>
     </tr>
     <c:set var="nRow" value="${nRow + 1}" />
   </c:forEach>

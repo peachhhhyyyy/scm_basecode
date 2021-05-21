@@ -31,8 +31,16 @@ public class SupplierInfoModel {
   private String m_ct_cd;
   // 대분류 코드(for JOIN)
   private String l_ct_cd;
+  // 장비구매액
+  private String purchase_price;
   
   
+  public String getPurchase_price() {
+    return purchase_price;
+  }
+  public void setPurchase_price(String purchase_price) {
+    this.purchase_price = purchase_price;
+  }
   public String getL_ct_cd() {
     return l_ct_cd;
   }
