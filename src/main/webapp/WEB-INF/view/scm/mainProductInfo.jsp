@@ -375,7 +375,7 @@
               <tr>
               
               <td rowspan="4" style="text-align:center; width:300px; hight:300px;">
-                  <img id="tempImg" style="object-fit: cover; max-width:100%;" src="/images/admin/comm/no_image.png" alt="제품사진미리보기">
+                  <img id="tempImg" style="object-fit: cover; max-width:100%; max-hight:100%;" src="/images/admin/comm/no_image.png" alt="제품사진미리보기">
                  </td>   
                 
                  <th scope="row">모델명<span class="font_red">*</span></th>

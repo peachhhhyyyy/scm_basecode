@@ -92,7 +92,6 @@
            , SP.tel as tel
            , SP.email as email
            , WH.warehouse_cd as warehouse_cd
-           , WH.warehouse_nm as warehouse_nm
       FROM tb_scm_supply SP
       LEFT OUTER JOIN tb_scm_warehouse WH
         ON WH.warehouse_cd = SP.warehouse_cd
