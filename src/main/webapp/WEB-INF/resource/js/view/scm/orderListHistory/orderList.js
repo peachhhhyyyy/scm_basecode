@@ -28,8 +28,8 @@ function forderListHistory(currentPage) {
   console.log("currentPage : " + currentPage);
 
   var param = {
-    currentPage : currentPage,
-    pageSize : pageSizeOrderList
+  currentPage : currentPage,
+  pageSize : pageSizeOrderList
   };
 
   var resultCallback = function(data) {
@@ -86,23 +86,23 @@ function fgoToDeliveryBtn2() {
 // instanciate new modal
 // 구매버튼 모달창 만들기
 var purchaseModal = new tingle.modal({
-  footer : true,
-  stickyFooter : false,
-  closeMethods : [ 'button' ],
-  closeLabel : "Close",
-  cssClass : [ 'custom-class-1', 'custom-class-2' ],
-  onOpen : function() {
-    console.log('modal open');
-  },
-  onClose : function() {
-    console.log('modal closed');
-  },
-  beforeClose : function() {
-    // here's goes some logic
-    // e.g. save content before closing the modal
-    return true; // close the modal
-    return false; // nothing happens
-  }
+footer : true,
+stickyFooter : false,
+closeMethods : [ 'button' ],
+closeLabel : "Close",
+cssClass : [ 'custom-class-1', 'custom-class-2' ],
+onOpen : function() {
+  console.log('modal open');
+},
+onClose : function() {
+  console.log('modal closed');
+},
+beforeClose : function() {
+  // here's goes some logic
+  // e.g. save content before closing the modal
+  return true; // close the modal
+  return false; // nothing happens
+}
 });
 
 // add a button
@@ -207,23 +207,23 @@ function num2han(num) {
  * 배송지시서 화면
  */
 var deliveryModal = new tingle.modal({
-  footer : true,
-  stickyFooter : false,
-  closeMethods : [ 'button' ],
-  closeLabel : "Close",
-  cssClass : [ 'custom-class-1', 'custom-class-2' ],
-  onOpen : function() {
-    console.log('modal open');
-  },
-  onClose : function() {
-    console.log('modal closed');
-  },
-  beforeClose : function() {
-    // here's goes some logic
-    // e.g. save content before closing the modal
-    return true; // close the modal
-    return false; // nothing happens
-  }
+footer : true,
+stickyFooter : false,
+closeMethods : [ 'button' ],
+closeLabel : "Close",
+cssClass : [ 'custom-class-1', 'custom-class-2' ],
+onOpen : function() {
+  console.log('modal open');
+},
+onClose : function() {
+  console.log('modal closed');
+},
+beforeClose : function() {
+  // here's goes some logic
+  // e.g. save content before closing the modal
+  return true; // close the modal
+  return false; // nothing happens
+}
 });
 
 //add a button
@@ -288,3 +288,39 @@ function makeDeliveryDirectionResult(data) {
   deliveryModal.setContent(data);
   return;
 }
+
+// 수주내역 검색 기능
+function searchOrderList() {
+  var param = $('#orderListForm').serialize();
+
+  param += "&currentPage="+$('#currentPage').val();
+  param += "&pageSize="+pageSizeOrderList;
+  
+  var startD = $('#startDate').val();
+  var endD = $('#endDate').val();
+  
+  console.log(param);
+  
+  // 날짜 에러 있을 때, 경고창 띄우고 refresh
+  if (startD > endD) {
+    swal("시작일자가 종료일자보다 뒤에 있을 수 없습니다.\n날짜를 다시 지정해주세요.").then(function() {
+      window.location.reload();
+    });
+  } 
+  
+//  else if (startD == '' || endD == '') {
+//    swal("날짜를 입력해주세요.").then(function() {
+//      window.location.reload();
+//    });
+//
+//  }
+
+  var resultCallback = function(data) {
+    console.log("resultCallback start");
+    forderListHistoryResult(data, $('#currentPage').val());
+    console.log("resultCallback end");
+  };
+  
+  callAjax("/scm/listInfo.do", "post", "text", true, param, resultCallback);
+}
+
