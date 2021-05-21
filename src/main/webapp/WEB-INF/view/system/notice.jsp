@@ -10,12 +10,12 @@
 <style>
 /* 모달 클릭 방지 */
 .forbidden-event {
- pointer-events: none;
+  pointer-events: none;
 }
 
-/* 글 수정 첨부파일 */
+/* 모달 전환 */
 .display_none {
- display: none;
+  display: none;
 }
 </style>
 <script type="text/javascript">
@@ -34,7 +34,7 @@
 
    /* 공지사항 목록 조회 함수 */
   function selectList(currentPage, serchOptions) {
-    //추가코드 시작
+     
     var option = $('#options').val();
     var keyword = $('#keyword').val();
     console.log('옵션:', option);
@@ -78,7 +78,6 @@
         
         $("#datetimepicker3").on("change.datetimepicker", function(e) {
           var date = $("#datetimepicker3").find("input").val()
-          console.log('날짜확인3', date)
           $('#datetimepicker4').datetimepicker('minDate', e.date);
         });
         
@@ -90,7 +89,6 @@
     
 
     if (keyword || formerDate || latterDate) {
-      console.log('검색어있음, 현재페이지:', currentPage, pageSize)
       
       var param = {
       option : option,
@@ -102,7 +100,6 @@
       }
 
     } else {
-      console.log('검색어 없음')
       
       var param = {
       currentPage : currentPage,
@@ -133,8 +130,6 @@
     
     // 리스트 로우의 총 개수 추출
     var totalCount = $("#totalCount").val();
-    console.log("공지사항 전체 건수", totalCount)
-    console.log('공지사항 목록 파라미터 확인:',currentPage, totalCount, pageSize, pageBlock)
     
     // 페이지 네비게이션 생성
     var paginationHtml = getPaginationHtml(currentPage, totalCount, pageSize, pageBlock, 'selectList');
@@ -149,8 +144,11 @@
 
   
   /* 공지사항 작성, 수정  모달 활성화 함수 */
-  /* 작성, 수정 여부에 따라 첨부파일이 변경되니 주의 html도 분기처리*/
+  /* 작성, 수정 여부에 따라 첨부파일이 변경되니 주의  */
   function fadeInWriteModal() {
+    
+    // 
+    swapModal();
     // 모달 초기화
     initWriteModal();
     // 모달 팝업
@@ -178,10 +176,9 @@
       var auth = $('#write_auth').val();
       console.log('타이틀:', title, '내용',content,'권한', auth);
       
-      // 날짜 추가
       
       
-      // 파일 경로 추가 예정
+      // ***파일 추가 예정***
       
       if(title == '') {
         
@@ -199,7 +196,7 @@
       
       // 콜백 함수
       function resultCallback(result) {
-        console.log('글작성 반환값 확인:', result)
+        
         if(result == 1) {
           
           window.location.reload();
@@ -223,12 +220,9 @@
     
     /* 공지사항 단건 조회 함수 */
     function selectDetail(notice_id, identifier) {
-      console.log('???', notice_id)
-      console.log('identifier확인:', identifier)
+      
       var param = notice_id;
-      //console.log('타입확인.num은 아님:',typeof(param));
-      // 숫자로 형변환
-      //param = Number(param);
+      
       param = {
           notice_id : notice_id
       }
@@ -236,8 +230,8 @@
             
       /* 공지사항 단건 조회 콜백 함수  */
       function resultCallback(result) {
-        console.log('단건조회 콜백 호출', result);
-        // 첨부파일 다운로드 버튼도 있어야 함 -> 이건 처음이니 조사 필요
+        
+        // 첨부파일 다운로드 버튼도 있어야 함 
        // gfModalPop("#layer2");
         
         if(identifier == undefined) {
@@ -247,15 +241,12 @@
         
         }
         else {
-          console.log('글수정 콜백 호출')
+          
         // 공지사항 수정 모달 
           gfModalPop("#layer1");
-        // 이 부분이 변경되어야 함
           initModifyModal(result);
         
         }
-       
-        
       }
       
       callAjax("/system/detailNotice.do", "post", "json", true, param, resultCallback);
@@ -266,13 +257,14 @@
     function initDetailModal(result) {
       
       if (result == "" || result == null || result == undefined) {
+        
         $("#detail_title").val('');
         $("#detail_date").val('');
         $("#detail_content").val('');
         
       } else {
+        
         $('#detail_notice_id').val(result.notice_id);
-        // 모달에 값 설정하기
         $("#detail_title").val(result.title);
         $("#detail_date").text(result.date);
         $("#detail_content").val(result.content);
@@ -311,33 +303,48 @@
     }
     
     
+    /* 글 작성 ,글 수정 모달 변경 */
+    function swapModal(identifier) {
+      console.log('스왑');
+     if(identifier == undefined) {
+       console.log('글수정 -> 글작성')
+       $('#add_file').removeClass('display_none');
+       $('#writeNoticeButton').removeClass('display_none');
+       $('#modifyNoticeButton').addClass('display_none');
+       $('#modify_file').addClass('display_none');
+       $('#deleteNoticeButton').addClass('display_none');
+       
+     }
+     else {
+       
+       // 단건 조회 모달 닫기
+       fadeOutModal();
+       fadeInWriteModal();
+       
+       // 글작성 모달 활성화
+       $('#add_file').addClass('display_none');
+       $('#writeNoticeButton').addClass('display_none');
+       $('#modifyNoticeButton').removeClass('display_none');
+       $('#modify_file').removeClass('display_none');
+       $('#deleteNoticeButton').removeClass('display_none');
+     }
+      
+    }
+        
     /* 공지사항 수정 모달 호출 함수 */
     function modifyNoticeModal() {
       
-      // 단건 조회 모달 닫기
-      fadeOutModal();
-      fadeInWriteModal();
+      var identifier = 'm';
       
-      // 글작성 모달 활성화
-      // 글작성의 첨부파일이 안 보이게 클래스 변경
-      $('#add_file').addClass('display_none');
-      $('#writeNoticeButton').addClass('display_none');
-      $('#modifyNoticeButton').removeClass('display_none');
-      $('#modify_file').removeClass('display_none');
-      $('#deleteNoticeButton').removeClass('display_none')
-      
-      // 해당 글의 notice_id로 글 내용 읽어오기
-      // 저장, 삭제, 취소 버튼 3가지
+      swapModal(identifier);
       
       var notice_id = $('#detail_notice_id').val();
       
-      // 글 수정을 식별하기 위한 식별 변수
+      // 글 수정을 식별하기 위한 식별 변수(modify)
       var identifier = 'm';
-      console.log('notice_id는?', notice_id)
       
       // 공지사항 단건 조회
       selectDetail(notice_id, identifier);
-      
      
     }
     
@@ -346,10 +353,10 @@
       console.log('initModifyModal 호출', result);
       
       if(result) {
-        //$('#detail_notice_id').val(result.notice_id);
+        
         // 모달에 값 설정하기
         $("#write_title").val(result.title);
-        $("#write_content").text(result.content);
+        $("#write_content").val(result.content);
         $("#write_auth").val(result.auth);
       }
       else {
@@ -402,8 +409,7 @@
         }
         
         function resultCallback(result) {
-          console.log('삭제확인', result)
-          console.log('삭제확인', typeof(result))
+          
           if(result == 1) {
             window.location.reload();
           } 
@@ -572,7 +578,7 @@
                     <button class="btn-default btn-sm" id="writeNoticeButton" onclick="writeNotice()">저장</button>
                     <!-- 공지사항 수정글 작성 버튼 -->
                     <button class="display_none btn-default btn-sm" id="modifyNoticeButton" onclick="modifyNotice()">글수정저장</button>
-                    <button class="display_none btn-default btn-sm" id="deleteNoticeButton">삭제</button>
+                    <button class="display_none btn-default btn-sm" id="deleteNoticeButton" onclick="deleteNotice()">삭제</button>
                     <button class="btn-default btn-sm" onclick="fadeOutModal()">취소</button>
                   </div></td>
               </tr>
