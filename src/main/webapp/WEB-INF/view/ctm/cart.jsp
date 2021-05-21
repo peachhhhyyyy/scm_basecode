@@ -56,10 +56,13 @@ input[type=number]::-webkit-outer-spin-button {
     var pageSizeCart= 5;
     var pageBlockSizeCart = 5;
     
+    var totalAmount = 0;
+    
     /** OnLoad event */ 
 
     $(document).ready(function() {
       fListCart(); // 장바구니 목록 조회
+      
     });
 
     /** 장바구니 조회 */
@@ -106,8 +109,6 @@ input[type=number]::-webkit-outer-spin-button {
       $("#currentPageCart").val(currentPage);
       console.log("totalCntCart:: " + totalCntCart);
       
-      console.log($("input[name=qtyCount]"));
-      
       /* 장바구니 수량 변경 */
       var inputList = $("input[name=qtyCount]");
       var inputCnt = $("input[name=qtyCount]").length;
@@ -116,11 +117,15 @@ input[type=number]::-webkit-outer-spin-button {
       var checkedCount = $("input[name='selectCartItem']:checked").length;
       var checkArr = $("input[name=selectCartItem]");
       
+      /* 수량변경, 체크박스 동기화 */
       for (i = 0; i < inputCnt; i++) {
         console.log(inputList[i]);
         inputList[i].addEventListener('input', updateValue);
         checkArr[i].addEventListener('input', checkValue);
       }
+      
+      /* 총 가격 초기화 */
+      totalAmount = Math.floor($("#totalAmount").val());
     }
     
     function updateValue(e) {
@@ -140,17 +145,19 @@ input[type=number]::-webkit-outer-spin-button {
 
         callAjax("/ctm/changeQty.do", "post", "json", true, param, resultCallback);
     }
-    
+
+    /* 체크박스 선택 제품 지정 */
     function checkValue(e){
-    	console.log(e.target.value);
-    	var checkedTotal = e.target.value;
-    	var totalAmount = $("#amount").value;
-    	alert(totalAmount);
+    	console.log("totalamount:::"+totalAmount)
+    	var checkedEachPrice = Math.round(e.target.value);
+    	console.log("checkedEachPrice", checkedEachPrice);
     	 if(e.target.checked == true){
-             
-         }else{
-             
-         }
+    		 totalAmount += checkedEachPrice
+    		 $("#totalPrice").empty().text(totalAmount.toLocaleString('ko-KR')+"원");
+       }else{
+    	   totalAmount -= checkedEachPrice	 
+    	   $("#totalPrice").empty().text(totalAmount.toLocaleString('ko-KR')+"원");
+       }
     		
     }
     
@@ -166,7 +173,6 @@ input[type=number]::-webkit-outer-spin-button {
         } else {
           swal(data.resultMsg);
         }
-
       }
     
     // 장바구니 삭제하기 클릭시 모달창
@@ -279,6 +285,7 @@ input[type=number]::-webkit-outer-spin-button {
   <input type="hidden" id="tmpCart" value="">
   <input type="hidden" id="tmpCartNm" value="">
   <input type="hidden" name="action" id="action" value="">
+  <input type="hidden" id="totalAmount" value="${totalPrice*1.1}">
   
   <!-- 모달 배경 -->
   <div id="mask"></div>
@@ -340,8 +347,10 @@ input[type=number]::-webkit-outer-spin-button {
             </table>
             </div>
             <div class="paging_area"  id="CartPagination"> </div>
-            <div class="amount" id="amount">
-              <fmt:formatNumber type="number" minFractionDigits="0"  value="${totalPrice*1.1}" /> 원
+            <div class="amount">
+              <div id="totalPrice">
+               <fmt:formatNumber type="number" minFractionDigits="0"  value="${totalPrice*1.1}" /> 원
+              </div>
             </div>
             <div class="orderBtnContainer">
               <a class="btnType3 color2" href="javascript:fOrderModal();"><span>주문하기</span></a>
