@@ -33,7 +33,18 @@
                     WHERE group_code = 'STTcd' ) AS DC
             ON OD.STTcd = DC.detail_code
             
-			WHERE OD.STTcd IN (13, 14, 15)
+			WHERE 1 = 1
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+			AND OD.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+			</if>
+			<choose>
+				<when test="STTcd == null">
+					AND OD.STTcd IN (13, 14, 15)
+				</when>
+				<otherwise>
+				    AND OD.STTcd IN (#{STTcd})
+				</otherwise>
+			</choose>
 			ORDER BY OD.order_cd DESC
 			LIMIT #{pageIndex}, #{pageSize}
 	</select>
@@ -41,12 +52,20 @@
 	<!-- 목록의 총 row수 조회 -->
 	<select id="outgoingCnt" resultType="int">
 		SELECT COUNT(*) AS tot_cnt
-			FROM tb_order
-			WHERE STTcd IN (13, 14, 15)
+			FROM tb_order AS OD
+			WHERE 1 = 1
+			<choose>
+                <when test="STTcd == null">
+                    AND OD.STTcd IN (13, 14, 15)
+                </when>
+                <otherwise>
+                    AND OD.STTcd IN (#{STTcd})
+                </otherwise>
+            </choose>
 	</select>
 	
 	<!-- 검색조건 출하내역 조회 -->
-	<select id="outgoingSearchList" resultType = "kr.happyjob.study.dlv.model.DlvOutgoingModel">
+	<!-- <select id="outgoingSearchList" resultType = "kr.happyjob.study.dlv.model.DlvOutgoingModel">
         SELECT DATE_FORMAT(OD.order_date, '%Y-%m-%d') AS order_date
                 , DATE_FORMAT(SHIPINFO.arr_date, '%Y-%m-%d') AS arr_date
                 , DATE_FORMAT(SHIPINFO.arr_prev_date, '%Y-%m-%d') AS arr_prev_date
@@ -76,20 +95,39 @@
                     WHERE group_code = 'STTcd' ) AS DC
             ON OD.STTcd = DC.detail_code
             
-            WHERE OD.STTcd = #{STTcd} OR STTcd IN (13, 14, 15)
+            WHERE '1'='1'
+            <choose>
+                <when test="state.equals('all')">
+                    AND OD.STTcd = '13'
+                    AND OD.STTcd = '14'
+                    AND OD.STTcd = '15'
+                </when>
+                <otherwise>
+                    AND OD.STTcd IN (#{STTcd})
+                </otherwise>
+            </choose>
             AND OD.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
             ORDER BY OD.order_cd DESC
             LIMIT #{pageIndex}, #{pageSize}
     </select>
     
-    <!-- 검색 조건 출하내역 건수 -->
+    검색 조건 출하내역 건수
     <select id="outgoingSearchCnt" resultType="int">
         SELECT COUNT(*) AS tot_cnt
             FROM tb_order
-            WHERE STTcd = #{STTcd} OR STTcd IN (13, 14, 15)
+            <choose>
+                <when test="state.equals('all')">
+                    AND OD.STTcd = '13'
+                    AND OD.STTcd = '14'
+                    AND OD.STTcd = '15'
+                </when>
+                <otherwise>
+                    AND OD.STTcd IN (#{STTcd})
+                </otherwise>
+            </choose>
             AND order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
             ORDER BY order_cd DESC
-    </select>
+    </select> -->
 
 	<!-- 상세 정보 조회 -->
     <select id="outgoingDetailList" resultType="kr.happyjob.study.dlv.model.DlvOutgoingDetailModel">
