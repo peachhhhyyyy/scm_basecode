@@ -1,8 +1,6 @@
 package kr.happyjob.study.dashboard.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.happyjob.study.dashboard.model.DashboardModel;
 import kr.happyjob.study.dashboard.service.DashboardService;
 import kr.happyjob.study.system.model.NoticeModel;
 import kr.happyjob.study.system.service.NoticeService;
@@ -71,14 +68,14 @@ public class DashboardController {
 		paramMap.put("pageSize", pageSize);
 //		paramMap.put("title", title);
 		
-		// 공지사항 목록 조회
-		List<NoticeModel> noticeList = noticeService.noticeList(paramMap);
-		model.addAttribute("notice", noticeList);
+//		// 공지사항 목록 조회
+//		List<NoticeModel> noticeList = noticeService.noticeList(paramMap);
+//		model.addAttribute("notice", noticeList);
+//		
+//		// 목록 수 추출해서 보내기
+//		int noticeCnt = noticeService.noticeCnt(paramMap);
 		
-		// 목록 수 추출해서 보내기
-		int noticeCnt = noticeService.noticeCnt(paramMap);
-		
-	    model.addAttribute("noticeCnt", noticeCnt);
+//	    model.addAttribute("noticeCnt", noticeCnt);
 	    model.addAttribute("pageSize", pageSize);
 	    model.addAttribute("currentPage",currentPage);
 	    
