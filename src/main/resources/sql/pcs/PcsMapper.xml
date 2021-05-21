@@ -109,51 +109,48 @@
   <!-- 발주서 목록 조회 -->
   <select id="pcsOrderForm" resultType="kr.happyjob.study.pcs.model.PcsModel">
     /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
-        SELECT 
-            DISTINCT
-             PL.purch_list_no
-         ,   OD.order_cd
-         ,   SP.supply_nm
-         ,   PD.prod_nm
-         ,   PD.product_cd
-         ,   PD.m_ct_cd
-         ,   PL.purch_qty
-         ,   WH.warehouse_nm
-         ,   PL.direction_date
-         ,   PL.desired_delivery_date
-         ,   OD.STTcd
-         ,   PL.supply_cd
-         ,   DC.detail_name
-      FROM tb_scm_purchase_list as PL
-        LEFT JOIN tb_order as OD
-        ON PL.order_cd = OD.order_cd
-        LEFT JOIN tb_scm_product as PD
-        ON OD.product_cd = PD.product_cd
-        LEFT JOIN tb_scm_supply as SP
-        ON PD.supply_cd = SP.supply_cd
-        LEFT JOIN tb_scm_warehouse as WH
-        ON SP.warehouse_cd = WH.warehouse_cd
-        LEFT JOIN (
-            SELECT detail_code, group_code, detail_name
-          FROM tb_detail_code
-          WHERE group_code = 'STTcd'
-        ) DC ON OD.STTcd = DC.detail_code
-      WHERE OD.STTcd in (10,12)
+        SELECT pl.purch_list_no
+      ,pl.order_cd
+      ,sp.supply_nm
+      ,pd.prod_nm
+      ,mc.m_ct_nm
+      ,pd.m_ct_cd
+      ,pl.purch_qty
+      ,wh.warehouse_nm
+      ,DATE_FORMAT(pl.purch_date, "%Y-%m-%d") as purch_date 
+      ,DATE_FORMAT(pl.desired_delivery_date, "%Y-%m-%d") as desired_delivery_date 
+      ,od.STTcd
+      ,pl.supply_cd      
+      ,dc.detail_name
+  FROM tb_scm_purchase_list pl
+       inner join tb_scm_supply sp on sp.supply_cd = pl.supply_cd
+       inner join tb_order od on od.order_cd = pl.order_cd
+       inner join tb_scm_product pd on pd.product_cd = od.product_cd
+       inner join tb_scm_m_category mc on mc.m_ct_cd = pd.m_ct_cd
+       inner join tb_scm_warehouse wh on wh.warehouse_cd = sp.warehouse_cd
+       inner join (
+                    SELECT detail_code, group_code, detail_name
+                      FROM tb_detail_code
+                     WHERE group_code = 'STTcd'
+        ) dc ON dc.detail_code = od.STTcd 
+      WHERE od.STTcd in (10,12)
         <if test="(sname != null) and (!sname.equals(''))">
 	        <choose>
             <when
               test="oname eq 'all'.toString()">
-              and (OD.order_cd LIKE CONCAT('%', #{sname}, '%') or PD.m_ct_cd LIKE CONCAT('%', #{sname}, '%') or PD.prod_nm LIKE CONCAT('%', #{sname}, '%'))
+              and (od.order_cd LIKE CONCAT('%', #{sname}, '%') or pd.m_ct_cd LIKE CONCAT('%', #{sname}, '%') or pd.prod_nm LIKE CONCAT('%', #{sname}, '%'))
             </when>
-            <when
-              test="oname eq 'brand'.toString()">
-              and PD.m_ct_cd LIKE CONCAT('%', #{sname}, '%')
+            <when test="oname eq 'brand'.toString()">
+              and pd.m_ct_cd LIKE CONCAT('%', #{sname}, '%')
             </when>
-	          <when
-	            test="oname eq 'product'.toString()">
-	             and PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+	          <when test="oname eq 'product'.toString()">
+	             and pd.prod_nm LIKE CONCAT('%', #{sname}, '%')
 	          </when>
 	        </choose>
+        </if>
+        <if test="(date != null) and (!date.equals(''))"> 
+            and ( DATE_FORMAT(pl.purch_date, "%Y-%m-%d") = #{date}
+               or DATE_FORMAT(pl.desired_delivery_date, "%Y-%m-%d") = #{date} )
         </if>
       ORDER BY purch_list_no DESC
       LIMIT #{pageIndex}, #{pageSize}
@@ -197,35 +194,36 @@
   <!-- 발주서 목록 총 갯수 조회 -->
   <select id="countPcsOrderForm" resultType="int">
     /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
-    SELECT DISTINCT COUNT(1) AS tot_cnt 
-      FROM tb_scm_purchase_list as PL
-          LEFT JOIN tb_order as OD
-        ON PL.order_cd = OD.order_cd
-        LEFT JOIN tb_scm_warehouse as WH
-        ON OD.warehouse_cd = WH.warehouse_cd
-        LEFT JOIN tb_scm_product as PD
-        ON PL.supply_cd = PD.supply_cd
-        LEFT JOIN (
-            SELECT detail_code, group_code, detail_name
-          FROM tb_detail_code
-          WHERE group_code = 'STTcd'
-        ) DC ON OD.STTcd = DC.detail_code
-     WHERE OD.STTcd in (10,12)
+    SELECT COUNT(pl.purch_list_no) AS tot_cnt
+      FROM tb_scm_purchase_list pl
+       inner join tb_scm_supply sp on sp.supply_cd = pl.supply_cd
+       inner join tb_order od on od.order_cd = pl.order_cd
+       inner join tb_scm_product pd on pd.product_cd = od.product_cd
+       inner join tb_scm_m_category mc on mc.m_ct_cd = pd.m_ct_cd
+       inner join tb_scm_warehouse wh on wh.warehouse_cd = sp.warehouse_cd
+       inner join (
+                    SELECT detail_code, group_code, detail_name
+                      FROM tb_detail_code
+                     WHERE group_code = 'STTcd'
+        ) dc ON dc.detail_code = od.STTcd 
+      WHERE od.STTcd in (10,12)
         <if test="(sname != null) and (!sname.equals(''))">
           <choose>
             <when
               test="oname eq 'all'.toString()">
-              and (OD.order_cd LIKE CONCAT('%', #{sname}, '%') or PD.m_ct_cd LIKE CONCAT('%', #{sname}, '%') or PD.prod_nm LIKE CONCAT('%', #{sname}, '%'))
+              and (od.order_cd LIKE CONCAT('%', #{sname}, '%') or pd.m_ct_cd LIKE CONCAT('%', #{sname}, '%') or pd.prod_nm LIKE CONCAT('%', #{sname}, '%'))
             </when>
-            <when
-              test="oname eq 'brand'.toString()">
-              and PD.m_ct_cd LIKE CONCAT('%', #{sname}, '%')
+            <when test="oname eq 'brand'.toString()">
+              and pd.m_ct_cd LIKE CONCAT('%', #{sname}, '%')
             </when>
-            <when
-              test="oname eq 'product'.toString()">
-              and PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+            <when test="oname eq 'product'.toString()">
+               and pd.prod_nm LIKE CONCAT('%', #{sname}, '%')
             </when>
           </choose>
+        </if>
+        <if test="(date != null) and (!date.equals(''))">            
+            and ( DATE_FORMAT(pl.purch_date, "%Y-%m-%d") = #{date}
+               or DATE_FORMAT(pl.desired_delivery_date, "%Y-%m-%d") = #{date} )
         </if>
   </select>
   
