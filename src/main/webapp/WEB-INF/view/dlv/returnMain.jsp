@@ -24,7 +24,7 @@
 		console.log("currentPage : " + currentPage);
 		
 		$('#submitBtn').hide();
-		$('#detailList').hide();
+		//$('#detailList').hide();
 
 		var param = {
 			currentPage : currentPage,
@@ -73,7 +73,7 @@
 		console.log("currentPage : " + currentPage);
 		
 		$('#submitBtn').hide();
-		$('#detailList').hide();
+		//$('#detailList').hide();
 
 		// 날짜 비교, 널값 알맞지 않으면 랜딩
 		if (startDate == '' || endDate == '') {
@@ -130,7 +130,7 @@
 	function fReturnDetailList(refund_list_no) {
 		
 		$('#submitBtn').show();
-		$('#detailList').show();
+		//$('#detailList').show();
 
 		var param = {
 			refund_list_no : refund_list_no,
