@@ -7,7 +7,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title>SCM | 배송지시서</title>
 	<jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
-	<link rel="stylesheet" href="${CTX_PATH}/css/view/scm/returnPaper.css">
+	<link rel="stylesheet" href="${CTX_PATH}/css/view/scm/outgoingPaper.css">
 	<script type="text/javascript">
 	      	
             var pageSizeinfo = 10;
@@ -30,7 +30,7 @@
 				}
 				
 				var resultCallback = function(data) {
-					fReturnListResult(data, currentPage);
+					fOutgoingListResult(data, currentPage);
 				};
 				
 				callAjax("/scm/scmOutgoingList.do", "post", "text", true, param, resultCallback);
@@ -54,6 +54,74 @@
 	        	    $("#listInfPagination").empty().append(paginationHtml);
         	  }
 	         
+	         // 검색조건 기준 조회
+	         function fSearchOrderList(currentPage, searchBox, searchInfo, startDate, endDate){
+	        	 
+	        	 console.log("검색버튼 변수값 : ", searchBox, searchInfo, startDate, endDate);
+	        	 
+	        	 currentPage = currentPage || 1;
+	        	 
+	        	 var param = {
+	        			 currentPage : currentPage,
+	        			 pageSize : pageSizeinfo,
+	        			 searchBox : searchBox,
+	        			 searchInfo : searchInfo,
+	        			 startDate : startDate,
+	        			 endDate : endDate
+	        	 }
+	        	 
+	        	 var resultCallback =  function(data){
+	        		 fSearchOrderListResult(data, currentPage)
+	        	 }
+	        	 
+	        	 callAjax("/scm/scmOutgoingSearchList.do", "post", "text", true, param, resultCallback);
+	         }
+	         
+	         // 검색조건 기준 조회 결과 콜백 함수
+             function fSearchOrderListResult(data, currentPage) {
+                    //alert(data);
+                    // console.log(data);
+                    
+                    // 기존 목록 삭제
+                    $('#outgoingList').empty();
+                    // 신규 목록 생성
+                    $("#outgoingList").append(data);
+                    // 총 개수 추출
+                    var totCnt = $("#totCnt").val();
+                    // 페이지 네비게이션 생성
+                    var paginationHtml = getPaginationHtml(currentPage, totCnt, 
+                            pageSizeinfo, pageBlockSizeinquiry, 'fSearchOrderList');
+                   // 현재 페이지 설정
+                    $("#listInfPagination").empty().append(paginationHtml);
+              }
+	         
+             /* 배송지시서 상세 조회*/
+             function fOutgoingDetailList(ship_list_no) {
+                 
+               var param = {
+            		   ship_list_no : ship_list_no,
+               }
+             
+               var resultCallback = function(data) {
+            	   fOutgoingDetailResult(data);
+               };
+             
+               callAjax("/scm/scmOutgoingDetailList.do", "post", "text", true, param, resultCallback);
+             }
+             
+             
+             // 배송지시서 상세조회 콜백 함수 
+             function fOutgoingDetailResult(data) {
+                 //console.log(data);
+             
+                 // 기존 목록 삭제
+                 $('#outgoingDetailList').empty();
+                 
+                 var $data = $($(data).html());
+                 // topList
+                 var $outgoingDetailList = $data.find("#outgoingDetailList");
+                 $("#outgoingDetailList").append($outgoingDetailList.children());
+             }
 	      </script>
 	</head>
 	<body>
@@ -76,31 +144,74 @@
 							</p>
 							<p class="conTitle" style="display:flex; justify-content: space-between; align-items: center;">
 								<span>배송지시서</span> 
-								<span style="width: 665px;">
-									<select id="searchBox" style="width: 85px; margin-right:10px;">
-										<option value="all">전체</option>
-										<option value="cus_nm">기업고객명</option>
-										<option value="scm_nm">SCM관리자</option>
+								<span style="width: 750px;">
+									<select id="searchBox" style="width: 90px; margin-right:10px;">
+										<option value="E, J">전체</option>
+										<option value="J">기업고객명</option>
+										<option value="E">SCM관리자</option>
 									</select>
-									<input type="text" name="searchInfo" id="searchInfo" value="검색" style="width:200px; height: 28px; margin-right:10px;">
-									<input type="date" name="startDate" id="startDate" style="width: 130px; height: 28px;">
+									<input type="text" id="searchInfo" placeholder="검색" style="width:200px; height: 28px; margin-right:10px;">
+									<input type="date" id="startDate" style="width: 130px; height: 28px;">
 		                            <span>~</span>
-		                            <input type="date" name="endDate" id="endDate" style="width: 130px; height: 28px; margin-right:10px;">
-		                            <a id="searchEnter" class="btn btnTypeBox" href="javascript:fSearchOrderList()">검색</a>
+		                            <input type="date" id="endDate" style="width: 130px; height: 28px; margin-right:10px;">
+		                            <span>* 제출일자기준</span>
+		                            <a id="searchEnter" 
+		                                  class="btn btnTypeBox" 
+		                                  href="javascript:fSearchOrderList(1, $('#searchBox').val(), $('#searchInfo').val(), $('#startDate').val(), $('#endDate').val())"
+		                                  style="border:1px solid #adb0b5;">검색</a>
 								</span> 
 							</p>
 							<table class="col">
+								<colgroup>
+								    <col width="10%">
+								    <col width="15%">
+								</colgroup>
 								<thead>
 									<tr>
-									<th scope="col">번호</th>
+									<th scope="col">지시서번호</th>
 									<th scope="col">기업고객명</th>
 									<th scope="col">SCM관리자</th>
+									<th scope="col">주문접수일자</th>
 									<th scope="col">제출일자</th>
 									</tr>
 								</thead>
 								<tbody id="outgoingList"></tbody>
 							</table>
 						<div class="paging_area" id="listInfPagination"></div>
+						</div>
+						<div id="detailList" class="content">
+				            <p class="conTitle">
+                                <span>상세페이지</span>
+                            </p>
+                            <table class="col">
+                                <colgroup>
+                                    <col width="10%">
+                                    <col width="20%">
+                                    <col width="10%">
+                                    <col width="10%">
+                                    <col width="10%">
+                                    <col width="10%">
+                                    <col width="10%">
+                                    <col width="20%">
+                                </colgroup>
+						        <thead>
+						            <tr>
+						                <th scope="col">품목명</th>
+						                <th scope="col">제품명</th>
+						                <th scope="col">공급처명</th>
+						                <th scope="col">수량</th>
+						                <th scope="col">창고명</th>
+						                <th scope="col">희망납품일자</th>
+						                <th scope="col">주문일자</th>
+						                <th scope="col">적요</th>
+						            </tr>
+						        </thead>
+						        <tbody id="outgoingDetailList">
+						           <tr>
+	                                 <td colspan="8">지시서번호를 선택해 주세요.</td>
+	                               </tr>
+						        </tbody>
+                            </table>
 						</div>
 					</li>
 				</ul>
