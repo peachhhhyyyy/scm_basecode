@@ -27,6 +27,13 @@ public class RefundServiceImpl implements RefundService {
     return refundDao.countRefundList();
   }
 
+  // 반품서 검색 목록 총 개수 조회
+  @Override
+  public int countConditionList(Map<String, Object> param) throws Exception {
+    // TODO Auto-generated method stub
+    return refundDao.countConditionList(param);
+  }
+  
   // 반품서 단건 조회
   @Override
   public RefundDetailModel selectOneRefund(int refund_list_no) throws Exception {
@@ -40,6 +47,7 @@ public class RefundServiceImpl implements RefundService {
     // TODO Auto-generated method stub
     return refundDao.insertReturnDate(purch_list_no);
   }
+
 
   
 }

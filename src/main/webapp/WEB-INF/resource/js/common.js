@@ -169,6 +169,7 @@ function getPaginationHtml(currentPage, totalCount, pageRow, blockPage, pageFunc
 	var pagingHtml = "<div class='paging'>";
 	pagingHtml += "<a class='first' href='javascript:"+pageFunc+"(1"+sExParam+")'><span class='hidden'>맨앞</span></a>";
   pagingHtml += "<a class='pre' href='javascript:"+pageFunc+"(" + (currentPage - 1 == 0 ? 1 : (currentPage -1))+")'><span class='hidden'>이전</span></a>";
+
 	for (var i = startPage; i <= endPage; i++) {
 		if (i > totalPage) {
 			break;

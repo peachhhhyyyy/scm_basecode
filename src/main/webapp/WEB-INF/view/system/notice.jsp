@@ -1,355 +1,443 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<title>공지사항</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>JobKorea</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
+<style>
+/* 모달 클릭 방지 */
+.forbidden-event {
+  pointer-events: none;
+}
+
+/* 모달 전환 */
+.display_none {
+  display: none;
+}
+</style>
 <script type="text/javascript">
-  // 페이징 설정 
-  var pageSize = 5; // 화면에 뿌릴 데이터 수 
-  var pageBlock = 5; // 블럭으로 잡히는 페이징처리 수
 
-  /* onload 이벤트  */
+  // 페이징 설정
+  var pageSize = 5;
+  var pageBlock = 5;
+
+  /* OnLoad event */ 
   $(function() {
-    // 공지사항 리스트 뿌리기 함수 
-    selectNoticeList();
 
-    // 버튼 이벤트 등록 (저장, 수정, 삭제, 모달창 닫기)
-    fButtonClickEvent();
-
-    /* 		$("#to_date").change(function() {
-     if ($("#to_date").val() <$("#from_date").val()){
-     alert("최소기간 보다 작을수 없습니다.")
-     $("#to_date").val('');
-     } 
-     }); */
+    // 공지사항 목록 조회
+    selectList();
+    
+    //datepicker설정
+    // formerDate datepicker
+    $('#datetimepicker1').datetimepicker({
+       //format : 'L',
+       format: 'YYYY-MM-DD',
+       formatDate: 'YYYY-MM-DD'
+    });
+    
+    $('#datetimepicker2').datetimepicker({
+    format : 'L',
+    useCurrent : false
+    });
+    
+    $("#datetimepicker1").on("change.datetimepicker", function(e) {
+      var date = $("#datetimepicker1").find("input").val()
+      $('#datetimepicker2').datetimepicker('minDate', e.date);
+    });
+    
+    
+    // latterDate datepicker
+    $('#datetimepicker3').datetimepicker({
+       //format : 'L',
+       format: 'YYYY-MM-DD',
+       formatDate: 'YYYY-MM-DD'
+    });
+    
+    $('#datetimepicker4').datetimepicker({
+    format : 'L',
+    useCurrent : false
+    });
+    
+    $("#datetimepicker3").on("change.datetimepicker", function(e) {
+      var date = $("#datetimepicker3").find("input").val()
+      $('#datetimepicker4').datetimepicker('minDate', e.date);
+    });
 
   });
 
-  /* 버튼 이벤트 등록 - 저장, 수정, 삭제  */
-  function fButtonClickEvent() {
-    $('a[name=btn]').click(function(e) {
-      e.preventDefault(); // ?? 
-
-      var btnId = $(this).attr('id');
-
-      //alert("btnId : " + btnId);
-
-      switch (btnId) {
-      case 'btnSaveNotice':
-        fSaveNotice(); // save 안에 저장,수정
-        //alert("저장버튼 클릭!!!이벤트!!");
-        break;
-      case 'btnDeleteNotice':
-        fDeleteNotice(); // 만들자 
-        //alert("삭제버튼 클릭!!!이벤트!!");		
-        break;
-      case 'btnClose':
-        gfCloseModal(); // 모달닫기 
-        selectNoticeList(); // 첫페이지 다시 로딩 
-        break;
-      case 'btnUpdateNotice':
-        fUpdateNotice(); // 수정하기
-        break;
-      case 'searchBtn':
-        selectNoticeList(); // 검색하기
-        break;
-
-      //case 'commentWrite' : fCommentInsert();   // 댓글--> 답변글로 변경 // 저장 
-      //break;
-      }
-    });
-  }
-
-  /* 공지사항 리스트 불러오기  */
-  function selectNoticeList(currentPage) {
-
-    currentPage = currentPage || 1; // or		
-
-    //alert("지금 현재 페이지를 찍어봅시다. " + currentPage);
-    title = $("#title").val();
-    from_date = $("#from_date").val();
-    to_date = $("#to_date").val();
-
-    var param = {
-    title : title,
-    currentPage : currentPage,
-    pageSize : pageSize,
-    from_date : from_date,
-    to_date : to_date
-    }
-
-    var resultCallback = function(data) { // 데이터를 이 함수로 넘깁시다. 
-      noticeListResult(data, currentPage);
-    }
-
-    callAjax("/system/noticeList.do", "post", "text", true, param, resultCallback);
-
-  }
-
-  /* callAjax 공통 common.js 에서 퍼옴  -> 이렇게 생긴 함수입니다.  
-  
-  function fOnloadImg(param){
-  	var resultCallback = function(data) {
-  		fOnloadImgResult(data);
-  	};
-  	callAjax("/image/selectImgSize.do", "post", "json", false, param, resultCallback);
-   } */
-
-  /* 공지사항 리스트 data를 콜백함수를 통해 뿌려봅시당   */
-  function noticeListResult(data, currentPage) {
-
-    console.log(data);
-
-    // 일단 기존 목록을 삭제합니다. (변경시 재부팅 용)
-    $('#noticeList').empty();
-
-    $('#noticeList').append(data);
-
-    // 리스트의 총 개수를 추출합니다. 
-    //var totalCnt = $data.find("#totalCnt").text();
-    var totalCnt = $("#totcnt").val(); // qnaRealList() 에서보낸값 
-
-    // * 페이지 네비게이션 생성 (만들어져있는 함수를 사용한다 -common.js)
-    // function getPaginationHtml(currentPage, totalCount, pageRow, blockPage, pageFunc, exParams)
-    // 파라미터를 참조합시다. 
-    var list = $("#tmpList").val();
-    //var listnum = $("#tmpListNum").val();
-    var pagingnavi = getPaginationHtml(currentPage, totalCnt, pageSize, pageBlock, 'selectNoticeList', [ list ]);
-
-    console.log("pagingnavi : " + pagingnavi);
-    // 비운다음에 다시 append 
-    $("#pagingnavi").empty().append(pagingnavi); // 위에꺼를 첨부합니다. 
-
-    // 현재 페이지 설정 
-    $("#currentPage").val(currentPage);
-
-  }
-
-  //검색  
-  function board_search(currentPage) {
-
+   /* 공지사항 목록 조회 함수 */
+  function selectList(currentPage, serchOptions) {
+     
+    var option = $('#options').val();
+    var keyword = $('#keyword').val();
+    var formerDate = $("#datetimepicker1").find("input").val();
+    var latterDate = $("#datetimepicker3").find("input").val();
+    
     currentPage = currentPage || 1;
 
-    var title = $('#title');
-    var from_date = $('#from_date');
-    var to_date = $('#to_date');
+    console.log("currentPage : " + currentPage);
+    
 
-    var param = {
-    title : title.val(),
-    currentPage : currentPage,
-    pageSize : pageSize,
-    from_date : from_date.val(),
-    to_date : to_date.val()
-    }
-
-    var resultCallback = function(data) {
-      noticeListResult(data, currentPage);
-    };
-
-    callAjax("/system/noticeList.do", "post", "text", true, param, resultCallback);
-  }
-
-  /* 공지사항 모달창(팝업) 실행  */
-  function fNoticeModal(noticeNo) {
-
-    // 신규저장 하기 버튼 클릭시 (값이 null)
-    if (noticeNo == null || noticeNo == "") {
-      // Tranjection type 설정
-      //alert("넘을 찍어보자!!!!!!" + noticeNo);
-
-      $("#action").val("I"); // insert 
-      frealPopModal(noticeNo); // 공지사항 초기화 
-
-      //모달 팝업 모양 오픈! (빈거) _ 있는 함수 쓰는거임. 
-      gfModalPop("#notice");
-
-    } else {
-      // Tranjection type 설정
-      $("#action").val("U"); // update
-      fdetailModal(noticeNo); //번호로 -> 공지사항 상세 조회 팝업 띄우기
-    }
-
-  }
-
-  /*공지사항 상세 조회*/
-  function fdetailModal(noticeNo) {
-    //alert("공지사항 상세 조회  ");
-
-    var param = {
-      noticeNo : noticeNo
-    };
-    var resultCallback2 = function(data) {
-      fdetailResult(data);
-    };
-
-    callAjax("/system/detailNotice.do", "post", "json", true, param, resultCallback2);
-    //alert("공지사항 상세 조회  22");
-  }
-
-  /*  공지사항 상세 조회 -> 콜백함수   */
-  function fdetailResult(data) {
-
-    //alert("공지사항 상세 조회  33");
-    if (data.resultMsg == "SUCCESS") {
-      //모달 띄우기 
-      gfModalPop("#notice");
-
-      // 모달에 정보 넣기 
-      frealPopModal(data.result);
-
-    } else {
-      alert(data.resultMsg);
-    }
-  }
-
-  /* 팝업 _ 초기화 페이지(신규) 혹은 내용뿌리기  */
-  function frealPopModal(object) {
-
-    if (object == "" || object == null || object == undefined) {
-      var writer = $("#swriter").val();
-      //var Now = new Date();
-
-      $("#loginId").val(writer);
-      $("#loginId").attr("readonly", true);
-
-      $("#write_date").val();
-
-      $("#noticeTitle").val("");
-      $("#noticeContent").val("");
-
-      $("#btnDeleteNotice").hide(); // 삭제버튼 숨기기
-      $("#btnUpdateNotice").hide();
-      $("#btnSaveNotice").show();
-
-    } else {
-
-      //alert("숫자찍어보세 : " + object.wno);// 페이징 처리가 제대로 안되서 
-      $("#loginId").val(object.loginId);
-      $("#loginId").attr("readonly", true); // 작성자 수정불가 
-
-      $("#write_date").val(object.noticeRegdate);
-      $("#write_date").attr("readonly", true); // 처음 작성된 날짜 수정불가 
-
-      $("#noticeTitle").val(object.noticeTitle);
-      $("#noticeContent").val(object.noticeContent);
-      //////object.noticeNo
-
-      $("#noticeNo").val(object.noticeNo); // 중요한 num 값도 숨겨서 받아온다. 
-
-      $("#btnDeleteNotice").show(); // 삭제버튼 보이기 
-      $("#btnSaveNotice").hide();
-      $("#btnUpdateNotice").css("display", "");
-      //if문써서 로그인 아이디 == 작성자 아이디 일치시  --- 추가하기 
-      //$("#grp_cod").attr("readonly", false);  // false, true(읽기만)로 수정
-
-    }
-  }
-
-  /* 팝업내 수정, 저장 validation */
-  function fValidatePopup() {
-    var chk = checkNotEmpty([ [ "subject", "제목을 입력해주세요!" ], [ "content", "내용을 입력해주세요!" ] ]);
-
-    if (!chk) {
-      return;
-    }
-    return true;
-  }
-
-  /* 공지사항 등록(저장) */
-  function fSaveNotice() {
-
-    //alert("저장 함수 타는지!!!!!?? ");
-    // validation 체크 
-    if (!(fValidatePopup())) {
-      return;
-    }
-
-    var resultCallback3 = function(data) {
-      fSaveNoticeResult(data);
-    };
-
-    $("#action").val("I"); // insert
-
-    callAjax("/system/noticeSave.do", "post", "json", true, $("#myNotice").serialize(), resultCallback3);
-    // $("#myNotice").serialize() => 직렬화해서 name 값들을 그냥 넘김.
-  }
-
-  /* 저장 ,수정, 삭제 콜백 함수 처리  */
-  function fSaveNoticeResult(data) {
-    var currentPage = currentPage || 1;
-
-    if ($("#action").val() != "I") {
-      currentPage = $("#currentPage").val();
-    }
-
-    if (data.resultMsg == "SUCCESS") {
-      //alert(data.resultMsg);	// 받은 메세지 출력 
-      alert("저장 되었습니다.");
-    } else if (data.resultMsg == "UPDATED") {
-      alert("수정 되었습니다.");
-    } else if (data.resultMsg == "DELETED") {
-      alert("삭제 되었습니다.");
-    } else {
-      alert(data.resultMsg); //실패시 이거 탄다. 
-      alert("실패 했습니다.");
-    }
-
-    gfCloseModal(); // 모달 닫기
-    selectNoticeList(currentPage); // 목록조회 함수 다시 출력 
-    frealPopModal();// 입력폼 초기화
-  }
-
-  /* 공지사항 등록(수정) */
-  function fUpdateNotice() {
-
-    //alert("수정  함수 타는지!!!!!?? ");
-    // validation 체크 
-    if (!(fValidatePopup())) {
-      return;
-    }
-
-    var resultCallback3 = function(data) {
-      fSaveNoticeResult(data);
-    };
-
-    $("#action").val("U"); // update
-
-    callAjax("/system/noticeSave.do", "post", "json", true, $("#myNotice").serialize(), resultCallback3);
-    // $("#myQna").serialize() => 직렬화해서 name 값들을 그냥 넘김.
-  }
-
-  /* 공지사항 게시판 1건 삭제 */
-  function fDeleteNotice() {
-    var con = confirm("정말 삭제하겠습니까? \n 삭제시 복구불가합니다.");
-    if (con) {
-      var resultCallback3 = function(data) {
-        fSaveNoticeResult(data);
+    if (keyword || formerDate || latterDate) {
+      
+      var param = {
+      option : option,
+      keyword : keyword,
+      formerDate : formerDate,
+      latterDate : latterDate,
+      currentPage : currentPage,
+      pageSize : pageSize
       }
-      $("#action").val("D"); // delete
-      callAjax("/system/noticeDelete.do", "post", "json", true, $("#myNotice").serialize(), resultCallback3);
-      // num만 넘겨도되지만 그냥 귀찮으니깐...^^... 
+
     } else {
-      gfCloseModal(); // 모달 닫기
-      selectNoticeList(currentPage); // 목록조회 함수 다시 출력 
-      frealPopModal();// 입력폼 초기화
+      
+      var param = {
+      currentPage : currentPage,
+      pageSize : pageSize
+      }
+
+    }
+
+    var resultCallback = function(result) {
+      selectListCallBack(result, currentPage);
+    };
+
+    //Ajax실행 방식
+    //callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
+    callAjax("/system/notice.do", "post", "text", true, param, resultCallback);
+  }
+
+   /* 공지사항 목록 조회 콜백 함수 */
+  function selectListCallBack(result, currentPage) {
+    
+    console.log('공지사항 목록:', result);
+    
+    // 기존 목록 삭제
+    $('#noticeList').empty();
+    
+    // 신규 목록 생성
+    $("#noticeList").append(result);
+    
+    // 리스트 로우의 총 개수 추출
+    var totalCount = $("#totalCount").val();
+    
+    // 페이지 네비게이션 생성
+    var paginationHtml = getPaginationHtml(currentPage, totalCount, pageSize, pageBlock, 'selectList');
+    console.log("paginationHtml : " + paginationHtml);
+    $("#pagination").empty().append(paginationHtml);
+  
+    // 현재 페이지 설정
+    $("#currentPageCod").val(currentPage);
+  }
+
+  
+
+  
+  /* 공지사항 작성, 수정  모달 활성화 함수 */
+  /* 작성, 수정 여부에 따라 첨부파일이 변경되니 주의  */
+  function fadeInWriteModal() {
+    
+    // 
+    swapModal();
+    // 모달 초기화
+    initWriteModal();
+    // 모달 팝업
+    gfModalPop("#layer1");
+    
+  }
+  
+  /* 공지사항 작성 모달 초기화 */
+  function initWriteModal() {
+    var title = $('#write_title').val();
+    
+    if(title) {
+      $('#write_title').val('');
+      $('#write_content').val('');
+      $('#write_auth').val('0');
     }
   }
+    
+    /* 공지사항 글 작성  함수 */
+    function writeNotice() {
+      
+      // 제목, 내용이 입력되었는지 확인
+      var title = $('#write_title').val();
+      var content = $('#write_content').val();
+      var auth = $('#write_auth').val();
+      console.log('타이틀:', title, '내용',content,'권한', auth);
+      
+      //*** 파일 추가 ***
+      var uploadFile = $('#file-form')[0];
+      var fileData = new FormData(uploadFile);
+      
+      // 
+      fileData.append("empty", "empty");
+      
+      console.log('파일폼확인', uploadFile)
+      console.log('파일확인', fileData)
+      
+      
+      
+      if(title == '') {
+        
+        alert('제목을  입력해주세요');
+        $('#write_title').focus();
+        return false;
+        
+      } 
+      else if(content == '') {
+        
+        alert('내용을  입력해주세요');
+        $('#write_content').focus();
+        return false;
+      } 
+      
+      var param = {
+          
+          title: title,
+          content: content,
+          auth: auth 
+          
+      }
+      
+      
+      // 콜백 함수
+      function resultCallback(result) {
+        
+        if(result == 1) {
+          
+          window.location.reload();
+        } 
+        else {
+          alert('서버에서 에러가 발생했습니다');
+        }
+      }
+      
+      // 파일 업로드 AJAX호출(fileUploadCallback작성 해야 함)
+      
+      
+      // AJAX호출
+      callAjax("/system/writeNotice.do", "post", "json", true, param, resultCallback);
+    };
+    
+    /* 공지사항 단건 조회 함수 */
+    function selectDetail(notice_id, identifier) {
+      
+      var param = notice_id;
+      
+      param = {
+          notice_id : notice_id
+      }
+     
+            
+      /* 공지사항 단건 조회 콜백 함수  */
+      function resultCallback(result) {
+        
+        // 첨부파일 다운로드 버튼도 있어야 함 
+       // gfModalPop("#layer2");
+        
+        if(identifier == undefined) {
+          // 공지사항  작성 모달
+          gfModalPop("#layer2");
+          initDetailModal(result);
+        
+        }
+        else {
+          
+        // 공지사항 수정 모달 
+          gfModalPop("#layer1");
+          initModifyModal(result);
+        
+        }
+      }
+      
+      callAjax("/system/detailNotice.do", "post", "json", true, param, resultCallback);
+    }
+    
+    /* 공지사항 단건 조회 모달 초기화,데이터 설정 함수 */
+    // fInitFormGrpCod 참고
+    function initDetailModal(result) {
+      
+      if (result == "" || result == null || result == undefined) {
+        
+        $("#detail_title").val('');
+        $("#detail_date").val('');
+        $("#detail_content").val('');
+        
+      } else {
+        
+        $('#detail_notice_id').val(result.notice_id);
+        $("#detail_title").val(result.title);
+        $("#detail_date").text(result.date);
+        $("#detail_content").val(result.content);
+      }
+
+    }
+    
+    
+    /* 공지사항 단건 조회 모달  */
+    function fadeInDetailModal(notice_id) {
+      
+      // 신규 저장
+      if (notice_id == null || notice_id == 0) {
+        // Tranjection type 설정
+        $("#action").val("I");
+        
+        // 공지사항 모달 초기화
+        initDetailModal();
+        
+        // 모달 팝업
+        gfModalPop("#layer2");
+        
+      } else {
+        // Tranjection type 설정
+        $("#action").val("U");
+      }
+      // 공지사항 단건 조회
+       selectDetail(notice_id);
+    }
+
+    
+    /* 모달 닫기 */
+    function fadeOutModal() {
+      $('#mask').hide();
+      $('.layerPop').hide();
+    }
+    
+    
+    /* 글 작성 ,글 수정 모달 변경 */
+    function swapModal(identifier) {
+      
+     if(identifier == undefined) {
+       $('#add_file').removeClass('display_none');
+       $('#writeNoticeButton').removeClass('display_none');
+       $('#modifyNoticeButton').addClass('display_none');
+       $('#modify_file').addClass('display_none');
+       $('#deleteNoticeButton').addClass('display_none');
+       
+     }
+     else {
+       
+       // 단건 조회 모달 닫기
+       fadeOutModal();
+       // 글작성 모달 활성화
+       fadeInWriteModal();
+       
+       $('#add_file').addClass('display_none');
+       $('#writeNoticeButton').addClass('display_none');
+       $('#modifyNoticeButton').removeClass('display_none');
+       $('#modify_file').removeClass('display_none');
+       $('#deleteNoticeButton').removeClass('display_none');
+     }
+      
+    }
+        
+    /* 공지사항 수정 모달 호출 함수 */
+    function modifyNoticeModal() {
+      
+      var identifier = 'm';
+      
+      swapModal(identifier);
+      
+      var notice_id = $('#detail_notice_id').val();
+      
+      // 글 수정을 식별하기 위한 식별 변수(modify)
+      var identifier = 'm';
+      
+      // 공지사항 단건 조회
+      selectDetail(notice_id, identifier);
+     
+    }
+    
+    /* 공지사항 수정 모달 */
+    function initModifyModal(result) {
+      console.log('initModifyModal 호출', result);
+      
+      if(result) {
+        
+        // 모달에 값 설정하기
+        $("#write_title").val(result.title);
+        $("#write_content").val(result.content);
+        $("#write_auth").val(result.auth);
+      }
+      else {
+        alert('서버에서 에러가 발생했습니다');
+      }
+    }
+    
+    /* 공지사항 수정 함수*/
+    function modifyNotice() {
+      var notice_id = $('#detail_notice_id').val();
+      console.log('수정할 글번호 확인:', notice_id);
+      var title =  $("#write_title").val();
+      var content =  $("#write_content").val();
+      var auth =  $("#write_auth").val();
+      
+      param = {
+          notice_id : notice_id,
+          title : title,
+          content: content,
+          auth: auth
+      }
+      
+      function resultCallback(result) {
+        if(result == 1){
+          window.location.reload();
+        } 
+        else {
+          alert('서버에서 에러가 발생했습니다.')
+        }
+      }
+      
+      callAjax("/system/modifyNotice.do", "post", "text", true, param, resultCallback);
+      
+    }
+    
+    /* 공지사항 삭제 함수 */
+    function deleteNotice() {
+      
+      var isDelete = confirm('정말 삭제하시겠습니까?');
+      
+      // 삭제
+      if(isDelete) {
+        
+        var notice_id = $('#detail_notice_id').val();
+        
+        console.log('게시글 번호 확인',notice_id);
+        
+        var param = {
+            notice_id : notice_id
+        }
+        
+        function resultCallback(result) {
+          
+          if(result == 1) {
+            window.location.reload();
+          } 
+          else {
+            alert('서버에서 에러가 발생했습니다');
+          }
+        };
+        
+        callAjax("/system/deleteNotice.do", "post", "text", true, param, resultCallback);
+        
+      }
+      else { 
+        return false;
+      }
+      
+      
+    }
 </script>
 </head>
 <body>
-  <!-- ///////////////////// html 페이지  ///////////////////////////// -->
-  <form id="myNotice" action="" method="">
-    <input type="hidden" id="currentPage" value="1">
-    <!-- 현재페이지는 처음에 항상 1로 설정하여 넘김  -->
-    <input type="hidden" id="tmpList" value="">
-    <!-- ★ 이거뭐임??? -->
-    <input type="hidden" id="tmpListNum" value="">
-    <!-- 스크립트에서 값을 설정해서 넘길거임 / 임시 리스트 넘버 -->
-    <input type="hidden" name="action" id="action" value=""> <input type="hidden" id="swriter" value="${loginId}">
-    <!-- 작성자 session에서 java에서 넘어온값 -->
+  <form id="myForm" action="" method="">
+    <input type="hidden" id="currentPageCod" value="1"> <input type="hidden" id="currentPageComnDtlCod" value="1"> <input type="hidden" id="tmpGrpCod" value=""> <input type="hidden" id="tmpGrpCodNm" value=""> <input type="hidden" name="action" id="action" value="">
+    <!-- 모달 배경 -->
+    <div id="mask"></div>
     <div id="wrap_area">
       <h2 class="hidden">header 영역</h2>
       <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
@@ -364,59 +452,152 @@
             <h3 class="hidden">contents 영역</h3> <!-- content -->
             <div class="content">
               <p class="Location">
-                <a href="#" class="btn_set home">메인으로</a> <a href="#" class="btn_nav bold">시스템 관리</a> <span class="btn_nav bold">공지 사항</span> <a href="#" class="btn_set refresh">새로고침</a>
+                <a href="#" class="btn_set home">메인으로</a><span class="btn_nav bold">공지사항</span> <a href="javascript:window.location.reload();" class="btn_set refresh">새로고침</a>
               </p>
               <p class="conTitle">
-                <span>공지 사항 </span> <span class="fr"> <c:set var="nullNum" value=""></c:set> <a class="btnType blue" href="javascript:fNoticeModal(${nullNum});" name="modal"> <span>신규등록</span></a>
-                </span>
+                <span>공지사항</span>
               </p>
-              <!--검색창  -->
-              <table width="100%" cellpadding="5" cellspacing="0" border="1" align="left" style="border-collapse: collapse; border: 1px #50bcdf;">
-                <tr style="border: 0px; border-color: blue">
-                  <td width="100" height="25" style="font-size: 120%">&nbsp;&nbsp;</td>
-                  <td width="50" height="25" style="font-size: 100%">제목</td>
-                  <td width="50" height="25" style="font-size: 100%"><input type="text" style="width: 120px" id="title" name="title"></td>
-                  <td width="50" height="25" style="font-size: 100%">작성일</td>
-                  <td width="50" height="25" style="font-size: 100%"><input type="date" style="width: 120px" id="from_date" name="from_date"></td>
-                  <td width="50" height="25" style="font-size: 100%"><input type="date" style="width: 120px" id="to_date" name="to_date"></td>
-                  <td width="110" height="60" style="font-size: 120%"><a href="" class="btnType blue" id="searchBtn" name="btn"><span>검 색</span></a></td>
-                  <!-- <input type="button" value="검  색  " id="searchBtn" name="btn" class="test_btn1" 
-                              style="border-collapse: collapse; border: 0px gray solid; background-color: #50bcdf; width: 70px; color: white"/> -->
-                </tr>
-              </table>
-              <div class="divNoticeList">
+              <form class="search-container">
+                <div class="row">
+                  <!-- searchbar -->
+                  <div class="col-lg-6">
+                    <div class="input-group">
+                      <select style="width: 90px; height: 34px;" id="options">
+                        <option value="all" selected>제목+내용</option>
+                        <option value="title" id="title">제목</option>
+                      </select> <input type="text" class="form-control" aria-label="..." id="keyword" autocomplete="off">
+                    </div>
+                  </div>
+                  <!-- // searchbar -->
+                  <!-- datepicker -->
+                  <div class='col-md-3 col-xs-4'>
+                    <div class="form-group">
+                      <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" value="">
+                        <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                          <div class="input-group-text">
+                            <i class="fa fa-calendar"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="divider">~</span>
+                  <div class='col-md-3 col-xs-4'>
+                    <div class="form-group">
+                      <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker3" value="">
+                        <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                          <div class="input-group-text">
+                            <i class="fa fa-calendar"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- // datepicker -->
+                  <!-- button -->
+                  <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default" onclick="selectList()">검색</button>
+                  </div>
+                  <!-- // button -->
+                </div>
+                <!-- /.row -->
+              </form>
+              <div class="divComGrpCodList">
                 <table class="col">
                   <caption>caption</caption>
                   <colgroup>
-                    <col width="*">
-                    <col width="*">
-                    <col width="*">
-                    <col width="*">
+                    <col width="10%">
+                    <col width="50%">
+                    <col width="30%">
+                    <col width="20%">
                   </colgroup>
                   <thead>
                     <tr>
-                      <th scope="col">공지 번호</th>
-                      <th scope="col">공지 제목</th>
-                      <th scope="col">공지 날짜</th>
-                      <th scope="col">작성자</th>
+                      <th scope="col">글번호</th>
+                      <th scope="col">제목</th>
+                      <th scope="col">작성일</th>
                       <th scope="col">조회수</th>
                     </tr>
                   </thead>
                   <tbody id="noticeList"></tbody>
                 </table>
-                <!-- 페이징 처리  -->
-                <div class="paging_area" id="pagingnavi"></div>
               </div>
-            </div> <!--// content -->
-            <h3 class="hidden">풋터 영역</h3> <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
+              <div class="paging_area" id="pagination"></div>
+              <div class="btn-wrap">
+                <c:if test="${sessionScope.userType eq 'E'}">
+                  <button type="button" class="btn btn-default" onclick="fadeInWriteModal()">글쓰기</button>
+                </c:if>
+              </div>
+              <h3 class="hidden">풋터 영역</h3>
+              <jsp:include page="/WEB-INF/view/common/footer.jsp"></jsp:include>
           </li>
         </ul>
       </div>
     </div>
-    <!-- 모달팝업 -->
-    <div id="notice" class="layerPop layerType2" style="width: 600px;">
-      <input type="hidden" id="noticeNo" name="noticeNo" value="${noticeNo}">
-      <!-- 수정시 필요한 num 값을 넘김  -->
+    <!-- 공지사항 작성 모달팝업 시작-->
+    <div id="layer1" class="layerPop layerType2" style="width: 600px;">
+      <dl>
+        <dt>
+          <strong>글쓰기</strong>
+        </dt>
+        <dd class="content">
+          <!-- s : 여기에 내용입력 -->
+          <table class="row">
+            <caption>caption</caption>
+            <colgroup>
+              <col width="120px">
+              <col width="*">
+              <col width="120px">
+              <col width="*">
+            </colgroup>
+            <tbody>
+              <tr>
+                <th scope="row">제목</th>
+                <td colspan="3"><input type="text" class="inputTxt p100" name="write_title" id="write_title" autocomplete="off" /></td>
+              </tr>
+              <tr>
+                <th scope="row">내용</th>
+                <td colspan="3"><textarea class="inputTxt p100" name="write_content" id="write_content" autocomplete="off" /></textarea></td>
+              </tr>
+              <form enctype="multipart/form-data" id="file-form">
+                <tr id="add_file" class="">
+                  <th scope="row">첨부파일(글작성)</th>
+                  <td colspan="3"><input type="file" class="inputTxt p100" name="return_mng_id" id="return_mng_id" accept="image/*" /></td>
+                </tr>
+                <tr id="modify_file" class="display_none">
+                  <th scope="row">첨부파일(글수정)</th>
+                  <td colspan="3"><input type="file" class="inputTxt p100" name="return_mng_id" id="return_mng_id" accept="image/*"/></td>
+                </tr>
+              </form>
+              <tr>
+                <th scope="row">열람권한</th>
+                <td colspan="3">
+                  <select id="write_auth">
+                    <option value="0">전체</option>
+                    <option value="1">고객</option>
+                    <option value="2">직원</option>
+                </select>
+                  <div class="btn-group">
+                    <!-- 공지사항 신규 작성 버튼 -->
+                    <button class="btn-default btn-sm" id="writeNoticeButton" onclick="writeNotice()">저장</button>
+                    <!-- 공지사항 수정글 작성 버튼 -->
+                    <button class="display_none btn-default btn-sm" id="modifyNoticeButton" onclick="modifyNotice()">글수정저장</button>
+                    <button class="display_none btn-default btn-sm" id="deleteNoticeButton" onclick="deleteNotice()">삭제</button>
+                    <button class="btn-default btn-sm" onclick="fadeOutModal()">취소</button>
+                  </div></td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- e : 여기에 내용입력 -->
+        </dd>
+      </dl>
+      <a href="" class="closePop"><span class="hidden">닫기</span></a>
+    </div>
+    <!-- 공지사항 작성 모달 끝 -->
+    <!-- 공지사항 단건 조회(상세조회)모달 시작 -->
+    <div id="layer2" class="layerPop layerType2" style="width: 600px;">
       <dl>
         <dt>
           <strong>공지사항</strong>
@@ -425,32 +606,48 @@
           <!-- s : 여기에 내용입력 -->
           <table class="row">
             <caption>caption</caption>
+            <colgroup>
+              <col width="120px">
+              <col width="*">
+              <col width="120px">
+              <col width="*">
+            </colgroup>
+            <input type="hidden" id="detail_notice_id">
             <tbody>
               <tr>
-                <th scope="row">작성자 <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100" name="loginId" id="loginId" /></td>
-                <!-- <th scope="row">작성일<span class="font_red">*</span></th>
-							<td><input type="text" class="inputTxt p100" name="write_date" id="write_date" /></td> -->
+                <th scope="row">제목</th>
+                <td colspan="3"><input type="text" class="inputTxt p100 forbidden-event" name="detail_title" id="detail_title" autocomplete="off" /></td>
               </tr>
               <tr>
-                <th scope="row">제목 <span class="font_red">*</span></th>
-                <td colspan="3"><input type="text" class="inputTxt p100" name="noticeTitle" id="noticeTitle" /></td>
+                <th scope="row">작성시간</th>
+                <td colspan="3"><p id="detail_date"></p></td>
               </tr>
               <tr>
                 <th scope="row">내용</th>
-                <td colspan="3"><textarea class="inputTxt p100" name="noticeContent" id="noticeContent">
-								</textarea></td>
+                <td colspan="3"><textarea class="inputTxt p100 forbidden-event" name="detail_content" id="detail_content" autocomplete="off" /></textarea></td>
+              </tr>
+              <tr>
+                <th scope="row">첨부파일(다운로드기능 추가해야 함)</th>
+                <td colspan="3"><input type="file" class="inputTxt p100" name="return_mng_id" id="return_mng_id" /></td>
+              </tr>
+              <tr>
+                <td colspan="6">
+                  <div>
+                    <c:if test="${sessionScope.userType eq 'E'}">
+                      <button type="button" class="btn-default btn-sm" onclick="modifyNoticeModal()">수정</button>
+                      <button type="button" class="btn-default btn-sm" onclick="deleteNotice()">삭제</button>
+                    </c:if>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>
           <!-- e : 여기에 내용입력 -->
-          <div class="btn_areaC mt30">
-            <a href="" class="btnType blue" id="btnSaveNotice" name="btn"><span>저장</span></a> <a href="" class="btnType blue" id="btnUpdateNotice" name="btn" style="display: none"><span>수정</span></a> <a href="" class="btnType blue" id="btnDeleteNotice" name="btn"><span>삭제</span></a> <a href="" class="btnType gray" id="btnClose" name="btn"><span>취소</span></a>
-          </div>
         </dd>
       </dl>
       <a href="" class="closePop"><span class="hidden">닫기</span></a>
     </div>
+    <!-- 공지사항 단건 조회(상세조회) 끝 -->
   </form>
 </body>
 </html>
