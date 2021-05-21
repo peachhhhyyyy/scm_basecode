@@ -93,7 +93,10 @@
 									<input type="date" name="startDate" id="startDate" style="width: 130px; height: 28px;">
 		                            <span>~</span>
 		                            <input type="date" name="endDate" id="endDate" style="width: 130px; height: 28px; margin-right:10px;">
-		                            <a id="searchEnter" class="btn btnTypeBox" href="javascript:fSearchOrderList()">검색</a>
+		                            <a id="searchEnter" 
+		                                  class="btn btnTypeBox" 
+		                                  href="javascript:fSearchOrderList()"
+		                                  style="border:1px solid #adb0b5;">검색</a>
 								</span> 
 							</p>
 							<table class="col">
