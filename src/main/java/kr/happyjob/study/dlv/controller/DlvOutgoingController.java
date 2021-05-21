@@ -52,7 +52,7 @@ public class DlvOutgoingController {
 	    paramMap.put("pageIndex", pageIndex);
 		paramMap.put("pageSize", pageSize);
 		
-//		logger.info("paramMap" + paramMap);
+		logger.info("paramMap" + paramMap);
 		
 //		logger.info("=============== 세션ID =============== : "+ session.getAttribute("loginId"));
 //		paramMap.put("loginID", session.getAttribute("loginId"));
@@ -94,35 +94,34 @@ public class DlvOutgoingController {
 	
 	
 	// 배송 준비 중 부터의 검색 조건 수주내역 조회
-	@RequestMapping("outgoingSearchList.do")
-	
-	public String outgoingSearchList(Model model, @RequestParam Map<String, Object> paramMap, 
-			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
-		
-		int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재페이지
-	    int pageSize = Integer.parseInt((String) paramMap.get("pageSize"));
-	    int pageIndex = (currentPage - 1) * pageSize;
-	    
-	    paramMap.put("pageIndex", pageIndex);
-		paramMap.put("pageSize", pageSize);
-		
-//		logger.info(" 검색조건 paramMap" + paramMap);
-		
-		// 출하내역 가져오기 //
-		List<DlvOutgoingModel> outgoingSearchList = dlvOutgoingService.outgoingSearchList(paramMap);
-		model.addAttribute("outgoingSearchList", outgoingSearchList);
-//		logger.info("======= outgoingSearchList ======= : "+ outgoingSearchList);
-
-		//출하내역 목록 수 추출하기 //
-		int outgoingSearchCnt = dlvOutgoingService.outgoingSearchCnt(paramMap);
-//		logger.info("======= outgoingSearchCnt ======= : " + outgoingSearchCnt);
-	    model.addAttribute("outgoingSearchCnt", outgoingSearchCnt);
-	    
-	    model.addAttribute("pageSize", pageSize);
-	    model.addAttribute("currentPage",currentPage);
-	    
-		return "/dlv/outgoingList";
-	}
+//	@RequestMapping("outgoingSearchList.do")
+//	public String outgoingSearchList(Model model, @RequestParam Map<String, Object> paramMap, 
+//			HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+//		
+//		int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재페이지
+//	    int pageSize = Integer.parseInt((String) paramMap.get("pageSize"));
+//	    int pageIndex = (currentPage - 1) * pageSize;
+//	    
+//	    paramMap.put("pageIndex", pageIndex);
+//		paramMap.put("pageSize", pageSize);
+//		
+////		logger.info(" 검색조건 paramMap" + paramMap);
+//		
+//		// 출하내역 가져오기 //
+//		List<DlvOutgoingModel> outgoingSearchList = dlvOutgoingService.outgoingSearchList(paramMap);
+//		model.addAttribute("outgoingSearchList", outgoingSearchList);
+////		logger.info("======= outgoingSearchList ======= : "+ outgoingSearchList);
+//
+//		//출하내역 목록 수 추출하기 //
+//		int outgoingSearchCnt = dlvOutgoingService.outgoingSearchCnt(paramMap);
+////		logger.info("======= outgoingSearchCnt ======= : " + outgoingSearchCnt);
+//	    model.addAttribute("outgoingSearchCnt", outgoingSearchCnt);
+//	    
+//	    model.addAttribute("pageSize", pageSize);
+//	    model.addAttribute("currentPage",currentPage);
+//	    
+//		return "/dlv/outgoingList";
+//	}
 	
 	
 	@RequestMapping("selDlvTel.do")
