@@ -414,7 +414,7 @@
                                 <th scope="col">제품명</th>
                                 <th scope="col">모델명</th>
                                 <th scope="col">재고현황(개)</th>
-                                <th scope="col">제품단가(원)</th>
+                                <th scope="col">장비구매액(원)</th>
                              </tr>
                         </thead>
                         <tbody id="listSupplierProduct">
