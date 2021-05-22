@@ -29,6 +29,7 @@
                     board_search();  // 실행할 이벤트
           }
     });
+    //창고명 조회 콤보박스
     selectComCombo("wh", "warehouse_nm", "sel", "");   
     // 조회 종류   부서 : dept  acc : 회계계정 cli 거래처  pro:싱품 whp: 창고담당자 wh: 창고, Combo Name, Option("all" : 전체     "sel" : 선택 , NULL)       
   });
@@ -303,6 +304,7 @@
         resultCallback);
   }
   
+  //창고명 검색 콤보박스
   function selectwarehouse() {
     
     var selwh = $("#warehouse_nm").val();
