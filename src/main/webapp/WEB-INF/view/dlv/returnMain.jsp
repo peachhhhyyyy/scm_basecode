@@ -209,9 +209,9 @@
 											<option value="6">반품 진행 중</option>
 											<option value="7">반품완료</option>
 									</select> 
-									<input type="date" id="startDate" style="width: 200px; height: 28px;">
+									<input type="date" id="startDate" name="startDate" style="width: 200px; height: 28px;">
 									<span>~</span>
-									<input type="date" id="endDate" style="width: 200px; height: 28px;">
+									<input type="date" id="endDate" name="endDate" style="width: 200px; height: 28px;">
 									<a id="searchEnter" 
 									    class="btn btnTypeBox" 
 									    href="javascript:fSearchReturnList()"
