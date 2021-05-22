@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+#container ul li.contents .content{
+	padding-top : 16px;
+	min-height : 340px;
+}
+
+.submitBtn{
+	font-size: 15px;
+	color: #fff;
+	background: #3cb3eb;
+	padding: 7px 0;
+	width: 13%;
+	display:inline-block;
+}
+
+::-webkit-calendar-picker-indicator{
+        margin-left: -20px;
+}
