@@ -46,9 +46,8 @@
 				function fOrderListResult(data, currentPage) {
 					/* console.log(data); */
 			
-					// 기존 목록 삭제
-					$('#outgoingList').empty();
-					$("#outgoingList").append(data);
+					// 기존 목록 삭제/삽입
+					$('#outgoingList').empty().append(data);
 			
 					// 총 개수 추출
 					var totcnt = $("#totcnt").val();
@@ -64,14 +63,11 @@
 				}
 			
 				
-				
-				
 				// 검색조건으로 수주내역 가져오기
 				function fSearchOrderList() {
 					
-					// 필요하기 전까지 숨기기
+					// 필요하기 전까지 숨김
                     $('#submitBtn').hide();
-                    //$('#detailList').hide();
                     
                     var param = $('#outgoingSearchForm').serialize();
                     
@@ -83,22 +79,11 @@
                     var startDate = $('#startDate').val();
                     var endDate = $('#endDate').val();
 
-					
-					currentPage = currentPage || 1;
-			        
-	                console.log("currentPage : " + currentPage);
-	                
 	                // 날짜가 올바르지 않거나 널값인 경우 랜딩
 	                if(startDate > endDate){
 	                    alert("시작일자는 종료일자보다 클 수가 없습니다.");
 	                    location.href= "/dlv/outgoing.do";
 	                }
-	                
-	                if(startDate == '' || endDate == ''){
-	                    alert("날짜를 설정해주세요.");
-	                    location.href= "/dlv/outgoing.do";
-	                }
-	                
 	                
 	                var resultCallback = function(data) {
 	                	fSearchOrderListResult(data, $('#currentPage').val());
@@ -221,25 +206,25 @@
 								<a href="../dashboard/dashboard.do" class="btn_set refresh">새로고침</a>
 							</p>
 							<form id="outgoingSearchForm">
-							<p class="conTitle" style="display:flex; justify-content: space-between; align-items: center;" >
-								<span>출하계획</span>
-								<!-- 상단 상태, 날짜 조회 부분 -->
-								<span style="width: 590px;">
-								    <select id="STTcd" name="STTcd" style="width: 100px;">
-										<option value="all">전체</option>
-										<option value="13">배송준비</option>
-										<option value="14">배송중</option>
-										<option value="15">배송완료</option>
-									</select>
-									<input type="date" name="startDate" id="startDate" style="width: 200px; height: 28px;">
-									<span>~</span>
-									<input type="date" name="endDate" id="endDate" style="width: 200px; height: 28px;">
-                                    <a id="searchEnter" 
-                                        class="btn btnTypeBox" 
-                                        href="javascript:fSearchOrderList(1, $('#STTcd').val(), $('#startDate').val(), $('#endDate').val())"
-                                        style="border:1px solid #adb0b5;">검색</a>
-                                </span>
-							</p>
+								<p class="conTitle" style="display:flex; justify-content: space-between; align-items: center;" >
+									<span>출하계획</span>
+									<!-- 상단 상태, 날짜 조회 부분 -->
+									<span style="width: 590px;">
+									    <select id="STTcd" name="STTcd" style="width: 100px;">
+											<option value="all">전체</option>
+											<option value="13">배송준비</option>
+											<option value="14">배송중</option>
+											<option value="15">배송완료</option>
+										</select>
+										<input type="date" name="startDate" id="startDate" style="width: 200px; height: 28px;">
+										<span>~</span>
+										<input type="date" name="endDate" id="endDate" style="width: 200px; height: 28px;">
+	                                    <a id="searchEnter" 
+	                                        class="btn btnTypeBox" 
+	                                        href="javascript:fSearchOrderList()"
+	                                        style="border:1px solid #adb0b5;">검색</a>
+	                                </span>
+								</p>
                             </form>
 							<table class="col">
 								<thead>
