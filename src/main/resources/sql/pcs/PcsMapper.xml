@@ -122,6 +122,7 @@
       ,od.STTcd
       ,pl.supply_cd      
       ,dc.detail_name
+      ,pd.product_cd
   FROM tb_scm_purchase_list pl
        inner join tb_scm_supply sp on sp.supply_cd = pl.supply_cd
        inner join tb_order od on od.order_cd = pl.order_cd
