@@ -54,11 +54,78 @@
 	        	    $("#listInfPagination").empty().append(paginationHtml);
         	  }
 	         
-	         // 반품지시서 상세페이지 
-	         /* function fReturnDetailList(){
-	        	 
-	         } */
-	        
+	         // 검색조건 기준 조회
+             function fSearchReturnList(){
+                 
+                 var param = $('#returnListForm').serialize();
+                 
+                 param += "&currentPage="+$('#currentPage').val();
+                 param += "&pageSize="+pageSizeinfo
+                 
+                 console.log("form에서 넘어온 값 : " + param)
+                 
+                 currentPage = currentPage || 1;
+                 
+                 var startDate = $('#startDate').val();
+                 var endDate = $('#endDate').val();
+
+                 // 날짜가 올바르지 않거나 널값인 경우 랜딩
+                 if(startDate > endDate){
+                     alert("시작일자는 종료일자보다 클 수가 없습니다.");
+                     location.href= "/scm/scmReturnMain.do";
+                 }
+                 
+                 var resultCallback =  function(data){
+                     fSearchOrderListResult(data, $('#currentPage').val());
+                 }
+                 
+                 callAjax("/scm/scmReturnList.do", "post", "text", true, param, resultCallback);
+             }
+             
+             // 검색조건 기준 조회 결과 콜백 함수
+             function fSearchOrderListResult(data, currentPage) {
+            	 
+                    // console.log(data);
+                    
+                    // 기존 목록 삭제 / 신규데이터 삽입
+                    $('#returnList').empty().append(data);
+                    
+                    // 총 개수 추출
+                    var totCnt = $("#totCnt").val();
+                    // 페이지 네비게이션 생성
+                    var paginationHtml = getPaginationHtml(currentPage, totCnt, 
+                            pageSizeinfo, pageBlockSizeinquiry, 'fSearchReturnList');
+                   // 현재 페이지 설정
+                    $("#listInfPagination").empty().append(paginationHtml);
+              } fReturnDetailList
+              
+              /* 배송지시서 상세 조회*/
+              function fReturnDetailList(refund_list_no) {
+                  
+                var param = {
+                		refund_list_no : refund_list_no,
+                }
+              
+                var resultCallback = function(data) {
+                	fReturnDetailResult(data);
+                };
+              
+                callAjax("/scm/scmReturnDetailList.do", "post", "text", true, param, resultCallback);
+              }
+              
+              
+              // 배송지시서 상세조회 콜백 함수 
+              function fReturnDetailResult(data) {
+                  //console.log(data);
+              
+                  // 기존 목록 삭제
+                  $('#returnDetailList').empty();
+                  
+                  var $data = $($(data).html());
+                  // topList
+                  var $outgoingDetailList = $data.find("#returnDetailList");
+                  $("#returnDetailList").append($outgoingDetailList.children());
+              }
 				
 	      </script>
 	</head>
@@ -80,34 +147,36 @@
 								<span class="btn_nav bold">반품지시서</span>
 								<a href="../dashboard/dashboard.do" class="btn_set refresh">새로고침</a>
 							</p>
-							<p class="conTitle" style="display:flex; justify-content: space-between; align-items: center;">
-								<span>반품지시서</span> 
-								<span style="width: 665px;">
-									<select id="searchBox" style="width: 85px; margin-right:10px;">
-										<option value="all">전체</option>
-										<option value="prod_nm">제품명</option>
-										<option value="cus_nm">고객명</option>
-										<option value="scm_nm">scm관리자</option>
-									</select>
-									<input type="text" name="searchInfo" id="searchInfo" value="검색" style="width:200px; height: 28px; margin-right:10px;">
-									<input type="date" name="startDate" id="startDate" style="width: 130px; height: 28px;">
-		                            <span>~</span>
-		                            <input type="date" name="endDate" id="endDate" style="width: 130px; height: 28px; margin-right:10px;">
-		                            <a id="searchEnter" 
-		                                  class="btn btnTypeBox" 
-		                                  href="javascript:fSearchOrderList()"
-		                                  style="border:1px solid #adb0b5;">검색</a>
-								</span> 
-							</p>
+							<form id="returnListForm">
+								<p class="conTitle" style="display:flex; justify-content: space-between; align-items: center;">
+									<span>반품지시서</span> 
+									<span style="width: 665px;">
+										<select id="searchBox" name="searchBox" style="width: 85px; margin-right:10px;">
+											<option value="all">전체</option>
+											<option value="prod_nm">제품명</option>
+											<option value="cus_nm">기업고객명</option>
+											<option value="scm_nm">SCM관리자</option>
+										</select>
+										<input type="text" name="searchInfo" id="searchInfo" placeholder="검색" style="width:200px; height: 28px; margin-right:10px;">
+										<input type="date" name="startDate" id="startDate" style="width: 130px; height: 28px;">
+			                            <span>~</span>
+			                            <input type="date" name="endDate" id="endDate" style="width: 130px; height: 28px; margin-right:10px;">
+			                            <a id="searchEnter" 
+			                                  class="btn btnTypeBox" 
+			                                  href="javascript:fSearchReturnList()"
+			                                  style="border:1px solid #adb0b5;">검색</a>
+									</span> 
+								</p>
+							</form>
 							<table class="col">
 								<thead>
 									<tr>
-									<th scope="col">번호</th>
+									<th scope="col">지시서번호</th>
 									<th scope="col">기업고객명</th>
 									<th scope="col">품목명</th>
 									<th scope="col">제품명</th>
 									<th scope="col">발주개수</th>
-									<th scope="col">scm관리자</th>
+									<th scope="col">SCM관리자</th>
 									<th scope="col">제출일자</th>
 									</tr>
 								</thead>
