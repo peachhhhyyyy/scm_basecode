@@ -50,6 +50,8 @@
         break;
       }
     });
+    //콤보박스
+    selectComCombo("sp", "supply_nm", "sel", "");
   }
 
   /* 제품 조회*/
@@ -135,6 +137,7 @@
       $("#prod_nm").val("");
       $("#l_ct_nm").val("");
       $("#m_ct_nm").val("");
+      $("#supply_cd").val("");
       $("#supply_nm").val("");
       $("#purchase_price").val("");
       $("#price").val("");
@@ -164,7 +167,8 @@
       $("#prod_nm").val(object.prod_nm);
       $("#l_ct_nm").val(object.l_ct_nm);
       $("#m_ct_nm").val(object.m_ct_nm);
-      $("#supply_nm").val(object.supply_nm);
+      $("#supply_cd").val(object.supply_cd);
+      $("#supply_nm").val(object.supply_cd);
       $("#purchase_price").val(object.purchase_price);
       $("#price").val(object.price);
       $("#warehouse_nm").val(object.warehouse_nm);
@@ -195,6 +199,7 @@
     var chk = checkNotEmpty([ 
                               [ "product_cd", "제품코드를 입력하세요." ],
                               [ "prod_nm", "제품명을 입력하세요." ],
+                              [ "supply_cd", "공급처명을 입력하세요." ],
                               [ "purchase_price", "장비구매액을 입력하세요." ],
                               [ "price", "단가를 입력하세요." ],
                               [ "stock", "재고개수를 입력하세요." ],
@@ -270,6 +275,17 @@
       flistMainProductResult(data, currentPage);
     };
     callAjax("/scm/listMainProduct.do", "post", "text", true, param, resultCallback);
+  }
+  
+  //공급처명 이름 콤보박스
+  function selectSupplierName() {
+
+    var selSp = $("#supply_nm").val();
+
+    /* alert("selectWarehouseMng : " + $("#wh_mng_nm").val()); */
+
+    $("#supply_cd").val(selSp);
+
   }
 </script>
 </head>
@@ -385,8 +401,9 @@
                 <td><input type="text" class="inputTxt p100" 
                   name="m_ct_nm" id="m_ct_nm" maxlength="50" placeholder="제조사"/></td>
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100"
-                  name="supply_nm" id="supply_nm" maxlength="100" placeholder="공급처명"/></td>
+                <td>
+                  <input type="hidden" name="supply_cd" id="supply_cd">
+                  <select id="supply_nm" name="supply_nm" onChange="javascript:selectSupplierName()"></select></td>
                   </tr>
                   <tr>
                 <th scope="row">장비구매액 <span class="font_red">*</span></th>
