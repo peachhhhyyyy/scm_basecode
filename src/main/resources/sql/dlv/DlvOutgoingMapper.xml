@@ -55,7 +55,7 @@
 			FROM tb_order AS OD
 			WHERE 1 = 1
 			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-            AND OD.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+                AND OD.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
             </if>
 			<choose>
                 <when test="STTcd == null or STTcd == 'all'">
