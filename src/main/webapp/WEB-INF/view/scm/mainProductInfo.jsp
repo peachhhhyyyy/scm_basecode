@@ -28,7 +28,7 @@
       }
     });
     //공급처명 조회 콤보박스
-    selectComCombo("sp", "supply_nm", "sel", "");
+    selectComCombo("sp", "supply_cd", "sel", "");
   });
 
   /** 버튼 이벤트 등록 */
@@ -167,8 +167,8 @@
       $("#prod_nm").val(object.prod_nm);
       $("#l_ct_nm").val(object.l_ct_nm);
       $("#m_ct_nm").val(object.m_ct_nm);
+      $("#supply_nm").val(object.supply_nm);
       $("#supply_cd").val(object.supply_cd);
-      $("#supply_nm").val(object.supply_cd);
       $("#purchase_price").val(object.purchase_price);
       $("#price").val(object.price);
       $("#warehouse_nm").val(object.warehouse_nm);
@@ -402,8 +402,8 @@
                   name="m_ct_nm" id="m_ct_nm" maxlength="50" placeholder="제조사"/></td>
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
                 <td>
-                  <input type="hidden" name="supply_cd" id="supply_cd">
-                  <select id="supply_nm" name="supply_nm" onChange="javascript:selectSupplierName()"></select></td>
+                  <input type="hidden" name="supply_nm" id="supply_nm">
+                  <select id="supply_cd" name="supply_cd" onChange="javascript:selectSupplierName()"></select></td>
                   </tr>
                   <tr>
                 <th scope="row">장비구매액 <span class="font_red">*</span></th>
