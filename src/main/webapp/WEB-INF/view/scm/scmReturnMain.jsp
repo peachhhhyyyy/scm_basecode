@@ -184,6 +184,33 @@
 							</table>
 						<div class="paging_area" id="listInfPagination"></div>
 						</div>
+						<div class="content">
+                            <p class="conTitle">
+                                <span>상세페이지</span>
+                            </p>
+                            <table class="col">
+                                <thead>
+                                    <tr>
+						                <th scope="col">SCM관리자</th>
+						                <th scope="col">품목명</th>
+						                <th scope="col">제품명</th>
+						                <th scope="col">수량</th>
+						                <th scope="col">창고명</th>
+						                <th scope="col">공급처명</th>
+						                <th scope="col">반품신청날짜</th>
+						                <th scope="col">반품금액</th>
+						                <th scope="col">주문일자</th>
+						                <th scope="col">제출일자</th>
+						                <th scope="col">승인자명</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="returnDetailList">
+                                   <tr>
+                                     <td colspan="11">지시서번호를 선택해 주세요.</td>
+                                   </tr>
+                                </tbody>
+                            </table>
+                        </div>
 					</li>
 				</ul>
 			</div>
