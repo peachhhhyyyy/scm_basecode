@@ -43,7 +43,7 @@ public class ScmPurchaseController {
   // 발주지시서 목록 조회
   @RequestMapping("scmPurchaseList.do")
   public String scmPurchaseList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-      HttpServletResponse response, HttpSession session, @RequestParam Map<String, Object> param) throws Exception {
+      HttpServletResponse response, HttpSession session) throws Exception {
     
     logger.info("+ Start " + className + ".scmPurchaseList");
     logger.info("   - paramMap : " + paramMap);
@@ -54,17 +54,7 @@ public class ScmPurchaseController {
         
     paramMap.put("pageIndex", pageIndex);
     paramMap.put("pageSize", pageSize);
-    
-    // 값이 없는 경우 주의 (분기 처리 해야 함)
-    String date1 = (String) param.get("date");
-    String date2 = (String) param.get("date");
-   
-    System.out.println("날짜 1 : " + date1);
-    System.out.println("날짜 2 : " + date2);
-    
-    param.put("date1", date1);
-    param.put("date2", date2);
-    
+
     logger.info("   - paramMap : " + paramMap);
 
     // 발주지시서 목록 조회
@@ -82,7 +72,7 @@ public class ScmPurchaseController {
     return "scm/scmPurchaseList";
   } 
  
-  // 발주 버튼 클릭 시 모달팝업 창 띄우기
+  // 내용 클릭 시 모달팝업 창 띄우기
   @RequestMapping("selectPurchBtn.do")
   @ResponseBody
   public Map<String, Object> selectPurchBtn(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
