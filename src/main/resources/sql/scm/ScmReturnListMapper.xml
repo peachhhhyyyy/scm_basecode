@@ -172,4 +172,45 @@
             ORDER BY TSRL.refund_list_no DESC
             LIMIT #{pageIndex}, #{pageSize}
     </select>
+    
+    <select id="getReturnDetailList" resultType="kr.happyjob.study.scm.model.ScmReturnDetailListModel">
+        SELECT SCM.name AS scm_nm
+                , L_CATEGORY.l_ct_nm AS l_ct_nm
+                , PRODUCT.prod_nm AS prod_nm
+                , OD.refund_cnt AS refund_cnt
+                , WH.warehouse_nm AS warehouse_nm
+                , SUPPLY.supply_nm AS supply_nm
+                , DATE_FORMAT(OD.refund_date, '%Y-%m-%d') AS refund_date
+                , OD.refund_amt AS refund_amt
+                , DATE_FORMAT(OD.order_date, '%Y-%m-%d') AS order_date
+                , DATE_FORMAT(TSRL.submit_date, '%Y-%m-%d') AS submit_date
+                , APPROVE.name AS approve_nm
+            FROM tb_order AS OD
+            
+            LEFT JOIN tb_scm_refund_list AS TSRL
+            ON TSRL.order_cd = OD.order_cd
+            
+            LEFT JOIN tb_userinfo AS SCM
+            ON TSRL.scm_id = SCM.loginID
+            
+            LEFT JOIN tb_userinfo AS APPROVE
+            ON TSRL.scm_id = APPROVE.loginID
+            
+            LEFT JOIN tb_scm_warehouse AS WH
+            ON OD.warehouse_cd = WH.warehouse_cd
+            
+            LEFT JOIN tb_scm_supply AS SUPPLY
+            ON OD.warehouse_cd = SUPPLY.warehouse_cd
+            
+            LEFT JOIN tb_scm_product AS PRODUCT
+            ON OD.product_cd = PRODUCT.product_cd
+            
+            LEFT JOIN tb_scm_m_category AS M_CATEGORY
+            ON PRODUCT.m_ct_cd = M_CATEGORY.m_ct_cd
+            
+            LEFT JOIN tb_scm_l_category AS L_CATEGORY
+            ON M_CATEGORY.l_ct_cd = L_CATEGORY.l_ct_cd 
+            
+        WHERE refund_list_no = #{refund_list_no}
+    </select>
 </mapper>
