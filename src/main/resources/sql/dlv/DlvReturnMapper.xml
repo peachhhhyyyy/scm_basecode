@@ -37,7 +37,18 @@
                     WHERE group_code = 'STTcd' ) AS DC
            ON TOO.STTcd = DC.detail_code
 	             
-	       WHERE TOO.STTcd IN (5, 6, 7)
+	       WHERE 1 = 1
+	       <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+            AND TOO.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+            </if>
+            <choose>
+                <when test="STTcd == null or STTcd == 'all'">
+                    AND TOO.STTcd IN (5, 6, 7)
+                </when>
+                <otherwise>
+                    AND TOO.STTcd IN (#{STTcd})
+                </otherwise>
+            </choose>
 	       ORDER BY TSRL.refund_list_no DESC
 		   LIMIT #{pageIndex}, #{pageSize}
 	</select>
@@ -45,10 +56,21 @@
 	<select id="returnListCnt" resultType="int">
 		SELECT COUNT(*) as returnlistCnt
 			FROM tb_order TOO
-			WHERE TOO.STTcd IN (5, 6, 7)
+			WHERE 1 = 1
+           <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+            AND TOO.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+            </if>
+            <choose>
+                <when test="STTcd == null or STTcd == 'all'">
+                    AND TOO.STTcd IN (5, 6, 7)
+                </when>
+                <otherwise>
+                    AND TOO.STTcd IN (#{STTcd})
+                </otherwise>
+            </choose>
 	</select>
 	
-	<select id="returnSearchList" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">
+	<!-- <select id="returnSearchList" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">
 	   SELECT TSRL.refund_list_no AS refund_list_no,
            TUU.name AS cus_name,
            TSP.l_ct_cd AS l_ct_cd,
@@ -88,14 +110,14 @@
         LIMIT #{pageIndex}, #{pageSize}
 	</select>
 	
-	<!-- 검색 조건 반품내역 건수 -->
+	검색 조건 반품내역 건수
     <select id="returnSearchCnt" resultType="int">
         SELECT COUNT(*) AS tot_cnt
             FROM tb_order
             WHERE STTcd = #{STTcd} OR STTcd IN (5, 6, 7)
             AND refund_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
             ORDER BY order_cd DESC
-    </select>
+    </select> -->
 	
 	<select id="returnDetailList" resultType="kr.happyjob.study.dlv.model.DlvReturnDetailModel">
 		SELECT TOO.order_cd AS order_cd
