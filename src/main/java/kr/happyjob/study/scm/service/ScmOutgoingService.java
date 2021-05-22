@@ -11,10 +11,6 @@ public interface ScmOutgoingService {
 	public List<ScmOutgoingListModel> getOutgoingList(Map<String, Object> paramMap) throws Exception;
 	// 배송지시서 카운트조회
 	public int scmOutgoingListCnt(Map<String, Object> paramMap) throws Exception;
-	// 배송지시서 검색조건 조회
-	public List<ScmOutgoingListModel> getOutgoingSearchList(Map<String, Object> paramMap) throws Exception;
-	// 배송지시서 카운트조회
-	public int scmOutgoingSearchListCnt(Map<String, Object> paramMap) throws Exception;
-	// 배송지시서 상조회
+	// 배송지시서 상세조회
 	public List<ScmOutgoingDetailListModel> getOutgoingDetailList(Map<String, Object> paramMap) throws Exception;
 }
