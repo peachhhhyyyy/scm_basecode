@@ -28,5 +28,6 @@ public interface ComnComboService {
 	/** 창고 목록 조회 */
 	public List<comcombo> selectwhlist(Map<String, Object> paramMap) throws Exception;
 		
-	
+	/** 창고 담당자 이름, LoginID 조회 */
+	public List<comcombo> selectwhMnglist(Map<String, Object> paramMap) throws Exception;
 }

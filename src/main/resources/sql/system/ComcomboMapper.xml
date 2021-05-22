@@ -66,5 +66,18 @@
 			 FROM tb_scm_warehouse
 	</select>		
 	
+  <!-- 창고 담당자 이름, LoginID 조회 -->
+  <select id="selectwhMnglist" resultType="kr.happyjob.study.system.model.comcombo">
+    /*kr.happyjob.study.system.dao.ComnComboDao.selectwhpersonlist*/
+      SELECT WH.wh_mng_id as cd 
+             ,  UI.name as name
+       FROM tb_scm_warehouse WH
+               LEFT JOIN tb_userinfo UI ON WH.wh_mng_id = UI.loginID
+      WHERE UI.user_type = 'I'
+        <if test="(searchkey != null) and (!searchkey.equals(''))">
+        AND WH.warehouse_cd = #{searchkey}
+        </if>
+  </select>
+  
 	
 </mapper>

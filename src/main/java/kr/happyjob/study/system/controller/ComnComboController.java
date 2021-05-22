@@ -72,6 +72,9 @@ public class ComnComboController {
 		} else if("wh".equals(ComType)) {
 			// 공통 콤보 조회 창고
 			comComboModel = comnComboService.selectwhlist(paramMap);
+		} else if("wh_mng".equals(ComType)) {
+		  // 공통 콤보 조회 창고 담당자 이름, LoginID
+		  comComboModel = comnComboService.selectwhMnglist(paramMap);
 		}
 		
 		
