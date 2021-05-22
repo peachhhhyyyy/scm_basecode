@@ -14,6 +14,7 @@
 		    LEFT JOIN (
                   SELECT loginID
                           , name AS cus_nm
+                          , user_type
                       FROM tb_userinfo ) AS CUSTOMER
             ON OD.loginID = CUSTOMER.loginID
             
@@ -22,24 +23,93 @@
                           , ship.order_cd
                           , ship.submit_date
                           , scm.name AS scm_nm
+                          , scm.user_type
                       FROM tb_scm_ship_list AS ship
                       LEFT JOIN tb_userinfo AS scm ON ship.scm_id = scm.loginID ) AS TSSL
             ON OD.order_cd = TSSL.order_cd
             
-            WHERE TSSL.ship_list_no IS NOT NULL
+            WHERE 1 = 1
+            <choose>
+                <when test='searchBox == "J"'>
+                    AND CUSTOMER.user_type = "J"
+                    <if test="searchInfo != null">
+                        AND CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                </when>
+                <when test='searchBox == "E"'>
+                    AND TSSL.user_type = "E"
+                    <if test="searchInfo != null">
+                        AND TSSL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                </when>
+                <otherwise>
+                    <if test="searchInfo != null">
+                        AND TSSL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%') OR CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                    AND CUSTOMER.user_type = "J"
+                    AND TSSL.user_type = "E"
+                </otherwise>
+            </choose>
+            <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+                AND TSSL.submit_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+            </if> 
             ORDER BY TSSL.ship_list_no DESC
             LIMIT #{pageIndex}, #{pageSize}
 	</select>
 	
 	<!--배송지시서 목록 카운트 -->
 	<select id="scmOutgoingListCnt" resultType="int">
-		SELECT COUNT(*) AS scmOutgoingCnt
-			FROM tb_scm_ship_list
-			WHERE ship_list_no IS NOT NULL
+		SELECT COUNT(*) AS scmOutgoingListCnt
+            FROM tb_order AS OD
+            
+            LEFT JOIN (
+                  SELECT loginID
+                          , name AS cus_nm
+                          , user_type
+                      FROM tb_userinfo ) AS CUSTOMER
+            ON OD.loginID = CUSTOMER.loginID
+            
+            LEFT JOIN (
+                  SELECT ship.ship_list_no
+                          , ship.order_cd
+                          , ship.submit_date
+                          , scm.name AS scm_nm
+                          , scm.user_type
+                      FROM tb_scm_ship_list AS ship
+                      LEFT JOIN tb_userinfo AS scm ON ship.scm_id = scm.loginID ) AS TSSL
+            ON OD.order_cd = TSSL.order_cd
+            
+            WHERE 1 = 1
+            <choose>
+                <when test='searchBox == "J"'>
+                    AND CUSTOMER.user_type = "J"
+                    <if test="searchInfo != null">
+                        AND CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                </when>
+                <when test='searchBox == "E"'>
+                    AND TSSL.user_type = "E"
+                    <if test="searchInfo != null">
+                        AND TSSL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                </when>
+                <otherwise>
+                    <if test="searchInfo != null">
+                        AND TSSL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%') OR CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                    AND CUSTOMER.user_type = "J"
+                    AND TSSL.user_type = "E"
+                </otherwise>
+            </choose>
+            <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+            AND TSSL.submit_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+            </if> 
+            ORDER BY TSSL.ship_list_no DESC
+            LIMIT #{pageIndex}, #{pageSize}
     </select>
     
-    <select id="getOutgoingSearchList" resultType="kr.happyjob.study.scm.model.ScmOutgoingListModel">
-    <!-- 검색기준 배송지시서 목록 조회 -->
+    <!-- <select id="getOutgoingSearchList" resultType="kr.happyjob.study.scm.model.ScmOutgoingListModel">
+    검색기준 배송지시서 목록 조회
     SELECT TSSL.ship_list_no AS ship_list_no
                 , CUSTOMER.cus_nm AS cus_nm
                 , TSSL.scm_nm AS scm_nm
@@ -90,7 +160,7 @@
             LIMIT #{pageIndex}, #{pageSize}
     </select>
     
-    <!-- 검색조건 기준 배송지시서 카운트 조회 -->
+    검색조건 기준 배송지시서 카운트 조회
     <select id="scmOutgoingSearchListCnt" resultType="int">
         SELECT COUNT(*) AS scmOutgoingCnt
             FROM tb_scm_ship_list AS TSSL
@@ -125,7 +195,7 @@
                     AND TSSL.submit_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
                 </otherwise>
             </choose>
-    </select>
+    </select> -->
     
     <!-- 배송지시서 상세조회 -->
     <select id="getOutgoingDetailList" resultType="kr.happyjob.study.scm.model.ScmOutgoingDetailListModel">
