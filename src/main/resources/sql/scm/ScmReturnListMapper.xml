@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.happyjob.study.scm.dao.ScmReturnListDao">
 		<!-- 반품지시서 내역 조회 -->
-	<select id="selectReturnList" resultType="kr.happyjob.study.scm.model.ScmReturnListModel">
+	<select id="scmReturnList" resultType="kr.happyjob.study.scm.model.ScmReturnListModel">
 		SELECT TSRL.refund_list_no AS refund_list_no
                 , TSRL.order_cd
                 , OD.order_cd
@@ -21,6 +21,7 @@
             LEFT JOIN (
                   SELECT loginID
                           , name AS cus_nm
+                          , user_type
                       FROM tb_userinfo ) AS CUSTOMER
             ON OD.loginID = CUSTOMER.loginID
             
@@ -30,6 +31,7 @@
                           , refund.submit_date
                           , scm.name AS scm_nm
                           , approve.name AS approve_nm
+                          , scm.user_type
                       FROM tb_scm_refund_list AS refund
                       LEFT JOIN tb_userinfo AS scm ON refund.scm_id = scm.loginID
                       LEFT JOIN tb_userinfo AS approve ON refund.approve_id = approve.loginID ) AS TSRL
@@ -52,15 +54,122 @@
                       ON TSP.supply_cd = TSS.supply_cd ) AS PROD_INFO
             ON OD.product_cd = PROD_INFO.product_cd
             
-            WHERE TSRL.refund_list_no IS NOT NULL
+            WHERE 1 = 1
+            <choose>
+                <when test='searchBox != "all"'>
+                    <if test='searchBox == "prod_nm"'>
+                        AND PROD_INFO.prod_nm IS NOT NULL
+                        <if test="searchInfo != null">
+                            AND PROD_INFO.prod_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                        </if>
+                    </if>
+                    <if test='searchBox == "cus_nm"'>
+                        AND CUSTOMER.user_type = "J"
+                        <if test="searchInfo != null">
+                            AND CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                        </if>
+                    </if>
+                    <if test='searchBox == "scm_nm"'>
+                        AND TSRL.user_type = "J"
+                        <if test="searchInfo != null">
+                            AND TSRL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                        </if>
+                    </if>
+                </when>
+                <otherwise>
+                    AND TSRL.refund_list_no IS NOT NULL
+                    <if test="searchInfo != null">
+                        AND TSRL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%') 
+                        OR CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%') 
+                        OR PROD_INFO.prod_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                </otherwise>
+            </choose>
+            <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+                AND TSRL.submit_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+            </if>
+            AND TSRL.refund_list_no IS NOT NULL
             ORDER BY TSRL.refund_list_no DESC
-			LIMIT #{pageIndex}, #{pageSize}
+            LIMIT #{pageIndex}, #{pageSize}
 	</select>
 	
 	<!--지시서 목록 카운트 -->
 	<select id="scmReturnListCnt" resultType="int">
 		SELECT COUNT(*) AS scmReturnListCnt
-			FROM tb_scm_refund_list
-			WHERE refund_list_no IS NOT NULL
+            FROM tb_order AS OD
+            
+            LEFT JOIN (
+                  SELECT loginID
+                          , name AS cus_nm
+                          , user_type
+                      FROM tb_userinfo ) AS CUSTOMER
+            ON OD.loginID = CUSTOMER.loginID
+            
+            LEFT JOIN (
+                  SELECT refund.refund_list_no
+                          , refund.order_cd
+                          , refund.submit_date
+                          , scm.name AS scm_nm
+                          , approve.name AS approve_nm
+                          , scm.user_type
+                      FROM tb_scm_refund_list AS refund
+                      LEFT JOIN tb_userinfo AS scm ON refund.scm_id = scm.loginID
+                      LEFT JOIN tb_userinfo AS approve ON refund.approve_id = approve.loginID ) AS TSRL
+            ON OD.order_cd = TSRL.order_cd
+            
+            LEFT JOIN tb_scm_warehouse AS WH
+            ON OD.warehouse_cd = WH.warehouse_cd
+            
+            LEFT JOIN(
+                  SELECT TSP.product_cd
+                          , TSP.prod_nm
+                          , TSLC.l_ct_nm
+                          , TSS.supply_nm
+                      FROM tb_scm_product AS TSP
+                      LEFT JOIN tb_scm_m_category AS TSMC
+                      ON TSP.m_ct_cd = TSMC.m_ct_cd
+                      LEFT JOIN tb_scm_l_category AS TSLC
+                      ON TSMC.l_ct_cd = TSLC.l_ct_cd
+                      LEFT JOIN tb_scm_supply AS TSS
+                      ON TSP.supply_cd = TSS.supply_cd ) AS PROD_INFO
+            ON OD.product_cd = PROD_INFO.product_cd
+            
+            WHERE 1 = 1
+            <choose>
+                <when test='searchBox != "all"'>
+                    <if test='searchBox == "prod_nm"'>
+                        AND PROD_INFO.prod_nm IS NOT NULL
+                        <if test="searchInfo != null">
+                            AND PROD_INFO.prod_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                        </if>
+                    </if>
+                    <if test='searchBox == "cus_nm"'>
+                        AND CUSTOMER.user_type = "J"
+                        <if test="searchInfo != null">
+                            AND CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                        </if>
+                    </if>
+                    <if test='searchBox == "scm_nm"'>
+                        AND TSRL.user_type = "J"
+                        <if test="searchInfo != null">
+                            AND TSRL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                        </if>
+                    </if>
+                </when>
+                <otherwise>
+                    AND TSRL.refund_list_no IS NOT NULL
+                    <if test="searchInfo != null">
+                        AND TSRL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%') 
+                        OR CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%') 
+                        OR PROD_INFO.prod_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                </otherwise>
+            </choose>
+            <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+                AND TSRL.submit_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+            </if>
+            AND TSRL.refund_list_no IS NOT NULL
+            ORDER BY TSRL.refund_list_no DESC
+            LIMIT #{pageIndex}, #{pageSize}
     </select>
 </mapper>
