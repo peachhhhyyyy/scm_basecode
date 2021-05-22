@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.happyjob.study.scm.model.ScmOutgoingDetailListModel;
 import kr.happyjob.study.scm.model.ScmReturnListModel;
 import kr.happyjob.study.scm.service.ScmReturnService;
 
@@ -60,6 +61,20 @@ public class ScmReturnController {
 		
 		model.addAttribute("currentPage", currentPage);
 		return "/scm/scmReturnList";
+	}
+	
+	@RequestMapping("scmReturnDetailList.do")
+	public String scmOutgoingDetailList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+		
+		logger.info("상세조건 paramMap : " + paramMap);
+		
+		//반품지시서 조회
+		List<ScmReturnDetailListModel> returnSearchList = srlservice.getReturnDetailList(paramMap);
+		model.addAttribute("returnSearchList",returnSearchList);
+		logger.info("returnSearchList 값: "+ paramMap);
+		
+		return "/scm/scmReturnDetailList";
 	}
 	
 }
