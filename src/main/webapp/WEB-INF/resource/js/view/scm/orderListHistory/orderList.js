@@ -306,6 +306,7 @@ function searchOrderList() {
     swal("시작일자가 종료일자보다 뒤에 있을 수 없습니다.\n날짜를 다시 지정해주세요.").then(function() {
       window.location.reload();
     });
+    return 0;
   } 
   
 //  else if (startD == '' || endD == '') {

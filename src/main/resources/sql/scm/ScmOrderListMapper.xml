@@ -46,7 +46,17 @@
 		<!-- 수주내역 데이터 갯수 카운팅 -->
 		<select id="selectOrderListCnt" resultType="int">
 			SELECT COUNT(*) tot_cnt
-			FROM tb_order;
+			FROM tb_order o
+			WHERE 1=1
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+				AND DATE_FORMAT(o.order_date, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+			</if>
+			<if test="checkedStateList != null and checkedStateList.size() != 0">
+				AND o.STTcd IN
+				<foreach collection="checkedStateList" item="state" open="(" close=")" separator=",">
+					#{state}
+				</foreach>
+			</if>
 		</select>
 		
 		<!-- 발주버튼 클릭 후 나타나는 발주지시서 모달창에 넣을 데이터 -->
