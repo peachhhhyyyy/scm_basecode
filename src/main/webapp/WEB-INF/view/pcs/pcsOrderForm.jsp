@@ -205,8 +205,8 @@
       // 모달 팝업
       gfModalPop("#layer1");
           
-      $("#purchMngId").text(data.pcsModel);
-      $("#purchasePrice").text(data.pcsModel);
+      $("#purchMngId").text(data.pcsModel.purch_mng_id);
+      $("#purchasePrice").text(data.pcsModel.purchase_price);
       
       console.log("fSelectPurchBtnResult : " + JSON.stringify(data));
     } else {
