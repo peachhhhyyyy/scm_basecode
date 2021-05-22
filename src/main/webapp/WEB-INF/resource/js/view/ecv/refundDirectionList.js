@@ -118,3 +118,37 @@ function allowRefund(orderCode) {
   
   allowRefundModal.open();
 }
+
+function searchRefundDirectionList() {
+var param = $('#refundDirectionListForm').serialize();
+  
+  console.log(param);
+  
+  param += "&currentPage="+$('#currentPage').val();
+  param += "&pageSize="+pageSizeOrderList;
+  
+  var startD = $('#startDate').val();
+  var endD = $('#endDate').val();
+  
+  console.log(param);
+  
+  // 날짜 에러 있을 때, 경고창 띄우고 refresh
+  if (startD > endD) {
+    swal("시작일자가 종료일자보다 뒤에 있을 수 없습니다.\n날짜를 다시 지정해주세요.").then(function() {
+      window.location.reload();
+    });
+    return 0;
+  } 
+  
+  var resultCallback = function(data) {
+    getRefundDirectionListResult(data, $('#currentPage').val());
+  };
+  
+  callAjax("/ecv/refundDirectionListInfo.do", "post", "text", true, param, resultCallback);
+}
+
+$('input[type="text"]').keydown(function(event) {
+  if (event.keyCode === 13) {
+    searchRefundDirectionList();
+  };
+});

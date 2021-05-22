@@ -33,6 +33,23 @@
 						<p class="conTitle" style="margin-bottom: 1%;">
 							<span>반품 지시서</span>
 						</p>
+						<!-- 검색&날짜 필터링 -->
+						<form id="refundDirectionListForm" method="">
+							<select name="searchType">
+								<option value="" selected>전체</option>
+								<option value="customerName" <c:if test="${searchType eq 'customerName'}">selected</c:if>>기업고객명</option>
+								<option value="productName" <c:if test="${searchType eq 'productName'}">selected</c:if>>제품명</option>
+								<option value="scmName" <c:if test="${searchType eq 'scmName'}">selected</c:if>>SCM담당자명</option>
+							</select>
+							<input type="text" name="keyword" value="${keyword != null ? keyword : ''}"/>
+							<!-- 날짜 필터링 -->
+							<div class="date_container">
+								<input type="date" name="startDate" id="startDate" > 
+								<span>~</span> 
+								<input type="date" name="endDate" id="endDate">
+								<a class="btnType3 color2" id="refundDirectionListSearchBtn" href="javascript:searchRefundDirectionList();">검색</a>
+							</div>
+						</form>
 						<!-- 프로젝트 조회 -->
 						<div class="divListProject">
 							<table class="col" id="refundDirListTable">

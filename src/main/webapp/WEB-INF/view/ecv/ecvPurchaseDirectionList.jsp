@@ -33,6 +33,23 @@
 						<p class="conTitle" style="margin-bottom: 1%;">
 							<span>발주 지시서</span>
 						</p>
+						<!-- 검색&날짜 필터링 -->
+						<form id="purchaseDirectionListForm" method="">
+							<select name="searchType">
+								<option value="" selected>전체</option>
+								<option value="supplyName" <c:if test="${searchType eq 'supplyName'}">selected</c:if>>공급처명</option>
+								<option value="productName" <c:if test="${searchType eq 'productName'}">selected</c:if>>제품명</option>
+								<option value="scmName" <c:if test="${searchType eq 'scmName'}">selected</c:if>>SCM담당자명</option>
+							</select>
+							<input type="text" name="keyword" value="${keyword != null ? keyword : ''}"/>
+							<!-- 날짜 필터링 -->
+							<div class="date_container">
+								<input type="date" name="startDate" id="startDate" > 
+								<span>~</span> 
+								<input type="date" name="endDate" id="endDate">
+								<a class="btnType3 color2" id="purchaseDirectionListSearchBtn" href="javascript:searchPurchaseDirectionList();">검색</a>
+							</div>
+						</form>
 						<!-- 프로젝트 조회 -->
 						<div class="divListProject">
 							<table class="col" id="purchDirListTable">
@@ -44,7 +61,7 @@
 										<th scope="col">제품명</th>
 										<th scope="col">제품수량</th>
 										<th scope="col">합계 금액</th>
-										<th scope="col">담당자 이름</th>
+										<th scope="col">SCM담당자명</th>
 										<th scope="col">신청 일자</th>
 										<th scope="col">결제</th>
 									</tr>
