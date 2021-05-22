@@ -27,6 +27,8 @@
         board_search(); // 실행할 이벤트
       }
     });
+    //공급처명 조회 콤보박스
+    selectComCombo("sp", "supply_nm", "sel", "");
   });
 
   /** 버튼 이벤트 등록 */
@@ -50,8 +52,6 @@
         break;
       }
     });
-    //콤보박스
-    selectComCombo("sp", "supply_nm", "sel", "");
   }
 
   /* 제품 조회*/
