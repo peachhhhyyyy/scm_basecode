@@ -46,11 +46,11 @@ public class ScmOutgoingController {
 	    paramMap.put("pageIndex", pageIndex);
 		paramMap.put("pageSize", pageSize);
 		
-		logger.info("이건 paramMap" + paramMap);
+		logger.info("paramMap : " + paramMap);
 		//반품지시서 조회
 		List<ScmOutgoingListModel> outgoingList = solservice.getOutgoingList(paramMap);
 		model.addAttribute("outgoingList",outgoingList);
-		logger.info("outgoingList 값: "+ paramMap);
+		logger.info("outgoingList 값: "+ outgoingList);
 		
 		//목록수 추출하기
 		int scmOutgoingCnt = solservice.scmOutgoingListCnt(paramMap);
