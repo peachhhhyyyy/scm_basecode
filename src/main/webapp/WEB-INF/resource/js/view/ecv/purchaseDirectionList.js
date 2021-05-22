@@ -118,3 +118,38 @@ function allowPurchase(orderCode) {
   
   allowPurchaseModal.open();
 }
+
+// 임원 발주지시서 검색 기능
+function searchPurchaseDirectionList() {
+ var param = $('#purchaseDirectionListForm').serialize();
+  
+  console.log(param);
+  
+  param += "&currentPage="+$('#currentPage').val();
+  param += "&pageSize="+pageSizeOrderList;
+  
+  var startD = $('#startDate').val();
+  var endD = $('#endDate').val();
+  
+  console.log(param);
+  
+  // 날짜 에러 있을 때, 경고창 띄우고 refresh
+  if (startD > endD) {
+    swal("시작일자가 종료일자보다 뒤에 있을 수 없습니다.\n날짜를 다시 지정해주세요.").then(function() {
+      window.location.reload();
+    });
+    return 0;
+  } 
+  
+  var resultCallback = function(data) {
+    getPurchaseDirectionListResult(data, $('#currentPage').val());
+  };
+  
+  callAjax("/ecv/purchaseDirectionListInfo.do", "post", "text", true, param, resultCallback);
+}
+
+$('input[type="text"]').keydown(function(event) {
+  if (event.keyCode === 13) {
+    searchPurchaseDirectionList();
+  };
+});

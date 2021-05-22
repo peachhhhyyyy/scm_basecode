@@ -1,5 +1,6 @@
 package kr.happyjob.study.scm.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +62,23 @@ public class ScmRefundListController {
 		paramMap.put("pageIndex", pageIndex);
 		paramMap.put("pageSize", pageSize);
 		logger.info("After putting pageIndex, pageSize, paramMap:" + paramMap);
-
+		
+		logger.info("startDate: " + paramMap.get("startDate"));
+		logger.info("searchType: " + paramMap.get("searchType"));
+		logger.info("keyword: " + paramMap.get("keyword"));
+		
+		// paramMap에 check_[number] 가 있으면 ArrayList에 담기
+		ArrayList<Integer> checkedStateList = new ArrayList<Integer>(); 
+		paramMap.forEach((key, value) -> {
+			System.out.println(String.format("key -> %s, value -> %s", key, value));
+			if (key.substring(0, 5).equals("check")) {
+				checkedStateList.add(Integer.parseInt((String) value));
+			}
+		});
+		logger.info("checkedStateList: "+checkedStateList);
+		// checkList paramMap에 담기
+		paramMap.put("checkedStateList", checkedStateList);
+		
 		// tb_order 테이블에서 STTcd가 (3-반품대기,4-승인대기(반품),5-승인완료(반품), 6-반품진행중,
 		// 7-반품완료)인 주문만 보이도록
 		List<ScmRefundListModel> refundList = scmRefundListService.getRefundList(paramMap);
