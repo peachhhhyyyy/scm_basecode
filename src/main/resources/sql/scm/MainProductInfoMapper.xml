@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.happyjob.study.scm.dao.MainProductInfoDao"> 
-  <!-- 창고 조회 -->
+  <!-- 제품목록 조회 -->
   <select id="listMainProduct" resultType="kr.happyjob.study.scm.model.MainProductInfoModel"> 
 SELECT DISTINCT PD.product_cd as product_cd,
        PD.prod_nm as prod_nm, 
@@ -32,7 +32,7 @@ LEFT JOIN tb_scm_warehouse WH ON WH.warehouse_cd = PD.warehouse_cd
     </where>
      LIMIT #{pageIndex}, #{pageSize}
   </select>
-  <!-- 창고 카운트 -->
+  <!-- 제품목록 카운트 -->
   <select id="totalCntMainProduct" resultType="int"> 
     SELECT DISTINCT COUNT(1)
 FROM tb_scm_product PD
