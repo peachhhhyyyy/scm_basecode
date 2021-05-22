@@ -27,16 +27,21 @@
 						<p class="Location">
 							<a href="../dashboard/dashboard.do" class="btn_set home"></a> 
 							<span class="btn_nav bold">거래내역</span> 
-							<span class="btn_nav bold">수주내역 조회</span> 
+							<span class="btn_nav bold">반품신청 목록</span> 
 							<a href="../scm/refundList.do" class="btn_set refresh"></a>
 						</p>
 						<p class="conTitle" style="margin-bottom: 1%;">
 							<span>반품신청 목록</span>
 						</p>
 						<!-- 주문상태 체크박스 필터링 -->
-						<form id="orderListForm">
+						<form id="refundListForm" method="post">
+							<select name="searchType">
+								<option value="" selected>전체</option>
+								<option value="customerName" <c:if test="${searchType eq 'customerName'}">selected</c:if>>기업고객명</option>
+								<option value="productName" <c:if test="${searchType eq 'productName'}">selected</c:if>>제품명</option>
+							</select>
+							<input type="text" name="keyword" value="${keyword != null ? keyword : ''}"/>
 							<div class="filter filter-perchase">
-								<strong>구매</strong> 
 								<input type="checkbox" id="check_3" name="check_3" value="3"> 
 									<label for="check_9">반품대기</label> 
 								<input type="checkbox" id="check_4" name="check_4" value="4"> 
@@ -53,7 +58,7 @@
 								<input type="date" name="startDate" id="startDate" > 
 								<span>~</span> 
 								<input type="date" name="endDate" id="endDate">
-								<a class="btnType3 color2" id="orderListSearchBtn" href="javascript:searchOrderList();">검색</a>
+								<a class="btnType3 color2" id="refundListSearchBtn" href="javascript:searchRefundList();">검색</a>
 							</div>
 						</form>
 						

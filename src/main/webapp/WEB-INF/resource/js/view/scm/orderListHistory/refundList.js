@@ -1,5 +1,5 @@
 // 반품신청 목록 페이징 설정
-var pageSizerefundList = 5;
+var pageSizeRefundList = 5;
 var pageBlockSizerefundList = 10;
 
 $(document).ready(function() {
@@ -29,7 +29,7 @@ function getRefundList(currentPage) {
 
   var param = {
     currentPage: currentPage, 
-    pageSize: pageSizerefundList
+    pageSize: pageSizeRefundList
   };
 
   var resultCallback = function(data) {
@@ -49,7 +49,7 @@ function getRefundListResult(data, currentPage) {
   let totalCnt = $("#totcnt").val();
   console.log(totalCnt);
   // 페이지 네비게이션 생성
-  var paginationHtml = getPaginationHtml(currentPage, totalCnt, pageSizerefundList, pageBlockSizerefundList, 'getRefundList');
+  var paginationHtml = getPaginationHtml(currentPage, totalCnt, pageSizeRefundList, pageBlockSizerefundList, 'getRefundList');
 
   $("#refundListPagination").empty().append(paginationHtml);
 
@@ -107,3 +107,38 @@ function getRefundApproveResult(data) {
     return 0;
   }
 }
+
+// 반품신청목록 검색 기능
+function searchRefundList() {
+  var param = $('#refundListForm').serialize();
+  
+  console.log(param);
+  
+  param += "&currentPage="+$('#currentPage').val();
+  param += "&pageSize="+pageSizeRefundList;
+  
+  var startD = $('#startDate').val();
+  var endD = $('#endDate').val();
+  
+  console.log(param);
+  
+  // 날짜 에러 있을 때, 경고창 띄우고 refresh
+  if (startD > endD) {
+    swal("시작일자가 종료일자보다 뒤에 있을 수 없습니다.\n날짜를 다시 지정해주세요.").then(function() {
+      window.location.reload();
+    });
+    return 0;
+  } 
+  
+  var resultCallback = function(data) {
+    getRefundListResult(data, $('#currentPage').val());
+  };
+  
+  callAjax("/scm/refundListInfo.do", "post", "text", true, param, resultCallback);
+}
+
+$('input[type="text"]').keydown(function(event) {
+  if (event.keyCode === 13) {
+    searchRefundList();
+  };
+});
