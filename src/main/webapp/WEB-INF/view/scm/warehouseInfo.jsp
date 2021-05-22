@@ -379,17 +379,16 @@
     });
   }
   
+  
   //창고담당자 이름 콤보박스
   function selectWarehouseMng() {
-    
+
     var selwhmng = $("#wh_mng_nm").val();
-    
+
     /* alert("selectWarehouseMng : " + $("#wh_mng_nm").val()); */
-    
+
     $("#wh_mng_id").val(selwhmng);
-    
-    
-    
+
   }
 </script>
 </head>
