@@ -34,6 +34,8 @@
                     board_search();  // 실행할 이벤트
           }
     });
+    //콤보박스
+    selectComCombo("wh_mng", "wh_mng_nm", "sel", "");
   });
   /** 버튼 이벤트 등록 */
   function fRegisterButtonClickEvent() {
@@ -179,6 +181,7 @@
       $("#warehouse_cd").val("");
       $("#warehouse_nm").val("");
       $("#wh_mng_id").val("");
+      $("#wh_mng_nm").val("");
       $("#zip_cd").val("");
       $("#addr").val("");
       $("#addr_detail").val("");
@@ -188,12 +191,15 @@
       $("#warehouse_cd").css("background", "#FFFFFF");
       $("#warehouse_nm").attr("readonly", false);
       $("#warehouse_nm").css("background", "#FFFFFF");
+      $("#wh_mng_id").attr("readonly", true);
+      $("#wh_mng_id").css("background", "#F5F5F5");
       $("#zip_cd").attr("readonly", true);
       $("#zip_cd").css("background", "#F5F5F5");      
     } else{
       $("#warehouse_cd").val(object.warehouse_cd);
       $("#warehouse_nm").val(object.warehouse_nm);
       $("#wh_mng_id").val(object.wh_mng_id);
+      $("#wh_mng_nm").val(object.wh_mng_id);
       $("#zip_cd").val(object.zip_cd);
       $("#addr").val(object.addr);
       $("#addr_detail").val(object.addr_detail);
@@ -203,6 +209,8 @@
       $("#warehouse_cd").css("background", "#F5F5F5");
       $("#warehouse_nm").attr("readonly", true);
       $("#warehouse_nm").css("background", "#F5F5F5");
+      $("#wh_mng_id").attr("readonly", true);
+      $("#wh_mng_id").css("background", "#F5F5F5");
       $("#zip_cd").attr("readonly", true);
       $("#zip_cd").css("background", "#F5F5F5");
     } 
@@ -370,6 +378,19 @@
       q : q
     });
   }
+  
+  //창고담당자 이름 콤보박스
+  function selectWarehouseMng() {
+    
+    var selwhmng = $("#wh_mng_nm").val();
+    
+    /* alert("selectWarehouseMng : " + $("#wh_mng_nm").val()); */
+    
+    $("#wh_mng_id").val(selwhmng);
+    
+    
+    
+  }
 </script>
 </head>
 <body>
@@ -515,6 +536,8 @@
                 <th scope="row">담당자ID<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100" name="wh_mng_id"
                   id="wh_mng_id" /></td>
+                <th scope="row">담당자명</th>
+                <td><select id="wh_mng_nm" name="wh_mng_nm" onChange="javascript:selectWarehouseMng()"></select></td>
               </tr>
               <tr>
                 <th scope="row">우편번호 <span class="font_red">*</span></th>
