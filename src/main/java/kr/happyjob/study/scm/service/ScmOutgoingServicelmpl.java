@@ -26,16 +26,6 @@ public class ScmOutgoingServicelmpl implements ScmOutgoingService{
 	public int scmOutgoingListCnt(Map<String, Object> paramMap) throws Exception {
 		return solDao.scmOutgoingListCnt(paramMap);
 	}
-	// 배송지시서 검색조건 조회
-	@Override
-	public List<ScmOutgoingListModel> getOutgoingSearchList(Map<String, Object> paramMap) throws Exception {
-		return solDao.getOutgoingSearchList(paramMap);
-	}
-	// 배송지시서 검색조건 카운트 조회
-	@Override
-	public int scmOutgoingSearchListCnt(Map<String, Object> paramMap) throws Exception {
-		return solDao.scmOutgoingSearchListCnt(paramMap);
-	}
 	// 배송지시서 상세조회
 	@Override
 	public List<ScmOutgoingDetailListModel> getOutgoingDetailList(Map<String, Object> paramMap) throws Exception {
