@@ -63,36 +63,6 @@ public class ScmOutgoingController {
 		return "/scm/scmOutgoingList";
 	}
 	
-	@RequestMapping("scmOutgoingSearchList.do")
-	public String getOutgoingSearchList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-			HttpServletResponse response, HttpSession session) throws Exception {
-		
-		logger.info("검색조건 paramMap : " + paramMap);
-		
-		//지시서 조회페이징
-		int currentPage = Integer.parseInt((String) paramMap.get("currentPage"));
-	    int pageSize = Integer.parseInt((String) paramMap.get("pageSize"));
-	    int pageIndex = (currentPage - 1) * pageSize;
-	    
-	    paramMap.put("pageIndex", pageIndex);
-		paramMap.put("pageSize", pageSize);
-		
-		//반품지시서 조회
-		List<ScmOutgoingListModel> outgoingSearchList = solservice.getOutgoingSearchList(paramMap);
-		model.addAttribute("outgoingSearchList",outgoingSearchList);
-		logger.info("outgoingSearchList 값: "+ paramMap);
-		
-		//목록수 추출하기
-		int scmOutgoingSearchCnt = solservice.scmOutgoingSearchListCnt(paramMap);
-		System.out.println("scmOutgoingSearchCnt : " + scmOutgoingSearchCnt);
-		
-		model.addAttribute("scmOutgoingSearchCnt", scmOutgoingSearchCnt);
-		model.addAttribute("pageSize", pageSize);
-		
-		model.addAttribute("currentPage", currentPage);
-		return "/scm/scmOutgoingList";
-	}
-	
 	@RequestMapping("scmOutgoingDetailList.do")
 	public String scmOutgoingDetailList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
