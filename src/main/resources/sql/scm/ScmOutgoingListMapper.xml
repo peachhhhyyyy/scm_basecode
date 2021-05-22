@@ -44,7 +44,8 @@
                 </when>
                 <otherwise>
                     <if test="searchInfo != null">
-                        AND TSSL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%') OR CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                        AND TSSL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%') 
+                        OR CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
                     </if>
                     AND CUSTOMER.user_type = "J"
                     AND TSSL.user_type = "E"
@@ -95,7 +96,8 @@
                 </when>
                 <otherwise>
                     <if test="searchInfo != null">
-                        AND TSSL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%') OR CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                        AND TSSL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%') 
+                        OR CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
                     </if>
                     AND CUSTOMER.user_type = "J"
                     AND TSSL.user_type = "E"
