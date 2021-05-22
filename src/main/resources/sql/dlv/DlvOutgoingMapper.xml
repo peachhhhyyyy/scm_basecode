@@ -34,9 +34,6 @@
             ON OD.STTcd = DC.detail_code
             
 			WHERE 1 = 1
-			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-			AND OD.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
-			</if>
 			<choose>
 				<when test="STTcd == null or STTcd == 'all'">
 					AND OD.STTcd IN (13, 14, 15)
@@ -45,37 +42,16 @@
 				    AND OD.STTcd IN (#{STTcd})
 				</otherwise>
 			</choose>
+			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+			    AND OD.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+			</if>
 			ORDER BY OD.order_cd DESC
 			LIMIT #{pageIndex}, #{pageSize}
 	</select>
 	
 	<!-- 목록의 총 row수 조회 -->
 	<select id="outgoingCnt" resultType="int">
-		SELECT COUNT(*) AS tot_cnt
-			FROM tb_order AS OD
-			WHERE 1 = 1
-			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-                AND OD.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
-            </if>
-			<choose>
-                <when test="STTcd == null or STTcd == 'all'">
-                    AND OD.STTcd IN (13, 14, 15)
-                </when>
-                <otherwise>
-                    AND OD.STTcd IN (#{STTcd})
-                </otherwise>
-            </choose>
-	</select>
-	
-	<!-- 검색조건 출하내역 조회 -->
-	<!-- ]<select id="outgoingSearchList" resultType = "kr.happyjob.study.dlv.model.DlvOutgoingModel">
-        SELECT DATE_FORMAT(OD.order_date, '%Y-%m-%d') AS order_date
-                , DATE_FORMAT(SHIPINFO.arr_date, '%Y-%m-%d') AS arr_date
-                , DATE_FORMAT(SHIPINFO.arr_prev_date, '%Y-%m-%d') AS arr_prev_date
-                , OD.order_cd AS order_cd
-                , DC.detail_name AS state
-                , SHIPINFO.staff_name AS name_delivery
-                , WH.warehouse_nm AS warehouse_nm
+		SELECT COUNT(*) AS totCnt
             FROM tb_order OD
             LEFT JOIN (
                 SELECT warehouse_cd, warehouse_nm
@@ -98,40 +74,22 @@
                     WHERE group_code = 'STTcd' ) AS DC
             ON OD.STTcd = DC.detail_code
             
-            WHERE '1'='1'
+            WHERE 1 = 1
             <choose>
-                <when test="state.equals('all')">
-                    AND OD.STTcd = '13'
-                    AND OD.STTcd = '14'
-                    AND OD.STTcd = '15'
+                <when test="STTcd == null or STTcd == 'all'">
+                    AND OD.STTcd IN (13, 14, 15)
                 </when>
                 <otherwise>
                     AND OD.STTcd IN (#{STTcd})
                 </otherwise>
             </choose>
-            AND OD.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+            <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+                AND OD.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+            </if>
             ORDER BY OD.order_cd DESC
             LIMIT #{pageIndex}, #{pageSize}
-    </select>
-    
-    검색 조건 출하내역 건수
-    <select id="outgoingSearchCnt" resultType="int">
-        SELECT COUNT(*) AS tot_cnt
-            FROM tb_order
-            <choose>
-                <when test="state.equals('all')">
-                    AND OD.STTcd = '13'
-                    AND OD.STTcd = '14'
-                    AND OD.STTcd = '15'
-                </when>
-                <otherwise>
-                    AND OD.STTcd IN (#{STTcd})
-                </otherwise>
-            </choose>
-            AND order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
-            ORDER BY order_cd DESC
-    </select> -->
-
+	</select>
+	
 	<!-- 상세 정보 조회 -->
     <select id="outgoingDetailList" resultType="kr.happyjob.study.dlv.model.DlvOutgoingDetailModel">
         SELECT  DATE_FORMAT(OD.order_date, '%Y-%m-%d') AS order_date
