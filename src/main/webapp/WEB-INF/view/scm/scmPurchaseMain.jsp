@@ -192,16 +192,7 @@
     if (data.result == "SUCCESS") {
       // 모달 팝업
       gfModalPop("#layer1");
-      
-/*    // 날짜 타입 변환
-      var date1 = data.scmPurchaseModel.substr(0, 10);
-      var date2 = data.scmPurchaseModel.substr(24, 29);
-      purch_date = date1 + ',' + date2;
-      $("#directionDate").text(formatDate(data.scmPurchaseModel));
-      $("#purchasePrice").text(data.scmPurchaseModel);
-      $("#price").text(data.scmPurchaseModel);
-      $("#approveId").text(data.scmPurchaseModel); */
-      
+
       console.log("fSelectPurchBtnResult : " + JSON.stringify(data));
     } else {
       alert(data.resultMsg);
@@ -264,7 +255,7 @@
                                         </div>
                                       </div>
                                     </div>
-                                    <span class="divider" style="left:70.1%;">~</span>
+                                    <span class="divider">~</span>
                                     <div class="col-md-3 col-xs-4">
                                       <div class="form-group">
                                         <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
