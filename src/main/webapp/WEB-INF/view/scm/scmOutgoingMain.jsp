@@ -186,7 +186,7 @@
 							</table>
 						<div class="paging_area" id="listInfPagination"></div>
 						</div>
-						<div id="detailList" class="content">
+						<div class="content">
 				            <p class="conTitle">
                                 <span>상세페이지</span>
                             </p>
