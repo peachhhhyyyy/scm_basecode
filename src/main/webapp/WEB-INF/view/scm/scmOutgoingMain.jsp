@@ -38,43 +38,48 @@
 	         
 	         // 반품지시서 콜백 함수
 	         function fOutgoingListResult(data, currentPage) {
-	        	    //alert(data);
-	        	    // console.log(data);
+	        	 
+	        	    console.log("콜백함수 data : "+data)
+
+	        	 
+	        	    // 기존 목록 삭제, 신규 데이터 삽입
+	        	    $('#outgoingList').empty().append(data);
 	        	    
-	        	    // 기존 목록 삭제
-	        	    $('#outgoingList').empty();
-	        	    // 신규 목록 생성
-	        	    $("#outgoingList").append(data);
 	        	    // 총 개수 추출
 	        	    var totCnt = $("#totCnt").val();
+	        	    
 	        	    // 페이지 네비게이션 생성
-	        	    var paginationHtml = getPaginationHtml(currentPage, totCnt, 
-	        	    		pageSizeinfo, pageBlockSizeinquiry, 'fOutgoingList');
+	        	    var paginationHtml = getPaginationHtml(currentPage, totCnt, pageSizeinfo, pageBlockSizeinquiry, 'fOutgoingList');
 	        	   // 현재 페이지 설정
 	        	    $("#listInfPagination").empty().append(paginationHtml);
         	  }
 	         
 	         // 검색조건 기준 조회
-	         function fSearchOrderList(currentPage, searchBox, searchInfo, startDate, endDate){
+	         function fSearchOrderList(){
 	        	 
-	        	 console.log("검색버튼 변수값 : ", searchBox, searchInfo, startDate, endDate);
+	        	 var param = $('#outgoingListForm').serialize();
+	        	 
+	        	 param += "&currentPage="+$('#currentPage').val();
+	        	 param += "&pageSize="+pageSizeinfo
+	        	 
+	        	 console.log("form에서 넘어온 값 : " + param)
 	        	 
 	        	 currentPage = currentPage || 1;
 	        	 
-	        	 var param = {
-	        			 currentPage : currentPage,
-	        			 pageSize : pageSizeinfo,
-	        			 searchBox : searchBox,
-	        			 searchInfo : searchInfo,
-	        			 startDate : startDate,
-	        			 endDate : endDate
-	        	 }
+	        	 var startDate = $('#startDate').val();
+                 var endDate = $('#endDate').val();
+
+                 // 날짜가 올바르지 않거나 널값인 경우 랜딩
+                 if(startDate > endDate){
+                     alert("시작일자는 종료일자보다 클 수가 없습니다.");
+                     location.href= "/scm/scmOutgoingMain.do";
+                 }
 	        	 
 	        	 var resultCallback =  function(data){
-	        		 fSearchOrderListResult(data, currentPage)
+	        		 fSearchOrderListResult(data, $('#currentPage').val());
 	        	 }
 	        	 
-	        	 callAjax("/scm/scmOutgoingSearchList.do", "post", "text", true, param, resultCallback);
+	        	 callAjax("/scm/scmOutgoingList.do", "post", "text", true, param, resultCallback);
 	         }
 	         
 	         // 검색조건 기준 조회 결과 콜백 함수
@@ -142,25 +147,27 @@
 								<span class="btn_nav bold">배송지시서</span>
 								<a href="../dashboard/dashboard.do" class="btn_set refresh">새로고침</a>
 							</p>
-							<p class="conTitle" style="display:flex; justify-content: space-between; align-items: center;">
-								<span>배송지시서</span> 
-								<span style="width: 750px;">
-									<select id="searchBox" style="width: 90px; margin-right:10px;">
-										<option value="E, J">전체</option>
-										<option value="J">기업고객명</option>
-										<option value="E">SCM관리자</option>
-									</select>
-									<input type="text" id="searchInfo" placeholder="검색" style="width:200px; height: 28px; margin-right:10px;">
-									<input type="date" id="startDate" style="width: 130px; height: 28px;">
-		                            <span>~</span>
-		                            <input type="date" id="endDate" style="width: 130px; height: 28px; margin-right:10px;">
-		                            <span>* 제출일자기준</span>
-		                            <a id="searchEnter" 
-		                                  class="btn btnTypeBox" 
-		                                  href="javascript:fSearchOrderList(1, $('#searchBox').val(), $('#searchInfo').val(), $('#startDate').val(), $('#endDate').val())"
-		                                  style="border:1px solid #adb0b5;">검색</a>
-								</span> 
-							</p>
+							<form id="outgoingListForm">
+								<p class="conTitle" style="display:flex; justify-content: space-between; align-items: center;">
+									<span>배송지시서</span> 
+									<span style="width: 750px;">
+										<select name="searchBox" style="width: 90px; margin-right:10px;">
+											<option value="all">전체</option>
+											<option value="J">기업고객명</option>
+											<option value="E">SCM관리자</option>
+										</select>
+										<input type="text" id="searchInfo" name="searchInfo" placeholder="검색" style="width:200px; height: 28px; margin-right:10px;">
+										<input type="date" id="startDate" name="startDate" style="width: 130px; height: 28px;">
+			                            <span>~</span>
+			                            <input type="date" id="endDate" name="endDate" style="width: 130px; height: 28px; margin-right:10px;">
+			                            <span>* 제출일자기준</span>
+			                            <a id="searchEnter" 
+			                                  class="btn btnTypeBox" 
+			                                  href="javascript:fSearchOrderList()"
+			                                  style="border:1px solid #adb0b5;">검색</a>
+									</span> 
+								</p>
+							</form>
 							<table class="col">
 								<colgroup>
 								    <col width="10%">
