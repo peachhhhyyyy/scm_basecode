@@ -17,7 +17,7 @@ public class ScmReturnServicelmpl implements ScmReturnService {
 	//반품지시서 조회
 	@Override
 	public List<ScmReturnListModel> getReturnList(Map<String, Object> paramMap) throws Exception {
-		return srlDao.selectReturnList(paramMap);
+		return srlDao.scmReturnList(paramMap);
 	}
 	//반품지시서 카운트조회
 	@Override
