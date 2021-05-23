@@ -18,13 +18,14 @@
 		fReturnList();
 	})
 
-	//반품리스트 조회
+	// 반품리스트 조회
 	function fReturnList(currentPage) {
+		
 		currentPage = currentPage || 1;
+		
 		console.log("currentPage : " + currentPage);
 		
 		$('#submitBtn').hide();
-		$('#detailList').hide();
 
 		var param = {
 			currentPage : currentPage,
@@ -42,16 +43,14 @@
 				resultCallback);
 
 	}
-
+	
+    // 반품리스트 콜백함수
 	function fReturnListResult(data, currentPage) {
 
 		//console.log(data);
 
-		// 기존 목록 삭제
-		$('#returnList').empty();
-
-		// 신규 목록 생성
-		$("#returnList").append(data);
+		// 기존 목록 삭제/삽입
+		$('#returnList').empty().append(data);
 
 		// 총 개수 추출
 		var totalReturnListCnt = $("#totCnt").val();
@@ -64,43 +63,33 @@
 	}
 
 	// 검색조건으로 반품내역 가져오기
-	function fSearchReturnList(currentPage, STTcd, startDate, endDate) {
-
-		console.log(STTcd, startDate, endDate)
-
-		currentPage = currentPage || 1;
-
-		console.log("currentPage : " + currentPage);
+	function fSearchReturnList() {
 		
 		$('#submitBtn').hide();
-		$('#detailList').hide();
+		
+		var param = $('#returnSearchForm').serialize();
+        
+        param += "&currentPage="+$('#currentPage').val();
+        param += "&pageSize="+pageSizeinfo;
+        
+        console.log("검색조건에 대한 param : " + param)
 
+        var startDate = $('#startDate').val();
+        var endDate = $('#endDate').val();
+        
 		// 날짜 비교, 널값 알맞지 않으면 랜딩
-		if (startDate == '' || endDate == '') {
-			alert("날짜를 설정해주세요.");
-			location.href = "/dlv/returnMain.do";
-		}
-
 		if (startDate > endDate) {
 			alert("시작일자는 종료일자보다 클 수가 없습니다.");
 			location.href = "/dlv/returnMain.do";
 		}
 
-		var param = {
-			currentPage : currentPage,
-			pageSize : pageSizeinfo,
-			STTcd : STTcd,
-			startDate : startDate,
-			endDate : endDate
-		}
-
 		var resultCallback = function(data) {
-			fSearchReturnListResult(data, currentPage);
+			fSearchReturnListResult(data, $('#currentPage').val());
 		};
 
 		//Ajax실행 방식
 		//callAjax("Url",type,return,async or sync방식,넘겨준 값,Callback함수 이름)
-		callAjax("/dlv/returnSearchList.do", "post", "text", true, param,
+		callAjax("/dlv/returnList.do", "post", "text", true, param,
 				resultCallback);
 	}
 
@@ -130,7 +119,7 @@
 	function fReturnDetailList(refund_list_no) {
 		
 		$('#submitBtn').show();
-		$('#detailList').show();
+		//$('#detailList').show();
 
 		var param = {
 			refund_list_no : refund_list_no,
@@ -210,24 +199,26 @@
 							<span class="btn_nav bold">메인</span> <a
 								href="../dashboard/dashboard.do" class="btn_set refresh">새로고침</a>
 						</p>
-						<p class="conTitle" style="display: flex; justify-content: space-between; align-items: center;">
-							<span>반품계획</span> 
-							<span style="width: 590px;"> 
-								<select id="STTcd" name="STTcd" style="width: 100px;">
-										<option value="5, 6, 7" selected="selected">전체</option>
-										<option value="5">승인완료</option>
-										<option value="6">반품 진행 중</option>
-										<option value="7">반품완료</option>
-								</select> 
-								<input type="date" id="startDate" style="width: 200px; height: 28px;">
-								<span>~</span>
-								<input type="date" id="endDate" style="width: 200px; height: 28px;">
-								<a id="searchEnter" 
-								    class="btn btnTypeBox" 
-								    href="javascript:fSearchReturnList(1, $('#STTcd').val(), $('#startDate').val(), $('#endDate').val())"
-								    style="border:1px solid #adb0b5;">검색</a>
-							</span>
-						</p>
+						<form id="returnSearchForm">
+							<p class="conTitle" style="display: flex; justify-content: space-between; align-items: center;">
+								<span>반품계획</span> 
+								<span style="width: 590px;"> 
+									<select id="STTcd" name="STTcd" style="width: 100px;">
+											<option value="all" selected="selected">전체</option>
+											<option value="5">승인완료</option>
+											<option value="6">반품 진행 중</option>
+											<option value="7">반품완료</option>
+									</select> 
+									<input type="date" id="startDate" name="startDate" style="width: 200px; height: 28px;">
+									<span>~</span>
+									<input type="date" id="endDate" name="endDate" style="width: 200px; height: 28px;">
+									<a id="searchEnter" 
+									    class="btn btnTypeBox" 
+									    href="javascript:fSearchReturnList()"
+									    style="border:1px solid #adb0b5;">검색</a>
+								</span>
+							</p>
+						</form>
 						<!-- 반품 리스트 조회  -->
 						<table class="col">
 							<caption>caption</caption>

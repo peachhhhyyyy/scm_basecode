@@ -22,7 +22,7 @@
 					
 					// 필요하기 전까지 숨기기
 					$('#submitBtn').hide();
-					$('#detailList').hide();
+					//$('#detailList').hide();
 			
 					currentPage = currentPage || 1;
 			
@@ -46,9 +46,8 @@
 				function fOrderListResult(data, currentPage) {
 					/* console.log(data); */
 			
-					// 기존 목록 삭제
-					$('#outgoingList').empty();
-					$("#outgoingList").append(data);
+					// 기존 목록 삭제/삽입
+					$('#outgoingList').empty().append(data);
 			
 					// 총 개수 추출
 					var totcnt = $("#totcnt").val();
@@ -64,12 +63,65 @@
 				}
 			
 				
+				// 검색조건으로 수주내역 가져오기
+				function fSearchOrderList() {
+					
+					// 필요하기 전까지 숨김
+                    $('#submitBtn').hide();
+                    
+                    var param = $('#outgoingSearchForm').serialize();
+                    
+                    param += "&currentPage="+$('#currentPage').val();
+                    param += "&pageSize="+pageSizeinfo;
+                    
+                    console.log("검색조건에 대한 param : " + param)
+                    
+                    var startDate = $('#startDate').val();
+                    var endDate = $('#endDate').val();
+
+	                // 날짜가 올바르지 않거나 널값인 경우 랜딩
+	                if(startDate > endDate){
+	                    alert("시작일자는 종료일자보다 클 수가 없습니다.");
+	                    location.href= "/dlv/outgoing.do";
+	                }
+	                
+	                var resultCallback = function(data) {
+	                	fSearchOrderListResult(data, $('#currentPage').val());
+	                };
+	        
+	                //Ajax실행 방식
+	                //callAjax("Url",type,return,async or sync방식,넘겨준 값,Callback함수 이름)
+	                callAjax("/dlv/outgoingList.do", "post", "text", true, param, resultCallback);
+				}
+				
+			    // 검색 조건 콜백함수
+	            function fSearchOrderListResult(data, currentPage) {
+	                
+			    	console.log(data);
+	                
+	                // 기존 목록 삭제
+	                $('#outgoingList').empty();
+	                $("#outgoingList").append(data);
+	        
+	                // 총 개수 추출
+	                var totcnt = $("#totcnt").val();
+	        
+	                // 페이지 네비게이션 생성
+	                var paginationHtml = getPaginationHtml(currentPage, totcnt,
+	                        pageSizeinfo, pageBlockSizeinquiry, 'fSearchOrderList');
+	        
+	                /* console.log("paginationHtml : " + paginationHtml); */
+	        
+	                $("#lisOutgoingPagination").empty().append(paginationHtml);
+	        
+	            }
+			    
 				/* 출하내역 상세 조회*/
 				function fOrderDetailList(order_cd) {
 					
 					// 필요하기 전까지 숨기기
                     $('#submitBtn').show();
-                    $('#detailList').show();
+                    //$('#detailList').show();
 				
 				
 				  var param = {
@@ -101,71 +153,6 @@
 				    var $outgoingDetailListBottom = $data.find("#outgoingDetailListBottom");
 				    $("#outgoingDetailListBottom").append($outgoingDetailListBottom.children());
 				}
-				
-				
-				// 검색조건으로 수주내역 가져오기
-				function fSearchOrderList(currentPage, STTcd, startDate, endDate) {
-					
-					// 필요하기 전까지 숨기기
-                    $('#submitBtn').hide();
-                    $('#detailList').hide();
-					
-					console.log(STTcd, startDate, endDate)
-					
-					currentPage = currentPage || 1;
-			        
-	                console.log("currentPage : " + currentPage);
-	                
-	                // 날짜가 올바르지 않거나 널값인 경우 랜딩
-	                if(startDate == '' || endDate == ''){
-	                    alert("날짜를 설정해주세요.");
-	                    location.href= "/dlv/outgoing.do";
-	                }
-	                
-	                if(startDate > endDate){
-	                    alert("시작일자는 종료일자보다 클 수가 없습니다.");
-	                    location.href= "/dlv/outgoing.do";
-	                }
-	                
-	                var param = {
-	                		currentPage : currentPage,
-	                		pageSize : pageSizeinfo,
-	                		STTcd : STTcd,
-	                		startDate : startDate,
-	                		endDate : endDate
-	                }
-	        
-	                var resultCallback = function(data) {
-	                	fSearchOrderListResult(data, currentPage);
-	                };
-	        
-	                //Ajax실행 방식
-	                //callAjax("Url",type,return,async or sync방식,넘겨준 값,Callback함수 이름)
-	                callAjax("/dlv/outgoingSearchList.do", "post", "text", true, param,
-	                        resultCallback);
-				}
-				
-			    // 검색 조건 콜백함수
-	            function fSearchOrderListResult(data, currentPage) {
-	                
-			    	console.log(data);
-	                
-	                // 기존 목록 삭제
-	                $('#outgoingList').empty();
-	                $("#outgoingList").append(data);
-	        
-	                // 총 개수 추출
-	                var totcnt = $("#totcnt").val();
-	        
-	                // 페이지 네비게이션 생성
-	                var paginationHtml = getPaginationHtml(currentPage, totcnt,
-	                        pageSizeinfo, pageBlockSizeinquiry, 'fSearchOrderList');
-	        
-	                /* console.log("paginationHtml : " + paginationHtml); */
-	        
-	                $("#lisOutgoingPagination").empty().append(paginationHtml);
-	        
-	            }
 			    
 			    // 콤보박스로 선택된 배송기사이름으로 연락처 받아오기
 			    function fSelectDlvStaffTel(){
@@ -218,25 +205,27 @@
 								<span class="btn_nav bold">메인</span>
 								<a href="../dashboard/dashboard.do" class="btn_set refresh">새로고침</a>
 							</p>
-							<p class="conTitle" style="display:flex; justify-content: space-between; align-items: center;" >
-								<span>출하계획</span>
-								<!-- 상단 상태, 날짜 조회 부분 -->
-								<span style="width: 590px;">
-								    <select id="STTcd" name="STTcd" style="width: 100px;">
-										<option value="13, 14, 15">전체</option>
-										<option value="13">배송준비</option>
-										<option value="14">배송중</option>
-										<option value="15">배송완료</option>
-									</select>
-									<input type="date" name="startDate" id="startDate" style="width: 200px; height: 28px;">
-									<span>~</span>
-									<input type="date" name="endDate" id="endDate" style="width: 200px; height: 28px;">
-                                    <a id="searchEnter" 
-                                        class="btn btnTypeBox" 
-                                        href="javascript:fSearchOrderList(1, $('#STTcd').val(), $('#startDate').val(), $('#endDate').val())"
-                                        style="border:1px solid #adb0b5;">검색</a>
-                                </span>
-							</p>
+							<form id="outgoingSearchForm">
+								<p class="conTitle" style="display:flex; justify-content: space-between; align-items: center;" >
+									<span>출하계획</span>
+									<!-- 상단 상태, 날짜 조회 부분 -->
+									<span style="width: 590px;">
+									    <select id="STTcd" name="STTcd" style="width: 100px;">
+											<option value="all">전체</option>
+											<option value="13">배송준비</option>
+											<option value="14">배송중</option>
+											<option value="15">배송완료</option>
+										</select>
+										<input type="date" name="startDate" id="startDate" style="width: 200px; height: 28px;">
+										<span>~</span>
+										<input type="date" name="endDate" id="endDate" style="width: 200px; height: 28px;">
+	                                    <a id="searchEnter" 
+	                                        class="btn btnTypeBox" 
+	                                        href="javascript:fSearchOrderList()"
+	                                        style="border:1px solid #adb0b5;">검색</a>
+	                                </span>
+								</p>
+                            </form>
 							<table class="col">
 								<thead>
 									<tr>
@@ -253,6 +242,11 @@
 							</table>
 						<div class="paging_area" id="lisOutgoingPagination"></div>
 					</div>
+					<!-- <div style="display:flex; justify-content: center; align-items: center; min-height:340px;">
+					   <p style="font-family:Spoqa Han Sans; font-size: 35px; color:#adb0b5; padding-bottom:80px;">
+					       <span>주문코드를 선택해주세요.</span>
+					   </p>
+					</div> -->
 						<form action="submitDlvInfo.do" method="post">
 						<div id="detailList" class="content">
 							<p class="conTitle">

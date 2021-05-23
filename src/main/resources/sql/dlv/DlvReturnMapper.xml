@@ -37,29 +37,25 @@
                     WHERE group_code = 'STTcd' ) AS DC
            ON TOO.STTcd = DC.detail_code
 	             
-	       WHERE TOO.STTcd IN (5, 6, 7)
+	       WHERE 1 = 1
+           <choose>
+               <when test="STTcd == null or STTcd == 'all'">
+                   AND TOO.STTcd IN (5, 6, 7)
+               </when>
+               <otherwise>
+                   AND TOO.STTcd IN (#{STTcd})
+               </otherwise>
+           </choose>
+           <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+               AND TOO.refund_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+           </if>
 	       ORDER BY TSRL.refund_list_no DESC
 		   LIMIT #{pageIndex}, #{pageSize}
 	</select>
-	
+
 	<select id="returnListCnt" resultType="int">
-		SELECT COUNT(*) as returnlistCnt
-			FROM tb_order TOO
-			WHERE TOO.STTcd IN (5, 6, 7)
-	</select>
-	
-	<select id="returnSearchList" resultType="kr.happyjob.study.dlv.model.DlvReturnModel">
-	   SELECT TSRL.refund_list_no AS refund_list_no,
-           TUU.name AS cus_name,
-           TSP.l_ct_cd AS l_ct_cd,
-           TSP.prod_nm AS prod_nm,
-           TOO.refund_cnt AS refund_cnt,
-           TOO.refund_amt AS refund_amt,
-           TSW.warehouse_nm AS warehouse_nm,
-           TOO.refund_date AS refund_date,
-           DC.detail_name AS state
-       FROM tb_order AS TOO
-       
+		SELECT COUNT(*) AS returnlistCnt
+           FROM tb_order AS TOO
            LEFT JOIN tb_scm_refund_list AS TSRL
            ON TOO.order_cd = TSRL.order_cd
            
@@ -73,7 +69,9 @@
            LEFT JOIN tb_userinfo AS TUU
            ON TOO.loginID = TUU.loginID
            
-           LEFT JOIN tb_scm_warehouse AS TSW
+           LEFT JOIN (
+                  SELECT warehouse_cd, warehouse_nm
+                      FROM tb_scm_warehouse ) AS TSW
            ON TOO.warehouse_cd = TSW.warehouse_cd
            
            LEFT JOIN(
@@ -81,21 +79,22 @@
                     FROM tb_detail_code
                     WHERE group_code = 'STTcd' ) AS DC
            ON TOO.STTcd = DC.detail_code
-             
-        WHERE TOO.STTcd IN (#{STTcd})
-        AND TOO.refund_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
-        ORDER BY TSRL.refund_list_no
-        LIMIT #{pageIndex}, #{pageSize}
+                 
+           WHERE 1 = 1
+           <choose>
+               <when test="STTcd == null or STTcd == 'all'">
+                   AND TOO.STTcd IN (5, 6, 7)
+               </when>
+               <otherwise>
+                   AND TOO.STTcd IN (#{STTcd})
+               </otherwise>
+           </choose>
+           <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+               AND TOO.refund_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+           </if>
+           ORDER BY TSRL.refund_list_no DESC
+           LIMIT #{pageIndex}, #{pageSize}
 	</select>
-	
-	<!-- 검색 조건 반품내역 건수 -->
-    <select id="returnSearchCnt" resultType="int">
-        SELECT COUNT(*) AS tot_cnt
-            FROM tb_order
-            WHERE STTcd = #{STTcd} OR STTcd IN (5, 6, 7)
-            AND refund_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
-            ORDER BY order_cd DESC
-    </select>
 	
 	<select id="returnDetailList" resultType="kr.happyjob.study.dlv.model.DlvReturnDetailModel">
 		SELECT TOO.order_cd AS order_cd
