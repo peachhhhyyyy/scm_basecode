@@ -12,7 +12,6 @@
   <c:forEach items="${noticeList}" var="notice">
     <tr>
       <td>${notice.notice_id}</td>
-      <td><a href="javascript:fadeInDetailModal('${notice.notice_id}')">${notice.title}</a></td>
       <td><a href="javascript:fadeInModal('r','${notice.notice_id}')">${notice.title}</a></td>
       <td>${notice.date}</td>
       <td>${notice.view_cnt}</td>

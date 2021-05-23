@@ -100,40 +100,53 @@
 
     // 공지사항 검색 버튼 이벤트
     $('#search_button').on('click', function(){
+      
       selectList();
+      
     } );
     
     // 공지사항 작성 모달 이벤트
     $('#write_modal_button').click(function(){
-//      fadeInWriteModal();
+      
       var identifier = 'w';
       fadeInModal(identifier);
+      
     });
     
     // 공지사항 작성 버튼 이벤트
     $('#write_button').click(function() {
+      
       writeNotice();
+      
     });
     
     // 모달 닫기 버튼 이벤트
     $('#close_button').click(function() {
+      
       gfCloseModal();
+      
     })
     
     // 공지사항 수정 모달 버튼 이벤트
      $('#modify_modal_button').click(function() {
+       
        var identifier = 'm';
        fadeInModal(identifier);
+       
      });
     
     // 공지사항 수정 버튼 이벤트
     $('#modify_button').click(function() {
+      
       modifyNotice();
+      
     });
      
     // 공지사항 삭제 버튼 이벤트
     $('#delete_button').click(function() {
+      
       deleteNotice();
+      
     })
     
     // onload 끝
@@ -209,7 +222,6 @@
   /* 작성, 수정 여부에 따라 첨부파일이 변경되니 주의  */
   function fadeInWriteModal() {
     
-    // 
     swapModal();
     // 모달 초기화
     initWriteModal();
@@ -218,17 +230,6 @@
     
   }
   
-  /* 공지사항 작성 모달 초기화 */
-  function initWriteModal() {
-    var title = $('#notice_title').val();
-    
-    if(title) {
-      $('#notice_title').val('');
-      $('#notice_content').val('');
-      $('#notice_auth').val('0');
-    }
-  }
-    
     /* 공지사항 글 작성  함수 */
     function writeNotice() {
       
@@ -319,49 +320,6 @@
       callAjax("/system/detailNotice.do", "post", "json", true, param, resultCallback);
     }
     
-    /* 공지사항 단건 조회 모달 초기화,데이터 설정 함수 */
-    // fInitFormGrpCod 참고
-    function initDetailModal(result) {
-      
-      if (result == "" || result == null || result == undefined) {
-        
-        $("#detail_title").val('');
-        $("#detail_date").val('');
-        $("#detail_content").val('');
-        
-      } else {
-        
-        $('#detail_notice_id').val(result.notice_id);
-        $("#detail_title").val(result.title);
-        $("#detail_date").text(result.date);
-        $("#detail_content").val(result.content);
-      }
-
-    }
-    
-    
-    /* 공지사항 단건 조회 모달  */
-    function fadeInDetailModal(notice_id) {
-      
-      // 신규 저장
-      if (notice_id == null || notice_id == 0) {
-        // Tranjection type 설정
-        $("#action").val("I");
-        
-        // 공지사항 모달 초기화
-        initDetailModal();
-        
-        // 모달 팝업
-        gfModalPop("#layer2");
-        
-      } else {
-        // Tranjection type 설정
-        $("#action").val("U");
-      }
-      // 공지사항 단건 조회
-       selectDetail(notice_id);
-    }
-
     
     /* 공지사항 작성 ,공지사항 수정 모달 변경 */
     function swapModal(identifier) {
@@ -428,22 +386,6 @@
       
     }
         
-    /* 공지사항 수정 모달 호출 함수 */
-    function modifyNoticeModal() {
-      
-      var identifier = 'm';
-      
-      swapModal(identifier);
-      
-      var notice_id = $('#detail_notice_id').val();
-      
-      // 글 수정을 식별하기 위한 식별 변수(modify)
-      var identifier = 'm';
-      
-      // 공지사항 단건 조회
-      selectDetail(notice_id, identifier);
-     
-    }
     
     /* 공지사항 수정 모달 */
     function initModifyModal(result) {
@@ -463,7 +405,7 @@
     /* 공지사항 수정 함수*/
     function modifyNotice() {
       
-      var notice_id = $('#detail_notice_id').val();
+      var notice_id = $('#notice_id').val();
       var title =  $("#notice_title").val();
       var content =  $("#notice_content").val();
       var auth =  $("#notice_auth").val();
@@ -708,7 +650,6 @@
           <strong>공지사항</strong>
         </dt>
         <dd class="content">
-          <!-- s : 여기에 내용입력 -->
           <table class="row">
             <caption>caption</caption>
             <colgroup>
@@ -759,7 +700,6 @@
               </tr>
             </tbody>
           </table>
-          <!-- e : 여기에 내용입력 -->
         </dd>
       </dl>
       <a href="" class="closePop"><span class="hidden">닫기</span></a>

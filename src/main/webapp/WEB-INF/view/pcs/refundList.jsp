@@ -202,7 +202,9 @@
     function resultCallback(data) {
       
       if (data == 1) {
-        window.location.reload();
+        
+       selectList();
+       
       } else {
         alert('서버에서 에러가 발생했습니다.');
       }
