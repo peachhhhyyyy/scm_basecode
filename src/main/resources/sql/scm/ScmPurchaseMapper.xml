@@ -16,6 +16,9 @@
          ,   PL.order_cd
          ,   PL.supply_cd
          ,   PD.product_cd
+         ,   PL.approve_id
+         ,   PD.purchase_price
+         ,   PD.price
        FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_scm_supply as SP
           ON PL.supply_cd = SP.supply_cd
@@ -39,10 +42,10 @@
 				  </choose>
 				</if>
         <if test="(date1 != null) and (!date1.equals(''))"> 
-           and PL.direction_date <![CDATA[>=]]> DATE_FORMAT((#{date1}), "%Y-%m-%d")
+           AND PL.direction_date <![CDATA[ >= date(#{date1}) ]]>
         </if>
         <if test="(date2 != null) and (!date2.equals(''))"> 
-           and PL.direction_date <![CDATA[<=]]> DATE_FORMAT((#{date2}), "%Y-%m-%d")
+           AND PL.direction_date <![CDATA[ <= date(#{date2})+1 ]]>
         </if>
       </where>
       ORDER BY purch_list_no DESC
@@ -76,10 +79,10 @@
           </choose>
         </if>
         <if test="(date1 != null) and (!date1.equals(''))"> 
-           and PL.direction_date <![CDATA[>=]]> DATE_FORMAT((#{date1}), "%Y-%m-%d")
+           AND PL.direction_date <![CDATA[ >= date(#{date1}) ]]>
         </if>
         <if test="(date2 != null) and (!date2.equals(''))"> 
-           and PL.direction_date <![CDATA[<=]]> DATE_FORMAT((#{date2}), "%Y-%m-%d")
+           AND PL.direction_date <![CDATA[ <= date(#{date2})+1 ]]>
         </if>
       </where>
       ORDER BY purch_list_no DESC
@@ -100,6 +103,9 @@
          ,   PL.approve_id
          ,   PD.purchase_price
          ,   PD.price
+         ,   PL.order_cd
+         ,   PL.supply_cd
+         ,   PD.product_cd
       FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_scm_supply as SP
           ON PL.supply_cd = SP.supply_cd
