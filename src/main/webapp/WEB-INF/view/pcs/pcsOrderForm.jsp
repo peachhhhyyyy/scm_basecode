@@ -9,7 +9,7 @@
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript">
   // 발주서 페이징 설정
-  var pageSizePcsOrderForm = 5;
+  var pageSizePcsOrderForm = 10;
   var pageBlockSizePcsOrderForm = 5;
 
   $(document).ready(function() {

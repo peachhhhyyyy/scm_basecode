@@ -9,7 +9,7 @@
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript">
   // SCM 발주 지시서 페이징 설정
-  var pageSizeScmOrderingOrder = 5;
+  var pageSizeScmOrderingOrder = 10;
   var pageBlockSizeScmOrderingOrder = 5;
 
   $(document).ready(function() {

@@ -9,7 +9,7 @@
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript">
   // 그룹코드 페이징 설정
-  var pageSizePcsOrderingOrder = 5;
+  var pageSizePcsOrderingOrder = 10;
   var pageBlockSizePcsOrderingOrder = 5;
 
   $(document).ready(function() {
