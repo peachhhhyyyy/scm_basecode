@@ -13,6 +13,7 @@
     <tr>
       <td>${notice.notice_id}</td>
       <td><a href="javascript:fadeInDetailModal('${notice.notice_id}')">${notice.title}</a></td>
+      <td><a href="javascript:fadeInModal('r','${notice.notice_id}')">${notice.title}</a></td>
       <td>${notice.date}</td>
       <td>${notice.view_cnt}</td>
       <!-- List에 있는 js 함수 호출가능 이거 그대로 가지고 가기 때문에 !!  -->
