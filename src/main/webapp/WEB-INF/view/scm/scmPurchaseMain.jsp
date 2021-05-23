@@ -170,7 +170,7 @@
     // 날짜 타입 변환
     var date1 = direction_date.substr(0, 10);
     var date2 = direction_date.substr(24, 29);
-    purch_date = date1 + ',' + date2;
+    direction_date = date1 + ',' + date2;
     $("#directionDate").text(formatDate(direction_date));
     $("#prodNm").text(prod_nm);
     $("#purchQty").text(purch_qty);
@@ -192,7 +192,7 @@
     if (data.result == "SUCCESS") {
       // 모달 팝업
       gfModalPop("#layer1");
-
+      
       console.log("fSelectPurchBtnResult : " + JSON.stringify(data));
     } else {
       alert(data.resultMsg);
