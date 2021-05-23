@@ -45,8 +45,8 @@
 
    /* 반품서 목록 조회 */
   function selectList(currentPage, serchOptions) {
-    //추가코드 시작
-    var option = $('#options').val();
+   
+     var option = $('#options').val();
     var keyword = $('#keyword').val();
     var date = $("#datetimepicker1").find("input").val()
     
@@ -56,7 +56,6 @@
     console.log("currentPage : " + currentPage);
 
     if (keyword || date) {
-      console.log('검색어있음, 현재페이지:', currentPage, pageSize)
       
       var param = {
       option : option,
@@ -67,7 +66,6 @@
       }
 
     } else {
-      console.log('검색어 없음')
       
       var param = {
       currentPage : currentPage,
@@ -88,7 +86,6 @@
    /* 반품서 목록 조회 콜백 함수 */
   function selectListCallBack(data, currentPage) {
     
-    console.log('반품서 목록:', data);
     
     // 기존 목록 삭제
     $('#refundList').empty();
@@ -111,12 +108,8 @@
 
   /* 반품서 단건 조회 모달  */
   function fadeInModal(refund_list_no) {
-    console.log('모달', refund_list_no)
-    console.log('타입확인', typeof (refund_list_no))
-    // 신규 저장
-    if (refund_list_no === null || refund_list_no === 0) {
-      // Tranjection type 설정
-      $("#action").val("I");
+    
+    if (refund_list_no != null || refund_list_no != undefined) {
       
       // 그룹코드 폼 초기화
       initModal();
@@ -125,8 +118,9 @@
       gfModalPop("#layer1");
       
     } else {
-      // Tranjection type 설정
-      $("#action").val("U");
+      
+      alert("에러가 발생했습니다");
+      
     }
     // 반품서 단건 조회
     selectDetail(refund_list_no);
@@ -135,7 +129,7 @@
   /* 반품서 단건 조회 함수 */
   // fSelectGrpCodResult 참고
   function selectDetail(refund_list_no) {
-    console.log('단건 조회 호출!!', refund_list_no);
+    
     var param = {
       refund_list_no : refund_list_no
     };
@@ -160,7 +154,7 @@
   // fInitFormGrpCod 참고
   function initModal(object) {
 
-    if (object === "" || object === null || object == undefined) {
+    if (object == "" || object == null || object == undefined) {
 
       $("#purch_list_no").val("");
       $("#supply_nm").val("");
@@ -207,7 +201,7 @@
 
     function resultCallback(data) {
       
-      if (data === 1) {
+      if (data == 1) {
         window.location.reload();
       } else {
         alert('서버에서 에러가 발생했습니다.');
@@ -322,7 +316,6 @@
           <strong>반품서</strong>
         </dt>
         <dd class="content">
-          <!-- s : 여기에 내용입력 -->
           <table class="row">
             <caption>caption</caption>
             <colgroup>
@@ -376,7 +369,6 @@
               </tr>
             </tbody>
           </table>
-          <!-- e : 여기에 내용입력 -->
         </dd>
       </dl>
       <a href="" class="closePop"><span class="hidden">닫기</span></a>

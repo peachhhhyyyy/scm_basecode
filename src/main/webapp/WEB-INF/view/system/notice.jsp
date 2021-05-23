@@ -65,8 +65,68 @@
       var date = $("#datetimepicker3").find("input").val()
       $('#datetimepicker4').datetimepicker('minDate', e.date);
     });
+    
+    // 공지사항 제목 글자 제한
+    $('#write_title').keyup(function(e){
+      
+      var limit = 100;
+      var count = $(this).val().length;
+      
+      if(count > limit) {
+        
+        alert('제목은 100자 이하로 작성해 주세요');
+        $(this).val($(this).val().substring(0,limit));
+        return false;
+        
+      }
+      
+    });
+    
+    // 공지사항 내용 글자 제한
+    $("#write_content").keyup(function(e) {
+      
+      var limit = 1000;
+      var count =  $(this).val().length;
+      
+      if(count > limit) {
+        
+        alert('내용은 1000자 이하로 작성해 주세요');
+        $(this).val($(this).val().substring(0,limit));
+        return false;
+        
+      }
+      
+    });
 
+    // 공지사항 검색 버튼 이벤트
+    $('#search_button').on('click', function(){
+      selectList();
+    } );
+    
+    // 공지사항 작성 버튼 이벤트
+    $('#write_button').click(function(){
+      fadeInWriteModal();
+    });
+    
+    // 모달 닫기 버튼 이벤트
+    $('#close_button').click(function() {
+      gfCloseModal();
+    })
+    
+    // 공지사항 수정 버튼 이벤트
+     $('#modify_button').click(function() {
+       modifyNoticeModal();
+     })
+     
+    // 공지사항 삭제 버튼 이벤트
+    $('#delete_button').click(function() {
+      deleteNotice();
+    })
+    
+    // onload 끝
   });
+  
+ 
 
    /* 공지사항 목록 조회 함수 */
   function selectList(currentPage, serchOptions) {
@@ -209,7 +269,10 @@
         
         if(result == 1) {
           
-          window.location.reload();
+         // fadeOutModal();
+          gfCloseModal();
+          selectList();
+          
         } 
         else {
           alert('서버에서 에러가 발생했습니다');
@@ -301,11 +364,6 @@
     }
 
     
-    /* 모달 닫기 */
-    function fadeOutModal() {
-      $('#mask').hide();
-      $('.layerPop').hide();
-    }
     
     
     /* 글 작성 ,글 수정 모달 변경 */
@@ -322,7 +380,7 @@
      else {
        
        // 단건 조회 모달 닫기
-       fadeOutModal();
+       gfCloseModal();
        // 글작성 모달 활성화
        fadeInWriteModal();
        
@@ -385,7 +443,9 @@
       
       function resultCallback(result) {
         if(result == 1){
-          window.location.reload();
+          
+          gfCloseModal();
+          selectList();
         } 
         else {
           alert('서버에서 에러가 발생했습니다.')
@@ -415,7 +475,10 @@
         function resultCallback(result) {
           
           if(result == 1) {
-            window.location.reload();
+            
+            gfCloseModal();
+            selectList();
+           
           } 
           else {
             alert('서버에서 에러가 발생했습니다');
@@ -428,9 +491,9 @@
       else { 
         return false;
       }
-      
-      
     }
+    
+    
 </script>
 </head>
 <body>
@@ -498,7 +561,8 @@
                   <!-- // datepicker -->
                   <!-- button -->
                   <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default" onclick="selectList()">검색</button>
+                    <!--  <button type="button" class="btn btn-default" onclick="selectList()">검색</button>-->
+                    <button type="button" class="btn btn-default" id="search_button">검색</button>
                   </div>
                   <!-- // button -->
                 </div>
@@ -527,7 +591,7 @@
               <div class="paging_area" id="pagination"></div>
               <div class="btn-wrap">
                 <c:if test="${sessionScope.userType eq 'E'}">
-                  <button type="button" class="btn btn-default" onclick="fadeInWriteModal()">글쓰기</button>
+                  <button type="button" class="btn btn-default" id="write_button">글쓰기</button>
                 </c:if>
               </div>
               <h3 class="hidden">풋터 영역</h3>
@@ -559,18 +623,16 @@
               </tr>
               <tr>
                 <th scope="row">내용</th>
-                <td colspan="3"><textarea class="inputTxt p100" name="write_content" id="write_content" autocomplete="off" /></textarea></td>
+                <td colspan="3"><textarea class="inputTxt p100" name="write_content" id="write_content" /></textarea></td>
               </tr>
-              <form enctype="multipart/form-data" id="file-form">
-                <tr id="add_file" class="">
-                  <th scope="row">첨부파일(글작성)</th>
-                  <td colspan="3"><input type="file" class="inputTxt p100" name="return_mng_id" id="return_mng_id" accept="image/*" /></td>
-                </tr>
-                <tr id="modify_file" class="display_none">
+               <tr id="add_file" class="">
+                 <th scope="row">첨부파일(글작성)</th>
+                   <td colspan="3"><input type="file" class="inputTxt p100" name="return_mng_id" id="return_mng_id" accept="image/*" /></td>
+               </tr>
+               <tr id="modify_file" class="display_none">
                   <th scope="row">첨부파일(글수정)</th>
                   <td colspan="3"><input type="file" class="inputTxt p100" name="return_mng_id" id="return_mng_id" accept="image/*"/></td>
-                </tr>
-              </form>
+               </tr>
               <tr>
                 <th scope="row">열람권한</th>
                 <td colspan="3">
@@ -583,9 +645,9 @@
                     <!-- 공지사항 신규 작성 버튼 -->
                     <button class="btn-default btn-sm" id="writeNoticeButton" onclick="writeNotice()">저장</button>
                     <!-- 공지사항 수정글 작성 버튼 -->
-                    <button class="display_none btn-default btn-sm" id="modifyNoticeButton" onclick="modifyNotice()">글수정저장</button>
-                    <button class="display_none btn-default btn-sm" id="deleteNoticeButton" onclick="deleteNotice()">삭제</button>
-                    <button class="btn-default btn-sm" onclick="fadeOutModal()">취소</button>
+                    <button class="display_none btn-default btn-sm" id="modifyNoticeButton" id="modify_button">글수정저장</button>
+                    <button class="display_none btn-default btn-sm" id="deleteNoticeButton" id="delete_button">삭제</button>
+                    <button class="btn-default btn-sm" id="close_button">취소</button>
                   </div></td>
               </tr>
             </tbody>
