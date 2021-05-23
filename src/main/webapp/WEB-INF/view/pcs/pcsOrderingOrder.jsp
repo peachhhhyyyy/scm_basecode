@@ -122,10 +122,10 @@
     var date1 = desired_delivery_date.substr(0, 10);
     var date2 = desired_delivery_date.substr(24, 29);
     desired_delivery_date = date1 + ',' + date2;
-    $("#desiredDeliveryDate").text(formatDate(desired_delivery_date));
+    $("#desiredDeliveryDate").val(formatDate(desired_delivery_date));
     
     $("#warehouseNm").text(warehouse_nm);
-    $("#purchMngId").text(purch_mng_id);
+    $("#purchMngId").val(purch_mng_id);
     
     gfModalPop("#layer1");
     
@@ -292,7 +292,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">배송희망날짜</th>
-                                <td id="desiredDeliveryDate"></td>
+                                <td id="desiredDeliveryDate"><input type="date" value="" style="box-sizing: border-box;border: 1px solid #bbc2cd;padding-left: 2px;height: 34px;width: 100%;" /></td>
                             </tr>
                             <tr>
                                 <th scope="row">창고명</th>
@@ -300,7 +300,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">담당자</th>
-                                <td id="purchMngId"></td>
+                                <td id="purchMngId"><input type="text" value="" style="box-sizing: border-box;border: 1px solid #bbc2cd;padding-left: 2px;height: 34px;width: 100%;"/></td>
                             </tr>
                         </tbody>
                     </table>
