@@ -43,7 +43,7 @@ function getPurchaseDirectionListResult(data, currentPage) {
   let totalCnt = $("#totcnt").val();
   console.log(totalCnt);
   // 페이지 네비게이션 생성
-  var paginationHtml = getPaginationHtml(currentPage, totalCnt, pageSizeOrderList, pageBlockSizeOrderList, 'getPurchaseDirectionList');
+  var paginationHtml = getPaginationHtml(currentPage, totalCnt, pageSizeOrderList, pageBlockSizeOrderList, 'searchPurchaseDirectionList');
   console.log("paginationHtml : " + paginationHtml);
 
   $("#purchDirListPagination").empty().append(paginationHtml);
@@ -120,12 +120,13 @@ function allowPurchase(orderCode) {
 }
 
 // 임원 발주지시서 검색 기능
-function searchPurchaseDirectionList() {
- var param = $('#purchaseDirectionListForm').serialize();
-  
+function searchPurchaseDirectionList(currentPage) {
+  var param = $('#purchaseDirectionListForm').serialize();
   console.log(param);
   
-  param += "&currentPage="+$('#currentPage').val();
+  currentPage = currentPage || 1;
+  
+  param += "&currentPage="+currentPage;
   param += "&pageSize="+pageSizeOrderList;
   
   var startD = $('#startDate').val();
@@ -142,7 +143,7 @@ function searchPurchaseDirectionList() {
   } 
   
   var resultCallback = function(data) {
-    getPurchaseDirectionListResult(data, $('#currentPage').val());
+    getPurchaseDirectionListResult(data, currentPage);
   };
   
   callAjax("/ecv/purchaseDirectionListInfo.do", "post", "text", true, param, resultCallback);

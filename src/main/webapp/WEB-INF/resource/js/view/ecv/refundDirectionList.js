@@ -43,7 +43,7 @@ function getRefundDirectionListResult(data, currentPage) {
   let totalCnt = $("#totcnt").val();
   console.log(totalCnt);
   // 페이지 네비게이션 생성
-  var paginationHtml = getPaginationHtml(currentPage, totalCnt, pageSizeOrderList, pageBlockSizeOrderList, 'getRefundDirectionList');
+  var paginationHtml = getPaginationHtml(currentPage, totalCnt, pageSizeOrderList, pageBlockSizeOrderList, 'searchRefundDirectionList');
   console.log("paginationHtml : " + paginationHtml);
 
   $("#refundDirListPagination").empty().append(paginationHtml);
@@ -119,12 +119,13 @@ function allowRefund(orderCode) {
   allowRefundModal.open();
 }
 
-function searchRefundDirectionList() {
-var param = $('#refundDirectionListForm').serialize();
-  
+function searchRefundDirectionList(currentPage) {
+  var param = $('#refundDirectionListForm').serialize();
   console.log(param);
   
-  param += "&currentPage="+$('#currentPage').val();
+  currentPage = currentPage || 1;
+  
+  param += "&currentPage="+currentPage;
   param += "&pageSize="+pageSizeOrderList;
   
   var startD = $('#startDate').val();
@@ -141,7 +142,7 @@ var param = $('#refundDirectionListForm').serialize();
   } 
   
   var resultCallback = function(data) {
-    getRefundDirectionListResult(data, $('#currentPage').val());
+    getRefundDirectionListResult(data, currentPage);
   };
   
   callAjax("/ecv/refundDirectionListInfo.do", "post", "text", true, param, resultCallback);

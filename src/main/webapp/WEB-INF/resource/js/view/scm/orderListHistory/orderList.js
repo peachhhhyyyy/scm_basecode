@@ -51,7 +51,7 @@ function forderListHistoryResult(data, currentPage) {
   var totalCnt = $("#totcnt").val();
   console.log(totalCnt);
   // 페이지 네비게이션 생성
-  var paginationHtml = getPaginationHtml(currentPage, totalCnt, pageSizeOrderList, pageBlockSizeOrderList, 'forderListHistory');
+  var paginationHtml = getPaginationHtml(currentPage, totalCnt, pageSizeOrderList, pageBlockSizeOrderList, 'searchOrderList');
 
   $("#orderListPagination").empty().append(paginationHtml);
 
@@ -290,10 +290,13 @@ function makeDeliveryDirectionResult(data) {
 }
 
 // 수주내역 검색 기능
-function searchOrderList() {
+function searchOrderList(currentPage) {
   var param = $('#orderListForm').serialize();
   console.log(param);
-  param += "&currentPage="+$('#currentPage').val();
+  
+  currentPage = currentPage || 1;
+  
+  param += "&currentPage="+currentPage;
   param += "&pageSize="+pageSizeOrderList;
   
   var startD = $('#startDate').val();
@@ -319,7 +322,7 @@ function searchOrderList() {
   var resultCallback = function(data) {
     // 수주내역 기본 조회 result 함수를 그대로 사용. HTML 내용만 바꿔주는 것이기 때문
     // pagenation도 그대로 사용 할 수 있음
-    forderListHistoryResult(data, $('#currentPage').val());
+    forderListHistoryResult(data, currentPage);
   };
   
   callAjax("/scm/listInfo.do", "post", "text", true, param, resultCallback);

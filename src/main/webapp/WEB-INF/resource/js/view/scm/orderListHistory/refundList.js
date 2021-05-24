@@ -49,7 +49,7 @@ function getRefundListResult(data, currentPage) {
   let totalCnt = $("#totcnt").val();
   console.log(totalCnt);
   // 페이지 네비게이션 생성
-  var paginationHtml = getPaginationHtml(currentPage, totalCnt, pageSizeRefundList, pageBlockSizerefundList, 'getRefundList');
+  var paginationHtml = getPaginationHtml(currentPage, totalCnt, pageSizeRefundList, pageBlockSizerefundList, 'searchRefundList');
 
   $("#refundListPagination").empty().append(paginationHtml);
 
@@ -109,12 +109,13 @@ function getRefundApproveResult(data) {
 }
 
 // 반품신청목록 검색 기능
-function searchRefundList() {
+function searchRefundList(currentPage) {
   var param = $('#refundListForm').serialize();
-  
   console.log(param);
   
-  param += "&currentPage="+$('#currentPage').val();
+  currentPage = currentPage || 1;
+  
+  param += "&currentPage="+currentPage;
   param += "&pageSize="+pageSizeRefundList;
   
   var startD = $('#startDate').val();
@@ -131,7 +132,7 @@ function searchRefundList() {
   } 
   
   var resultCallback = function(data) {
-    getRefundListResult(data, $('#currentPage').val());
+    getRefundListResult(data, currentPage);
   };
   
   callAjax("/scm/refundListInfo.do", "post", "text", true, param, resultCallback);
