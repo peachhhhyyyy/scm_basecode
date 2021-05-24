@@ -11,7 +11,7 @@
          ,   PL.supply_cd
          ,   SP.supply_nm
          ,   PD.prod_nm
-         ,   PD.m_ct_cd
+         ,   MC.m_ct_nm
          ,   PL.purch_qty
          ,   PD.purchase_price
          ,   PL.desired_delivery_date
@@ -26,6 +26,8 @@
           ON OD.product_cd = PD.product_cd
           LEFT JOIN tb_scm_supply as SP
           ON PD.supply_cd = SP.supply_cd
+          LEFT JOIN tb_scm_m_category MC
+          ON MC.m_ct_cd = PD.m_ct_cd
           LEFT JOIN tb_scm_warehouse as WH
           ON SP.warehouse_cd = WH.warehouse_cd
       ORDER BY purch_list_no DESC
@@ -122,10 +124,10 @@
 	        <choose>
             <when
               test="oname eq 'all'.toString()">
-              and (od.order_cd LIKE CONCAT('%', #{sname}, '%') or pd.m_ct_cd LIKE CONCAT('%', #{sname}, '%') or pd.prod_nm LIKE CONCAT('%', #{sname}, '%'))
+              and pd.m_ct_nm LIKE CONCAT('%', #{sname}, '%') or pd.prod_nm LIKE CONCAT('%', #{sname}, '%'))
             </when>
             <when test="oname eq 'brand'.toString()">
-              and pd.m_ct_cd LIKE CONCAT('%', #{sname}, '%')
+              and pd.m_ct_nm LIKE CONCAT('%', #{sname}, '%')
             </when>
 	          <when test="oname eq 'product'.toString()">
 	             and pd.prod_nm LIKE CONCAT('%', #{sname}, '%')
@@ -160,10 +162,10 @@
           <choose>
             <when
               test="oname eq 'all'.toString()">
-              and (od.order_cd LIKE CONCAT('%', #{sname}, '%') or pd.m_ct_cd LIKE CONCAT('%', #{sname}, '%') or pd.prod_nm LIKE CONCAT('%', #{sname}, '%'))
+              and pd.m_ct_nm LIKE CONCAT('%', #{sname}, '%') or pd.prod_nm LIKE CONCAT('%', #{sname}, '%'))
             </when>
             <when test="oname eq 'brand'.toString()">
-              and pd.m_ct_cd LIKE CONCAT('%', #{sname}, '%')
+              and pd.m_ct_nm LIKE CONCAT('%', #{sname}, '%')
             </when>
             <when test="oname eq 'product'.toString()">
                and pd.prod_nm LIKE CONCAT('%', #{sname}, '%')
