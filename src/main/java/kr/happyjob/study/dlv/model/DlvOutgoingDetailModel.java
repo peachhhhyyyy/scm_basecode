@@ -9,7 +9,7 @@ public class DlvOutgoingDetailModel {
 	// 주문코드
 	private String order_cd;
 	// 카테고리명(중분류)
-	private String m_ct_nm;
+	private String l_ct_nm;
 	// 제품명
 	private String prod_nm;
 	// 수량
@@ -49,11 +49,11 @@ public class DlvOutgoingDetailModel {
 	public void setOrder_cd(String order_cd) {
 		this.order_cd = order_cd;
 	}
-	public String getM_ct_nm() {
-		return m_ct_nm;
+	public String getL_ct_nm() {
+		return l_ct_nm;
 	}
-	public void setM_ct_nm(String m_ct_nm) {
-		this.m_ct_nm = m_ct_nm;
+	public void setL_ct_nm(String l_ct_nm) {
+		this.l_ct_nm = l_ct_nm;
 	}
 	public String getProd_nm() {
 		return prod_nm;
