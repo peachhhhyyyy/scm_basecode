@@ -154,11 +154,11 @@
       $("#btnSaveMainProduct").show();
       $("#btnDeleteMainProduct").hide();
       $("#product_cd").attr("readonly", false);
-      $("#prod_nm").attr("readonly", false);
+      $("#stock").attr("readonly", false);
       $("#supply_nm").attr("readonly", false);
       $("#warehouse_nm").attr("readonly", true);
       $("#product_cd").css("background", "#FFFFFF");
-      $("#prod_nm").css("background", "#FFFFFF");
+      $("#stock").css("background", "#FFFFFF");
       $("#supply_nm").css("background", "#FFFFFF");
       $("#warehouse_nm").css("background", "#FFFFFF");
       $("#detail").css("background", "#FFFFFF");
@@ -182,11 +182,11 @@
       $("#btnSaveMainProduct").show();
       $("#btnDeleteMainProduct").show();
       $("#product_cd").attr("readonly", true);
-      $("#prod_nm").attr("readonly", true);
+      $("#stock").attr("readonly", true);
       $("#supply_nm").attr("readonly", true);
       $("#warehouse_nm").attr("readonly", true);
       $("#product_cd").css("background", "#F5F5F5");
-      $("#prod_nm").css("background", "#F5F5F5");
+      $("#stock").css("background", "#F5F5F5");
       $("#supply_nm").css("background", "#F5F5F5");
       $("#warehouse_nm").css("background", "#F5F5F5");
       $("#detail").css("background", "#FFFFFF");

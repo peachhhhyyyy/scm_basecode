@@ -107,6 +107,18 @@ WHERE  PD.product_cd = #{product_cd}
     
     </delete>
     
+    <!-- 제품정보 수정 -->
+    <update id="updateMainProduct" parameterType="java.util.Map">
+      UPDATE tb_scm_product
+         SET prod_nm = #{prod_nm},
+             supply_cd = #{supply_cd},
+             purchase_price = #{purchase_price},
+             price = #{price},
+             warehouse_cd = #{warehouse_cd},
+             detail = #{detail}
+       WHERE product_cd = #{product_cd}
+    </update>
+    
     <!-- 창고명, 창고코드 조회 -->
     <select id="getWarehouseInfo" resultType="kr.happyjob.study.scm.model.GetWarehouseModel">
       SELECT WH.warehouse_nm as name
