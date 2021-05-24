@@ -49,6 +49,7 @@
 			JOIN tb_userinfo ui ON ui.loginID = pl.scm_id
 			JOIN tb_scm_product prod ON prod.product_cd = pl.product_cd
 			WHERE 1=1
+				AND pl.return_qty IS NULL
 			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
 				AND DATE_FORMAT(pl.direction_date, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
 			</if>
