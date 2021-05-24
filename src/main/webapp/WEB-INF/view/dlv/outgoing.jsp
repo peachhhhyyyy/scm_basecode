@@ -88,7 +88,7 @@
 	                }
 	                
 	                var resultCallback = function(data) {
-	                	fSearchOrderListResult(data, currentPage);
+	                	fOrderListResult(data, currentPage);
 	                };
 	        
 	                //Ajax실행 방식
@@ -96,28 +96,6 @@
 	                callAjax("/dlv/outgoingList.do", "post", "text", true, param, resultCallback);
 				}
 				
-			    // 검색 조건 콜백함수
-	            function fSearchOrderListResult(data, currentPage) {
-	                
-			    	console.log(data);
-	                
-	                // 기존 목록 삭제
-	                $('#outgoingList').empty();
-	                $("#outgoingList").append(data);
-	        
-	                // 총 개수 추출
-	                var totcnt = $("#totcnt").val();
-	        
-	                // 페이지 네비게이션 생성
-	                var paginationHtml = getPaginationHtml(currentPage, totcnt,
-	                        pageSizeinfo, pageBlockSizeinquiry, 'fSearchOrderList');
-	        
-	                /* console.log("paginationHtml : " + paginationHtml); */
-	        
-	                $("#lisOutgoingPagination").empty().append(paginationHtml);
-	        
-	            }
-			    
 				/* 출하내역 상세 조회*/
 				function fOrderDetailList(order_cd) {
 					
