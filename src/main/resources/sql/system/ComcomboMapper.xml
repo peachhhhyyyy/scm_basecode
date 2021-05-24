@@ -83,21 +83,4 @@
              , supply_nm as name
        FROM tb_scm_supply
   </select>
-  
-  <!-- 상호명 조회 -->
-  <select id ="selectMClist" resultType="kr.happyjob.study.system.model.comcombo">
-    /*kr.happyjob.study.system.dao.ComnComboDao.selectMClist*/
-      SELECT m_ct_cd as cd
-             , m_ct_nm as name
-       FROM tb_scm_m_category
-  </select>	
-  
-  <!-- 품목명 조회 -->
-  <select id ="selectLClist" resultType="kr.happyjob.study.system.model.comcombo">
-    /*kr.happyjob.study.system.dao.ComnComboDao.selectLClist*/
-      SELECT l_ct_cd as cd
-             , l_ct_nm as name
-       FROM tb_scm_l_category
-  </select>
-  
 </mapper>

@@ -30,11 +30,5 @@ public interface ComnComboDao {
 	
 	/** 공급처명 조회*/
 	public List<comcombo> selectSPlist(Map<String, Object> paramMap);
-	
-	/** 상호명 조회*/
-  public List<comcombo> selectLClist(Map<String, Object> paramMap);
-  
-  /** 품목명 조회*/
-  public List<comcombo> selectMClist(Map<String, Object> paramMap);
-	
+
 }
