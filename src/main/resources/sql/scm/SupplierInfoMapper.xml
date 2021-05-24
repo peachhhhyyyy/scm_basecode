@@ -20,12 +20,7 @@
       <choose>
         <when test="oname eq 'all'.toString()">
             AND (SP.supply_nm LIKE CONCAT('%', #{sname}, '%')
-              or SP.supply_cd LIKE CONCAT('%', #{sname}, '%') 
-              or SP.supply_mng_nm LIKE CONCAT('%', #{sname}, '%')
-              or SP.tel LIKE CONCAT('%', #{sname}, '%')   
-              or SP.mng_tel LIKE CONCAT('%', #{sname}, '%')
-              or SP.email LIKE CONCAT('%', #{sname}, '%')
-              or WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%'))
+              or SP.supply_mng_nm LIKE CONCAT('%', #{sname}, '%'))
         </when>
         <when test= "(oname eq 'supply_nm'.toString())">
             AND SP.supply_nm LIKE concat('%', #{sname}, '%')
@@ -48,13 +43,8 @@
       <if test="(sname != null) and (!sname.equals(''))">
       <choose>
         <when test="oname eq 'all'.toString()">
-            AND (SP.supply_nm LIKE CONCAT('%', #{sname}, '%')
-              or SP.supply_cd LIKE CONCAT('%', #{sname}, '%') 
-              or SP.supply_mng_nm LIKE CONCAT('%', #{sname}, '%')
-              or SP.tel LIKE CONCAT('%', #{sname}, '%')   
-              or SP.mng_tel LIKE CONCAT('%', #{sname}, '%')
-              or SP.email LIKE CONCAT('%', #{sname}, '%')
-              or WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%'))
+            AND (SP.supply_nm LIKE CONCAT('%', #{sname}, '%')            
+              or SP.supply_mng_nm LIKE CONCAT('%', #{sname}, '%'))
         </when>
         <when test= "(oname eq 'supply_nm'.toString())">
             AND SP.supply_nm LIKE concat('%', #{sname}, '%')
