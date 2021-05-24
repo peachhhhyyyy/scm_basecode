@@ -36,7 +36,10 @@
 			<span>제품명 : </span><span>${productInfo.productName}</span>
 		</div>
 		<div>
-			<span>품목명 : </span><span>${productInfo.middleCategory}</span>
+			<span>상호명 : </span><span>${productInfo.middleCategory}</span>
+		</div>
+		<div>
+			<span>공급처명 : </span><span>${productInfo.supplyName}</span>
 		</div>
 		<div>
 			<span>총 재고 개수 : </span><span>${productInfo.productCount}</span>

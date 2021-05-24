@@ -49,7 +49,7 @@
 			<span>제품명 : </span><span>${deliveryInfo.productName}</span>
 		</div>
 		<div>
-			<span>품목명 : </span><span>${deliveryInfo.middleCategory}</span>
+			<span>상호명 : </span><span>${deliveryInfo.middleCategory}</span>
 		</div>
 		<div>
 			<span>공급처명 : </span><span>${deliveryInfo.supplyName}</span>
