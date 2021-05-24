@@ -13,7 +13,7 @@
          , sup.supply_nm
          , sup.supply_cd
          , pro.prod_nm
-         , pro.m_ct_cd
+         , pro.m_ct_cd // 수정
       FROM 
            tb_scm_purchase_list pur
            LEFT JOIN tb_order ord

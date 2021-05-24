@@ -334,9 +334,9 @@
                 <td><input type="text" class="inputTxt p100" name="supply_nm" id="supply_nm" /></td>
               </tr>
               <tr>
-                <th scope="row">회사코드</th>
+                <th scope="row">공급처코드</th>
                 <td><input type="text" class="inputTxt p100" name="supply_cd" id="supply_cd" /></td>
-                <th scope="row">브랜드</th>
+                <th scope="row">상호명</th>
                 <td><input type="text" class="inputTxt p100" name="m_ct_cd" id="m_ct_cd" /></td>
               </tr>
               <tr>
