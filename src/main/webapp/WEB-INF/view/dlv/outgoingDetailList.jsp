@@ -85,6 +85,7 @@
 					<c:choose>
 						<c:when test="${bottomList.state eq '15'}">
 							<td>
+							    <input type="hidden" id="completeState" value="${bottomList.state}"/>
 								<select name="state" disabled style="width: 75px;">
 									<option value="14">배송중</option>
 									<option value="15" selected>배송완료</option>
