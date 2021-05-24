@@ -30,9 +30,7 @@
                  <when test="option eq 'all'.toString()">
                    
                    AND (
-                        pur.order_cd LIKE CONCAT('%', #{keyword},'%') 
-                        OR sup.supply_nm LIKE CONCAT('%', #{keyword}, '%')
-                        OR sup.supply_cd LIKE CONCAT('%', #{keyword}, '%')
+                           sup.supply_nm LIKE CONCAT('%', #{keyword}, '%')
                         OR pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
                         OR pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
                    )
@@ -40,6 +38,15 @@
                     AND DATE(pur.return_date) = (#{date})
                    </if>
                    
+                 </when>
+                 
+                 <when test="option eq 'supply'.toString()">
+                   AND  sup.supply_nm LIKE CONCAT('%', #{keyword}, '%')
+                   
+                   <if test="date != ''">
+                     AND DATE(pur.return_date) = (#{date})
+                   </if>
+                 
                  </when>
                 
                  <when test="option eq 'category'.toString()">
@@ -95,21 +102,31 @@
            ON ord.product_cd = pro.product_cd
            LEFT JOIN tb_scm_supply sup
            ON pro.supply_cd = sup.supply_cd
+           LEFT JOIN tb_scm_m_category  cat
+           ON pro.m_ct_cd = cat.m_ct_cd
            <where>
              <if test="keyword != ''">
                <choose>
-                 <when test="option eq 'all'.toString() ">
+                 <when test="option eq 'all'.toString()">
                    
-                   AND (pur.order_cd LIKE CONCAT('%', #{keyword},'%') 
-                   OR sup.supply_nm LIKE CONCAT('%', #{keyword}, '%')
-                   OR sup.supply_cd LIKE CONCAT('%', #{keyword}, '%')
-                   OR pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
-                   OR pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
+                   AND (
+                           sup.supply_nm LIKE CONCAT('%', #{keyword}, '%')
+                        OR pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
+                        OR pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
                    )
                    <if test="date != ''">
                     AND DATE(pur.return_date) = (#{date})
                    </if>
                    
+                 </when>
+                 
+                 <when test="option eq 'supply'.toString()">
+                   AND  sup.supply_nm LIKE CONCAT('%', #{keyword}, '%')
+                   
+                   <if test="date != ''">
+                     AND DATE(pur.return_date) = (#{date})
+                   </if>
+                 
                  </when>
                 
                  <when test="option eq 'category'.toString()">

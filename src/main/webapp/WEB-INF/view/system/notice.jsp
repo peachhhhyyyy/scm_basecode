@@ -7,6 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>JobKorea</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
 
   // 페이징 설정
@@ -93,8 +94,8 @@
     // 공지사항 검색 버튼 이벤트
     $('#search_button').on('click', function(){
       
-      selectList();
-      
+      //selectList();
+      validateSearchForm();      
     } );
     
     // 공지사항 작성 모달 이벤트
@@ -141,12 +142,6 @@
       
     })
     
-    // 공지사항 단건 조회 닫을 때 새로 고침
-    $('#closePop_button').click(function() {
-      
-      window.location.reload();
-      
-    })
     
     // onload 끝
   });
@@ -154,28 +149,29 @@
  
 
    /* 공지사항 목록 조회 함수 */
-  function selectList(currentPage, serchOptions) {
+  function selectList(currentPage, param) {
      
-    var option = $('#options').val();
-    var keyword = $('#keyword').val();
-    var formerDate = $("#datetimepicker1").find("input").val();
-    var latterDate = $("#datetimepicker3").find("input").val();
-    
+    console.log('파리미터 확인1',param)
     currentPage = currentPage || 1;
 
-    console.log("currentPage : " + currentPage);
+    console.log("현재페이지 : " + currentPage);
     
-
-    if (keyword || formerDate || latterDate) {
+    if (param) {
       
+      param.currentPage = currentPage;
+      param.pageSize = pageSize;
+      /*
       var param = {
+          
       option : option,
       keyword : keyword,
       formerDate : formerDate,
       latterDate : latterDate,
       currentPage : currentPage,
       pageSize : pageSize
-      }
+      
+      } */
+      console.log('파리미터 확인2',param)
 
     } else {
       
@@ -183,7 +179,6 @@
       currentPage : currentPage,
       pageSize : pageSize
       }
-
     }
 
     var resultCallback = function(result) {
@@ -543,7 +538,54 @@
       }
     }
     
-    // 
+    // 검색폼 검증
+    function validateSearchForm() {
+      
+      var option = $('#options').val();
+      var keyword = $('#keyword').val();
+      var formerDate = $("#datetimepicker1").find("input").val();
+      var latterDate = $("#datetimepicker3").find("input").val();
+      var currentPage = 1;
+      var today = new Date();
+      
+      // JavsScript는 월이 0부터 시작하므로 +1
+      // 오늘 날짜와 latterDate를 비교하기 위해서 형식 맞춰줘야 함
+      today = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) 
+               + '-' + ('0' + today.getDate()).slice(-2);
+     
+      console.log('오늘확인', today)
+      console.log('latterDate확인', latterDate)
+      console.log('날짜비교',latterDate > today);
+      
+     
+      if(formerDate && !latterDate) {
+        swal('기간을 설정해 주세요');
+        return false;
+      }
+      else if(!formerDate && latterDate) {
+        swal('기간을 설정해 주세요');
+        return false;
+      }
+      else if(formerDate > latterDate) {
+        swal('기간을 확인해 주세요');
+        return false;
+      }
+      else if(latterDate > today) {
+        swal('오늘 이후는 검색할 수 없습니다');
+        return false;
+      }
+      else {
+        
+        var param = {
+            option : option,
+            keyword: keyword,
+            formerDate : formerDate,
+            latterDate : latterDate,
+        }
+        selectList(currentPage, param);
+        
+      }
+    }
     
 </script>
 </head>
@@ -579,7 +621,7 @@
                       <select style="width: 90px; height: 34px;" id="options">
                         <option value="all" selected>전체</option>
                         <option value="title" id="title">제목</option>
-                        <option value="title" id="title">제목</option>
+                        <option value="content" id="content">내용</option>
                       </select> <input type="text" class="form-control" aria-label="..." id="keyword" autocomplete="off">
                     </div>
                   </div>
@@ -613,7 +655,6 @@
                   <!-- // datepicker -->
                   <!-- button -->
                   <div class="btn-group" role="group" aria-label="...">
-                    <!--  <button type="button" class="btn btn-default" onclick="selectList()">검색</button>-->
                     <button type="button" class="btn btn-default" id="search_button">검색</button>
                   </div>
                   <!-- // button -->

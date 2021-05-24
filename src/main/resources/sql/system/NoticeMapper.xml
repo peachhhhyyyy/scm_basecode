@@ -19,17 +19,24 @@
        <choose>
         <when test="option eq 'all'.toString()">
          AND (title LIKE CONCAT('%', #{keyword}, '%') or content LIKE CONCAT('%', #{keyword}, '%'))
+          <if test="formerDate!= ''">
+            AND DATE(date) BETWEEN (#{formerDate}) AND (#{latterDate})
+          </if>
+          
         </when>
         <when test="option eq 'title'.toString()">
           AND title LIKE CONCAT('%', #{keyword}, '%')
+        </when>
+        <when test="option eq 'content'.toString()">
+          AND content LIKE CONCAT('%', #{keyword}, '%')
         </when>
        </choose>
      </if>
      
      <if test="keyword == ''">
-      <if test="formerDate != ''">
-          
-      </if>
+       <if test="formerDate != ''">
+        AND DATE(date) BETWEEN (#{formerDate}) AND (#{latterDate})
+       </if>
      </if>
   ORDER BY notice_id DESC
      LIMIT #{pageIndex}, #{pageSize}  
@@ -48,21 +55,32 @@
   <!-- 공지사항 목록(검색) 총 개수 조회 -->
   <select id="countConditionList" resultType="int">
   
-     SELECT 
-            COUNT(notice_id)
-      FROM tb_scm_notice
+     SELECT COUNT(notice_id)
+       FROM tb_scm_notice
       WHERE (auth = #{auth} or auth = 0)
-       <if test="keyword != ''">
-       <choose>
-        <when test="option eq 'all'.toString()">
-         AND (title LIKE CONCAT('%', #{keyword}, '%') or content LIKE CONCAT('%', #{keyword}, '%'))
-        </when>
-        <when test="option eq 'title'.toString()">
-          AND title LIKE CONCAT('%', #{keyword}, '%')
-        </when>
-       </choose>
-     </if>
-     
+           <if test="keyword != ''">
+             <choose>
+              <when test="option eq 'all'.toString()">
+               AND (title LIKE CONCAT('%', #{keyword}, '%') or content LIKE CONCAT('%', #{keyword}, '%'))
+                <if test="formerDate!= ''">
+                  AND DATE(date) BETWEEN (#{formerDate}) AND (#{latterDate})
+                </if>
+                
+              </when>
+              <when test="option eq 'title'.toString()">
+                AND title LIKE CONCAT('%', #{keyword}, '%')
+              </when>
+              <when test="option eq 'content'.toString()">
+                AND content LIKE CONCAT('%', #{keyword}, '%')
+              </when>
+             </choose>
+           </if>
+           
+           <if test="keyword == ''">
+             <if test="formerDate != ''">
+              AND DATE(date) BETWEEN (#{formerDate}) AND (#{latterDate})
+             </if>
+           </if>     
   </select>
   
   <!-- 공지사항 단건 조회 -->

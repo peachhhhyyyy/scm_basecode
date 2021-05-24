@@ -26,7 +26,7 @@
                     </c:if>
                     <c:if  test="${ refund.return_date eq null}">
                       <td>
-                        <a class="btnType3 color2" href="javascript:insertReturnDate('${refund.purch_list_no}', '${currentPage}')"><span>반품완료</span></a>
+                        <a class="btnType3 color2" href="javascript:insertReturnDate('${refund.purch_list_no}', '${currentPage}')"><span>반품</span></a>
                       </td>
                     </c:if>
                     <c:if  test="${ refund.return_date ne null}">
