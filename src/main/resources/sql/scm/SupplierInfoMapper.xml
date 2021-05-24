@@ -19,7 +19,13 @@
       <if test="(sname != null) and (!sname.equals(''))">
       <choose>
         <when test="oname eq 'all'.toString()">
-            AND (SP.supply_nm LIKE CONCAT('%', #{sname}, '%') or SP.supply_mng_nm LIKE CONCAT('%', #{sname}, '%'))
+            AND (SP.supply_nm LIKE CONCAT('%', #{sname}, '%')
+              or SP.supply_cd LIKE CONCAT('%', #{sname}, '%') 
+              or SP.supply_mng_nm LIKE CONCAT('%', #{sname}, '%')
+              or SP.tel LIKE CONCAT('%', #{sname}, '%')   
+              or SP.mng_tel LIKE CONCAT('%', #{sname}, '%')
+              or SP.email LIKE CONCAT('%', #{sname}, '%')
+              or WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%'))
         </when>
         <when test= "(oname eq 'supply_nm'.toString())">
             AND SP.supply_nm LIKE concat('%', #{sname}, '%')
@@ -42,7 +48,13 @@
       <if test="(sname != null) and (!sname.equals(''))">
       <choose>
         <when test="oname eq 'all'.toString()">
-            AND (SP.supply_nm LIKE CONCAT('%', #{sname}, '%') or SP.supply_mng_nm LIKE CONCAT('%', #{sname}, '%'))
+            AND (SP.supply_nm LIKE CONCAT('%', #{sname}, '%')
+              or SP.supply_cd LIKE CONCAT('%', #{sname}, '%') 
+              or SP.supply_mng_nm LIKE CONCAT('%', #{sname}, '%')
+              or SP.tel LIKE CONCAT('%', #{sname}, '%')   
+              or SP.mng_tel LIKE CONCAT('%', #{sname}, '%')
+              or SP.email LIKE CONCAT('%', #{sname}, '%')
+              or WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%'))
         </when>
         <when test= "(oname eq 'supply_nm'.toString())">
             AND SP.supply_nm LIKE concat('%', #{sname}, '%')
@@ -92,7 +104,6 @@
            , SP.tel as tel
            , SP.email as email
            , WH.warehouse_cd as warehouse_cd
-           , WH.warehouse_nm as warehouse_nm
       FROM tb_scm_supply SP
       LEFT OUTER JOIN tb_scm_warehouse WH
         ON WH.warehouse_cd = SP.warehouse_cd
@@ -123,6 +134,7 @@
            , mng_tel = #{mng_tel}
            , tel = #{tel}
            , email = #{email}
+           , warehouse_cd = #{warehouse_cd}
     WHERE supply_cd = #{supply_cd}
    </update>
    
