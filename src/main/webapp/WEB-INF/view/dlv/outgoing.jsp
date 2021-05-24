@@ -99,19 +99,16 @@
 				/* 출하내역 상세 조회*/
 				function fOrderDetailList(order_cd) {
 					
-					// 필요하기 전까지 숨기기
-                    $('#submitBtn').show();
-                    //$('#detailList').show();
-				
-				
+				  $('#submitBtn').show();
+				  
 				  var param = {
 				  		  order_cd : order_cd,
 				  }
 				
 				  var resultCallback = function(data) {
 					  fOrderListDetailResult(data);
+				   
 				  };
-				
 				  callAjax("/dlv/outgoingDetailList.do", "post", "text", true, param, resultCallback);
 				}
 				
@@ -132,6 +129,7 @@
 				    // bottomList
 				    var $outgoingDetailListBottom = $data.find("#outgoingDetailListBottom");
 				    $("#outgoingDetailListBottom").append($outgoingDetailListBottom.children());
+				    
 				}
 			    
 				
@@ -165,6 +163,7 @@
 	                    
 	                    } else if (checkValue.state == "15"){
 	                    	
+	                    	
 	                    	var param = $('#submitForm').serialize();
                             
                             var resultCallback = function(data) {
@@ -172,11 +171,10 @@
                             };
                             
                             callAjax("/dlv/submitDlvInfo.do", "post", "text", true, param, resultCallback);
-	                        
-	                    } else {
+	                    } else if($('#completeState').val() === "15") {
 	                    	swal("\n처리된 건입니다.").then(function(){
                                 location.href="/dlv/outgoing.do";
-                                })
+                            })
 	                    }
 					}
 					
