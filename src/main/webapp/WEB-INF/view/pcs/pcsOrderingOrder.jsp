@@ -38,7 +38,7 @@
     });
   }
 
-  /** 그룹코드 모달 실행 */
+  /** 발주버튼 클릭 시 모달 실행 */
   function fPopModalPcsOrderingOrder(purch_list_no, supply_nm, prod_nm, m_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id) {
  
     // 신규 저장
@@ -49,6 +49,17 @@
     }
   }
 
+  /** 제품 클릭 시 모달실행 */
+  function fPopModalPcsOrderingOrder2(purch_list_no, supply_nm, prod_nm, m_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id) {
+    
+    // 신규 저장
+    if (purch_list_no == null || purch_list_no == "") {
+    } else {
+      // 발주서 버튼 클릭 시 화면 출력
+      fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id);
+    }
+  }
+  
   /** 발주지시서 목록 조회 */
   function fListPcsOrderingOrder(currentPage) {
     currentPage = currentPage || 1;
@@ -263,6 +274,73 @@
         </div>
         <!-- 모달팝업 -->
         <div id="layer1" class="layerPop layerType2" style="width: 600px;">
+            <dl>
+                <dt>
+                    <strong>발주서</strong>
+                </dt>
+                <dd class="content">
+                    <!-- s : 여기에 내용입력 -->
+                    <table class="row">
+                        <caption>caption</caption>
+                        <colgroup>
+                            <col width="120px">
+                            <col width="*">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th scope="row">발주코드</th>
+                                <td id="purchListNo"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">회사명</th>
+                                <td id="supplyNm"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">제품명</th>
+                                <td id="prodNm"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">브랜드명</th>
+                                <td id="mCtCd"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">제품수량</th>
+                                <td id="purchQty"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">금액</th>
+                                <td id="purchasePrice"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">발주날짜</th>
+                                <td id="purchaseDate"><input type="date" value="" id="purchaseDateValue" style="box-sizing: border-box;border: 1px solid #bbc2cd;padding-left: 2px;height: 34px;width: 100%;" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">배송희망날짜</th>
+                                <td id="desiredDeliveryDate"><input type="date" value="" id="desiredDeliveryDateValue" style="box-sizing: border-box;border: 1px solid #bbc2cd;padding-left: 2px;height: 34px;width: 100%;" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">창고명</th>
+                                <td id="warehouseNm"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">담당자</th>
+                                <td id="purchMngId"><input type="text" value="" id="purchMngIdValue" style="box-sizing: border-box;border: 1px solid #bbc2cd;padding-left: 2px;height: 34px;width: 100%;"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- e : 여기에 내용입력 -->
+                    <div class="btn_areaC mt30">
+                        <a href="" class="btnType blue" id="btnSubmitPurchBtn" name="btn"><span>전송</span></a>
+                        <a href="" class="btnType gray" id="btnClosePurchBtn" name="btn"><span>취소</span></a>
+                    </div>
+                </dd>
+            </dl>
+            <a href="" class="closePop"><span class="hidden">닫기</span></a>
+        </div>
+        <!--// 모달팝업 -->
+        <!-- 모달팝업 -->
+        <div id="layer2" class="layerPop layerType2" style="width: 600px;">
             <dl>
                 <dt>
                     <strong>발주서</strong>

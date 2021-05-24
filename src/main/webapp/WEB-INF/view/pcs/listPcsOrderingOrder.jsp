@@ -11,7 +11,7 @@
     <tr>
       <td>${list.purch_list_no}</td>
       <td>${list.supply_nm}</td>
-      <td>${list.prod_nm}</td>
+      <td><a href="javascript:fPopModalPcsOrderingOrder2('${list.purch_list_no}','${list.supply_nm}','${list.prod_nm}','${list.m_ct_cd}','${list.purch_qty}','${list.purchase_price}','${list.desired_delivery_date}','${list.warehouse_nm}','${list.purch_mng_id}','${list.order_cd}','${list.supply_cd}','${list.scm_id}');">${list.prod_nm}</a></td>
       <td>${list.m_ct_cd}</td>
       <td>${list.purch_qty}</td>
       <td>${list.purchase_price}</td>
