@@ -155,17 +155,13 @@
       $("#btnDeleteMainProduct").hide();
       $("#product_cd").attr("readonly", false);
       $("#prod_nm").attr("readonly", false);
-      $("#l_ct_nm").attr("readonly", false);
-      $("#m_ct_nm").attr("readonly", false);
       $("#supply_nm").attr("readonly", false);
-      $("#purchase_price").attr("readonly", false);
-      $("#price").attr("readonly", false);
-      $("#warehouse_cd").attr("readonly", true);
       $("#warehouse_nm").attr("readonly", true);
-      $("#stock").attr("readonly", false);
-      $("#detail").attr("readonly", false);
-      $("#thumbnail").attr("readonly", false);
-      $("#tempImg").attr("readonly", false);
+      $("#product_cd").css("background", "#FFFFFF");
+      $("#prod_nm").css("background", "#FFFFFF");
+      $("#supply_nm").css("background", "#FFFFFF");
+      $("#warehouse_nm").css("background", "#FFFFFF");
+      $("#detail").css("background", "#FFFFFF");
       $("#thumbnail").show();
     } else {
       $("#product_cd").val(object.product_cd);
@@ -183,19 +179,17 @@
       $("#thumbnail").val("");
       $("#tempImg").attr("src", object.file_relative_path);
 
-      $("#btnSaveMainProduct").hide();
+      $("#btnSaveMainProduct").show();
       $("#btnDeleteMainProduct").show();
       $("#product_cd").attr("readonly", true);
       $("#prod_nm").attr("readonly", true);
-      $("#l_ct_nm").attr("readonly", true);
-      $("#m_ct_nm").attr("readonly", true);
       $("#supply_nm").attr("readonly", true);
-      $("#purchase_price").attr("readonly", true);
-      $("#price").attr("readonly", true);
-      $("#warehouse_cd").attr("readonly", true);
       $("#warehouse_nm").attr("readonly", true);
-      $("#stock").attr("readonly", true);
-      $("#detail").attr("readonly", true);
+      $("#product_cd").css("background", "#F5F5F5");
+      $("#prod_nm").css("background", "#F5F5F5");
+      $("#supply_nm").css("background", "#F5F5F5");
+      $("#warehouse_nm").css("background", "#F5F5F5");
+      $("#detail").css("background", "#FFFFFF");
       $("#thumbnail").hide();
       
       selectSupplierName();
