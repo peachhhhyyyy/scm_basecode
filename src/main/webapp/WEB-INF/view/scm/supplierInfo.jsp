@@ -425,16 +425,14 @@
                                  <col width="15%">
                                  <col width="15%">
                                  <col width="15%">
-                                 <col width="15%">
                              </colgroup>
                         <thead>
                              <tr>
                                 <th scope="col">공급처명</th>
                                 <th scope="col">제품코드</th>
                                 <th scope="col">제품명</th>
-                                <th scope="col">모델명</th>
-                                <th scope="col">재고현황(개)</th>
-                                <th scope="col">장비구매액(원)</th>
+                                <th scope="col">품목명</th>
+                                <th scope="col">장비구매액(원)/EA</th>
                              </tr>
                         </thead>
                         <tbody id="listSupplierProduct">
