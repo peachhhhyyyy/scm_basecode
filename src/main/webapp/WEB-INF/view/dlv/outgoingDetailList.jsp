@@ -21,7 +21,7 @@
                 <tr>
                     <td><input type="hidden" name="ship_list_no" value="${topList.ship_list_no}"/>${topList.ship_list_no}</td>
                     <td><input type="hidden" name="order_cd" value="${topList.order_cd}"/>${topList.order_cd}</td>
-                    <td>${topList.m_ct_nm}</td>
+                    <td>${topList.l_ct_nm}</td>
                     <td>${topList.prod_nm}</td>
                     <td>${topList.order_cnt}</td>
                     <td>${topList.name_customer}</td>
