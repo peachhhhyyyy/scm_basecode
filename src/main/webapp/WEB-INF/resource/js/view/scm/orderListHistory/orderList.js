@@ -68,17 +68,17 @@ function fnotYetDeposit() {
 
 // 재고량이 주문량보다 적을 때, 배송버튼 누르면 나타나는 경고창
 function fnotEnoughStock() {
-  swal("재고량이 주문 수량보다 적습니다.\n발주버튼을 눌러 재고 입고를 진행해주세요.");
+  swal("발주버튼을 눌러 재고 입고를 진행해주세요.");
   return;
 };
 
 function fgoToDeliveryBtn() {
-  swal("재고량이 주문 수량보다 많습니다.\n배송버튼을 눌러 배송을 진행해주세요.");
+  swal("배송버튼을 눌러 배송을 진행해주세요.");
   return;
 };
 
 function fgoToDeliveryBtn2() {
-  swal("입고가 완료되었습니다.\n배송버튼을 눌러 배송을 진행해주세요.");
+  swal("배송버튼을 눌러 배송을 진행해주세요.");
   return;
 };
 
