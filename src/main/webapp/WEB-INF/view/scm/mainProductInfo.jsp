@@ -157,7 +157,8 @@
       $("#supply_nm").attr("readonly", false);
       $("#purchase_price").attr("readonly", false);
       $("#price").attr("readonly", false);
-      $("#warehouse_nm").attr("readonly", false);
+      $("#warehouse_cd").attr("readonly", true);
+      $("#warehouse_nm").attr("readonly", true);
       $("#stock").attr("readonly", false);
       $("#detail").attr("readonly", false);
       $("#thumbnail").attr("readonly", false);
@@ -188,6 +189,7 @@
       $("#supply_nm").attr("readonly", true);
       $("#purchase_price").attr("readonly", true);
       $("#price").attr("readonly", true);
+      $("#warehouse_cd").attr("readonly", true);
       $("#warehouse_nm").attr("readonly", true);
       $("#stock").attr("readonly", true);
       $("#detail").attr("readonly", true);
