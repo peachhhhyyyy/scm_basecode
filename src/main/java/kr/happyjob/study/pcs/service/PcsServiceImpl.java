@@ -36,6 +36,12 @@ public class PcsServiceImpl implements PcsService {
     return totalCount;
   }
 
+  /** 발주지시서 상태 변경 */
+  public int updateState(Map<String, Object> paramMap) {
+    int pcsmodel = pcsDao.updateState(paramMap);
+    return pcsmodel;
+  }
+  
   /** 발주서 전송 누르고 조회 */
   public PcsModel selectPurchBtn(Map<String, Object> paramMap) {
     PcsModel pcsmodel = pcsDao.selectPurchBtn(paramMap);
