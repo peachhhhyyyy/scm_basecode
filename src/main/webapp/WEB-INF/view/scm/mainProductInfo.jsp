@@ -344,9 +344,10 @@
               <div class="MainProductList">
                 <div class="conTitle" style="margin: 0 25px 10px 0; float: left;">
                            <select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
+                           <option value="all">전체</option>
                            <option value="prod_nm">제품명</option>
-                           <option value="l_ct_nm">모델명</option>
-                           <option value="m_ct_nm">제조사</option>
+                           <option value="l_ct_nm">품목명</option>
+                           <option value="m_ct_nm">상호명</option>
                         </select>
                         <input type="text" style="width: 300px; height: 30px;" id="sname" name="sname">
                             <a href="" class="btnType blue" id="searchBtn" name="btn"> 
@@ -369,11 +370,11 @@
                     <tr>
                       <th scope="col">제품코드</th>
                       <th scope="col">제품명</th>
-                      <th scope="col">모델명</th>
-                      <th scope="col">제조사</th>
+                      <th scope="col">품목명</th>
+                      <th scope="col">상호명</th>
                       <th scope="col">창고명</th>
-                      <th scope="col">장비구매액(원)</th>
-                      <th scopt="col">단가(원)</th>
+                      <th scope="col">장비구매액(원)/EA</th>
+                      <th scopt="col">단가(원)/EA</th>
                       <!-- <th scopt="col">비고</th> -->
                     </tr>
                   </thead>
@@ -420,24 +421,24 @@
                   <img id="tempImg" style="object-fit: cover; max-width:100%; max-hight:100%;" src="/images/admin/comm/no_image.png" alt="제품사진미리보기">
                  </td>   
                 
-                 <th scope="row">모델명<span class="font_red">*</span></th>
+                 <th scope="row">품목명<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100" 
-                  name="l_ct_nm" id="l_ct_nm" maxlength="50" placeholder="모델명"/></td>
-                  <th scope="row">제조사<span class="font_red">*</span></th>
+                  name="l_ct_nm" id="l_ct_nm" maxlength="50" placeholder="품목명"/></td>
+                  <th scope="row">상호명<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100" 
-                  name="m_ct_nm" id="m_ct_nm" maxlength="50" placeholder="제조사"/></td>
+                  name="m_ct_nm" id="m_ct_nm" maxlength="50" placeholder="상호명"/></td>
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
                 <td>
                   <input type="hidden" name="supply_nm" id="supply_nm">
                   <select id="supply_cd" name="supply_cd" onChange="javascript:selectSupplierName()"></select></td>
                   </tr>
                   <tr>
-                <th scope="row">장비구매액 <span class="font_red">*</span></th>
+                <th scope="row">장비구매액(원)/EA <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="purchase_price" id="purchase_price" maxlength="11" placeholder="장비구매액"/>원</td>
-                <th scope="row">단가<span class="font_red">*</span></th>
+                  name="purchase_price" id="purchase_price" maxlength="11" placeholder="장비구매액"/></td>
+                <th scope="row">단가(원)/EA<span class="font_red">*</span></th>
                 <td colspan="3"><input type="text" class="inputTxt p100" 
-                  name="price" id="price" maxlength="11" placeholder="단가"/>원</td>
+                  name="price" id="price" maxlength="11" placeholder="단가"/></td>
               </tr>
               <tr> 
                 <th scope="row">창고명 <span class="font_red">*</span></th>
@@ -445,7 +446,7 @@
                   <input type="hidden" name="warehouse_cd" id="warehouse_cd">
                   <input type="text" class="inputTxt p100"
                   name="warehouse_nm" id="warehouse_nm" placeholder="창고명"/></td>
-                <th scope="row">재고개수<span class="font_red">*</span></th>
+                <th scope="row">재고개수(EA)<span class="font_red">*</span></th>
                 <td colspan="3"><input type="text" class="inputTxt p100"
                   name="stock" id="stock" maxlength="11" placeholder="제고개수"/></td>
               </tr>

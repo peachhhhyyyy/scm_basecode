@@ -15,8 +15,8 @@
       <td>${list.l_ct_nm}</td>
       <td>${list.m_ct_nm}</td>
       <td>${list.warehouse_nm}</td>
-      <td><fmt:formatNumber value="${list.purchase_price}" pattern="#,###"/>원</td>
-      <td><fmt:formatNumber value="${list.price}" pattern="#,###"/>원</td>
+      <td><fmt:formatNumber value="${list.purchase_price}" pattern="#,###"/></td>
+      <td><fmt:formatNumber value="${list.price}" pattern="#,###"/></td>
       <%-- <td><a href="javascript:fPopModalMainProduct('${list.product_cd}');" class="btnType3 color1"><span>수정</span></a></td> --%>
     </tr>
     <c:set var="nRow" value="${nRow + 1}" />
