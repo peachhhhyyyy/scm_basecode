@@ -16,7 +16,7 @@
          ,   PD.purchase_price
          ,   PL.desired_delivery_date
          ,   WH.warehouse_nm
-         ,   PL.purch_mng_id
+         ,   UI.name as purch_mng_id
          ,   PL.scm_id
          ,   PL.purch_date
       FROM tb_scm_purchase_list as PL
@@ -30,6 +30,27 @@
           ON MC.m_ct_cd = PD.m_ct_cd
           LEFT JOIN tb_scm_warehouse as WH
           ON SP.warehouse_cd = WH.warehouse_cd
+          LEFT JOIN tb_userinfo UI
+          ON PL.purch_mng_id = UI.loginID
+     <where>
+       <if test="(sname != null) and (!sname.equals(''))">
+          <choose>
+            <when
+              test="oname eq 'all'.toString()">
+              and MC.m_ct_nm LIKE CONCAT('%', #{sname}, '%') or PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+            </when>
+            <when test="oname eq 'brand'.toString()">
+              and MC.m_ct_nm LIKE CONCAT('%', #{sname}, '%')
+            </when>
+            <when test="oname eq 'product'.toString()">
+               and PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+            </when>
+          </choose>
+        </if>
+        <if test="(date != null) and (!date.equals(''))"> 
+            and DATE_FORMAT(PL.desired_delivery_date, "%Y-%m-%d") = #{date}
+        </if>
+      </where>
       ORDER BY purch_list_no DESC
       LIMIT #{pageIndex}, #{pageSize}
 	</select>
@@ -37,12 +58,35 @@
 	<!-- 발주지시서 목록 총 갯수 조회 -->
 	<select id="countPcsOrderingOrder" resultType="int">
 		/*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
-		SELECT COUNT(1) AS tot_cnt 
+    SELECT COUNT(1) AS tot_cnt 
       FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_order as OD
         ON PL.order_cd = OD.order_cd
         LEFT JOIN tb_scm_warehouse as WH
         ON OD.warehouse_cd = WH.warehouse_cd
+        LEFT JOIN tb_scm_product as PD
+        ON OD.product_cd = PD.product_cd
+        LEFT JOIN tb_scm_m_category MC
+        ON MC.m_ct_cd = PD.m_ct_cd
+    <where>
+       <if test="(sname != null) and (!sname.equals(''))">
+          <choose>
+            <when
+              test="oname eq 'all'.toString()">
+              and MC.m_ct_nm LIKE CONCAT('%', #{sname}, '%') or PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+            </when>
+            <when test="oname eq 'brand'.toString()">
+              and MC.m_ct_nm LIKE CONCAT('%', #{sname}, '%')
+            </when>
+            <when test="oname eq 'product'.toString()">
+               and PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+            </when>
+          </choose>
+        </if>
+        <if test="(date != null) and (!date.equals(''))"> 
+            and DATE_FORMAT(PL.desired_delivery_date, "%Y-%m-%d") = #{date}
+        </if>
+      </where>
 	</select>
 	
 	<!-- 발주지시서 상태 업데이트 -->
@@ -124,10 +168,10 @@
 	        <choose>
             <when
               test="oname eq 'all'.toString()">
-              and pd.m_ct_nm LIKE CONCAT('%', #{sname}, '%') or pd.prod_nm LIKE CONCAT('%', #{sname}, '%'))
+              and mc.m_ct_nm LIKE CONCAT('%', #{sname}, '%') or pd.prod_nm LIKE CONCAT('%', #{sname}, '%')
             </when>
             <when test="oname eq 'brand'.toString()">
-              and pd.m_ct_nm LIKE CONCAT('%', #{sname}, '%')
+              and mc.m_ct_nm LIKE CONCAT('%', #{sname}, '%')
             </when>
 	          <when test="oname eq 'product'.toString()">
 	             and pd.prod_nm LIKE CONCAT('%', #{sname}, '%')
@@ -162,10 +206,10 @@
           <choose>
             <when
               test="oname eq 'all'.toString()">
-              and pd.m_ct_nm LIKE CONCAT('%', #{sname}, '%') or pd.prod_nm LIKE CONCAT('%', #{sname}, '%'))
+              and mc.m_ct_nm LIKE CONCAT('%', #{sname}, '%') or pd.prod_nm LIKE CONCAT('%', #{sname}, '%')
             </when>
             <when test="oname eq 'brand'.toString()">
-              and pd.m_ct_nm LIKE CONCAT('%', #{sname}, '%')
+              and mc.m_ct_nm LIKE CONCAT('%', #{sname}, '%')
             </when>
             <when test="oname eq 'product'.toString()">
                and pd.prod_nm LIKE CONCAT('%', #{sname}, '%')
