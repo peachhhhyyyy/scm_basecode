@@ -10,10 +10,10 @@
 		<c:if test="${outgoingSearchCnt > 0 }">
 		    <c:forEach items="${outgoingSearchList}" var="list">
 		        <tr>
-		            <td>${list.order_date}</td>
-		            <td>${list.arr_date}</td>
-		            <td>${list.arr_prev_date}</td>
 		            <td><a href="javascript:fOrderDetailList('${list.order_cd}');">${list.order_cd}</a></td>
+		            <td>${list.order_date}</td>
+		            <td>${list.arr_prev_date}</td>
+		            <td>${list.arr_date}</td>
 		            <td>${list.name_delivery}</td>
 		            <td>${list.warehouse_nm}</td>
 		            <td>${list.state}</td>
@@ -31,10 +31,10 @@
 		<c:if test="${outgoingCnt > 0 }">
 			<c:forEach items="${outgoingList}" var="list">
 				<tr>
-					<td>${list.order_date}</td>
-					<td>${list.arr_date}</td>
-					<td>${list.arr_prev_date}</td>
 					<td><a href="javascript:fOrderDetailList('${list.order_cd}');">${list.order_cd}</a></td>
+					<td>${list.order_date}</td>
+					<td>${list.arr_prev_date}</td>
+					<td>${list.arr_date}</td>
 					<td>${list.name_delivery}</td>
 					<td>${list.warehouse_nm}</td>
 					<td> ${list.state}</td>
