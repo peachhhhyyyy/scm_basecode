@@ -428,10 +428,6 @@
               </p>
               <div class="WarehouseList">
                 <div class="conTitle" style="margin: 0 25px 10px 0; float: left;">
-                  <label>
-                    <input type="checkbox" id="delcheck" name="delcheck" value="del"> 
-                                        비활성화된 정보 표시
-                 </label>
                            <select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
                             <option value="all" selected="selected">전체</option>
                            <option value="warehouse_nm">창고명</option>
@@ -470,6 +466,10 @@
                 </table>
               </div>
               <div class="paging_area" id="warehousePagination"></div>
+              <div>
+                    <input type="checkbox" id="delcheck" name="delcheck" value="del"> 
+                                        비활성화된 정보 표시
+                 </div>
               <p class="conTitle mt50">
                 <span>제품정보</span>
               </p>
