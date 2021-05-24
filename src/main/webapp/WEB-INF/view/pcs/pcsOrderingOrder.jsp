@@ -152,15 +152,26 @@
   
   /** 발주지시서 목록 조회 */
   function fsend() {
-    var purchListNo = $("#purchListNo").text();
+    var purch_list_no = $("#purchListNo").text();
     var order_cd = $("#order_cd").val();
     var supply_cd = $("#supply_cd").val();
-
+    var purch_date = $("#purchaseDateValue").val();
+    var desired_delivery_date = $("#desiredDeliveryDateValue").val();
+    var purch_mng_id = $("#purchMngIdValue").val();
+   
+    console.log('purch_date' + purch_date);
+    console.log('desired_delivery_date' + desired_delivery_date);
+    console.log('purch_mng_id' + purch_mng_id);
+    
     var param = {
-        purchListNo : purchListNo,
+        purch_list_no : purch_list_no,
         order_cd : order_cd,
-        supply_cd : supply_cd
+        supply_cd : supply_cd,
+        purch_date : purch_date,
+        desired_delivery_date : desired_delivery_date,
+        purch_mng_id : purch_mng_id
     }
+    
     var resultCallback = function(data) {
       fsendResult(data);
     };
@@ -172,7 +183,7 @@
   function fsendResult(data) {
     if (data.result == "SUCCESS") {
       alert(data.resultMsg);
-
+      location.reload('');
       console.log("fSelectPurchBtnResult : " + JSON.stringify(data));
     } else {
       alert(data.resultMsg);
@@ -182,7 +193,6 @@
 </head>
 <body>
     <form id="myForm" action="" method="">
-    
         <input type="hidden" id="currentPage" value="1">
         <input type="hidden" name="order_cd" id="order_cd" value="">
         <input type="hidden" name="supply_cd" id="supply_cd" value="">
@@ -291,8 +301,12 @@
                                 <td id="purchasePrice"></td>
                             </tr>
                             <tr>
+                                <th scope="row">발주날짜</th>
+                                <td id="purchaseDate"><input type="date" value="" id="purchaseDateValue" style="box-sizing: border-box;border: 1px solid #bbc2cd;padding-left: 2px;height: 34px;width: 100%;" /></td>
+                            </tr>
+                            <tr>
                                 <th scope="row">배송희망날짜</th>
-                                <td id="desiredDeliveryDate"><input type="date" value="" style="box-sizing: border-box;border: 1px solid #bbc2cd;padding-left: 2px;height: 34px;width: 100%;" /></td>
+                                <td id="desiredDeliveryDate"><input type="date" value="" id="desiredDeliveryDateValue" style="box-sizing: border-box;border: 1px solid #bbc2cd;padding-left: 2px;height: 34px;width: 100%;" /></td>
                             </tr>
                             <tr>
                                 <th scope="row">창고명</th>
@@ -300,7 +314,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">담당자</th>
-                                <td id="purchMngId"><input type="text" value="" style="box-sizing: border-box;border: 1px solid #bbc2cd;padding-left: 2px;height: 34px;width: 100%;"/></td>
+                                <td id="purchMngId"><input type="text" value="" id="purchMngIdValue" style="box-sizing: border-box;border: 1px solid #bbc2cd;padding-left: 2px;height: 34px;width: 100%;"/></td>
                             </tr>
                         </tbody>
                     </table>
