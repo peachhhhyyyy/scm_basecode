@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.happyjob.study.scm.model.ScmOutgoingDetailListModel;
 import kr.happyjob.study.scm.model.ScmOutgoingListModel;
 import kr.happyjob.study.scm.service.ScmOutgoingService;
 
@@ -45,11 +46,11 @@ public class ScmOutgoingController {
 	    paramMap.put("pageIndex", pageIndex);
 		paramMap.put("pageSize", pageSize);
 		
-		logger.info("이건 paramMap" + paramMap);
+		logger.info("paramMap : " + paramMap);
 		//반품지시서 조회
 		List<ScmOutgoingListModel> outgoingList = solservice.getOutgoingList(paramMap);
 		model.addAttribute("outgoingList",outgoingList);
-		logger.info("outgoingList 값: "+ paramMap);
+		logger.info("outgoingList 값: "+ outgoingList);
 		
 		//목록수 추출하기
 		int scmOutgoingCnt = solservice.scmOutgoingListCnt(paramMap);
@@ -62,4 +63,17 @@ public class ScmOutgoingController {
 		return "/scm/scmOutgoingList";
 	}
 	
+	@RequestMapping("scmOutgoingDetailList.do")
+	public String scmOutgoingDetailList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+		
+		logger.info("상세조건 paramMap : " + paramMap);
+		
+		//반품지시서 조회
+		List<ScmOutgoingDetailListModel> outgoingSearchList = solservice.getOutgoingDetailList(paramMap);
+		model.addAttribute("outgoingSearchList",outgoingSearchList);
+		logger.info("outgoingSearchList 값: "+ paramMap);
+		
+		return "/scm/scmOutgoingDetailList";
+	}
 }

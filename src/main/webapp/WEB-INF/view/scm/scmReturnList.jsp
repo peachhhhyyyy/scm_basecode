@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:if test="${scmReturnCnt eq 0 }">
   <tr>
-    <td colspan="4">데이터가 존재하지 않습니다.</td>
+    <td colspan="7">데이터가 존재하지 않습니다.</td>
   </tr>
 </c:if>
 <c:if test="${scmReturnCnt > 0 }">

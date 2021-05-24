@@ -1,23 +1,125 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.happyjob.study.scm.dao.ScmReturnListDao">
-		<!-- 반품지시서 내역 조회 -->
+<mapper namespace="kr.happyjob.study.scm.dao.ScmOutgoingListDao">
+
+	<!-- 배송지시서 내역 조회 -->
 	<select id="getOutgoingList" resultType="kr.happyjob.study.scm.model.ScmOutgoingListModel">
 		SELECT TSSL.ship_list_no AS ship_list_no
 		        , CUSTOMER.cus_nm AS cus_nm
 		        , TSSL.scm_nm AS scm_nm
 		        , DATE_FORMAT(OD.order_date, '%Y-%m-%d') AS order_date
 		        , DATE_FORMAT(TSSL.submit_date, '%Y-%m-%d') AS submit_date
-		        , PROD_INFO.l_ct_nm AS l_ct_nm
-		        , PROD_INFO.prod_nm AS prod_nm
-		        , PROD_INFO.supply_nm AS supply_nm
-		        , OD.order_cnt AS order_cnt
-		        , WH.warehouse_nm AS warehouse_nm
-		        , DATE_FORMAT(OD.want_receive_date, '%Y-%m-%d') AS want_receive_date
-		        , OD.request AS request
 		    FROM tb_order AS OD
 		    
 		    LEFT JOIN (
+                  SELECT loginID
+                          , name AS cus_nm
+                          , user_type
+                      FROM tb_userinfo ) AS CUSTOMER
+            ON OD.loginID = CUSTOMER.loginID
+            
+            LEFT JOIN (
+                  SELECT ship.ship_list_no
+                          , ship.order_cd
+                          , ship.submit_date
+                          , scm.name AS scm_nm
+                          , scm.user_type
+                      FROM tb_scm_ship_list AS ship
+                      LEFT JOIN tb_userinfo AS scm ON ship.scm_id = scm.loginID ) AS TSSL
+            ON OD.order_cd = TSSL.order_cd
+            
+            WHERE 1 = 1
+            <choose>
+                <when test='searchBox == "J"'>
+                    AND CUSTOMER.user_type = "J"
+                    <if test="searchInfo != null">
+                        AND CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                </when>
+                <when test='searchBox == "E"'>
+                    AND TSSL.user_type = "E"
+                    <if test="searchInfo != null">
+                        AND TSSL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                </when>
+                <otherwise>
+                    <if test="searchInfo != null">
+                        AND TSSL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%') 
+                        OR CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                    AND CUSTOMER.user_type = "J"
+                    AND TSSL.user_type = "E"
+                </otherwise>
+            </choose>
+            <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+                AND TSSL.submit_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+            </if> 
+            ORDER BY TSSL.ship_list_no DESC
+            LIMIT #{pageIndex}, #{pageSize}
+	</select>
+	
+	<!--배송지시서 목록 카운트 -->
+	<select id="scmOutgoingListCnt" resultType="int">
+		SELECT COUNT(*) AS scmOutgoingListCnt
+            FROM tb_order AS OD
+            
+            LEFT JOIN (
+                  SELECT loginID
+                          , name AS cus_nm
+                          , user_type
+                      FROM tb_userinfo ) AS CUSTOMER
+            ON OD.loginID = CUSTOMER.loginID
+            
+            LEFT JOIN (
+                  SELECT ship.ship_list_no
+                          , ship.order_cd
+                          , ship.submit_date
+                          , scm.name AS scm_nm
+                          , scm.user_type
+                      FROM tb_scm_ship_list AS ship
+                      LEFT JOIN tb_userinfo AS scm ON ship.scm_id = scm.loginID ) AS TSSL
+            ON OD.order_cd = TSSL.order_cd
+            
+            WHERE 1 = 1
+            <choose>
+                <when test='searchBox == "J"'>
+                    AND CUSTOMER.user_type = "J"
+                    <if test="searchInfo != null">
+                        AND CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                </when>
+                <when test='searchBox == "E"'>
+                    AND TSSL.user_type = "E"
+                    <if test="searchInfo != null">
+                        AND TSSL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                </when>
+                <otherwise>
+                    <if test="searchInfo != null">
+                        AND TSSL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%') 
+                        OR CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                    AND CUSTOMER.user_type = "J"
+                    AND TSSL.user_type = "E"
+                </otherwise>
+            </choose>
+            <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+            AND TSSL.submit_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+            </if> 
+            ORDER BY TSSL.ship_list_no DESC
+            LIMIT #{pageIndex}, #{pageSize}
+    </select>
+    
+    <!-- <select id="getOutgoingSearchList" resultType="kr.happyjob.study.scm.model.ScmOutgoingListModel">
+    검색기준 배송지시서 목록 조회
+    SELECT TSSL.ship_list_no AS ship_list_no
+                , CUSTOMER.cus_nm AS cus_nm
+                , TSSL.scm_nm AS scm_nm
+                , DATE_FORMAT(OD.order_date, '%Y-%m-%d') AS order_date
+                , DATE_FORMAT(TSSL.submit_date, '%Y-%m-%d') AS submit_date
+            FROM tb_order AS OD
+            
+            LEFT JOIN (
                   SELECT loginID
                           , name AS cus_nm
                       FROM tb_userinfo ) AS CUSTOMER
@@ -32,32 +134,101 @@
                       LEFT JOIN tb_userinfo AS scm ON ship.scm_id = scm.loginID ) AS TSSL
             ON OD.order_cd = TSSL.order_cd
             
+            WHERE '1'='1'
+            AND TSSL.ship_list_no IS NOT NULL
+            <choose>
+            
+	            <when test='searchBox.equals("J")'>
+	                AND CUSTOMER.user_type IN (#{searchBox})
+	                <if test="searchInfo != null and !searchInfo.equals('')">
+		                AND CUSTOMER.name LIKE CONCAT('%', #{searchInfo}, '%')
+	                </if>
+	                AND TSSL.submit_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+	            </when>
+	            
+	            <when test='searchBox.equals("E")'>
+	                AND TSSL.user_type IN (#{searchBox})
+	                <if test="searchInfo != null and !searchInfo.equals('')">
+                        AND TSSL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                    AND TSSL.submit_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+	            </when>
+	            
+	            <otherwise>
+	                AND TSSL.submit_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+	            </otherwise>
+            </choose>
+            ORDER BY TSSL.ship_list_no DESC
+            LIMIT #{pageIndex}, #{pageSize}
+    </select>
+    
+    검색조건 기준 배송지시서 카운트 조회
+    <select id="scmOutgoingSearchListCnt" resultType="int">
+        SELECT COUNT(*) AS scmOutgoingCnt
+            FROM tb_scm_ship_list AS TSSL
+            
+            LEFT JOIN tb_order AS OD
+            ON TSSL.order_cd = OD.order_cd
+            
+            LEFT JOIN tb_userinfo CUSTOMER
+            ON CUSTOMER.loginID = OD.loginID
+            
+            LEFT JOIN tb_userinfo SCM
+            ON SCM.loginID = TSSL.scm_id
+            
+            WHERE '1'='1'
+            AND TSSL.ship_list_no IS NOT NULL
+            <choose>
+                <when test='searchBox.equals("J")'>
+                    AND CUSTOMER.user_type IN (#{searchBox})
+                    <if test="searchInfo != null and !searchInfo.equals('')">
+                        AND CUSTOMER.name LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                    AND TSSL.submit_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+                </when>
+                <when test='searchBox.equals("E")'>
+                    AND SCM.user_type IN (#{searchBox})
+                    <if test="searchInfo != null and !searchInfo.equals('')">
+                        AND SCM.name LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                    AND TSSL.submit_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+                </when>
+                <otherwise>
+                    AND TSSL.submit_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
+                </otherwise>
+            </choose>
+    </select> -->
+    
+    <!-- 배송지시서 상세조회 -->
+    <select id="getOutgoingDetailList" resultType="kr.happyjob.study.scm.model.ScmOutgoingDetailListModel">
+        SELECT L_CATEGORY.l_ct_cd AS l_ct_cd
+                , PRODUCT.prod_nm AS prod_nm
+                , SUPPLY.supply_nm AS supply_nm
+                , OD.order_cnt AS order_cnt
+                , DATE_FORMAT(OD.order_date, '%Y-%m-%d') AS order_date
+                , DATE_FORMAT(OD.want_receive_date, '%Y-%m-%d') AS want_receive_date
+                , WH.warehouse_nm AS warehouse_nm
+                , OD.request AS request
+            FROM tb_order AS OD
+            
+            LEFT JOIN tb_scm_ship_list AS TSSL
+            ON TSSL.order_cd = OD.order_cd
+            
             LEFT JOIN tb_scm_warehouse AS WH
             ON OD.warehouse_cd = WH.warehouse_cd
             
-            LEFT JOIN(
-                  SELECT TSP.product_cd
-                          , TSP.prod_nm
-                          , TSLC.l_ct_nm
-                          , TSS.supply_nm
-                      FROM tb_scm_product AS TSP
-                      LEFT JOIN tb_scm_m_category AS TSMC
-                      ON TSP.m_ct_cd = TSMC.m_ct_cd
-                      LEFT JOIN tb_scm_l_category AS TSLC
-                      ON TSMC.l_ct_cd = TSLC.l_ct_cd
-                      LEFT JOIN tb_scm_supply AS TSS
-                      ON TSP.supply_cd = TSS.supply_cd ) AS PROD_INFO
-            ON OD.product_cd = PROD_INFO.product_cd
+            LEFT JOIN tb_scm_supply AS SUPPLY
+            ON OD.warehouse_cd = SUPPLY.warehouse_cd
             
-            WHERE TSSL.ship_list_no IS NOT NULL
-            ORDER BY TSSL.ship_list_no DESC
-            LIMIT #{pageIndex}, #{pageSize}
-	</select>
-	
-	<!--지시서 목록 카운트 -->
-	<select id="scmOutgoingListCnt" resultType="int">
-		SELECT COUNT(*) AS scmOutgoingCnt
-			FROM tb_scm_ship_list
-			WHERE ship_list_no IS NOT NULL
+            LEFT JOIN tb_scm_product AS PRODUCT
+            ON OD.product_cd = PRODUCT.product_cd
+            
+            LEFT JOIN tb_scm_m_category AS M_CATEGORY
+            ON PRODUCT.m_ct_cd = M_CATEGORY.m_ct_cd
+            
+            LEFT JOIN tb_scm_l_category AS L_CATEGORY
+            ON M_CATEGORY.l_ct_cd = L_CATEGORY.l_ct_cd
+            
+            WHERE ship_list_no = #{ship_list_no}
     </select>
 </mapper>
