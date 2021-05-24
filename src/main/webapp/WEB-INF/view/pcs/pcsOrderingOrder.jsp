@@ -39,24 +39,24 @@
   }
 
   /** 발주버튼 클릭 시 모달 실행 */
-  function fPopModalPcsOrderingOrder(purch_list_no, supply_nm, prod_nm, m_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id) {
+  function fPopModalPcsOrderingOrder(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id) {
  
     // 신규 저장
     if (purch_list_no == null || purch_list_no == "") {
     } else {
       // 발주서 버튼 클릭 시 화면 출력
-      fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id);
+      fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id);
     }
   }
 
   /** 제품 클릭 시 모달실행 */
-  function fPopModalPcsOrderingOrder2(purch_list_no, supply_nm, prod_nm, m_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id) {
+  function fPopModalPcsOrderingOrder2(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id) {
     
     // 신규 저장
     if (purch_list_no == null || purch_list_no == "") {
     } else {
       // 발주서 버튼 클릭 시 화면 출력
-      fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id);
+      fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id);
     }
   }
   
@@ -122,11 +122,11 @@
   }
   
   /** 발주서 화면 띄우기 */ 
-  function fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id) {
+  function fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id) {
     $("#purchListNo").text(purch_list_no);
     $("#supplyNm").text(supply_nm);
     $("#prodNm").text(prod_nm);
-    $("#mCtCd").text(m_ct_cd);
+    $("#mCtNm").text(m_ct_nm);
     $("#purchQty").text(purch_qty);
     $("#purchasePrice").text(purchase_price);
     // 날짜 타입 변환
@@ -241,7 +241,7 @@
                                         <col width="7%">
                                         <col width="10%">
                                         <col width="25%">
-                                        <col width="7%">
+                                        <col width="10%">
                                         <col width="7%">
                                         <col width="6%">
                                         <col width="*">
@@ -252,9 +252,9 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">발주번호</th>
-                                            <th scope="col">회사명</th>
+                                            <th scope="col">공급처명</th>
                                             <th scope="col">제품명</th>
-                                            <th scope="col">브랜드명</th>
+                                            <th scope="col">상호명</th>
                                             <th scope="col">제품수량</th>
                                             <th scope="col">금액</th>
                                             <th scope="col">배송희망날짜</th>
@@ -300,8 +300,8 @@
                                 <td id="prodNm"></td>
                             </tr>
                             <tr>
-                                <th scope="row">브랜드명</th>
-                                <td id="mCtCd"></td>
+                                <th scope="row">상호명</th>
+                                <td id="mCtNm"></td>
                             </tr>
                             <tr>
                                 <th scope="row">제품수량</th>
@@ -368,7 +368,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">브랜드명</th>
-                                <td id="mCtCd"></td>
+                                <td id="mCtNm"></td>
                             </tr>
                             <tr>
                                 <th scope="row">제품수량</th>
