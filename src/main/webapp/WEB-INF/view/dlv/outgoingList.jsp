@@ -37,7 +37,7 @@
 					<td>${list.arr_date}</td>
 					<td>${list.name_delivery}</td>
 					<td>${list.warehouse_nm}</td>
-					<td> ${list.state}</td>
+					<td>${list.state}</td>
 				</tr>
 			</c:forEach>
 		</c:if>
