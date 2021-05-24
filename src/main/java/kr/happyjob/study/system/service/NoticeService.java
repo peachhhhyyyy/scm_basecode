@@ -11,7 +11,7 @@ public interface NoticeService {
   public List<NoticeModel> selectNoticeList(Map<String, Object> param) throws Exception;
   
   //공지사항 목록 총 개수 조회
-  public int countNoticeList()throws Exception;
+  public int countNoticeList(int auth)throws Exception;
   
   // 공지사항 검색 목록 총 개수 조회
   public int countConditionList(Map<String, Object> param) throws Exception;

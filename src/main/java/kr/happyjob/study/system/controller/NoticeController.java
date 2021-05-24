@@ -62,7 +62,6 @@ public class NoticeController {
 	  // 총 로우의 개수
 	  int totalCount;
 	  
-	  
 	  String userType = (String) session.getAttribute("userType");
 	  
 	  // 권한 설명
@@ -91,7 +90,7 @@ public class NoticeController {
 	  
 	  // 검색어 유무 확인
 	  if(!param.containsKey("option")) {
-	    totalCount = noticeService.countNoticeList();
+	    totalCount = noticeService.countNoticeList(auth);
 	  }
 	  else {
 	    

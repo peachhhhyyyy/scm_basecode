@@ -37,7 +37,7 @@
   </select>
   
   <!-- 공지사항 목록(기본) 총 개수 조회 -->
-  <select id="countNoticeList" resultType="int">
+  <select id="countNoticeList" resultType="int" parameterType="int">
   
       SELECT count(notice_id)
         FROM tb_scm_notice

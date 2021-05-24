@@ -24,9 +24,9 @@ public class NoticeServiceImpl implements NoticeService {
 
 	// 공지사항 목록 총 개수 조회
 	@Override
-	public int countNoticeList() throws Exception {
+	public int countNoticeList(int auth) throws Exception {
 	  // TODO Auto-generated method stub
-	  return noticeDao.countNoticeList();
+	  return noticeDao.countNoticeList(auth);
 	}
 	
   // 공지사항 검색 목록 총 개수 조회

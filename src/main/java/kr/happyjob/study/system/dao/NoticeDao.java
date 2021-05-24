@@ -11,7 +11,7 @@ public interface NoticeDao {
   public List<NoticeModel> selectNoticeList(Map<String, Object> param);
   
   // 공지사항 목록 총 개수 조회
-  public int countNoticeList();
+  public int countNoticeList(int auth);
   
   // 공지사항 검색 목록 총 개수 조회
   public int countConditionList(Map<String, Object> param);

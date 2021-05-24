@@ -7,17 +7,6 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>JobKorea</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
-<style>
-/* 모달 클릭 방지 */
-.forbidden-event {
-  pointer-events: none;
-}
-
-/* 모달 전환 */
-.display_none {
-  display: none;
-}
-</style>
 <script type="text/javascript">
 
   // 페이징 설정
@@ -82,13 +71,16 @@
       
     });
     
-    // 공지사항 내용 글자 제한
+   
+    // 공지사항 내용 글자 제한 & 카운트
     $("#notice_content").keyup(function(e) {
+     
+      console.log('숫자변화', count);
       
       var limit = 1000;
-      var count =  $(this).val().length;
+      var input =  $(this).val().length;
       
-      if(count > limit) {
+      if(input > limit) {
         
         alert('내용은 1000자 이하로 작성해 주세요');
         $(this).val($(this).val().substring(0,limit));
@@ -97,7 +89,7 @@
       }
       
     });
-
+    
     // 공지사항 검색 버튼 이벤트
     $('#search_button').on('click', function(){
       
@@ -148,6 +140,7 @@
       deleteNotice();
       
     })
+    
     
     // onload 끝
   });
@@ -348,8 +341,8 @@
        
        $('#add_file').show();
        $('#datice_date_block').hide();
-       $('#notice_title').removeClass('forbidden-event');
-       $('#notice_content').removeClass('forbidden-event');
+       $('#notice_title').attr('readonly', false);
+       $('#notice_content').attr('readonly', false);
        $('#modify_file').hide();
        
        
@@ -368,8 +361,8 @@
        $('#delete_button').show();
        
        $('#datice_date_block').show();
-       $('#notice_title').addClass('forbidden-event');
-       $('#notice_content').addClass('forbidden-event');
+       $('#notice_title').attr('readonly', true);
+       $('#notice_content').attr('readonly', true);
        
        $('#modify_file').hide();
        
@@ -387,11 +380,11 @@
        $('#modify_modal_button').hide();
        $('#delete_button').show();
        
-       $('#notice_title').removeClass('forbidden-event');
        $('#datice_date_block').hide();
-       $('#notice_content').removeClass('forbidden-event');
        $('#modify_button').show();
        $('#modify_file').show();
+       $('#notice_title').attr('readonly', false);
+       $('#notice_content').attr('readonly', false);
      }
       
     }
@@ -544,6 +537,8 @@
       }
     }
     
+    //
+    var num = 1000;
 </script>
 </head>
 <body>
@@ -672,7 +667,8 @@
             <tbody>
               <tr>
                 <th scope="row">제목</th>
-                <td colspan="3"><input type="text" class="inputTxt p100" name="notice_title" id="notice_title" autocomplete="off" /></td>
+                <td colspan="3">
+                  <input type="text" class="inputTxt p100" name="notice_title" id="notice_title" autocomplete="off" placeholder="최대 100자까지 입력 가능합니다"/></td>
               </tr>
               <tr id="datice_date_block">
                 <th scope="row">작성시간</th>
@@ -680,13 +676,15 @@
               </tr>
               <tr>
                 <th scope="row">내용</th>
-                <td colspan="3"><textarea class="inputTxt p100" name="notice_content" id="notice_content" /></textarea></td>
+                <td colspan="3">
+                  <textarea class="inputTxt p100" name="notice_content" id="notice_content" placeholder="최대 1000자까지 입력 가능합니다"/></textarea>
+                </td>
               </tr>
                <tr id="add_file" class="">
                  <th scope="row">첨부파일(글작성)</th>
                    <td colspan="3"><input type="file" class="inputTxt p100" accept="image/*" /></td>
                </tr>
-               <tr id="modify_file" class="display_none">
+               <tr id="modify_file">
                   <th scope="row">첨부파일(글수정)</th>
                   <td colspan="3"><input type="file" class="inputTxt p100" accept="image/*"/></td>
                </tr>
@@ -697,16 +695,19 @@
                     <option value="0">전체</option>
                     <option value="1">고객</option>
                     <option value="2">직원</option>
-                </select>
-                  <div class="btn-group">
-                    <!-- 공지사항 신규 작성 버튼 -->
-                    <button class="btn-default btn-sm" id="write_button">저장</button>
-                    <!-- 공지사항 수정글 작성 버튼 -->
-                    <button class="btn-default btn-sm" id="modify_button">글수정저장</button>
-                    <button class="btn-default btn-sm" id="modify_modal_button">수정</button>
-                    <button class="btn-default btn-sm" id="delete_button">삭제</button>
-                    <button class="btn-default btn-sm" id="close_button">취소</button>
-                  </div></td>
+                  </select>
+                  <c:if test="sessionScope.userType == 'E'">
+                    <div class="btn-group">
+                      <!-- 공지사항 신규 작성 버튼 -->
+                      <button class="btn-default btn-sm" id="write_button">저장</button>
+                      <!-- 공지사항 수정글 작성 버튼 -->
+                      <button class="btn-default btn-sm" id="modify_button">글수정저장</button>
+                      <button class="btn-default btn-sm" id="modify_modal_button">수정</button>
+                      <button class="btn-default btn-sm" id="delete_button">삭제</button>
+                      <button class="btn-default btn-sm" id="close_button">취소</button>
+                   </c:if>
+                    </div>
+                </td>
               </tr>
             </tbody>
           </table>
