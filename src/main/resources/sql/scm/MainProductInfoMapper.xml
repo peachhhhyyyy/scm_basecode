@@ -18,6 +18,11 @@ LEFT JOIN tb_scm_warehouse WH ON WH.warehouse_cd = PD.warehouse_cd
     <where>
       <if test="(sname != null) and (!sname.equals(''))">
       <choose>
+        <when test= "(oname eq 'all'.toString())">
+            AND (PD.prod_nm LIKE concat('%', #{sname}, '%')
+             OR  LC.l_ct_nm LIKE concat('%', #{sname}, '%')
+             OR  MC.m_ct_nm LIKE concat('%', #{sname}, '%'))
+        </when>
         <when test= "(oname eq 'prod_nm'.toString())">
             AND PD.prod_nm LIKE concat('%', #{sname}, '%')
         </when>
