@@ -87,4 +87,19 @@ public class ComnComboServiceImpl implements ComnComboService {
 	  return list;
 	}
 	
+	/** 상호명 조회*/
+  public List<comcombo> selectMClist(Map<String, Object> paramMap) throws Exception {
+    
+    List<comcombo> list = comnComboDao.selectMClist(paramMap);
+    
+    return list;
+  }
+  
+  /** 품목명 조회*/
+  public List<comcombo> selectLClist(Map<String, Object> paramMap) throws Exception {
+    
+    List<comcombo> list = comnComboDao.selectLClist(paramMap);
+    
+    return list;  
+  }
 }

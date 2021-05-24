@@ -33,4 +33,10 @@ public interface ComnComboService {
 	
 	/** 공급처명 조회*/
 	public List<comcombo> selectSPlist(Map<String, Object> paramMap) throws Exception;
+	
+	/** 상호명 조회*/
+  public List<comcombo> selectMClist(Map<String, Object> paramMap) throws Exception;
+  
+  /** 품목명 조회*/
+  public List<comcombo> selectLClist(Map<String, Object> paramMap) throws Exception;
 }

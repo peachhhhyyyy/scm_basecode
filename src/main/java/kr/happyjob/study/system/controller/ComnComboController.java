@@ -78,8 +78,14 @@ public class ComnComboController {
 		} else if("sp".equals(ComType)) {
 		  // 공통 콤보 조회 공급처명
 		  comComboModel = comnComboService.selectSPlist(paramMap);
-		}
-		
+		} else if("mc".equals(ComType)) {
+      // 공통 콤보 조회 상호명
+      comComboModel = comnComboService.selectMClist(paramMap);
+    } else if("lc".equals(ComType)) {
+      // 공통 콤보 조회 품목명
+      comComboModel = comnComboService.selectLClist(paramMap);
+    }
+		 
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 
