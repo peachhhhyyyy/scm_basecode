@@ -70,10 +70,12 @@
 			  	   prod.stock productCount, 
 			  	   o.order_cnt orderCount, 
 			  	   prod.purchase_price purchasePrice,
-			  	   prod.supply_cd supplyCode
+			  	   prod.supply_cd supplyCode,
+			  	   sup.supply_nm supplyName
 			FROM tb_order o
 	        LEFT JOIN tb_scm_product prod ON prod.product_cd = o.product_cd
 			LEFT JOIN tb_scm_m_category mct ON mct.m_ct_cd = prod.m_ct_cd
+			LEFT JOIN tb_scm_supply sup ON sup.supply_cd = prod.supply_cd
 			WHERE o.order_cd = #{orderCode}
 		</select>
 		<!-- 발주지시서 담당SCM 이름 가져오기 -->
