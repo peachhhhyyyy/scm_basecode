@@ -27,6 +27,8 @@
         board_search(); // 실행할 이벤트
       }
     });
+    //공급처명 조회 콤보박스
+    selectComCombo("sp", "supply_cd", "sel", "");
   });
 
   /** 버튼 이벤트 등록 */
@@ -135,9 +137,11 @@
       $("#prod_nm").val("");
       $("#l_ct_nm").val("");
       $("#m_ct_nm").val("");
+      $("#supply_cd").val("");
       $("#supply_nm").val("");
       $("#purchase_price").val("");
       $("#price").val("");
+      $("#warehouse_cd").val("");
       $("#warehouse_nm").val("");
       $("#stock").val("");
       $("#detail").val("");
@@ -165,8 +169,10 @@
       $("#l_ct_nm").val(object.l_ct_nm);
       $("#m_ct_nm").val(object.m_ct_nm);
       $("#supply_nm").val(object.supply_nm);
+      $("#supply_cd").val(object.supply_cd);
       $("#purchase_price").val(object.purchase_price);
       $("#price").val(object.price);
+      $("#warehouse_cd").val(object.warehouse_cd);
       $("#warehouse_nm").val(object.warehouse_nm);
       $("#stock").val(object.stock);
       $("#detail").val(object.detail);
@@ -186,6 +192,8 @@
       $("#stock").attr("readonly", true);
       $("#detail").attr("readonly", true);
       $("#thumbnail").hide();
+      
+      selectSupplierName();
 
     }
   }
@@ -195,6 +203,7 @@
     var chk = checkNotEmpty([ 
                               [ "product_cd", "제품코드를 입력하세요." ],
                               [ "prod_nm", "제품명을 입력하세요." ],
+                              [ "supply_cd", "공급처명을 입력하세요." ],
                               [ "purchase_price", "장비구매액을 입력하세요." ],
                               [ "price", "단가를 입력하세요." ],
                               [ "stock", "재고개수를 입력하세요." ],
@@ -270,6 +279,37 @@
       flistMainProductResult(data, currentPage);
     };
     callAjax("/scm/listMainProduct.do", "post", "text", true, param, resultCallback);
+  }
+    
+  
+  //공급처명 이름 콤보박스로 창고 코드와 창고명 가져오기
+  function selectSupplierName() {
+
+    var selSp = $("#supply_cd").val();
+
+    /* alert("supply_cd : " + $("#supply_cd").val()); */
+    $("#supply_cd").val(selSp);
+
+    var param = {
+      selSp : selSp
+    }
+
+    var resultCallback = function(data) {
+      fWarehouseInfoResult(data);
+    }
+
+    callAjax("/scm/getWarehouseInfo.do", "post", "json", true, param, resultCallback);
+  }
+  
+  //창고 코드와 창고명 가져오기 콜백함수
+  function fWarehouseInfoResult(data) {
+    
+    
+    
+    
+    $("#warehouse_cd").val(data.warehouseInfo.cd);
+    $("#warehouse_nm").val(data.warehouseInfo.name);
+    
   }
 </script>
 </head>
@@ -375,7 +415,7 @@
               <tr>
               
               <td rowspan="4" style="text-align:center; width:300px; hight:300px;">
-                  <img id="tempImg" style="object-fit: cover; max-width:100%;" src="/images/admin/comm/no_image.png" alt="제품사진미리보기">
+                  <img id="tempImg" style="object-fit: cover; max-width:100%; max-hight:100%;" src="/images/admin/comm/no_image.png" alt="제품사진미리보기">
                  </td>   
                 
                  <th scope="row">모델명<span class="font_red">*</span></th>
@@ -385,8 +425,9 @@
                 <td><input type="text" class="inputTxt p100" 
                   name="m_ct_nm" id="m_ct_nm" maxlength="50" placeholder="제조사"/></td>
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100"
-                  name="supply_nm" id="supply_nm" maxlength="100" placeholder="공급처명"/></td>
+                <td>
+                  <input type="hidden" name="supply_nm" id="supply_nm">
+                  <select id="supply_cd" name="supply_cd" onChange="javascript:selectSupplierName()"></select></td>
                   </tr>
                   <tr>
                 <th scope="row">장비구매액 <span class="font_red">*</span></th>
@@ -396,10 +437,12 @@
                 <td colspan="3"><input type="text" class="inputTxt p100" 
                   name="price" id="price" maxlength="11" placeholder="단가"/>원</td>
               </tr>
-              <tr>
+              <tr> 
                 <th scope="row">창고명 <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100"
-                  name="warehouse_nm" id="warehouse_nm" maxlength="50" placeholder="창고명"/></td>
+                <td>
+                  <input type="hidden" name="warehouse_cd" id="warehouse_cd">
+                  <input type="text" class="inputTxt p100"
+                  name="warehouse_nm" id="warehouse_nm" placeholder="창고명"/></td>
                 <th scope="row">재고개수<span class="font_red">*</span></th>
                 <td colspan="3"><input type="text" class="inputTxt p100"
                   name="stock" id="stock" maxlength="11" placeholder="제고개수"/></td>

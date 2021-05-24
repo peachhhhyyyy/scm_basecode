@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.happyjob.study.pcs.model.PcsModel;
 import kr.happyjob.study.pcs.service.PcsService;
+import kr.happyjob.study.system.model.ComnGrpCodModel;
 
 @Controller
 @RequestMapping("/pcs/") // 여기서 선언한 것은 상위 path명
@@ -88,13 +89,13 @@ public class PcsController {
     String result = "SUCCESS";
     String resultMsg = "전송 되었습니다.";
    
-    //하단에 전송 후에 구현되어야 할 로직 작성
-    //pcsService.selectPurchBtn(paramMap);
+    // 배송희망날짜와 구매담당자 업데이트
+    int updateState = pcsService.updateState(paramMap);
+    model.addAttribute("updateState", updateState);
     
     Map<String, Object> resultMap = new HashMap<String, Object>();
     resultMap.put("result", result);
     resultMap.put("resultMsg", resultMsg);
-    //resultMap.put("pcsModel", pcsModel);
     
     logger.info("+ End " + className + ".sendproc");
     
@@ -127,14 +128,6 @@ public class PcsController {
         
     paramMap.put("pageIndex", pageIndex);
     paramMap.put("pageSize", pageSize);
-
-    // 값이 없는 경우 주의 (분기 처리 해야 함)
-//    String date = (String) param.get("date");
-   
-//    System.out.println("날짜 :" + date);
-//    System.out.println("날짜값변경확인 :" + date);
-    
-//    param.put("date", date);
     
     // 발주지시서 목록 조회
     List<PcsModel> listPcsOrderFormModel = pcsService.pcsOrderForm(paramMap);

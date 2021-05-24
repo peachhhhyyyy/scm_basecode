@@ -29,6 +29,9 @@
                     board_search();  // 실행할 이벤트
           }
     });
+    //창고명 조회 콤보박스
+    selectComCombo("wh", "warehouse_nm", "sel", "");   
+    // 조회 종류   부서 : dept  acc : 회계계정 cli 거래처  pro:싱품 whp: 창고담당자 wh: 창고, Combo Name, Option("all" : 전체     "sel" : 선택 , NULL)       
   });
   
   /*버튼 이벤트 등록*/
@@ -185,6 +188,8 @@
       $("#supply_cd").css("background", "#FFFFFF");
       $("#supply_nm").attr("readonly", false);
       $("#supply_nm").css("background", "#FFFFFF");
+      $("#warehouse_cd").attr("readonly", true);
+      $("#warehouse_cd").css("background", "#F5F5F5");
       
       $("#btnDeleteSupplier").hide();
     } else{
@@ -199,7 +204,11 @@
       $("#mng_tel").val(object.mng_tel);
       $("#email").val(object.email);
       $("#warehouse_cd").val(object.warehouse_cd);
-      $("#warehouse_nm").val(object.warehouse_nm);
+      $("#warehouse_nm").val(object.warehouse_cd);
+      
+      $("#warehouse_cd").attr("readonly", true);
+      $("#warehouse_cd").css("background", "#F5F5F5");
+      
       
       $("#btnDeleteSupplier").show();
     } 
@@ -295,7 +304,18 @@
         resultCallback);
   }
   
-  
+  //창고명 검색 콤보박스
+  function selectwarehouse() {
+    
+    var selwh = $("#warehouse_nm").val();
+    
+    //alert("selectwarehouse : " + $("#warehouse_nm").val());
+    
+    $("#warehouse_cd").val(selwh);
+    
+    
+    
+  }
   
   
   
@@ -488,8 +508,7 @@
                 <td><input type="text" class="inputTxt p100"
                   name="warehouse_cd" id="warehouse_cd" /></td>
                 <th scope="row">창고명</th>
-                <td><input type="text" class="inputTxt p100"
-                  name="warehouse_nm" id="warehouse_nm" /></td>
+                <td><select id="warehouse_nm" name="warehouse_nm" onChange="javascript:selectwarehouse()"></select></td>
               </tr>
             </tbody>
           </table>

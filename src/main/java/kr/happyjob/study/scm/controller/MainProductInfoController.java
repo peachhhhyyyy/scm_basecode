@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.happyjob.study.scm.model.GetWarehouseModel;
 import kr.happyjob.study.scm.model.MainProductInfoModel;
 import kr.happyjob.study.scm.service.MainProductInfoService;
 
@@ -130,4 +131,22 @@ public class MainProductInfoController {
     
     return resultMap;
   }
+  
+ //창고정보 조회
+  @RequestMapping("getWarehouseInfo.do")
+  @ResponseBody
+  public Map<String, Object> getWarehouseInfo(Model model, @RequestParam Map<String, Object> paramMap, 
+      HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+    
+    GetWarehouseModel warehouseInfo = mainProductInfoService.getWarehouseInfo(paramMap);
+    
+    model.addAttribute("warehouseInfo",warehouseInfo);
+ 
+    Map<String, Object> resultMap = new HashMap<String, Object>();
+    resultMap.put("warehouseInfo", warehouseInfo);
+    
+    return resultMap;
+  }
+  
+
 }

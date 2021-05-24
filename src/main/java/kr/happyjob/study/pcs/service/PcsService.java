@@ -16,6 +16,9 @@ public interface PcsService {
   /** 발주지시서 발주버튼 클릭시 조회 */
   public PcsModel selectPurchBtn(Map<String, Object> paramMap);
   
+  /** 발주지시서 상태 변경 */
+  public int updateState(Map<String, Object> paramMap);
+  
   /** 발주서 목록 조회 */
   public List<PcsModel> pcsOrderForm(Map<String, Object> paramMap);
   

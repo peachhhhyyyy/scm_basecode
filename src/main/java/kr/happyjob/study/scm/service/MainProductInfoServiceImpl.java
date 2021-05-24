@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.happyjob.study.scm.dao.MainProductInfoDao;
+import kr.happyjob.study.scm.model.GetWarehouseModel;
 import kr.happyjob.study.scm.model.MainProductInfoModel;
 
 @Service
@@ -35,6 +36,13 @@ public class MainProductInfoServiceImpl implements MainProductInfoService {
     MainProductInfoModel selectMainProduct = mainProductInfoDao.selectMainProduct(paramMap);
     return selectMainProduct;
   }
+  
+  // 창고정보 조회
+  @Override
+  public  GetWarehouseModel getWarehouseInfo(Map<String, Object> paramMap) throws Exception {
+    GetWarehouseModel getWarehouseInfo = mainProductInfoDao.getWarehouseInfo(paramMap);
+    return getWarehouseInfo;
+  };
   
   // 제품정보 저장
   @Override

@@ -77,18 +77,17 @@
                     </if>
                 </when>
                 <otherwise>
-                    AND TSRL.refund_list_no IS NOT NULL
-                    <if test="searchInfo != null">
+                    <if test="searchInfo != null and searchBox == 'all'">
                         AND TSRL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%') 
                         OR CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%') 
                         OR PROD_INFO.prod_nm LIKE CONCAT('%', #{searchInfo}, '%')
                     </if>
+                    AND TSRL.refund_list_no IS NOT NULL
                 </otherwise>
             </choose>
             <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
                 AND TSRL.submit_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
             </if>
-            AND TSRL.refund_list_no IS NOT NULL
             ORDER BY TSRL.refund_list_no DESC
             LIMIT #{pageIndex}, #{pageSize}
 	</select>
@@ -157,18 +156,17 @@
                     </if>
                 </when>
                 <otherwise>
-                    AND TSRL.refund_list_no IS NOT NULL
-                    <if test="searchInfo != null">
+                    <if test="searchInfo != null and searchBox == 'all'">
                         AND TSRL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%') 
                         OR CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%') 
                         OR PROD_INFO.prod_nm LIKE CONCAT('%', #{searchInfo}, '%')
                     </if>
+                    AND TSRL.refund_list_no IS NOT NULL
                 </otherwise>
             </choose>
             <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
                 AND TSRL.submit_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
             </if>
-            AND TSRL.refund_list_no IS NOT NULL
             ORDER BY TSRL.refund_list_no DESC
             LIMIT #{pageIndex}, #{pageSize}
     </select>
