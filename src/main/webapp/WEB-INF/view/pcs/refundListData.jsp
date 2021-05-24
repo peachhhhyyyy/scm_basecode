@@ -11,12 +11,12 @@
                 <c:set var="nRow" value="${pageSize*(currentPage - 1)}" />
                 <c:forEach items="${refundList}" var="refund">
                   <tr>
-                    <td><a href="javascript:fadeInModal('${refund.purch_list_no}')">${refund.purch_list_no}</a></td>
-                    <td>${refund.order_cd}</td>
+                    <td>${refund.purch_list_no}</td>
+                    <td><a href="javascript:fadeInModal('${refund.purch_list_no}')">${refund.order_cd}</a></td>
                     <td>${refund.supply_nm}</td>
                     <td>${refund.supply_cd}</td>
                     <td>${refund.prod_nm}</td>
-                    <td>${refund.m_ct_cd}</td>
+                    <td>${refund.m_ct_nm}</td>
                     <td>${refund.return_qty}</td>
                     <c:if test="${ refund.return_date eq null}">
                       <td></td>

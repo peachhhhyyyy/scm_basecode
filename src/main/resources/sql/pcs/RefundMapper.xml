@@ -13,7 +13,7 @@
          , sup.supply_nm
          , sup.supply_cd
          , pro.prod_nm
-         , pro.m_ct_cd // 수정
+         , cat.m_ct_nm 
       FROM 
            tb_scm_purchase_list pur
            LEFT JOIN tb_order ord
@@ -22,6 +22,8 @@
            ON ord.product_cd = pro.product_cd
            LEFT JOIN tb_scm_supply sup
            ON pro.supply_cd = sup.supply_cd
+           LEFT JOIN tb_scm_m_category  cat
+           ON pro.m_ct_cd = cat.m_ct_cd
            <where>
              <if test="keyword != ''">
                <choose>

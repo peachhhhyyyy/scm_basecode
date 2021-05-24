@@ -141,6 +141,12 @@
       
     })
     
+    // 공지사항 단건 조회 닫을 때 새로 고침
+    $('#closePop_button').click(function() {
+      
+      window.location.reload();
+      
+    })
     
     // onload 끝
   });
@@ -537,8 +543,8 @@
       }
     }
     
-    //
-    var num = 1000;
+    // 
+    
 </script>
 </head>
 <body>
@@ -571,7 +577,8 @@
                   <div class="col-lg-6">
                     <div class="input-group">
                       <select style="width: 90px; height: 34px;" id="options">
-                        <option value="all" selected>제목+내용</option>
+                        <option value="all" selected>전체</option>
+                        <option value="title" id="title">제목</option>
                         <option value="title" id="title">제목</option>
                       </select> <input type="text" class="form-control" aria-label="..." id="keyword" autocomplete="off">
                     </div>
@@ -696,7 +703,7 @@
                     <option value="1">고객</option>
                     <option value="2">직원</option>
                   </select>
-                  <c:if test="sessionScope.userType == 'E'">
+                  <c:if test="${sessionScope.userType == 'E'}">
                     <div class="btn-group">
                       <!-- 공지사항 신규 작성 버튼 -->
                       <button class="btn-default btn-sm" id="write_button">저장</button>
@@ -713,7 +720,7 @@
           </table>
         </dd>
       </dl>
-      <a href="" class="closePop"><span class="hidden">닫기</span></a>
+      <a class="closePop" id="closePop_button"><span class="hidden">닫기</span></a>
     </div>
     <!-- 공지사항 모달 끝 -->
   </form>
