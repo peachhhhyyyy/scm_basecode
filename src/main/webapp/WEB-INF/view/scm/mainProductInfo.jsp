@@ -206,7 +206,8 @@
     var chk = checkNotEmpty([ 
                               [ "product_cd", "제품코드를 입력하세요." ],
                               [ "prod_nm", "제품명을 입력하세요." ],
-                              [ "supply_cd", "공급처명을 입력하세요." ],
+                              [ "supply_cd", "공급처를 입력하세요." ],
+                              [ "warehouse_cd", "창고를 입력하세요." ],
                               [ "purchase_price", "장비구매액을 입력하세요." ],
                               [ "price", "단가를 입력하세요." ],
                               [ "stock", "재고개수를 입력하세요." ],

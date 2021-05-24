@@ -221,7 +221,7 @@
     var chk = checkNotEmpty([ 
             [ "warehouse_cd", "창고코드를 입력하세요." ],
             [ "warehouse_nm", "창고명 입력하세요." ],
-            [ "wh_mng_id", "담당자코드를 입력하세요." ],
+            [ "wh_mng_id", "담당자ID를 입력하세요." ],
             [ "zip_cd", "우편주소를 입력하세요." ],
             [ "addr", "주소를 입력하세요." ], 
             [ "addr_detail", "상세주소를 입력하세요." ] 
