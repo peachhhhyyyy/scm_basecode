@@ -485,9 +485,9 @@
                       <th scope="col">창고명</th>
                       <th scope="col">제품코드</th>
                       <th scope="col">제품명</th>
-                      <th scope="col">모델명</th>
+                      <th scope="col">품목명</th>
                       <th scope="col">공급처명</th>
-                      <th scope="col">재고수량</th>
+                      <th scope="col">재고수량(EA)</th>
                     </tr>
                   </thead>
                   <tbody id="listWarehouseProduct">
