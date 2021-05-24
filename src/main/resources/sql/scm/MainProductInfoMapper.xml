@@ -66,8 +66,8 @@ LEFT JOIN tb_scm_warehouse WH ON WH.warehouse_cd = PD.warehouse_cd
     <select id="selectMainProduct" resultType="kr.happyjob.study.scm.model.MainProductInfoModel">
       SELECT PD.product_cd as product_cd,
        PD.prod_nm as prod_nm, 
-       LC.l_ct_nm as l_ct_nm,
-       MC.m_ct_nm as m_ct_nm,
+       LC.l_ct_cd as l_ct_cd,
+       MC.m_ct_cd as m_ct_cd,
        SP.supply_cd as supply_cd,
        PD.purchase_price as purchase_price,
        PD.price as price,
@@ -86,10 +86,11 @@ WHERE  PD.product_cd = #{product_cd}
     <!-- 제품정보 등록 -->
     <insert id="insertMainProduct" parameterType="java.util.Map">
         INSERT INTO tb_scm_product
-        (product_cd, prod_nm, supply_cd, purchase_price, price, warehouse_cd, stock, detail)
+        (product_cd, prod_nm, m_ct_cd, supply_cd, purchase_price, price, warehouse_cd, stock, detail)
      VALUES (
              #{product_cd},
-             #{prod_nm}, 
+             #{prod_nm},
+             #{m_ct_cd}, 
              #{supply_cd},
              #{purchase_price}, 
              #{price}, 

@@ -30,7 +30,12 @@
     });
     //공급처명 조회 콤보박스
     selectComCombo("sp", "supply_cd", "sel", "");
+    //품목명 콤보박스
+    selectComCombo("lc", "l_ct_cd", "sel", "");
+  //품목명 콤보박스
+    selectComCombo("mc", "m_ct_cd", "sel", "");
   });
+    
 
   /** 버튼 이벤트 등록 */
   function fRegisterButtonClickEvent() {
@@ -136,7 +141,9 @@
     if (object == "" || object == null || object == undefined) {
       $("#product_cd").val("");
       $("#prod_nm").val("");
+      $("#l_ct_cd").val("");
       $("#l_ct_nm").val("");
+      $("#m_ct_cd").val("");
       $("#m_ct_nm").val("");
       $("#supply_cd").val("");
       $("#supply_nm").val("");
@@ -168,7 +175,9 @@
     } else {
       $("#product_cd").val(object.product_cd);
       $("#prod_nm").val(object.prod_nm);
+      $("#l_ct_cd").val(object.l_ct_cd);
       $("#l_ct_nm").val(object.l_ct_nm);
+      $("#m_ct_cd").val(object.m_ct_cd);
       $("#m_ct_nm").val(object.m_ct_nm);
       $("#supply_nm").val(object.supply_nm);
       $("#supply_cd").val(object.supply_cd);
@@ -206,6 +215,7 @@
     var chk = checkNotEmpty([ 
                               [ "product_cd", "제품코드를 입력하세요." ],
                               [ "prod_nm", "제품명을 입력하세요." ],
+                              [ "m_ct_cd", "상호명을 입력하세요." ],
                               [ "supply_cd", "공급처를 입력하세요." ],
                               [ "warehouse_cd", "창고를 입력하세요." ],
                               [ "purchase_price", "장비구매액을 입력하세요." ],
@@ -308,12 +318,25 @@
   //창고 코드와 창고명 가져오기 콜백함수
   function fWarehouseInfoResult(data) {
     
-    
-    
-    
+
     $("#warehouse_cd").val(data.warehouseInfo.cd);
-    $("#warehouse_nm").val(data.warehouseInfo.name);
-    
+    $("#warehouse_nm").val(data.warehouseInfo.name); 
+  }
+  
+  //품목명 콤보박스
+  function selectLCategory() {
+
+    var selLC = $("#l_ct_cd").val();
+
+    $("#l_ct_cd").val(selLC);
+  }
+  
+  //상호명 콤보박스
+  function selectMCategory() {
+
+    var selMC = $("#m_ct_cd").val();
+
+    $("#m_ct_cd").val(selMC);
   }
 </script>
 </head>
@@ -424,15 +447,25 @@
                  </td>   
                 
                  <th scope="row">품목명<span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100" 
-                  name="l_ct_nm" id="l_ct_nm" maxlength="50" placeholder="품목명"/></td>
+                
+                  <td>
+                    <input type="hidden"  name="l_ct_nm"   id="l_ct_nm">
+                    <select id="l_ct_cd" name="l_ct_cd" onChange="javascript:selectLCategory()"> </select>
+                  </td>
+
+                  
                   <th scope="row">상호명<span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100" 
-                  name="m_ct_nm" id="m_ct_nm" maxlength="50" placeholder="상호명"/></td>
+                  
+                   <td>
+                     <input type="hidden"  name="m_ct_nm"   id="m_ct_nm">
+                     <select id="m_ct_cd" name="m_ct_cd" onChange="javascript:selectMCategory()"> </select>
+                   </td>
+                  
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
                 <td>
                   <input type="hidden" name="supply_nm" id="supply_nm">
                   <select id="supply_cd" name="supply_cd" onChange="javascript:selectSupplierName()"></select></td>
+                  
                   </tr>
                   <tr>
                 <th scope="row">장비구매액(원)/EA <span class="font_red">*</span></th>
