@@ -360,7 +360,7 @@
                     <col width="12%">
                     <col width="12%">
                     <col width="12%">
-                    <%-- <col width="12%"> --%>
+                    <col width="12%">
                   </colgroup>
                   <thead>
                     <tr>
@@ -370,8 +370,8 @@
                       <th scope="col">상호명</th>
                       <th scope="col">창고명</th>
                       <th scope="col">장비구매액(원)/EA</th>
-                      <th scopt="col">단가(원)/EA</th>
-                      <!-- <th scopt="col">비고</th> -->
+                      <th scope="col">단가(원)/EA</th>
+                      <th scope="col">비고</th>
                     </tr>
                   </thead>
                   <tbody id="listMainProduct"></tbody>
