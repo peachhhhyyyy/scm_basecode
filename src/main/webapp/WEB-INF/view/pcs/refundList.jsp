@@ -190,18 +190,17 @@
   }
 
   /* 반품 완료 처리 */
-  function insertReturnDate(purch_list_no) {
-    purch_list_no = parseInt(purch_list_no);
-
+  function insertReturnDate(purch_list_no, currentPage) {
+    
     var param = {
-      purch_list_no : purch_list_no
+      purch_list_no : purch_list_no,
     }
 
     function resultCallback(data) {
       
       if (data == 1) {
         
-       selectList();
+       selectList(currentPage);
        
       } else {
         alert('서버에서 에러가 발생했습니다.');
