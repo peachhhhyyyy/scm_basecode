@@ -37,7 +37,7 @@
 					AND ui.name LIKE CONCAT('%', #{keyword}, '%')
 				</if>
 			</if>
-			ORDER BY pl.purch_list_no
+			ORDER BY CAST(o.STTcd as unsigned), pl.purch_list_no DESC
 		    LIMIT #{pageIndex}, #{pageSize}
 		</select>
 		
@@ -117,7 +117,7 @@
 					AND uscm.name LIKE CONCAT('%', #{keyword}, '%')
 				</if>
 			</if>
-			ORDER BY rl.submit_date DESC
+			ORDER BY CAST(o.STTcd as unsigned), rl.submit_date DESC
 		    LIMIT #{pageIndex}, #{pageSize}
 		</select>
 		
