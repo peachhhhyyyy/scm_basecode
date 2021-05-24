@@ -13,6 +13,8 @@ public class PcsModel {
   public String l_ct_cd;
   // 중분류 
   public String m_ct_cd;
+  // 상호명
+  public String m_ct_nm;
   // 발주수량
   public int purch_qty;
   // 장비구매액
@@ -75,6 +77,12 @@ public class PcsModel {
   }
   public void setM_ct_cd(String m_ct_cd) {
     this.m_ct_cd = m_ct_cd;
+  }
+  public String getM_ct_nm() {
+    return m_ct_nm;
+  }
+  public void setM_ct_nm(String m_ct_nm) {
+    this.m_ct_nm = m_ct_nm;
   }
   public int getPurch_qty() {
     return purch_qty;
