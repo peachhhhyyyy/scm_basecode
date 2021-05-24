@@ -64,14 +64,16 @@
 			
 				
 				// 검색조건으로 수주내역 가져오기
-				function fSearchOrderList() {
+				function fSearchOrderList(currentPage) {
+					
+					currentPage = currentPage || 1;
 					
 					// 필요하기 전까지 숨김
                     $('#submitBtn').hide();
                     
                     var param = $('#outgoingSearchForm').serialize();
                     
-                    param += "&currentPage="+$('#currentPage').val();
+                    param += "&currentPage="+currentPage;
                     param += "&pageSize="+pageSizeinfo;
                     
                     console.log("검색조건에 대한 param : " + param)
@@ -86,7 +88,7 @@
 	                }
 	                
 	                var resultCallback = function(data) {
-	                	fSearchOrderListResult(data, $('#currentPage').val());
+	                	fSearchOrderListResult(data, currentPage);
 	                };
 	        
 	                //Ajax실행 방식
@@ -154,6 +156,60 @@
 				    $("#outgoingDetailListBottom").append($outgoingDetailListBottom.children());
 				}
 			    
+				
+				// 폼값 처리 
+				function fsubmitForm(){
+					
+					var checkValue = {};
+				    
+					$.each($('#submitForm').serializeArray(), function(){
+						checkValue[this.name] = this.value;
+					});
+					
+					// chack null value
+					if(checkValue.arrPrevDate != null){
+						
+					    console.log(checkValue);
+						if(checkValue.dlvStaffNameAndLoginId === "선택" || checkValue.arrPrevDate === "" || checkValue.state == "15"){
+	                          swal("\n입력하지 않은 양식이 있거나, \n\n아직 배송 중이지 않은 건입니다.").then(function(){
+	                              location.href="/dlv/outgoing.do";
+                              })
+	                    } else{
+		                    var param = $('#submitForm').serialize();
+		                    
+		                    var resultCallback = function(data) {
+		                         fSubmitForm(data);
+		                    };
+		                    
+		                    callAjax("/dlv/submitDlvInfo.do", "post", "text", true, param, resultCallback);
+	                    	
+	                    }
+	                    
+	                    } else if (checkValue.state == "15"){
+	                    	
+	                    	var param = $('#submitForm').serialize();
+                            
+                            var resultCallback = function(data) {
+                                 fSubmitForm(data);
+                            };
+                            
+                            callAjax("/dlv/submitDlvInfo.do", "post", "text", true, param, resultCallback);
+	                        
+	                    } else {
+	                    	swal("\n처리된 건입니다.").then(function(){
+                                location.href="/dlv/outgoing.do";
+                                })
+	                    }
+					}
+					
+				// 폼값 콜백 함수
+				function fSubmitForm(data){
+					console.log("===== 업데이트 완료 =====");
+				    jQuery(function(){
+				    	window.location.reload();
+				    })
+				}
+				
 			    // 콤보박스로 선택된 배송기사이름으로 연락처 받아오기
 			    function fSelectDlvStaffTel(){
 			    	
@@ -229,10 +285,10 @@
 							<table class="col">
 								<thead>
 									<tr>
-										<th scope="col">접수일자</th>
-										<th scope="col">배송완료일자</th>
-										<th scope="col">도착예정일자</th>
 										<th scope="col">주문코드</th>
+										<th scope="col">접수일자</th>
+										<th scope="col">도착예정일자</th>
+										<th scope="col">배송완료일자</th>
 										<th scope="col">배송사원</th>
 										<th scope="col">창고명</th>
 										<th scope="col">상태</th>
@@ -247,7 +303,7 @@
 					       <span>주문코드를 선택해주세요.</span>
 					   </p>
 					</div> -->
-						<form action="submitDlvInfo.do" method="post">
+						<form id="submitForm" action="javascript:fsubmitForm();" method="post">
 						<div id="detailList" class="content">
 							<p class="conTitle">
 								<span>상세페이지</span>
