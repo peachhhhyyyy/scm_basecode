@@ -238,18 +238,7 @@
       var content = $('#notice_content').val();
       var auth = $('#notice_auth').val();
       
-      //*** 파일 추가 ***
-      var uploadFile = $('#file-form')[0];
-      var fileData = new FormData(uploadFile);
-      
-      // 
-      fileData.append("empty", "empty");
-      
-      console.log('파일폼확인', uploadFile)
-      console.log('파일확인', fileData)
-      
-      
-      
+      // 널값 체크
       if(title == '') {
         
         alert('제목을  입력해주세요');
@@ -263,6 +252,27 @@
         $('#notice_content').focus();
         return false;
       } 
+      
+      //*** 파일 추가 ***
+      var uploadFile = document.getElementById("myForm");
+      uploadFile.enctype = 'multipart/form-data';
+      var fileData = new FormData(uploadFile);
+      
+      // 아래 코드 이해x
+      fileData.append("empty", "empty");
+      
+      console.log('파일폼확인', uploadFile)
+      console.log('파일확인', fileData)
+      
+      // file에 데이터 추가
+      // 객체(param)를 추가하면 안 되나?  보낸다면 어떻게 받지?
+      fileData.append('title', title);
+      fileData.append('content', title);
+      fileData.append('title', title);
+      
+      
+    
+      
       
       var param = {
           
