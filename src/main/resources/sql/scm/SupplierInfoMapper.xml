@@ -119,7 +119,8 @@
    <!-- 공급처 수정 -->
    <update id="updateSupplier" parameterType="java.util.Map">
     UPDATE tb_scm_supply
-       SET supply_mng_nm = #{supply_mng_nm}
+       SET   supply_nm = #{supply_nm}
+           , supply_mng_nm = #{supply_mng_nm}
            , mng_tel = #{mng_tel}
            , tel = #{tel}
            , email = #{email}

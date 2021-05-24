@@ -198,8 +198,6 @@
       
       $("#supply_cd").attr("readonly", false);
       $("#supply_cd").css("background", "#FFFFFF");
-      $("#supply_nm").attr("readonly", false);
-      $("#supply_nm").css("background", "#FFFFFF");
       $("#warehouse_cd").attr("readonly", true);
       $("#warehouse_cd").css("background", "#F5F5F5");
       
@@ -209,8 +207,6 @@
       $("#supply_cd").attr("readonly", true);
       $("#supply_cd").css("background", "#F5F5F5");
       $("#supply_nm").val(object.supply_nm);
-      $("#supply_nm").attr("readonly", true);
-      $("#supply_nm").css("background", "#F5F5F5");
       $("#supply_mng_nm").val(object.supply_mng_nm);
       $("#tel").val(object.tel);
       $("#mng_tel").val(object.mng_tel);

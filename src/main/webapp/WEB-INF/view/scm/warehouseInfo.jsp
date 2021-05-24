@@ -198,8 +198,6 @@
       
       $("#warehouse_cd").attr("readonly", false);
       $("#warehouse_cd").css("background", "#FFFFFF");
-      $("#warehouse_nm").attr("readonly", false);
-      $("#warehouse_nm").css("background", "#FFFFFF");
       $("#wh_mng_id").attr("readonly", true);
       $("#wh_mng_id").css("background", "#F5F5F5");
       $("#zip_cd").attr("readonly", true);
@@ -216,8 +214,6 @@
       
       $("#warehouse_cd").attr("readonly", true);
       $("#warehouse_cd").css("background", "#F5F5F5");
-      $("#warehouse_nm").attr("readonly", true);
-      $("#warehouse_nm").css("background", "#F5F5F5");
       $("#wh_mng_id").attr("readonly", true);
       $("#wh_mng_id").css("background", "#F5F5F5");
       $("#zip_cd").attr("readonly", true);

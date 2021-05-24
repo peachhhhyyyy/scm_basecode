@@ -115,7 +115,8 @@
   <!-- 창고 수정 -->
 <update id="updateWarehouse" parameterType="java.util.Map">
   UPDATE tb_scm_warehouse 
-  SET  wh_mng_id = #{wh_mng_id}
+  SET  warehouse_nm = #{warehouse_nm}
+     , wh_mng_id = #{wh_mng_id}
      , zip_cd = #{zip_cd}
      , addr = #{addr}
      , addr_detail = #{addr_detail}
