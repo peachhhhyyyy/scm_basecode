@@ -39,7 +39,7 @@
 					#{state}
 				</foreach>
 			</if>
-			ORDER BY o.order_date DESC
+			ORDER BY CAST(o.STTcd as unsigned), o.order_date DESC
 		    LIMIT #{pageIndex}, #{pageSize}
 		</select>
 		
@@ -158,6 +158,7 @@
 					)
 		</insert>
 		
+		<!-- 배송요청 보내면 해당 제품의 재고수 차감 업데이트 -->
 		<update id="updateProductCount" parameterType="int">
 			UPDATE tb_scm_product
 			SET stock = #{productStock} - #{orderCount}

@@ -42,7 +42,7 @@
 					AND prod.prod_nm LIKE CONCAT('%', #{keyword}, '%')
 				</if>
 			</if>
-			ORDER BY o.refund_date DESC
+			ORDER BY CAST(o.STTcd as unsigned), o.refund_date DESC
 		    LIMIT #{pageIndex}, #{pageSize}
 		</select>
 		
@@ -74,6 +74,7 @@
 			</if>
 		</select>
 		
+		<!-- 반품지시서 세부사항 -->
 		<select id="selectRefundDetail" resultType="kr.happyjob.study.scm.model.ScmRefundListModel">
 			SELECT o.product_cd productCode,
 			       prod.prod_nm productName,
@@ -105,7 +106,6 @@
 			LEFT JOIN tb_scm_supply sup ON sup.supply_cd = prod.supply_cd
 			LEFT JOIN tb_scm_warehouse wh ON wh.warehouse_cd = prod.warehouse_cd
 			WHERE o.order_cd = #{orderCode}
-			ORDER BY o.order_date DESC
 		</select>
 		
 		<select id="selectScmManagerName" resultType="String">
