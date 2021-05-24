@@ -524,7 +524,7 @@
             </colgroup>
             <tbody>
               <tr>
-                <th scope="row">창고 코드<span class="font_red">*</span></th>
+                <th scope="row">창고코드<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
                   name="warehouse_cd" id="warehouse_cd" /></td>
                 <th scope="row">창고명 <span class="font_red">*</span></th>
