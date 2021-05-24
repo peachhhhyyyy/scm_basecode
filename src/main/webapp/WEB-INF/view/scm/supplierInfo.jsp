@@ -93,12 +93,23 @@
     $("#currentPageSupplier").val(currentPage);
   }
   
-  /*제품 목록 조회*/
-  function fListProduct(currentPage, supply_nm, supply_cd) {
-    //공급처명 매개변수 설정
-    currentPage = currentPage || 1;
+  function callfListProduct(supply_nm, supply_cd) {
     $("#tmpsupply_nm").val(supply_nm);
     $("#tmpsupply_cd").val(supply_cd);
+    
+    fListProduct();
+    
+  }
+  
+  
+  /*제품 목록 조회*/
+  function fListProduct(currentPage) {
+    //공급처명 매개변수 설정
+    currentPage = currentPage || 1;
+    
+    var supply_nm = $("#tmpsupply_nm").val();
+    var supply_cd = $("#tmpsupply_cd").val();
+    
     var param = {
         supply_nm : supply_nm
       , supply_cd : supply_cd //공급처 코드 변수설정
