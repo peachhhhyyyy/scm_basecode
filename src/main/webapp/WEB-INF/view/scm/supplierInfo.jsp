@@ -93,6 +93,7 @@
     $("#currentPageSupplier").val(currentPage);
   }
   
+  /*제품목록 조회 이전 페이징 설정*/
   function callfListProduct(supply_nm, supply_cd) {
     $("#tmpsupply_nm").val(supply_nm);
     $("#tmpsupply_cd").val(supply_cd);

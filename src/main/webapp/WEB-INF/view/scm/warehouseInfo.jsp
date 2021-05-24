@@ -97,13 +97,22 @@
     $("#currentPageWarehouse").val(currentPage);
   }
   
+  /*제품목록 조회 이전 페이징 설정*/
+  function callfListProduct(warehouse_nm, warehouse_cd) {
+    $("#tmpwarehouse_nm").val(warehouse_nm);
+    $("#tmpwarehouse_cd").val(warehouse_cd);
+    
+    fListProduct();
+    
+  }
+  
   /*제품 목록 조회*/
   function fListProduct(currentPage, warehouse_nm, warehouse_cd) {
     //창고코드 매개변수 설정
     currentPage = currentPage || 1;
     
-    $("#tmpwarehouse_nm").val(warehouse_nm);
-    $("#tmpwarehouse_cd").val(warehouse_cd);
+    var warehouse_cd = $("#tmpwarehouse_cd").val();
+    var warehouse_nm = $("#tmpwarehouse_nm").val();
     
     var param = {
         warehouse_nm : warehouse_nm
