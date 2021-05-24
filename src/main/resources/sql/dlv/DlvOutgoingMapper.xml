@@ -45,7 +45,7 @@
 			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
 			    AND OD.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d')
 			</if>
-			ORDER BY OD.order_cd DESC
+			ORDER BY OD.STTcd ASC, OD.order_date DESC
 			LIMIT #{pageIndex}, #{pageSize}
 	</select>
 	
@@ -86,7 +86,7 @@
             <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
                 AND OD.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d')
             </if>
-            ORDER BY OD.order_cd DESC
+            ORDER BY OD.STTcd ASC, OD.order_date DESC
             LIMIT #{pageIndex}, #{pageSize}
 	</select>
 	
@@ -95,8 +95,8 @@
         SELECT  DATE_FORMAT(OD.order_date, '%Y-%m-%d') AS order_date
                 , shipList.ship_list_no AS ship_list_no
 				, OD.order_cd AS order_cd
-				, tsp.m_ct_nm
-				, tsp.prod_nm
+				, tsp.l_ct_nm AS l_ct_nm
+				, tsp.prod_nm AS prod_nm
 				, OD.order_cnt AS order_cnt
 				, CUSTOMER.name AS name_customer
 				, CUSTOMER.tel AS tel_customer
@@ -115,9 +115,12 @@
                 SELECT tb_scm_product.product_cd AS product_cd
                         , tb_scm_product.prod_nm AS prod_nm
                         , tb_scm_m_category.m_ct_nm AS m_ct_nm
+                        , tb_scm_l_category.l_ct_nm AS l_ct_nm
                     FROM tb_scm_product
                     LEFT JOIN tb_scm_m_category
-                    ON tb_scm_product.m_ct_cd = tb_scm_m_category.m_ct_cd) AS tsp
+                    ON tb_scm_product.m_ct_cd = tb_scm_m_category.m_ct_cd
+                    LEFT JOIN tb_scm_l_category
+                    ON tb_scm_m_category.l_ct_cd = tb_scm_l_category.l_ct_cd) AS tsp
             ON OD.product_cd = tsp.product_cd
 
             LEFT JOIN(
