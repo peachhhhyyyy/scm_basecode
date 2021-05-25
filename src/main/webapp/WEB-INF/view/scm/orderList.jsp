@@ -58,7 +58,7 @@
 								<input type="checkbox" id="check_10" name="check_10" value="10"> 
 									<label for="check_10">승인완료(발주)</label> 
 								<input type="checkbox" id="check_11" name="check_11" value="11"> 
-									<label for="check_11">입고대기</label> 
+									<label for="check_11">입고전</label> 
 								<input type="checkbox" id="check_12" name="check_12" value="12"> 
 									<label for="check_12">입고완료</label>
 							</div>
