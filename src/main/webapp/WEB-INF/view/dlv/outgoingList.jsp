@@ -20,7 +20,7 @@
 		        </tr>
 		    </c:forEach>
 		</c:if>
-		<input type="hidden" id="totcnt" name="totcnt" value="${outgoingSearchCnt}" />
+		<input type="hidden" id="totcnt" value="${outgoingSearchCnt}" />
 	</c:when>
 	<c:otherwise>
 		<c:if test="${outgoingCnt eq 0 }">
@@ -41,6 +41,6 @@
 				</tr>
 			</c:forEach>
 		</c:if>
-		<input type="hidden" id="totcnt" name="totcnt" value="${outgoingCnt}" />
+		<input type="hidden" id="totcnt" value="${outgoingCnt}" />
 	</c:otherwise>
 </c:choose>
