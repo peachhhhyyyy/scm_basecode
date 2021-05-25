@@ -57,7 +57,7 @@
 
 		// 페이지 네비게이션 생성
 		var paginationHtml = getPaginationHtml(currentPage, totalReturnListCnt,
-				pageSizeinfo, pageBlockSizeinquiry, 'fReturnList');
+				pageSizeinfo, pageBlockSizeinquiry, 'fSearchReturnList');
 		// 현재 페이지 설정
 		$("#listInfPagination").empty().append(paginationHtml);
 	}
