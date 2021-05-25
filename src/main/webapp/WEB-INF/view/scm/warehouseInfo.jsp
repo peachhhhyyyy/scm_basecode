@@ -283,7 +283,7 @@
     }
   }
   
-  //비활성화 정보 표시 체크
+  //비활성화 정보 표시 체크          <---------- 안쓰는거라 변경해야함!!!!!!!!!!
   function checkClickEvent(currentPage) {
     currentPage = currentPage || 1;
     

@@ -15,7 +15,7 @@
       <td>${list.prod_nm}</td>
       <td>${list.l_ct_nm}</td>
       <td>${list.supply_nm}</td>
-      <td>${list.stock}</td>
+      <td><fmt:formatNumber value="${list.stock}" pattern="#,###"/></td>
     </tr>
     <c:set var="nRow" value="${nRow + 1}" />
   </c:forEach>
