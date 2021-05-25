@@ -175,7 +175,7 @@
 									<th scope="col">기업고객명</th>
 									<th scope="col">품목명</th>
 									<th scope="col">제품명</th>
-									<th scope="col">발주개수</th>
+									<th scope="col">반품수량</th>
 									<th scope="col">SCM관리자</th>
 									<th scope="col">제출일자</th>
 									</tr>
