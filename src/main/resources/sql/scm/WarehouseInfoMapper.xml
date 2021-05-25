@@ -123,12 +123,12 @@
   WHERE warehouse_cd = #{warehouse_cd}
 </update>
 
-  <!-- 창고 비활성화 -->
-  <update id="deactivateWarehouse" parameterType="java.util.Map">
-  UPDATE tb_scm_warehouse 
-  SET  use_yn = "N"
+  <!-- 창고 삭제 -->
+  <delete id="deleteWarehouse" parameterType="java.util.Map">
+  DELETE
+  FROM tb_scm_warehouse 
   WHERE warehouse_cd = #{warehouse_cd}
-  </update>
+  </delete>
   
 
 </mapper>

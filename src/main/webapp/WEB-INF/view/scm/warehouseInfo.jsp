@@ -26,7 +26,7 @@
     fListProduct();
     //버튼 이벤트 등록
     fRegisterButtonClickEvent();
-    //비활성화된 정보 표시 체크 클릭
+    //삭제된 정보 표시 체크 클릭
     checkClickEvent();
     //엔터눌렀을때 창고정보 검색되게하기
     $("#sname").keypress(function (e) {
@@ -50,8 +50,8 @@
       case 'btnSaveWarehouse'://저장하기
         fSaveWarehouse();
         break;
-      case 'btnDeactivateWarehouse'://비활성화하기
-        fDeactivateWarehouse();
+      case 'btnDeleteWarehouse'://삭제하기
+        fDeleteWarehouse();
         break;
       case 'btnCloseWarehouse': //닫기
         gfCloseModal();
@@ -84,7 +84,7 @@
   function flistWarehouseResult(data, currentPage) {
     //alert(data);
     console.log(data);
-    //기존 목록 비활성화
+    //기존 목록 삭제
     $('#listWarehouse').empty();
     $("#listWarehouse").append(data);
     // 총 개수 추출
@@ -131,7 +131,7 @@
   
   /*제품목록 조회 콜백 함수*/
   function flistProductResult(data, currentPage) {
-    //기존 목록 비활성화
+    //기존 목록 삭제
     $("#listWarehouseProduct").empty();
     // 신규 목록 생성
     $("#listWarehouseProduct").append(data);
@@ -194,7 +194,7 @@
       $("#zip_cd").val("");
       $("#addr").val("");
       $("#addr_detail").val("");
-      $("#btnDeactivateWarehouse").hide();
+      $("#btnDeleteWarehouse").hide();
       
       $("#warehouse_cd").attr("readonly", false);
       $("#warehouse_cd").css("background", "#FFFFFF");
@@ -210,7 +210,7 @@
       $("#zip_cd").val(object.zip_cd);
       $("#addr").val(object.addr);
       $("#addr_detail").val(object.addr_detail);
-      $("#btnDeactivateWarehouse").show();
+      $("#btnDeleteWarehouse").show();
       
       $("#warehouse_cd").attr("readonly", true);
       $("#warehouse_cd").css("background", "#F5F5F5");
@@ -266,9 +266,9 @@
     fInitFormWarehouse();
   }
   
-  //창고 비활성화
-  function fDeactivateWarehouse(warehouse_cd){
-    var con = confirm("비활성화하시겠습니까 ?");
+  //창고 삭제
+  function fDeleteWarehouse(warehouse_cd){
+    var con = confirm("삭제하시겠습니까 ?");
     var currentPage = "1";
     if (con){
       var resultCallback = function(data) {
@@ -466,10 +466,6 @@
                 </table>
               </div>
               <div class="paging_area" id="warehousePagination"></div>
-              <div>
-                    <input type="checkbox" id="delcheck" name="delcheck" value="del"> 
-                                        비활성화된 정보 표시
-                 </div>
               <p class="conTitle mt50">
                 <span>제품정보</span>
               </p>
@@ -565,7 +561,7 @@
 
           <div class="btn_areaC mt30">
             <a href="" class="btnType blue" id="btnSaveWarehouse" name="btn"><span>저장</span></a>
-            <a href="" class="btnType blue" id="btnDeactivateWarehouse" name="btn"><span>비활성화</span></a>  
+            <a href="" class="btnType blue" id="btnDeleteWarehouse" name="btn"><span>삭제</span></a>  
             <a href="" class="btnType gray" id="btnCloseWarehouse" name="btn"><span>취소</span></a>
           </div>
         </dd>
