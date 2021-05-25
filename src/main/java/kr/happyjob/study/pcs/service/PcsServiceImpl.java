@@ -42,6 +42,7 @@ public class PcsServiceImpl implements PcsService {
     return pcsmodel;
   }
   
+  
   /** 발주서 전송 누르고 조회 */
   public PcsModel selectPurchBtn(Map<String, Object> paramMap) {
     PcsModel pcsmodel = pcsDao.selectPurchBtn(paramMap);
@@ -63,6 +64,18 @@ public class PcsServiceImpl implements PcsService {
   /** 발주서 상태 변경 */
   public int updateSTTcd(Map<String, Object> paramMap) {
     int pcsmodel = pcsDao.updateSTTcd(paramMap);
+    return pcsmodel;
+  }
+  
+  /** 반품서 전송 누르고 조회 */
+  public PcsModel selectRefundBtn(Map<String, Object> paramMap) {
+    PcsModel pcsmodel = pcsDao.selectRefundBtn(paramMap);
+    return pcsmodel;
+  }
+
+  /** 발주서 상태 변경 */
+  public int updateStock(Map<String, Object> paramMap) {
+    int pcsmodel = pcsDao.updateStock(paramMap);
     return pcsmodel;
   }
 }

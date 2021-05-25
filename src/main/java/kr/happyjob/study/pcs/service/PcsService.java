@@ -18,7 +18,7 @@ public interface PcsService {
   
   /** 발주지시서 상태 변경 */
   public int updateState(Map<String, Object> paramMap);
-  
+
   /** 발주서 목록 조회 */
   public List<PcsModel> pcsOrderForm(Map<String, Object> paramMap);
   
@@ -27,4 +27,10 @@ public interface PcsService {
   
   /** 발주서 상태 변경 */
   public int updateSTTcd(Map<String, Object> paramMap);
+  
+  /** 발주서 반품버튼 클릭시 조회 */
+  public PcsModel selectRefundBtn(Map<String, Object> paramMap);
+  
+  /** 입고완료 누르면 재고 업데이트*/
+  public int updateStock(Map<String, Object> paramMap);
 }
