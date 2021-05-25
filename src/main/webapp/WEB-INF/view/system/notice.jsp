@@ -59,7 +59,8 @@
     // 공지사항 제목 글자 제한
     $('#notice_title').keyup(function(e){
       
-      var limit = 100;
+      // 테스트를 위해 10자로 제한
+      var limit = 10;
       var count = $(this).val().length;
       
       if(count > limit) {
@@ -71,20 +72,23 @@
       }
       
     });
-    
-   
-    // 공지사항 내용 글자 제한 & 카운트
-    $("#notice_content").keyup(function(e) {
      
-      console.log('숫자변화', count);
+    // 공지사항 내용 글자 제한 & 카운트 이벤트
+    $("#notice_content").keyup(function(e) {
       
-      var limit = 1000;
+      var count = $('#notice_content').val().length;     
+      document.getElementById("count").innerHTML = count;
+      
+      // 테스트를 위해 10자로 제한
+      var limit = 10;
       var input =  $(this).val().length;
       
       if(input > limit) {
         
         alert('내용은 1000자 이하로 작성해 주세요');
         $(this).val($(this).val().substring(0,limit));
+        count = limit;
+        document.getElementById("count").innerHTML = count;
         return false;
         
       }
@@ -141,7 +145,6 @@
       deleteNotice();
       
     })
-    
     
     // onload 끝
   });
@@ -264,20 +267,17 @@
       fileData.append('content', title);
       fileData.append('title', title);
       
-      
-    
-      
-      
+      /*
       var param = {
-          
           title: title,
           content: content,
           auth: auth 
-          
       }
       
+      */
       
       // 콜백 함수
+      // 파일 업로드 관련해서 수정해야 함
       function resultCallback(result) {
         
         if(result == 1) {
@@ -296,7 +296,9 @@
       
       
       // AJAX호출
-      callAjax("/system/writeNotice.do", "post", "json", true, param, resultCallback);
+      //callAjax("/system/writeNotice.do", "post", "json", true, param, resultCallback);
+      callAjaxFileUploadSetFormData("/system/writeNotice.do", "post", "json", true, fileData, resultCallback);
+    
     };
     
     /* 공지사항 단건 조회 함수 */
@@ -725,7 +727,8 @@
               <tr>
                 <th scope="row">내용</th>
                 <td colspan="3">
-                  <textarea class="inputTxt p100" name="notice_content" id="notice_content" placeholder="최대 1000자까지 입력 가능합니다"/></textarea>
+                  <textarea class="inputTxt p100" name="notice_content" id="notice_content" maxlength="1000" placeholder="최대 1000자까지 입력 가능합니다"/></textarea>
+                  <p class="pull-right"><span id="count">0</span>/1000</p>
                 </td>
               </tr>
                <tr id="add_file" class="">
