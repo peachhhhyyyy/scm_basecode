@@ -13,7 +13,7 @@
 	<c:set var="nRow" value="${pageSize*(currentPageCart-1)}" />
 	<c:forEach items="${listCartModel}" var="list">
 		<tr>
-			<td><input id="selectCartItem" type="checkbox" name="selectCartItem" checked="checked" value="${list.price * list.shopping_cart_qty * 1.1}">
+			<td><input id="selectCartItem_${list.product_cd}" type="checkbox" name="selectCartItem"  checked="checked" value="${list.price * list.shopping_cart_qty * 1.1}" class="checkSelect">
 			</td>
 			<td><img style="height: 200px;"
 				src="http://img.danawa.com/prod_img/500000/135/584/img/12584135_1.jpg?shrink=360:360&_v=20201030144612" />

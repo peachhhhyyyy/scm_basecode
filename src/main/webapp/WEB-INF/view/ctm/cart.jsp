@@ -56,7 +56,14 @@ input[type=number]::-webkit-outer-spin-button {
     var pageSizeCart= 5;
     var pageBlockSizeCart = 5;
     
+    /* 화면에 뿌려주는 총 금액 */
     var totalAmount = 0;
+    
+    /* 체크박스 선택된 ID 리스트 저장 */
+    
+    var btnId;
+    var pdcdarr = Array();
+    var pdcd;
     
     /** OnLoad event */ 
 
@@ -116,6 +123,7 @@ input[type=number]::-webkit-outer-spin-button {
       /* 장바구니 부분 선택 구매 */
       var checkedCount = $("input[name='selectCartItem']:checked").length;
       var checkArr = $("input[name=selectCartItem]");
+
       
       /* 수량변경, 체크박스 동기화 */
       for (i = 0; i < inputCnt; i++) {
@@ -278,7 +286,29 @@ input[type=number]::-webkit-outer-spin-button {
     });
     
     function fOrderModal() {
-      console.log(orderModal);
+    	var chkbox = $('.checkSelect');
+    	
+    	pdcdarr.splice(0, pdcdarr.length);
+      
+      //console.log("chkbox.length : " + chkbox.length);
+      
+      for(i=0; i<chkbox.length; i++){
+    	  
+    	  //console.log("i : " + i + " chkbox[i].checked : " + chkbox[i].checked);
+        if(chkbox[i].checked == true){
+          btnId = chkbox[i].id;
+          pdcd = btnId.split('_',2);
+          pdcdarr.push(pdcd[1]);
+          
+          //console.log("btnId : " + btnId + " pdcd[1] : " + pdcd[1]);
+        }
+      }
+
+      //console.log("pdcdarr::" + pdcdarr);
+      $("#pdcdArray").val(pdcdarr);
+      
+      //console.log("pdcd::" + $("#pdcdArray").val().toString());
+      
       orderModal.open();
     };    
         
@@ -292,6 +322,7 @@ input[type=number]::-webkit-outer-spin-button {
   <input type="hidden" id="tmpCartNm" value="">
   <input type="hidden" name="action" id="action" value="">
   <input type="hidden" id="totalAmount" value="${totalPrice*1.1}">
+  <input type="hidden" id="pdcdArray" value="">
   
   <!-- 모달 배경 -->
   <div id="mask"></div>
