@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.happyjob.study.scm.model.GetWarehouseModel;
 import kr.happyjob.study.scm.model.MainProductInfoModel;
+import kr.happyjob.study.scm.model.MainProductModalModel;
 import kr.happyjob.study.scm.service.MainProductInfoService;
 
 @Controller
@@ -71,7 +72,7 @@ public class MainProductInfoController {
     return "scm/listMainProduct";
   }
   
-  // 제품 상세정보 조회
+  // 제품정보 관리 조회
   @RequestMapping("selectMainProduct.do")
   @ResponseBody
   public Map<String, Object> selectMainProduct(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
@@ -145,6 +146,29 @@ public class MainProductInfoController {
     Map<String, Object> resultMap = new HashMap<String, Object>();
     resultMap.put("warehouseInfo", warehouseInfo);
     
+    return resultMap;
+  }
+  
+  // 제품 상세정보 조회
+  @RequestMapping("mainProductModal.do")
+  @ResponseBody
+  public Map<String, Object> mainProductModal(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+    logger.info("+ Start " + className + ".mainProductModal");
+    logger.info("   - paramMap : " + paramMap);
+    
+    String result = "SUCCESS";
+    String resultMsg = "조회 되었습니다.";
+    
+    MainProductModalModel mainProductModalModel = mainProductInfoService.mainProductModal(paramMap);
+    
+    Map<String, Object> resultMap = new HashMap<String, Object>();
+    resultMap.put("result", result);
+    resultMap.put("resultMsg", resultMsg);
+    resultMap.put("mainProductModalModel", mainProductModalModel);
+    
+    logger.info("+ End " + className + ".mainProductModal");
+    
+    System.out.println(resultMap);
     return resultMap;
   }
   

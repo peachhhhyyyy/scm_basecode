@@ -77,11 +77,10 @@
   </select>
   
   <!-- 공급처명 조회 -->
-  <select  id = "selectSPlist" resultType="kr.happyjob.study.system.model.comcombo">
+  <select  id ="selectSPlist" resultType="kr.happyjob.study.system.model.comcombo">
     /*kr.happyjob.study.system.dao.ComnComboDao.selectSPlist*/
       SELECT supply_cd as cd
              , supply_nm as name
        FROM tb_scm_supply
   </select>
-	
 </mapper>

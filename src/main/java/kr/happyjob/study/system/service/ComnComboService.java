@@ -33,4 +33,5 @@ public interface ComnComboService {
 	
 	/** 공급처명 조회*/
 	public List<comcombo> selectSPlist(Map<String, Object> paramMap) throws Exception;
+  
 }
