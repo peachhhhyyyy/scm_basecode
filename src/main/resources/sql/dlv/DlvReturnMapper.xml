@@ -49,7 +49,7 @@
            <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
                AND TOO.refund_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d')
            </if>
-	       ORDER BY TSRL.refund_list_no DESC
+	       ORDER BY TOO.STTcd ASC, TSRL.refund_list_no DESC
 		   LIMIT #{pageIndex}, #{pageSize}
 	</select>
 
@@ -92,8 +92,7 @@
            <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
                AND TOO.refund_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d')
            </if>
-           ORDER BY TSRL.refund_list_no DESC
-           LIMIT #{pageIndex}, #{pageSize}
+           ORDER BY TOO.STTcd ASC, TSRL.refund_list_no DESC
 	</select>
 	
 	<select id="returnDetailList" resultType="kr.happyjob.study.dlv.model.DlvReturnDetailModel">
@@ -173,21 +172,23 @@
                         OD.STTcd = #{state}
                     </when>
                     <otherwise>
+                        TSRL.refund_date = NOW(),
                         OD.STTcd = #{state},
                         TSP.stock = TSP.stock + #{refund_cnt}
                     </otherwise>
                 </choose>
             WHERE '1'='1'
-            <choose>
-                    <when test='state.equals("6")'>
-                        AND OD.order_cd = #{order_cd}
-			            AND TSRL.refund_list_no = #{refund_list_no}
-			            AND TSRL.order_cd = #{order_cd}
-                    </when>
-                    <otherwise>
-                        AND OD.order_cd = #{order_cd}
-                        AND TSP.prod_nm = #{prod_nm}
-                    </otherwise>
-                </choose>
+	            <choose>
+	                    <when test='state.equals("6")'>
+	                        AND OD.order_cd = #{order_cd}
+				            AND TSRL.refund_list_no = #{refund_list_no}
+				            AND TSRL.order_cd = #{order_cd}
+	                    </when>
+	                    <otherwise>
+	                        AND TSRL.refund_list_no = #{refund_list_no}
+	                        AND OD.order_cd = #{order_cd}
+	                        AND TSP.prod_nm = #{prod_nm}
+	                    </otherwise>
+	                </choose>
     </update>
 </mapper>
