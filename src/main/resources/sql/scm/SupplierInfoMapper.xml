@@ -20,12 +20,7 @@
       <choose>
         <when test="oname eq 'all'.toString()">
             AND (SP.supply_nm LIKE CONCAT('%', #{sname}, '%')
-              or SP.supply_cd LIKE CONCAT('%', #{sname}, '%') 
-              or SP.supply_mng_nm LIKE CONCAT('%', #{sname}, '%')
-              or SP.tel LIKE CONCAT('%', #{sname}, '%')   
-              or SP.mng_tel LIKE CONCAT('%', #{sname}, '%')
-              or SP.email LIKE CONCAT('%', #{sname}, '%')
-              or WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%'))
+              or SP.supply_mng_nm LIKE CONCAT('%', #{sname}, '%'))
         </when>
         <when test= "(oname eq 'supply_nm'.toString())">
             AND SP.supply_nm LIKE concat('%', #{sname}, '%')
@@ -48,13 +43,8 @@
       <if test="(sname != null) and (!sname.equals(''))">
       <choose>
         <when test="oname eq 'all'.toString()">
-            AND (SP.supply_nm LIKE CONCAT('%', #{sname}, '%')
-              or SP.supply_cd LIKE CONCAT('%', #{sname}, '%') 
-              or SP.supply_mng_nm LIKE CONCAT('%', #{sname}, '%')
-              or SP.tel LIKE CONCAT('%', #{sname}, '%')   
-              or SP.mng_tel LIKE CONCAT('%', #{sname}, '%')
-              or SP.email LIKE CONCAT('%', #{sname}, '%')
-              or WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%'))
+            AND (SP.supply_nm LIKE CONCAT('%', #{sname}, '%')            
+              or SP.supply_mng_nm LIKE CONCAT('%', #{sname}, '%'))
         </when>
         <when test= "(oname eq 'supply_nm'.toString())">
             AND SP.supply_nm LIKE concat('%', #{sname}, '%')
@@ -73,7 +63,6 @@
          , PD.product_cd as product_cd
          , PD.prod_nm as prod_nm
          , LC.l_ct_nm as l_ct_nm
-         , PD.stock as stock
          , PD.purchase_price as purchase_price
       FROM tb_scm_product PD
       LEFT OUTER JOIN tb_scm_supply SP ON SP.supply_cd = PD.supply_cd
@@ -130,7 +119,8 @@
    <!-- 공급처 수정 -->
    <update id="updateSupplier" parameterType="java.util.Map">
     UPDATE tb_scm_supply
-       SET supply_mng_nm = #{supply_mng_nm}
+       SET   supply_nm = #{supply_nm}
+           , supply_mng_nm = #{supply_mng_nm}
            , mng_tel = #{mng_tel}
            , tel = #{tel}
            , email = #{email}

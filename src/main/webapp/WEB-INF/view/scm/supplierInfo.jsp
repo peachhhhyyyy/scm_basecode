@@ -93,12 +93,24 @@
     $("#currentPageSupplier").val(currentPage);
   }
   
-  /*제품 목록 조회*/
-  function fListProduct(currentPage, supply_nm, supply_cd) {
-    //공급처명 매개변수 설정
-    currentPage = currentPage || 1;
+  /*제품목록 조회 이전 페이징 설정*/
+  function callfListProduct(supply_nm, supply_cd) {
     $("#tmpsupply_nm").val(supply_nm);
     $("#tmpsupply_cd").val(supply_cd);
+    
+    fListProduct();
+    
+  }
+  
+  
+  /*제품 목록 조회*/
+  function fListProduct(currentPage) {
+    //공급처명 매개변수 설정
+    currentPage = currentPage || 1;
+    
+    var supply_nm = $("#tmpsupply_nm").val();
+    var supply_cd = $("#tmpsupply_cd").val();
+    
     var param = {
         supply_nm : supply_nm
       , supply_cd : supply_cd //공급처 코드 변수설정
@@ -186,8 +198,6 @@
       
       $("#supply_cd").attr("readonly", false);
       $("#supply_cd").css("background", "#FFFFFF");
-      $("#supply_nm").attr("readonly", false);
-      $("#supply_nm").css("background", "#FFFFFF");
       $("#warehouse_cd").attr("readonly", true);
       $("#warehouse_cd").css("background", "#F5F5F5");
       
@@ -197,8 +207,6 @@
       $("#supply_cd").attr("readonly", true);
       $("#supply_cd").css("background", "#F5F5F5");
       $("#supply_nm").val(object.supply_nm);
-      $("#supply_nm").attr("readonly", true);
-      $("#supply_nm").css("background", "#F5F5F5");
       $("#supply_mng_nm").val(object.supply_mng_nm);
       $("#tel").val(object.tel);
       $("#mng_tel").val(object.mng_tel);
@@ -425,16 +433,14 @@
                                  <col width="15%">
                                  <col width="15%">
                                  <col width="15%">
-                                 <col width="15%">
                              </colgroup>
                         <thead>
                              <tr>
                                 <th scope="col">공급처명</th>
                                 <th scope="col">제품코드</th>
                                 <th scope="col">제품명</th>
-                                <th scope="col">모델명</th>
-                                <th scope="col">재고현황(개)</th>
-                                <th scope="col">장비구매액(원)</th>
+                                <th scope="col">품목명</th>
+                                <th scope="col">장비구매액(원)/EA</th>
                              </tr>
                         </thead>
                         <tbody id="listSupplierProduct">

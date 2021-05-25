@@ -10,7 +10,7 @@
   <c:forEach items="${listSupplierModel}" var="list">
     <tr>
       <td>${list.supply_cd}</td>
-      <td><a href="javascript:fListProduct(1,'${list.supply_nm}','${list.supply_cd}');">${list.supply_nm}</a></td>
+      <td><a href="javascript:callfListProduct('${list.supply_nm}','${list.supply_cd}');">${list.supply_nm}</a></td>
       <td>${list.tel}</td>
       <td>${list.supply_mng_nm}</td>
       <td>${list.mng_tel}</td>

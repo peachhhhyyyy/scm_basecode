@@ -78,8 +78,7 @@ public class ComnComboController {
 		} else if("sp".equals(ComType)) {
 		  // 공통 콤보 조회 공급처명
 		  comComboModel = comnComboService.selectSPlist(paramMap);
-		}
-		
+		} 
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 

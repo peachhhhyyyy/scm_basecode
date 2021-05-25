@@ -26,7 +26,7 @@
     fListProduct();
     //버튼 이벤트 등록
     fRegisterButtonClickEvent();
-    //비활성화된 정보 표시 체크 클릭
+    //삭제된 정보 표시 체크 클릭
     checkClickEvent();
     //엔터눌렀을때 창고정보 검색되게하기
     $("#sname").keypress(function (e) {
@@ -50,8 +50,8 @@
       case 'btnSaveWarehouse'://저장하기
         fSaveWarehouse();
         break;
-      case 'btnDeactivateWarehouse'://비활성화하기
-        fDeactivateWarehouse();
+      case 'btnDeleteWarehouse'://삭제하기
+        fDeleteWarehouse();
         break;
       case 'btnCloseWarehouse': //닫기
         gfCloseModal();
@@ -84,7 +84,7 @@
   function flistWarehouseResult(data, currentPage) {
     //alert(data);
     console.log(data);
-    //기존 목록 비활성화
+    //기존 목록 삭제
     $('#listWarehouse').empty();
     $("#listWarehouse").append(data);
     // 총 개수 추출
@@ -97,13 +97,22 @@
     $("#currentPageWarehouse").val(currentPage);
   }
   
+  /*제품목록 조회 이전 페이징 설정*/
+  function callfListProduct(warehouse_nm, warehouse_cd) {
+    $("#tmpwarehouse_nm").val(warehouse_nm);
+    $("#tmpwarehouse_cd").val(warehouse_cd);
+    
+    fListProduct();
+    
+  }
+  
   /*제품 목록 조회*/
   function fListProduct(currentPage, warehouse_nm, warehouse_cd) {
     //창고코드 매개변수 설정
     currentPage = currentPage || 1;
     
-    $("#tmpwarehouse_nm").val(warehouse_nm);
-    $("#tmpwarehouse_cd").val(warehouse_cd);
+    var warehouse_cd = $("#tmpwarehouse_cd").val();
+    var warehouse_nm = $("#tmpwarehouse_nm").val();
     
     var param = {
         warehouse_nm : warehouse_nm
@@ -122,7 +131,7 @@
   
   /*제품목록 조회 콜백 함수*/
   function flistProductResult(data, currentPage) {
-    //기존 목록 비활성화
+    //기존 목록 삭제
     $("#listWarehouseProduct").empty();
     // 신규 목록 생성
     $("#listWarehouseProduct").append(data);
@@ -185,12 +194,10 @@
       $("#zip_cd").val("");
       $("#addr").val("");
       $("#addr_detail").val("");
-      $("#btnDeactivateWarehouse").hide();
+      $("#btnDeleteWarehouse").hide();
       
       $("#warehouse_cd").attr("readonly", false);
       $("#warehouse_cd").css("background", "#FFFFFF");
-      $("#warehouse_nm").attr("readonly", false);
-      $("#warehouse_nm").css("background", "#FFFFFF");
       $("#wh_mng_id").attr("readonly", true);
       $("#wh_mng_id").css("background", "#F5F5F5");
       $("#zip_cd").attr("readonly", true);
@@ -203,12 +210,10 @@
       $("#zip_cd").val(object.zip_cd);
       $("#addr").val(object.addr);
       $("#addr_detail").val(object.addr_detail);
-      $("#btnDeactivateWarehouse").show();
+      $("#btnDeleteWarehouse").show();
       
       $("#warehouse_cd").attr("readonly", true);
       $("#warehouse_cd").css("background", "#F5F5F5");
-      $("#warehouse_nm").attr("readonly", true);
-      $("#warehouse_nm").css("background", "#F5F5F5");
       $("#wh_mng_id").attr("readonly", true);
       $("#wh_mng_id").css("background", "#F5F5F5");
       $("#zip_cd").attr("readonly", true);
@@ -221,7 +226,7 @@
     var chk = checkNotEmpty([ 
             [ "warehouse_cd", "창고코드를 입력하세요." ],
             [ "warehouse_nm", "창고명 입력하세요." ],
-            [ "wh_mng_id", "담당자코드를 입력하세요." ],
+            [ "wh_mng_id", "담당자ID를 입력하세요." ],
             [ "zip_cd", "우편주소를 입력하세요." ],
             [ "addr", "주소를 입력하세요." ], 
             [ "addr_detail", "상세주소를 입력하세요." ] 
@@ -252,18 +257,18 @@
       currentPage = $("#currentPageWarehouse").val();
     }
     if (data.result == "SUCCESS") {
-      alert(data.resultMsg);
+      swal(data.resultMsg);
       gfCloseModal();
       fListWarehouse(currentPage);
     } else {
-      alert(data.resultMsg);
+      swal(data.resultMsg);
     }
     fInitFormWarehouse();
   }
   
-  //창고 비활성화
-  function fDeactivateWarehouse(warehouse_cd){
-    var con = confirm("비활성화하시겠습니까 ?");
+  //창고 삭제
+  function fDeleteWarehouse(warehouse_cd){
+    var con = confirm("삭제하시겠습니까 ?");
     var currentPage = "1";
     if (con){
       var resultCallback = function(data) {
@@ -423,10 +428,6 @@
               </p>
               <div class="WarehouseList">
                 <div class="conTitle" style="margin: 0 25px 10px 0; float: left;">
-                  <label>
-                    <input type="checkbox" id="delcheck" name="delcheck" value="del"> 
-                                        비활성화된 정보 표시
-                 </label>
                            <select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
                             <option value="all" selected="selected">전체</option>
                            <option value="warehouse_nm">창고명</option>
@@ -485,9 +486,9 @@
                       <th scope="col">창고명</th>
                       <th scope="col">제품코드</th>
                       <th scope="col">제품명</th>
-                      <th scope="col">모델명</th>
+                      <th scope="col">품목명</th>
                       <th scope="col">공급처명</th>
-                      <th scope="col">재고수량</th>
+                      <th scope="col">재고수량(EA)</th>
                     </tr>
                   </thead>
                   <tbody id="listWarehouseProduct">
@@ -524,7 +525,7 @@
             </colgroup>
             <tbody>
               <tr>
-                <th scope="row">창고 코드<span class="font_red">*</span></th>
+                <th scope="row">창고코드<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
                   name="warehouse_cd" id="warehouse_cd" /></td>
                 <th scope="row">창고명 <span class="font_red">*</span></th>
@@ -560,7 +561,7 @@
 
           <div class="btn_areaC mt30">
             <a href="" class="btnType blue" id="btnSaveWarehouse" name="btn"><span>저장</span></a>
-            <a href="" class="btnType blue" id="btnDeactivateWarehouse" name="btn"><span>비활성화</span></a>  
+            <a href="" class="btnType blue" id="btnDeleteWarehouse" name="btn"><span>삭제</span></a>  
             <a href="" class="btnType gray" id="btnCloseWarehouse" name="btn"><span>취소</span></a>
           </div>
         </dd>

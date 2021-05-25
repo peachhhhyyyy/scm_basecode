@@ -17,13 +17,9 @@
       <if test="(sname != null) and (!sname.equals(''))">
       <choose>
         <when test="oname eq 'all'.toString()">
-            AND (WH.warehouse_cd LIKE CONCAT('%', #{sname}, '%')
-                 or WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%')
+            AND (WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%')            
                  or UI.name LIKE CONCAT('%', #{sname}, '%')
-                 or UI.tel LIKE CONCAT('%', #{sname}, '%')
-                 or UI.mail LIKE CONCAT('%', #{sname}, '%')
-                 or WH.zip_cd LIKE CONCAT('%', #{sname}, '%')
-                 or WH.addr LIKE CONCAT('%', #{sname}, '%'))
+                )
         </when>
         <when test= "(oname eq 'warehouse_nm'.toString())">
             AND WH.warehouse_nm LIKE concat('%', #{sname}, '%')
@@ -45,13 +41,9 @@
         <choose>
         <when test="oname eq 'all'.toString()">
             <!-- AND (WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%') or UI.name LIKE CONCAT('%', #{sname}, '%')) -->
-            AND (WH.warehouse_cd LIKE CONCAT('%', #{sname}, '%')
-                 or WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%')
+            AND (WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%')
                  or UI.name LIKE CONCAT('%', #{sname}, '%')
-                 or UI.tel LIKE CONCAT('%', #{sname}, '%')
-                 or UI.mail LIKE CONCAT('%', #{sname}, '%')
-                 or WH.zip_cd LIKE CONCAT('%', #{sname}, '%')
-                 or WH.addr LIKE CONCAT('%', #{sname}, '%'))
+                )
         </when>
         <when test= "(oname eq 'warehouse_nm'.toString())">
             AND WH.warehouse_nm LIKE concat('%', #{sname}, '%')
@@ -123,19 +115,20 @@
   <!-- 창고 수정 -->
 <update id="updateWarehouse" parameterType="java.util.Map">
   UPDATE tb_scm_warehouse 
-  SET  wh_mng_id = #{wh_mng_id}
+  SET  warehouse_nm = #{warehouse_nm}
+     , wh_mng_id = #{wh_mng_id}
      , zip_cd = #{zip_cd}
      , addr = #{addr}
      , addr_detail = #{addr_detail}
   WHERE warehouse_cd = #{warehouse_cd}
 </update>
 
-  <!-- 창고 비활성화 -->
-  <update id="deactivateWarehouse" parameterType="java.util.Map">
-  UPDATE tb_scm_warehouse 
-  SET  use_yn = "N"
+  <!-- 창고 삭제 -->
+  <delete id="deleteWarehouse" parameterType="java.util.Map">
+  DELETE
+  FROM tb_scm_warehouse 
   WHERE warehouse_cd = #{warehouse_cd}
-  </update>
+  </delete>
   
 
 </mapper>

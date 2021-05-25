@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import kr.happyjob.study.scm.dao.MainProductInfoDao;
 import kr.happyjob.study.scm.model.GetWarehouseModel;
 import kr.happyjob.study.scm.model.MainProductInfoModel;
+import kr.happyjob.study.scm.model.MainProductModalModel;
 
 @Service
 public class MainProductInfoServiceImpl implements MainProductInfoService {
@@ -30,11 +31,18 @@ public class MainProductInfoServiceImpl implements MainProductInfoService {
     return totalCntMainProduct;
   }
   
-  // 제품정보 상세조회
+  // 제품정보 관리조회
   @Override
   public MainProductInfoModel selectMainProduct(Map<String, Object> paramMap) throws Exception {
     MainProductInfoModel selectMainProduct = mainProductInfoDao.selectMainProduct(paramMap);
     return selectMainProduct;
+  }
+  
+  /* 제품 상세정보 조회*/
+  @Override
+  public MainProductModalModel mainProductModal(Map<String, Object> paramMap) throws Exception {
+    MainProductModalModel mainProductModal = mainProductInfoDao.mainProductModal(paramMap);
+    return mainProductModal;
   }
   
   // 창고정보 조회
