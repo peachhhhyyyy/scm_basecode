@@ -176,6 +176,7 @@
 								<thead>
 									<tr>
 									<th scope="col">지시서번호</th>
+									<th scope="col">주문코드</th>
 									<th scope="col">기업고객명</th>
 									<th scope="col">SCM관리자</th>
 									<th scope="col">주문접수일자</th>
