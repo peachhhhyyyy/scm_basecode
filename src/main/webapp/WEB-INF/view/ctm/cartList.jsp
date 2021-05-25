@@ -5,7 +5,7 @@
 
 <c:if test="${totalCntCart eq 0 }">
 	<tr>
-		<td colspan="11">데이터가 존재하지 않습니다.</td>
+		<td colspan="11">장바구니에 담긴 상품이 없습니다.</td>
 	</tr>
 </c:if>
 
