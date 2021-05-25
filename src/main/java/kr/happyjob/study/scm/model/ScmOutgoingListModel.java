@@ -5,6 +5,8 @@ public class ScmOutgoingListModel {
 	
 	// 배송지시서 번호(index)
 	private String ship_list_no;
+	// 주문코드
+	private String order_cd;
 	// 고객명 
 	private String cus_nm;
 	// SCM 담당자 이름 
@@ -44,6 +46,11 @@ public class ScmOutgoingListModel {
 	public void setSubmit_date(String submit_date) {
 		this.submit_date = submit_date;
 	}
-	
+	public String getOrder_cd() {
+		return order_cd;
+	}
+	public void setOrder_cd(String order_cd) {
+		this.order_cd = order_cd;
+	}
 	
 }
