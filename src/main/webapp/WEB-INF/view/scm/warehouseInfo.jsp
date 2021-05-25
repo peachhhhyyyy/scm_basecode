@@ -257,11 +257,11 @@
       currentPage = $("#currentPageWarehouse").val();
     }
     if (data.result == "SUCCESS") {
-      alert(data.resultMsg);
+      swal(data.resultMsg);
       gfCloseModal();
       fListWarehouse(currentPage);
     } else {
-      alert(data.resultMsg);
+      swal(data.resultMsg);
     }
     fInitFormWarehouse();
   }

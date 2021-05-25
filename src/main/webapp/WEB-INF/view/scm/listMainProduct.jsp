@@ -11,7 +11,7 @@
   <c:forEach items="${listMainProductModel}" var="list">
     <tr>
       <td>${list.product_cd }</td>
-      <td>${list.prod_nm}</td>
+      <td><a href="javascript:fPopModalMainProductModal('${list.product_cd}');">${list.prod_nm}</a></td>
       <td>${list.l_ct_nm}</td>
       <td>${list.m_ct_nm}</td>
       <td>${list.warehouse_nm}</td>
