@@ -19,13 +19,13 @@
       <td><fmt:formatDate value="${list.purch_date}" pattern="yyyy-MM-dd" /></td>
       <td><fmt:formatDate value="${list.desired_delivery_date}" pattern="yyyy-MM-dd" /></td>
       <td>${list.detail_name}</td>
-      <c:if test="${list.STTcd eq 10}">
-      <td><a class="btnType3 color2" href="javascript:fSelectUpdateSTTcd('${list.STTcd}', '${list.detail_name}', '${list.order_cd}');"><span>입고완료</span></a></td>
+      <c:if test="${list.STTcd eq 11}">
+      <td><a class="btnType3 color2" href="javascript:fSelectUpdateSTTcd('${list.STTcd}', '${list.detail_name}', '${list.order_cd}', '${list.product_cd}', '${list.purch_qty}');"><span>입고완료</span></a></td>
       <td><a class="btnType3 color1" href="javascript:void(0)" style="cursor:not-allowed;"><span>반품</span></a></td>
       </c:if>
       <c:if test="${list.STTcd eq 12}">
       <td><a class="btnType3 color1" href="javascript:void(0);" style="cursor:not-allowed;"><span>입고완료</span></a></td>
-      <td><a class="btnType3 color2" href="/pcs/refund/list.do"><span>반품</span></a></td>
+      <td><a class="btnType3 color2" href="javascript:fSelectRefundBtn('${list.STTcd}', '${list.detail_name}', '${list.order_cd}', '${list.product_cd}', '${list.purch_qty}');"><span>반품</span></a></td>
       </c:if>
     </tr>
   </c:forEach>
