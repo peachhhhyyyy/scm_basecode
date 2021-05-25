@@ -296,7 +296,7 @@
                                             <th scope="col">품목명</th>
                                             <th scope="col">공급처명</th>
                                             <th scope="col">발주개수</th>
-                                            <th scope="col">SCM관리자</th>
+                                            <th scope="col">SCM관리자명</th>
                                             <th scope="col">제출일자</th>
                                         </tr>
                                     </thead>
