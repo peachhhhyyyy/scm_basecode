@@ -27,4 +27,9 @@ public interface PcsDao {
   /** 발주서 상태 변경 */
   public int updateSTTcd(Map<String, Object> paramMap);
 
+  /** 발주서 반품버튼 클릭시 조회 */
+  public PcsModel selectRefundBtn(Map<String, Object> paramMap);
+  
+  /** 입고완료 누르면 재고 업데이트*/
+  public int updateStock(Map<String, Object> paramMap);
 }

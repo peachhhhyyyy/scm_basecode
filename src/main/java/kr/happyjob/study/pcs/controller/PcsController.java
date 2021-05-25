@@ -101,7 +101,7 @@ public class PcsController {
     
     return resultMap;
   } 
-  
+
   // 처음 로딩될 때 발주서 목록 연결
   @RequestMapping("pcsOrderForm.do")
   public String pcsOrderForm(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
@@ -180,8 +180,59 @@ public class PcsController {
     int updateSTTcdModel = pcsService.updateSTTcd(paramMap);
     model.addAttribute("updateSTTcdModel", updateSTTcdModel);
     
+    // 재고 수량  업데이트
+    int purch_qty = Integer.parseInt((String)paramMap.get("purch_qty"));
+    paramMap.put("purch_qty", purch_qty);
+    int updateStockModel = pcsService.updateStock(paramMap);
+    model.addAttribute("updateStockModel", updateStockModel);
+    
     logger.info("+ End " + className + ".updateSTTcd");
     
     return "pcs/listPcsUpdateSTTcd";
   }
+  
+  // 발주서 내용 클릭 시 모달팝업 창 띄우기
+  @RequestMapping("selectRefundBtn.do")
+  @ResponseBody
+  public Map<String, Object> selectRefundBtn(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+      HttpServletResponse response, HttpSession session) throws Exception {
+    
+    logger.info("+ Start " + className + ".selectRefundBtn");
+    logger.info("   - paramMap : " + paramMap);
+    
+    String result = "SUCCESS";
+    String resultMsg = "전송 되었습니다.";
+   
+    PcsModel pcsModel = pcsService.selectRefundBtn(paramMap);
+    
+    Map<String, Object> resultMap = new HashMap<String, Object>();
+    resultMap.put("result", result);
+    resultMap.put("resultMsg", resultMsg);
+    resultMap.put("pcsModel", pcsModel);
+    
+    logger.info("+ End " + className + ".selectRefundBtn");
+    
+    return resultMap;
+  }
+  
+  // 반품 버튼 클릭 시 내용 전송
+  @RequestMapping("sendrefund.do")
+  @ResponseBody
+  public Map<String, Object> sendrefund(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+      HttpServletResponse response, HttpSession session) throws Exception {
+    
+    logger.info("+ Start " + className + ".sendrefund");
+    logger.info("   - paramMap : " + paramMap);
+
+    String result = "SUCCESS";
+    String resultMsg = "전송 되었습니다.";
+    
+    Map<String, Object> resultMap = new HashMap<String, Object>();
+    resultMap.put("result", result);
+    resultMap.put("resultMsg", resultMsg);
+    
+    logger.info("+ End " + className + ".sendrefund");
+    
+    return resultMap;
+  } 
 }
