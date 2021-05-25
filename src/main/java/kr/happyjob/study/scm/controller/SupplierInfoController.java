@@ -109,8 +109,13 @@ public class SupplierInfoController {
      resultMsg = "수정 완료";
    } else if("D".equals(action)){
      //공급처 삭제
-     supplierInfoService.deleteSupplier(paramMap);
-     resultMsg = "삭제 완료";
+    int deleteResult = supplierInfoService.deleteSupplier(paramMap);
+    if (deleteResult == 0) {
+      result = "FAIL";
+      resultMsg = "삭제가 실패하였습니다.\n해당 공급처를 참조하는 제품을 확인해주세요.";
+    } else {
+      resultMsg = "삭제 완료";
+    }     
    }
    else{
      result = "FALSE";

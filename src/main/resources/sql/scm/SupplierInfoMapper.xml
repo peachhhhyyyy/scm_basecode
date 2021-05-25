@@ -130,7 +130,13 @@
    
    <!-- 공급처 삭제 -->
    <delete id="deleteSupplier" parameterType="java.util.Map">
-    DELETE FROM tb_scm_supply
-     WHERE supply_cd = #{supply_cd}
+    DELETE
+    FROM tb_scm_supply
+    WHERE supply_cd = #{supply_cd}
+    AND (
+          SELECT COUNT(*) 
+          FROM tb_scm_product 
+          WHERE supply_cd = #{supply_cd}
+        ) = 0
    </delete>
 </mapper>

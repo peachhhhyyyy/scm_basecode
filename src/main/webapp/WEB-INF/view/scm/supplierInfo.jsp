@@ -269,7 +269,6 @@
     } else {
       alert(data.resultMsg);
     }
-    fInitFormSupplier();
   }
   
   //공급처 삭제
@@ -284,8 +283,6 @@
     callAjax("/scm/saveSupplier.do", "post", "json", true, $("#myForm").serialize(), resultCallback );
     } else {
       gfCloseModal();
-      fListSupplier(currentPage);
-      fInitFormSupplier();
     }
   } 
   
