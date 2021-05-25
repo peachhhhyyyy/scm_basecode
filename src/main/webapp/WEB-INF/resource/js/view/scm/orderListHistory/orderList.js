@@ -130,6 +130,7 @@ function purchaseModalOpen(orderCode) {
   // 앞에서 한 것들과 다르게 결과 데이터를 아이디를 가지고 있는 태그에  append하는게 아닌 html을
   // return해서 setContent 안에 넣어야함.
   makePurchaseDirection(orderCode)
+  // 금액 (숫자, 한글) 바로 나오도록
   // 모달창 열기
   purchaseModal.open();
 }
@@ -292,7 +293,6 @@ function makeDeliveryDirectionResult(data) {
 // 수주내역 검색 기능
 function searchOrderList(currentPage) {
   var param = $('#orderListForm').serialize();
-  console.log(param);
   
   currentPage = currentPage || 1;
   
@@ -301,8 +301,6 @@ function searchOrderList(currentPage) {
   
   var startD = $('#startDate').val();
   var endD = $('#endDate').val();
-  
-  console.log(param);
   
   // 날짜 에러 있을 때, 경고창 띄우고 refresh
   if (startD > endD) {
