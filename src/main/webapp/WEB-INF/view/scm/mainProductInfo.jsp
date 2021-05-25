@@ -361,6 +361,19 @@
     $("#pidetail").val(object.detail);
     $("#pithumbnail").val("");
     $("#pitempImg").attr("src", object.file_relative_path);
+    
+    $("#piproduct_cd").attr("readonly", true);
+    $("#piprod_nm").attr("readonly", true);
+    $("#pil_ct_nm").attr("readonly", true);
+    $("#pim_ct_nm").attr("readonly", true);
+    $("#pisupply_nm").attr("readonly", true);
+    $("#pipurchase_price").attr("readonly", true);
+    $("#piprice").attr("readonly", true);
+    $("#piwarehouse_nm").attr("readonly", true);
+    $("#pistock").attr("readonly", true);
+    $("#pidetail").attr("readonly", true);
+    $("#pidetail").css("background", "#FFFFFF");
+    $("#pithumbnail").hide();
   }
 
  
@@ -609,16 +622,16 @@
           </tr>
           
           <tr>
-            <th scope="row">장비구매액(원)/EA <span class="font_red">*</span></th>
+            <th scope="row">장비구매액(원)/EA</th>
             <td><input type="text" class="inputTxt p100" name="pipurchase_price" id="pipurchase_price" maxlength="11"/></td>
-            <th scope="row">단가(원)/EA<span class="font_red">*</span></th>
+            <th scope="row">단가(원)/EA</th>
             <td colspan="3"><input type="text" class="inputTxt p100" name="piprice" id="piprice" maxlength="11"/></td>
           </tr>
           
           <tr>
             <th scope="row">창고명 </th>
             <td><input type="text" class="inputTxt p100" name="piwarehouse_nm" id="piwarehouse_nm"/></td>
-            <th scope="row">재고개수(EA)<span class="font_red">*</span></th>
+            <th scope="row">재고개수(EA)</th>
             <td colspan="3"><input type="text" class="inputTxt p100" name="pistock" id="pistock" maxlength="11"/></td>
           </tr>
           
