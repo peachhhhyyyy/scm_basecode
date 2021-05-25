@@ -6,7 +6,7 @@
 	<table class="col">
 		<thead>
 			<tr>
-				<th scope="col">배송코드</th>
+				<th scope="col">배송번호</th>
 				<th scope="col">주문코드</th>
 				<th scope="col">품목명</th>
 				<th scope="col">제품명</th>
@@ -95,7 +95,7 @@
 						<c:when test="${bottomList.state eq '14'}">
 							<td>
 								<select name="state" style="width: 75px;">
-									<option value="14">배송중</option>
+									<option value="14" disabled>배송중</option>
 									<option value="15" selected>배송완료</option>
 								</select>
 		                    </td>
@@ -104,7 +104,7 @@
 							<td>
 								<select name="state" style="width: 75px;">
 									<option value="14">배송중</option>
-									<option value="15">배송완료</option>
+									<option value="15" disabled>배송완료</option>
 								</select>
 		                    </td>
 						</c:otherwise>
