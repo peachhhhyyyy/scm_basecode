@@ -87,7 +87,6 @@
                 AND OD.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d')
             </if>
             ORDER BY OD.STTcd ASC, OD.order_date DESC
-            LIMIT #{pageIndex}, #{pageSize}
 	</select>
 	
 	<!-- 상세 정보 조회 -->
