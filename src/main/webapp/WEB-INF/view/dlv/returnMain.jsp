@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -63,13 +63,15 @@
 	}
 
 	// 검색조건으로 반품내역 가져오기
-	function fSearchReturnList() {
+	function fSearchReturnList(currentPage) {
+		
+		currentPage = currentPage || 1;
 		
 		$('#submitBtn').hide();
 		
 		var param = $('#returnSearchForm').serialize();
         
-        param += "&currentPage="+$('#currentPage').val();
+        param += "&currentPage="+currentPage;
         param += "&pageSize="+pageSizeinfo;
         
         console.log("검색조건에 대한 param : " + param)
@@ -84,35 +86,13 @@
 		}
 
 		var resultCallback = function(data) {
-			fSearchReturnListResult(data, $('#currentPage').val());
+			fReturnListResult(data, currentPage);
 		};
 
 		//Ajax실행 방식
 		//callAjax("Url",type,return,async or sync방식,넘겨준 값,Callback함수 이름)
 		callAjax("/dlv/returnList.do", "post", "text", true, param,
 				resultCallback);
-	}
-
-	// 검색 조건 콜백함수
-	function fSearchReturnListResult(data, currentPage) {
-
-		console.log(data);
-
-		// 기존 목록 삭제
-		$('#returnList').empty();
-		$("#returnList").append(data);
-
-		// 총 개수 추출
-		var totcnt = $("#totcnt").val();
-
-		// 페이지 네비게이션 생성
-		var paginationHtml = getPaginationHtml(currentPage, totcnt,
-				pageSizeinfo, pageBlockSizeinquiry, 'fSearchReturnList');
-
-		/* console.log("paginationHtml : " + paginationHtml); */
-
-		$("#lisOutgoingPagination").empty().append(paginationHtml);
-
 	}
 
 	/* 반품내역 상세 조회*/
@@ -149,6 +129,39 @@
 		// bottomList
 		var $returnDetailListBottom = $data.find("#returnDetailListBottom");
 		$("#returnDetailListBottom").append($returnDetailListBottom.children());
+	}
+	
+	
+	// 폼값 처리 
+    function fSubmitForm(){
+        
+        var checkValue = {};
+        
+        $.each($('#submitForm').serializeArray(), function(){
+            checkValue[this.name] = this.value;
+        });
+        
+        console.log(checkValue);
+
+        // chack null value
+        if(checkValue.dlvStaffNameAndLoginId == "선택"){
+            
+        	swal("\n배송사원을 입력해주세요.").then(function(){
+                location.href="/dlv/returnMain.do";
+            })
+        } else {
+        	
+        	var param = $('#submitForm').serialize();
+            
+            var resultCallback = function() {
+            	swal("\n처리되었습니다.").then(function(){
+                    location.href="/dlv/returnMain.do";
+                });
+            };
+            
+            callAjax("/dlv/updateSubmitInfo.do", "post", "text", true, param, resultCallback);
+        }
+        
 	}
 
 	// 콤보박스로 선택된 배송기사이름으로 연락처 받아오기
@@ -231,15 +244,16 @@
 									<th scope="col">반품수량</th>
 									<th scope="col">반품금액</th>
 									<th scope="col">창고명</th>
-									<th scope="col">반품접수일자</th>
+									<th scope="col">접수일자</th>
 									<th scope="col">상태</th>
 								</tr>
 							</thead>
 							<tbody id="returnList"></tbody>
 						</table>
 						<div class="paging_area" id="listInfPagination"></div>
-					</div> <!-- 상세페이지 조회 -->
-					<form action="updateSubmitInfo.do" method="post">
+					</div> 
+					<!-- 상세페이지 조회 -->
+					<form id="submitForm" action="javascript:fSubmitForm();" method="post">
 						<div id="detailList" class="content">
 							<p class="conTitle">
 								<span>상세페이지</span>
@@ -261,6 +275,14 @@
 								<tbody id="returnDetailListTop"></tbody>
 							</table>
 							<table class="col">
+							    <colgroup>      
+						           <col width="10%">
+						           <col width="10%">
+						           <col width="20%">
+						           <col width="10%">
+						           <col width="10%">
+						           <col width="30%">
+						        </colgroup>
 								<thead>
 									<tr>
 										<th scope="col">담당자명</th>
@@ -277,17 +299,18 @@
 									</tr>
 								</tbody>
 							</table>
-							<button id="submitBtn" type="submit" value="Submit" class="col-1-4 btnType blue"
-								style="
-								    margin-right: -2px; 
-								    font-size: 15px; 
-								    color: #fff; 
-								    background: #3cb3eb; 
-								    padding: 7px 0; 
-								    margin-left: 339px; 
-								    width: 9%; 
-								    margin-top: 55px;"
-								formmethod="post">등록</button>
+							<div style="display: flex; justify-content : center; align-items: center;">
+                                    <button id="submitBtn" type="submit" value="Submit" style="
+                                                    border: 1px solid #adb0b5;
+                                                    border-radius: 5px;
+                                                    font-size: 15px;
+                                                    color: #fff;
+                                                    background: #3cb3eb;
+                                                    padding: 7px 0;
+                                                    width: 9%;
+                                                    margin-top: 55px; 
+                                                    margin-bottom: 55px;">등록</button>
+                            </div>
 						</div>
 					</form>
 				</li>
