@@ -9,6 +9,7 @@
 	<c:forEach items="${outgoingList}" var="list">
 		<tr>
 		    <td><a href="javascript:fOutgoingDetailList('${list.ship_list_no}');">${list.ship_list_no}</a></td>
+		    <td>${list.order_cd}</td>
 			<td>${list.cus_nm}</td>
 			<td>${list.scm_nm}</td>
 			<td>${list.order_date}</td>
