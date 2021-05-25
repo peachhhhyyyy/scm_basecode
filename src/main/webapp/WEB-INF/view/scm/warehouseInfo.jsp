@@ -262,8 +262,8 @@
       fListWarehouse(currentPage);
     } else {
       swal(data.resultMsg);
+      
     }
-    fInitFormWarehouse();
   }
   
   //창고 삭제
@@ -272,14 +272,13 @@
     var currentPage = "1";
     if (con){
       var resultCallback = function(data) {
-      fSaveWarehouseResult(data);
-    }
-    $("#action").val("D");
-    callAjax("/scm/saveWarehouse.do", "post", "json", true, $("#myForm").serialize(), resultCallback );
+        fSaveWarehouseResult(data);
+      }
+      
+      $("#action").val("D");
+      callAjax("/scm/saveWarehouse.do", "post", "json", true, $("#myForm").serialize(), resultCallback );
     } else {
       gfCloseModal();
-      fListWarehouse(currentPage);
-      fInitFormWarehouse();
     }
   }
   

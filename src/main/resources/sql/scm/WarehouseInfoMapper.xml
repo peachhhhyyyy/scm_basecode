@@ -125,9 +125,19 @@
 
   <!-- 창고 삭제 -->
   <delete id="deleteWarehouse" parameterType="java.util.Map">
-  DELETE
-  FROM tb_scm_warehouse 
-  WHERE warehouse_cd = #{warehouse_cd}
+    DELETE
+    FROM tb_scm_warehouse 
+    WHERE warehouse_cd = #{warehouse_cd}
+    AND (
+          SELECT COUNT(*) 
+          FROM tb_scm_product 
+          WHERE warehouse_cd = #{warehouse_cd}
+        ) = 0
+    AND (
+          SELECT COUNT(*)
+          FROM tb_scm_supply
+          WHERE warehouse_cd = #{warehouse_cd}
+        ) = 0
   </delete>
   
 
