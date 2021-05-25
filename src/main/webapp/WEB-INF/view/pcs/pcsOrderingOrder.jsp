@@ -197,7 +197,7 @@
 
       console.log("fSelectPurchBtnResult : " + JSON.stringify(data));
     } else {
-      alert(data.resultMsg);
+      swal(data.resultMsg);
     }
   }
   
@@ -233,7 +233,7 @@
 
       console.log("fSelectPurchBtnSecondResult : " + JSON.stringify(data));
     } else {
-      alert(data.resultMsg);
+      swal(data.resultMsg);
     }
   }
   
@@ -266,11 +266,11 @@
   
   function fsendResult(data) {
     if (data.result == "SUCCESS") {
-      alert(data.resultMsg);
+      swal(data.resultMsg);
       location.reload('');
       console.log("fSelectPurchBtnResult : " + JSON.stringify(data));
     } else {
-      alert(data.resultMsg);
+      swal(data.resultMsg);
     }
   }
 </script>
@@ -314,8 +314,8 @@
                                         <div class="input-group">
                                             <select id="searchKey" name="searchKey" style="width:90px;height:34px;">
                                                <option value="all">전체</option>
-                                               <option value="brand">상호</option>
-                                               <option value="product">제품</option>
+                                               <option value="brand">상호명</option>
+                                               <option value="product">제품명</option>
                                             </select>
                                             <input type="text" id="sname" name="sname" class="form-control">
                                         </div>
@@ -349,10 +349,11 @@
                                     <colgroup>
                                         <col width="7%">
                                         <col width="10%">
-                                        <col width="25%">
+                                        <col width="10%">
                                         <col width="10%">
                                         <col width="7%">
-                                        <col width="6%">
+                                        <col width="10%">
+                                        <col width="10%">
                                         <col width="*">
                                         <col width="10%">
                                         <col width="7%">
@@ -369,6 +370,7 @@
                                             <th scope="col">배송희망날짜</th>
                                             <th scope="col">창고명</th>
                                             <th scope="col">담당자</th>
+                                            <th scope="col">상태</th>
                                             <th scope="col">발주</th>
                                         </tr>
                                     </thead>
