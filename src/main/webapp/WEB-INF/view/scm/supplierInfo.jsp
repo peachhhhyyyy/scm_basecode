@@ -19,8 +19,6 @@
   $(document).ready(function() {
     //공급처 목록 조회
     fListSupplier();
-    //제품 정보 목록 조회
-    fListProduct();
     //버튼 이벤트 등록
     fRegisterButtonClickEvent();
     //엔터눌렀을때 창고정보 검색되게하기
@@ -127,6 +125,8 @@
   /*제품목록 조회 콜백 함수*/
   function flistProductResult(data, currentPage) {
     console.log("data : " + data);
+    // 공급 제품정보 + 공급처명
+    $('#subTitle').text(" - " + $("#tmpsupply_nm").val());
     //기존 목록 삭제
     $("#listSupplierProduct").empty();
     // 신규 목록 생성
@@ -421,7 +421,8 @@
                    
                    
                    <p class="conTitle mt50">
-                      <span>공급 제품정보</span>
+                      <span>공급 제품정보<span id="subTitle"></span></span>
+                      
                    </p>
                    
                    <div class="ProductList">
@@ -432,11 +433,9 @@
                                  <col width="15%">
                                  <col width="15%">
                                  <col width="15%">
-                                 <col width="15%">
                              </colgroup>
                         <thead>
                              <tr>
-                                <th scope="col">공급처명</th>
                                 <th scope="col">제품코드</th>
                                 <th scope="col">제품명</th>
                                 <th scope="col">품목명</th>

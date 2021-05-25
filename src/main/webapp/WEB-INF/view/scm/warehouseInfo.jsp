@@ -22,8 +22,6 @@
   $(function() {
     //창고 목록 조회
     fListWarehouse();
-    //제품 정보 목록 조회
-    fListProduct();
     //버튼 이벤트 등록
     fRegisterButtonClickEvent();
     //삭제된 정보 표시 체크 클릭
@@ -131,6 +129,8 @@
   
   /*제품목록 조회 콜백 함수*/
   function flistProductResult(data, currentPage) {
+    // 창고 제품정보 + 창고명
+    $('#subTitle').text(" - " + $("#tmpwarehouse_nm").val());
     //기존 목록 삭제
     $("#listWarehouseProduct").empty();
     // 신규 목록 생성
@@ -466,8 +466,10 @@
                 </table>
               </div>
               <div class="paging_area" id="warehousePagination"></div>
+              
+              
               <p class="conTitle mt50">
-                <span>제품정보</span>
+                <span>창고 세부정보<span id="subTitle"></span></span>
               </p>
               
               <div class="ProductList">
@@ -479,11 +481,9 @@
                     <col width="15%">
                     <col width="15%">
                     <col width="15%">
-                    <col width="15%">
                   </colgroup>
                   <thead>
                     <tr>
-                      <th scope="col">창고명</th>
                       <th scope="col">제품코드</th>
                       <th scope="col">제품명</th>
                       <th scope="col">품목명</th>
