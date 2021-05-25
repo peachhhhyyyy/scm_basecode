@@ -156,8 +156,10 @@
 	                    } else{
 	                    	
 		                    var param = $('#submitForm').serialize();
-		                    var resultCallback = function(data) {
-		                    	fSubmitFormResult(data);
+		                    var resultCallback = function() {
+		                    	swal("\n처리되었습니다.").then(function(){
+                                    location.href="/dlv/outgoing.do";
+                                });
 		                    };
 		                    
 		                    callAjax("/dlv/submitDlvInfo.do", "post", "text", true, param, resultCallback);
@@ -168,7 +170,7 @@
                     	var param = $('#submitForm').serialize();
                     	var resultCallback = function() {
 	                    		swal("\n처리되었습니다.").then(function(){
-	                                location.href="/dlv/returnMain.do";
+	                                location.href="/dlv/outgoing.do";
 	                            });
                     		};
                     		
@@ -312,7 +314,7 @@
 									<col width="10%">
 									<col width="10%">
 									<col width="15%">
-									<col width="10%">
+									<col width="15%">
 									<col width="10%">
 									<col width="15%">
 									<col width="5%">
