@@ -198,7 +198,7 @@
             ON TSRL.scm_id = SCM.loginID
             
             LEFT JOIN tb_userinfo AS APPROVE
-            ON TSRL.scm_id = APPROVE.loginID
+            ON TSRL.approve_id = APPROVE.loginID
             
             LEFT JOIN tb_scm_warehouse AS WH
             ON OD.warehouse_cd = WH.warehouse_cd
