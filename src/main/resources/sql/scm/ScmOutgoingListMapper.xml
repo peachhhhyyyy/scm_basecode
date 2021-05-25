@@ -5,6 +5,7 @@
 	<!-- 배송지시서 내역 조회 -->
 	<select id="getOutgoingList" resultType="kr.happyjob.study.scm.model.ScmOutgoingListModel">
 		SELECT TSSL.ship_list_no AS ship_list_no
+		        , TSSL.order_cd AS order_cd
 		        , CUSTOMER.cus_nm AS cus_nm
 		        , TSSL.scm_nm AS scm_nm
 		        , DATE_FORMAT(OD.order_date, '%Y-%m-%d') AS order_date
