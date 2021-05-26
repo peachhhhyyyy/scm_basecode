@@ -79,24 +79,28 @@
   }
   
   /** 발주버튼 클릭 시 모달 실행 */
-  function fPopModalPcsOrderingOrder(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id) {
+  function fPopModalPcsOrderingOrder(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id, loginID) {
  
+    console.log("fPopModalPcsOrderingOrder : " + loginID);
+    
+    $("#curlogin").val(loginID);
+
     // 신규 저장
     if (purch_list_no == null || purch_list_no == "") {
     } else {
       // 발주서 버튼 클릭 시 화면 출력
-      fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id);
+      fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id, loginID);
     }
   }
 
   /** 제품 클릭 시 모달실행 */
-  function fPopModalPcsOrderingOrderSecond(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id) {
+  function fPopModalPcsOrderingOrderSecond(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id, loginID) {
     
     // 신규 저장
     if (purch_list_no == null || purch_list_no == "") {
     } else {
       // 발주서 버튼 클릭 시 화면 출력
-      fSelectPurchBtnSecond(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id);
+      fSelectPurchBtnSecond(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id, loginID);
     }
   }
   
@@ -123,7 +127,7 @@
   function fListPcsOrderingOrderResult(data, currentPage) {
 
     //alert(data);
-    /* console.log(data); */
+    console.log(data);
 
     // 기존 목록 삭제
     $("#listPcsOrderingOrder").empty();
@@ -162,7 +166,10 @@
   }
   
   /** 발주서 화면 띄우기 */ 
-  function fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id) {
+  function fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id, loginID) {
+    console.log("fSelectPurchBtn : " + loginID);
+    //alter("fSelectPurchBtn : " + loginID);
+    
     $("#purchListNo").text(purch_list_no);
     $("#supplyNm").text(supply_nm);
     $("#prodNm").text(prod_nm);
@@ -174,9 +181,8 @@
     var date2 = desired_delivery_date.substr(24, 29);
     desired_delivery_date = date1 + ',' + date2;
     $("#desiredDeliveryDate").val(formatDate(desired_delivery_date));
-    
     $("#warehouseNm").text(warehouse_nm);
-    $("#purchMngId").val(purch_mng_id);
+    $("#purchMngId").text(loginID);
     
     gfModalPop("#layer1");
     
@@ -253,7 +259,8 @@
         order_cd : order_cd,
         supply_cd : supply_cd,
         purch_date : purch_date,
-        desired_delivery_date : desired_delivery_date
+        desired_delivery_date : desired_delivery_date,
+        purch_mng_id : $("#curlogin").val()
     }
     
     var resultCallback = function(data) {
@@ -282,6 +289,7 @@
         <input type="hidden" name="supply_cd" id="supply_cd" value="">
         <input type="hidden" name="alertmsg" id="alertmsg" value="">
         <input type="hidden" name="action" id="action" value="">
+        <input type="hidden" name="curlogin" id="curlogin" value="">
          
         <!-- 모달 배경 -->
         <div id="mask"></div>

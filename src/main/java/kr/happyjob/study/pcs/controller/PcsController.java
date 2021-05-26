@@ -59,7 +59,9 @@ public class PcsController {
         
     paramMap.put("pageIndex", pageIndex);
     paramMap.put("pageSize", pageSize);
-    
+    paramMap.put("loginID", session.getAttribute("loginId"));
+    paramMap.put("userNm", session.getAttribute("userNm"));
+
     logger.info("   - paramMap : " + paramMap);
 
     // 발주지시서 목록 조회
@@ -96,6 +98,8 @@ public class PcsController {
     Map<String, Object> resultMap = new HashMap<String, Object>();
     resultMap.put("result", result);
     resultMap.put("resultMsg", resultMsg);
+    resultMap.put("loginId", session.getAttribute("loginId"));
+    
     
     logger.info("+ End " + className + ".sendproc");
     

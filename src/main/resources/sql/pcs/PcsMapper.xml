@@ -16,11 +16,18 @@
          ,   PD.purchase_price
          ,   PL.desired_delivery_date
          ,   WH.warehouse_nm
-         ,   UI.name as purch_mng_id
+         ,   case when PL.purch_mng_id is null
+                  then ''
+                  else UI.name
+             end as purch_mng_id
          ,   PL.scm_id
          ,   PL.purch_date
          ,   OD.STTcd
          ,   DC.detail_name
+         ,   case when PL.desired_delivery_date is null
+                  then #{loginID}
+                  else PL.purch_mng_id
+             end as loginID
       FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_order as OD
           ON PL.order_cd = OD.order_cd

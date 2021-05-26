@@ -47,6 +47,8 @@ public class PcsModel {
   public String detail_code;
   // 상세코드명
   public String detail_name;
+  
+  public String loginID;
  
   public String getPurch_list_no() {
     return purch_list_no;
@@ -180,4 +182,11 @@ public class PcsModel {
   public void setDetail_name(String detail_name) {
     this.detail_name = detail_name;
   }
+  public String getLoginID() {
+    return loginID;
+  }
+  public void setLoginID(String loginID) {
+    this.loginID = loginID;
+  }  
+  
 }
