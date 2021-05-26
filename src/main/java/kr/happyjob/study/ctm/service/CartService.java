@@ -22,6 +22,9 @@ public interface CartService{
 	public int changeQty(Map<String, Object> paramMap) throws Exception;
 	
 	/** 장바구니 총 합계 금액 출력 */
-	public int totalCartPrice(Map<String, Object> paramMap) throws Exception;
+	public Integer totalCartPrice(Map<String, Object> paramMap) throws Exception;
+	
+	/** 장바구니 주문목록 조회 */
+	public List<CartModel> listCartOrder(Map<String, Object> paramMap) throws Exception;
 	
 }
