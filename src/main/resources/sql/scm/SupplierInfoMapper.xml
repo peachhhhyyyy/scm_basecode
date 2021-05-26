@@ -31,6 +31,7 @@
       </choose>
       </if> 
     </where>
+   ORDER BY  SP.enroll_date DESC 
       LIMIT #{pageIndex}, #{pageSize}
   </select>
   <!-- 공급처 카운트 -->
@@ -70,6 +71,8 @@
       LEFT OUTER JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
      WHERE SP.supply_cd = #{supply_cd}
      
+  
+  ORDER BY  PD.enroll_date DESC   
      LIMIT #{pageIndex}, #{pageSize}
   
   
@@ -108,7 +111,8 @@
                                 supply_mng_nm, 
                                 mng_tel,
                                 email, 
-                                warehouse_cd
+                                warehouse_cd,
+                                enroll_date
                               )
     SELECT #{supply_nm},
            #{supply_cd},
@@ -116,7 +120,8 @@
            #{supply_mng_nm},
            #{mng_tel},
            #{email},
-           #{warehouse_cd}                 
+           #{warehouse_cd},
+           NOW()                 
       FROM DUAL
      WHERE NOT EXISTS(
                       SELECT supply_cd 

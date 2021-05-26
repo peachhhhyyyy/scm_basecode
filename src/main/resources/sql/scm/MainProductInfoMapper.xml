@@ -35,6 +35,7 @@ LEFT JOIN tb_scm_warehouse WH ON WH.warehouse_cd = PD.warehouse_cd
       </choose>
       </if> 
     </where>
+  ORDER BY PD.enroll_date DESC
      LIMIT #{pageIndex}, #{pageSize}
   </select>
   <!-- 제품목록 카운트 -->
@@ -93,7 +94,8 @@ WHERE  PD.product_cd = #{product_cd}
                                 price, 
                                 warehouse_cd, 
                                 stock, 
-                                detail
+                                detail,
+                                enroll_date
                               )
     SELECT #{product_cd},
            #{prod_nm},
@@ -102,7 +104,8 @@ WHERE  PD.product_cd = #{product_cd}
            #{price}, 
            #{warehouse_cd},
            #{stock}, 
-           #{detail}                 
+           #{detail},
+           NOW()                
       FROM DUAL
      WHERE NOT EXISTS(
                       SELECT product_cd 

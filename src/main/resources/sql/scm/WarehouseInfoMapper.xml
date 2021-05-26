@@ -29,6 +29,7 @@
         </when>
       </choose>
       </if> 
+  ORDER BY  WH.enroll_date DESC
      LIMIT #{pageIndex}, #{pageSize}
   </select>
   <!-- 창고 카운트 -->
@@ -56,20 +57,21 @@
   
   <!-- 제품 조회 -->
   <select id="listWarehouseProduct" resultType="kr.happyjob.study.scm.model.WarehouseInfoModel">
-  SELECT DISTINCT WH.warehouse_nm as warehouse_nm,
-                  PD.product_cd as product_cd, 
-                  PD.prod_nm as prod_nm , 
-                  LC.l_ct_nm as l_ct_nm , 
-                  SP.supply_nm as supply_nm , 
-                  PD.stock as stock 
-    FROM tb_scm_product PD
-    LEFT JOIN tb_scm_warehouse WH ON PD.warehouse_cd = WH.warehouse_cd
-    LEFT JOIN tb_scm_supply SP ON SP.supply_cd = PD.supply_cd 
-    LEFT JOIN tb_scm_m_category MC ON MC.m_ct_cd = PD.m_ct_cd 
-    LEFT JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
-   WHERE WH.warehouse_nm = #{warehouse_nm}
-     AND WH.warehouse_cd = #{warehouse_cd}
-   LIMIT #{pageIndex}, #{pageSize}
+   SELECT DISTINCT WH.warehouse_nm as warehouse_nm,
+                   PD.product_cd as product_cd, 
+                   PD.prod_nm as prod_nm , 
+                   LC.l_ct_nm as l_ct_nm , 
+                   SP.supply_nm as supply_nm , 
+                   PD.stock as stock 
+     FROM tb_scm_product PD
+     LEFT JOIN tb_scm_warehouse WH ON PD.warehouse_cd = WH.warehouse_cd
+     LEFT JOIN tb_scm_supply SP ON SP.supply_cd = PD.supply_cd 
+     LEFT JOIN tb_scm_m_category MC ON MC.m_ct_cd = PD.m_ct_cd 
+     LEFT JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
+    WHERE WH.warehouse_nm = #{warehouse_nm}
+      AND WH.warehouse_cd = #{warehouse_cd}
+ ORDER BY  PD.enroll_date DESC
+    LIMIT #{pageIndex}, #{pageSize}
   </select>
   <!-- 제품 카운트 -->
   <select id="totalCntProduct" resultType="int">
@@ -104,7 +106,8 @@
                                 zip_cd, 
                                 addr, 
                                 addr_detail,
-                                use_yn
+                                use_yn,
+                                enroll_date
                               )
     SELECT #{warehouse_cd},
            #{warehouse_nm},
@@ -112,13 +115,14 @@
            #{zip_cd},
            #{addr},
            #{addr_detail},
-           #{use_yn}                 
+           'Y',
+           NOW()                 
       FROM DUAL
      WHERE NOT EXISTS(
                       SELECT warehouse_cd 
                         FROM tb_scm_warehouse 
                        WHERE warehouse_cd = #{warehouse_cd}
-                      );
+                      )
   </insert>
   
   
