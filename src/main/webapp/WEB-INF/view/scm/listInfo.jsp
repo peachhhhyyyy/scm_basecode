@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!-- 갯수가 0인 경우  -->
 <c:if test="${orderListCnt eq 0 }">
   <tr>
@@ -19,10 +20,10 @@
       <td>${list.customerName}</td>
       <td>${list.productName}</td>
       <td>${list.productCount}</td>
-      <td>${list.productPrice}</td>
+      <td><fmt:formatNumber value="${list.productPrice}" pattern="#,###"/></td>
       <td>${list.orderCount}</td>
-      <td>${list.orderAmount}</td>
-      <td>${list.orderTax}</td>
+      <td><fmt:formatNumber value="${list.orderAmount}" pattern="#,###"/></td>
+      <td><fmt:formatNumber value="${list.orderTax}" pattern="#,###"/></td>
       <td>${list.depositState}</td>
       <c:choose>
       	<c:when test="${list.state eq '입금대기'}">

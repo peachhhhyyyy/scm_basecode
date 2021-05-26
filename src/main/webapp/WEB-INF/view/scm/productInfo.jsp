@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!-- 데이터가 존재하지 않는 경우 -->
 <c:if test="${empty productInfo}">
 	<h1>데이터가 존재하지 않습니다.</h1>
@@ -48,7 +49,10 @@
 			<span>고객 주문 개수 : </span><span>${productInfo.orderCount}</span>
 		</div>
 		<div>
-			<span>제품 단가 : </span><span id="purchasePrice">${productInfo.purchasePrice}</span>
+			<span>제품 단가 : </span>
+			<span id="purchasePrice">
+				<fmt:formatNumber value="${productInfo.purchasePrice}" pattern="#,###"/> 원
+			</span>
 		</div>
 		<div>
 			<span>수량 : </span>

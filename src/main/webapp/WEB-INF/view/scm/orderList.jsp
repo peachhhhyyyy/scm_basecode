@@ -73,9 +73,9 @@
 							</div>
 							<!-- 날짜 필터링 -->
 							<div class="date_container">
-								<input type="date" name="startDate" id="startDate" > 
+								<input type="date" name="startDate" id="startDate" min="2000-01-01" max="9999-12-31"> 
 								<span>~</span> 
-								<input type="date" name="endDate" id="endDate">
+								<input type="date" name="endDate" id="endDate" min="2000-01-01" max="9999-12-31">
 								<a class="btnType3 color2" id="orderListSearchBtn" href="javascript:searchOrderList();">검색</a>
 							</div>
 						</form>
@@ -95,10 +95,10 @@
 										<th scope="col">기업고객명</th>
 										<th scope="col">주문제품명</th>
 										<th scope="col">총 재고 개수</th>
-										<th scope="col">단가</th>
+										<th scope="col">단가(원)</th>
 										<th scope="col">주문 개수</th>
-										<th scope="col">금액 합계</th>
-										<th scope="col">부가세</th>
+										<th scope="col">금액 합계(원)</th>
+										<th scope="col">부가세(원)</th>
 										<th scope="col">입금 여부</th>
 										<th scope="col">배송지시서</th>
 										<th scope="col">발주지시서</th>

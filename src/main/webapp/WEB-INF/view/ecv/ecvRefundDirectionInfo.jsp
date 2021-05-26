@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!-- 갯수가 0인 경우  -->
 <c:if test="${refundListCnt eq 0 }">
   <tr>
@@ -18,9 +19,9 @@
       <td>${list.customerName}</td>
       <td>${list.productName}</td>
       <td>${list.refundQty}</td>
-      <td>${list.refundAmount}</td>
-      <td>${list.refundTax}</td>
-      <td>${list.totalRefundAmount}</td>
+      <td><fmt:formatNumber value="${list.refundAmount}" pattern="#,###"/></td>
+      <td><fmt:formatNumber value="${list.refundTax}" pattern="#,###"/></td>
+      <td><fmt:formatNumber value="${list.totalRefundAmount}" pattern="#,###"/></td>
       <td>${list.scmManager}</td>     
       <c:set var="date" value="${list.submitDate}"/>
       <td>${fn:substring(date, 0, 11)}</td>

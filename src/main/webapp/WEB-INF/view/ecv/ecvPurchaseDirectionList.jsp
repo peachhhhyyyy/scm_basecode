@@ -60,7 +60,7 @@
 										<th scope="col">공급처명</th>
 										<th scope="col">제품명</th>
 										<th scope="col">제품수량</th>
-										<th scope="col">합계 금액</th>
+										<th scope="col">합계 금액(원)</th>
 										<th scope="col">SCM담당자명</th>
 										<th scope="col">신청 일자</th>
 										<th scope="col">결제</th>
