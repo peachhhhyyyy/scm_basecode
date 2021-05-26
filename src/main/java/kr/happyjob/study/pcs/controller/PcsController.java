@@ -161,12 +161,12 @@ public class PcsController {
     String resultMsg = "전송 되었습니다.";
    
     PcsModel pcsModel = pcsService.selectPurchBtn(paramMap);
-    
+
     Map<String, Object> resultMap = new HashMap<String, Object>();
     resultMap.put("result", result);
     resultMap.put("resultMsg", resultMsg);
     resultMap.put("pcsModel", pcsModel);
-    
+
     logger.info("+ End " + className + ".selectPurchBtn");
     
     return resultMap;
