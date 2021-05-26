@@ -117,7 +117,7 @@
       
     } else {
       
-      alert("에러가 발생했습니다");
+      swal("에러가 발생했습니다");
       
     }
     // 반품서 단건 조회
@@ -157,8 +157,7 @@
       $("#purch_list_no").val("");
       $("#supply_nm").val("");
       $("#supply_cd").val("");
-      $("#m_ct_cd").val("");
-      $("#m_ct_cd").val("");
+      $("#m_ct_nm").val("");
       $("#product_cd").val("");
       $("#prod_nm").val("");
       $("#return_qty").val("");
@@ -174,7 +173,7 @@
       $("#purch_list_no").val(object.purch_list_no);
       $("#supply_nm").val(object.supply_nm);
       $("#supply_cd").val(object.supply_cd);
-      $("#m_ct_cd").val(object.m_ct_cd);
+      $("#m_ct_nm").val(object.m_ct_nm);
       $("#product_cd").val(object.product_cd);
       $("#prod_nm").val(object.prod_nm);
       $("#return_qty").val(object.return_qty);
@@ -203,7 +202,7 @@
        selectList(currentPage);
        
       } else {
-        alert('서버에서 에러가 발생했습니다.');
+        swal('서버에서 에러가 발생했습니다.');
       }
       
     }
@@ -335,7 +334,7 @@
                 <th scope="row">공급처코드</th>
                 <td><input type="text" class="inputTxt p100" name="supply_cd" id="supply_cd"  readonly/></td>
                 <th scope="row">상호명</th>
-                <td><input type="text" class="inputTxt p100" name="m_ct_cd" id="m_ct_cd"  readonly/></td>
+                <td><input type="text" class="inputTxt p100" name="m_ct_nm" id="m_ct_nm"  readonly/></td>
               </tr>
               <tr>
                 <th scope="row">제품번호</th>
