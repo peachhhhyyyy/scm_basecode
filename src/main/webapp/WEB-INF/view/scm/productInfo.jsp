@@ -51,7 +51,14 @@
 			<span>제품 단가 : </span><span id="purchasePrice">${productInfo.purchasePrice}</span>
 		</div>
 		<div>
-			<span>수량 : </span><span><input id="purchaseCount" type="number" oninput="javascript:purchaseMultiply()" value="${productInfo.orderCount - productInfo.productCount}" min="${productInfo.orderCount - productInfo.productCount}" max="9999999"/> EA</span>
+			<span>수량 : </span>
+			<span><input id="purchaseCount" 
+					 	 type="number" 
+					 	 oninput="javascript:purchaseMultiply()" 
+					 	 value="${productInfo.orderCount - productInfo.productCount}" 
+					 	 min="${productInfo.orderCount - productInfo.productCount}" 
+					 	 max="9999999"/> EA
+	 	    </span>
 		</div>
 		<div class="bar"></div>
 		<div >
