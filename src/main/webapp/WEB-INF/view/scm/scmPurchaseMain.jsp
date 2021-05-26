@@ -293,7 +293,6 @@
                                         <tr>
                                             <th scope="col">번호</th>
                                             <th scope="col">제품명</th>
-                                            <th scope="col">품목명</th>
                                             <th scope="col">공급처명</th>
                                             <th scope="col">발주개수</th>
                                             <th scope="col">SCM관리자명</th>
@@ -338,10 +337,8 @@
                                 <td id="prodNm" colspan="3"></td>
                             </tr>
                             <tr>
-                                <th scope="row">품목명</th>
-                                <td id="mCtCd"></td>
                                 <th scope="row">주문개수</th>
-                                <td id="purchQty"></td>
+                                <td id="purchQty" colspan="3"></td>
                             </tr>
                             <tr>
                                 <th scope="row">제품단가(원)</th>
