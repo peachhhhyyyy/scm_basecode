@@ -9,7 +9,8 @@
                     UI.tel as tel, 
                     UI.mail as email, 
                     WH.zip_cd as zip_cd, 
-                    WH.addr as addr 
+                    WH.addr as addr,
+                    WH.addr_detail as addr_detail
       FROM tb_scm_warehouse WH 
  LEFT JOIN tb_userinfo UI 
         ON WH.wh_mng_id = UI.loginID
@@ -29,7 +30,7 @@
         </when>
       </choose>
       </if> 
-  ORDER BY  WH.enroll_date DESC
+  ORDER BY WH.enroll_date DESC
      LIMIT #{pageIndex}, #{pageSize}
   </select>
   <!-- 창고 카운트 -->
