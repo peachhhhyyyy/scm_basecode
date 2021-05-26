@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.happyjob.study.scm.dao.MainProductInfoDao"> 
-  <!-- 창고 조회 -->
+  <!-- 제품목록 조회 -->
   <select id="listMainProduct" resultType="kr.happyjob.study.scm.model.MainProductInfoModel"> 
 SELECT DISTINCT PD.product_cd as product_cd,
        PD.prod_nm as prod_nm, 
@@ -18,6 +18,11 @@ LEFT JOIN tb_scm_warehouse WH ON WH.warehouse_cd = PD.warehouse_cd
     <where>
       <if test="(sname != null) and (!sname.equals(''))">
       <choose>
+        <when test= "(oname eq 'all'.toString())">
+            AND (PD.prod_nm LIKE concat('%', #{sname}, '%')
+             OR  LC.l_ct_nm LIKE concat('%', #{sname}, '%')
+             OR  MC.m_ct_nm LIKE concat('%', #{sname}, '%'))
+        </when>
         <when test= "(oname eq 'prod_nm'.toString())">
             AND PD.prod_nm LIKE concat('%', #{sname}, '%')
         </when>
@@ -32,7 +37,7 @@ LEFT JOIN tb_scm_warehouse WH ON WH.warehouse_cd = PD.warehouse_cd
     </where>
      LIMIT #{pageIndex}, #{pageSize}
   </select>
-  <!-- 창고 카운트 -->
+  <!-- 제품목록 카운트 -->
   <select id="totalCntMainProduct" resultType="int"> 
     SELECT DISTINCT COUNT(1)
 FROM tb_scm_product PD
@@ -57,19 +62,18 @@ LEFT JOIN tb_scm_warehouse WH ON WH.warehouse_cd = PD.warehouse_cd
     </where>
   </select>
   
-  <!-- 제품정보 상세조회 -->
+  <!-- 제품정보 관리 조회 -->
     <select id="selectMainProduct" resultType="kr.happyjob.study.scm.model.MainProductInfoModel">
       SELECT PD.product_cd as product_cd,
        PD.prod_nm as prod_nm, 
        LC.l_ct_nm as l_ct_nm,
        MC.m_ct_nm as m_ct_nm,
-       SP.supply_nm as supply_nm,
+       SP.supply_cd as supply_cd,
        PD.purchase_price as purchase_price,
        PD.price as price,
-       WH.warehouse_nm as warehouse_nm,
        PD.stock as stock,
        PD.detail as detail,
-       FL.file_relative_path
+       FL.file_relative_path as file_relative_path
 FROM tb_scm_product PD
 LEFT JOIN tb_scm_m_category MC ON MC.m_ct_cd = PD.m_ct_cd
 LEFT JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
@@ -78,19 +82,22 @@ LEFT JOIN tb_scm_warehouse WH ON WH.warehouse_cd = PD.warehouse_cd
 LEFT JOIN tb_file FL ON PD.product_cd = FL.product_cd
 WHERE  PD.product_cd = #{product_cd}
     </select>
-    
+ 
     <!-- 제품정보 등록 -->
     <insert id="insertMainProduct" parameterType="java.util.Map">
         INSERT INTO tb_scm_product
-        (product_cd, prod_nm, purchase_price, price, stock, detail)
+        (product_cd, prod_nm, supply_cd, purchase_price, price, warehouse_cd, stock, detail)
      VALUES (
              #{product_cd},
-             #{prod_nm}, 
+             #{prod_nm},
+             #{supply_cd},
              #{purchase_price}, 
              #{price}, 
+             #{warehouse_cd},
              #{stock}, 
              #{detail}
              )
+
     </insert>
     
     <!-- 제품정보 삭제 -->
@@ -100,4 +107,49 @@ WHERE  PD.product_cd = #{product_cd}
      WHERE product_cd = #{product_cd}
     
     </delete>
+    
+    <!-- 제품정보 수정 -->
+    <update id="updateMainProduct" parameterType="java.util.Map">
+      UPDATE tb_scm_product
+         SET prod_nm = #{prod_nm},
+             supply_cd = #{supply_cd},
+             purchase_price = #{purchase_price},
+             price = #{price},
+             warehouse_cd = #{warehouse_cd},
+             detail = #{detail}
+       WHERE product_cd = #{product_cd}
+    </update>
+    
+    <!-- 창고명, 창고코드 조회 -->
+    <select id="getWarehouseInfo" resultType="kr.happyjob.study.scm.model.GetWarehouseModel">
+      SELECT WH.warehouse_nm as name
+            ,WH.warehouse_cd as cd
+        FROM tb_scm_warehouse WH
+   LEFT JOIN tb_scm_supply SP ON SP.warehouse_cd = WH.warehouse_cd
+       WHERE SP.supply_cd = #{selSp}
+    </select>
+    
+       
+    <!-- 제품 상세정보 조회 -->
+    <select id="mainProductModal" resultType="kr.happyjob.study.scm.model.MainProductModalModel">
+      SELECT PD.product_cd as product_cd,
+       PD.prod_nm as prod_nm, 
+       LC.l_ct_nm as l_ct_nm,
+       MC.m_ct_nm as m_ct_nm,
+       SP.supply_nm as supply_nm,
+       PD.purchase_price as purchase_price,
+       PD.price as Price,
+       WH.warehouse_nm as warehouse_nm,
+       PD.stock as stock,
+       PD.detail as detail,
+       FL.file_relative_path as file_relative_path
+FROM tb_scm_product PD
+LEFT JOIN tb_scm_m_category MC ON MC.m_ct_cd = PD.m_ct_cd
+LEFT JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
+LEFT JOIN tb_scm_supply SP ON SP.supply_cd = PD.supply_cd
+LEFT JOIN tb_scm_warehouse WH ON WH.warehouse_cd = PD.warehouse_cd
+LEFT JOIN tb_file FL ON PD.product_cd = FL.product_cd
+WHERE  PD.product_cd = #{product_cd}
+    </select>
+    
   </mapper>

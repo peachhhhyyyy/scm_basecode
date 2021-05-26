@@ -9,7 +9,7 @@
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript">
   // 그룹코드 페이징 설정
-  var pageSizePcsOrderingOrder = 5;
+  var pageSizePcsOrderingOrder = 10;
   var pageBlockSizePcsOrderingOrder = 5;
 
   $(document).ready(function() {
@@ -38,7 +38,7 @@
     });
   }
 
-  /** 그룹코드 모달 실행 */
+  /** 발주버튼 클릭 시 모달 실행 */
   function fPopModalPcsOrderingOrder(purch_list_no, supply_nm, prod_nm, m_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id) {
  
     // 신규 저장
@@ -49,6 +49,17 @@
     }
   }
 
+  /** 제품 클릭 시 모달실행 */
+  function fPopModalPcsOrderingOrder2(purch_list_no, supply_nm, prod_nm, m_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id) {
+    
+    // 신규 저장
+    if (purch_list_no == null || purch_list_no == "") {
+    } else {
+      // 발주서 버튼 클릭 시 화면 출력
+      fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_cd, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id);
+    }
+  }
+  
   /** 발주지시서 목록 조회 */
   function fListPcsOrderingOrder(currentPage) {
     currentPage = currentPage || 1;
@@ -122,10 +133,10 @@
     var date1 = desired_delivery_date.substr(0, 10);
     var date2 = desired_delivery_date.substr(24, 29);
     desired_delivery_date = date1 + ',' + date2;
-    $("#desiredDeliveryDate").text(formatDate(desired_delivery_date));
+    $("#desiredDeliveryDate").val(formatDate(desired_delivery_date));
     
     $("#warehouseNm").text(warehouse_nm);
-    $("#purchMngId").text(purch_mng_id);
+    $("#purchMngId").val(purch_mng_id);
     
     gfModalPop("#layer1");
     
@@ -152,15 +163,26 @@
   
   /** 발주지시서 목록 조회 */
   function fsend() {
-    var purchListNo = $("#purchListNo").text();
+    var purch_list_no = $("#purchListNo").text();
     var order_cd = $("#order_cd").val();
     var supply_cd = $("#supply_cd").val();
-
+    var purch_date = $("#purchaseDateValue").val();
+    var desired_delivery_date = $("#desiredDeliveryDateValue").val();
+    var purch_mng_id = $("#purchMngIdValue").val();
+   
+    console.log('purch_date' + purch_date);
+    console.log('desired_delivery_date' + desired_delivery_date);
+    console.log('purch_mng_id' + purch_mng_id);
+    
     var param = {
-        purchListNo : purchListNo,
+        purch_list_no : purch_list_no,
         order_cd : order_cd,
-        supply_cd : supply_cd
+        supply_cd : supply_cd,
+        purch_date : purch_date,
+        desired_delivery_date : desired_delivery_date,
+        purch_mng_id : purch_mng_id
     }
+    
     var resultCallback = function(data) {
       fsendResult(data);
     };
@@ -172,7 +194,7 @@
   function fsendResult(data) {
     if (data.result == "SUCCESS") {
       alert(data.resultMsg);
-
+      location.reload('');
       console.log("fSelectPurchBtnResult : " + JSON.stringify(data));
     } else {
       alert(data.resultMsg);
@@ -182,7 +204,6 @@
 </head>
 <body>
     <form id="myForm" action="" method="">
-    
         <input type="hidden" id="currentPage" value="1">
         <input type="hidden" name="order_cd" id="order_cd" value="">
         <input type="hidden" name="supply_cd" id="supply_cd" value="">
@@ -291,8 +312,12 @@
                                 <td id="purchasePrice"></td>
                             </tr>
                             <tr>
+                                <th scope="row">발주날짜</th>
+                                <td id="purchaseDate"><input type="date" value="" id="purchaseDateValue" style="box-sizing: border-box;border: 1px solid #bbc2cd;padding-left: 2px;height: 34px;width: 100%;" /></td>
+                            </tr>
+                            <tr>
                                 <th scope="row">배송희망날짜</th>
-                                <td id="desiredDeliveryDate"></td>
+                                <td id="desiredDeliveryDate"><input type="date" value="" id="desiredDeliveryDateValue" style="box-sizing: border-box;border: 1px solid #bbc2cd;padding-left: 2px;height: 34px;width: 100%;" /></td>
                             </tr>
                             <tr>
                                 <th scope="row">창고명</th>
@@ -300,7 +325,74 @@
                             </tr>
                             <tr>
                                 <th scope="row">담당자</th>
-                                <td id="purchMngId"></td>
+                                <td id="purchMngId"><input type="text" value="" id="purchMngIdValue" style="box-sizing: border-box;border: 1px solid #bbc2cd;padding-left: 2px;height: 34px;width: 100%;"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- e : 여기에 내용입력 -->
+                    <div class="btn_areaC mt30">
+                        <a href="" class="btnType blue" id="btnSubmitPurchBtn" name="btn"><span>전송</span></a>
+                        <a href="" class="btnType gray" id="btnClosePurchBtn" name="btn"><span>취소</span></a>
+                    </div>
+                </dd>
+            </dl>
+            <a href="" class="closePop"><span class="hidden">닫기</span></a>
+        </div>
+        <!--// 모달팝업 -->
+        <!-- 모달팝업 -->
+        <div id="layer2" class="layerPop layerType2" style="width: 600px;">
+            <dl>
+                <dt>
+                    <strong>발주서</strong>
+                </dt>
+                <dd class="content">
+                    <!-- s : 여기에 내용입력 -->
+                    <table class="row">
+                        <caption>caption</caption>
+                        <colgroup>
+                            <col width="120px">
+                            <col width="*">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th scope="row">발주코드</th>
+                                <td id="purchListNo"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">회사명</th>
+                                <td id="supplyNm"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">제품명</th>
+                                <td id="prodNm"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">브랜드명</th>
+                                <td id="mCtCd"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">제품수량</th>
+                                <td id="purchQty"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">금액</th>
+                                <td id="purchasePrice"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">발주날짜</th>
+                                <td id="purchaseDate"><input type="date" value="" id="purchaseDateValue" style="box-sizing: border-box;border: 1px solid #bbc2cd;padding-left: 2px;height: 34px;width: 100%;" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">배송희망날짜</th>
+                                <td id="desiredDeliveryDate"><input type="date" value="" id="desiredDeliveryDateValue" style="box-sizing: border-box;border: 1px solid #bbc2cd;padding-left: 2px;height: 34px;width: 100%;" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">창고명</th>
+                                <td id="warehouseNm"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">담당자</th>
+                                <td id="purchMngId"><input type="text" value="" id="purchMngIdValue" style="box-sizing: border-box;border: 1px solid #bbc2cd;padding-left: 2px;height: 34px;width: 100%;"/></td>
                             </tr>
                         </tbody>
                     </table>

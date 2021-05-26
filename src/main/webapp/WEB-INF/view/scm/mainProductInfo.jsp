@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -27,7 +28,11 @@
         board_search(); // 실행할 이벤트
       }
     });
+    //공급처명 조회 콤보박스
+    selectComCombo("sp", "supply_cd", "sel", "");
+
   });
+    
 
   /** 버튼 이벤트 등록 */
   function fRegisterButtonClickEvent() {
@@ -90,7 +95,7 @@
     $("#currentPageMainProduct").val(currentPage);
   }
 
-  /** 제품정보 모달 실행 */
+  /** 제품정보 관리 모달 실행 */
   function fPopModalMainProduct(product_cd) {
     //신규 저장
     if (product_cd == null || product_cd == "") {
@@ -100,10 +105,10 @@
     } else {
       $("#action").val("U");
       fSelectMainProduct(product_cd);
-    }
+    } 
   }
 
-  /*제품 상세정보*/
+  /*제품정보 관리*/
   function fSelectMainProduct(product_cd) {
     var param = {
       product_cd : product_cd
@@ -115,8 +120,7 @@
 
     callAjax("/scm/selectMainProduct.do", "post", "json", true, param, resultCallback);
   }
-
-  /*제품 상세정보 콜백 함수*/
+   /*제품정보 관리 콜백 함수*/
   function fSelectMainProductResult(data) {
     if (data.result == "SUCCESS") {
       gfModalPop("#layer1")
@@ -125,8 +129,8 @@
       alert(data.resultMsg);
     }
   }
-
-  /* 제품 상세정보 폼 초기화 */
+ 
+  /* 제품정보 관리 폼 초기화 */
   function fInitFormMainProduct(object) {
     $("#product_cd").focus();
 
@@ -135,9 +139,11 @@
       $("#prod_nm").val("");
       $("#l_ct_nm").val("");
       $("#m_ct_nm").val("");
+      $("#supply_cd").val("");
       $("#supply_nm").val("");
       $("#purchase_price").val("");
       $("#price").val("");
+      $("#warehouse_cd").val("");
       $("#warehouse_nm").val("");
       $("#stock").val("");
       $("#detail").val("");
@@ -147,17 +153,14 @@
       $("#btnSaveMainProduct").show();
       $("#btnDeleteMainProduct").hide();
       $("#product_cd").attr("readonly", false);
-      $("#prod_nm").attr("readonly", false);
-      $("#l_ct_nm").attr("readonly", false);
-      $("#m_ct_nm").attr("readonly", false);
-      $("#supply_nm").attr("readonly", false);
-      $("#purchase_price").attr("readonly", false);
-      $("#price").attr("readonly", false);
-      $("#warehouse_nm").attr("readonly", false);
       $("#stock").attr("readonly", false);
-      $("#detail").attr("readonly", false);
-      $("#thumbnail").attr("readonly", false);
-      $("#tempImg").attr("readonly", false);
+      $("#supply_nm").attr("readonly", false);
+      $("#warehouse_nm").attr("readonly", true);
+      $("#product_cd").css("background", "#FFFFFF");
+      $("#stock").css("background", "#FFFFFF");
+      $("#supply_nm").css("background", "#FFFFFF");
+      $("#warehouse_nm").css("background", "#FFFFFF");
+      $("#detail").css("background", "#FFFFFF");
       $("#thumbnail").show();
     } else {
       $("#product_cd").val(object.product_cd);
@@ -165,27 +168,30 @@
       $("#l_ct_nm").val(object.l_ct_nm);
       $("#m_ct_nm").val(object.m_ct_nm);
       $("#supply_nm").val(object.supply_nm);
+      $("#supply_cd").val(object.supply_cd);
       $("#purchase_price").val(object.purchase_price);
       $("#price").val(object.price);
+      $("#warehouse_cd").val(object.warehouse_cd);
       $("#warehouse_nm").val(object.warehouse_nm);
       $("#stock").val(object.stock);
       $("#detail").val(object.detail);
       $("#thumbnail").val("");
       $("#tempImg").attr("src", object.file_relative_path);
 
-      $("#btnSaveMainProduct").hide();
+      $("#btnSaveMainProduct").show();
       $("#btnDeleteMainProduct").show();
       $("#product_cd").attr("readonly", true);
-      $("#prod_nm").attr("readonly", true);
-      $("#l_ct_nm").attr("readonly", true);
-      $("#m_ct_nm").attr("readonly", true);
-      $("#supply_nm").attr("readonly", true);
-      $("#purchase_price").attr("readonly", true);
-      $("#price").attr("readonly", true);
-      $("#warehouse_nm").attr("readonly", true);
       $("#stock").attr("readonly", true);
-      $("#detail").attr("readonly", true);
+      $("#supply_nm").attr("readonly", true);
+      $("#warehouse_nm").attr("readonly", true);
+      $("#product_cd").css("background", "#F5F5F5");
+      $("#stock").css("background", "#F5F5F5");
+      $("#supply_nm").css("background", "#F5F5F5");
+      $("#warehouse_nm").css("background", "#F5F5F5");
+      $("#detail").css("background", "#FFFFFF");
       $("#thumbnail").hide();
+      
+      selectSupplierName();
 
     }
   }
@@ -195,6 +201,8 @@
     var chk = checkNotEmpty([ 
                               [ "product_cd", "제품코드를 입력하세요." ],
                               [ "prod_nm", "제품명을 입력하세요." ],
+                              [ "supply_cd", "공급처를 입력하세요." ],
+                              [ "warehouse_cd", "창고를 입력하세요." ],
                               [ "purchase_price", "장비구매액을 입력하세요." ],
                               [ "price", "단가를 입력하세요." ],
                               [ "stock", "재고개수를 입력하세요." ],
@@ -271,6 +279,105 @@
     };
     callAjax("/scm/listMainProduct.do", "post", "text", true, param, resultCallback);
   }
+    
+  
+  //공급처명 이름 콤보박스로 창고 코드와 창고명 가져오기
+  function selectSupplierName() {
+
+    var selSp = $("#supply_cd").val();
+
+    /* alert("supply_cd : " + $("#supply_cd").val()); */
+    $("#supply_cd").val(selSp);
+
+    var param = {
+      selSp : selSp
+    }
+
+    var resultCallback = function(data) {
+      fWarehouseInfoResult(data);
+    }
+
+    callAjax("/scm/getWarehouseInfo.do", "post", "json", true, param, resultCallback);
+  }
+  
+  //창고 코드와 창고명 가져오기 콜백함수
+  function fWarehouseInfoResult(data) {
+    
+
+    $("#warehouse_cd").val(data.warehouseInfo.cd);
+    $("#warehouse_nm").val(data.warehouseInfo.name); 
+  }
+  
+  
+  
+  /** 제품 상세정보 모달 실행 */
+  function fPopModalMainProductModal(product_cd) {
+    //신규 저장
+    if (product_cd == null || product_cd == "") {
+      $("#action").val("I");
+      fInitFormMainProductModal();
+      gfModalPop("#prodInfo");
+    } else {
+      $("#action").val("U");
+      fMainProductModal(product_cd);
+    } 
+  }
+  
+
+  /*제품 상세정보*/
+  function fMainProductModal(product_cd) {
+    var param = {
+      product_cd : product_cd
+    };
+
+    var resultCallback = function(data) {
+      fMainProductModalResult(data);
+    };
+
+    callAjax("/scm/mainProductModal.do", "post", "json", true, param, resultCallback);
+  }
+  /*제품 상세정보 콜백 함수*/
+  function fMainProductModalResult(data) {
+    if (data.result == "SUCCESS") {
+      gfModalPop("#prodInfo")
+      fInitFormMainProductModal(data.mainProductModalModel);
+    } else {
+      alert(data.resultMsg);
+    }
+  }
+  /* 제품 상세정보 폼 초기화*/
+  function fInitFormMainProductModal(object) {
+    $("#piproduct_cd").focus();
+    
+    $("#piproduct_cd").val(object.product_cd);
+    $("#piprod_nm").val(object.prod_nm);
+    $("#pil_ct_nm").val(object.l_ct_nm);
+    $("#pim_ct_nm").val(object.m_ct_nm);
+    $("#pisupply_nm").val(object.supply_nm);
+    $("#pipurchase_price").val(object.purchase_price);
+    $("#piprice").val(object.price);
+    $("#piwarehouse_nm").val(object.warehouse_nm);
+    $("#pistock").val(object.stock);
+    $("#pidetail").val(object.detail);
+    $("#pithumbnail").val("");
+    $("#pitempImg").attr("src", object.file_relative_path);
+    
+    $("#piproduct_cd").attr("readonly", true);
+    $("#piprod_nm").attr("readonly", true);
+    $("#pil_ct_nm").attr("readonly", true);
+    $("#pim_ct_nm").attr("readonly", true);
+    $("#pisupply_nm").attr("readonly", true);
+    $("#pipurchase_price").attr("readonly", true);
+    $("#piprice").attr("readonly", true);
+    $("#piwarehouse_nm").attr("readonly", true);
+    $("#pistock").attr("readonly", true);
+    $("#pidetail").attr("readonly", true);
+    $("#pidetail").css("background", "#FFFFFF");
+    $("#pithumbnail").hide();
+  }
+
+ 
+  
 </script>
 </head>
 <body>
@@ -302,9 +409,10 @@
               <div class="MainProductList">
                 <div class="conTitle" style="margin: 0 25px 10px 0; float: left;">
                            <select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
+                           <option value="all">전체</option>
                            <option value="prod_nm">제품명</option>
-                           <option value="l_ct_nm">모델명</option>
-                           <option value="m_ct_nm">제조사</option>
+                           <option value="l_ct_nm">품목명</option>
+                           <option value="m_ct_nm">상호명</option>
                         </select>
                         <input type="text" style="width: 300px; height: 30px;" id="sname" name="sname">
                             <a href="" class="btnType blue" id="searchBtn" name="btn"> 
@@ -321,18 +429,18 @@
                     <col width="12%">
                     <col width="12%">
                     <col width="12%">
-                    <%-- <col width="12%"> --%>
+                    <col width="12%">
                   </colgroup>
                   <thead>
                     <tr>
                       <th scope="col">제품코드</th>
                       <th scope="col">제품명</th>
-                      <th scope="col">모델명</th>
-                      <th scope="col">제조사</th>
+                      <th scope="col">품목명</th>
+                      <th scope="col">상호명</th>
                       <th scope="col">창고명</th>
-                      <th scope="col">장비구매액(원)</th>
-                      <th scopt="col">단가(원)</th>
-                      <!-- <th scopt="col">비고</th> -->
+                      <th scope="col">장비구매액(원)/EA</th>
+                      <th scope="col">단가(원)/EA</th>
+                      <th scope="col">비고</th>
                     </tr>
                   </thead>
                   <tbody id="listMainProduct"></tbody>
@@ -349,7 +457,7 @@
     <div id="layer1" class="layerPop layerType2" style="width: 1300px;">
       <dl>
         <dt>
-          <strong>제품 상세정보</strong>
+          <strong>제품정보 관리</strong>
         </dt>
         <dd class="content">
           <table class="row">
@@ -375,32 +483,39 @@
               <tr>
               
               <td rowspan="4" style="text-align:center; width:300px; hight:300px;">
-                  <img id="tempImg" style="object-fit: cover; max-width:100%;" src="/images/admin/comm/no_image.png" alt="제품사진미리보기">
+                  <img id="tempImg" style="object-fit: cover; max-width:100%; max-hight:100%;" src="/images/admin/comm/no_image.png" alt="제품사진미리보기">
                  </td>   
                 
-                 <th scope="row">모델명<span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100" 
-                  name="l_ct_nm" id="l_ct_nm" maxlength="50" placeholder="모델명"/></td>
-                  <th scope="row">제조사<span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100" 
-                  name="m_ct_nm" id="m_ct_nm" maxlength="50" placeholder="제조사"/></td>
+                 <th scope="row">품목명<span class="font_red">*</span></th>
+                 <td><input type="text" class="inputTxt p100"
+                  name="l_ct_nm" id="l_ct_nm" maxlength="100" placeholder="품목명"/></td>
+
+                  
+                  <th scope="row">상호명<span class="font_red">*</span></th>
+                  <td><input type="text" class="inputTxt p100"
+                  name="m_ct_nm" id="m_ct_nm" maxlength="100" placeholder="품목명"/></td>
+                  
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100"
-                  name="supply_nm" id="supply_nm" maxlength="100" placeholder="공급처명"/></td>
+                <td>
+                  <input type="hidden" name="supply_nm" id="supply_nm">
+                  <select id="supply_cd" name="supply_cd" onChange="javascript:selectSupplierName()"></select></td>
+                  
                   </tr>
                   <tr>
-                <th scope="row">장비구매액 <span class="font_red">*</span></th>
+                <th scope="row">장비구매액(원)/EA <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="purchase_price" id="purchase_price" maxlength="11" placeholder="장비구매액"/>원</td>
-                <th scope="row">단가<span class="font_red">*</span></th>
+                  name="purchase_price" id="purchase_price" maxlength="11" placeholder="장비구매액"/></td>
+                <th scope="row">단가(원)/EA<span class="font_red">*</span></th>
                 <td colspan="3"><input type="text" class="inputTxt p100" 
-                  name="price" id="price" maxlength="11" placeholder="단가"/>원</td>
+                  name="price" id="price" maxlength="11" placeholder="단가"/></td>
               </tr>
-              <tr>
+              <tr> 
                 <th scope="row">창고명 <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100"
-                  name="warehouse_nm" id="warehouse_nm" maxlength="50" placeholder="창고명"/></td>
-                <th scope="row">재고개수<span class="font_red">*</span></th>
+                <td>
+                  <input type="hidden" name="warehouse_cd" id="warehouse_cd">
+                  <input type="text" class="inputTxt p100"
+                  name="warehouse_nm" id="warehouse_nm" placeholder="창고명"/></td>
+                <th scope="row">재고개수(EA)<span class="font_red">*</span></th>
                 <td colspan="3"><input type="text" class="inputTxt p100"
                   name="stock" id="stock" maxlength="11" placeholder="제고개수"/></td>
               </tr>
@@ -470,6 +585,114 @@
       </dl>
       <a href="" class="closePop"><span class="hidden">닫기</span></a>
     </div>
+    
+    <!-- 제품 상세정보 모달 -->
+    <div id="prodInfo" class="layerPop layerType2" style="width: 1300px;">
+  <dl>
+    <dt>
+      <strong>제품 상세정보</strong>
+    </dt>
+    <dd class="content">
+          <table class="row">
+            <caption>caption</caption>
+            <colgroup>
+              <col width="120px">
+              <col width="*">
+              <col width="120px">
+              <col width="*">
+            </colgroup>
+            <tbody>
+          <tr>
+            <th scope="row">제품 이미지</th>
+            <th scope="row" width="100px">제품코드</th>
+            <td><input type="text" class="inputTxt p100" name="piproduct_cd" id="piproduct_cd" maxlength="11" /></td>
+            <th scope="row" width="100px">제품명</th>
+            <td colspan="3"><input type="text" class="inputTxt p100" name="piprod_nm" id="piprod_nm" maxlength="100" /></td>
+          </tr>
+          
+          <tr>
+            <td rowspan="4" style="text-align: center; width: 300px; hight: 300px;">
+            <img id="pitempImg" style="object-fit: cover; max-width: 100%; max-hight: 100%;" src="/images/admin/comm/no_image.png"></td>
+            <th scope="row">품목명</th>
+            <td><input type="text" class="inputTxt p100" name="pil_ct_nm" id="pil_ct_nm" maxlength="100" /></td>
+            <th scope="row">상호명</th>
+            <td><input type="text" class="inputTxt p100" name="pim_ct_nm" id="pim_ct_nm" maxlength="100" /></td>
+            <th scope="row">공급처명</th>
+            <td><input type="text" class="inputTxt p100" name="pisupply_nm" id="pisupply_nm" maxlength="100" /></td>
+          </tr>
+          
+          <tr>
+            <th scope="row">장비구매액(원)/EA</th>
+            <td><input type="text" class="inputTxt p100" name="pipurchase_price" id="pipurchase_price" maxlength="11"/></td>
+            <th scope="row">단가(원)/EA</th>
+            <td colspan="3"><input type="text" class="inputTxt p100" name="piprice" id="piprice" maxlength="11"/></td>
+          </tr>
+          
+          <tr>
+            <th scope="row">창고명 </th>
+            <td><input type="text" class="inputTxt p100" name="piwarehouse_nm" id="piwarehouse_nm"/></td>
+            <th scope="row">재고개수(EA)</th>
+            <td colspan="3"><input type="text" class="inputTxt p100" name="pistock" id="pistock" maxlength="11"/></td>
+          </tr>
+          
+          <tr>
+            <th rowspan="2" scope="row">상세정보</th>
+            <td rowspan="2" colspan="5"><textarea class="ui-widget ui-widget-content ui-corner-all" 
+                                                  id="pidetail" maxlength="500" name="pidetail" style="height: 130px; outline: none; resize: none;"></textarea></td>
+          </tr>
+          
+          <tr>
+            <td class="thumb"><span> <input name="pithumbnail" type="file" id="pithumbnail" accept="image/* " required> <!-- 파일 미리보기 스크립트 영역 --> 
+                  <script>
+                          var file = document.querySelector('#pithumbnail');
+
+                          file.onchange = function() {
+                            var fileList = file.files;
+
+                            // 읽기
+                            var reader = new FileReader();
+                            reader.readAsDataURL(fileList[0]);
+                            //로드 한 후
+                            reader.onload = function() {
+                              //로컬 이미지를 보여주기
+
+                              //썸네일 이미지 생성
+                              var tempImage = new Image(); //drawImage 메서드에 넣기 위해 이미지 객체화
+                              tempImage.src = reader.result; //data-uri를 이미지 객체에 주입
+                              tempImage.onload = function() {
+                                //리사이즈를 위해 캔버스 객체 생성
+                                var canvas = document.createElement('canvas');
+                                var canvasContext = canvas.getContext("2d");
+
+                                //캔버스 크기 설정
+                                canvas.width = 300; //가로 300px
+                                canvas.height = 300; //세로 300px
+
+                                //이미지를 캔버스에 그리기
+                                canvasContext.drawImage(this, 0, 0, 300, 300);
+                                //캔버스에 그린 이미지를 다시 data-uri 형태로 변환
+                                var dataURI = canvas.toDataURL("image/jpeg");
+
+                                //썸네일 이미지 보여주기
+                                document.querySelector('#pitempImg').src = dataURI;
+                              };
+                            };
+                          };
+                        </script> <!-- 파일 미리보기 스크립트 영역 끝 -->
+            </span></td>
+          </tr>
+        </tbody>
+          </table>
+          
+          
+          <div class="btn_areaC mt30">  
+             <a href="" class="btnType gray" id="btnCloseMainProduct" name="btn"><span>닫기</span></a>
+          </div>
+          
+        </dd>
+  </dl>
+  <a href="" class="closePop"><span class="hidden">닫기</span></a>
+</div>
   </form>
 </body>
 </html>

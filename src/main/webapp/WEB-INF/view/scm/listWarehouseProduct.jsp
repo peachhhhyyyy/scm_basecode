@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:if test="${totalProduct eq 0 }">
   <tr>
-    <td colspan="6">데이터가 존재하지 않습니다.</td>
+    <td colspan="6">창고를 선택해 주세요.</td>
   </tr>
 </c:if>
 <c:if test="${totalProduct > 0 }">
