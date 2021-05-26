@@ -1,5 +1,5 @@
 package kr.happyjob.study.scm.model;
 
-public class LargeCategoryModel {
+public class CategoryModel {
   
 }

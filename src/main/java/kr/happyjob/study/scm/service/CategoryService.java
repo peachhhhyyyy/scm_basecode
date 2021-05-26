@@ -1,5 +1,5 @@
 package kr.happyjob.study.scm.service;
 
-public interface LargeCategoryService {
+public interface CategoryService {
   
 }
