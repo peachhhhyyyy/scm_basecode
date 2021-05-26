@@ -120,8 +120,10 @@
          ,   SP.supply_nm
          ,   PD.prod_nm
          ,   PD.m_ct_cd
+         ,   MC.m_ct_nm
          ,   PL.purch_qty
          ,   PD.purchase_price
+         ,   PL.purch_date
          ,   PL.desired_delivery_date
          ,   WH.warehouse_nm
          ,   PL.purch_mng_id
@@ -136,6 +138,8 @@
         ON PL.supply_cd = SP.supply_cd
         LEFT JOIN tb_scm_product as PD
         ON OD.product_cd = PD.product_cd
+        LEFT JOIN tb_scm_m_category MC
+        ON MC.m_ct_cd = PD.m_ct_cd
         LEFT JOIN (
             SELECT detail_code, group_code, detail_name
           FROM tb_detail_code
@@ -161,7 +165,7 @@
       ,DATE_FORMAT(pl.purch_date, "%Y-%m-%d") as purch_date 
       ,DATE_FORMAT(pl.desired_delivery_date, "%Y-%m-%d") as desired_delivery_date 
       ,od.STTcd
-      ,pl.supply_cd      
+      ,pl.supply_cd
       ,dc.detail_name
       ,pd.product_cd
   FROM tb_scm_purchase_list pl
