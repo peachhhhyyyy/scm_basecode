@@ -11,7 +11,7 @@
     <tr>
       <td>${list.purch_list_no}</td>
       <td>${list.supply_nm}</td>
-      <td><a href="javascript:fPopModalPcsOrderingOrderSecond('${list.purch_list_no}','${list.supply_nm}','${list.prod_nm}','${list.m_ct_cd}','${list.purch_qty}','${list.purchase_price}','${list.desired_delivery_date}','${list.warehouse_nm}','${list.purch_mng_id}','${list.order_cd}','${list.supply_cd}','${list.scm_id}');">${list.prod_nm}</a></td>
+      <td><a href="javascript:fPopModalPcsOrderingOrderSecond('${list.purch_list_no}','${list.supply_nm}','${list.prod_nm}','${list.m_ct_nm}','${list.purch_qty}','${list.purchase_price}','${list.purch_date}','${list.desired_delivery_date}','${list.warehouse_nm}','${list.purch_mng_id}');">${list.prod_nm}</a></td>
       <td>${list.m_ct_nm}</td>
       <td>${list.purch_qty}</td>
       <td><fmt:formatNumber value="${list.purchase_price}" pattern="#,###"/></td>
@@ -20,7 +20,7 @@
       <td>${list.purch_mng_id}</td>
       <td>${list.detail_name}</td>
       <c:if test="${empty list.desired_delivery_date}">
-      <td><a class="btnType3 color2" href="javascript:fPopModalPcsOrderingOrder('${list.purch_list_no}','${list.supply_nm}','${list.prod_nm}','${list.m_ct_cd}','${list.purch_qty}','${list.purchase_price}','${list.desired_delivery_date}','${list.warehouse_nm}','${list.purch_mng_id}','${list.order_cd}','${list.supply_cd}','${list.scm_id}','${list.loginID}');"><span>발주</span></a></td>
+      <td><a class="btnType3 color2" href="javascript:fPopModalPcsOrderingOrder('${list.purch_list_no}','${list.supply_nm}','${list.prod_nm}','${list.m_ct_nm}','${list.purch_qty}','${list.purchase_price}','${list.desired_delivery_date}','${list.warehouse_nm}','${list.purch_mng_id}','${list.order_cd}','${list.supply_cd}','${list.scm_id}','${list.loginID}');"><span>발주</span></a></td>
       </c:if>
       <c:if test="${!empty list.desired_delivery_date}">
       <td>발주</td>

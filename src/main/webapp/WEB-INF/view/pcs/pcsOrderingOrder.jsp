@@ -94,13 +94,13 @@
   }
 
   /** 제품 클릭 시 모달실행 */
-  function fPopModalPcsOrderingOrderSecond(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id, loginID) {
+  function fPopModalPcsOrderingOrderSecond(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, purch_date, desired_delivery_date, warehouse_nm, purch_mng_id) {
     
     // 신규 저장
     if (purch_list_no == null || purch_list_no == "") {
     } else {
       // 발주서 버튼 클릭 시 화면 출력
-      fSelectPurchBtnSecond(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id, loginID);
+      fSelectPurchBtnSecond(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, purch_date, desired_delivery_date, warehouse_nm, purch_mng_id);
     }
   }
   
@@ -207,7 +207,7 @@
   }
   
   /** 발주서 화면 띄우기 */ 
-  function fSelectPurchBtnSecond(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id) {
+  function fSelectPurchBtnSecond(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, purch_date, desired_delivery_date, warehouse_nm, purch_mng_id) {
     $("#purchListNo2").text(purch_list_no);
     $("#supplyNm2").text(supply_nm);
     $("#prodNm2").text(prod_nm);
@@ -215,12 +215,16 @@
     $("#purchQty2").text(purch_qty);
     $("#purchasePrice2").text(purchase_price);
     // 날짜 타입 변환
-    var date1 = desired_delivery_date.substr(0, 10);
-    var date2 = desired_delivery_date.substr(24, 29);
-    desired_delivery_date = date1 + ',' + date2;
-    $("#desiredDeliveryDate2").val(formatDate(desired_delivery_date));
+    var date1 = purch_date.substr(0, 10);
+    var date2 = purch_date.substr(24, 29);
+    purch_date = date1 + ',' + date2;
+    $("#purchaseDate2").text(formatDate(purch_date));
+    var date3 = desired_delivery_date.substr(0, 10);
+    var date4 = desired_delivery_date.substr(24, 29);
+    desired_delivery_date = date3 + ',' + date4;
+    $("#desiredDeliveryDate2").text(formatDate(desired_delivery_date));
     $("#warehouseNm2").text(warehouse_nm);
-    $("#purchMngId2").val(purch_mng_id);
+    $("#purchMngId2").text(purch_mng_id);
     
     gfModalPop("#layer2");
   }
