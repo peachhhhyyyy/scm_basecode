@@ -168,8 +168,7 @@
   /** 발주서 화면 띄우기 */ 
   function fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id, loginID) {
     console.log("fSelectPurchBtn : " + loginID);
-    //alter("fSelectPurchBtn : " + loginID);
-    
+
     $("#purchListNo").text(purch_list_no);
     $("#supplyNm").text(supply_nm);
     $("#prodNm").text(prod_nm);
@@ -224,9 +223,6 @@
     $("#purchMngId2").val(purch_mng_id);
     
     gfModalPop("#layer2");
-    
-    console.log('purchMngId2 :' + purch_mng_id);
-    console.log('purchasePrice2 :' + purchase_price);
   }
   
   /** 발주서 화면 콜백 함수*/
