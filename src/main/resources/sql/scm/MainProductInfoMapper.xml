@@ -89,6 +89,7 @@ WHERE  PD.product_cd = #{product_cd}
    INSERT INTO tb_scm_product (
                                 product_cd, 
                                 prod_nm, 
+                                m_ct_cd,
                                 supply_cd, 
                                 purchase_price, 
                                 price, 
@@ -99,6 +100,7 @@ WHERE  PD.product_cd = #{product_cd}
                               )
     SELECT #{product_cd},
            #{prod_nm},
+           #{m_ct_cd},
            #{supply_cd},
            #{purchase_price}, 
            #{price}, 

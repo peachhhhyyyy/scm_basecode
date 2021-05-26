@@ -86,5 +86,29 @@ public class ComnComboServiceImpl implements ComnComboService {
 	  
 	  return list;
 	}
+	
+	/** 제품 대분류 목록 조회 */
+  public List<comcombo> selectlargelist(Map<String, Object> paramMap) throws Exception {
+    
+    List<comcombo> list = comnComboDao.selectlargelist(paramMap);
+    
+    return list;
+  }
+    
+  /** 제품 중분류 목록 조회 */
+  public List<comcombo> selectmidlist(Map<String, Object> paramMap) throws Exception {
+    
+    List<comcombo> list = comnComboDao.selectmidlist(paramMap);
+    
+    return list;
+  }
+    
+  /** 제품 대분류,중분류 별  목록 조회 */
+  public List<comcombo> selectdivproductlist(Map<String, Object> paramMap) throws Exception {
+    
+    List<comcombo> list = comnComboDao.selectdivproductlist(paramMap);
+    
+    return list;
+  }
 
 }

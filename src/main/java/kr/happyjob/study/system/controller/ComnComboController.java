@@ -90,5 +90,42 @@ public class ComnComboController {
 	}
 	
 	
+	/**
+   *  제품 공통 콤보 
+   */
+  @RequestMapping("productCombo.do")
+  @ResponseBody
+  public Map<String, Object> productCombo (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+      HttpServletResponse response, HttpSession session) throws Exception {
+    
+    logger.info("+ Start " + className + ".productCombo");
+    logger.info("   - paramMap : " + paramMap);
+
+    String ComType = (String) paramMap.get("comtype");
+      
+    List<comcombo> comComboModel = new ArrayList<>();
+    
+    logger.info("   - ComType : " + ComType);
+    
+    if("l".equals(ComType)) {
+      // 상품 대분류
+      comComboModel = comnComboService.selectlargelist(paramMap);
+    } else if("m".equals(ComType)) {
+      // 상품 중분류
+      comComboModel = comnComboService.selectmidlist(paramMap);
+    } else if("p".equals(ComType)) {
+      // 상품 목록 
+      comComboModel = comnComboService.selectdivproductlist(paramMap);
+    }
+    
+    
+    Map<String, Object> resultMap = new HashMap<String, Object>();
+
+    resultMap.put("list", comComboModel);
+    
+    logger.info("+ End " + className + ".productCombo");
+    
+    return resultMap;
+  } 
 
 }

@@ -30,6 +30,9 @@
     });
     //공급처명 조회 콤보박스
     selectComCombo("sp", "supply_cd", "sel", "");
+    
+    productCombo("l", "plall", "sel", "");      /* 조회 종류   l : 대분류  m : 중분류  p:중분류 제품,  
+                                                Combo Name, Option("all" : 전체     "sel" : 선택 ,  중분류 코드(제품 목록 조회시 필수))*/ 
 
   });
     
@@ -137,8 +140,8 @@
     if (object == "" || object == null || object == undefined) {
       $("#product_cd").val("");
       $("#prod_nm").val("");
-      $("#l_ct_nm").val("");
-      $("#m_ct_nm").val("");
+      $("#l_ct_cd").val("");
+      $("#m_ct_cd").val("");
       $("#supply_cd").val("");
       $("#supply_nm").val("");
       $("#purchase_price").val("");
@@ -165,8 +168,8 @@
     } else {
       $("#product_cd").val(object.product_cd);
       $("#prod_nm").val(object.prod_nm);
-      $("#l_ct_nm").val(object.l_ct_nm);
-      $("#m_ct_nm").val(object.m_ct_nm);
+      $("#l_ct_cd").val(object.l_ct_cd);
+      $("#m_ct_cd").val(object.m_ct_cd);
       $("#supply_nm").val(object.supply_nm);
       $("#supply_cd").val(object.supply_cd);
       $("#purchase_price").val(object.purchase_price);
@@ -201,6 +204,7 @@
     var chk = checkNotEmpty([ 
                               [ "product_cd", "제품코드를 입력하세요." ],
                               [ "prod_nm", "제품명을 입력하세요." ],
+                              [ "m_ct_cd", "상호 카테고리를 선택하세요." ],
                               [ "supply_cd", "공급처를 입력하세요." ],
                               [ "warehouse_cd", "창고를 입력하세요." ],
                               [ "purchase_price", "장비구매액을 입력하세요." ],
@@ -308,7 +312,13 @@
     $("#warehouse_nm").val(data.warehouseInfo.name); 
   }
   
-  
+  //대분류 선택 시 중분류 코드 가져오기
+  function selectmidcat(){
+    var largecd = $("#plall").val();
+    productCombo("m", "pmall", "all", largecd);   // 조회 종류   l : 대분류  m : 중분류  p:중분류 제품,   Combo Name, Option("all" : 전체     "sel" : 선택 ,  중분류 코드(제품 목록 조회시 필수))  
+
+    $("#pmall").find("option").remove();
+  }
   
   /** 제품 상세정보 모달 실행 */
   function fPopModalMainProductModal(product_cd) {
@@ -487,13 +497,17 @@
                  </td>   
                 
                  <th scope="row">품목명<span class="font_red">*</span></th>
-                 <td><input type="text" class="inputTxt p100"
-                  name="l_ct_nm" id="l_ct_nm" placeholder="품목명"/></td>
+                 <!-- <td width="40" height="25" style="font-size: 100%">상품 대분류&nbsp;</td> -->
+                 <td><select id="plall" name="plall" onChange="javascript:selectmidcat();"></select></td>
+                <!--  <td><input type="text" class="inputTxt p100"
+                  name="l_ct_nm" id="l_ct_nm" placeholder="품목명"/></td> -->
 
                   
                   <th scope="row">상호명<span class="font_red">*</span></th>
-                  <td><input type="text" class="inputTxt p100"
-                  name="m_ct_nm" id="m_ct_nm" placeholder="상호명"/></td>
+                  <!-- <td width="40" height="25" style="font-size: 100%">상품 중분류&nbsp;</td> -->
+                  <td><select id="pmall" name="pmall" onChange="javascript:selectproductlistcombo();"></select></td>
+                 <!--  <td><input type="text" class="inputTxt p100"
+                  name="m_ct_nm" id="m_ct_nm" placeholder="상호명"/></td> -->
                   
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
                 <td>
