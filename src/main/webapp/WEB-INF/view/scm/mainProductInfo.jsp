@@ -493,7 +493,7 @@
                   
                   <th scope="row">상호명<span class="font_red">*</span></th>
                   <td><input type="text" class="inputTxt p100"
-                  name="m_ct_nm" id="m_ct_nm" placeholder="품목명"/></td>
+                  name="m_ct_nm" id="m_ct_nm" placeholder="상호명"/></td>
                   
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
                 <td>
