@@ -479,31 +479,31 @@
               <tr>
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
                  <td colspan=3><input type="text" class="inputTxt p100"
-                  name="supply_nm" id="supply_nm" /></td>
+                  name="supply_nm" id="supply_nm" maxlength="100"/></td>
               </tr>
               <tr>
                 <th scope="row">공급처코드 <span class="font_red">*</span></th>
                  <td><input type="text" class="inputTxt p100"
-                  name="supply_cd" id="supply_cd" /></td>
+                  name="supply_cd" id="supply_cd" maxlength="20"/></td>
                 <th scope="row">연락처<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100" name="tel"
-                  id="tel" /></td>
+                  id="tel" maxlength="20"/></td>
               </tr>
               <tr>
                 <th scope="row">담당자명 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="supply_mng_nm" id="supply_mng_nm" /></td>  
+                  name="supply_mng_nm" id="supply_mng_nm" maxlength="50"/></td>  
                                   
                 <th scope="row">담당자 연락처<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100" 
-                name="mng_tel" id="mng_tel" /></td>
+                name="mng_tel" id="mng_tel" maxlength="20"/></td>
               
               </tr>
               
               <tr>
                 <th scope="row">이메일 <span class="font_red">*</span></th>
                 <td colspan=3><input type="text" class="inputTxt p100"
-                  name="email" id="email" /></td>           
+                  name="email" id="email" maxlength="100"/></td>           
               </tr>
               <tr>
                 <th scope="row">창고코드 <span class="font_red">*</span></th>

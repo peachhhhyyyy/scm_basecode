@@ -526,32 +526,32 @@
               <tr>
                 <th scope="row">창고코드<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="warehouse_cd" id="warehouse_cd" /></td>
+                  name="warehouse_cd" id="warehouse_cd" maxlength="20"/></td>
                 <th scope="row">창고명 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="warehouse_nm" id="warehouse_nm" /></td>  
+                  name="warehouse_nm" id="warehouse_nm" maxlength="50"/></td>  
               </tr>
               <tr>
                 <th scope="row">담당자ID<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100" name="wh_mng_id"
-                  id="wh_mng_id" /></td>
+                  id="wh_mng_id" maxlength="50"/></td>
                 <th scope="row">담당자명</th>
                 <td><select id="wh_mng_nm" name="wh_mng_nm" onChange="javascript:selectWarehouseMng()"></select></td>
               </tr>
               <tr>
                 <th scope="row">우편번호 <span class="font_red">*</span></th>
-                <td colspan="2"><input type="text" class="inputTxt p100" name="zip_cd" id="zip_cd" /></td>
+                <td colspan="2"><input type="text" class="inputTxt p100" name="zip_cd" id="zip_cd" maxlength="6"/></td>
                 <td><input type="button" value="우편번호 찾기" onclick="execDaumPostcode()" style="width: 130px; height: 20px;" /></td>
               </tr>
               <tr>
                 <th scope="row">주소 <span class="font_red">*</span></th>
                 <td colspan="3"><input type="text" class="inputTxt p100"
-                  name="addr" id="addr" /></td>
+                  name="addr" id="addr" maxlength="200"/></td>
               </tr>
               <tr>
                 <th scope="row">상세주소 <span class="font_red">*</span></th>
                 <td colspan="3"><input type="text" class="inputTxt p100"
-                  name="addr_detail" id="addr_detail" /></td>
+                  name="addr_detail" id="addr_detail" maxlength="200"/></td>
               </tr>
 
             </tbody>

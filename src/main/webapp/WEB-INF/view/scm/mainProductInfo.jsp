@@ -473,7 +473,7 @@
                 <th scope="row">제품 이미지 <span class="font_red">*</span></th>
                 
                 <th scope="row" width="100px">제품코드 <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100" name="product_cd" id="product_cd" maxlength="11" placeholder="제품코드"/>  
+                <td><input type="text" class="inputTxt p100" name="product_cd" id="product_cd" maxlength="20" placeholder="제품코드"/>  
                   </td>
                 <th scope="row" width="100px">제품명 <span class="font_red">*</span></th>
                 <td colspan="3"><input type="text" class="inputTxt p100"
@@ -488,12 +488,12 @@
                 
                  <th scope="row">품목명<span class="font_red">*</span></th>
                  <td><input type="text" class="inputTxt p100"
-                  name="l_ct_nm" id="l_ct_nm" maxlength="100" placeholder="품목명"/></td>
+                  name="l_ct_nm" id="l_ct_nm" placeholder="품목명"/></td>
 
                   
                   <th scope="row">상호명<span class="font_red">*</span></th>
                   <td><input type="text" class="inputTxt p100"
-                  name="m_ct_nm" id="m_ct_nm" maxlength="100" placeholder="품목명"/></td>
+                  name="m_ct_nm" id="m_ct_nm" placeholder="품목명"/></td>
                   
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
                 <td>
@@ -605,40 +605,40 @@
           <tr>
             <th scope="row">제품 이미지</th>
             <th scope="row" width="100px">제품코드</th>
-            <td><input type="text" class="inputTxt p100" name="piproduct_cd" id="piproduct_cd" maxlength="11" /></td>
+            <td><input type="text" class="inputTxt p100" name="piproduct_cd" id="piproduct_cd"/></td>
             <th scope="row" width="100px">제품명</th>
-            <td colspan="3"><input type="text" class="inputTxt p100" name="piprod_nm" id="piprod_nm" maxlength="100" /></td>
+            <td colspan="3"><input type="text" class="inputTxt p100" name="piprod_nm" id="piprod_nm"/></td>
           </tr>
           
           <tr>
             <td rowspan="4" style="text-align: center; width: 300px; hight: 300px;">
             <img id="pitempImg" style="object-fit: cover; max-width: 100%; max-hight: 100%;" src="/images/admin/comm/no_image.png"></td>
             <th scope="row">품목명</th>
-            <td><input type="text" class="inputTxt p100" name="pil_ct_nm" id="pil_ct_nm" maxlength="100" /></td>
+            <td><input type="text" class="inputTxt p100" name="pil_ct_nm" id="pil_ct_nm"/></td>
             <th scope="row">상호명</th>
-            <td><input type="text" class="inputTxt p100" name="pim_ct_nm" id="pim_ct_nm" maxlength="100" /></td>
+            <td><input type="text" class="inputTxt p100" name="pim_ct_nm" id="pim_ct_nm"/></td>
             <th scope="row">공급처명</th>
-            <td><input type="text" class="inputTxt p100" name="pisupply_nm" id="pisupply_nm" maxlength="100" /></td>
+            <td><input type="text" class="inputTxt p100" name="pisupply_nm" id="pisupply_nm"/></td>
           </tr>
           
           <tr>
             <th scope="row">장비구매액(원)/EA</th>
-            <td><input type="text" class="inputTxt p100" name="pipurchase_price" id="pipurchase_price" maxlength="11"/></td>
+            <td><input type="text" class="inputTxt p100" name="pipurchase_price" id="pipurchase_price"/></td>
             <th scope="row">단가(원)/EA</th>
-            <td colspan="3"><input type="text" class="inputTxt p100" name="piprice" id="piprice" maxlength="11"/></td>
+            <td colspan="3"><input type="text" class="inputTxt p100" name="piprice" id="piprice"/></td>
           </tr>
           
           <tr>
             <th scope="row">창고명 </th>
             <td><input type="text" class="inputTxt p100" name="piwarehouse_nm" id="piwarehouse_nm"/></td>
             <th scope="row">재고개수(EA)</th>
-            <td colspan="3"><input type="text" class="inputTxt p100" name="pistock" id="pistock" maxlength="11"/></td>
+            <td colspan="3"><input type="text" class="inputTxt p100" name="pistock" id="pistock"/></td>
           </tr>
           
           <tr>
             <th rowspan="2" scope="row">상세정보</th>
             <td rowspan="2" colspan="5"><textarea class="ui-widget ui-widget-content ui-corner-all" 
-                                                  id="pidetail" maxlength="500" name="pidetail" style="height: 130px; outline: none; resize: none;"></textarea></td>
+                                                  id="pidetail" name="pidetail" style="height: 130px; outline: none; resize: none;"></textarea></td>
           </tr>
           
           <tr>
