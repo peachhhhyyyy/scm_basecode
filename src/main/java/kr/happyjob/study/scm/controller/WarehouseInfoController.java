@@ -115,8 +115,12 @@ public class WarehouseInfoController {
     
     if ("I".equals(action)) {
       // 창고 등록
-      warehouseInfoService.insertWarehouse(paramMap);
-      resultMsg = "등록 완료";
+     int saveResult = warehouseInfoService.insertWarehouse(paramMap);
+     if (saveResult == 0) {
+       result = "FAIL";
+       resultMsg = "중복된 코드입니다.";
+     } else{
+     resultMsg = "등록 완료"; }
     } else if ("U".equals(action)) {
       // 창고 수정
       warehouseInfoService.updateWarehouse(paramMap);

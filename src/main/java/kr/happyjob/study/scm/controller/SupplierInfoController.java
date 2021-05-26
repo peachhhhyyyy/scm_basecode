@@ -101,8 +101,12 @@ public class SupplierInfoController {
    
    if("I".equals(action)){
      //공급처등록
-     supplierInfoService.insertSupplier(paramMap);
-     resultMsg = "등록 완료";
+     int saveResult = supplierInfoService.insertSupplier(paramMap);
+     if (saveResult == 0) {
+       result = "FAIL";
+       resultMsg = "중복된 코드입니다.";
+     } else{
+     resultMsg = "등록 완료"; }
    } else if("U".equals(action)){
      //공급처 수정
      supplierInfoService.updateSupplier(paramMap);
