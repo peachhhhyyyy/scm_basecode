@@ -28,7 +28,7 @@ public class WarehouseInfoModel {
   private String product_cd;
   // 제품명
   private String prod_nm;
-  // 모델명
+  // 품목명
   private String l_ct_nm;
   // 재고현황(개)
   private int stock;
