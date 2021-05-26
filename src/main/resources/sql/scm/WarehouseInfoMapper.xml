@@ -97,18 +97,28 @@
   
   <!-- 창고 등록 -->
   <insert id="insertWarehouse" parameterType="java.util.Map">
-   INSERT INTO tb_scm_warehouse 
-    ( warehouse_cd, warehouse_nm, wh_mng_id, zip_cd, addr, addr_detail, use_yn)
-    VALUES
-   (
-   #{warehouse_cd},
-   #{warehouse_nm},
-   #{wh_mng_id},
-   #{zip_cd},
-   #{addr},
-   #{addr_detail},
-   "Y"
-   ) 
+   INSERT INTO tb_scm_warehouse (
+                                warehouse_cd, 
+                                warehouse_nm, 
+                                wh_mng_id, 
+                                zip_cd, 
+                                addr, 
+                                addr_detail,
+                                use_yn
+                              )
+    SELECT #{warehouse_cd},
+           #{warehouse_nm},
+           #{wh_mng_id},
+           #{zip_cd},
+           #{addr},
+           #{addr_detail},
+           #{use_yn}                 
+      FROM DUAL
+     WHERE NOT EXISTS(
+                      SELECT warehouse_cd 
+                        FROM tb_scm_warehouse 
+                       WHERE warehouse_cd = #{warehouse_cd}
+                      );
   </insert>
   
   

@@ -101,19 +101,28 @@
    
    <!-- 공급처 등록 -->
    <insert id="insertSupplier" parameterType="java.util.Map">
-    INSERT INTO tb_scm_supply    (
-                               supply_nm, supply_cd, tel, supply_mng_nm, mng_tel, email, warehouse_cd
-                             )
-    VALUES
-                            (
-                               #{supply_nm},
-                               #{supply_cd},
-                               #{tel},
-                               #{supply_mng_nm},
-                               #{mng_tel},
-                               #{email},
-                               #{warehouse_cd}
-                            ) 
+    INSERT INTO tb_scm_supply (
+                                supply_nm, 
+                                supply_cd, 
+                                tel, 
+                                supply_mng_nm, 
+                                mng_tel,
+                                email, 
+                                warehouse_cd
+                              )
+    SELECT #{supply_nm},
+           #{supply_cd},
+           #{tel},
+           #{supply_mng_nm},
+           #{mng_tel},
+           #{email},
+           #{warehouse_cd}                 
+      FROM DUAL
+     WHERE NOT EXISTS(
+                      SELECT supply_cd 
+                        FROM tb_scm_supply 
+                       WHERE supply_cd = #{supply_cd}
+                      );
    </insert>
    
    <!-- 공급처 수정 -->

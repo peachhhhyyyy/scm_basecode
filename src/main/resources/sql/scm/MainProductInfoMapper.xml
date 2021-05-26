@@ -84,20 +84,31 @@ WHERE  PD.product_cd = #{product_cd}
     </select>
  
     <!-- 제품정보 등록 -->
-    <insert id="insertMainProduct" parameterType="java.util.Map">
-        INSERT INTO tb_scm_product
-        (product_cd, prod_nm, supply_cd, purchase_price, price, warehouse_cd, stock, detail)
-     VALUES (
-             #{product_cd},
-             #{prod_nm},
-             #{supply_cd},
-             #{purchase_price}, 
-             #{price}, 
-             #{warehouse_cd},
-             #{stock}, 
-             #{detail}
-             )
-
+    <insert id="insertMainProduct" parameterType="java.util.Map">    
+   INSERT INTO tb_scm_product (
+                                product_cd, 
+                                prod_nm, 
+                                supply_cd, 
+                                purchase_price, 
+                                price, 
+                                warehouse_cd, 
+                                stock, 
+                                detail
+                              )
+    SELECT #{product_cd},
+           #{prod_nm},
+           #{supply_cd},
+           #{purchase_price}, 
+           #{price}, 
+           #{warehouse_cd},
+           #{stock}, 
+           #{detail}                 
+      FROM DUAL
+     WHERE NOT EXISTS(
+                      SELECT product_cd 
+                        FROM tb_scm_product
+                       WHERE product_cd = #{product_cd}
+                      );
     </insert>
     
     <!-- 제품정보 삭제 -->
