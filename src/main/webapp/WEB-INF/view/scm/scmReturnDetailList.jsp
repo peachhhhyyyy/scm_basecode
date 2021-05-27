@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+
 <div class="divEmpty">
     <div class="hiddenData"></div>
 	<table>
@@ -28,7 +30,7 @@
 					<td>${list.warehouse_nm}</td>
 					<td>${list.supply_nm}</td>
 					<td>${list.refund_date}</td>
-					<td>${list.refund_amt}</td>
+					<td><fmt:formatNumber value="${list.refund_amt}" pattern="#,###"/></td>
 					<td>${list.order_date}</td>
 					<td>${list.submit_date}</td>
 					<td>${list.approve_nm}</td>

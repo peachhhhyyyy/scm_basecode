@@ -25,8 +25,7 @@
 					//$('#detailList').hide();
 			
 					currentPage = currentPage || 1;
-			
-					// console.log("currentPage : " + currentPage);
+					console.log("currentPage : " + currentPage);
 					
 					var param = {
 						currentPage : currentPage,
@@ -41,40 +40,22 @@
 					//callAjax("Url",type,return,async or sync방식,넘겨준 값,Callback함수 이름)
 					callAjax("/dlv/outgoingList.do", "post", "text", true, param, resultCallback);
 				}
-			
-				/** 출하내역 조회 콜백 함수 */
-				function fOrderListResult(data, currentPage) {
-					/* console.log(data); */
-			
-					// 기존 목록 삭제/삽입
-					$('#outgoingList').empty().append(data);
-			
-					// 총 개수 추출
-					var totcnt = $("#totcnt").val();
-			
-					// 페이지 네비게이션 생성
-					var paginationHtml = getPaginationHtml(currentPage, totcnt,
-							pageSizeinfo, pageBlockSizeinquiry, 'fOrderList');
-			
-					/* console.log("paginationHtml : " + paginationHtml); */
-			
-					$("#lisOutgoingPagination").empty().append(paginationHtml);
-			
-				}
-			
 				
 				// 검색조건으로 수주내역 가져오기
-				function fSearchOrderList() {
+				function fSearchOrderList(currentPage) {
+					
+					currentPage = currentPage || 1;
 					
 					// 필요하기 전까지 숨김
                     $('#submitBtn').hide();
                     
                     var param = $('#outgoingSearchForm').serialize();
                     
-                    param += "&currentPage="+$('#currentPage').val();
+                    param += "&currentPage="+currentPage;
                     param += "&pageSize="+pageSizeinfo;
                     
-                    console.log("검색조건에 대한 param : " + param)
+                    console.log("검색조건에 대한 param : " + param);
+					console.log("currentPage : " + currentPage);
                     
                     var startDate = $('#startDate').val();
                     var endDate = $('#endDate').val();
@@ -86,52 +67,48 @@
 	                }
 	                
 	                var resultCallback = function(data) {
-	                	fSearchOrderListResult(data, $('#currentPage').val());
+	                	fOrderListResult(data, currentPage);
 	                };
 	        
 	                //Ajax실행 방식
 	                //callAjax("Url",type,return,async or sync방식,넘겨준 값,Callback함수 이름)
 	                callAjax("/dlv/outgoingList.do", "post", "text", true, param, resultCallback);
 				}
+			
+				/** 출하내역 조회 콜백 함수 */
+				function fOrderListResult(data, currentPage) {
+			
+					// 기존 목록 삭제/삽입
+					$('#outgoingList').empty().append(data);
+			
+					// 총 개수 추출
+					var totcnt = $("#totcnt").val();
+			
+					// 페이지 네비게이션 생성
+					var paginationHtml = getPaginationHtml(currentPage, totcnt,
+							pageSizeinfo, pageBlockSizeinquiry, 'fSearchOrderList');
+			
+					/* console.log("paginationHtml : " + paginationHtml); */
+			
+					$("#lisOutgoingPagination").empty().append(paginationHtml);
+					
+					$("#currentPage").val(currentPage);
+			
+				}
 				
-			    // 검색 조건 콜백함수
-	            function fSearchOrderListResult(data, currentPage) {
-	                
-			    	console.log(data);
-	                
-	                // 기존 목록 삭제
-	                $('#outgoingList').empty();
-	                $("#outgoingList").append(data);
-	        
-	                // 총 개수 추출
-	                var totcnt = $("#totcnt").val();
-	        
-	                // 페이지 네비게이션 생성
-	                var paginationHtml = getPaginationHtml(currentPage, totcnt,
-	                        pageSizeinfo, pageBlockSizeinquiry, 'fSearchOrderList');
-	        
-	                /* console.log("paginationHtml : " + paginationHtml); */
-	        
-	                $("#lisOutgoingPagination").empty().append(paginationHtml);
-	        
-	            }
-			    
 				/* 출하내역 상세 조회*/
 				function fOrderDetailList(order_cd) {
 					
-					// 필요하기 전까지 숨기기
-                    $('#submitBtn').show();
-                    //$('#detailList').show();
-				
-				
+				  $('#submitBtn').show();
+				  
 				  var param = {
 				  		  order_cd : order_cd,
 				  }
 				
 				  var resultCallback = function(data) {
 					  fOrderListDetailResult(data);
+				   
 				  };
-				
 				  callAjax("/dlv/outgoingDetailList.do", "post", "text", true, param, resultCallback);
 				}
 				
@@ -152,8 +129,61 @@
 				    // bottomList
 				    var $outgoingDetailListBottom = $data.find("#outgoingDetailListBottom");
 				    $("#outgoingDetailListBottom").append($outgoingDetailListBottom.children());
+				    
 				}
 			    
+				
+				// 폼값 처리 
+				function fsubmitForm(){
+					
+					var checkValue = {};
+				    
+					$.each($('#submitForm').serializeArray(), function(){
+						checkValue[this.name] = this.value;
+					});
+					
+					// chack null value
+					if(checkValue.arrPrevDate != null){
+						
+					    console.log(checkValue);
+					    
+						if(checkValue.dlvStaffNameAndLoginId === "선택" || checkValue.arrPrevDate === "" || checkValue.state == "15"){
+							
+	                          swal("\n입력되지 않은 양식이 있습니다.").then(function(){
+	                              location.href="/dlv/outgoing.do";
+                              })
+                              
+	                    } else{
+	                    	
+		                    var param = $('#submitForm').serialize();
+		                    var resultCallback = function() {
+		                    	swal("\n처리되었습니다.").then(function(){
+                                    location.href="/dlv/outgoing.do";
+                                });
+		                    };
+		                    
+		                    callAjax("/dlv/submitDlvInfo.do", "post", "text", true, param, resultCallback);
+	                    }
+						
+                    } else if (checkValue.state == "15"){
+                    	
+                    	var param = $('#submitForm').serialize();
+                    	var resultCallback = function() {
+	                    		swal("\n처리되었습니다.").then(function(){
+	                                location.href="/dlv/outgoing.do";
+	                            });
+                    		};
+                    		
+                   		callAjax("/dlv/submitDlvInfo.do", "post", "text", true, param, resultCallback);
+                   		
+	                    } else if($('#completeState').val() === "15") {
+	                    	
+	                    	swal("\n처리된 건입니다.").then(function(){
+                                location.href="/dlv/outgoing.do";
+                            })
+	                    }
+					}
+					
 			    // 콤보박스로 선택된 배송기사이름으로 연락처 받아오기
 			    function fSelectDlvStaffTel(){
 			    	
@@ -229,10 +259,10 @@
 							<table class="col">
 								<thead>
 									<tr>
-										<th scope="col">접수일자</th>
-										<th scope="col">배송완료일자</th>
-										<th scope="col">도착예정일자</th>
 										<th scope="col">주문코드</th>
+										<th scope="col">접수일자</th>
+										<th scope="col">도착예정일자</th>
+										<th scope="col">배송완료일자</th>
 										<th scope="col">배송사원</th>
 										<th scope="col">창고명</th>
 										<th scope="col">상태</th>
@@ -247,7 +277,7 @@
 					       <span>주문코드를 선택해주세요.</span>
 					   </p>
 					</div> -->
-						<form action="submitDlvInfo.do" method="post">
+						<form id="submitForm" action="javascript:fsubmitForm();" method="post">
 						<div id="detailList" class="content">
 							<p class="conTitle">
 								<span>상세페이지</span>
@@ -267,7 +297,7 @@
 								</colgroup>
 								<thead>
 									<tr>
-										<th scope="col">배송코드</th>
+										<th scope="col">배송번호</th>
 										<th scope="col">주문코드</th>
 										<th scope="col">품목명</th>
 										<th scope="col">제품명</th>
@@ -284,7 +314,7 @@
 									<col width="10%">
 									<col width="10%">
 									<col width="15%">
-									<col width="10%">
+									<col width="15%">
 									<col width="10%">
 									<col width="15%">
 									<col width="5%">
@@ -307,16 +337,18 @@
 				                    </tr>
 			                    </tbody>
 							</table>
-							<button id="submitBtn" type="submit" value="Submit" class="col-1-4 btnType blue" style="
-	                                        margin-right: -2px;
-	                                        font-size: 15px;
-	                                        color: #fff;
-	                                        background: #3cb3eb;
-	                                        padding: 7px 0;
-	                                        margin-left: 339px;
-	                                        width: 9%;
-	                                        margin-top: 55px;" 
-                                    formmethod="post">등록</button>
+								<div style="display: flex; justify-content : center; align-items: center;">
+									<button id="submitBtn" type="submit" value="Submit" style="
+									                border: 1px solid #adb0b5;
+									                border-radius: 5px;
+			                                        font-size: 15px;
+			                                        color: #fff;
+			                                        background: #3cb3eb;
+			                                        padding: 7px 0;
+			                                        width: 9%;
+			                                        margin-top: 55px; 
+			                                        margin-bottom: 55px;">등록</button>
+	                            </div>
                             </div> 
 						</form>
 					</li>

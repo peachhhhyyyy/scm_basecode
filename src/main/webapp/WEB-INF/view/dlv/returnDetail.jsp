@@ -32,6 +32,14 @@
 		</tbody>
 	</table>
 	<table class="col">
+	   <colgroup>
+	       <col width="10%">
+	       <col width="10%">
+	       <col width="20%">
+	       <col width="10%">
+	       <col width="10%">
+	       <col width="30%">
+	   </colgroup>
 		<thead>
 			<tr>
 				<th scope="col">담당자명</th>
@@ -70,7 +78,8 @@
 					<c:choose>
 					   <c:when test="${bottomList.state eq '7'}">
 							<td>
-							   <select name="state" disabled style="width: 81px;">
+							   <input type="hidden" id="completeState" value="${bottomList.state}"/>
+							   <select name="state" disabled style="width: 90px;">
 									<option value="6" >반품진행중</option>
 									<option value="7" selected>반품완료</option>
 							   </select>
@@ -78,17 +87,17 @@
 						</c:when>
 					   <c:when test="${bottomList.state eq '6'}">
 							<td>
-							   <select name="state" style="width: 81px;">
-									<option value="6" >반품진행중</option>
+							   <select name="state" style="width: 90px;">
+									<option value="6" disabled>반품진행중</option>
 									<option value="7" selected>반품완료</option>
 							   </select>
 							</td>
 						</c:when>
 						<c:otherwise>
 							<td>
-	                           <select name="state" style="width: 81px;">
+	                           <select name="state" style="width: 90px;">
 	                                <option value="6">반품진행중</option>
-	                                <option value="7">반품완료</option>
+	                                <option value="7" disabled>반품완료</option>
 	                           </select>
 	                        </td>
 						</c:otherwise>

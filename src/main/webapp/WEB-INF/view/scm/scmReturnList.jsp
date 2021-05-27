@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<c:if test="${scmReturnCnt eq 0 }">
+<c:if test="${scmReturnListCnt eq 0 }">
   <tr>
     <td colspan="7">데이터가 존재하지 않습니다.</td>
   </tr>
 </c:if>
-<c:if test="${scmReturnCnt > 0 }">
+<c:if test="${scmReturnListCnt > 0 }">
   <c:forEach items="${returnList}" var="list">
     <tr>
       <td><a href="javascript:fReturnDetailList('${list.refund_list_no}');">${list.refund_list_no}</a></td>
@@ -19,4 +18,4 @@
     </tr>
   </c:forEach>
 </c:if>
-<input type="hidden" id="totCnt" name="totCnt" value="${scmReturnCnt}" />
+<input type="hidden" id="totCnt" value="${scmReturnListCnt}" />

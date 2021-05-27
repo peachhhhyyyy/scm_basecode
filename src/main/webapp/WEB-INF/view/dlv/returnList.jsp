@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+
 <c:choose>
     <c:when test="${!empty retrunSearchList}">
         <c:if test="${returnSearchCnt eq 0 }">
@@ -16,7 +18,7 @@
 		            <td>${list.m_ct_nm}</td>
 		            <td>${list.prod_nm}</td>
 		            <td>${list.refund_cnt}</td>
-		            <td>${list.refund_amt}</td>
+		            <td><fmt:formatNumber value="${list.refund_amt}" pattern="#,###"/></td>
 		            <td>${list.warehouse_nm}</td>
 		            <td>${list.refund_date}</td>
 		            <td>${list.state}</td>
@@ -39,7 +41,7 @@
 		            <td>${list.m_ct_nm}</td>
 		            <td>${list.prod_nm}</td>
 		            <td>${list.refund_cnt}</td>
-		            <td>${list.refund_amt}</td>
+                    <td><fmt:formatNumber value="${list.refund_amt}" pattern="#,###"/></td>
 		            <td>${list.warehouse_nm}</td>
 		            <td>${list.refund_date}</td>
 		            <td>${list.state}</td>

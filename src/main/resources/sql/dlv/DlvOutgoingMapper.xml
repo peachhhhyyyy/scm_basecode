@@ -45,7 +45,7 @@
 			<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
 			    AND OD.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d')
 			</if>
-			ORDER BY OD.order_cd DESC
+			ORDER BY OD.STTcd ASC, OD.order_date DESC
 			LIMIT #{pageIndex}, #{pageSize}
 	</select>
 	
@@ -86,8 +86,7 @@
             <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
                 AND OD.order_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d')
             </if>
-            ORDER BY OD.order_cd DESC
-            LIMIT #{pageIndex}, #{pageSize}
+            ORDER BY OD.STTcd ASC, OD.order_date DESC
 	</select>
 	
 	<!-- 상세 정보 조회 -->
@@ -95,8 +94,8 @@
         SELECT  DATE_FORMAT(OD.order_date, '%Y-%m-%d') AS order_date
                 , shipList.ship_list_no AS ship_list_no
 				, OD.order_cd AS order_cd
-				, tsp.m_ct_nm
-				, tsp.prod_nm
+				, tsp.l_ct_nm AS l_ct_nm
+				, tsp.prod_nm AS prod_nm
 				, OD.order_cnt AS order_cnt
 				, CUSTOMER.name AS name_customer
 				, CUSTOMER.tel AS tel_customer
@@ -109,15 +108,19 @@
 				, DATE_FORMAT(shipList.arr_prev_date, '%Y-%m-%d') AS arr_prev_date
 				, OD.STTcd AS state
 				, IFNULL(OD.request, " - ") AS request
+				, OD.offline AS offline
             FROM tb_order OD
 
             LEFT JOIN(
                 SELECT tb_scm_product.product_cd AS product_cd
                         , tb_scm_product.prod_nm AS prod_nm
                         , tb_scm_m_category.m_ct_nm AS m_ct_nm
+                        , tb_scm_l_category.l_ct_nm AS l_ct_nm
                     FROM tb_scm_product
                     LEFT JOIN tb_scm_m_category
-                    ON tb_scm_product.m_ct_cd = tb_scm_m_category.m_ct_cd) AS tsp
+                    ON tb_scm_product.m_ct_cd = tb_scm_m_category.m_ct_cd
+                    LEFT JOIN tb_scm_l_category
+                    ON tb_scm_m_category.l_ct_cd = tb_scm_l_category.l_ct_cd) AS tsp
             ON OD.product_cd = tsp.product_cd
 
             LEFT JOIN(
@@ -175,8 +178,14 @@
 	        SET
 	            <choose>
 		            <when test="state.equals('15')">
-                        TSSL.arr_date = NOW(),
-		                OD.STTcd = #{state}
+		                <if test='offline.equals("y")'>
+			                TSSL.arr_date = NOW(),
+                            OD.STTcd = '8'
+		                </if>
+		                <if test='offline.equals("n")'>
+                            TSSL.arr_date = NOW(),
+                            OD.STTcd = #{state}
+                        </if>
 		            </when>
 		            <otherwise>
 			            TSSL.arr_prev_date = DATE_FORMAT(#{arrPrevDate}, '%Y-%m-%d %h:%m:%s'),
@@ -185,7 +194,8 @@
 	                    OD.STTcd = #{state}
 		            </otherwise>
 	            </choose>
-	        WHERE OD.order_cd = #{order_cd}
+	        WHERE 1 = 1 
+	        AND OD.order_cd = #{order_cd}
             AND TSSL.ship_list_no = #{ship_list_no}
             AND TSSL.order_cd = #{order_cd}
 	</update>

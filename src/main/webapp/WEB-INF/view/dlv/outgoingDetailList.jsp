@@ -6,7 +6,7 @@
 	<table class="col">
 		<thead>
 			<tr>
-				<th scope="col">배송코드</th>
+				<th scope="col">배송번호</th>
 				<th scope="col">주문코드</th>
 				<th scope="col">품목명</th>
 				<th scope="col">제품명</th>
@@ -18,16 +18,18 @@
 		</thead>
 		<tbody id="outgoingDetailListTop">
             <c:forEach items="${outgoingDetailList}" var="topList">
+                <input type="hidden" name="offline" value="${topList.offline}"/>
                 <tr>
                     <td><input type="hidden" name="ship_list_no" value="${topList.ship_list_no}"/>${topList.ship_list_no}</td>
                     <td><input type="hidden" name="order_cd" value="${topList.order_cd}"/>${topList.order_cd}</td>
-                    <td>${topList.m_ct_nm}</td>
+                    <td>${topList.l_ct_nm}</td>
                     <td>${topList.prod_nm}</td>
                     <td>${topList.order_cnt}</td>
                     <td>${topList.name_customer}</td>
                     <td>${topList.tel_customer}</td>
                     <td>${topList.addr}</td>
                 </tr>
+                
             </c:forEach>
         </tbody>
     </table>
@@ -85,6 +87,7 @@
 					<c:choose>
 						<c:when test="${bottomList.state eq '15'}">
 							<td>
+							    <input type="hidden" id="completeState" value="${bottomList.state}"/>
 								<select name="state" disabled style="width: 75px;">
 									<option value="14">배송중</option>
 									<option value="15" selected>배송완료</option>
@@ -94,7 +97,7 @@
 						<c:when test="${bottomList.state eq '14'}">
 							<td>
 								<select name="state" style="width: 75px;">
-									<option value="14">배송중</option>
+									<option value="14" disabled>배송중</option>
 									<option value="15" selected>배송완료</option>
 								</select>
 		                    </td>
@@ -103,7 +106,7 @@
 							<td>
 								<select name="state" style="width: 75px;">
 									<option value="14">배송중</option>
-									<option value="15">배송완료</option>
+									<option value="15" disabled>배송완료</option>
 								</select>
 		                    </td>
 						</c:otherwise>
