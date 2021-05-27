@@ -2,13 +2,12 @@ package kr.happyjob.study.system.model;
 
 import java.util.Date;
 
-public class NoticeModel {
+public class NoticeModel extends FileModel{
 	
 	// 게시판 글 번호
   private int notice_id; // 게시판 번호
   private String title; // 게시판 제목
   private String content; // 글 내용
-  private String file_url; // 첨부파일 경로
   private String date; // 글 작성일
   private int view_cnt; // 글 조회수
   private int auth; // 권한(전체, 고객, 직원)
@@ -31,12 +30,6 @@ public class NoticeModel {
   }
   public void setContent(String content) {
     this.content = content;
-  }
-  public String getFile_url() {
-    return file_url;
-  }
-  public void setFile_url(String file_url) {
-    this.file_url = file_url;
   }
   public String getDate() {
     return date;

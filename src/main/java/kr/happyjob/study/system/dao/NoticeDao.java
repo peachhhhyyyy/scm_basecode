@@ -34,6 +34,8 @@ public interface NoticeDao {
   // 파일 업로드를 위해  file_no 조회
   public int selectFileNo();
   
-  // 파일 정보 
+  // 파일 정보 업로드
+  public int insertFile(Map<String, Object> param);
+  
   
 }

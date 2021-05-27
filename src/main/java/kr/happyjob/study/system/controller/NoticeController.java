@@ -36,7 +36,6 @@ public class NoticeController {
 	NoticeService noticeService;
 	
 	// 파일 업로드에 사용 될 property
-	// 메소드 내부에 작성 불가
 	
 	// 물리경로(상위)
 	@Value("${fileUpload.rootPath}")
@@ -47,7 +46,7 @@ public class NoticeController {
   private String noticePath;
 	
 	// 상대경로
-	@Value("${fileUpload.fileRelativePath}")
+	@Value("${fileUpload.noticeRelativePath}")
 	private String fileRelativePath;
 	
 	// logger
@@ -63,7 +62,7 @@ public class NoticeController {
 	
 	// 공지사항 목록 조회(기본, 검색)
 	@RequestMapping(value="notice.do", method=RequestMethod.POST)
-	public String selectNotice(@RequestParam Map<String, Object> param, Model model, HttpSession session)throws Exception {
+	public String selectNotice(@RequestParam(required = false) Map<String, Object> param, Model model, HttpSession session)throws Exception {
 	  
 	  System.out.println("공지사항 목록 조회 파라미터: " + param);
 	  
@@ -149,58 +148,41 @@ public class NoticeController {
 	 
 	  MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
 	  
-	  System.out.println("공지사항 작성 parameter확인:" + param);
-	  
 	  int auth = Integer.parseInt((String) param.get("auth"));
 	  
 	  param.put("auth", auth);
 	  
-	  // 1. max함수를 이용하여 file테이블의 file_no의 최대값을 가져온다
-	  // 2. 위에서 가져온 값을 파일 정보를 담은 hashMap에 추가하여, file테이블에
-	  // insert한다.(fileUtilCho사용)
-	  // 3. 1에서 가져온 file_no을 가지고 notice테이블에 insert한다
-	  
-	  // file_no 조회(1의 과정)
+	  // file_no 조회
 	  int file_no = noticeService.selectFileNo();
 	  
-	  // fileUtil로 업로드 처리(2의 과정)
-	  // property를 이용해서 파일 업로드할 경로를 설정해야 함
-	  // 일단 property 작성, 그 property를 불러온다
-	 
-	  // 파일 업로드
-	  
-	  String imgPath = noticePath + File.separator;
+	  String imgPath = noticePath + File.separator + file_no + File.separator;
 	  FileUtilCho fileUtil = new FileUtilCho(multipartHttpServletRequest, rootPath, imgPath);
 	  Map<String, Object> fileUtilModel = fileUtil.uploadFiles();
 	  
-	  String file_nm = (String) fileUtilModel.get("file_nm");
-	  String file_loc = (String) fileUtilModel.get("file_loc");
+	  String delimiter = "/";
+	  String file_ofname = (String) fileUtilModel.get("file_nm");
+	  String file_local_path = (String) fileUtilModel.get("file_loc");
 	  String file_size = (String) fileUtilModel.get("file_size");
-	  String fileExtension = (String) fileUtilModel.get("fileExtension");
-	  
-	  System.out.println("파일업로드 후:" + file_nm+ "경로:"+ file_loc + "파일사이즈" + file_size
-	      + "확장자:" + fileExtension);
-	  
+	  String file_relative_path =  fileRelativePath + delimiter + noticePath + delimiter + file_no + delimiter + file_ofname;
+
+	  // DB에 등록할 파일 정보
 	  param.put("file_no", file_no);
-	  param.put("fil_size", fileUtilModel.get("file_size"));
+	  param.put("file_local_path", file_local_path);
+	  param.put("file_relative_path", file_relative_path);
+	  param.put("file_ofname", file_ofname);
+	  param.put("file_size", file_size);
+	  
+    // DB에 파일  등록  
+	  int fileResult = noticeService.insertFile(param);
 	  
 	  
-	  // DB에 파일 정보를 등록
-	  /* file_no, 
-    file_local_path, 
-    file_relative_path, 
-    file_ofname, 
-    file_size
-    */
-	  
-	  // 아래 코드 수정해야 함
+	  // 게시물 등록 
 	  int result = noticeService.insertNotice(param);
 	 
-	  
 	  return result;
 	}
 	
-	// 공지사항 단건 조회
+	/* 공지사항 단건 조회 */
 	@ResponseBody
 	@RequestMapping(value="detailNotice.do", method=RequestMethod.POST)
 	public NoticeModel selectDetailNotice(@RequestParam Map<String, Object> param) throws Exception {
@@ -227,7 +209,7 @@ public class NoticeController {
 	@ResponseBody
 	@RequestMapping(value="modifyNotice.do", method=RequestMethod.POST)
 	public int updateNotice(@RequestParam Map<String, Object> param) throws Exception {
-// 파라미터를 int가 아니라 map으로 던져보자
+
 	  int auth = Integer.parseInt((String)param.get("auth"));
 	  param.put("auth", auth);
 	  

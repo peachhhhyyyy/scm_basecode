@@ -161,7 +161,7 @@
       $("#product_cd").val("");
       $("#prod_nm").val("");
       $("#return_qty").val("");
-      $("#return_price").val("");
+      $("#returnPrice").val("");
       $("#warehouse_cd").val("");
       $("#addr").val("");
       $("#return_mng_id").val("");
@@ -169,7 +169,6 @@
       $("#desired_delivery_date").val("");
 
     } else {
-
       $("#purch_list_no").val(object.purch_list_no);
       $("#supply_nm").val(object.supply_nm);
       $("#supply_cd").val(object.supply_cd);
@@ -177,7 +176,7 @@
       $("#product_cd").val(object.product_cd);
       $("#prod_nm").val(object.prod_nm);
       $("#return_qty").val(object.return_qty);
-      $("#return_price").val(object.return_price);
+      $('#returnPrice').val(object.return_price);
       $("#warehouse_cd").val(object.warehouse_cd);
       $("#addr").val(object.addr);
       $("#return_mng_id").val(object.return_mng_id);
@@ -195,26 +194,22 @@
     var return_price = $('#return_price').val();
    
     var param = {
-        
       purch_list_no : purch_list_no,
       return_price : return_price,
       order_cd : order_cd, 
       supply_cd: supply_cd,
-      
     }
     
     // 콜백 함수
     function resultCallback(data) {
       
       if (data == 1) {
-        
        selectList(currentPage);
-       
       } else {
         swal('서버에서 에러가 발생했습니다.');
       }
-      
     }
+    
     callAjax("/pcs/refund/returndate.do", "post", "json", true, param, resultCallback);
 
   }
@@ -355,7 +350,7 @@
                 <th scope="row">반품수량</th>
                 <td><input value="" type="text" class="inputTxt p100" name="return_qty" id="return_qty"  readonly/></td>
                 <th scope="row">금액</th>
-                <td><input type="text" class="inputTxt p100" name="return_price" id="return_price"  readonly/></td>
+                <td><input type="text" class="inputTxt p100" name="return_price" id="returnPrice"  readonly/></td>
               </tr>
               <tr>
                 <th scope="row">창고 코드</th>

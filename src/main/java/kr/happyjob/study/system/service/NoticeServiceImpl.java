@@ -79,5 +79,12 @@ public class NoticeServiceImpl implements NoticeService {
     // TODO Auto-generated method stub
     return noticeDao.selectFileNo();
   }
+
+  // 파일 정보 업로드
+  @Override
+  public int insertFile(Map<String, Object> param) throws Exception {
+    // TODO Auto-generated method stub
+    return noticeDao.insertFile(param);
+  }
   
 }

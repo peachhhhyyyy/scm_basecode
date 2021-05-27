@@ -34,4 +34,8 @@ public interface NoticeService {
   // 파일 업로드를 위해  file_no 조회
   public int selectFileNo()throws Exception;
   
+  // 파일 정보 업로드
+   public int insertFile(Map<String, Object> param) throws Exception;
+ 
+  
 }

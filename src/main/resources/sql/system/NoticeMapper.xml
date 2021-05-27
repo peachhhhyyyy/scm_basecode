@@ -85,16 +85,21 @@
   
   <!-- 공지사항 단건 조회 -->
   <select id="selectNoticeDetail" resultType="kr.happyjob.study.system.model.NoticeModel" parameterType="int">
-  
-    SELECT notice_id, 
-           title,
-           content,
+    SELECT 
+           noti.notice_id, 
+           noti.title,
+           noti.content,
            DATE_FORMAT(date, '%Y-%m-%d %H:%m') as date,
-           auth
+           noti.auth,
+           noti.file_no,
+           fil.file_local_path,
+           fil.file_relative_path,
+           fil.file_ofname,
+           fil.file_size
       FROM
-           tb_scm_notice
+           tb_scm_notice noti left join tb_file fil on noti.file_no = fil.file_no
      WHERE 
-           notice_id = #{notice_id}
+           noti.notice_id = #{notice_id};
   
   </select>
   
@@ -107,18 +112,19 @@
      
   </update>
   
-  <!-- 공지사항 작성(일단, 파일 경로 제외하고 작성) -->
+  <!-- 공지사항 작성 -->
   <insert id="insertNotice" parameterType="java.util.Map">
     
     INSERT INTO 
-                tb_scm_notice(title, content, date, view_cnt, auth)
+                tb_scm_notice(title, content, date, view_cnt, auth, file_no)
          VALUES 
                 (
                   #{title}, 
                   #{content}, 
                   NOW(),
                   0, 
-                  #{auth}
+                  #{auth},
+                  #{file_no}
                  )
   
   </insert>  

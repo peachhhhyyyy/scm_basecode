@@ -192,7 +192,6 @@
     $('#options').val('all');
     
     
-    
     // 리스트 로우의 총 개수 추출
     var totalCount = $("#totalCount").val();
     
@@ -297,8 +296,6 @@
       // 파일 업로드 AJAX호출(fileUploadCallback작성 해야 함)
       
       
-      // AJAX호출
-      //callAjax("/system/writeNotice.do", "post", "json", true, param, resultCallback);
        callAjaxFileUploadSetFormData("/system/writeNotice.do", "post", "json", true, fileData, resultCallback);
      } // validate끝
     };
@@ -528,15 +525,16 @@
         
       }
       else if(identifier == 'r') {
-        
+        console.log('단건조회', result)
         if(result) {
-          
+          // 여기 수정
           $('#notice_id').val(result.notice_id);
           $('#notice_title').val(result.title);
           $('#notice_date').text(result.date);
           $('#notice_content').val(result.content);
           $('#notice_auth').val(result.auth);
-          
+          $('#download').attr("href", result.file_relative_path);
+
         }
         else{
           $('#notice_id').val('');
@@ -743,7 +741,11 @@
                <tr id="modify_file">
                   <th scope="row">첨부파일</th>
                   <td colspan="3"><input type="file" class="inputTxt p100" accept="image/*"/></td>
-               </tr>
+               <tr>
+               <tr id="download_file">
+                  <th scope="row">다운로드</th>
+                  <td colspan="3"><a class="btn" id="download" href="" download>다운로드</a></td>
+               <tr>
               <tr>
                 <th scope="row" class="auth_block">열람권한</th>
                 <td colspan="3">
