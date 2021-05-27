@@ -108,6 +108,7 @@
 				, DATE_FORMAT(shipList.arr_prev_date, '%Y-%m-%d') AS arr_prev_date
 				, OD.STTcd AS state
 				, IFNULL(OD.request, " - ") AS request
+				, OD.offline AS offline
             FROM tb_order OD
 
             LEFT JOIN(
@@ -177,8 +178,14 @@
 	        SET
 	            <choose>
 		            <when test="state.equals('15')">
-                        TSSL.arr_date = NOW(),
-		                OD.STTcd = #{state}
+		                <if test='offline.equals("y")'>
+			                TSSL.arr_date = NOW(),
+                            OD.STTcd = '8'
+		                </if>
+		                <if test='offline.equals("n")'>
+                            TSSL.arr_date = NOW(),
+                            OD.STTcd = #{state}
+                        </if>
 		            </when>
 		            <otherwise>
 			            TSSL.arr_prev_date = DATE_FORMAT(#{arrPrevDate}, '%Y-%m-%d %h:%m:%s'),
@@ -187,7 +194,8 @@
 	                    OD.STTcd = #{state}
 		            </otherwise>
 	            </choose>
-	        WHERE OD.order_cd = #{order_cd}
+	        WHERE 1 = 1 
+	        AND OD.order_cd = #{order_cd}
             AND TSSL.ship_list_no = #{ship_list_no}
             AND TSSL.order_cd = #{order_cd}
 	</update>
