@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.happyjob.study.pcs.model.PcsModel;
 import kr.happyjob.study.pcs.service.PcsService;
-import kr.happyjob.study.system.model.ComnGrpCodModel;
 
 @Controller
 @RequestMapping("/pcs/") // 여기서 선언한 것은 상위 path명
@@ -100,7 +99,6 @@ public class PcsController {
     resultMap.put("resultMsg", resultMsg);
     resultMap.put("loginId", session.getAttribute("loginId"));
     
-    
     logger.info("+ End " + className + ".sendproc");
     
     return resultMap;
@@ -161,7 +159,7 @@ public class PcsController {
     String resultMsg = "전송 되었습니다.";
    
     PcsModel pcsModel = pcsService.selectPurchBtn(paramMap);
-
+    
     Map<String, Object> resultMap = new HashMap<String, Object>();
     resultMap.put("result", result);
     resultMap.put("resultMsg", resultMsg);
