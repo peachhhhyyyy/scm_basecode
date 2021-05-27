@@ -47,9 +47,10 @@ public class PcsModel {
   public String detail_code;
   // 상세코드명
   public String detail_name;
-  
+  // 로그인 아이디
   public String loginID;
- 
+  // 반품 수량
+  public String return_qty;
   public String getPurch_list_no() {
     return purch_list_no;
   }
@@ -187,6 +188,11 @@ public class PcsModel {
   }
   public void setLoginID(String loginID) {
     this.loginID = loginID;
-  }  
-  
+  }
+  public String getReturn_qty() {
+    return return_qty;
+  }
+  public void setReturn_qty(String return_qty) {
+    this.return_qty = return_qty;
+  }   
 }
