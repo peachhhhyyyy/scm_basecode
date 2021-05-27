@@ -53,10 +53,10 @@ public class ScmReturnController {
 		logger.info("scmReturnList 값: "+ paramMap);
 		
 		//목록수 추출하기
-		int scmReturnCnt = srtservice.scmReturnListCnt(paramMap);
-		System.out.println("scmReturnCnt : " + scmReturnCnt);
+		int scmReturnListCnt = srtservice.scmReturnListCnt(paramMap);
+		System.out.println("scmReturnListCnt : " + scmReturnListCnt);
 		
-		model.addAttribute("scmReturnCnt", scmReturnCnt);
+		model.addAttribute("scmReturnListCnt", scmReturnListCnt);
 		model.addAttribute("pageSize", pageSize);
 		
 		model.addAttribute("currentPage", currentPage);
