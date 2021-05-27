@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!-- 데이터가 없는 경우 -->
 <c:if test="${empty refundDetail}">
 	<h1>데이터가 존재하지 않습니다.</h1>
@@ -39,7 +40,7 @@
 				<th>반품일자</th>
 				<th>창고명</th>
 				<th>반품수량</th>
-				<th>반품금액</th>
+				<th>반품금액(원)</th>
 				<c:choose>
 					<c:when test="${refundDetail.STTcd eq 3}">
 						<th>승인</th>
@@ -61,7 +62,7 @@
 				<td>${fn:substring(refundDate, 0, 11)}</td>
 				<td>${refundDetail.warehouseName}</td>
 				<td>${refundDetail.refundCount}</td>
-				<td>${refundDetail.refundAmount}</td>
+				<td><fmt:formatNumber value="${refundDetail.refundAmount}" pattern="#,###"/></td>
 				<c:choose>
 					<c:when test="${refundDetail.STTcd eq 3}">
 						<td style="display: flex; justify-content: space-around; align-items:center;">

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!-- 갯수가 0인 경우  -->
 <c:if test="${purchaseListCnt eq 0 }">
   <tr>
@@ -18,7 +19,7 @@
       <td>${list.supplyName}</td>
       <td>${list.productName}</td>
       <td>${list.purchaseQty}</td>
-      <td>${list.purchaseTotalAmount}</td>
+      <td><fmt:formatNumber value="${list.purchaseTotalAmount}" pattern="#,###"/></td>
       <td>${list.scmManager}</td>
       <c:set var="date" value="${list.directionDate}"/>
       <td>${fn:substring(date, 0, 11)}</td>

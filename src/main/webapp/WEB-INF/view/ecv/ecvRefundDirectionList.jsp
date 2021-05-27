@@ -60,9 +60,9 @@
 										<th scope="col">기업고객명</th>
 										<th scope="col">제품명</th>
 										<th scope="col">제품수량</th>
-										<th scope="col">총액</th>
-										<th scope="col">세액</th>
-										<th scope="col">총 공급가액</th>
+										<th scope="col">총액(원)</th>
+										<th scope="col">세액(원)</th>
+										<th scope="col">총 공급가액(원)</th>
 										<th scope="col">SCM 담당자</th>
 										<th scope="col">신청 일자</th>
 										<th scope="col">결제</th>
