@@ -20,7 +20,7 @@
       <td><fmt:formatDate value="${list.purch_date}" pattern="yyyy-MM-dd" /></td>
       <td><fmt:formatDate value="${list.desired_delivery_date}" pattern="yyyy-MM-dd" /></td>
       <td>${list.detail_name}</td>
-      <c:if test="${list.STTcd eq 10}">
+      <c:if test="${list.STTcd eq 11}">
       <td><a class="btnType3 color2" href="javascript:void(0);"><span>입고완료</span></a></td>
       <td><a class="btnType3 color1" href="javascript:void(0);" style="cursor:not-allowed;"><span>반품</span></a></td>
       </c:if>
