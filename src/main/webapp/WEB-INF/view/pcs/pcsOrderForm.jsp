@@ -246,48 +246,28 @@
   }
   
   /** 반품서 화면 띄우기 */ 
-  function fSelectRefundBtn(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, purch_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name) {
-    
+  function fSelectRefundBtn(purch_list_no, supply_nm, supply_cd, prod_nm, m_ct_nm, product_cd, return_qty, warehouse_cd, purch_mng_id) {
     var param = {
       purch_list_no : purch_list_no,
-      order_cd : order_cd,
       supply_nm : supply_nm,
-      prod_nm : prod_nm,
-      m_ct_cd : m_ct_cd,
-      warehouse_nm : warehouse_nm,
-      purch_qty : purch_qty,
-      purchase_price : purchase_price,
-      purch_mng_id : purch_mng_id,
-      direction_date : direction_date,
-      purch_date : purch_date,
-      desired_delivery_date : desired_delivery_date,
       supply_cd : supply_cd,
+      prod_nm : prod_nm,
+      m_ct_nm : m_ct_nm,
       product_cd : product_cd,
-      STTcd : STTcd,
-      detail_name : detail_name
+      return_qty : return_qty,
+      warehouse_cd : warehouse_cd,
+      purch_mng_id : purch_mng_id
     };
     
-    $("#purchListNo").text(purch_list_no);
-    $("#supplyNm").text(supply_nm);
-    $("#prodNm").text(prod_nm);
-    $("#mCtCd").text(m_ct_cd);
-    $("#warehouseNm").text(warehouse_nm);
-    $("#purchQty").text(purch_qty);
-    $("#purchMngId").text(purch_mng_id);
-    $("#purchasePrice").text(purchase_price);
+    $("#purch_list_no").val(purch_list_no);
+    $("#supply_nm").val(supply_nm);
+    $("#supply_cd").val(supply_cd);
+    $("#prod_nm").val(prod_nm);
+    $("#m_ct_nm").val(m_ct_nm);
     $("#product_cd").val(product_cd);
-    
-/*     
-    // 날짜 타입 변환
-    var date1 = purch_date.substr(0, 10);
-    var date2 = purch_date.substr(24, 29);
-    purch_date = date1 + ',' + date2;
-    $("#purchDate").text(formatDate(purch_date));
-    var date3 = desired_delivery_date.substr(0, 10);
-    var date4 = desired_delivery_date.substr(24, 29);
-    desired_delivery_date = date3 + ',' + date4;
-    $("#desiredDeliveryDate").text(formatDate(desired_delivery_date)); */
-    $("#STTcd").text(STTcd);
+    $("#return_qty").val(return_qty);
+    $("#warehouse_cd").val(warehouse_cd);
+    $("#purch_mng_id").val(purch_mng_id);
     
     var resultCallback = function(data) {
       fSelectRefundBtnResult(data);
@@ -315,10 +295,7 @@
     var supply_cd = $("#supply_cd").val();
     var purch_date = $(".purchaseDateValue").val();
     var desired_delivery_date = $(".desiredDeliveryDateValue").val();
-   
-    console.log('purch_date' + purch_date);
-    console.log('desired_delivery_date' + desired_delivery_date);
-
+ 
     var param = {
         purch_list_no : purch_list_no,
         order_cd : order_cd,
@@ -344,6 +321,7 @@
       alert(data.resultMsg);
     }
   }
+  
 </script>
 </head>
 <body>
@@ -537,29 +515,29 @@
                             </tr>
                             <tr>
                                 <th scope="row">공급처명</th>
-                                <td><input type="text" class="form-control" name="" id="" /></td>
+                                <td><input type="text" class="form-control" name="supply_nm" id="supply_nm" /></td>
                                 <th scope="row">공급처코드</th>
-                                <td><input type="text" class="form-control" name="" id="" /></td>
+                                <td><input type="text" class="form-control" name="supply_cd" id="supply_cd" /></td>
                             </tr>
                             <tr>
                                 <th scope="row">제품명</th>
-                                <td colspan="3"><input type="text" class="form-control" name="" id="" /></td>
+                                <td colspan="3"><input type="text" class="form-control" name="prod_nm" id="prod_nm" /></td>
                             </tr>
                             <tr>
                                 <th scope="row">상호명</th>
-                                <td colspan="3"><input type="text" class="form-control" name="" id="" /></td>
+                                <td colspan="3"><input type="text" class="form-control" name="m_ct_nm" id="m_ct_nm" /></td>
                             </tr>
                             <tr>
                                 <th scope="row">제품번호</th>
-                                <td><input type="text" class="form-control" name="" id="" /></td>
+                                <td><input type="text" class="form-control" name="product_cd" id="product_cd" /></td>
                                 <th scope="row">제품수량</th>
-                                <td><input type="text" class="form-control" name="" id="" /></td>
+                                <td><input type="text" class="form-control" name="return_qty" id="return_qty" /></td>
                             </tr>
                             <tr>
                                 <th scope="row">창고코드</th>
-                                <td><input type="text" class="form-control" name="" id="" /></td>
+                                <td><input type="text" class="form-control" name="warehouse_cd" id="warehouse_cd" /></td>
                                 <th scope="row">담당자</th>
-                                <td><input type="text" class="form-control" name="" id="" /></td>
+                                <td><input type="text" class="form-control" name="purch_mng_id" id="purch_mng_id" /></td>
                             </tr>
                         </tbody>
                     </table>
@@ -581,11 +559,6 @@
           formatDate: 'YYYY-MM-DD',
           language: 'ko',
           autoclose: true,
-      });
-      $("#datetimepicker1").on("change.datetimepicker", function(e) {
-        var date = $("#datetimepicker1").find("input").val();
-        console.log('날짜확인 :', date)
-        $('#datetimepicker2').datetimepicker('minDate', e.date);
       });
     });
     </script>
