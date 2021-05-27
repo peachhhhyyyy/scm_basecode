@@ -151,6 +151,13 @@
     return [year, month, day].join('-');
   }
   
+  /** 금액 변환 함수
+   출처 : https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
+  */
+  function numberWithCommas(x) {
+	  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+  
   /** SCM 발주지시서 상세 화면 띄우기 */ 
   function fSelectPurchBtn(scm_id, direction_date, prod_nm, purch_qty, m_ct_cd, purchase_price, supply_nm, price, approve_id) {
 
@@ -175,9 +182,9 @@
     $("#prodNm").text(prod_nm);
     $("#purchQty").text(purch_qty);
     $("#mCtCd").text(m_ct_cd);
-    $("#purchasePrice").text(purchase_price);
+    $("#purchasePrice").text(numberWithCommas(purchase_price));
     $("#supplyNm").text(supply_nm);
-    $("#price").text(price);
+    $("#price").text(numberWithCommas(price));
     $("#approveId").text(approve_id ? approve_id : "승인대기");
     $("#approveId_head").text(approve_id ? "승인자" : "상태");
     

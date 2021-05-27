@@ -165,6 +165,13 @@
     return [year, month, day].join('-');
   }
   
+  /** 금액 변환 함수
+	  출처 : https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
+	 */
+	function numberWithCommas(x) {
+	   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+  
   /** 발주서 화면 띄우기 */ 
   function fSelectPurchBtn(purch_list_no, supply_nm, prod_nm, m_ct_nm, purch_qty, purchase_price, desired_delivery_date, warehouse_nm, purch_mng_id, order_cd, supply_cd, scm_id, loginID) {
     console.log("fSelectPurchBtn : " + loginID);
@@ -174,7 +181,7 @@
     $("#prodNm").text(prod_nm);
     $("#mCtNm").text(m_ct_nm);
     $("#purchQty").text(purch_qty);
-    $("#purchasePrice").text(purchase_price);
+    $("#purchasePrice").text(numberWithCommas(purchase_price));
     // 날짜 타입 변환
     var date1 = desired_delivery_date.substr(0, 10);
     var date2 = desired_delivery_date.substr(24, 29);
@@ -184,9 +191,6 @@
     $("#purchMngId").text(loginID);
     
     gfModalPop("#layer1");
-    
-    console.log('purchMngId :' + purch_mng_id);
-    console.log('purchasePrice :' + purchase_price);
     
     $("#order_cd").val(order_cd);
     $("#supply_cd").val(supply_cd);
@@ -213,7 +217,7 @@
     $("#prodNm2").text(prod_nm);
     $("#mCtNm2").text(m_ct_nm);
     $("#purchQty2").text(purch_qty);
-    $("#purchasePrice2").text(purchase_price);
+    $("#purchasePrice2").text(numberWithCommas(purchase_price));
     // 날짜 타입 변환
     var date1 = purch_date.substr(0, 10);
     var date2 = purch_date.substr(24, 29);
