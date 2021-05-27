@@ -53,10 +53,10 @@ public class ScmOutgoingController {
 		logger.info("outgoingList 값: "+ outgoingList);
 		
 		//목록수 추출하기
-		int scmOutgoingCnt = solservice.scmOutgoingListCnt(paramMap);
-		System.out.println("scmOutgoingCnt : " + scmOutgoingCnt);
+		int scmOutgoingListCnt = solservice.scmOutgoingListCnt(paramMap);
+		System.out.println("scmOutgoingListCnt : " + scmOutgoingListCnt);
 		
-		model.addAttribute("scmOutgoingCnt", scmOutgoingCnt);
+		model.addAttribute("scmOutgoingListCnt", scmOutgoingListCnt);
 		model.addAttribute("pageSize", pageSize);
 		
 		model.addAttribute("currentPage", currentPage);
