@@ -552,8 +552,8 @@ function numberWithCommas(x) {
                   <input type="text" class="inputTxt p100"
                   name="warehouse_nm" id="warehouse_nm" placeholder="창고명"/></td>
                 <th scope="row">재고개수(EA)<span class="font_red">*</span></th>
-                <td colspan="3"><input type="number" class="inputTxt p100"
-                  name="stock" id="text" maxlength="11" placeholder="재고개수"/></td>
+                <td colspan="3"><input type="text" class="inputTxt p100"
+                  name="stock" id="stock" maxlength="11" placeholder="재고개수"/></td>
               </tr>
               <tr>
                 <th rowspan="2" scope="row">상세정보 <span class="font_red">*</span></th>

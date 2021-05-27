@@ -355,7 +355,7 @@
                             <p class="Location">
                                  <a href="/system/notice.do" class="btn_set home">메인으로</a> 
                                  <a class="btn_nav">기준 정보</a>
-                                  <span class="btn_nav bold">공급처 정보</span> 
+                                  <span class="btn_nav bold">공급처 관리</span> 
                                  <a href="" class="btn_set refresh">새로고침</a>
                             </p>
                             
