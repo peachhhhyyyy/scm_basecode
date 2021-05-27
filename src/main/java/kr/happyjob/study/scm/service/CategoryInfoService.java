@@ -18,4 +18,6 @@ public interface CategoryInfoService {
   
   /* 품목 단건 조회*/
   public CategoryInfoModel selectLargeCategory(Map<String, Object> paraMap) throws Exception;
+  /* 상호 단건 조회*/
+  public CategoryInfoModel selectMiddleCategory(Map<String, Object> paraMap) throws Exception;
 }

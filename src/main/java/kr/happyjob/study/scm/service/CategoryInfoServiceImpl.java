@@ -46,4 +46,10 @@ public class CategoryInfoServiceImpl implements CategoryInfoService{
     CategoryInfoModel selectLargeCategory = categoryInfoDao.selectLargeCategory(paramMap);
     return selectLargeCategory;
   } 
+  //상호 단건 조회
+  @Override
+  public CategoryInfoModel selectMiddleCategory(Map<String, Object> paramMap) throws Exception {
+    CategoryInfoModel selectMiddleCategory = categoryInfoDao.selectMiddleCategory(paramMap);
+    return selectMiddleCategory;
+  } 
 }

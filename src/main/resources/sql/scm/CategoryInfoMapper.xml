@@ -39,5 +39,16 @@ LEFT JOIN tb_scm_l_category LC ON MC.l_ct_cd = LC.l_ct_cd
       FROM tb_scm_l_category
      WHERE l_ct_cd = #{l_ct_cd}
    </select>
+   
+   <!-- 상호 단건 조회 -->
+   <select id="selectMiddleCategory" resultType="kr.happyjob.study.scm.model.CategoryInfoModel" >
+     SELECT  LC.l_ct_cd as l_ct_cd
+           , LC.l_ct_nm as l_ct_nm
+           , MC.m_ct_cd as m_ct_cd
+           , MC.m_ct_nm as m_ct_nm
+      FROM tb_scm_m_category MC
+ LEFT JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd     
+     WHERE MC.m_ct_cd = #{m_ct_cd}
+   </select>
   
 </mapper>

@@ -105,4 +105,24 @@ public class CategoryInfoController {
     System.out.println(resultMap);
     return resultMap;
   }
+  
+  //상호 단건 조회
+  @RequestMapping("selectMiddleCategory.do")
+  @ResponseBody
+  public Map<String, Object> selectMiddleCategory (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+      HttpServletResponse response, HttpSession session) throws Exception{
+
+    String result = "SUCCESS";
+    String resultMsg = "조회 되었습니다.";
+    
+    CategoryInfoModel categoryInfoModel = categoryInfoService.selectMiddleCategory(paramMap);
+    
+    Map<String, Object> resultMap = new HashMap<String, Object>();
+    resultMap.put("result", result);
+    resultMap.put("resultMsg", resultMsg);
+    resultMap.put("categoryInfoModel", categoryInfoModel);
+    
+    System.out.println(resultMap);
+    return resultMap;
+  }
 }

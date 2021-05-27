@@ -184,6 +184,80 @@
       $("#btnDeleteLargeCategory").show();
     } 
   } 
+  
+  /* 상호 모달 실행 */
+  function fPopModalMiddleCategory(m_ct_cd) {
+    //신규 저장
+    if (m_ct_cd == null || m_ct_cd == "") {
+      $("#Maction").val("I");
+      fInitFormMiddleCategory();
+      gfModalPop("#middleCategory");
+    } else {
+      $("#Maction").val("U");
+      fSelectMiddleCategory(m_ct_cd);
+    }
+  }
+  
+  /* 상호 단건 조회*/
+  function fSelectMiddleCategory(m_ct_cd) {
+    var param = {
+        m_ct_cd : m_ct_cd
+    };
+    var resultCallback = function(data) {
+      fSelectMiddleCategoryResult(data);
+    };
+    callAjax("/scm/selectMiddleCategory.do", "post", "json", true, param,
+        resultCallback);
+  }
+  
+  // 상호 단건 조회 콜백 함수
+  function fSelectMiddleCategoryResult(data) {
+    if (data.result == "SUCCESS") {
+      gfModalPop("#middleCategory")
+      fInitFormMiddleCategory(data.categoryInfoModel);
+    } else {
+      alert(data.resultMsg);
+    }
+  }
+  
+  /* 상호 폼 초기화 */
+  function fInitFormMiddleCategory(object) {
+    $("#m_ct_cd2").focus();
+    
+    if (object == "" || object == null || object == undefined) {
+      $("#l_ct_cd2").val("");
+      $("#l_ct_nm2").val("");
+      $("#m_ct_cd2").val("");
+      $("#m_ct_nm2").val("");
+      
+      $("#l_ct_cd2").attr("readonly", true);
+      $("#l_ct_cd2").css("background", "#F5F5F5");
+      $("#l_ct_nm2").attr("readonly", true);
+      $("#l_ct_nm2").css("background", "#F5F5F5");
+      $("#m_ct_cd2").attr("readonly", false);
+      $("#m_ct_cd2").css("background", "#FFFFFF");
+      $("#m_ct_nm2").attr("readonly", false);
+      $("#m_ct_nm2").css("background", "#FFFFFF");
+      
+      $("#btnDeleteMiddleCategory").hide();
+    } else{
+      $("#l_ct_cd2").val(object.l_ct_cd);
+      $("#l_ct_nm2").val(object.l_ct_nm);
+      $("#m_ct_cd2").val(object.m_ct_cd);
+      $("#m_ct_nm2").val(object.m_ct_nm);
+ 
+      $("#l_ct_cd2").attr("readonly", true);
+      $("#l_ct_cd2").css("background", "#F5F5F5");
+      $("#l_ct_nm2").attr("readonly", true);
+      $("#l_ct_nm2").css("background", "#F5F5F5");
+      $("#m_ct_cd2").attr("readonly", true);
+      $("#m_ct_cd2").css("background", "#F5F5F5");
+      $("#m_ct_nm2").attr("readonly", false);
+      $("#m_ct_nm2").css("background", "#FFFFFF");
+      
+      $("#btnDeleteMiddleCategory").show();
+    } 
+  } 
 </script>
 </head>
 <body>
@@ -193,6 +267,7 @@
     <input type="hidden" id="tmpl_ct_nm" value="">  
     <input type="hidden" id="tmpl_ct_cd" value="">
     <input type="hidden" name="action" id="action" value="">
+    <input type="hidden" name="Maction" id="Maction" value="">
     <div id="mask"></div>
     <div id="wrap_area">
       <h2 class="hidden">header 영역</h2>
@@ -274,6 +349,7 @@
       </div>
     </div>
     
+    <!-- 품목 모달 -->
     <div id="largeCategory" class="layerPop layerType2" style="width: 600px;"> 
       <dl>
         <dt>
@@ -298,6 +374,57 @@
                 <th scope="row">품목명 <span class="font_red">*</span></th>
                  <td><input type="text" class="inputTxt p100"
                   name="l_ct_nm" id="l_ct_nm" maxlength="20"/></td>
+              </tr>
+            </tbody>
+          </table>
+          
+          
+          <div class="btn_areaC mt30">
+            <a href="" class="btnType blue" id="btnSaveLargeCategory" name="btn"><span>저장</span></a>
+            <a href="" class="btnType blue" id="btnDeleteLargeCategory" name="btn"><span>삭제</span></a>  
+            <a href="" class="btnType gray" id="btnCloseCategory" name="btn"><span>닫기</span></a>
+            
+          </div>
+        
+       
+        </dd>
+      </dl>
+      <a href="" class="closePop" id="btnClose" name="btn"><span class="hidden">닫기</span></a>
+    </div>
+    
+    <!-- 상호 모달 -->
+    <div id="middleCategory" class="layerPop layerType2" style="width: 600px;"> 
+      <dl>
+        <dt>
+          <strong>상호 관리</strong>
+        </dt>
+        <dd class="content">
+          <table class="row">
+            <caption>caption</caption>
+            <colgroup>
+              <col width="120px">
+              <col width="*">
+              <col width="120px">
+              <col width="*">
+            </colgroup>
+            <tbody>
+              <tr>
+                <th scope="row">품목코드 <span class="font_red">*</span></th>
+                 <td colspan=3><input type="text" class="inputTxt p100"
+                  name="l_ct_cd2" id="l_ct_cd2" maxlength="100"/></td>
+                <th scope="row">품목명 <span class="font_red">*</span></th>
+                 <td><input type="text" class="inputTxt p100"
+                  name="l_ct_nm2" id="l_ct_nm2" maxlength="20"/></td>
+              </tr>
+              <tr>
+                <th scope="row">상호코드 <span class="font_red">*</span></th>
+                 <td colspan=3><input type="text" class="inputTxt p100"
+                  name="m_ct_cd2" id="m_ct_cd2" maxlength="100"/></td>
+              </tr>
+              <tr>
+                <th scope="row">상호명 <span class="font_red">*</span></th>
+                 <td colspan=3><input type="text" class="inputTxt p100"
+                  name="m_ct_cd2" id="m_ct_nm2" maxlength="100"/></td>
               </tr>
             </tbody>
           </table>
