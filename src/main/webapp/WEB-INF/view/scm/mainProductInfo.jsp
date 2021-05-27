@@ -326,16 +326,22 @@ function numberWithCommas(x) {
   //대분류 선택 시 중분류 코드 가져오기
   function selectmidcat(){
     var largecd = $("#l_ct_cd").val();
-    var middlecd = $("#m_ct_cd").val();
-    
-    productCombo("m", "m_ct_cd", "all", largecd);   // 조회 종류   l : 대분류  m : 중분류  p:중분류 제품,   Combo Name, Option("all" : 전체     "sel" : 선택 ,  중분류 코드(제품 목록 조회시 필수))  
+    productCombo("m", "m_ct_cd", "sel", largecd);   // 조회 종류   l : 대분류  m : 중분류  p:중분류 제품,   Combo Name, Option("all" : 전체     "sel" : 선택 ,  중분류 코드(제품 목록 조회시 필수))  
 
     $("#m_ct_cd").find("option").remove();
     
     $("#l_ct_cd").val(largecd);
-    $("#m_ct_Cd").val(middlecd);
   }
   
+ 
+  // 중분류 선택 시 제품 코드 가져오기
+  function selectproductlistcombo() {
+    var margecd = $("#m_ct_cd").val();
+    productCombo("p", "product_cd", "all", margecd); // 조회 종류   l : 대분류  m : 중분류  p:중분류 제품,   Combo Name, Option("all" : 전체     "sel" : 선택 ,  중분류 코드(제품 목록 조회시 필수))  
+
+    $("#m_ct_Cd").val(margecd);
+  }
+
   /** 제품 상세정보 모달 실행 */
   function fPopModalMainProductModal(product_cd) {
     //신규 저장
@@ -346,9 +352,8 @@ function numberWithCommas(x) {
     } else {
       $("#action").val("U");
       fMainProductModal(product_cd);
-    } 
+    }
   }
-  
 
   /*제품 상세정보*/
   function fMainProductModal(product_cd) {
@@ -374,7 +379,7 @@ function numberWithCommas(x) {
   /* 제품 상세정보 폼 초기화*/
   function fInitFormMainProductModal(object) {
     $("#piproduct_cd").focus();
-    
+
     $("#piproduct_cd").val(object.product_cd);
     $("#piprod_nm").val(object.prod_nm);
     $("#pil_ct_nm").val(object.l_ct_nm);
@@ -387,7 +392,7 @@ function numberWithCommas(x) {
     $("#pidetail").val(object.detail);
     $("#pithumbnail").val("");
     $("#pitempImg").attr("src", object.file_relative_path);
-    
+
     $("#piproduct_cd").attr("readonly", true);
     $("#piprod_nm").attr("readonly", true);
     $("#pil_ct_nm").attr("readonly", true);
@@ -401,9 +406,6 @@ function numberWithCommas(x) {
     $("#pidetail").css("background", "#FFFFFF");
     $("#pithumbnail").hide();
   }
-
- 
-  
 </script>
 </head>
 <body>
@@ -550,8 +552,8 @@ function numberWithCommas(x) {
                   <input type="text" class="inputTxt p100"
                   name="warehouse_nm" id="warehouse_nm" placeholder="창고명"/></td>
                 <th scope="row">재고개수(EA)<span class="font_red">*</span></th>
-                <td colspan="3"><input type="text" class="inputTxt p100"
-                  name="stock" id="stock" maxlength="11" placeholder="제고개수"/></td>
+                <td colspan="3"><input type="number" class="inputTxt p100"
+                  name="stock" id="text" maxlength="11" placeholder="재고개수"/></td>
               </tr>
               <tr>
                 <th rowspan="2" scope="row">상세정보 <span class="font_red">*</span></th>
