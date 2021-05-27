@@ -110,17 +110,30 @@ public class RefundConller {
   @ResponseBody
   @RequestMapping(value="returndate.do", method=RequestMethod.POST)
   public int insertReturnDate(@RequestParam Map<String,Object> param, HttpSession session) throws Exception {
-//    Map<String,Integer>로 받아서 테스트
-//    위의 방법이 실패시 <String,Object>로 실행 -> 실패. 아래는 에러메시지
-//    java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
+    
+    // 현재 로그인 중인 PCS 직원의 ID 알아내기
+      String direct_id = (String)session.getAttribute("loginId");
+      param.put("direct_id", direct_id);
       
-      String temp = (String) param.get("purch_list_no");
-      int purch_list_no = Integer.parseInt(temp);
+      int purch_list_no = Integer.parseInt((String) param.get("purch_list_no"));
       
-      int result = refundService.insertReturnDate(purch_list_no);
+      // 구매 테이블에 반품 처리
+      int refundResult = refundService.insertReturnDate(purch_list_no);
+      
+      // 환불액 입금 처리
+      int  amtResult = refundService.insertAmt(param);
+      
+      int result = 0;
+      
+      // 반품과 입금처리 둘 다 처리되어야  성공(1)으로 처리
+      if (refundResult == 1 && amtResult == 1) {
+        result = 1;
+      }
+      else if (refundResult == 0 || amtResult == 0) {
+        result = 0;
+      }
       
       return result;
-   
   }
   
 }

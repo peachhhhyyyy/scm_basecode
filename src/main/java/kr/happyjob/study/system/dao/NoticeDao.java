@@ -11,7 +11,7 @@ public interface NoticeDao {
   public List<NoticeModel> selectNoticeList(Map<String, Object> param);
   
   // 공지사항 목록 총 개수 조회
-  public int countNoticeList();
+  public int countNoticeList(int auth);
   
   // 공지사항 검색 목록 총 개수 조회
   public int countConditionList(Map<String, Object> param);
@@ -30,5 +30,12 @@ public interface NoticeDao {
   
   // 공지사항 삭제
   public int deleteNotice(Map<String, Object> param);
+  
+  // 파일 업로드를 위해  file_no 조회
+  public int selectFileNo();
+  
+  // 파일 정보 업로드
+  public int insertFile(Map<String, Object> param);
+  
   
 }

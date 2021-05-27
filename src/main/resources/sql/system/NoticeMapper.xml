@@ -19,17 +19,24 @@
        <choose>
         <when test="option eq 'all'.toString()">
          AND (title LIKE CONCAT('%', #{keyword}, '%') or content LIKE CONCAT('%', #{keyword}, '%'))
+          <if test="formerDate!= ''">
+            AND DATE(date) BETWEEN (#{formerDate}) AND (#{latterDate})
+          </if>
+          
         </when>
         <when test="option eq 'title'.toString()">
           AND title LIKE CONCAT('%', #{keyword}, '%')
+        </when>
+        <when test="option eq 'content'.toString()">
+          AND content LIKE CONCAT('%', #{keyword}, '%')
         </when>
        </choose>
      </if>
      
      <if test="keyword == ''">
-      <if test="formerDate != ''">
-          
-      </if>
+       <if test="formerDate != ''">
+        AND DATE(date) BETWEEN (#{formerDate}) AND (#{latterDate})
+       </if>
      </if>
   ORDER BY notice_id DESC
      LIMIT #{pageIndex}, #{pageSize}  
@@ -37,7 +44,7 @@
   </select>
   
   <!-- 공지사항 목록(기본) 총 개수 조회 -->
-  <select id="countNoticeList" resultType="int">
+  <select id="countNoticeList" resultType="int" parameterType="int">
   
       SELECT count(notice_id)
         FROM tb_scm_notice
@@ -48,35 +55,51 @@
   <!-- 공지사항 목록(검색) 총 개수 조회 -->
   <select id="countConditionList" resultType="int">
   
-     SELECT 
-            COUNT(notice_id)
-      FROM tb_scm_notice
+     SELECT COUNT(notice_id)
+       FROM tb_scm_notice
       WHERE (auth = #{auth} or auth = 0)
-       <if test="keyword != ''">
-       <choose>
-        <when test="option eq 'all'.toString()">
-         AND (title LIKE CONCAT('%', #{keyword}, '%') or content LIKE CONCAT('%', #{keyword}, '%'))
-        </when>
-        <when test="option eq 'title'.toString()">
-          AND title LIKE CONCAT('%', #{keyword}, '%')
-        </when>
-       </choose>
-     </if>
-     
+           <if test="keyword != ''">
+             <choose>
+              <when test="option eq 'all'.toString()">
+               AND (title LIKE CONCAT('%', #{keyword}, '%') or content LIKE CONCAT('%', #{keyword}, '%'))
+                <if test="formerDate!= ''">
+                  AND DATE(date) BETWEEN (#{formerDate}) AND (#{latterDate})
+                </if>
+                
+              </when>
+              <when test="option eq 'title'.toString()">
+                AND title LIKE CONCAT('%', #{keyword}, '%')
+              </when>
+              <when test="option eq 'content'.toString()">
+                AND content LIKE CONCAT('%', #{keyword}, '%')
+              </when>
+             </choose>
+           </if>
+           
+           <if test="keyword == ''">
+             <if test="formerDate != ''">
+              AND DATE(date) BETWEEN (#{formerDate}) AND (#{latterDate})
+             </if>
+           </if>     
   </select>
   
   <!-- 공지사항 단건 조회 -->
   <select id="selectNoticeDetail" resultType="kr.happyjob.study.system.model.NoticeModel" parameterType="int">
-  
-    SELECT notice_id, 
-           title,
-           content,
+    SELECT 
+           noti.notice_id, 
+           noti.title,
+           noti.content,
            DATE_FORMAT(date, '%Y-%m-%d %H:%m') as date,
-           auth
+           noti.auth,
+           noti.file_no,
+           fil.file_local_path,
+           fil.file_relative_path,
+           fil.file_ofname,
+           fil.file_size
       FROM
-           tb_scm_notice
+           tb_scm_notice noti left join tb_file fil on noti.file_no = fil.file_no
      WHERE 
-           notice_id = #{notice_id}
+           noti.notice_id = #{notice_id};
   
   </select>
   
@@ -89,13 +112,20 @@
      
   </update>
   
-  <!-- 공지사항 작성(일단, 파일 경로 제외하고 작성) -->
+  <!-- 공지사항 작성 -->
   <insert id="insertNotice" parameterType="java.util.Map">
     
     INSERT INTO 
-                tb_scm_notice(title, content, date, view_cnt, auth)
+                tb_scm_notice(title, content, date, view_cnt, auth, file_no)
          VALUES 
-                (#{title}, #{content}, NOW(),0, #{auth})
+                (
+                  #{title}, 
+                  #{content}, 
+                  NOW(),
+                  0, 
+                  #{auth},
+                  #{file_no}
+                 )
   
   </insert>  
   
@@ -114,6 +144,33 @@
     DELETE FROM tb_scm_notice
           WHERE notice_id = #{notice_id}
   </delete>
-
+  
+  <!-- 파일 업로드를 위해  file_no 조회 -->
+  <select id="selectFileNo" resultType="int">
+   SELECT IFNULL(max(file_no), 0) + 1
+     FROM tb_file
+  </select>
+    
+  <!-- 파일 업로드 -->
+  <insert id="insertFile">
+  
+     INSERT INTO tb_file
+                 (
+                  file_no, 
+                  file_local_path, 
+                  file_relative_path, 
+                  file_ofname, 
+                  file_size
+                  )
+          VALUES (
+                  #{file_no}, 
+                  #{file_local_path}, 
+                  #{file_relative_path}, 
+                  #{file_ofname}, 
+                  #{file_size}
+                  )
+  
+  </insert>
+ 
 </mapper>
 

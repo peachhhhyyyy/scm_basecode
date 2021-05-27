@@ -7,12 +7,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>JobKorea</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
-<style>
-/* 모달 클릭 방지 */
-.forbidden-event {
- pointer-events: none;
-}
-</style>
+  <script src="/js/bootstrap-datepicker.kr.js" charset="UTF-8"></script>
+
 <script type="text/javascript">
 
   // 페이징 설정
@@ -26,12 +22,14 @@
     $('#datetimepicker1').datetimepicker({
          //format : 'L',
          format: 'YYYY-MM-DD',
-         formatDate: 'YYYY-MM-DD'
+         formatDate: 'YYYY-MM-DD',
+         language: 'kr'
       });
       
       $('#datetimepicker2').datetimepicker({
       format : 'L',
-      useCurrent : false
+      useCurrent : false,
+      language: 'kr'
       });
       
       $("#datetimepicker1").on("change.datetimepicker", function(e) {
@@ -86,7 +84,7 @@
    /* 반품서 목록 조회 콜백 함수 */
   function selectListCallBack(data, currentPage) {
     
-    
+    console.log('반품서목록!!', data)
     // 기존 목록 삭제
     $('#refundList').empty();
     
@@ -119,7 +117,7 @@
       
     } else {
       
-      alert("에러가 발생했습니다");
+      swal("에러가 발생했습니다");
       
     }
     // 반품서 단건 조회
@@ -159,12 +157,11 @@
       $("#purch_list_no").val("");
       $("#supply_nm").val("");
       $("#supply_cd").val("");
-      $("#m_ct_cd").val("");
-      $("#m_ct_cd").val("");
+      $("#m_ct_nm").val("");
       $("#product_cd").val("");
       $("#prod_nm").val("");
       $("#return_qty").val("");
-      $("#return_price").val("");
+      $("#returnPrice").val("");
       $("#warehouse_cd").val("");
       $("#addr").val("");
       $("#return_mng_id").val("");
@@ -172,15 +169,14 @@
       $("#desired_delivery_date").val("");
 
     } else {
-
       $("#purch_list_no").val(object.purch_list_no);
       $("#supply_nm").val(object.supply_nm);
       $("#supply_cd").val(object.supply_cd);
-      $("#m_ct_cd").val(object.m_ct_cd);
+      $("#m_ct_nm").val(object.m_ct_nm);
       $("#product_cd").val(object.product_cd);
       $("#prod_nm").val(object.prod_nm);
       $("#return_qty").val(object.return_qty);
-      $("#return_price").val(object.return_price);
+      $('#returnPrice').val(object.return_price);
       $("#warehouse_cd").val(object.warehouse_cd);
       $("#addr").val(object.addr);
       $("#return_mng_id").val(object.return_mng_id);
@@ -192,24 +188,28 @@
   }
 
   /* 반품 완료 처리 */
-  function insertReturnDate(purch_list_no) {
-    purch_list_no = parseInt(purch_list_no);
-
+  function insertReturnDate(purch_list_no, currentPage, order_cd, supply_cd) {
+   
+    // tb_acc_slip 에 사용될 값 가져오기
+    var return_price = $('#return_price').val();
+   
     var param = {
-      purch_list_no : purch_list_no
+      purch_list_no : purch_list_no,
+      return_price : return_price,
+      order_cd : order_cd, 
+      supply_cd: supply_cd,
     }
-
+    
+    // 콜백 함수
     function resultCallback(data) {
       
       if (data == 1) {
-        
-       selectList();
-       
+       selectList(currentPage);
       } else {
-        alert('서버에서 에러가 발생했습니다.');
+        swal('서버에서 에러가 발생했습니다.');
       }
-      
     }
+    
     callAjax("/pcs/refund/returndate.do", "post", "json", true, param, resultCallback);
 
   }
@@ -246,8 +246,9 @@
                     <div class="input-group">
                       <select style="width: 90px; height: 34px;" id="options">
                         <option value="all" selected>전체</option>
-                        <option value="category" id="category">업종</option>
-                        <option value="product" id="product">제품</option>
+                        <option value="supply" id="supply">공급처명</option>
+                        <option value="product" id="product">제품명</option>
+                        <option value="category" id="category">상호명</option>
                       </select> <input type="text" class="form-control" aria-label="..." id="keyword" autocomplete="off">
                     </div>
                   </div>
@@ -291,14 +292,14 @@
                   <thead>
                     <tr>
                       <th scope="col">반품번호</th>
-                      <th scope="col">반품코드</th>
-                      <th scope="col">회사명</th>
-                      <th scope="col">회사코드</th>
-                      <th scope="col">반품제품</th>
-                      <th scope="col">브랜드</th>
+                      <th scope="col">주문코드</th>
+                      <th scope="col">공급처명</th>
+                      <th scope="col">공급처코드</th>
+                      <th scope="col">제품명</th>
+                      <th scope="col">상호명</th>
                       <th scope="col">반품수량</th>
                       <th scope="col">반품날짜</th>
-                      <th scope="col">반품완료</th>
+                      <th scope="col">반품</th>
                     </tr>
                   </thead>
                   <tbody id="refundList"></tbody>
@@ -326,48 +327,48 @@
               <col width="120px">
               <col width="*">
             </colgroup>
-            <tbody class="forbidden-event">
+            <tbody>
               <tr>
                 <th scope="row">반품번호</th>
-                <td><input type="text" class="inputTxt p100" name="purch_list_no" id="purch_list_no" /></td>
-                <th scope="row">회사명 </th>
-                <td><input type="text" class="inputTxt p100" name="supply_nm" id="supply_nm" /></td>
+                <td><input type="text" class="inputTxt p100" name="purch_list_no" id="purch_list_no"  readonly/></td>
+                <th scope="row">공급처명 </th>
+                <td><input type="text" class="inputTxt p100" name="supply_nm" id="supply_nm" readonly/></td>
               </tr>
               <tr>
-                <th scope="row">회사코드</th>
-                <td><input type="text" class="inputTxt p100" name="supply_cd" id="supply_cd" /></td>
-                <th scope="row">브랜드</th>
-                <td><input type="text" class="inputTxt p100" name="m_ct_cd" id="m_ct_cd" /></td>
+                <th scope="row">공급처코드</th>
+                <td><input type="text" class="inputTxt p100" name="supply_cd" id="supply_cd"  readonly/></td>
+                <th scope="row">상호명</th>
+                <td><input type="text" class="inputTxt p100" name="m_ct_nm" id="m_ct_nm"  readonly/></td>
               </tr>
               <tr>
                 <th scope="row">제품번호</th>
-                <td><input type="text" class="inputTxt p100" name="product_cd" id="product_cd" style="pointer-events: none" /></td>
+                <td><input type="text" class="inputTxt p100" name="product_cd" id="product_cd" readonly/></td>
                 <th scope="row">제품명</th>
-                <td><input type="text" class="inputTxt p100" name="prod_nm" id="prod_nm" /></td>
+                <td><input type="text" class="inputTxt p100" name="prod_nm" id="prod_nm"  readonly/></td>
               </tr>
               <tr>
                 <th scope="row">반품수량</th>
-                <td><input value="" type="text" class="inputTxt p100" name="return_qty" id="return_qty" /></td>
+                <td><input value="" type="text" class="inputTxt p100" name="return_qty" id="return_qty"  readonly/></td>
                 <th scope="row">금액</th>
-                <td><input type="text" class="inputTxt p100" name="return_price" id="return_price" /></td>
+                <td><input type="text" class="inputTxt p100" name="return_price" id="returnPrice"  readonly/></td>
               </tr>
               <tr>
                 <th scope="row">창고 코드</th>
-                <td colspan="3"><input type="text" class="inputTxt p100" name="warehouse_cd" id="warehouse_cd" /></td>
+                <td colspan="3"><input type="text" class="inputTxt p100" name="warehouse_cd" id="warehouse_cd"  readonly/></td>
               </tr>
               <tr>
                 <th scope="row">창고 주소</th>
-                <td colspan="3"><input type="text" class="inputTxt p100" name="addr" id="addr" /></td>
+                <td colspan="3"><input type="text" class="inputTxt p100" name="addr" id="addr"  readonly/></td>
               </tr>
               <tr>
                 <th scope="row">담당자</th>
-                <td colspan="3"><input type="text" class="inputTxt p100" name="return_mng_id" id="return_mng_id" /></td>
+                <td colspan="3"><input type="text" class="inputTxt p100" name="return_mng_id" id="return_mng_id"  readonly/></td>
               </tr>
               <tr>
                 <th scope="row">발주날짜</th>
-                <td><input type="text" class="inputTxt p100" name="purch_date" id="purch_date" /></td>
+                <td><input type="text" class="inputTxt p100" name="purch_date" id="purch_date"  readonly/></td>
                 <th scope="row">배송희망날짜</th>
-                <td><input type="text" class="inputTxt p100" name="desired_delivery_date" id="desired_delivery_date" /></td>
+                <td><input type="text" class="inputTxt p100" name="desired_delivery_date" id="desired_delivery_date" readonly /></td>
               </tr>
             </tbody>
           </table>

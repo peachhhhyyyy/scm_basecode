@@ -11,12 +11,16 @@
                 <c:set var="nRow" value="${pageSize*(currentPage - 1)}" />
                 <c:forEach items="${refundList}" var="refund">
                   <tr>
-                    <td><a href="javascript:fadeInModal('${refund.purch_list_no}')">${refund.purch_list_no}</a></td>
-                    <td>${refund.order_cd}</td>
+                    
+                    <td>
+                      <input type="hidden" id="return_price" value="${refund.return_price}">
+                      ${refund.purch_list_no}
+                    </td>
+                    <td><a href="javascript:fadeInModal('${refund.purch_list_no}')">${refund.order_cd}</a></td>
                     <td>${refund.supply_nm}</td>
                     <td>${refund.supply_cd}</td>
                     <td>${refund.prod_nm}</td>
-                    <td>${refund.m_ct_cd}</td>
+                    <td>${refund.m_ct_nm}</td>
                     <td>${refund.return_qty}</td>
                     <c:if test="${ refund.return_date eq null}">
                       <td></td>
@@ -26,12 +30,12 @@
                     </c:if>
                     <c:if  test="${ refund.return_date eq null}">
                       <td>
-                        <a class="btnType3 color2" href="javascript:insertReturnDate('${refund.purch_list_no}')"><span>반품완료</span></a>
+                        <a class="btnType3 color2" href="javascript:insertReturnDate('${refund.purch_list_no}', '${currentPage}', '${refund.order_cd}', '${refund.supply_cd}')"><span>반품완료</span></a>
                       </td>
                     </c:if>
                     <c:if  test="${ refund.return_date ne null}">
                       <td>
-                        <a class="btnType3 color1"><span>반품완료</span></a>
+                        <p><span>반품완료</span></p>
                       </td>
                     </c:if>
                   </tr>

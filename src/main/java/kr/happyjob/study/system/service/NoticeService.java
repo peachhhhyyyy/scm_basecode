@@ -11,7 +11,7 @@ public interface NoticeService {
   public List<NoticeModel> selectNoticeList(Map<String, Object> param) throws Exception;
   
   //공지사항 목록 총 개수 조회
-  public int countNoticeList()throws Exception;
+  public int countNoticeList(int auth)throws Exception;
   
   // 공지사항 검색 목록 총 개수 조회
   public int countConditionList(Map<String, Object> param) throws Exception;
@@ -30,22 +30,12 @@ public interface NoticeService {
   
   // 공지사항 삭제
   public int deleteNotice(Map<String, Object> param) throws Exception;
-//	// 공지사항 리스트 조회
-//	public List<NoticeModel> noticeList(Map<String, Object> paramMap)throws Exception ;
-//	
-//	// 공지사항 목록 카운트 조회
-//	public int noticeCnt(Map<String, Object> paramMap)throws Exception ;
-//	
-//	// 공지사항 단건 조회
-//	public NoticeModel noticeDetail(Map<String, Object> paramMap)throws Exception ;
-//	
-//	// 공지사항 저장
-//	public int insertNotice(Map<String, Object> paramMap) throws Exception;
-//	
-//	// 공지사항 수정
-//	public int updateNotice(Map<String, Object> paramMap) throws Exception;
-//	
-//	// 공지사항 삭제
-//	public int deleteNotice(Map<String, Object> paramMap) throws Exception;
-	
+
+  // 파일 업로드를 위해  file_no 조회
+  public int selectFileNo()throws Exception;
+  
+  // 파일 정보 업로드
+   public int insertFile(Map<String, Object> param) throws Exception;
+ 
+  
 }

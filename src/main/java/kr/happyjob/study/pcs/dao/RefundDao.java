@@ -21,5 +21,8 @@ public interface RefundDao {
   
   // 반품 완료 처리
   public int insertReturnDate(int purch_list_no);
+  
+  // 환불액 입금 처리
+  public int insertAmt(Map<String, Object> param);
 
 }

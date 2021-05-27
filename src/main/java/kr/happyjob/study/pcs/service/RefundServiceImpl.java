@@ -48,6 +48,13 @@ public class RefundServiceImpl implements RefundService {
     return refundDao.insertReturnDate(purch_list_no);
   }
 
+  // 환불액 입금 처리
+  @Override
+  public int insertAmt(Map<String, Object> param) throws Exception {
+    // TODO Auto-generated method stub
+    return refundDao.insertAmt(param);
+  }
+
 
   
 }

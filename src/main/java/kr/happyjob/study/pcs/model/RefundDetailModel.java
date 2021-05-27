@@ -11,7 +11,7 @@ public class RefundDetailModel {
   private String supply_nm; // 회사명(공급사)
   private String prod_nm; // 반품 제품명
   private String product_cd; // 반품 제품 코드
-  private String m_ct_cd; // 브랜드(구 품목명)
+  private String m_ct_nm; // 상호명  
   private int return_qty; // 반품수량
   private int return_price; // 반품 금액
   private String return_mng_id; // 반품담당자
@@ -57,11 +57,11 @@ public class RefundDetailModel {
   public void setProduct_cd(String product_cd) {
     this.product_cd = product_cd;
   }
-  public String getM_ct_cd() {
-    return m_ct_cd;
+  public String getM_ct_nm() {
+    return m_ct_nm;
   }
-  public void setM_ct_cd(String m_ct_cd) {
-    this.m_ct_cd = m_ct_cd;
+  public void setM_ct_nm(String m_ct_nm) {
+    this.m_ct_nm = m_ct_nm;
   }
   public int getReturn_qty() {
     return return_qty;
@@ -111,5 +111,6 @@ public class RefundDetailModel {
   public void setAddr(String addr) {
     this.addr = addr;
   }
+  
   
 }

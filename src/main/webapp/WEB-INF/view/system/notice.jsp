@@ -7,17 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <title>JobKorea</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
-<style>
-/* 모달 클릭 방지 */
-.forbidden-event {
-  pointer-events: none;
-}
-
-/* 모달 전환 */
-.display_none {
-  display: none;
-}
-</style>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
 
   // 페이징 설정
@@ -30,7 +20,7 @@
     // 공지사항 목록 조회
     selectList();
     
-    //datepicker설정
+    // datepicker설정
     // formerDate datepicker
     $('#datetimepicker1').datetimepicker({
        //format : 'L',
@@ -67,6 +57,8 @@
     });
     
     // 공지사항 제목 글자 제한
+    // maxlength로만 처리 시
+    // 경고창이 뜨지 않고 유지보수 시 불편하다 판단하여 JavaScript로 처리
     $('#notice_title').keyup(function(e){
       
       var limit = 100;
@@ -74,79 +66,69 @@
       
       if(count > limit) {
         
-        alert('제목은 100자 이하로 작성해 주세요');
+        swal('제목은 100자 이하로 작성해 주세요');
         $(this).val($(this).val().substring(0,limit));
         return false;
         
       }
-      
     });
-    
-    // 공지사항 내용 글자 제한
+     
+    // 공지사항 내용 글자 제한 & 카운트 이벤트
     $("#notice_content").keyup(function(e) {
       
-      var limit = 1000;
-      var count =  $(this).val().length;
+      var count = $('#notice_content').val().length;     
+      document.getElementById("count").innerHTML = count;
       
-      if(count > limit) {
+      var limit = 1000;
+      var input =  $(this).val().length;
+      
+      if(input > limit) {
         
-        alert('내용은 1000자 이하로 작성해 주세요');
+        swal('내용은 1000자 이하로 작성해 주세요');
         $(this).val($(this).val().substring(0,limit));
+        count = limit;
+        document.getElementById("count").innerHTML = count;
         return false;
         
       }
-      
     });
-
+    
     // 공지사항 검색 버튼 이벤트
     $('#search_button').on('click', function(){
-      
-      selectList();
-      
+      //selectList();
+      validateSearchForm();      
     } );
     
     // 공지사항 작성 모달 이벤트
     $('#write_modal_button').click(function(){
-      
       var identifier = 'w';
       fadeInModal(identifier);
-      
     });
     
     // 공지사항 작성 버튼 이벤트
     $('#write_button').click(function() {
-      
       writeNotice();
-      
     });
     
     // 모달 닫기 버튼 이벤트
     $('#close_button').click(function() {
-      
       gfCloseModal();
-      
     })
     
     // 공지사항 수정 모달 버튼 이벤트
      $('#modify_modal_button').click(function() {
-       
        var identifier = 'm';
        fadeInModal(identifier);
-       
      });
     
     // 공지사항 수정 버튼 이벤트
     $('#modify_button').click(function() {
-      
       modifyNotice();
-      
     });
      
     // 공지사항 삭제 버튼 이벤트
     $('#delete_button').click(function() {
-      
       deleteNotice();
-      
     })
     
     // onload 끝
@@ -155,28 +137,29 @@
  
 
    /* 공지사항 목록 조회 함수 */
-  function selectList(currentPage, serchOptions) {
+  function selectList(currentPage, param) {
      
-    var option = $('#options').val();
-    var keyword = $('#keyword').val();
-    var formerDate = $("#datetimepicker1").find("input").val();
-    var latterDate = $("#datetimepicker3").find("input").val();
-    
+    console.log('파리미터 확인1',param)
     currentPage = currentPage || 1;
 
-    console.log("currentPage : " + currentPage);
+    console.log("현재페이지 : " + currentPage);
     
-
-    if (keyword || formerDate || latterDate) {
+    if (param) {
       
+      param.currentPage = currentPage;
+      param.pageSize = pageSize;
+      /*
       var param = {
+          
       option : option,
       keyword : keyword,
       formerDate : formerDate,
       latterDate : latterDate,
       currentPage : currentPage,
       pageSize : pageSize
-      }
+      
+      } */
+      console.log('파리미터 확인2',param)
 
     } else {
       
@@ -184,7 +167,6 @@
       currentPage : currentPage,
       pageSize : pageSize
       }
-
     }
 
     var resultCallback = function(result) {
@@ -205,6 +187,11 @@
     // 신규 목록 생성
     $("#noticeList").append(result);
     
+    // 검색창 초기화
+    $('#keyword').val('');
+    $('#options').val('all');
+    
+    
     // 리스트 로우의 총 개수 추출
     var totalCount = $("#totalCount").val();
     
@@ -216,74 +203,82 @@
     // 현재 페이지 설정
     $("#currentPageCod").val(currentPage);
   }
-
-  
-  /* 공지사항 작성, 수정  모달 활성화 함수 */
-  /* 작성, 수정 여부에 따라 첨부파일이 변경되니 주의  */
-  function fadeInWriteModal() {
-    
-    swapModal();
-    // 모달 초기화
-    initWriteModal();
-    // 모달 팝업
-    gfModalPop("#layer1");
-    
-  }
-  
-    /* 공지사항 글 작성  함수 */
-    function writeNotice() {
+   
+    /* 공지사항 글 작성 null 체크 함수 */
+    // reqired가 동작하지 않아서 작성
+    function validateIsNull() {
       
       // 제목, 내용이 입력되었는지 확인
       var title = $('#notice_title').val();
       var content = $('#notice_content').val();
       var auth = $('#notice_auth').val();
       
-      // 널값 체크
       if(title == '') {
         
-        alert('제목을  입력해주세요');
+        swal('제목을  입력해주세요');
         $('#notice_title').focus();
         return false;
         
       } 
       else if(content == '') {
         
-        alert('내용을  입력해주세요');
+        swal('내용을  입력해주세요');
         $('#notice_content').focus();
         return false;
-      } 
-      
+      }
+      else {
+        return true;
+      }
+    } 
+    
+    /* 공지사항 글 작성  함수 */
+    function writeNotice() {
+      // 공지사항 글 작성 null 체크
+     var validate = validateIsNull();
+     
+     if(validate) {
+       
+       var title = $('#notice_title').val();
+       var content = $('#notice_content').val();
+       var auth = $('#notice_auth').val();
+       
       //*** 파일 추가 ***
-      var uploadFile = document.getElementById("myForm");
-      uploadFile.enctype = 'multipart/form-data';
-      var fileData = new FormData(uploadFile);
+  //    var uploadFile = document.getElementById("myForm");
+      var form = $("#myForm")[0];
+      form.enctype = 'multipart/form-data';
+      //var fileData = new FormData(uploadFile[0]);
+      var fileData = new FormData(form);
       
-      // 아래 코드 이해x
-      fileData.append("empty", "empty");
       
-      console.log('파일폼확인', uploadFile)
+      console.log('파일폼확인', form)
       console.log('파일확인', fileData)
       
       // file에 데이터 추가
       // 객체(param)를 추가하면 안 되나?  보낸다면 어떻게 받지?
       fileData.append('title', title);
-      fileData.append('content', title);
-      fileData.append('title', title);
+      fileData.append('content', content);
+      fileData.append('auth', auth);
+     // fileData.append('file', uploadFile[0].files[0]);
       
+      var uploadFile = document.getElementById("uploadFile")
+      console.log('이미지 파일 :',uploadFile.files[0]);
+      fileData.append('file',uploadFile.files[0]);
+      console.log('파일추가후확인', fileData)
+//      console.log('이미지 파일 확인',$('#uploadFile')[0]);
       
-    
+      // 파일 업로드 처리 중이라 주석처리
       
-      
+      /*
       var param = {
-          
           title: title,
           content: content,
           auth: auth 
-          
       }
       
+      */
       
       // 콜백 함수
+      // 파일 업로드 관련해서 수정해야 함
       function resultCallback(result) {
         
         if(result == 1) {
@@ -294,15 +289,15 @@
           
         } 
         else {
-          alert('서버에서 에러가 발생했습니다');
+          swal('서버에서 에러가 발생했습니다');
         }
       }
       
       // 파일 업로드 AJAX호출(fileUploadCallback작성 해야 함)
       
       
-      // AJAX호출
-      callAjax("/system/writeNotice.do", "post", "json", true, param, resultCallback);
+       callAjaxFileUploadSetFormData("/system/writeNotice.do", "post", "json", true, fileData, resultCallback);
+     } // validate끝
     };
     
     /* 공지사항 단건 조회 함수 */
@@ -313,8 +308,8 @@
       param = {
           notice_id : notice_id
       }
-     
-            
+
+      
       /* 공지사항 단건 조회 콜백 함수  */
       function resultCallback(result) {
         
@@ -340,6 +335,7 @@
        $('#dt_write').show();
        $('#dt_notice').hide();
        $('.auth_block').show();
+       $('#count_cotent').show();
        
        $('#write_button').show();
        $('#modify_button').hide();
@@ -348,8 +344,8 @@
        
        $('#add_file').show();
        $('#datice_date_block').hide();
-       $('#notice_title').removeClass('forbidden-event');
-       $('#notice_content').removeClass('forbidden-event');
+       $('#notice_title').attr('readonly', false);
+       $('#notice_content').attr('readonly', false);
        $('#modify_file').hide();
        
        
@@ -361,6 +357,7 @@
        $('#dt_write').hide();
        $('#dt_notice').show();
        $('.auth_block').hide();
+       $('#count_cotent').hide();
        
        $('#write_button').hide();
        $('#modify_button').hide();
@@ -368,8 +365,8 @@
        $('#delete_button').show();
        
        $('#datice_date_block').show();
-       $('#notice_title').addClass('forbidden-event');
-       $('#notice_content').addClass('forbidden-event');
+       $('#notice_title').attr('readonly', true);
+       $('#notice_content').attr('readonly', true);
        
        $('#modify_file').hide();
        
@@ -381,17 +378,18 @@
        $('#dt_write').show();
        $('#dt_notice').hide();
        $('.auth_block').show();
+       $('#count_cotent').show();
        
        $('#write_button').hide();
        $('#modify_button').show();
        $('#modify_modal_button').hide();
        $('#delete_button').show();
        
-       $('#notice_title').removeClass('forbidden-event');
        $('#datice_date_block').hide();
-       $('#notice_content').removeClass('forbidden-event');
        $('#modify_button').show();
        $('#modify_file').show();
+       $('#notice_title').attr('readonly', false);
+       $('#notice_content').attr('readonly', false);
      }
       
     }
@@ -408,7 +406,7 @@
         $("#notice_auth").val(result.auth);
       }
       else {
-        alert('서버에서 에러가 발생했습니다');
+        swal('서버에서 에러가 발생했습니다');
       }
     }
     
@@ -434,7 +432,7 @@
           selectList();
         } 
         else {
-          alert('서버에서 에러가 발생했습니다.')
+          swal('서버에서 에러가 발생했습니다.')
         }
       }
       
@@ -465,7 +463,7 @@
            
           } 
           else {
-            alert('서버에서 에러가 발생했습니다');
+            swal('서버에서 에러가 발생했습니다');
           }
         };
         
@@ -505,7 +503,10 @@
         
         // 수정은 단건 조회에서 불러온 데이터를 그대로 가지고
         // 모달만 변경시키면 된다.
+        // 추가:글자수 카운팅 설정
         swapModal(identifier);
+        var count = $('#notice_content').val().length;
+        document.getElementById("count").innerHTML = count;
         
       }
     }
@@ -524,15 +525,16 @@
         
       }
       else if(identifier == 'r') {
-        
+        console.log('단건조회', result)
         if(result) {
-          
+          // 여기 수정
           $('#notice_id').val(result.notice_id);
           $('#notice_title').val(result.title);
           $('#notice_date').text(result.date);
           $('#notice_content').val(result.content);
           $('#notice_auth').val(result.auth);
-          
+          $('#download').attr("href", result.file_relative_path);
+
         }
         else{
           $('#notice_id').val('');
@@ -541,6 +543,52 @@
           $('#notice_content').val('');
           $('#notice_auth').val('0');
         }
+      }
+       
+    }
+    
+    // 검색폼 검증
+    function validateSearchForm() {
+      
+      var option = $('#options').val();
+      var keyword = $('#keyword').val();
+      var formerDate = $("#datetimepicker1").find("input").val();
+      var latterDate = $("#datetimepicker3").find("input").val();
+      var currentPage = 1;
+      var today = new Date();
+      
+      // JavsScript는 월이 0부터 시작하므로 +1
+      // 오늘 날짜와 latterDate를 비교하기 위해서 형식 맞춰줘야 함
+      today = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) 
+               + '-' + ('0' + today.getDate()).slice(-2);
+     
+     
+      if(formerDate && !latterDate) {
+        swal('기간을 설정해 주세요');
+        return false;
+      }
+      else if(!formerDate && latterDate) {
+        swal('기간을 설정해 주세요');
+        return false;
+      }
+      else if(formerDate > latterDate) {
+        swal('기간을 확인해 주세요');
+        return false;
+      }
+      else if(latterDate > today) {
+        swal('오늘 이후는 검색할 수 없습니다');
+        return false;
+      }
+      else {
+        
+        var param = {
+            option : option,
+            keyword: keyword,
+            formerDate : formerDate,
+            latterDate : latterDate,
+        }
+        selectList(currentPage, param);
+        
       }
     }
     
@@ -576,8 +624,9 @@
                   <div class="col-lg-6">
                     <div class="input-group">
                       <select style="width: 90px; height: 34px;" id="options">
-                        <option value="all" selected>제목+내용</option>
+                        <option value="all" selected>전체</option>
                         <option value="title" id="title">제목</option>
+                        <option value="content" id="content">내용</option>
                       </select> <input type="text" class="form-control" aria-label="..." id="keyword" autocomplete="off">
                     </div>
                   </div>
@@ -611,7 +660,6 @@
                   <!-- // datepicker -->
                   <!-- button -->
                   <div class="btn-group" role="group" aria-label="...">
-                    <!--  <button type="button" class="btn btn-default" onclick="selectList()">검색</button>-->
                     <button type="button" class="btn btn-default" id="search_button">검색</button>
                   </div>
                   <!-- // button -->
@@ -672,7 +720,8 @@
             <tbody>
               <tr>
                 <th scope="row">제목</th>
-                <td colspan="3"><input type="text" class="inputTxt p100" name="notice_title" id="notice_title" autocomplete="off" /></td>
+                <td colspan="3">
+                  <input type="text" class="inputTxt p100" name="notice_title" id="notice_title" autocomplete="off" placeholder="최대 100자까지 입력 가능합니다" required/></td>
               </tr>
               <tr id="datice_date_block">
                 <th scope="row">작성시간</th>
@@ -680,16 +729,23 @@
               </tr>
               <tr>
                 <th scope="row">내용</th>
-                <td colspan="3"><textarea class="inputTxt p100" name="notice_content" id="notice_content" /></textarea></td>
+                <td colspan="3">
+                  <textarea class="inputTxt p100" name="notice_content" id="notice_content" placeholder="최대 1000자까지 입력 가능합니다" required></textarea>
+                  <p class="pull-right" id="count_cotent"><span id="count">0</span>/1000</p>
+                </td>
               </tr>
                <tr id="add_file" class="">
-                 <th scope="row">첨부파일(글작성)</th>
-                   <td colspan="3"><input type="file" class="inputTxt p100" accept="image/*" /></td>
+                 <th scope="row">첨부파일</th>
+                   <td colspan="3"><input type="file" class="inputTxt p100" id="uploadFile" accept="image/*" /></td>
                </tr>
-               <tr id="modify_file" class="display_none">
-                  <th scope="row">첨부파일(글수정)</th>
+               <tr id="modify_file">
+                  <th scope="row">첨부파일</th>
                   <td colspan="3"><input type="file" class="inputTxt p100" accept="image/*"/></td>
-               </tr>
+               <tr>
+               <tr id="download_file">
+                  <th scope="row">다운로드</th>
+                  <td colspan="3"><a class="btn" id="download" href="" download>다운로드</a></td>
+               <tr>
               <tr>
                 <th scope="row" class="auth_block">열람권한</th>
                 <td colspan="3">
@@ -697,22 +753,25 @@
                     <option value="0">전체</option>
                     <option value="1">고객</option>
                     <option value="2">직원</option>
-                </select>
-                  <div class="btn-group">
-                    <!-- 공지사항 신규 작성 버튼 -->
-                    <button class="btn-default btn-sm" id="write_button">저장</button>
-                    <!-- 공지사항 수정글 작성 버튼 -->
-                    <button class="btn-default btn-sm" id="modify_button">글수정저장</button>
-                    <button class="btn-default btn-sm" id="modify_modal_button">수정</button>
-                    <button class="btn-default btn-sm" id="delete_button">삭제</button>
-                    <button class="btn-default btn-sm" id="close_button">취소</button>
-                  </div></td>
+                  </select>
+                  <c:if test="${sessionScope.userType == 'E'}">
+                    <div class="btn-group">
+                      <!-- 공지사항 신규 작성 버튼 -->
+                      <button class="btn-default btn-sm" id="write_button">저장</button>
+                      <!-- 공지사항 수정글 작성 버튼 -->
+                      <button class="btn-default btn-sm" id="modify_button">저장</button>
+                      <button class="btn-default btn-sm" id="modify_modal_button">수정</button>
+                      <button class="btn-default btn-sm" id="delete_button">삭제</button>
+                      <button class="btn-default btn-sm" id="close_button">취소</button>
+                    </div>
+                  </c:if>
+                </td>
               </tr>
             </tbody>
           </table>
         </dd>
       </dl>
-      <a href="" class="closePop"><span class="hidden">닫기</span></a>
+      <a class="closePop" id="closePop_button"><span class="hidden">닫기</span></a>
     </div>
     <!-- 공지사항 모달 끝 -->
   </form>
