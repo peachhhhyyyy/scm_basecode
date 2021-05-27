@@ -267,10 +267,12 @@
          ,   PD.purchase_price
          ,   PL.desired_delivery_date
          ,   WH.warehouse_nm
+         ,   WH.warehouse_cd
          ,   PL.purch_mng_id
          ,   PL.supply_cd
          ,   DC.detail_name
          ,   PD.product_cd
+         ,   PL.return_qty
       FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_order as OD
         ON PL.order_cd = OD.order_cd
