@@ -11,14 +11,5 @@ public interface OrderDao {
   public List<OrderModel> listProduct(Map<String, Object> paramMap) throws Exception;
   // 공급처 목록 갯수 조회
   public int totalCntProduct(Map<String, Object> paramMap) throws Exception;
-  
-  // 공급처 단건 조회
-  public OrderModel selectProduct(Map<String, Object> paramMap) throws Exception;
-  
-  // 공급처 추가
-  public int insertProduct(Map<String, Object> paramMap) throws Exception;
-  // 공급처 수정
-  public int updateProduct(Map<String, Object> paramMap) throws Exception;
-  // 공급처 삭제
-  public int deleteProduct(Map<String, Object> paramMap) throws Exception;
+
 }

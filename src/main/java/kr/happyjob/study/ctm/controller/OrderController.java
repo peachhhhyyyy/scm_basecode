@@ -32,7 +32,7 @@ public class OrderController {
     return "ctm/order";
   }
   
-  //공급처 조회
+  // 주문 화면 조회
   @RequestMapping("listProduct.do")
   public String listProduct(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception{
@@ -44,11 +44,11 @@ public class OrderController {
     paramMap.put("pageIndex", pageIndex);
     paramMap.put("pageSize", pageSize);
     
-    // 공급처 목록 조회
+    // 제품 목록 조회
     List<OrderModel> listProductModel = orderService.listProduct(paramMap);
     model.addAttribute("listProductModel", listProductModel);
     
-    // 공급처 목록 카운트 조회
+    // 제품 총 개수 조회
     int totalCount = orderService.totalCntProduct(paramMap);
     model.addAttribute("totalProduct", totalCount);
     
@@ -56,64 +56,5 @@ public class OrderController {
     model.addAttribute("currentPageProduct",currentPage);  
     
     return "ctm/listProduct";
-  }
-  
-//공급처 저장
- @RequestMapping("saveProduct.do")
- @ResponseBody
- public Map<String, Object> saveProduct (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-     HttpServletResponse response, HttpSession session) throws Exception{
-   
-   String action = (String)paramMap.get("action");
-   
-   String result = "SUCCESS";
-   String resultMsg = "";
-   
-   if("I".equals(action)){
-     //공급처등록
-     orderService.insertProduct(paramMap);
-     resultMsg = "등록 완료";
-   } else if("U".equals(action)){
-     //공급처 수정
-     orderService.updateProduct(paramMap);
-     resultMsg = "수정 완료";
-   } else if("D".equals(action)){
-     //공급처 삭제
-     orderService.deleteProduct(paramMap);
-     resultMsg = "삭제 완료";
-   }
-   else{
-     result = "FALSE";
-     resultMsg = "저장 실패";
-   }
-   
-   Map<String, Object> resultMap = new HashMap<String, Object>();
-   resultMap.put("result", result);
-   resultMap.put("resultMsg", resultMsg);
-   
-   return resultMap;
- }
-  
-  //공급처 단건 조회
-  @RequestMapping("selectProduct.do")
-  @ResponseBody
-  public Map<String, Object> selectProduct (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-      HttpServletResponse response, HttpSession session) throws Exception{
-
-    String result = "SUCCESS";
-    String resultMsg = "조회 되었습니다.";
-    
-    OrderModel productInfoModel = orderService.selectProduct(paramMap);
-    
-    Map<String, Object> resultMap = new HashMap<String, Object>();
-    resultMap.put("result", result);
-    resultMap.put("resultMsg", resultMsg);
-    resultMap.put("productInfoModel", productInfoModel);
-    
-    System.out.println(resultMap);
-    return resultMap;
-  }
-  
-
-  
+  }  
 }

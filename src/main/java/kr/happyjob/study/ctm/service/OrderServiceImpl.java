@@ -26,31 +26,4 @@ public class OrderServiceImpl implements OrderService {
     int totalCntProduct = OrderDao.totalCntProduct(paramMap);
     return totalCntProduct;
   }
-  
-  //공급처 단건 조회
-  @Override
-  public OrderModel selectProduct(Map<String, Object> paramMap) throws Exception {
-    OrderModel selectProduct = OrderDao.selectProduct(paramMap);
-    return selectProduct;
-  }
-  
-  //공급처 등록
-  @Override
-  public int insertProduct(Map<String, Object> paramMap) throws Exception {
-    int ret = OrderDao.insertProduct(paramMap);
-    return ret;
-  }
-  //공급처 수정
-  @Override
-  public int updateProduct(Map<String, Object> paramMap) throws Exception {
-    int ret = OrderDao.updateProduct(paramMap);
-    return ret;
-  }
-  //공급처 삭제
-  @Override
-  public int deleteProduct(Map<String, Object> paramMap) throws Exception {
-    int ret = OrderDao.deleteProduct(paramMap);
-    return ret;
-  }
-
 }

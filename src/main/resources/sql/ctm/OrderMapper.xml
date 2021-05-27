@@ -3,42 +3,41 @@
 
 <mapper namespace="kr.happyjob.study.ctm.dao.OrderDao">
 
-  <!-- 공급처 목록 조회 -->
-  <select id="listSupplier" resultType = "kr.happyjob.study.scm.model.SupplierInfoModel">
-      SELECT SP.supply_cd as supply_cd
-           , SP.supply_nm as supply_nm
-           , SP.tel as tel
-           , SP.supply_mng_nm as supply_mng_nm
-           , SP.mng_tel as mng_tel
-           , SP.email as email
-           , WH.warehouse_nm as warehouse_nm
-      FROM tb_scm_supply SP
-      LEFT OUTER JOIN tb_scm_warehouse WH
-      ON WH.warehouse_cd = SP.warehouse_cd
+  <!-- 제품 목록 조회 -->
+  <select id="listProduct" resultType = "kr.happyjob.study.ctm.model.OrderModel">
+      SELECT sp.product_cd
+           , lc.l_ct_nm
+           , mc.m_ct_nm
+           , sp.prod_nm
+           , sp.detail
+           , sp.price 
+        FROM tb_scm_product sp
+        LEFT OUTER JOIN tb_scm_m_category mc ON sp.m_ct_cd = mc.m_ct_cd
+        LEFT OUTER JOIN tb_scm_l_category lc ON mc.l_ct_cd = lc.l_ct_cd
       <where>
       <if test="(sname != null) and (!sname.equals(''))">
       <choose>
         <when test="oname eq 'all'.toString()">
-            AND (SP.supply_nm LIKE CONCAT('%', #{sname}, '%')
-              or SP.supply_cd LIKE CONCAT('%', #{sname}, '%') 
-              or SP.supply_mng_nm LIKE CONCAT('%', #{sname}, '%')
-              or SP.tel LIKE CONCAT('%', #{sname}, '%')   
-              or SP.mng_tel LIKE CONCAT('%', #{sname}, '%')
-              or SP.email LIKE CONCAT('%', #{sname}, '%')
-              or WH.warehouse_nm LIKE CONCAT('%', #{sname}, '%'))
+            AND (lc.l_ct_nm LIKE CONCAT('%', #{sname}, '%')
+              or sp.prod_nm LIKE CONCAT('%', #{sname}, '%') 
+              or sp.product_cd LIKE CONCAT('%', #{sname}, '%'))
         </when>
-        <when test= "(oname eq 'supply_nm'.toString())">
-            AND SP.supply_nm LIKE concat('%', #{sname}, '%')
+        <when test= "(oname eq 'product_l_ct'.toString())">
+            AND lc.l_ct_nm LIKE concat('%', #{sname}, '%')
         </when>
-        <when test= "(oname eq 'supply_mng_nm'.toString())">
-            AND SP.supply_mng_nm LIKE concat('%', #{sname}, '%')
+        <when test= "(oname eq 'product_nm'.toString())">
+            AND sp.prod_nm LIKE concat('%', #{sname}, '%')
         </when> 
+        <when test= "(oname eq 'product_cd'.toString())">
+            AND sp.product_cd LIKE concat('%', #{sname}, '%')
+        </when>  
       </choose>
       </if> 
     </where>
       LIMIT #{pageIndex}, #{pageSize}
   </select>
-  <!-- 공급처 카운트 -->
+  
+  <!-- 제품 개수 카운트 -->
   <select id="totalCntProduct"  resultType="int">
       SELECT COUNT(1) AS tot_cnt 
         FROM tb_scm_product sp
@@ -66,80 +65,4 @@
     </where>
   </select>
   
-  <!-- 제품 목록 조회 -->
-  <select id="listSupplierProduct" resultType = "kr.happyjob.study.scm.model.SupplierInfoModel" >
-    SELECT SP.supply_nm as supply_nm
-         , PD.product_cd as product_cd
-         , PD.prod_nm as prod_nm
-         , LC.l_ct_nm as l_ct_nm
-         , PD.stock as stock
-         , PD.purchase_price as purchase_price
-      FROM tb_scm_product PD
-      LEFT OUTER JOIN tb_scm_supply SP ON SP.supply_cd = PD.supply_cd
-      LEFT OUTER JOIN tb_scm_m_category MC ON MC.m_ct_cd = PD.m_ct_cd
-      LEFT OUTER JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
-     WHERE SP.supply_cd = #{supply_cd}
-     
-     LIMIT #{pageIndex}, #{pageSize}
-  
-  
-  </select>
-  <!-- 제품 목록 갯수 카운트 -->
-  <select id="totalCntProduct" resultType="int">
-    SELECT COUNT(1) as tot_proCnt
-      FROM tb_scm_product PD
-      LEFT OUTER JOIN tb_scm_supply SP ON SP.supply_cd = PD.supply_cd
-      LEFT OUTER JOIN tb_scm_m_category MC ON MC.m_ct_cd = PD.m_ct_cd
-      LEFT OUTER JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
-     WHERE SP.supply_cd = #{supply_cd}
-   </select>
-     
-   <!-- 공급처 단건 조회 -->
-   <select id="selectSupplier" resultType="kr.happyjob.study.scm.model.SupplierInfoModel" >
-     SELECT  SP.supply_cd as supply_cd
-           , SP.supply_nm as supply_nm
-           , SP.supply_mng_nm as supply_mng_nm
-           , SP.mng_tel as mng_tel
-           , SP.tel as tel
-           , SP.email as email
-           , WH.warehouse_cd as warehouse_cd
-      FROM tb_scm_supply SP
-      LEFT OUTER JOIN tb_scm_warehouse WH
-        ON WH.warehouse_cd = SP.warehouse_cd
-     WHERE SP.supply_cd = #{supply_cd}
-   </select>
-   
-   <!-- 공급처 등록 -->
-   <insert id="insertSupplier" parameterType="java.util.Map">
-    INSERT INTO tb_scm_supply    (
-                               supply_nm, supply_cd, tel, supply_mng_nm, mng_tel, email, warehouse_cd
-                             )
-    VALUES
-                            (
-                               #{supply_nm},
-                               #{supply_cd},
-                               #{tel},
-                               #{supply_mng_nm},
-                               #{mng_tel},
-                               #{email},
-                               #{warehouse_cd}
-                            ) 
-   </insert>
-   
-   <!-- 공급처 수정 -->
-   <update id="updateSupplier" parameterType="java.util.Map">
-    UPDATE tb_scm_supply
-       SET supply_mng_nm = #{supply_mng_nm}
-           , mng_tel = #{mng_tel}
-           , tel = #{tel}
-           , email = #{email}
-           , warehouse_cd = #{warehouse_cd}
-    WHERE supply_cd = #{supply_cd}
-   </update>
-   
-   <!-- 공급처 삭제 -->
-   <delete id="deleteSupplier" parameterType="java.util.Map">
-    DELETE FROM tb_scm_supply
-     WHERE supply_cd = #{supply_cd}
-   </delete>
 </mapper>
