@@ -178,7 +178,8 @@
     $("#purchasePrice").text(purchase_price);
     $("#supplyNm").text(supply_nm);
     $("#price").text(price);
-    $("#approveId").text(approve_id);
+    $("#approveId").text(approve_id ? approve_id : "승인대기");
+    $("#approveId_head").text(approve_id ? "승인자" : "상태");
     
     var resultCallback = function(data) {
       fSelectPurchBtnResult(data);
@@ -351,7 +352,7 @@
                             <tr>
                                 <th scope="row">공급처명</th>
                                 <td id="supplyNm"></td>
-                                <th scope="row">승인자</th>
+                                <th scope="row" id="approveId_head"></th>
                                 <td id="approveId"></td>
                             </tr>
                         </tbody>
