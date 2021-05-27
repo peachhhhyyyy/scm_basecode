@@ -8,14 +8,12 @@
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript">
   //공급처정보 페이징 처리
-  var pageSizeSupplier = 5; //공급처정보 페이지 사이즈
-  var pageBlockSizeSupplier = 5; //공급처정보 페이지 블록 갯수
+  var pageSizeProduct = 5; //공급처정보 페이지 사이즈
+  var pageBlockSizeProduct = 5; //공급처정보 페이지 블록 갯수
   
   //OnLoad event
   $(document).ready(function() {
     //공급처 목록 조회
-    fListSupplier();
-    //제품 정보 목록 조회
     fListProduct();
     //버튼 이벤트 등록
     fRegisterButtonClickEvent();
@@ -39,13 +37,13 @@
       case 'searchBtn':
         board_search(); // 검색하기
         break;
-      case 'btnSaveSupplier':
-        fSaveSupplier(); // save 안에 저장,수정  
+      case 'btnSaveProduct':
+        fSaveProduct(); // save 안에 저장,수정  
         break;
-      case 'btnDeleteSupplier'://삭제하기
-        fDeleteSupplier();
+      case 'btnDeleteProduct'://삭제하기
+        fDeleteProduct();
         break;
-      case 'btnCloseSupplier':
+      case 'btnCloseProduct':
         gfCloseModal(); // 모달닫기 
         break;
       }
@@ -54,7 +52,7 @@
   
 
   /*공급처 조회*/
-  function fListSupplier(currentPage) {
+  function fListProduct(currentPage) {
     currentPage = currentPage || 1;
     var sname = $('#sname');
     var searchKey = document.getElementById("searchKey");
@@ -64,63 +62,63 @@
         sname : sname.val(),
         oname : oname,
         currentPage : currentPage,
-        pageSize : pageSizeSupplier
+        pageSize : pageSizeProduct
     }
     var resultCallback = function(data) {
-      flistSupplierResult(data, currentPage);
+      flistProductResult(data, currentPage);
     };
-    callAjax("/scm/listSupplier.do", "post", "text", true, param, resultCallback);
+    callAjax("/ctm/listProduct.do", "post", "text", true, param, resultCallback);
   }
   
   
   /*공급처 조회 콜백 함수*/
-  function flistSupplierResult(data, currentPage) {
+  function flistProductResult(data, currentPage) {
     
     console.log("data : " + data);
     //기존 목록 삭제
-    $("#listSupplier").empty();
-    $("#listSupplier").append(data);
+    $("#listProduct").empty();
+    $("#listProduct").append(data);
     // 총 개수 추출
-    var totalSupplier = $("#totalSupplier").val();
+    var totalProduct = $("#totalProduct").val();
     //페이지 네비게이션 생성
-    var paginationHtml = getPaginationHtml(currentPage, totalSupplier, pageSizeSupplier, pageBlockSizeSupplier, 'fListSupplier');
-    $("#supplierPagination").empty().append(paginationHtml);
+    var paginationHtml = getPaginationHtml(currentPage, totalProduct, pageSizeProduct, pageBlockSizeProduct, 'fListProduct');
+    $("#productPagination").empty().append(paginationHtml);
     //현재 페이지 설정
-    $("#currentPageSupplier").val(currentPage);
+    $("#currentPageProduct").val(currentPage);
   }
 
   
   /* 공급처 모달 실행 */
-  function fPopModalSupplier(supply_cd) {
+  function fPopModalProduct(supply_cd) {
     //신규 저장
     if (supply_cd == null || supply_cd == "") {
       $("#action").val("I");
-      fInitFormSupplier();
+      fInitFormProduct();
       gfModalPop("#layer1");
     } else {
       $("#action").val("U");
-      fSelectSupplier(supply_cd);
+      fSelectProduct(supply_cd);
     }
   }
   
 
   /* 공급처 단건 조회*/
-  function fSelectSupplier(supply_cd) {
+  function fSelectProduct(supply_cd) {
     var param = {
         supply_cd : supply_cd
     };
     var resultCallback = function(data) {
-      fSelectSupplierResult(data);
+      fSelectProductResult(data);
     };
-    callAjax("/scm/selectSupplier.do", "post", "json", true, param,
+    callAjax("/ctm/selectProduct.do", "post", "json", true, param,
         resultCallback);
   }
   
   // 공급처 단건 조회 콜백 함수
-  function fSelectSupplierResult(data) {
+  function fSelectProductResult(data) {
     if (data.result == "SUCCESS") {
       gfModalPop("#layer1")
-      fInitFormSupplier(data.supplierInfoModel);
+      fInitFormProduct(data.productInfoModel);
     } else {
       alert(data.resultMsg);
     }
@@ -128,7 +126,7 @@
   
 
   /* 공급처 폼 초기화 */
-  function fInitFormSupplier(object) {
+  function fInitFormProduct(object) {
     $("#supply_cd").focus();
     
     if (object == "" || object == null || object == undefined) {
@@ -148,7 +146,7 @@
       $("#warehouse_cd").attr("readonly", true);
       $("#warehouse_cd").css("background", "#F5F5F5");
       
-      $("#btnDeleteSupplier").hide();
+      $("#btnDeleteProduct").hide();
     } else{
       $("#supply_cd").val(object.supply_cd);
       $("#supply_cd").attr("readonly", true);
@@ -167,13 +165,13 @@
       $("#warehouse_cd").css("background", "#F5F5F5");
       
       
-      $("#btnDeleteSupplier").show();
+      $("#btnDeleteProduct").show();
     } 
   } 
   
 
   /* 공급처 저장 validation*/
-  function fValidateSupplier() {
+  function fValidateProduct() {
     var chk = checkNotEmpty([ 
             [ "supply_cd", "공급처코드를 입력하세요." ],
             [ "supply_nm", "공급처명 입력하세요." ],
@@ -192,49 +190,49 @@
   }
   
   //공급처 저장
-  function fSaveSupplier() {
+  function fSaveProduct() {
     //validation 체크
-    if (!fValidateSupplier()) {
+    if (!fValidateProduct()) {
       return;
     }
     var resultCallback = function(data) {
        console.log(data);
-       fSaveSupplierResult(data);
+       fSaveProductResult(data);
     };
-    callAjax("/scm/saveSupplier.do", "post", "json", true, $("#myForm")
+    callAjax("/ctm/saveProduct.do", "post", "json", true, $("#myForm")
         .serialize(), resultCallback);
   }
   
   //공급처 저장 콜백 함수
-  function fSaveSupplierResult(data) {
+  function fSaveProductResult(data) {
     var currentPage = "1";
     if ($("#action").val() != "I") {
-      currentPage = $("#currentPageSupplier").val();
+      currentPage = $("#currentPageProduct").val();
     }
     if (data.result == "SUCCESS") {
       alert(data.resultMsg);
       gfCloseModal();
-      fListSupplier(currentPage);
+      fListProduct(currentPage);
     } else {
       alert(data.resultMsg);
     }
-    fInitFormSupplier();
+    fInitFormProduct();
   }
   
   //공급처 삭제
-    function fDeleteSupplier(supply_cd){
+    function fDeleteProduct(supply_cd){
     var con = confirm("삭제하시겠습니까 ?");
     var currentPage = "1";
     if (con){
       var resultCallback = function(data) {
-      fSaveSupplierResult(data);
+      fSaveProductResult(data);
     }
     $("#action").val("D");
-    callAjax("/scm/saveSupplier.do", "post", "json", true, $("#myForm").serialize(), resultCallback );
+    callAjax("/ctm/saveProduct.do", "post", "json", true, $("#myForm").serialize(), resultCallback );
     } else {
       gfCloseModal();
-      fListSupplier(currentPage);
-      fInitFormSupplier();
+      fListProduct(currentPage);
+      fInitFormProduct();
     }
   } 
   
@@ -249,14 +247,14 @@
       sname : sname.val(),
       oname : oname,
       currentPage : currentPage,
-      pageSize : pageSizeSupplier
+      pageSize : pageSizeProduct
     }
     
     
     var resultCallback = function(data) {
-      flistSupplierResult(data, currentPage);
+      flistProductResult(data, currentPage);
     };
-    callAjax("/scm/listSupplier.do", "post", "text", true, param,
+    callAjax("/ctm/listProduct.do", "post", "text", true, param,
         resultCallback);
   }
   
@@ -280,7 +278,7 @@
 </head>
 <body>
 <form id="myForm" action="" method="">
-    <input type="hidden" id="currentPageSupplier" value="1">
+    <input type="hidden" id="currentPageProduct" value="1">
     <input type="hidden" id="currentPageProduct" value="1"> 
     <input type="hidden" id="tmpsupply_nm" value="">  
     <input type="hidden" id="tmpsupply_cd" value="">
@@ -313,7 +311,7 @@
                             <p class="conTitle">
                                  <span>공급처 정보</span>
                                  <span class="fr"> 
-                                 <a href="javascript:fPopModalSupplier()" class="btnType blue" name="modal"  style="float: right;">
+                                 <a href="javascript:fPopModalProduct()" class="btnType blue" name="modal"  style="float: right;">
                                       <span>신규등록</span>
                                       </a>
                     
@@ -322,12 +320,13 @@
                                  </span>
                             </p>  
                             
-                    <div class="SupplierList">
+                    <div class="ProductList">
                     <div class="conTitle" style="margin: 0 25px 10px 0; float: left;">
                            <select id="searchKey" name="searchKey" style="width: 100px;" v-model="searchKey">
                            <option value="all" selected="selected">전체</option>
-                           <option value="supply_nm">공급처명</option>
-                           <option value="supply_mng_nm">담당자명</option>
+                           <option value="product_l_ct">상호명</option>
+                           <option value="product_nm">제품명</option>
+                           <option value="product_cd">제품코드</option>
                         </select>
                         <input type="text" style="width: 300px; height: 30px;" id="sname" name="sname">
                             <a href="" class="btnType blue" id="searchBtn" name="btn"> 
@@ -359,11 +358,11 @@
                                         <th scope="col">비고</th>  
                                     </tr>
                                 </thead> 
-                                <tbody id="listSupplier"></tbody>                      
+                                <tbody id="listProduct"></tbody>                      
                          </table>  
                    </div>
                        
-                   <div class="paging_area" id="supplierPagination"></div>
+                   <div class="paging_area" id="productPagination"></div>
                   </li>
               </ul>
           </div>     
@@ -427,9 +426,9 @@
           
           
           <div class="btn_areaC mt30">
-            <a href="" class="btnType blue" id="btnSaveSupplier" name="btn"><span>저장</span></a>
-            <a href="" class="btnType blue" id="btnDeleteSupplier" name="btn"><span>삭제</span></a>  
-            <a href="" class="btnType gray" id="btnCloseSupplier" name="btn"><span>닫기</span></a>
+            <a href="" class="btnType blue" id="btnSaveProduct" name="btn"><span>저장</span></a>
+            <a href="" class="btnType blue" id="btnDeleteProduct" name="btn"><span>삭제</span></a>  
+            <a href="" class="btnType gray" id="btnCloseProduct" name="btn"><span>닫기</span></a>
             
           </div>
         

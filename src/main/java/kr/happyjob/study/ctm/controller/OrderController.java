@@ -1,4 +1,4 @@
-/*package kr.happyjob.study.scm.controller;
+package kr.happyjob.study.ctm.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,26 +15,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.happyjob.study.scm.model.SupplierInfoModel;
-import kr.happyjob.study.scm.service.SupplierInfoService;
+import kr.happyjob.study.ctm.model.OrderModel;
+import kr.happyjob.study.ctm.service.OrderService;
 
 @Controller
-@RequestMapping("/scm")
-public class SupplierInfoController {
+@RequestMapping("/ctm")
+public class OrderController {
   @Autowired //묶어준다
-  SupplierInfoService supplierInfoService;
+  OrderService orderService;
   
   
-  @RequestMapping("supplierInfo.do")
-  public String initSupplierInfo(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+  @RequestMapping("order.do")
+  public String initOrder(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession Session) throws Exception{
  
-    return "scm/supplierInfo";
+    return "ctm/order";
   }
   
   //공급처 조회
-  @RequestMapping("listSupplier.do")
-  public String listSupplier(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+  @RequestMapping("listProduct.do")
+  public String listProduct(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception{
     
     int currentPage = Integer.parseInt((String)paramMap.get("currentPage"));  // 현재 페이지 번호
@@ -45,53 +45,23 @@ public class SupplierInfoController {
     paramMap.put("pageSize", pageSize);
     
     // 공급처 목록 조회
-    List<SupplierInfoModel> listSupplierModel = supplierInfoService.listSupplier(paramMap);
-    model.addAttribute("listSupplierModel", listSupplierModel);
+    List<OrderModel> listProductModel = orderService.listProduct(paramMap);
+    model.addAttribute("listProductModel", listProductModel);
     
     // 공급처 목록 카운트 조회
-    int totalCount = supplierInfoService.totalCntSupplier(paramMap);
-    model.addAttribute("totalSupplier", totalCount);
-    
-    model.addAttribute("pageSize", pageSize);
-    model.addAttribute("currentPageSupplier",currentPage);  
-    
-    return "scm/listSupplier";
-  }
-  
-  //제품목록 조회
-  @RequestMapping("listSupplierProduct.do")
-  public String listSupplierProduct(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
-      HttpServletResponse response, HttpSession session) throws Exception{
-    
-    int currentPage = Integer.parseInt((String)paramMap.get("currentPage"));  // 현재 페이지 번호
-    int pageSize = Integer.parseInt((String)paramMap.get("pageSize"));      // 페이지 사이즈
-    int pageIndex = (currentPage-1)*pageSize;                 // 페이지 시작 row 번호
-    
-//    System.out.println("paramMap : " + paramMap);
-    
-    paramMap.put("pageIndex", pageIndex);
-    paramMap.put("pageSize", pageSize);
-   
-    
-    // 제품 목록 조회
-    List<SupplierInfoModel> listSupplierProductModel = supplierInfoService.listSupplierProduct(paramMap);
-    model.addAttribute("listSupplierProductModel", listSupplierProductModel);
-    
-    // 제품 목록 카운트 조회
-    int totalCount = supplierInfoService.totalCntProduct(paramMap);
+    int totalCount = orderService.totalCntProduct(paramMap);
     model.addAttribute("totalProduct", totalCount);
     
     model.addAttribute("pageSize", pageSize);
-    model.addAttribute("currentPageProduct",currentPage);
+    model.addAttribute("currentPageProduct",currentPage);  
     
-    
-    return "scm/listSupplierProduct";
+    return "ctm/listProduct";
   }
   
 //공급처 저장
- @RequestMapping("saveSupplier.do")
+ @RequestMapping("saveProduct.do")
  @ResponseBody
- public Map<String, Object> saveSupplier (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+ public Map<String, Object> saveProduct (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
      HttpServletResponse response, HttpSession session) throws Exception{
    
    String action = (String)paramMap.get("action");
@@ -101,15 +71,15 @@ public class SupplierInfoController {
    
    if("I".equals(action)){
      //공급처등록
-     supplierInfoService.insertSupplier(paramMap);
+     orderService.insertProduct(paramMap);
      resultMsg = "등록 완료";
    } else if("U".equals(action)){
      //공급처 수정
-     supplierInfoService.updateSupplier(paramMap);
+     orderService.updateProduct(paramMap);
      resultMsg = "수정 완료";
    } else if("D".equals(action)){
      //공급처 삭제
-     supplierInfoService.deleteSupplier(paramMap);
+     orderService.deleteProduct(paramMap);
      resultMsg = "삭제 완료";
    }
    else{
@@ -125,20 +95,20 @@ public class SupplierInfoController {
  }
   
   //공급처 단건 조회
-  @RequestMapping("selectSupplier.do")
+  @RequestMapping("selectProduct.do")
   @ResponseBody
-  public Map<String, Object> selectSupplier (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+  public Map<String, Object> selectProduct (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception{
 
     String result = "SUCCESS";
     String resultMsg = "조회 되었습니다.";
     
-    SupplierInfoModel supplierInfoModel = supplierInfoService.selectSupplier(paramMap);
+    OrderModel productInfoModel = orderService.selectProduct(paramMap);
     
     Map<String, Object> resultMap = new HashMap<String, Object>();
     resultMap.put("result", result);
     resultMap.put("resultMsg", resultMsg);
-    resultMap.put("supplierInfoModel", supplierInfoModel);
+    resultMap.put("productInfoModel", productInfoModel);
     
     System.out.println(resultMap);
     return resultMap;
@@ -147,4 +117,3 @@ public class SupplierInfoController {
 
   
 }
-*/

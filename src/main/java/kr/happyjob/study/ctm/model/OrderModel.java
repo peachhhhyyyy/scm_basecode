@@ -1,6 +1,6 @@
-/*package kr.happyjob.study.scm.model;
+package kr.happyjob.study.ctm.model;
 
-public class SupplierInfoModel {
+public class OrderModel {
   // 공급처 코드
   private String supply_cd;
   // 공급처명
@@ -134,4 +134,3 @@ public class SupplierInfoModel {
     this.m_ct_cd = m_ct_cd;
   }
 }
-*/
