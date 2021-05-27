@@ -132,6 +132,13 @@
       alert(data.resultMsg);
     }
   }
+   
+  /** 금액 변환 함수
+  출처 : https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
+ */
+function numberWithCommas(x) {
+   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
  
   /* 제품정보 관리 폼 초기화 */
   function fInitFormMainProduct(object) {
@@ -176,11 +183,11 @@
       $("#m_ct_nm").val(object.m_ct_cd);
       $("#supply_nm").val(object.supply_nm);
       $("#supply_cd").val(object.supply_cd);
-      $("#purchase_price").val(object.purchase_price);
-      $("#price").val(object.price);
+      $("#purchase_price").val(numberWithCommas(object.purchase_price));
+      $("#price").val(numberWithCommas(object.price));
       $("#warehouse_cd").val(object.warehouse_cd);
       $("#warehouse_nm").val(object.warehouse_nm);
-      $("#stock").val(object.stock);
+      $("#stock").val(numberWithCommas(object.stock));
       $("#detail").val(object.detail);
       $("#thumbnail").val("");
       $("#tempImg").attr("src", object.file_relative_path);
