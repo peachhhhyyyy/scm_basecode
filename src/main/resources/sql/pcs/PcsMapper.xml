@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.happyjob.study.pcs.dao.PcsDao">
-	<!-- 발주지시서 목록 조회 -->
-	<select id="pcsOrderingOrder" resultType="kr.happyjob.study.pcs.model.PcsModel">
-		/*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
+  <!-- 발주지시서 목록 조회 -->
+  <select id="pcsOrderingOrder" resultType="kr.happyjob.study.pcs.model.PcsModel">
+    /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
       SELECT 
             DISTINCT
              PL.purch_list_no
@@ -11,14 +11,23 @@
          ,   PL.supply_cd
          ,   SP.supply_nm
          ,   PD.prod_nm
-         ,   PD.m_ct_cd
+         ,   MC.m_ct_nm
          ,   PL.purch_qty
          ,   PD.purchase_price
          ,   PL.desired_delivery_date
          ,   WH.warehouse_nm
-         ,   PL.purch_mng_id
+         ,   case when PL.purch_mng_id is null
+                  then ''
+                  else UI.name
+             end as purch_mng_id
          ,   PL.scm_id
          ,   PL.purch_date
+         ,   OD.STTcd
+         ,   DC.detail_name
+         ,   case when PL.desired_delivery_date is null
+                  then #{loginID}
+                  else PL.purch_mng_id
+             end as loginID
       FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_order as OD
           ON PL.order_cd = OD.order_cd
@@ -26,24 +35,73 @@
           ON OD.product_cd = PD.product_cd
           LEFT JOIN tb_scm_supply as SP
           ON PD.supply_cd = SP.supply_cd
+          LEFT JOIN tb_scm_m_category MC
+          ON MC.m_ct_cd = PD.m_ct_cd
           LEFT JOIN tb_scm_warehouse as WH
           ON SP.warehouse_cd = WH.warehouse_cd
+          LEFT JOIN tb_userinfo UI
+          ON PL.purch_mng_id = UI.loginID
+          LEFT JOIN (
+              SELECT detail_code, group_code, detail_name
+            FROM tb_detail_code
+            WHERE group_code = 'STTcd'
+          ) DC ON OD.STTcd = DC.detail_code
+          WHERE OD.STTcd = 10
+         <if test="(sname != null) and (!sname.equals(''))">
+            <choose>
+              <when
+                test="oname eq 'all'.toString()">
+                and MC.m_ct_nm LIKE CONCAT('%', #{sname}, '%') or PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+              </when>
+              <when test="oname eq 'brand'.toString()">
+                and MC.m_ct_nm LIKE CONCAT('%', #{sname}, '%')
+              </when>
+              <when test="oname eq 'product'.toString()">
+                 and PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+              </when>
+            </choose>
+          </if>
+          <if test="(date != null) and (!date.equals(''))"> 
+              and DATE_FORMAT(PL.desired_delivery_date, "%Y-%m-%d") = #{date}
+          </if>
       ORDER BY purch_list_no DESC
       LIMIT #{pageIndex}, #{pageSize}
-	</select>
+  </select>
 
-	<!-- 발주지시서 목록 총 갯수 조회 -->
-	<select id="countPcsOrderingOrder" resultType="int">
-		/*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
-		SELECT COUNT(1) AS tot_cnt 
+  <!-- 발주지시서 목록 총 갯수 조회 -->
+  <select id="countPcsOrderingOrder" resultType="int">
+    /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
+    SELECT COUNT(1) AS tot_cnt 
       FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_order as OD
         ON PL.order_cd = OD.order_cd
         LEFT JOIN tb_scm_warehouse as WH
         ON OD.warehouse_cd = WH.warehouse_cd
-	</select>
-	
-	<!-- 발주지시서 상태 업데이트 -->
+        LEFT JOIN tb_scm_product as PD
+        ON OD.product_cd = PD.product_cd
+        LEFT JOIN tb_scm_m_category MC
+        ON MC.m_ct_cd = PD.m_ct_cd
+        WHERE OD.STTcd = 10
+       <if test="(sname != null) and (!sname.equals(''))">
+          <choose>
+            <when
+              test="oname eq 'all'.toString()">
+              and MC.m_ct_nm LIKE CONCAT('%', #{sname}, '%') or PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+            </when>
+            <when test="oname eq 'brand'.toString()">
+              and MC.m_ct_nm LIKE CONCAT('%', #{sname}, '%')
+            </when>
+            <when test="oname eq 'product'.toString()">
+               and PD.prod_nm LIKE CONCAT('%', #{sname}, '%')
+            </when>
+          </choose>
+        </if>
+        <if test="(date != null) and (!date.equals(''))"> 
+            and DATE_FORMAT(PL.desired_delivery_date, "%Y-%m-%d") = #{date}
+        </if>
+  </select>
+  
+  <!-- 발주지시서 상태 업데이트 -->
   <update id="updateState" parameterType="int">
     /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
     UPDATE tb_scm_purchase_list
@@ -52,8 +110,8 @@
            purch_mng_id = #{purch_mng_id}
      WHERE purch_list_no = #{purch_list_no};
   </update>
-	
-	<!-- 발주지시서 버튼 -->
+  
+  <!-- 발주지시서 버튼 -->
   <select id="selectPurchBtn" resultType="kr.happyjob.study.pcs.model.PcsModel">
     /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
       SELECT 
@@ -62,8 +120,10 @@
          ,   SP.supply_nm
          ,   PD.prod_nm
          ,   PD.m_ct_cd
+         ,   MC.m_ct_nm
          ,   PL.purch_qty
          ,   PD.purchase_price
+         ,   PL.purch_date
          ,   PL.desired_delivery_date
          ,   WH.warehouse_nm
          ,   PL.purch_mng_id
@@ -78,6 +138,8 @@
         ON PL.supply_cd = SP.supply_cd
         LEFT JOIN tb_scm_product as PD
         ON OD.product_cd = PD.product_cd
+        LEFT JOIN tb_scm_m_category MC
+        ON MC.m_ct_cd = PD.m_ct_cd
         LEFT JOIN (
             SELECT detail_code, group_code, detail_name
           FROM tb_detail_code
@@ -103,7 +165,7 @@
       ,DATE_FORMAT(pl.purch_date, "%Y-%m-%d") as purch_date 
       ,DATE_FORMAT(pl.desired_delivery_date, "%Y-%m-%d") as desired_delivery_date 
       ,od.STTcd
-      ,pl.supply_cd      
+      ,pl.supply_cd
       ,dc.detail_name
       ,pd.product_cd
   FROM tb_scm_purchase_list pl
@@ -117,20 +179,20 @@
                       FROM tb_detail_code
                      WHERE group_code = 'STTcd'
         ) dc ON dc.detail_code = od.STTcd 
-      WHERE od.STTcd in (10,12)
+      WHERE od.STTcd in (11,12)
         <if test="(sname != null) and (!sname.equals(''))">
-	        <choose>
+          <choose>
             <when
               test="oname eq 'all'.toString()">
-              and (od.order_cd LIKE CONCAT('%', #{sname}, '%') or pd.m_ct_cd LIKE CONCAT('%', #{sname}, '%') or pd.prod_nm LIKE CONCAT('%', #{sname}, '%'))
+              and mc.m_ct_nm LIKE CONCAT('%', #{sname}, '%') or pd.prod_nm LIKE CONCAT('%', #{sname}, '%')
             </when>
             <when test="oname eq 'brand'.toString()">
-              and pd.m_ct_cd LIKE CONCAT('%', #{sname}, '%')
+              and mc.m_ct_nm LIKE CONCAT('%', #{sname}, '%')
             </when>
-	          <when test="oname eq 'product'.toString()">
-	             and pd.prod_nm LIKE CONCAT('%', #{sname}, '%')
-	          </when>
-	        </choose>
+            <when test="oname eq 'product'.toString()">
+               and pd.prod_nm LIKE CONCAT('%', #{sname}, '%')
+            </when>
+          </choose>
         </if>
         <if test="(date != null) and (!date.equals(''))"> 
             and ( DATE_FORMAT(pl.purch_date, "%Y-%m-%d") = #{date}
@@ -155,15 +217,15 @@
                       FROM tb_detail_code
                      WHERE group_code = 'STTcd'
         ) dc ON dc.detail_code = od.STTcd 
-      WHERE od.STTcd in (10,12)
+      WHERE od.STTcd in (11,12)
         <if test="(sname != null) and (!sname.equals(''))">
           <choose>
             <when
               test="oname eq 'all'.toString()">
-              and (od.order_cd LIKE CONCAT('%', #{sname}, '%') or pd.m_ct_cd LIKE CONCAT('%', #{sname}, '%') or pd.prod_nm LIKE CONCAT('%', #{sname}, '%'))
+              and mc.m_ct_nm LIKE CONCAT('%', #{sname}, '%') or pd.prod_nm LIKE CONCAT('%', #{sname}, '%')
             </when>
             <when test="oname eq 'brand'.toString()">
-              and pd.m_ct_cd LIKE CONCAT('%', #{sname}, '%')
+              and mc.m_ct_nm LIKE CONCAT('%', #{sname}, '%')
             </when>
             <when test="oname eq 'product'.toString()">
                and pd.prod_nm LIKE CONCAT('%', #{sname}, '%')
@@ -181,6 +243,53 @@
     /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
     UPDATE tb_order
        SET STTcd = 12
-     WHERE order_cd = #{order_cd} AND STTcd = 10;
+     WHERE order_cd = #{order_cd} AND STTcd = 11
   </update>
+  
+  <!-- 발주지시서 입고완료 버튼 클릭 시 재고 업데이트 -->
+  <update id="updateStock" parameterType="int">
+    /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
+   UPDATE tb_scm_product
+      SET stock = stock + #{purch_qty}
+    WHERE product_cd = #{product_cd}
+  </update>
+  
+  <!-- 반품서 버튼 -->
+  <select id="selectRefundBtn" resultType="kr.happyjob.study.pcs.model.PcsModel">
+    /*kr.kosmo.jobkorea.pcs.dao.PcsDao*/
+      SELECT 
+           DISTINCT
+             PL.purch_list_no
+         ,   SP.supply_nm
+         ,   PD.prod_nm
+         ,   PD.m_ct_cd
+         ,   PL.purch_qty
+         ,   PD.purchase_price
+         ,   PL.desired_delivery_date
+         ,   WH.warehouse_nm
+         ,   WH.warehouse_cd
+         ,   PL.purch_mng_id
+         ,   PL.supply_cd
+         ,   DC.detail_name
+         ,   PD.product_cd
+         ,   PL.return_qty
+      FROM tb_scm_purchase_list as PL
+          LEFT JOIN tb_order as OD
+        ON PL.order_cd = OD.order_cd
+        LEFT JOIN tb_scm_warehouse as WH
+        ON OD.warehouse_cd = WH.warehouse_cd  
+        LEFT JOIN tb_scm_supply as SP
+        ON PL.supply_cd = SP.supply_cd
+        LEFT JOIN tb_scm_product as PD
+        ON OD.product_cd = PD.product_cd
+        LEFT JOIN (
+            SELECT detail_code, group_code, detail_name
+          FROM tb_detail_code
+          WHERE group_code = 'STTcd'
+        ) DC ON OD.STTcd = DC.detail_code
+     WHERE PL.purch_list_no = #{purch_list_no}
+       AND PL.order_cd = #{order_cd}
+       AND PL.supply_cd = #{supply_cd}
+       AND PD.product_cd = #{product_cd}
+  </select>
 </mapper>

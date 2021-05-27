@@ -13,19 +13,19 @@
       <td><a href="javascript:fPopPcsOrderForm('${list.purch_list_no}', '${list.order_cd}', '${list.supply_nm}', '${list.prod_nm}', '${list.m_ct_cd}', '${list.warehouse_nm}', '${list.purch_qty}', '${list.purchase_price}', '${list.purch_mng_id}', '${list.direction_date}', '${list.purch_date}', '${list.desired_delivery_date}', '${list.supply_cd}', '${list.product_cd}','${list.STTcd}' ,'${list.detail_name}');">${list.order_cd}</a></td>
       <td>${list.supply_nm}</td>           
       <td>${list.prod_nm}</td>
-      <td>${list.m_ct_cd}</td>
+      <td>${list.m_ct_nm}</td>
       <td>${list.purch_qty}</td>
       <td>${list.warehouse_nm}</td>
       <td><fmt:formatDate value="${list.purch_date}" pattern="yyyy-MM-dd" /></td>
       <td><fmt:formatDate value="${list.desired_delivery_date}" pattern="yyyy-MM-dd" /></td>
       <td>${list.detail_name}</td>
-      <c:if test="${list.STTcd eq 10}">
-      <td><a class="btnType3 color2" href="javascript:fSelectUpdateSTTcd('${list.STTcd}', '${list.detail_name}', '${list.order_cd}');"><span>입고완료</span></a></td>
+      <c:if test="${list.STTcd eq 11}">
+      <td><a class="btnType3 color2" href="javascript:fSelectUpdateSTTcd('${list.STTcd}', '${list.detail_name}', '${list.order_cd}', '${list.product_cd}', '${list.purch_qty}');"><span>입고완료</span></a></td>
       <td><a class="btnType3 color1" href="javascript:void(0)" style="cursor:not-allowed;"><span>반품</span></a></td>
       </c:if>
       <c:if test="${list.STTcd eq 12}">
       <td><a class="btnType3 color1" href="javascript:void(0);" style="cursor:not-allowed;"><span>입고완료</span></a></td>
-      <td><a class="btnType3 color2" href="/pcs/refund/list.do"><span>반품</span></a></td>
+      <td><a class="btnType3 color2" href="javascript:fSelectRefundBtn('${list.purch_list_no}', '${list.supply_nm}', '${list.supply_cd}', '${list.prod_nm}', '${list.m_ct_nm}', '${list.product_cd}', '${list.return_qty}', '${list.warehouse_cd}', '${list.purch_mng_id}');"><span>반품</span></a></td>
       </c:if>
     </tr>
   </c:forEach>

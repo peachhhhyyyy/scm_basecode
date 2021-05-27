@@ -13,6 +13,8 @@ public class PcsModel {
   public String l_ct_cd;
   // 중분류 
   public String m_ct_cd;
+  // 상호명
+  public String m_ct_nm;
   // 발주수량
   public int purch_qty;
   // 장비구매액
@@ -45,7 +47,10 @@ public class PcsModel {
   public String detail_code;
   // 상세코드명
   public String detail_name;
- 
+  // 로그인 아이디
+  public String loginID;
+  // 반품 수량
+  public String return_qty;
   public String getPurch_list_no() {
     return purch_list_no;
   }
@@ -75,6 +80,12 @@ public class PcsModel {
   }
   public void setM_ct_cd(String m_ct_cd) {
     this.m_ct_cd = m_ct_cd;
+  }
+  public String getM_ct_nm() {
+    return m_ct_nm;
+  }
+  public void setM_ct_nm(String m_ct_nm) {
+    this.m_ct_nm = m_ct_nm;
   }
   public int getPurch_qty() {
     return purch_qty;
@@ -172,4 +183,16 @@ public class PcsModel {
   public void setDetail_name(String detail_name) {
     this.detail_name = detail_name;
   }
+  public String getLoginID() {
+    return loginID;
+  }
+  public void setLoginID(String loginID) {
+    this.loginID = loginID;
+  }
+  public String getReturn_qty() {
+    return return_qty;
+  }
+  public void setReturn_qty(String return_qty) {
+    this.return_qty = return_qty;
+  }   
 }

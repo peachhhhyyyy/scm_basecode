@@ -16,9 +16,9 @@
          ,   PL.order_cd
          ,   PL.supply_cd
          ,   PD.product_cd
-         ,   PL.approve_id
          ,   PD.purchase_price
-         ,   PD.price
+         ,   (PL.purch_qty * PD.purchase_price) as price 
+         ,   UI.name as approve_id
        FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_scm_supply as SP
           ON PL.supply_cd = SP.supply_cd
@@ -26,6 +26,8 @@
           ON PL.product_cd = PD.product_cd
           LEFT JOIN tb_scm_m_category as MC
           ON MC.m_ct_cd = PD.m_ct_cd
+          LEFT JOIN tb_userinfo UI
+          ON PL.approve_id = UI.loginID
       <where>
 	      <if test="(sname != null) and (!sname.equals(''))">
 				  <choose>
@@ -100,12 +102,12 @@
          ,   PL.purch_qty
          ,   PL.scm_id
          ,   DATE_FORMAT(PL.direction_date, "%Y-%m-%d") as direction_date
-         ,   PL.approve_id
          ,   PD.purchase_price
          ,   PD.price
          ,   PL.order_cd
          ,   PL.supply_cd
          ,   PD.product_cd
+         ,   UI.name as approve_id
       FROM tb_scm_purchase_list as PL
           LEFT JOIN tb_scm_supply as SP
           ON PL.supply_cd = SP.supply_cd
@@ -113,6 +115,8 @@
           ON PL.product_cd = PD.product_cd
           LEFT JOIN tb_scm_m_category as MC
           ON MC.m_ct_cd = PD.m_ct_cd
+          LEFT JOIN tb_userinfo UI
+          ON PL.approve_id = UI.loginID
      WHERE PL.purch_list_no = #{purch_list_no}
        AND PL.order_cd = #{order_cd}
        AND PL.supply_cd = #{supply_cd}

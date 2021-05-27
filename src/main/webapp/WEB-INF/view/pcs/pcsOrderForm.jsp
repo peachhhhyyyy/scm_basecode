@@ -34,6 +34,9 @@
       case 'btnSearchOrderForm':
         board_search();
         break;
+      case 'btnSubmitPcsOrderForm':
+        fsend();
+        break;
       }
     });
   }
@@ -215,11 +218,13 @@
   }
   
   /** 입고완료 버튼 클릭 */
-  function fSelectUpdateSTTcd(STTcd, detail_name, order_cd) {
+  function fSelectUpdateSTTcd(STTcd, detail_name, order_cd, product_cd, purch_qty) {
     var param = {
         STTcd : STTcd,
         detail_name : detail_name,
-        order_cd : order_cd
+        order_cd : order_cd,
+        product_cd : product_cd,
+        purch_qty : purch_qty
       };
     
     var resultCallback = function(data) {
@@ -239,11 +244,90 @@
       location.reload();
     }
   }
+  
+  /** 반품서 화면 띄우기 */ 
+  function fSelectRefundBtn(purch_list_no, supply_nm, supply_cd, prod_nm, m_ct_nm, product_cd, return_qty, warehouse_cd, purch_mng_id) {
+    var param = {
+      purch_list_no : purch_list_no,
+      supply_nm : supply_nm,
+      supply_cd : supply_cd,
+      prod_nm : prod_nm,
+      m_ct_nm : m_ct_nm,
+      product_cd : product_cd,
+      return_qty : return_qty,
+      warehouse_cd : warehouse_cd,
+      purch_mng_id : purch_mng_id
+    };
+    
+    $("#purch_list_no").val(purch_list_no);
+    $("#supply_nm").val(supply_nm);
+    $("#supply_cd").val(supply_cd);
+    $("#prod_nm").val(prod_nm);
+    $("#m_ct_nm").val(m_ct_nm);
+    $("#product_cd").val(product_cd);
+    $("#return_qty").val(return_qty);
+    $("#warehouse_cd").val(warehouse_cd);
+    $("#purch_mng_id").val(purch_mng_id);
+    
+    var resultCallback = function(data) {
+      fSelectRefundBtnResult(data);
+    };
+
+    callAjax("/pcs/selectRefundBtn.do", "post", "json", true, param, resultCallback);
+  }
+  
+  /** 반품서 화면 콜백 함수*/
+  function fSelectRefundBtnResult(data) {
+    if (data.result == "SUCCESS") {
+      // 모달 팝업
+      gfModalPop("#layer2");
+      
+      console.log("fSelectRefundBtnResult : " + JSON.stringify(data));
+    } else {
+      alert(data.resultMsg);
+    }
+  }
+  
+  /** 발주서 목록 조회 */
+  function fsend() {
+    var purch_list_no = $("#purchListNo").text();
+    var order_cd = $("#order_cd").val();
+    var supply_cd = $("#supply_cd").val();
+    var purch_date = $(".purchaseDateValue").val();
+    var desired_delivery_date = $(".desiredDeliveryDateValue").val();
+ 
+    var param = {
+        purch_list_no : purch_list_no,
+        order_cd : order_cd,
+        supply_cd : supply_cd,
+        purch_date : purch_date,
+        desired_delivery_date : desired_delivery_date
+    }
+    
+    var resultCallback = function(data) {
+      fsendResult(data);
+    };
+    //Ajax실행 방식
+    //callAjax("Url",type,return,async or sync방식,넘겨준거,값,Callback함수 이름)
+    callAjax("/pcs/sendrefund.do", "post", "json", true, param, resultCallback);
+  }
+  
+  function fsendResult(data) {
+    if (data.result == "SUCCESS") {
+      alert(data.resultMsg);
+      location.reload('');
+      console.log("fsendResult : " + JSON.stringify(data));
+    } else {
+      alert(data.resultMsg);
+    }
+  }
+  
 </script>
 </head>
 <body>
     <form id="myForm" action="" method="">
         <input type="hidden" id="currentPage" value="1">
+        <input type="hidden" id="product_cd" name="product_cd" value="">
         <input type="hidden" name="action" id="action" value="">
         <!-- 모달 배경 -->
         <div id="mask"></div>
@@ -276,8 +360,8 @@
                                         <div class="input-group">
                                             <select id="searchKey" name="searchKey" style="width:90px;height:34px;">
                                                <option value="all">전체</option>
-                                               <option value="brand">브랜드</option>
-                                               <option value="product">제품</option>
+                                               <option value="brand">상호명</option>
+                                               <option value="product">제품명</option>
                                             </select>
                                             <input type="text" id="sname" name="sname" class="form-control">
                                         </div>
@@ -326,9 +410,9 @@
                                         <tr>
                                             <th scope="col">발주번호</th>
                                             <th scope="col">발주코드</th>
-                                            <th scope="col">회사명</th>
+                                            <th scope="col">공급처명</th>
                                             <th scope="col">제품명</th>
-                                            <th scope="col">브랜드명</th>
+                                            <th scope="col">상호명</th>
                                             <th scope="col">발주수량</th>
                                             <th scope="col">창고명</th>
                                             <th scope="col">발주날짜</th>
@@ -368,7 +452,7 @@
                             <tr>
                                 <th scope="row">발주번호</th>
                                 <td id="purchListNo"></td>
-                                <th scope="row">회사명</th>
+                                <th scope="row">공급처명</th>
                                 <td id="supplyNm"></td>
                             </tr>
                             <tr>
@@ -376,7 +460,7 @@
                                 <td id="prodNm" colspan="3"></td>
                             </tr>
                             <tr>
-                                <th scope="row">브랜드명</th>
+                                <th scope="row">상호명</th>
                                 <td id="mCtCd" colspan="3"></td>
                             </tr>
                             <tr>
@@ -408,6 +492,65 @@
             <a href="" class="closePop"><span class="hidden">닫기</span></a>
         </div>
         <!--// 모달팝업 -->
+        <!-- 모달팝업 -->
+        <div id="layer2" class="layerPop layerType2" style="width: 600px;">
+            <dl>
+                <dt>
+                    <strong>반품서</strong>
+                </dt>
+                <dd class="content">
+                    <!-- s : 여기에 내용입력 -->
+                    <table class="row">
+                        <caption>caption</caption>
+                        <colgroup>
+                            <col width="120px">
+                            <col width="*">
+                            <col width="120px">
+                            <col width="*">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th scope="row">반품번호</th>
+                                <td colspan="3"><input type="text" class="form-control" name="purch_list_no" id="purch_list_no" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">공급처명</th>
+                                <td><input type="text" class="form-control" name="supply_nm" id="supply_nm" /></td>
+                                <th scope="row">공급처코드</th>
+                                <td><input type="text" class="form-control" name="supply_cd" id="supply_cd" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">제품명</th>
+                                <td colspan="3"><input type="text" class="form-control" name="prod_nm" id="prod_nm" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">상호명</th>
+                                <td colspan="3"><input type="text" class="form-control" name="m_ct_nm" id="m_ct_nm" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">제품번호</th>
+                                <td><input type="text" class="form-control" name="product_cd" id="product_cd" /></td>
+                                <th scope="row">제품수량</th>
+                                <td><input type="text" class="form-control" name="return_qty" id="return_qty" /></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">창고코드</th>
+                                <td><input type="text" class="form-control" name="warehouse_cd" id="warehouse_cd" /></td>
+                                <th scope="row">담당자</th>
+                                <td><input type="text" class="form-control" name="purch_mng_id" id="purch_mng_id" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- e : 여기에 내용입력 -->
+                    <div class="btn_areaC mt30">
+                        <a href="" class="btnType blue" id="btnSubmitPcsOrderForm" name="btn"><span>전송</span></a>
+                        <a href="" class="btnType gray" id="btnClosePcsOrderForm" name="btn"><span>닫기</span></a>
+                    </div>
+                </dd>
+            </dl>
+            <a href="" class="closePop"><span class="hidden">닫기</span></a>
+        </div>
+        <!--// 모달팝업 -->
     </form>
     <script>
     $(document).ready(function() {
@@ -416,11 +559,6 @@
           formatDate: 'YYYY-MM-DD',
           language: 'ko',
           autoclose: true,
-      });
-      $("#datetimepicker1").on("change.datetimepicker", function(e) {
-        var date = $("#datetimepicker1").find("input").val();
-        console.log('날짜확인 :', date)
-        $('#datetimepicker2').datetimepicker('minDate', e.date);
       });
     });
     </script>
