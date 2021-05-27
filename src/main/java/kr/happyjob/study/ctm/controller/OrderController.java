@@ -33,8 +33,8 @@ public class OrderController {
   }
   
   // 주문 화면 조회
-  @RequestMapping("listProduct.do")
-  public String listProduct(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+  @RequestMapping("productList.do")
+  public String productList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception{
     
     int currentPage = Integer.parseInt((String)paramMap.get("currentPage"));  // 현재 페이지 번호
@@ -45,8 +45,8 @@ public class OrderController {
     paramMap.put("pageSize", pageSize);
     
     // 제품 목록 조회
-    List<OrderModel> listProductModel = orderService.listProduct(paramMap);
-    model.addAttribute("listProductModel", listProductModel);
+    List<OrderModel> productListModel = orderService.productList(paramMap);
+    model.addAttribute("productListModel", productListModel);
     
     // 제품 총 개수 조회
     int totalCount = orderService.totalCntProduct(paramMap);
@@ -55,6 +55,6 @@ public class OrderController {
     model.addAttribute("pageSize", pageSize);
     model.addAttribute("currentPageProduct",currentPage);  
     
-    return "ctm/listProduct";
+    return "ctm/productList";
   }  
 }

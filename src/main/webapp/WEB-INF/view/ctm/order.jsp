@@ -14,7 +14,7 @@
   //OnLoad event
   $(document).ready(function() {
     //상품 목록 조회
-    fListProduct();
+    fProductList();
     //버튼 이벤트 등록
     fRegisterButtonClickEvent();
     //엔터눌렀을때 창고정보 검색되게하기
@@ -49,7 +49,7 @@
   
 
   /*제품 목록 조회*/
-  function fListProduct(currentPage) {
+  function fProductList(currentPage) {
     currentPage = currentPage || 1;
     var sname = $('#sname');
     var searchKey = document.getElementById("searchKey");
@@ -62,23 +62,23 @@
         pageSize : pageSizeProduct
     }
     var resultCallback = function(data) {
-      flistProductResult(data, currentPage);
+      fproductListResult(data, currentPage);
     };
-    callAjax("/ctm/listProduct.do", "post", "text", true, param, resultCallback);
+    callAjax("/ctm/productList.do", "post", "text", true, param, resultCallback);
   }
   
   
   /*공급처 조회 콜백 함수*/
-  function flistProductResult(data, currentPage) {
+  function fproductListResult(data, currentPage) {
     
     console.log("data : " + data);
     //기존 목록 삭제
-    $("#listProduct").empty();
-    $("#listProduct").append(data);
+    $("#productList").empty();
+    $("#productList").append(data);
     // 총 개수 추출
     var totalProduct = $("#totalProduct").val();
     //페이지 네비게이션 생성
-    var paginationHtml = getPaginationHtml(currentPage, totalProduct, pageSizeProduct, pageBlockSizeProduct, 'fListProduct');
+    var paginationHtml = getPaginationHtml(currentPage, totalProduct, pageSizeProduct, pageBlockSizeProduct, 'fProductList');
     $("#productPagination").empty().append(paginationHtml);
     //현재 페이지 설정
     $("#currentPageProduct").val(currentPage);
@@ -100,9 +100,9 @@
     
     
     var resultCallback = function(data) {
-      flistProductResult(data, currentPage);
+      fproductListResult(data, currentPage);
     };
-    callAjax("/ctm/listProduct.do", "post", "text", true, param,
+    callAjax("/ctm/productList.do", "post", "text", true, param,
         resultCallback);
   }
   
@@ -170,7 +170,7 @@
                                         <th scope="col"></th>
                                     </tr>
                                 </thead> 
-                                <tbody id="listProduct"></tbody>                      
+                                <tbody id="productList"></tbody>                      
                          </table>  
                    </div>
                        

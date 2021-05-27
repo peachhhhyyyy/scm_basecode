@@ -8,7 +8,7 @@ import kr.happyjob.study.ctm.model.OrderModel;
 public interface OrderDao {
   
   // 공급처 목록 조회
-  public List<OrderModel> listProduct(Map<String, Object> paramMap) throws Exception;
+  public List<OrderModel> productList(Map<String, Object> paramMap) throws Exception;
   // 공급처 목록 갯수 조회
   public int totalCntProduct(Map<String, Object> paramMap) throws Exception;
 
