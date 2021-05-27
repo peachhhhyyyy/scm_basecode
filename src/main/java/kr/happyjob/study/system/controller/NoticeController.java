@@ -1,5 +1,6 @@
 package kr.happyjob.study.system.controller;
 
+import java.io.File;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,13 +14,17 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import kr.happyjob.study.common.comnUtils.FileUtilCho;
 import kr.happyjob.study.system.model.NoticeModel;
 import kr.happyjob.study.system.service.NoticeService;
 
@@ -29,6 +34,21 @@ public class NoticeController {
 	
 	@Autowired
 	NoticeService noticeService;
+	
+	// 파일 업로드에 사용 될 property
+	// 메소드 내부에 작성 불가
+	
+	// 물리경로(상위)
+	@Value("${fileUpload.rootPath}")
+	private String rootPath;
+	
+	// 물리경로(하위)-공지사항 이미지 저장용 폴더
+	@Value("${fileUpload.noticePath}")
+  private String noticePath;
+	
+	// 상대경로
+	@Value("${fileUpload.fileRelativePath}")
+	private String fileRelativePath;
 	
 	// logger
 	private final Logger log = LogManager.getLogger(this.getClass());
@@ -122,15 +142,58 @@ public class NoticeController {
 	
 	
 	// 공지사항 작성
+	// 파일 업로드 추가
 	@ResponseBody
 	@RequestMapping(value="writeNotice.do", method=RequestMethod.POST)
-	public int insertNotice(@RequestParam Map<String, Object> param) throws Exception {
+	public int insertNotice(@RequestParam Map<String, Object> param, HttpServletRequest request) throws Exception {
+	 
+	  MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
+	  
 	  System.out.println("공지사항 작성 parameter확인:" + param);
 	  
 	  int auth = Integer.parseInt((String) param.get("auth"));
 	  
 	  param.put("auth", auth);
 	  
+	  // 1. max함수를 이용하여 file테이블의 file_no의 최대값을 가져온다
+	  // 2. 위에서 가져온 값을 파일 정보를 담은 hashMap에 추가하여, file테이블에
+	  // insert한다.(fileUtilCho사용)
+	  // 3. 1에서 가져온 file_no을 가지고 notice테이블에 insert한다
+	  
+	  // file_no 조회(1의 과정)
+	  int file_no = noticeService.selectFileNo();
+	  
+	  // fileUtil로 업로드 처리(2의 과정)
+	  // property를 이용해서 파일 업로드할 경로를 설정해야 함
+	  // 일단 property 작성, 그 property를 불러온다
+	 
+	  // 파일 업로드
+	  
+	  String imgPath = noticePath + File.separator;
+	  FileUtilCho fileUtil = new FileUtilCho(multipartHttpServletRequest, rootPath, imgPath);
+	  Map<String, Object> fileUtilModel = fileUtil.uploadFiles();
+	  
+	  String file_nm = (String) fileUtilModel.get("file_nm");
+	  String file_loc = (String) fileUtilModel.get("file_loc");
+	  String file_size = (String) fileUtilModel.get("file_size");
+	  String fileExtension = (String) fileUtilModel.get("fileExtension");
+	  
+	  System.out.println("파일업로드 후:" + file_nm+ "경로:"+ file_loc + "파일사이즈" + file_size
+	      + "확장자:" + fileExtension);
+	  
+	  param.put("file_no", file_no);
+	  param.put("fil_size", fileUtilModel.get("file_size"));
+	  
+	  
+	  // DB에 파일 정보를 등록
+	  /* file_no, 
+    file_local_path, 
+    file_relative_path, 
+    file_ofname, 
+    file_size
+    */
+	  
+	  // 아래 코드 수정해야 함
 	  int result = noticeService.insertNotice(param);
 	 
 	  

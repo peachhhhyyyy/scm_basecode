@@ -20,7 +20,7 @@
     // 공지사항 목록 조회
     selectList();
     
-    //datepicker설정
+    // datepicker설정
     // formerDate datepicker
     $('#datetimepicker1').datetimepicker({
        //format : 'L',
@@ -57,20 +57,20 @@
     });
     
     // 공지사항 제목 글자 제한
+    // maxlength로만 처리 시
+    // 경고창이 뜨지 않고 유지보수 시 불편하다 판단하여 JavaScript로 처리
     $('#notice_title').keyup(function(e){
       
-      // 테스트를 위해 10자로 제한
-      var limit = 10;
+      var limit = 100;
       var count = $(this).val().length;
       
       if(count > limit) {
         
-        alert('제목은 100자 이하로 작성해 주세요');
+        swal('제목은 100자 이하로 작성해 주세요');
         $(this).val($(this).val().substring(0,limit));
         return false;
         
       }
-      
     });
      
     // 공지사항 내용 글자 제한 & 카운트 이벤트
@@ -79,71 +79,56 @@
       var count = $('#notice_content').val().length;     
       document.getElementById("count").innerHTML = count;
       
-      // 테스트를 위해 10자로 제한
-      var limit = 10;
+      var limit = 1000;
       var input =  $(this).val().length;
       
       if(input > limit) {
         
-        alert('내용은 1000자 이하로 작성해 주세요');
+        swal('내용은 1000자 이하로 작성해 주세요');
         $(this).val($(this).val().substring(0,limit));
         count = limit;
         document.getElementById("count").innerHTML = count;
         return false;
         
       }
-      
     });
     
     // 공지사항 검색 버튼 이벤트
     $('#search_button').on('click', function(){
-      
       //selectList();
       validateSearchForm();      
     } );
     
     // 공지사항 작성 모달 이벤트
     $('#write_modal_button').click(function(){
-      
       var identifier = 'w';
       fadeInModal(identifier);
-      
     });
     
     // 공지사항 작성 버튼 이벤트
     $('#write_button').click(function() {
-      
       writeNotice();
-      
     });
     
     // 모달 닫기 버튼 이벤트
     $('#close_button').click(function() {
-      
       gfCloseModal();
-      
     })
     
     // 공지사항 수정 모달 버튼 이벤트
      $('#modify_modal_button').click(function() {
-       
        var identifier = 'm';
        fadeInModal(identifier);
-       
      });
     
     // 공지사항 수정 버튼 이벤트
     $('#modify_button').click(function() {
-      
       modifyNotice();
-      
     });
      
     // 공지사항 삭제 버튼 이벤트
     $('#delete_button').click(function() {
-      
       deleteNotice();
-      
     })
     
     // onload 끝
@@ -202,6 +187,12 @@
     // 신규 목록 생성
     $("#noticeList").append(result);
     
+    // 검색창 초기화
+    $('#keyword').val('');
+    $('#options').val('all');
+    
+    
+    
     // 리스트 로우의 총 개수 추출
     var totalCount = $("#totalCount").val();
     
@@ -213,59 +204,70 @@
     // 현재 페이지 설정
     $("#currentPageCod").val(currentPage);
   }
-
-  
-  /* 공지사항 작성, 수정  모달 활성화 함수 */
-  /* 작성, 수정 여부에 따라 첨부파일이 변경되니 주의  */
-  function fadeInWriteModal() {
-    
-    swapModal();
-    // 모달 초기화
-    initWriteModal();
-    // 모달 팝업
-    gfModalPop("#layer1");
-    
-  }
-  
-    /* 공지사항 글 작성  함수 */
-    function writeNotice() {
+   
+    /* 공지사항 글 작성 null 체크 함수 */
+    // reqired가 동작하지 않아서 작성
+    function validateIsNull() {
       
       // 제목, 내용이 입력되었는지 확인
       var title = $('#notice_title').val();
       var content = $('#notice_content').val();
       var auth = $('#notice_auth').val();
       
-      // 널값 체크
       if(title == '') {
         
-        alert('제목을  입력해주세요');
+        swal('제목을  입력해주세요');
         $('#notice_title').focus();
         return false;
         
       } 
       else if(content == '') {
         
-        alert('내용을  입력해주세요');
+        swal('내용을  입력해주세요');
         $('#notice_content').focus();
         return false;
-      } 
-      
+      }
+      else {
+        return true;
+      }
+    } 
+    
+    /* 공지사항 글 작성  함수 */
+    function writeNotice() {
+      // 공지사항 글 작성 null 체크
+     var validate = validateIsNull();
+     
+     if(validate) {
+       
+       var title = $('#notice_title').val();
+       var content = $('#notice_content').val();
+       var auth = $('#notice_auth').val();
+       
       //*** 파일 추가 ***
-      var uploadFile = document.getElementById("myForm");
-      uploadFile.enctype = 'multipart/form-data';
-      var fileData = new FormData(uploadFile);
+  //    var uploadFile = document.getElementById("myForm");
+      var form = $("#myForm")[0];
+      form.enctype = 'multipart/form-data';
+      //var fileData = new FormData(uploadFile[0]);
+      var fileData = new FormData(form);
       
-      // 아래 코드 이해x
-      fileData.append("empty", "empty");
       
-      console.log('파일폼확인', uploadFile)
+      console.log('파일폼확인', form)
       console.log('파일확인', fileData)
       
       // file에 데이터 추가
       // 객체(param)를 추가하면 안 되나?  보낸다면 어떻게 받지?
       fileData.append('title', title);
-      fileData.append('content', title);
-      fileData.append('title', title);
+      fileData.append('content', content);
+      fileData.append('auth', auth);
+     // fileData.append('file', uploadFile[0].files[0]);
+      
+      var uploadFile = document.getElementById("uploadFile")
+      console.log('이미지 파일 :',uploadFile.files[0]);
+      fileData.append('file',uploadFile.files[0]);
+      console.log('파일추가후확인', fileData)
+//      console.log('이미지 파일 확인',$('#uploadFile')[0]);
+      
+      // 파일 업로드 처리 중이라 주석처리
       
       /*
       var param = {
@@ -288,7 +290,7 @@
           
         } 
         else {
-          alert('서버에서 에러가 발생했습니다');
+          swal('서버에서 에러가 발생했습니다');
         }
       }
       
@@ -297,8 +299,8 @@
       
       // AJAX호출
       //callAjax("/system/writeNotice.do", "post", "json", true, param, resultCallback);
-      callAjaxFileUploadSetFormData("/system/writeNotice.do", "post", "json", true, fileData, resultCallback);
-    
+       callAjaxFileUploadSetFormData("/system/writeNotice.do", "post", "json", true, fileData, resultCallback);
+     } // validate끝
     };
     
     /* 공지사항 단건 조회 함수 */
@@ -309,8 +311,8 @@
       param = {
           notice_id : notice_id
       }
-     
-            
+
+      
       /* 공지사항 단건 조회 콜백 함수  */
       function resultCallback(result) {
         
@@ -336,6 +338,7 @@
        $('#dt_write').show();
        $('#dt_notice').hide();
        $('.auth_block').show();
+       $('#count_cotent').show();
        
        $('#write_button').show();
        $('#modify_button').hide();
@@ -357,6 +360,7 @@
        $('#dt_write').hide();
        $('#dt_notice').show();
        $('.auth_block').hide();
+       $('#count_cotent').hide();
        
        $('#write_button').hide();
        $('#modify_button').hide();
@@ -377,6 +381,7 @@
        $('#dt_write').show();
        $('#dt_notice').hide();
        $('.auth_block').show();
+       $('#count_cotent').show();
        
        $('#write_button').hide();
        $('#modify_button').show();
@@ -404,7 +409,7 @@
         $("#notice_auth").val(result.auth);
       }
       else {
-        alert('서버에서 에러가 발생했습니다');
+        swal('서버에서 에러가 발생했습니다');
       }
     }
     
@@ -430,7 +435,7 @@
           selectList();
         } 
         else {
-          alert('서버에서 에러가 발생했습니다.')
+          swal('서버에서 에러가 발생했습니다.')
         }
       }
       
@@ -461,7 +466,7 @@
            
           } 
           else {
-            alert('서버에서 에러가 발생했습니다');
+            swal('서버에서 에러가 발생했습니다');
           }
         };
         
@@ -501,7 +506,10 @@
         
         // 수정은 단건 조회에서 불러온 데이터를 그대로 가지고
         // 모달만 변경시키면 된다.
+        // 추가:글자수 카운팅 설정
         swapModal(identifier);
+        var count = $('#notice_content').val().length;
+        document.getElementById("count").innerHTML = count;
         
       }
     }
@@ -538,6 +546,7 @@
           $('#notice_auth').val('0');
         }
       }
+       
     }
     
     // 검색폼 검증
@@ -555,10 +564,6 @@
       today = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) 
                + '-' + ('0' + today.getDate()).slice(-2);
      
-      console.log('오늘확인', today)
-      console.log('latterDate확인', latterDate)
-      console.log('날짜비교',latterDate > today);
-      
      
       if(formerDate && !latterDate) {
         swal('기간을 설정해 주세요');
@@ -718,7 +723,7 @@
               <tr>
                 <th scope="row">제목</th>
                 <td colspan="3">
-                  <input type="text" class="inputTxt p100" name="notice_title" id="notice_title" autocomplete="off" placeholder="최대 100자까지 입력 가능합니다"/></td>
+                  <input type="text" class="inputTxt p100" name="notice_title" id="notice_title" autocomplete="off" placeholder="최대 100자까지 입력 가능합니다" required/></td>
               </tr>
               <tr id="datice_date_block">
                 <th scope="row">작성시간</th>
@@ -727,16 +732,16 @@
               <tr>
                 <th scope="row">내용</th>
                 <td colspan="3">
-                  <textarea class="inputTxt p100" name="notice_content" id="notice_content" maxlength="1000" placeholder="최대 1000자까지 입력 가능합니다"/></textarea>
-                  <p class="pull-right"><span id="count">0</span>/1000</p>
+                  <textarea class="inputTxt p100" name="notice_content" id="notice_content" placeholder="최대 1000자까지 입력 가능합니다" required></textarea>
+                  <p class="pull-right" id="count_cotent"><span id="count">0</span>/1000</p>
                 </td>
               </tr>
                <tr id="add_file" class="">
-                 <th scope="row">첨부파일(글작성)</th>
-                   <td colspan="3"><input type="file" class="inputTxt p100" accept="image/*" /></td>
+                 <th scope="row">첨부파일</th>
+                   <td colspan="3"><input type="file" class="inputTxt p100" id="uploadFile" accept="image/*" /></td>
                </tr>
                <tr id="modify_file">
-                  <th scope="row">첨부파일(글수정)</th>
+                  <th scope="row">첨부파일</th>
                   <td colspan="3"><input type="file" class="inputTxt p100" accept="image/*"/></td>
                </tr>
               <tr>
@@ -752,12 +757,12 @@
                       <!-- 공지사항 신규 작성 버튼 -->
                       <button class="btn-default btn-sm" id="write_button">저장</button>
                       <!-- 공지사항 수정글 작성 버튼 -->
-                      <button class="btn-default btn-sm" id="modify_button">글수정저장</button>
+                      <button class="btn-default btn-sm" id="modify_button">저장</button>
                       <button class="btn-default btn-sm" id="modify_modal_button">수정</button>
                       <button class="btn-default btn-sm" id="delete_button">삭제</button>
                       <button class="btn-default btn-sm" id="close_button">취소</button>
-                   </c:if>
                     </div>
+                  </c:if>
                 </td>
               </tr>
             </tbody>

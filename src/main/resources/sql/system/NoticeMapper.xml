@@ -113,7 +113,13 @@
     INSERT INTO 
                 tb_scm_notice(title, content, date, view_cnt, auth)
          VALUES 
-                (#{title}, #{content}, NOW(),0, #{auth})
+                (
+                  #{title}, 
+                  #{content}, 
+                  NOW(),
+                  0, 
+                  #{auth}
+                 )
   
   </insert>  
   
@@ -132,6 +138,33 @@
     DELETE FROM tb_scm_notice
           WHERE notice_id = #{notice_id}
   </delete>
-
+  
+  <!-- 파일 업로드를 위해  file_no 조회 -->
+  <select id="selectFileNo" resultType="int">
+   SELECT IFNULL(max(file_no), 0) + 1
+     FROM tb_file
+  </select>
+    
+  <!-- 파일 업로드 -->
+  <insert id="insertFile">
+  
+     INSERT INTO tb_file
+                 (
+                  file_no, 
+                  file_local_path, 
+                  file_relative_path, 
+                  file_ofname, 
+                  file_size
+                  )
+          VALUES (
+                  #{file_no}, 
+                  #{file_local_path}, 
+                  #{file_relative_path}, 
+                  #{file_ofname}, 
+                  #{file_size}
+                  )
+  
+  </insert>
+ 
 </mapper>
 

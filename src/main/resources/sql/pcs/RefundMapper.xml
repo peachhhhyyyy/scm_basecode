@@ -8,6 +8,7 @@
      SELECT 
            pur.purch_list_no
          , pur.order_cd
+         , pur.return_price
          , DATE_FORMAT(pur.return_date, '%Y-%m-%d') as return_date
          , pur.return_qty
          , sup.supply_nm
@@ -28,7 +29,6 @@
              <if test="keyword != ''">
                <choose>
                  <when test="option eq 'all'.toString()">
-                   
                    AND (
                            sup.supply_nm LIKE CONCAT('%', #{keyword}, '%')
                         OR pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
@@ -37,7 +37,6 @@
                    <if test="date != ''">
                     AND DATE(pur.return_date) = (#{date})
                    </if>
-                   
                  </when>
                  
                  <when test="option eq 'supply'.toString()">
@@ -46,21 +45,17 @@
                    <if test="date != ''">
                      AND DATE(pur.return_date) = (#{date})
                    </if>
-                 
                  </when>
                 
                  <when test="option eq 'category'.toString()">
                    AND pro.m_ct_cd LIKE CONCAT('%', #{keyword}, '%')
-                  
                    <if test="date != ''">
                      AND DATE(pur.return_date) = (#{date})
                    </if>
-                   
                  </when>
                 
                  <when test="option eq 'product'.toString()">
                    AND pro.prod_nm LIKE CONCAT('%', #{keyword}, '%')
-                  
                    <if test="date != ''">
                      AND DATE(pur.return_date) = (#{date})
                    </if>
@@ -175,11 +170,11 @@
          , sup.supply_nm
          , sup.supply_cd
          , pro.prod_nm
-         , pro.m_ct_cd
          , pro.product_cd
          , war.warehouse_cd
          , war.warehouse_nm
          , war.addr
+         , cat.m_ct_nm 
          
       FROM tb_scm_purchase_list pur
            LEFT JOIN tb_order ord
@@ -190,6 +185,8 @@
            ON pro.supply_cd = sup.supply_cd
            LEFT JOIN tb_scm_warehouse war
            ON sup.warehouse_cd = war.warehouse_cd
+           LEFT JOIN tb_scm_m_category  cat
+           ON pro.m_ct_cd = cat.m_ct_cd
     WHERE pur.purch_list_no = #{purch_list_no}
        
   </select>
@@ -202,5 +199,13 @@
      WHERE purch_list_no = #{purch_list_no} AND return_date IS NULL
   
   </update>
+  
+  <!-- 환불액 입금 처리 -->
+  <insert id="insertAmt">
+  
+   INSERT INTO tb_acc_slip(slip_no, account_cd, detail_account_cd, occur_date, order_cd, amt, direct_id, client_cd) 
+         VALUES ((SELECT IFNULL(MAX(slip_no) + 1, 1) FROM tb_acc_slip  t1),'A100', '101', now(), #{order_cd}, #{return_price}, #{direct_id}, #{supply_cd})
+
+  </insert>
    
 </mapper>

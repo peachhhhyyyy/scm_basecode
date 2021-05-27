@@ -31,4 +31,9 @@ public interface NoticeDao {
   // 공지사항 삭제
   public int deleteNotice(Map<String, Object> param);
   
+  // 파일 업로드를 위해  file_no 조회
+  public int selectFileNo();
+  
+  // 파일 정보 
+  
 }

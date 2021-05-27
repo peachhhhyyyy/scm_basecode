@@ -189,12 +189,21 @@
   }
 
   /* 반품 완료 처리 */
-  function insertReturnDate(purch_list_no, currentPage) {
-    
+  function insertReturnDate(purch_list_no, currentPage, order_cd, supply_cd) {
+   
+    // tb_acc_slip 에 사용될 값 가져오기
+    var return_price = $('#return_price').val();
+   
     var param = {
+        
       purch_list_no : purch_list_no,
+      return_price : return_price,
+      order_cd : order_cd, 
+      supply_cd: supply_cd,
+      
     }
-
+    
+    // 콜백 함수
     function resultCallback(data) {
       
       if (data == 1) {
