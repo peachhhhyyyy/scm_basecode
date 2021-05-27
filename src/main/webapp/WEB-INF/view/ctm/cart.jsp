@@ -64,6 +64,7 @@ input[type=number]::-webkit-outer-spin-button {
     var btnId;
     var pdcdarr = Array();
     var pdcd;
+    var checkCnt;
     
     /** OnLoad event */ 
 
@@ -272,46 +273,77 @@ input[type=number]::-webkit-outer-spin-button {
         }
     });
     
-    // set content
-    orderModal.setContent('<h1>주문하시겠습니까?</h1>');
-    
-    // add a button
-    orderModal.addFooterBtn('주문', 'tingle-btn tingle-btn--primary', function() {
-      orderModal.close();
-    });
+ 
+	// set content
+	orderModal.setContent('<h1>주문하시겠습니까?</h1>');
 
-    // add another button
-    orderModal.addFooterBtn('취소', 'tingle-btn tingle-btn--danger', function() {
-      orderModal.close();
-    });
-    
-    function fOrderModal() {
-    	var chkbox = $('.checkSelect');
-    	
-    	pdcdarr.splice(0, pdcdarr.length);
-      
-      //console.log("chkbox.length : " + chkbox.length);
-      
-      for(i=0; i<chkbox.length; i++){
-    	  
-    	  //console.log("i : " + i + " chkbox[i].checked : " + chkbox[i].checked);
-        if(chkbox[i].checked == true){
-          btnId = chkbox[i].id;
-          pdcd = btnId.split('_',2);
-          pdcdarr.push(pdcd[1]);
-          
-          //console.log("btnId : " + btnId + " pdcd[1] : " + pdcd[1]);
-        }
-      }
+	// add a button
+	orderModal.addFooterBtn('주문', 'tingle-btn tingle-btn--primary', function() {
 
-      //console.log("pdcdarr::" + pdcdarr);
-      $("#pdcdArray").val(pdcdarr);
-      
-      //console.log("pdcd::" + $("#pdcdArray").val().toString());
-      
-      orderModal.open();
-    };    
-        
+		var resultCallback = function(data) {
+			fOrderCartItemResult(data);
+		};
+
+		callAjax("/ctm/orderCartItem.do", "post", "json", true, $("#myForm").serialize(), resultCallback);
+		orderModal.close();
+	});
+
+	// add another button
+	orderModal.addFooterBtn('취소', 'tingle-btn tingle-btn--danger', function() {
+		orderModal.close();
+	});
+
+	function fOrderModal() {
+		var chkbox = $('.checkSelect');
+
+		pdcdarr.splice(0, pdcdarr.length);
+
+		for (i = 0; i < chkbox.length; i++) {
+
+			if (chkbox[i].checked == true) {
+				btnId = chkbox[i].id;
+				pdcd = btnId.split('_', 2);
+				pdcdarr.push(pdcd[1]);
+			}
+		}
+
+		$("#pdcdArray").val(pdcdarr);
+
+		console.log("pdcd::" + $("#pdcdArray").val());
+
+		var checkValue = {};
+
+		$.each($('#myForm').serializeArray(), function() {
+			checkValue[this.name] = this.value;
+		});
+
+		for (i = 0; i < chkbox.length; i++)
+			if (chkbox[i].checked == true) {
+				console.log("checkValueProdnm  : " + i + checkValue.listprodnm);
+				console.log("checkValueQty  :" + checkValue.qtyCount);
+				console.log("checkValuePrice  : " + checkValue.listprice);
+			}
+		orderModal.open();
+	};
+
+	/** 장바구니 주문 콜백 함수 */
+
+	function fOrderCartItemResult(data) {
+
+		var currentPage = $("#currentPageCart").val();
+
+		if (data.result == "SUCCESS") {
+
+			// 모달 닫기
+			deleteModal.close();
+
+			// 장바구니 목록 조회
+			fListCart(currentPage);
+
+		} else {
+			swal(data.resultMsg);
+		}
+	}
 </script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/tingle/tingle.js"></script>
 </head>
