@@ -277,7 +277,7 @@ input[type=number]::-webkit-outer-spin-button {
 	// set content
 	orderModal.setContent('<h1>주문하시겠습니까?</h1>');
 
-	// add a button
+	// 장바구니 주문 버튼 후의 모달 버튼 안에 있는 주문 버튼
 	orderModal.addFooterBtn('주문', 'tingle-btn tingle-btn--primary', function() {
 
 		var resultCallback = function(data) {

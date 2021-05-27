@@ -14,10 +14,6 @@
 	margin-left: 10px;
 }
 
-.date_container {
-	margin-top: 10px;
-}
-
 #container ul li.contents .content {
 	min-height: 800px;
 }
@@ -79,17 +75,8 @@ input[type=number]::-webkit-outer-spin-button {
 #orderListSearchBtn {
 	display: inline-block;
 	margin-left: 15px;
-}
-
-#excelExport {
-	height: 28px; 
-	width: 28px; 
-	margin-right: 10px; 
-	margin-bottom: 10px; 
-	position: absolute;
-	right: 35px;
-	top: 220px;
-
+	text-align: center;
+	padding-top: 2px;
 }
 
 #detailRefund {
@@ -102,4 +89,58 @@ input[type=number]::-webkit-outer-spin-button {
 
 #detailRefund ul li {
 	font-size: 18px;
+}
+
+.date_container1 {
+	width: 60%;
+}
+
+.orderlist.date_container {
+	margin-top: 10px;
+}
+
+#purchaseDirectionListForm,
+#refundDirectionListForm {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.refund-container {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#searchType {
+	width: 130px;
+	height: 37px;
+	margin-right: 10px;
+}
+
+input[name="keyword"] {
+	width: 400px;
+	height: 37px;
+}
+
+#purchaseDirectionListSearchBtn,
+#refundDirectionListSearchBtn,
+#orderListSearchBtn,
+#refundListSearchBtn {
+	height: 37px;	
+}
+
+#excelExport {
+	width: 30px;
+	height: 30px;
+	margin-top: 10px;
+}
+
+.date-excel-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
