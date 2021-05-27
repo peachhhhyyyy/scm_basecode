@@ -128,6 +128,7 @@ WHERE  PD.product_cd = #{product_cd}
     <update id="updateMainProduct" parameterType="java.util.Map">
       UPDATE tb_scm_product
          SET prod_nm = #{prod_nm},
+             m_ct_cd = #{m_ct_cd},
              supply_cd = #{supply_cd},
              purchase_price = #{purchase_price},
              price = #{price},
