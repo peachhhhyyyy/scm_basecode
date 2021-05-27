@@ -15,6 +15,7 @@
     <tr>
       <td>${list.m_ct_cd}</td>
       <td>${list.m_ct_nm}</td>
+      <td><a href="javascript:fPopModalMiddleCategory('${list.m_ct_cd}');" class="btnType3 color1"><span>수정</span></a></td>
     </tr>
   <c:set var="nRow" value="${nRow + 1}" />
   </c:forEach>

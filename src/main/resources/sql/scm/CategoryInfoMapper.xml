@@ -32,5 +32,12 @@ LEFT JOIN tb_scm_l_category LC ON MC.l_ct_cd = LC.l_ct_cd
     WHERE MC.l_ct_cd = #{l_ct_cd}
   </select>
   
+  <!-- 품목 단건 조회 -->
+   <select id="selectLargeCategory" resultType="kr.happyjob.study.scm.model.CategoryInfoModel" >
+     SELECT  l_ct_cd as l_ct_cd
+           , l_ct_nm as l_ct_nm
+      FROM tb_scm_l_category
+     WHERE l_ct_cd = #{l_ct_cd}
+   </select>
   
 </mapper>

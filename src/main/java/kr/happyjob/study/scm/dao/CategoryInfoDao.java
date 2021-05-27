@@ -15,4 +15,7 @@ public interface CategoryInfoDao {
  public List<CategoryInfoModel> listMiddleCategory(Map<String, Object> paramMap) throws Exception;
  //상호 목록 갯수 조회
  public int totalCntMiddleCategory(Map<String, Object> paramMap) throws Exception;
+ 
+ //품목 단건 조회
+ public CategoryInfoModel selectLargeCategory(Map<String, Object> paraMap) throws Exception;
 }

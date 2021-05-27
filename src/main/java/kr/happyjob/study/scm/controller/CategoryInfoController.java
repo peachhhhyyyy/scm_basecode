@@ -1,5 +1,6 @@
 package kr.happyjob.study.scm.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.happyjob.study.scm.model.CategoryInfoModel;
 import kr.happyjob.study.scm.service.CategoryInfoService;
@@ -82,5 +84,25 @@ public class CategoryInfoController {
     
     
     return "scm/listMiddleCategory";
+  }
+  
+  //품목 단건 조회
+  @RequestMapping("selectLargeCategory.do")
+  @ResponseBody
+  public Map<String, Object> selectLargeCategory (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+      HttpServletResponse response, HttpSession session) throws Exception{
+
+    String result = "SUCCESS";
+    String resultMsg = "조회 되었습니다.";
+    
+    CategoryInfoModel categoryInfoModel = categoryInfoService.selectLargeCategory(paramMap);
+    
+    Map<String, Object> resultMap = new HashMap<String, Object>();
+    resultMap.put("result", result);
+    resultMap.put("resultMsg", resultMsg);
+    resultMap.put("categoryInfoModel", categoryInfoModel);
+    
+    System.out.println(resultMap);
+    return resultMap;
   }
 }

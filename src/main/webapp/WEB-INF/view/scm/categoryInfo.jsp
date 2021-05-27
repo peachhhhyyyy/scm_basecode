@@ -35,7 +35,7 @@
       case 'btnDeleteLargeCategory'://삭제하기
         fDeleteLargeCategory();
         break;
-      case 'btnCloseLargeCategory':
+      case 'btnCloseCategory':
         gfCloseModal(); // 모달닫기 
         break;
       }
@@ -101,7 +101,7 @@
     };
     callAjax("/scm/listMiddleCategory.do", "post", "text", true, param, resultCallback);
   }
-  /*품목 조회 콜백 함수*/
+  /*상호 조회 콜백 함수*/
   function flistMiddleCategoryResult(data, currentPage) {
     console.log("data : " + data);
     // 상호 정보 + 품목명
@@ -122,6 +122,68 @@
     // 현재 페이지 설정
     $("#currentPageMiddleCategory").val(currentPage);
   }
+  
+  /* 품목 모달 실행 */
+  function fPopModalLargeCategory(l_ct_cd) {
+    //신규 저장
+    if (l_ct_cd == null || l_ct_cd == "") {
+      $("#action").val("I");
+      fInitFormLargeCategory();
+      gfModalPop("#largeCategory");
+    } else {
+      $("#action").val("U");
+      fSelectLargeCategory(l_ct_cd);
+    }
+  }
+  
+  /* 품목 단건 조회*/
+  function fSelectLargeCategory(l_ct_cd) {
+    var param = {
+        l_ct_cd : l_ct_cd
+    };
+    var resultCallback = function(data) {
+      fSelectLargeCategoryResult(data);
+    };
+    callAjax("/scm/selectLargeCategory.do", "post", "json", true, param,
+        resultCallback);
+  }
+  
+  // 품목 단건 조회 콜백 함수
+  function fSelectLargeCategoryResult(data) {
+    if (data.result == "SUCCESS") {
+      gfModalPop("#largeCategory")
+      fInitFormLargeCategory(data.categoryInfoModel);
+    } else {
+      alert(data.resultMsg);
+    }
+  }
+  
+  /* 품목 폼 초기화 */
+  function fInitFormLargeCategory(object) {
+    $("#l_ct_cd").focus();
+    
+    if (object == "" || object == null || object == undefined) {
+      $("#l_ct_cd").val("");
+      $("#l_ct_nm").val("");
+      
+      $("#l_ct_cd").attr("readonly", false);
+      $("#l_ct_cd").css("background", "#FFFFFF");
+      $("#l_ct_nm").attr("readonly", false);
+      $("#l_ct_nm").css("background", "#FFFFF");
+      
+      $("#btnDeleteLargeCategory").hide();
+    } else{
+      $("#l_ct_cd").val(object.l_ct_cd);
+      $("#l_ct_nm").val(object.l_ct_nm);
+ 
+      $("#l_ct_cd").attr("readonly", true);
+      $("#l_ct_cd").css("background", "#F5F5F5");
+      $("#l_ct_nm").attr("readonly", false);
+      $("#l_ct_nm").css("background", "#FFFFFF");
+      
+      $("#btnDeleteLargeCategory").show();
+    } 
+  } 
 </script>
 </head>
 <body>
@@ -157,13 +219,15 @@
                 <table class="col">
                   <caption>caption</caption>
                   <colgroup>
-                    <col width="10%">
+                    <col width="45%">
+                    <col width="45%">
                     <col width="10%">
                   </colgroup>
                   <thead>
                     <tr>
                       <th scope="col">품목코드</th>
                       <th scope="col">품목명</th>
+                      <th scope="col">비고</th>
                     </tr>
                   </thead>
                   <tbody id="listLargeCategory"></tbody>
@@ -183,13 +247,15 @@
                         <table class="col">
                              <caption>caption</caption>
                              <colgroup>
-                                 <col width="15%">
-                                 <col width="15%">
+                                 <col width="45%">
+                                 <col width="45%">
+                                 <col width="10%">
                              </colgroup>
                         <thead>
                              <tr>
                                 <th scope="col">상호코드</th>
                                 <th scope="col">상호명</th>
+                                <th scope="col">비고</th>
                              </tr>
                         </thead>
                         <tbody id="listMiddleCategory">
@@ -206,6 +272,48 @@
           </li>
         </ul>
       </div>
+    </div>
+    
+    <div id="largeCategory" class="layerPop layerType2" style="width: 600px;"> 
+      <dl>
+        <dt>
+          <strong>품목 관리</strong>
+        </dt>
+        <dd class="content">
+          <table class="row">
+            <caption>caption</caption>
+            <colgroup>
+              <col width="120px">
+              <col width="*">
+              <col width="120px">
+              <col width="*">
+            </colgroup>
+            <tbody>
+              <tr>
+                <th scope="row">품목코드 <span class="font_red">*</span></th>
+                 <td colspan=3><input type="text" class="inputTxt p100"
+                  name="l_ct_cd" id="l_ct_cd" maxlength="100"/></td>
+              </tr>
+              <tr>
+                <th scope="row">품목명 <span class="font_red">*</span></th>
+                 <td><input type="text" class="inputTxt p100"
+                  name="l_ct_nm" id="l_ct_nm" maxlength="20"/></td>
+              </tr>
+            </tbody>
+          </table>
+          
+          
+          <div class="btn_areaC mt30">
+            <a href="" class="btnType blue" id="btnSaveLargeCategory" name="btn"><span>저장</span></a>
+            <a href="" class="btnType blue" id="btnDeleteLargeCategory" name="btn"><span>삭제</span></a>  
+            <a href="" class="btnType gray" id="btnCloseCategory" name="btn"><span>닫기</span></a>
+            
+          </div>
+        
+       
+        </dd>
+      </dl>
+      <a href="" class="closePop" id="btnClose" name="btn"><span class="hidden">닫기</span></a>
     </div>
   </form>
 </body>

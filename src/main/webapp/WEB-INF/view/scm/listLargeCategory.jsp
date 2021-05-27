@@ -11,6 +11,7 @@
     <tr>
       <td>${list.l_ct_cd}</td>
       <td><a href="javascript:callfListMiddleCategory('${list.l_ct_nm}','${list.l_ct_cd}');">${list.l_ct_nm}</a></td>
+      <td><a href="javascript:fPopModalLargeCategory('${list.l_ct_cd}');" class="btnType3 color1"><span>수정</span></a></td>
     </tr>
     <c:set var="nRow" value="${nRow + 1}" />
   </c:forEach>
