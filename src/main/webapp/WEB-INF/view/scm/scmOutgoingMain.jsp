@@ -36,10 +36,39 @@
 				callAjax("/scm/scmOutgoingList.do", "post", "text", true, param, resultCallback);
 			 }
 	         
-	         // 반품지시서 콜백 함수
+	         // 검색조건 기준 조회
+	         function fSearchOrderList(currentPage){
+	        	 
+	        	 currentPage = currentPage || 1;
+	        	 
+	        	 var param = $('#outgoingListForm').serialize();
+	        	 
+	        	 param += "&currentPage="+currentPage;
+	        	 param += "&pageSize="+pageSizeinfo;
+	        	 
+	        	 console.log("form에서 넘어온 값 : " + param)
+	        	 
+	        	 var startDate = $('#startDate').val();
+                 var endDate = $('#endDate').val();
+
+                 // 날짜가 올바르지 않거나 널값인 경우 랜딩
+                 if(startDate > endDate){
+                	 swal("\n 시작 날짜가 종료날짜보다 클 수 없습니다. \n 다시 입력해주세요.").then(function (){
+                         window.location.reload();
+                   })
+                 }
+	        	 
+	        	 var resultCallback =  function(data){
+	        		 fOutgoingListResult(data, currentPage);
+	        	 }
+	        	 
+	        	 callAjax("/scm/scmOutgoingList.do", "post", "text", true, param, resultCallback);
+	         }
+	         
+	         // 배송지시서 콜백 함수
 	         function fOutgoingListResult(data, currentPage) {
 	        	 
-	        	    console.log("콜백함수 data : "+data)
+	        	    console.log("콜백함수 data : " + data)
 
 	        	 
 	        	    // 기존 목록 삭제, 신규 데이터 삽입
@@ -49,56 +78,11 @@
 	        	    var totCnt = $("#totCnt").val();
 	        	    
 	        	    // 페이지 네비게이션 생성
-	        	    var paginationHtml = getPaginationHtml(currentPage, totCnt, pageSizeinfo, pageBlockSizeinquiry, 'fOutgoingList');
+	        	    var paginationHtml = getPaginationHtml(currentPage, totCnt, pageSizeinfo, pageBlockSizeinquiry, 'fSearchOrderList');
 	        	   // 현재 페이지 설정
 	        	    $("#listInfPagination").empty().append(paginationHtml);
         	  }
 	         
-	         // 검색조건 기준 조회
-	         function fSearchOrderList(){
-	        	 
-	        	 var param = $('#outgoingListForm').serialize();
-	        	 
-	        	 param += "&currentPage="+$('#currentPage').val();
-	        	 param += "&pageSize="+pageSizeinfo
-	        	 
-	        	 console.log("form에서 넘어온 값 : " + param)
-	        	 
-	        	 currentPage = currentPage || 1;
-	        	 
-	        	 var startDate = $('#startDate').val();
-                 var endDate = $('#endDate').val();
-
-                 // 날짜가 올바르지 않거나 널값인 경우 랜딩
-                 if(startDate > endDate){
-                     alert("시작일자는 종료일자보다 클 수가 없습니다.");
-                     location.href= "/scm/scmOutgoingMain.do";
-                 }
-	        	 
-	        	 var resultCallback =  function(data){
-	        		 fSearchOrderListResult(data, $('#currentPage').val());
-	        	 }
-	        	 
-	        	 callAjax("/scm/scmOutgoingList.do", "post", "text", true, param, resultCallback);
-	         }
-	         
-	         // 검색조건 기준 조회 결과 콜백 함수
-             function fSearchOrderListResult(data, currentPage) {
-                    //alert(data);
-                    // console.log(data);
-                    
-                    // 기존 목록 삭제
-                    $('#outgoingList').empty();
-                    // 신규 목록 생성
-                    $("#outgoingList").append(data);
-                    // 총 개수 추출
-                    var totCnt = $("#totCnt").val();
-                    // 페이지 네비게이션 생성
-                    var paginationHtml = getPaginationHtml(currentPage, totCnt, 
-                            pageSizeinfo, pageBlockSizeinquiry, 'fSearchOrderList');
-                   // 현재 페이지 설정
-                    $("#listInfPagination").empty().append(paginationHtml);
-              }
 	         
              /* 배송지시서 상세 조회*/
              function fOutgoingDetailList(ship_list_no) {
