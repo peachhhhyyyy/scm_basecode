@@ -10,7 +10,7 @@
   <c:forEach items="${listLargeCategoryModel}" var="list">
     <tr>
       <td>${list.l_ct_cd}</td>
-      <td>${list.l_ct_nm}</td>
+      <td><a href="javascript:callfListMiddleCategory('${list.l_ct_nm}','${list.l_ct_cd}');">${list.l_ct_nm}</a></td>
     </tr>
     <c:set var="nRow" value="${nRow + 1}" />
   </c:forEach>

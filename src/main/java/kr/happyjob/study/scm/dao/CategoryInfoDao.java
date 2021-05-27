@@ -10,4 +10,9 @@ public interface CategoryInfoDao {
  public List<CategoryInfoModel> listLargeCategory(Map<String, Object> paramMap) throws Exception;
  //품목 목록 갯수 조회
  public int totalCntLargeCategory(Map<String, Object> paramMap) throws Exception;
+ 
+ //상호 목록 조회
+ public List<CategoryInfoModel> listMiddleCategory(Map<String, Object> paramMap) throws Exception;
+ //상호 목록 갯수 조회
+ public int totalCntMiddleCategory(Map<String, Object> paramMap) throws Exception;
 }

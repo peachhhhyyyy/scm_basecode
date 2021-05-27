@@ -54,4 +54,33 @@ public class CategoryInfoController {
     
     return "scm/listLargeCategory";
   }
+  
+  //상호 조회
+  @RequestMapping("listMiddleCategory.do")
+  public String listMiddleCategory(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+      HttpServletResponse response, HttpSession session) throws Exception{
+    
+    int currentPage = Integer.parseInt((String)paramMap.get("currentPage"));  // 현재 페이지 번호
+    int pageSize = Integer.parseInt((String)paramMap.get("pageSize"));      // 페이지 사이즈
+    int pageIndex = (currentPage-1)*pageSize;                 // 페이지 시작 row 번호
+    
+    
+    paramMap.put("pageIndex", pageIndex);
+    paramMap.put("pageSize", pageSize);
+   
+    
+    // 제품 목록 조회
+    List<CategoryInfoModel> listMiddleCategoryModel = categoryInfoService.listMiddleCategory(paramMap);
+    model.addAttribute("listMiddleCategoryModel", listMiddleCategoryModel);
+    
+    // 제품 목록 카운트 조회
+    int totalCount = categoryInfoService.totalCntMiddleCategory(paramMap);
+    model.addAttribute("totalMiddleCategory", totalCount);
+    
+    model.addAttribute("pageSize", pageSize);
+    model.addAttribute("currentPageMiddleCategory",currentPage);
+    
+    
+    return "scm/listMiddleCategory";
+  }
 }

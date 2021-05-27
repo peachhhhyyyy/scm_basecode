@@ -10,4 +10,9 @@ public interface CategoryInfoService {
   List<CategoryInfoModel> listLargeCategory(Map<String, Object> paramMap) throws Exception;
   /* 품목 목록 카운트 조회*/
   int totalCntLargeCategory(Map<String, Object> paramMap) throws Exception;
+  
+  /* 상호 목록 조회*/
+  List<CategoryInfoModel> listMiddleCategory(Map<String, Object> paramMap) throws Exception;
+  /* 상호 목록 카운트 조회*/
+  int totalCntMiddleCategory(Map<String, Object> paramMap) throws Exception;
 }
