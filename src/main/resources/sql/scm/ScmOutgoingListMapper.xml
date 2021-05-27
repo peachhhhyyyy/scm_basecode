@@ -48,8 +48,6 @@
                         AND TSSL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%') 
                         OR CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
                     </if>
-                    AND CUSTOMER.user_type = "J"
-                    AND TSSL.user_type = "E"
                 </otherwise>
             </choose>
             <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
@@ -101,8 +99,6 @@
                         AND TSSL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%') 
                         OR CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
                     </if>
-                    AND CUSTOMER.user_type = "J"
-                    AND TSSL.user_type = "E"
                 </otherwise>
             </choose>
             <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
