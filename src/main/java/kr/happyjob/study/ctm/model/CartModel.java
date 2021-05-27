@@ -1,7 +1,9 @@
 package kr.happyjob.study.ctm.model;
 
-public class CartModel {
+import java.util.Date;
 
+public class CartModel {
+	
 	private int row_num;
 
 	/* 제품명 */
@@ -36,6 +38,15 @@ public class CartModel {
 	
 	/* 장바구니 총 가격 */
 	private int totalAmount;
+	
+	/* 배송희망날짜 */
+	private Date want_receive_date;
+
+	/* 요구사항 */
+	private String request;
+	
+	/* 체크된 장바구니 제품코드 리스트 */
+	private String[] pdcdarr;
 
 	public int getRow_num() {
 		return row_num;
@@ -131,6 +142,30 @@ public class CartModel {
 
 	public void setTotalAmount(int totalAmount) {
 		this.totalAmount = totalAmount;
+	}
+
+	public String[] getPdcdarr() {
+		return pdcdarr;
+	}
+
+	public void setPdcdarr(String[] pdcdarr) {
+		this.pdcdarr = pdcdarr;
+	}
+	
+	public Date getWant_receive_date() {
+		return want_receive_date;
+	}
+
+	public void setWant_receive_date(Date want_receive_date) {
+		this.want_receive_date = want_receive_date;
+	}
+
+	public String getRequest() {
+		return request;
+	}
+
+	public void setRequest(String request) {
+		this.request = request;
 	}
 	
 }

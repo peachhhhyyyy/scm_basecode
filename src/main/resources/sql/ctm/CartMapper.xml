@@ -41,11 +41,57 @@
 	
 	<!-- 장바구니 총 합계 금액 출력 -->
 	<select id="totalCartPrice" resultType="int">
-		SELECT SUM(rowAmount.row) AS totalAmount
+		SELECT IFNULL(SUM(rowAmount.row),0) AS totalAmount
  		  FROM (SELECT sc.shopping_cart_qty * pd.price AS row      
          		  FROM tb_shopping_cart sc
              		 , tb_scm_product pd
         		 WHERE sc.loginID = #{loginID} AND sc.product_cd = pd.product_cd ) AS rowAmount
 	</select>
+  <!-- 
+    장바구니 주문
+  <insert id="listCartOrder">
+  /*kr.kosmo.jobkorea.system.dao.CartDao.listCartOrder*/
+    INSERT INTO tb_order (
+                order_cd
+              , loginID
+              , product_cd
+              , order_date
+              , want_receive_date
+              , order_cnt
+              , amount
+              , tax
+              , warehouse_cd
+              , offline
+              , request
+              , STTcd
+              , deposit_yn
+              , cart_cd
+              ) 
+         SELECT 
+                123
+              , #{loginID}
+              , sc.product_cd
+              , #{order_date}
+              , #{want_receive_date}
+              , sc.shopping_cart_qty
+              , sp.price * sc.shopping_cart_qty
+              , sp.prict / 10 * sc.shopping_cart
+              , sp.warehouse_cd
+              , 'n'
+              , #{request}
+              , 1
+              , 'n'
+              , sc.cart_cd 
+           FROM tb_shopping_cart sc
+              , tb_scm_product sp
+          WHERE sc.product_cd = sp.product_cd
+  
+  </insert>
+  <delete id="listCartOrder">
+    /*kr.kosmo.jobkorea.system.dao.CartDao.listCartOrder*/
+    DELETE FROM tb_shopping_cart 
+          WHERE product_cd = #{product_cd} AND loginID = #{loginID}
+  </delete>
+   -->
 </mapper>
 

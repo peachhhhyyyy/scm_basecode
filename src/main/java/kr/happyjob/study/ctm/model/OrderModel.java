@@ -1,86 +1,84 @@
-/*package kr.happyjob.study.ctm.model;
+package kr.happyjob.study.ctm.model;
 
 public class OrderModel {
+	// 제품 코드
+	private String product_cd;
+	// 제품명
+	private String prod_nm;
+	// 품목명
+	private String l_ct_nm;
+	// 상호명
+	private String m_ct_nm;
+	// 제품단가(원)
+	private int price;
+	// 중분류 코드(for JOIN)
+	private String m_ct_cd;
+	// 대분류 코드(for JOIN)
+	private String l_ct_cd;
+	// 제품 상세 정보
+	private String detail;
 
-	private String bbs_id;
-	private String snm;
-	private String atmt_fil_lgc_fil_nm;
-	private String atmt_fil_psc_fil_nm;
-	private String fil_siz;
-	private String fil_ets;
-	*//**
-	 * @return the bbs_id
-	 *//*
-	public String getBbs_id() {
-		return bbs_id;
+	public String getL_ct_cd() {
+		return l_ct_cd;
 	}
-	*//**
-	 * @param bbs_id the bbs_id to set
-	 *//*
-	public void setBbs_id(String bbs_id) {
-		this.bbs_id = bbs_id;
+
+	public void setL_ct_cd(String l_ct_cd) {
+		this.l_ct_cd = l_ct_cd;
 	}
-	*//**
-	 * @return the snm
-	 *//*
-	public String getSnm() {
-		return snm;
+
+	public String getM_ct_nm() {
+		return m_ct_nm;
 	}
-	*//**
-	 * @param snm the snm to set
-	 *//*
-	public void setSnm(String snm) {
-		this.snm = snm;
+
+	public void setM_ct_nm(String m_ct_nm) {
+		this.m_ct_nm = m_ct_nm;
 	}
-	*//**
-	 * @return the atmt_fil_lgc_fil_nm
-	 *//*
-	public String getAtmt_fil_lgc_fil_nm() {
-		return atmt_fil_lgc_fil_nm;
+
+	public String getProduct_cd() {
+		return product_cd;
 	}
-	*//**
-	 * @param atmt_fil_lgc_fil_nm the atmt_fil_lgc_fil_nm to set
-	 *//*
-	public void setAtmt_fil_lgc_fil_nm(String atmt_fil_lgc_fil_nm) {
-		this.atmt_fil_lgc_fil_nm = atmt_fil_lgc_fil_nm;
+
+	public void setProduct_cd(String product_cd) {
+		this.product_cd = product_cd;
 	}
-	*//**
-	 * @return the atmt_fil_psc_fil_nm
-	 *//*
-	public String getAtmt_fil_psc_fil_nm() {
-		return atmt_fil_psc_fil_nm;
+
+	public String getProd_nm() {
+		return prod_nm;
 	}
-	*//**
-	 * @param atmt_fil_psc_fil_nm the atmt_fil_psc_fil_nm to set
-	 *//*
-	public void setAtmt_fil_psc_fil_nm(String atmt_fil_psc_fil_nm) {
-		this.atmt_fil_psc_fil_nm = atmt_fil_psc_fil_nm;
+
+	public void setProd_nm(String prod_nm) {
+		this.prod_nm = prod_nm;
 	}
-	*//**
-	 * @return the fil_siz
-	 *//*
-	public String getFil_siz() {
-		return fil_siz;
+
+	public String getL_ct_nm() {
+		return l_ct_nm;
 	}
-	*//**
-	 * @param fil_siz the fil_siz to set
-	 *//*
-	public void setFil_siz(String fil_siz) {
-		this.fil_siz = fil_siz;
+
+	public void setL_ct_nm(String l_ct_nm) {
+		this.l_ct_nm = l_ct_nm;
 	}
-	*//**
-	 * @return the fil_ets
-	 *//*
-	public String getFil_ets() {
-		return fil_ets;
+
+	public int getPrice() {
+		return price;
 	}
-	*//**
-	 * @param fil_ets the fil_ets to set
-	 *//*
-	public void setFil_ets(String fil_ets) {
-		this.fil_ets = fil_ets;
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
-	
-	
+
+	public String getM_ct_cd() {
+		return m_ct_cd;
+	}
+
+	public void setM_ct_cd(String m_ct_cd) {
+		this.m_ct_cd = m_ct_cd;
+	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
 }
-*/

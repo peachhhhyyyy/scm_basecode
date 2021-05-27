@@ -36,7 +36,7 @@ public class CartController {
 	private final String className = this.getClass().toString();
 	
 	
-	/* 장바구니 초기화면 호출   */
+	/** 장바구니 초기화면 호출   */
 	@RequestMapping("cart.do")
 	public String totalCartPrice(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
@@ -55,9 +55,7 @@ public class CartController {
 		return "ctm/cart"; /* 호출할 jsp 파일명 */
 	}
 	
-	/**
-	 * 장바구니 목록 조회
-	 */
+	/** 장바구니 목록 조회  */
 	@RequestMapping("listCart.do")
 	public String listCart(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws Exception {
@@ -90,9 +88,7 @@ public class CartController {
 		return "ctm/cartList";
 	}	
 	
-	 /**
-	   * 장바구니 삭제
-	   */
+	 /** 장바구니 삭제  */
 	  @RequestMapping("deleteCartItem.do")
 	  @ResponseBody
 	  public Map<String, Object> deleteCartItem(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
@@ -116,6 +112,7 @@ public class CartController {
 	    return resultMap;
 	  }
 	  
+	  /** 장바구니 수량 변경  */
 	  @RequestMapping("changeQty.do")
 	  @ResponseBody
 	  public Map<String, Object> changeQty(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
@@ -141,5 +138,38 @@ public class CartController {
 	    return resultMap;
 	  }
 	  
+	  /** 장바구니 주문  */
+	  @RequestMapping("orderCartItem.do")
+	  @ResponseBody
+	  public Map<String, Object> orderCartItem(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			  HttpServletResponse response, HttpSession session) throws Exception {
+	    
+	    logger.info("+ Start " + className + ".orderCartItem");
+	    logger.info("   - paramMap : " + paramMap);
+	    
+	    int checkCnt =  Integer.parseInt((String)paramMap.get("checkCnt"));
+		
+		String cartOrderListPdcdArr = (String) paramMap.get("cartOrderListPdcdArr");
+		String[] cartOrderListPdcdArray = cartOrderListPdcdArr.split(",");
+		
+		paramMap.put("checkCnt", checkCnt);
+		paramMap.put("pdcdarr", "cartOrderListPdcdArray");
+		paramMap.put("loginID", (String) session.getAttribute("loginId")); // 로그인 아이디
+	    
+	    String result = "SUCCESS";
+	    String resultMsg = "주문 되었습니다.";
+	    
+	    // 장바구니 주문
+	    CartService.orderCartItem(paramMap);
+	    
+	    Map<String, Object> resultMap = new HashMap<String, Object>();
+	    resultMap.put("result", result);
+	    resultMap.put("resultMsg", resultMsg);
+	    
+	    logger.info("+ End " + className + ".orderCartItem");
+	    
+	    return resultMap;
+	  }
 	
+
 }

@@ -56,7 +56,15 @@ input[type=number]::-webkit-outer-spin-button {
     var pageSizeCart= 5;
     var pageBlockSizeCart = 5;
     
+    /* 화면에 뿌려주는 총 금액 */
     var totalAmount = 0;
+    
+    /* 체크박스 선택된 ID 리스트 저장 */
+    
+    var btnId;
+    var pdcdarr = Array();
+    var pdcd;
+    var checkCnt;
     
     /** OnLoad event */ 
 
@@ -116,6 +124,7 @@ input[type=number]::-webkit-outer-spin-button {
       /* 장바구니 부분 선택 구매 */
       var checkedCount = $("input[name='selectCartItem']:checked").length;
       var checkArr = $("input[name=selectCartItem]");
+
       
       /* 수량변경, 체크박스 동기화 */
       for (i = 0; i < inputCnt; i++) {
@@ -264,24 +273,77 @@ input[type=number]::-webkit-outer-spin-button {
         }
     });
     
-    // set content
-    orderModal.setContent('<h1>주문하시겠습니까?</h1>');
-    
-    // add a button
-    orderModal.addFooterBtn('주문', 'tingle-btn tingle-btn--primary', function() {
-      orderModal.close();
-    });
+ 
+	// set content
+	orderModal.setContent('<h1>주문하시겠습니까?</h1>');
 
-    // add another button
-    orderModal.addFooterBtn('취소', 'tingle-btn tingle-btn--danger', function() {
-      orderModal.close();
-    });
-    
-    function fOrderModal() {
-      console.log(orderModal);
-      orderModal.open();
-    };    
-        
+	// add a button
+	orderModal.addFooterBtn('주문', 'tingle-btn tingle-btn--primary', function() {
+
+		var resultCallback = function(data) {
+			fOrderCartItemResult(data);
+		};
+
+		callAjax("/ctm/orderCartItem.do", "post", "json", true, $("#myForm").serialize(), resultCallback);
+		orderModal.close();
+	});
+
+	// add another button
+	orderModal.addFooterBtn('취소', 'tingle-btn tingle-btn--danger', function() {
+		orderModal.close();
+	});
+
+	function fOrderModal() {
+		var chkbox = $('.checkSelect');
+
+		pdcdarr.splice(0, pdcdarr.length);
+
+		for (i = 0; i < chkbox.length; i++) {
+
+			if (chkbox[i].checked == true) {
+				btnId = chkbox[i].id;
+				pdcd = btnId.split('_', 2);
+				pdcdarr.push(pdcd[1]);
+			}
+		}
+
+		$("#pdcdArray").val(pdcdarr);
+
+		console.log("pdcd::" + $("#pdcdArray").val());
+
+		var checkValue = {};
+
+		$.each($('#myForm').serializeArray(), function() {
+			checkValue[this.name] = this.value;
+		});
+
+		for (i = 0; i < chkbox.length; i++)
+			if (chkbox[i].checked == true) {
+				console.log("checkValueProdnm  : " + i + checkValue.listprodnm);
+				console.log("checkValueQty  :" + checkValue.qtyCount);
+				console.log("checkValuePrice  : " + checkValue.listprice);
+			}
+		orderModal.open();
+	};
+
+	/** 장바구니 주문 콜백 함수 */
+
+	function fOrderCartItemResult(data) {
+
+		var currentPage = $("#currentPageCart").val();
+
+		if (data.result == "SUCCESS") {
+
+			// 모달 닫기
+			deleteModal.close();
+
+			// 장바구니 목록 조회
+			fListCart(currentPage);
+
+		} else {
+			swal(data.resultMsg);
+		}
+	}
 </script>
 <script type="text/javascript" charset="utf-8" src="${CTX_PATH}/js/tingle/tingle.js"></script>
 </head>
@@ -292,6 +354,7 @@ input[type=number]::-webkit-outer-spin-button {
   <input type="hidden" id="tmpCartNm" value="">
   <input type="hidden" name="action" id="action" value="">
   <input type="hidden" id="totalAmount" value="${totalPrice*1.1}">
+  <input type="hidden" id="pdcdArray" value="">
   
   <!-- 모달 배경 -->
   <div id="mask"></div>

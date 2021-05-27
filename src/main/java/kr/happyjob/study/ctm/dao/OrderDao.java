@@ -1,20 +1,15 @@
-/*package kr.happyjob.study.ctm.dao;
+package kr.happyjob.study.ctm.dao;
 
+import java.util.List;
 import java.util.Map;
 
-import kr.happyjob.study.dashboard.model.DashboardModel;
+import kr.happyjob.study.ctm.model.OrderModel;
 
 public interface OrderDao {
-	
-	public DashboardModel goChart(Map<String, Object> paramMap) throws Exception;
-
-	// 엔지니어 수 조회
-	public int cntEngineer(Map<String, Object> paramMap)throws Exception ;
-	// 기업 수 조회
-	public int cntCompany(Map<String, Object> paramMap)throws Exception ;
-	// 프로젝트 수 조회
-	public int cntProject(Map<String, Object> paramMap)throws Exception ;
-	
+  
+  // 공급처 목록 조회
+  public List<OrderModel> listProduct(Map<String, Object> paramMap) throws Exception;
+  // 공급처 목록 갯수 조회
+  public int totalCntProduct(Map<String, Object> paramMap) throws Exception;
 
 }
-*/
