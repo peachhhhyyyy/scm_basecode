@@ -3,56 +3,34 @@
 <mapper namespace="kr.happyjob.study.scm.dao.ScmReturnListDao">
 		<!-- 반품지시서 내역 조회 -->
 	<select id="scmReturnList" resultType="kr.happyjob.study.scm.model.ScmReturnListModel">
-		SELECT TSRL.refund_list_no AS refund_list_no
-                , TSRL.order_cd
-                , OD.order_cd
-                , CUSTOMER.cus_nm AS cus_nm
+        SELECT TSRL.refund_list_no AS refund_list_no
+                , CUSTOMER.name AS cus_nm
                 , PROD_INFO.l_ct_nm AS l_ct_nm
                 , PROD_INFO.prod_nm AS prod_nm
                 , OD.refund_cnt AS return_cnt
-                , TSRL.scm_nm AS scm_nm
-                , TSRL.approve_nm AS approve_nm
+                , SCM.name AS scm_nm
                 , DATE_FORMAT(TSRL.submit_date, '%Y-%m-%d') AS submit_date
-                , WH.warehouse_nm AS warehouse_nm
-                , OD.refund_amt
-                , PROD_INFO.supply_nm
-            FROM tb_order AS OD
+            FROM tb_scm_refund_list AS TSRL
             
-            LEFT JOIN (
-                  SELECT loginID
-                          , name AS cus_nm
-                          , user_type
-                      FROM tb_userinfo ) AS CUSTOMER
-            ON OD.loginID = CUSTOMER.loginID
+            LEFT JOIN tb_order AS OD
+            ON TSRL.order_cd = OD.order_cd
             
-            LEFT JOIN (
-                  SELECT refund.refund_list_no
-                          , refund.order_cd
-                          , refund.submit_date
-                          , scm.name AS scm_nm
-                          , approve.name AS approve_nm
-                          , scm.user_type
-                      FROM tb_scm_refund_list AS refund
-                      LEFT JOIN tb_userinfo AS scm ON refund.scm_id = scm.loginID
-                      LEFT JOIN tb_userinfo AS approve ON refund.approve_id = approve.loginID ) AS TSRL
-            ON OD.order_cd = TSRL.order_cd
+            LEFT JOIN tb_userinfo AS CUSTOMER
+            ON CUSTOMER.loginID = OD.loginID
             
-            LEFT JOIN tb_scm_warehouse AS WH
-            ON OD.warehouse_cd = WH.warehouse_cd
+            LEFT JOIN tb_userinfo AS SCM
+            ON SCM.loginID = TSRL.scm_id
             
             LEFT JOIN(
-                  SELECT TSP.product_cd
-                          , TSP.prod_nm
-                          , TSLC.l_ct_nm
-                          , TSS.supply_nm
-                      FROM tb_scm_product AS TSP
-                      LEFT JOIN tb_scm_m_category AS TSMC
-                      ON TSP.m_ct_cd = TSMC.m_ct_cd
-                      LEFT JOIN tb_scm_l_category AS TSLC
-                      ON TSMC.l_ct_cd = TSLC.l_ct_cd
-                      LEFT JOIN tb_scm_supply AS TSS
-                      ON TSP.supply_cd = TSS.supply_cd ) AS PROD_INFO
-            ON OD.product_cd = PROD_INFO.product_cd
+                 SELECT TSP.product_cd
+                         , TSP.prod_nm
+                         , TSLC.l_ct_nm
+                     FROM tb_scm_product AS TSP
+                     LEFT JOIN tb_scm_m_category AS TSMC
+                     ON TSP.m_ct_cd = TSMC.m_ct_cd
+                     LEFT JOIN tb_scm_l_category AS TSLC
+                     ON TSMC.l_ct_cd = TSLC.l_ct_cd ) AS PROD_INFO
+           ON OD.product_cd = PROD_INFO.product_cd
             
             WHERE 1 = 1
             <choose>
@@ -66,22 +44,21 @@
                     <if test='searchBox == "cus_nm"'>
                         AND CUSTOMER.user_type = "J"
                         <if test="searchInfo != null and searchInfo != ''">
-                            AND CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                            AND CUSTOMER.name LIKE CONCAT('%', #{searchInfo}, '%')
                         </if>
                     </if>
                     <if test='searchBox == "scm_nm"'>
-                        AND TSRL.user_type = "J"
+                        AND SCM.user_type = "E"
                         <if test="searchInfo != null and searchInfo != ''">
-                            AND TSRL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                            AND SCM.name LIKE CONCAT('%', #{searchInfo}, '%')
                         </if>
                     </if>
                 </when>
                 <otherwise>
                     <if test="searchBox == 'all'">
-                        AND TSRL.refund_list_no IS NOT NULL
                         <if test="searchInfo != null and searchInfo != ''">
-                            AND TSRL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%') 
-                            OR CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%') 
+                            AND SCM.name LIKE CONCAT('%', #{searchInfo}, '%') 
+                            OR CUSTOMER.name LIKE CONCAT('%', #{searchInfo}, '%') 
                             OR PROD_INFO.prod_nm LIKE CONCAT('%', #{searchInfo}, '%')
                         </if>
                     </if>
@@ -90,51 +67,35 @@
             <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
                 AND TSRL.submit_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
             </if>
-            AND TSRL.refund_list_no IS NOT NULL
+            AND TSRL.submit_date IS NOT NULL
             ORDER BY TSRL.refund_list_no DESC
             LIMIT #{pageIndex}, #{pageSize}
 	</select>
 	
 	<!--지시서 목록 카운트 -->
 	<select id="scmReturnListCnt" resultType="int">
-		SELECT COUNT(*) AS scmReturnListCnt
-            FROM tb_order AS OD
+        SELECT COUNT(*) AS scmReturnListCnt
+            FROM tb_scm_refund_list AS TSRL
             
-            LEFT JOIN (
-                  SELECT loginID
-                          , name AS cus_nm
-                          , user_type
-                      FROM tb_userinfo ) AS CUSTOMER
-            ON OD.loginID = CUSTOMER.loginID
+            LEFT JOIN tb_order AS OD
+            ON TSRL.order_cd = OD.order_cd
             
-            LEFT JOIN (
-                  SELECT refund.refund_list_no
-                          , refund.order_cd
-                          , refund.submit_date
-                          , scm.name AS scm_nm
-                          , approve.name AS approve_nm
-                          , scm.user_type
-                      FROM tb_scm_refund_list AS refund
-                      LEFT JOIN tb_userinfo AS scm ON refund.scm_id = scm.loginID
-                      LEFT JOIN tb_userinfo AS approve ON refund.approve_id = approve.loginID ) AS TSRL
-            ON OD.order_cd = TSRL.order_cd
+            LEFT JOIN tb_userinfo AS CUSTOMER
+            ON CUSTOMER.loginID = OD.loginID
             
-            LEFT JOIN tb_scm_warehouse AS WH
-            ON OD.warehouse_cd = WH.warehouse_cd
+            LEFT JOIN tb_userinfo AS SCM
+            ON SCM.loginID = TSRL.scm_id
             
             LEFT JOIN(
-                  SELECT TSP.product_cd
-                          , TSP.prod_nm
-                          , TSLC.l_ct_nm
-                          , TSS.supply_nm
-                      FROM tb_scm_product AS TSP
-                      LEFT JOIN tb_scm_m_category AS TSMC
-                      ON TSP.m_ct_cd = TSMC.m_ct_cd
-                      LEFT JOIN tb_scm_l_category AS TSLC
-                      ON TSMC.l_ct_cd = TSLC.l_ct_cd
-                      LEFT JOIN tb_scm_supply AS TSS
-                      ON TSP.supply_cd = TSS.supply_cd ) AS PROD_INFO
-            ON OD.product_cd = PROD_INFO.product_cd
+                 SELECT TSP.product_cd
+                         , TSP.prod_nm
+                         , TSLC.l_ct_nm
+                     FROM tb_scm_product AS TSP
+                     LEFT JOIN tb_scm_m_category AS TSMC
+                     ON TSP.m_ct_cd = TSMC.m_ct_cd
+                     LEFT JOIN tb_scm_l_category AS TSLC
+                     ON TSMC.l_ct_cd = TSLC.l_ct_cd ) AS PROD_INFO
+           ON OD.product_cd = PROD_INFO.product_cd
             
             WHERE 1 = 1
             <choose>
@@ -148,23 +109,22 @@
                     <if test='searchBox == "cus_nm"'>
                         AND CUSTOMER.user_type = "J"
                         <if test="searchInfo != null and searchInfo != ''">
-                            AND CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                            AND CUSTOMER.name LIKE CONCAT('%', #{searchInfo}, '%')
                         </if>
                     </if>
                     <if test='searchBox == "scm_nm"'>
-                        AND TSRL.user_type = "J"
+                        AND SCM.user_type = "E"
                         <if test="searchInfo != null and searchInfo != ''">
-                            AND TSRL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                            AND SCM.name LIKE CONCAT('%', #{searchInfo}, '%')
                         </if>
                     </if>
                 </when>
                 <otherwise>
                     <if test="searchBox == 'all'">
-	                    AND TSRL.refund_list_no IS NOT NULL
                         <if test="searchInfo != null and searchInfo != ''">
-	                        AND TSRL.scm_nm LIKE CONCAT('%', #{searchInfo}, '%') 
-	                        OR CUSTOMER.cus_nm LIKE CONCAT('%', #{searchInfo}, '%') 
-	                        OR PROD_INFO.prod_nm LIKE CONCAT('%', #{searchInfo}, '%')
+                            AND SCM.name LIKE CONCAT('%', #{searchInfo}, '%') 
+                            OR CUSTOMER.name LIKE CONCAT('%', #{searchInfo}, '%') 
+                            OR PROD_INFO.prod_nm LIKE CONCAT('%', #{searchInfo}, '%')
                         </if>
                     </if>
                 </otherwise>
@@ -172,9 +132,8 @@
             <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
                 AND TSRL.submit_date BETWEEN DATE_FORMAT(#{startDate}, '%Y-%m-%d %H:%m:%s') AND DATE_FORMAT(#{endDate}, '%Y-%m-%d %H:%m:%s')
             </if>
-            AND TSRL.refund_list_no IS NOT NULL
+            AND TSRL.submit_date IS NOT NULL
             ORDER BY TSRL.refund_list_no DESC
-            LIMIT #{pageIndex}, #{pageSize}
     </select>
     
     <select id="getReturnDetailList" resultType="kr.happyjob.study.scm.model.ScmReturnDetailListModel">
@@ -215,6 +174,6 @@
             LEFT JOIN tb_scm_l_category AS L_CATEGORY
             ON M_CATEGORY.l_ct_cd = L_CATEGORY.l_ct_cd 
             
-        WHERE refund_list_no = #{refund_list_no}
+        WHERE TSRL.refund_list_no = #{refund_list_no}
     </select>
 </mapper>
