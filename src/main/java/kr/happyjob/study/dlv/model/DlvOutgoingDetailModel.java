@@ -34,8 +34,10 @@ public class DlvOutgoingDetailModel {
 	private String arr_date;
 	// 상태
 	private String state ;
-	
+	// 요청사항
 	private String request ;
+	// 오프라인여부
+	private String offline;
 	
 	public String getShip_list_no() {
 		return ship_list_no;
@@ -140,5 +142,22 @@ public class DlvOutgoingDetailModel {
 	public void setOrder_date(String order_date) {
 		this.order_date = order_date;
 	}
+	public String getOffline() {
+		return offline;
+	}
+	public void setOffline(String offline) {
+		this.offline = offline;
+	}
+	@Override
+	public String toString() {
+		return "DlvOutgoingDetailModel [order_date=" + order_date + ", ship_list_no=" + ship_list_no + ", order_cd="
+				+ order_cd + ", l_ct_nm=" + l_ct_nm + ", prod_nm=" + prod_nm + ", order_cnt=" + order_cnt
+				+ ", name_customer=" + name_customer + ", tel_customer=" + tel_customer + ", addr=" + addr
+				+ ", name_scm=" + name_scm + ", name_delivery=" + name_delivery + ", tel_delivery=" + tel_delivery
+				+ ", warehouse_nm=" + warehouse_nm + ", arr_prev_date=" + arr_prev_date + ", arr_date=" + arr_date
+				+ ", state=" + state + ", request=" + request + ", offline=" + offline + "]";
+	}
+	
+	
 	
 }
