@@ -203,7 +203,7 @@ function numberWithCommas(x) {
       $("#supply_nm").css("background", "#F5F5F5");
       $("#warehouse_nm").css("background", "#F5F5F5");
       $("#detail").css("background", "#FFFFFF");
-      $("#thumbnail").hide();
+      $("#thumbnail").show();
       
       selectSupplierName();
 
@@ -334,13 +334,13 @@ function numberWithCommas(x) {
   }
   
  
-  // 중분류 선택 시 제품 코드 가져오기
+ /*  // 중분류 선택 시 제품 코드 가져오기
   function selectproductlistcombo() {
     var margecd = $("#m_ct_cd").val();
     productCombo("p", "product_cd", "all", margecd); // 조회 종류   l : 대분류  m : 중분류  p:중분류 제품,   Combo Name, Option("all" : 전체     "sel" : 선택 ,  중분류 코드(제품 목록 조회시 필수))  
 
     $("#m_ct_Cd").val(margecd);
-  }
+  } */
 
   /** 제품 상세정보 모달 실행 */
   function fPopModalMainProductModal(product_cd) {
