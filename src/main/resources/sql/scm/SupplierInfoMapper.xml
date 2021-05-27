@@ -31,6 +31,7 @@
       </choose>
       </if> 
     </where>
+   ORDER BY  SP.enroll_date DESC 
       LIMIT #{pageIndex}, #{pageSize}
   </select>
   <!-- 공급처 카운트 -->
@@ -70,6 +71,8 @@
       LEFT OUTER JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd
      WHERE SP.supply_cd = #{supply_cd}
      
+  
+  ORDER BY  PD.enroll_date DESC   
      LIMIT #{pageIndex}, #{pageSize}
   
   
@@ -101,19 +104,30 @@
    
    <!-- 공급처 등록 -->
    <insert id="insertSupplier" parameterType="java.util.Map">
-    INSERT INTO tb_scm_supply    (
-                               supply_nm, supply_cd, tel, supply_mng_nm, mng_tel, email, warehouse_cd
-                             )
-    VALUES
-                            (
-                               #{supply_nm},
-                               #{supply_cd},
-                               #{tel},
-                               #{supply_mng_nm},
-                               #{mng_tel},
-                               #{email},
-                               #{warehouse_cd}
-                            ) 
+    INSERT INTO tb_scm_supply (
+                                supply_nm, 
+                                supply_cd, 
+                                tel, 
+                                supply_mng_nm, 
+                                mng_tel,
+                                email, 
+                                warehouse_cd,
+                                enroll_date
+                              )
+    SELECT #{supply_nm},
+           #{supply_cd},
+           #{tel},
+           #{supply_mng_nm},
+           #{mng_tel},
+           #{email},
+           #{warehouse_cd},
+           NOW()                 
+      FROM DUAL
+     WHERE NOT EXISTS(
+                      SELECT supply_cd 
+                        FROM tb_scm_supply 
+                       WHERE supply_cd = #{supply_cd}
+                      );
    </insert>
    
    <!-- 공급처 수정 -->
@@ -130,7 +144,13 @@
    
    <!-- 공급처 삭제 -->
    <delete id="deleteSupplier" parameterType="java.util.Map">
-    DELETE FROM tb_scm_supply
-     WHERE supply_cd = #{supply_cd}
+    DELETE
+    FROM tb_scm_supply
+    WHERE supply_cd = #{supply_cd}
+    AND (
+          SELECT COUNT(*) 
+          FROM tb_scm_product 
+          WHERE supply_cd = #{supply_cd}
+        ) = 0
    </delete>
 </mapper>

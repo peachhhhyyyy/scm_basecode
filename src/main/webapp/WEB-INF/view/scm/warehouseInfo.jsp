@@ -22,8 +22,6 @@
   $(function() {
     //창고 목록 조회
     fListWarehouse();
-    //제품 정보 목록 조회
-    fListProduct();
     //버튼 이벤트 등록
     fRegisterButtonClickEvent();
     //삭제된 정보 표시 체크 클릭
@@ -131,6 +129,8 @@
   
   /*제품목록 조회 콜백 함수*/
   function flistProductResult(data, currentPage) {
+    // 창고 제품정보 + 창고명
+    $('#subTitle').text(" - " + $("#tmpwarehouse_nm").val());
     //기존 목록 삭제
     $("#listWarehouseProduct").empty();
     // 신규 목록 생성
@@ -262,8 +262,8 @@
       fListWarehouse(currentPage);
     } else {
       swal(data.resultMsg);
+      
     }
-    fInitFormWarehouse();
   }
   
   //창고 삭제
@@ -272,18 +272,17 @@
     var currentPage = "1";
     if (con){
       var resultCallback = function(data) {
-      fSaveWarehouseResult(data);
-    }
-    $("#action").val("D");
-    callAjax("/scm/saveWarehouse.do", "post", "json", true, $("#myForm").serialize(), resultCallback );
+        fSaveWarehouseResult(data);
+      }
+      
+      $("#action").val("D");
+      callAjax("/scm/saveWarehouse.do", "post", "json", true, $("#myForm").serialize(), resultCallback );
     } else {
       gfCloseModal();
-      fListWarehouse(currentPage);
-      fInitFormWarehouse();
     }
   }
   
-  //비활성화 정보 표시 체크
+  //비활성화 정보 표시 체크          <---------- 안쓰는거라 변경해야함!!!!!!!!!!
   function checkClickEvent(currentPage) {
     currentPage = currentPage || 1;
     
@@ -466,8 +465,10 @@
                 </table>
               </div>
               <div class="paging_area" id="warehousePagination"></div>
+              
+              
               <p class="conTitle mt50">
-                <span>제품정보</span>
+                <span>창고 세부정보<span id="subTitle"></span></span>
               </p>
               
               <div class="ProductList">
@@ -479,11 +480,9 @@
                     <col width="15%">
                     <col width="15%">
                     <col width="15%">
-                    <col width="15%">
                   </colgroup>
                   <thead>
                     <tr>
-                      <th scope="col">창고명</th>
                       <th scope="col">제품코드</th>
                       <th scope="col">제품명</th>
                       <th scope="col">품목명</th>
@@ -527,32 +526,32 @@
               <tr>
                 <th scope="row">창고코드<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="warehouse_cd" id="warehouse_cd" /></td>
+                  name="warehouse_cd" id="warehouse_cd" maxlength="20"/></td>
                 <th scope="row">창고명 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="warehouse_nm" id="warehouse_nm" /></td>  
+                  name="warehouse_nm" id="warehouse_nm" maxlength="50"/></td>  
               </tr>
               <tr>
                 <th scope="row">담당자ID<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100" name="wh_mng_id"
-                  id="wh_mng_id" /></td>
+                  id="wh_mng_id" maxlength="50"/></td>
                 <th scope="row">담당자명</th>
                 <td><select id="wh_mng_nm" name="wh_mng_nm" onChange="javascript:selectWarehouseMng()"></select></td>
               </tr>
               <tr>
                 <th scope="row">우편번호 <span class="font_red">*</span></th>
-                <td colspan="2"><input type="text" class="inputTxt p100" name="zip_cd" id="zip_cd" /></td>
+                <td colspan="2"><input type="text" class="inputTxt p100" name="zip_cd" id="zip_cd" maxlength="6"/></td>
                 <td><input type="button" value="우편번호 찾기" onclick="execDaumPostcode()" style="width: 130px; height: 20px;" /></td>
               </tr>
               <tr>
                 <th scope="row">주소 <span class="font_red">*</span></th>
                 <td colspan="3"><input type="text" class="inputTxt p100"
-                  name="addr" id="addr" /></td>
+                  name="addr" id="addr" maxlength="200"/></td>
               </tr>
               <tr>
                 <th scope="row">상세주소 <span class="font_red">*</span></th>
                 <td colspan="3"><input type="text" class="inputTxt p100"
-                  name="addr_detail" id="addr_detail" /></td>
+                  name="addr_detail" id="addr_detail" maxlength="200"/></td>
               </tr>
 
             </tbody>

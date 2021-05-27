@@ -30,6 +30,9 @@
     });
     //공급처명 조회 콤보박스
     selectComCombo("sp", "supply_cd", "sel", "");
+    
+    productCombo("l", "l_ct_cd", "sel", "");      /* 조회 종류   l : 대분류  m : 중분류  p:중분류 제품,  
+                                                Combo Name, Option("all" : 전체     "sel" : 선택 ,  중분류 코드(제품 목록 조회시 필수))*/ 
 
   });
     
@@ -129,6 +132,13 @@
       alert(data.resultMsg);
     }
   }
+   
+  /** 금액 변환 함수
+  출처 : https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
+ */
+function numberWithCommas(x) {
+   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
  
   /* 제품정보 관리 폼 초기화 */
   function fInitFormMainProduct(object) {
@@ -137,6 +147,8 @@
     if (object == "" || object == null || object == undefined) {
       $("#product_cd").val("");
       $("#prod_nm").val("");
+      $("#l_ct_cd").val("");
+      $("#m_ct_cd").val("");
       $("#l_ct_nm").val("");
       $("#m_ct_nm").val("");
       $("#supply_cd").val("");
@@ -165,15 +177,17 @@
     } else {
       $("#product_cd").val(object.product_cd);
       $("#prod_nm").val(object.prod_nm);
-      $("#l_ct_nm").val(object.l_ct_nm);
-      $("#m_ct_nm").val(object.m_ct_nm);
+      $("#l_ct_cd").val(object.l_ct_cd);
+      $("#m_ct_cd").val(object.m_ct_cd);
+      $("#l_ct_nm").val(object.l_ct_cd);
+      $("#m_ct_nm").val(object.m_ct_cd);
       $("#supply_nm").val(object.supply_nm);
       $("#supply_cd").val(object.supply_cd);
-      $("#purchase_price").val(object.purchase_price);
-      $("#price").val(object.price);
+      $("#purchase_price").val(numberWithCommas(object.purchase_price));
+      $("#price").val(numberWithCommas(object.price));
       $("#warehouse_cd").val(object.warehouse_cd);
       $("#warehouse_nm").val(object.warehouse_nm);
-      $("#stock").val(object.stock);
+      $("#stock").val(numberWithCommas(object.stock));
       $("#detail").val(object.detail);
       $("#thumbnail").val("");
       $("#tempImg").attr("src", object.file_relative_path);
@@ -189,7 +203,7 @@
       $("#supply_nm").css("background", "#F5F5F5");
       $("#warehouse_nm").css("background", "#F5F5F5");
       $("#detail").css("background", "#FFFFFF");
-      $("#thumbnail").hide();
+      $("#thumbnail").show();
       
       selectSupplierName();
 
@@ -201,6 +215,7 @@
     var chk = checkNotEmpty([ 
                               [ "product_cd", "제품코드를 입력하세요." ],
                               [ "prod_nm", "제품명을 입력하세요." ],
+                              [ "m_ct_cd", "상호 카테고리를 선택하세요." ],
                               [ "supply_cd", "공급처를 입력하세요." ],
                               [ "warehouse_cd", "창고를 입력하세요." ],
                               [ "purchase_price", "장비구매액을 입력하세요." ],
@@ -308,8 +323,25 @@
     $("#warehouse_nm").val(data.warehouseInfo.name); 
   }
   
+  //대분류 선택 시 중분류 코드 가져오기
+  function selectmidcat(){
+    var largecd = $("#l_ct_cd").val();
+    productCombo("m", "m_ct_cd", "sel", largecd);   // 조회 종류   l : 대분류  m : 중분류  p:중분류 제품,   Combo Name, Option("all" : 전체     "sel" : 선택 ,  중분류 코드(제품 목록 조회시 필수))  
+
+    $("#m_ct_cd").find("option").remove();
+    
+    $("#l_ct_cd").val(largecd);
+  }
   
-  
+ 
+ /*  // 중분류 선택 시 제품 코드 가져오기
+  function selectproductlistcombo() {
+    var margecd = $("#m_ct_cd").val();
+    productCombo("p", "product_cd", "all", margecd); // 조회 종류   l : 대분류  m : 중분류  p:중분류 제품,   Combo Name, Option("all" : 전체     "sel" : 선택 ,  중분류 코드(제품 목록 조회시 필수))  
+
+    $("#m_ct_Cd").val(margecd);
+  } */
+
   /** 제품 상세정보 모달 실행 */
   function fPopModalMainProductModal(product_cd) {
     //신규 저장
@@ -320,9 +352,8 @@
     } else {
       $("#action").val("U");
       fMainProductModal(product_cd);
-    } 
+    }
   }
-  
 
   /*제품 상세정보*/
   function fMainProductModal(product_cd) {
@@ -348,7 +379,7 @@
   /* 제품 상세정보 폼 초기화*/
   function fInitFormMainProductModal(object) {
     $("#piproduct_cd").focus();
-    
+
     $("#piproduct_cd").val(object.product_cd);
     $("#piprod_nm").val(object.prod_nm);
     $("#pil_ct_nm").val(object.l_ct_nm);
@@ -361,7 +392,7 @@
     $("#pidetail").val(object.detail);
     $("#pithumbnail").val("");
     $("#pitempImg").attr("src", object.file_relative_path);
-    
+
     $("#piproduct_cd").attr("readonly", true);
     $("#piprod_nm").attr("readonly", true);
     $("#pil_ct_nm").attr("readonly", true);
@@ -375,9 +406,6 @@
     $("#pidetail").css("background", "#FFFFFF");
     $("#pithumbnail").hide();
   }
-
- 
-  
 </script>
 </head>
 <body>
@@ -473,7 +501,7 @@
                 <th scope="row">제품 이미지 <span class="font_red">*</span></th>
                 
                 <th scope="row" width="100px">제품코드 <span class="font_red">*</span></th>
-                <td><input type="text" class="inputTxt p100" name="product_cd" id="product_cd" maxlength="11" placeholder="제품코드"/>  
+                <td><input type="text" class="inputTxt p100" name="product_cd" id="product_cd" maxlength="20" placeholder="제품코드"/>  
                   </td>
                 <th scope="row" width="100px">제품명 <span class="font_red">*</span></th>
                 <td colspan="3"><input type="text" class="inputTxt p100"
@@ -487,13 +515,21 @@
                  </td>   
                 
                  <th scope="row">품목명<span class="font_red">*</span></th>
-                 <td><input type="text" class="inputTxt p100"
-                  name="l_ct_nm" id="l_ct_nm" maxlength="100" placeholder="품목명"/></td>
+                 <!-- <td width="40" height="25" style="font-size: 100%">상품 대분류&nbsp;</td> -->
+                 <td>
+                  <input type="hidden" name="l_ct_nm" id="l_ct_nm">
+                  <select id="l_ct_cd" name="l_ct_cd" onChange="javascript:selectmidcat();"></select></td>
+                <!--  <td><input type="text" class="inputTxt p100"
+                  name="l_ct_nm" id="l_ct_nm" placeholder="품목명"/></td> -->
 
                   
                   <th scope="row">상호명<span class="font_red">*</span></th>
-                  <td><input type="text" class="inputTxt p100"
-                  name="m_ct_nm" id="m_ct_nm" maxlength="100" placeholder="품목명"/></td>
+                  <!-- <td width="40" height="25" style="font-size: 100%">상품 중분류&nbsp;</td> -->
+                  <td> 
+                    <input type="hidden" name="m_ct_nm" id="m_ct_nm">
+                    <select id="m_ct_cd" name="m_ct_cd" onChange="javascript:selectproductlistcombo();"></select></td>
+                 <!--  <td><input type="text" class="inputTxt p100"
+                  name="m_ct_nm" id="m_ct_nm" placeholder="상호명"/></td> -->
                   
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
                 <td>
@@ -517,7 +553,7 @@
                   name="warehouse_nm" id="warehouse_nm" placeholder="창고명"/></td>
                 <th scope="row">재고개수(EA)<span class="font_red">*</span></th>
                 <td colspan="3"><input type="text" class="inputTxt p100"
-                  name="stock" id="stock" maxlength="11" placeholder="제고개수"/></td>
+                  name="stock" id="stock" maxlength="11" placeholder="재고개수"/></td>
               </tr>
               <tr>
                 <th rowspan="2" scope="row">상세정보 <span class="font_red">*</span></th>
@@ -605,40 +641,40 @@
           <tr>
             <th scope="row">제품 이미지</th>
             <th scope="row" width="100px">제품코드</th>
-            <td><input type="text" class="inputTxt p100" name="piproduct_cd" id="piproduct_cd" maxlength="11" /></td>
+            <td><input type="text" class="inputTxt p100" name="piproduct_cd" id="piproduct_cd"/></td>
             <th scope="row" width="100px">제품명</th>
-            <td colspan="3"><input type="text" class="inputTxt p100" name="piprod_nm" id="piprod_nm" maxlength="100" /></td>
+            <td colspan="3"><input type="text" class="inputTxt p100" name="piprod_nm" id="piprod_nm"/></td>
           </tr>
           
           <tr>
             <td rowspan="4" style="text-align: center; width: 300px; hight: 300px;">
             <img id="pitempImg" style="object-fit: cover; max-width: 100%; max-hight: 100%;" src="/images/admin/comm/no_image.png"></td>
             <th scope="row">품목명</th>
-            <td><input type="text" class="inputTxt p100" name="pil_ct_nm" id="pil_ct_nm" maxlength="100" /></td>
+            <td><input type="text" class="inputTxt p100" name="pil_ct_nm" id="pil_ct_nm"/></td>
             <th scope="row">상호명</th>
-            <td><input type="text" class="inputTxt p100" name="pim_ct_nm" id="pim_ct_nm" maxlength="100" /></td>
+            <td><input type="text" class="inputTxt p100" name="pim_ct_nm" id="pim_ct_nm"/></td>
             <th scope="row">공급처명</th>
-            <td><input type="text" class="inputTxt p100" name="pisupply_nm" id="pisupply_nm" maxlength="100" /></td>
+            <td><input type="text" class="inputTxt p100" name="pisupply_nm" id="pisupply_nm"/></td>
           </tr>
           
           <tr>
             <th scope="row">장비구매액(원)/EA</th>
-            <td><input type="text" class="inputTxt p100" name="pipurchase_price" id="pipurchase_price" maxlength="11"/></td>
+            <td><input type="text" class="inputTxt p100" name="pipurchase_price" id="pipurchase_price"/></td>
             <th scope="row">단가(원)/EA</th>
-            <td colspan="3"><input type="text" class="inputTxt p100" name="piprice" id="piprice" maxlength="11"/></td>
+            <td colspan="3"><input type="text" class="inputTxt p100" name="piprice" id="piprice"/></td>
           </tr>
           
           <tr>
             <th scope="row">창고명 </th>
             <td><input type="text" class="inputTxt p100" name="piwarehouse_nm" id="piwarehouse_nm"/></td>
             <th scope="row">재고개수(EA)</th>
-            <td colspan="3"><input type="text" class="inputTxt p100" name="pistock" id="pistock" maxlength="11"/></td>
+            <td colspan="3"><input type="text" class="inputTxt p100" name="pistock" id="pistock"/></td>
           </tr>
           
           <tr>
             <th rowspan="2" scope="row">상세정보</th>
             <td rowspan="2" colspan="5"><textarea class="ui-widget ui-widget-content ui-corner-all" 
-                                                  id="pidetail" maxlength="500" name="pidetail" style="height: 130px; outline: none; resize: none;"></textarea></td>
+                                                  id="pidetail" name="pidetail" style="height: 130px; outline: none; resize: none;"></textarea></td>
           </tr>
           
           <tr>

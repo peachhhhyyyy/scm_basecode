@@ -109,8 +109,12 @@ public class MainProductInfoController {
     
     if ("I".equals(action)) {
       // 등록
-      mainProductInfoService.insertMainProduct(paramMap);
-      resultMsg = "등록 완료";
+      int saveResult = mainProductInfoService.insertMainProduct(paramMap);
+      if (saveResult == 0) {
+        result = "FAIL";
+        resultMsg = "중복된 코드입니다.";
+      } else{
+      resultMsg = "등록 완료"; }
     } else if ("U".equals(action)) {
       // 수정
       mainProductInfoService.updateMainProduct(paramMap);

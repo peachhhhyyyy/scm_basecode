@@ -19,8 +19,6 @@
   $(document).ready(function() {
     //공급처 목록 조회
     fListSupplier();
-    //제품 정보 목록 조회
-    fListProduct();
     //버튼 이벤트 등록
     fRegisterButtonClickEvent();
     //엔터눌렀을때 창고정보 검색되게하기
@@ -127,6 +125,8 @@
   /*제품목록 조회 콜백 함수*/
   function flistProductResult(data, currentPage) {
     console.log("data : " + data);
+    // 공급 제품정보 + 공급처명
+    $('#subTitle').text(" - " + $("#tmpsupply_nm").val());
     //기존 목록 삭제
     $("#listSupplierProduct").empty();
     // 신규 목록 생성
@@ -269,7 +269,6 @@
     } else {
       alert(data.resultMsg);
     }
-    fInitFormSupplier();
   }
   
   //공급처 삭제
@@ -284,8 +283,6 @@
     callAjax("/scm/saveSupplier.do", "post", "json", true, $("#myForm").serialize(), resultCallback );
     } else {
       gfCloseModal();
-      fListSupplier(currentPage);
-      fInitFormSupplier();
     }
   } 
   
@@ -358,7 +355,7 @@
                             <p class="Location">
                                  <a href="/system/notice.do" class="btn_set home">메인으로</a> 
                                  <a class="btn_nav">기준 정보</a>
-                                  <span class="btn_nav bold">공급처 정보</span> 
+                                  <span class="btn_nav bold">공급처 관리</span> 
                                  <a href="" class="btn_set refresh">새로고침</a>
                             </p>
                             
@@ -421,7 +418,8 @@
                    
                    
                    <p class="conTitle mt50">
-                      <span>공급 제품정보</span>
+                      <span>공급 제품정보<span id="subTitle"></span></span>
+                      
                    </p>
                    
                    <div class="ProductList">
@@ -432,11 +430,9 @@
                                  <col width="15%">
                                  <col width="15%">
                                  <col width="15%">
-                                 <col width="15%">
                              </colgroup>
                         <thead>
                              <tr>
-                                <th scope="col">공급처명</th>
                                 <th scope="col">제품코드</th>
                                 <th scope="col">제품명</th>
                                 <th scope="col">품목명</th>
@@ -483,31 +479,31 @@
               <tr>
                 <th scope="row">공급처명 <span class="font_red">*</span></th>
                  <td colspan=3><input type="text" class="inputTxt p100"
-                  name="supply_nm" id="supply_nm" /></td>
+                  name="supply_nm" id="supply_nm" maxlength="100"/></td>
               </tr>
               <tr>
                 <th scope="row">공급처코드 <span class="font_red">*</span></th>
                  <td><input type="text" class="inputTxt p100"
-                  name="supply_cd" id="supply_cd" /></td>
+                  name="supply_cd" id="supply_cd" maxlength="20"/></td>
                 <th scope="row">연락처<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100" name="tel"
-                  id="tel" /></td>
+                  id="tel" maxlength="20"/></td>
               </tr>
               <tr>
                 <th scope="row">담당자명 <span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100"
-                  name="supply_mng_nm" id="supply_mng_nm" /></td>  
+                  name="supply_mng_nm" id="supply_mng_nm" maxlength="50"/></td>  
                                   
                 <th scope="row">담당자 연락처<span class="font_red">*</span></th>
                 <td><input type="text" class="inputTxt p100" 
-                name="mng_tel" id="mng_tel" /></td>
+                name="mng_tel" id="mng_tel" maxlength="20"/></td>
               
               </tr>
               
               <tr>
                 <th scope="row">이메일 <span class="font_red">*</span></th>
                 <td colspan=3><input type="text" class="inputTxt p100"
-                  name="email" id="email" /></td>           
+                  name="email" id="email" maxlength="100"/></td>           
               </tr>
               <tr>
                 <th scope="row">창고코드 <span class="font_red">*</span></th>

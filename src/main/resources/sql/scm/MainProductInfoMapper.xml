@@ -35,6 +35,7 @@ LEFT JOIN tb_scm_warehouse WH ON WH.warehouse_cd = PD.warehouse_cd
       </choose>
       </if> 
     </where>
+  ORDER BY PD.enroll_date DESC
      LIMIT #{pageIndex}, #{pageSize}
   </select>
   <!-- 제품목록 카운트 -->
@@ -66,8 +67,8 @@ LEFT JOIN tb_scm_warehouse WH ON WH.warehouse_cd = PD.warehouse_cd
     <select id="selectMainProduct" resultType="kr.happyjob.study.scm.model.MainProductInfoModel">
       SELECT PD.product_cd as product_cd,
        PD.prod_nm as prod_nm, 
-       LC.l_ct_nm as l_ct_nm,
-       MC.m_ct_nm as m_ct_nm,
+       LC.l_ct_cd as l_ct_cd,
+       MC.m_ct_cd as m_ct_cd,
        SP.supply_cd as supply_cd,
        PD.purchase_price as purchase_price,
        PD.price as price,
@@ -84,20 +85,35 @@ WHERE  PD.product_cd = #{product_cd}
     </select>
  
     <!-- 제품정보 등록 -->
-    <insert id="insertMainProduct" parameterType="java.util.Map">
-        INSERT INTO tb_scm_product
-        (product_cd, prod_nm, supply_cd, purchase_price, price, warehouse_cd, stock, detail)
-     VALUES (
-             #{product_cd},
-             #{prod_nm},
-             #{supply_cd},
-             #{purchase_price}, 
-             #{price}, 
-             #{warehouse_cd},
-             #{stock}, 
-             #{detail}
-             )
-
+    <insert id="insertMainProduct" parameterType="java.util.Map">    
+   INSERT INTO tb_scm_product (
+                                product_cd, 
+                                prod_nm, 
+                                m_ct_cd,
+                                supply_cd, 
+                                purchase_price, 
+                                price, 
+                                warehouse_cd, 
+                                stock, 
+                                detail,
+                                enroll_date
+                              )
+    SELECT #{product_cd},
+           #{prod_nm},
+           #{m_ct_cd},
+           #{supply_cd},
+           #{purchase_price}, 
+           #{price}, 
+           #{warehouse_cd},
+           #{stock}, 
+           #{detail},
+           NOW()                
+      FROM DUAL
+     WHERE NOT EXISTS(
+                      SELECT product_cd 
+                        FROM tb_scm_product
+                       WHERE product_cd = #{product_cd}
+                      );
     </insert>
     
     <!-- 제품정보 삭제 -->
@@ -112,6 +128,7 @@ WHERE  PD.product_cd = #{product_cd}
     <update id="updateMainProduct" parameterType="java.util.Map">
       UPDATE tb_scm_product
          SET prod_nm = #{prod_nm},
+             m_ct_cd = #{m_ct_cd},
              supply_cd = #{supply_cd},
              purchase_price = #{purchase_price},
              price = #{price},
