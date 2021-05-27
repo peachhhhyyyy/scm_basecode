@@ -185,6 +185,61 @@
     } 
   } 
   
+
+  /* 품목 저장 validation*/
+  function fValidateLargeCategory() {
+    var chk = checkNotEmpty([ [ "l_ct_cd", "품목코드를 입력하세요." ], [ "l_ct_nm", "품목명을 입력하세요." ], ]);
+    if (!chk) {
+      return;
+
+    }
+    return true;
+  }
+  
+  //품목 저장
+  function fSaveLargeCategory() {
+    //validation 체크
+    if (!fValidateLargeCategory()) {
+      return;
+    }
+    var resultCallback = function(data) {
+       console.log(data);
+       fSaveLargeCategoryResult(data);
+    };
+    callAjax("/scm/saveLargeCategory.do", "post", "json", true, $("#myForm")
+        .serialize(), resultCallback);
+  }
+  
+  //품목 저장 콜백 함수
+  function fSaveLargeCategoryResult(data) {
+    var currentPage = "1";
+    if ($("#action").val() != "I") {
+      currentPage = $("#currentPageLargeCategory").val();
+    }
+    if (data.result == "SUCCESS") {
+      alert(data.resultMsg);
+      gfCloseModal();
+      fListLargeCategory(currentPage);
+    } else {
+      alert(data.resultMsg);
+    }
+  }
+  
+  //공급처 삭제
+  function fDeleteLargeCategory(l_ct_cd){
+  var con = confirm("삭제하시겠습니까 ?");
+  var currentPage = "1";
+  if (con){
+    var resultCallback = function(data) {
+    fSaveLargeCategoryResult(data);
+  }
+  $("#action").val("D");
+  callAjax("/scm/saveLargeCategory.do", "post", "json", true, $("#myForm").serialize(), resultCallback );
+  } else {
+    gfCloseModal();
+  }
+} 
+
   /* 상호 모달 실행 */
   function fPopModalMiddleCategory(m_ct_cd) {
     //신규 저장
@@ -197,19 +252,18 @@
       fSelectMiddleCategory(m_ct_cd);
     }
   }
-  
+
   /* 상호 단건 조회*/
   function fSelectMiddleCategory(m_ct_cd) {
     var param = {
-        m_ct_cd : m_ct_cd
+      m_ct_cd : m_ct_cd
     };
     var resultCallback = function(data) {
       fSelectMiddleCategoryResult(data);
     };
-    callAjax("/scm/selectMiddleCategory.do", "post", "json", true, param,
-        resultCallback);
+    callAjax("/scm/selectMiddleCategory.do", "post", "json", true, param, resultCallback);
   }
-  
+
   // 상호 단건 조회 콜백 함수
   function fSelectMiddleCategoryResult(data) {
     if (data.result == "SUCCESS") {
@@ -219,17 +273,17 @@
       alert(data.resultMsg);
     }
   }
-  
+
   /* 상호 폼 초기화 */
   function fInitFormMiddleCategory(object) {
     $("#m_ct_cd2").focus();
-    
+
     if (object == "" || object == null || object == undefined) {
       $("#l_ct_cd2").val("");
       $("#l_ct_nm2").val("");
       $("#m_ct_cd2").val("");
       $("#m_ct_nm2").val("");
-      
+
       $("#l_ct_cd2").attr("readonly", true);
       $("#l_ct_cd2").css("background", "#F5F5F5");
       $("#l_ct_nm2").attr("readonly", true);
@@ -238,14 +292,14 @@
       $("#m_ct_cd2").css("background", "#FFFFFF");
       $("#m_ct_nm2").attr("readonly", false);
       $("#m_ct_nm2").css("background", "#FFFFFF");
-      
+
       $("#btnDeleteMiddleCategory").hide();
-    } else{
+    } else {
       $("#l_ct_cd2").val(object.l_ct_cd);
       $("#l_ct_nm2").val(object.l_ct_nm);
       $("#m_ct_cd2").val(object.m_ct_cd);
       $("#m_ct_nm2").val(object.m_ct_nm);
- 
+
       $("#l_ct_cd2").attr("readonly", true);
       $("#l_ct_cd2").css("background", "#F5F5F5");
       $("#l_ct_nm2").attr("readonly", true);
@@ -254,10 +308,10 @@
       $("#m_ct_cd2").css("background", "#F5F5F5");
       $("#m_ct_nm2").attr("readonly", false);
       $("#m_ct_nm2").css("background", "#FFFFFF");
-      
+
       $("#btnDeleteMiddleCategory").show();
-    } 
-  } 
+    }
+  }
 </script>
 </head>
 <body>
@@ -431,9 +485,9 @@
           
           
           <div class="btn_areaC mt30">
-            <a href="" class="btnType blue" id="btnSaveLargeCategory" name="btn"><span>저장</span></a>
+          <!--   <a href="" class="btnType blue" id="btnSaveLargeCategory" name="btn"><span>저장</span></a>
             <a href="" class="btnType blue" id="btnDeleteLargeCategory" name="btn"><span>삭제</span></a>  
-            <a href="" class="btnType gray" id="btnCloseCategory" name="btn"><span>닫기</span></a>
+            <a href="" class="btnType gray" id="btnCloseCategory" name="btn"><span>닫기</span></a> -->
             
           </div>
         

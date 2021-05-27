@@ -18,6 +18,12 @@ public interface CategoryInfoService {
   
   /* 품목 단건 조회*/
   public CategoryInfoModel selectLargeCategory(Map<String, Object> paraMap) throws Exception;
+  /* 품목 등록*/
+  int insertLargeCategory(Map<String, Object> paramMap) throws Exception;
+  /* 품목 수정*/
+  int updateLargeCategory(Map<String, Object> paramMap) throws Exception;
+  /* 품목 삭제*/
+  int deleteLargeCategory(Map<String, Object> paramMap) throws Exception;
   /* 상호 단건 조회*/
   public CategoryInfoModel selectMiddleCategory(Map<String, Object> paraMap) throws Exception;
 }

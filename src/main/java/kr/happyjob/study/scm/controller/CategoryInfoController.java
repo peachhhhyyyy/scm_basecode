@@ -106,6 +106,51 @@ public class CategoryInfoController {
     return resultMap;
   }
   
+ //품목 저장
+ @RequestMapping("saveLargeCategory.do")
+ @ResponseBody
+ public Map<String, Object> saveLargeCategory (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+     HttpServletResponse response, HttpSession session) throws Exception{
+   
+   String action = (String)paramMap.get("action");
+   
+   String result = "SUCCESS";
+   String resultMsg = "";
+   
+   if("I".equals(action)){
+     //공급처등록
+     int saveResult = categoryInfoService.insertLargeCategory(paramMap);
+     if (saveResult == 0) {
+       result = "FAIL";
+       resultMsg = "중복된 코드입니다.";
+     } else{
+     resultMsg = "등록 완료"; }
+   } else if("U".equals(action)){
+     //공급처 수정
+     categoryInfoService.updateLargeCategory(paramMap);
+     resultMsg = "수정 완료";
+   } else if("D".equals(action)){
+     //공급처 삭제
+    int deleteResult = categoryInfoService.deleteLargeCategory(paramMap);
+    if (deleteResult == 0) {
+      result = "FAIL";
+      resultMsg = "삭제가 실패하였습니다.\n해당 품목을 참조하는 상호를 확인해주세요.";
+    } else {
+      resultMsg = "삭제 완료";
+    }     
+   }
+   else{
+     result = "FALSE";
+     resultMsg = "저장 실패";
+   }
+   
+   Map<String, Object> resultMap = new HashMap<String, Object>();
+   resultMap.put("result", result);
+   resultMap.put("resultMsg", resultMsg);
+   
+   return resultMap;
+ }
+  
   //상호 단건 조회
   @RequestMapping("selectMiddleCategory.do")
   @ResponseBody

@@ -40,6 +40,42 @@ LEFT JOIN tb_scm_l_category LC ON MC.l_ct_cd = LC.l_ct_cd
      WHERE l_ct_cd = #{l_ct_cd}
    </select>
    
+   <!-- 품목 등록 -->
+   <insert id="insertLargeCategory" parameterType="java.util.Map">
+    INSERT INTO tb_scm_l_category (
+                                l_ct_cd, 
+                                l_ct_nm
+                                   )
+    SELECT #{l_ct_cd},
+           #{l_ct_nm}                 
+      FROM DUAL
+     WHERE NOT EXISTS(
+                      SELECT l_ct_cd 
+                        FROM tb_scm_l_category 
+                       WHERE l_ct_cd = #{l_ct_cd}
+                      );
+   </insert>
+   
+   <!-- 품목 수정 -->
+   <update id="updateLargeCategory" parameterType="java.util.Map">
+    UPDATE tb_scm_l_category
+       SET   l_ct_cd = #{l_ct_cd}
+           , l_ct_nm = #{l_ct_nm}
+    WHERE l_ct_cd = #{l_ct_cd}
+   </update>
+   
+   <!-- 품목 삭제 -->
+   <delete id="deleteLargeCategory" parameterType="java.util.Map">
+    DELETE
+    FROM tb_scm_l_category
+    WHERE l_ct_cd = #{l_ct_cd}
+    AND (
+          SELECT COUNT(*) 
+          FROM tb_scm_m_category 
+          WHERE l_ct_cd = #{l_ct_cd}
+        ) = 0
+   </delete>
+   
    <!-- 상호 단건 조회 -->
    <select id="selectMiddleCategory" resultType="kr.happyjob.study.scm.model.CategoryInfoModel" >
      SELECT  LC.l_ct_cd as l_ct_cd

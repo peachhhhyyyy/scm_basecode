@@ -46,6 +46,24 @@ public class CategoryInfoServiceImpl implements CategoryInfoService{
     CategoryInfoModel selectLargeCategory = categoryInfoDao.selectLargeCategory(paramMap);
     return selectLargeCategory;
   } 
+  //품목 등록
+  @Override
+  public int insertLargeCategory(Map<String, Object> paramMap) throws Exception {
+    int ret = categoryInfoDao.insertLargeCategory(paramMap);
+    return ret;
+  }
+  //품목 수정
+  @Override
+  public int updateLargeCategory(Map<String, Object> paramMap) throws Exception {
+    int ret = categoryInfoDao.updateLargeCategory(paramMap);
+    return ret;
+  }
+  //품목 삭제
+  @Override
+  public int deleteLargeCategory(Map<String, Object> paramMap) throws Exception {
+    int ret = categoryInfoDao.deleteLargeCategory(paramMap);
+    return ret;
+  }
   //상호 단건 조회
   @Override
   public CategoryInfoModel selectMiddleCategory(Map<String, Object> paramMap) throws Exception {
