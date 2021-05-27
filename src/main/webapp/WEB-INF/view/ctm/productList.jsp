@@ -11,7 +11,7 @@
 
 <c:if test="${totalProduct > 0 }">
   <c:set var="nRow" value="${pageSize*(currentPageProduct-1)}" /> 
-  <c:forEach items="${listProductModel}" var="list">
+  <c:forEach items="${productListModel}" var="list">
     <tr>
       <td><input id="selectProduct" type="checkbox" name="selectProduct" value="${list.product_cd}" class="checkSelect"></td>
       <td><img style="height: 200px;"
