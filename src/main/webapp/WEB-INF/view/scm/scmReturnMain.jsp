@@ -36,74 +36,57 @@
 				callAjax("/scm/scmReturnList.do", "post", "text", true, param, resultCallback);
 			 }
 	         
-	         // 반품지시서 콜백 함수
-	         function fReturnListResult(data, currentPage) {
-	        	    //alert(data);
-	        	    // console.log(data);
-	        	    
-	        	    // 기존 목록 삭제
-	        	    $('#returnList').empty();
-	        	    // 신규 목록 생성
-	        	    $("#returnList").append(data);
-	        	    // 총 개수 추출
-	        	    var totCnt = $("#totCnt").val();
-	        	    // 페이지 네비게이션 생성
-	        	    var paginationHtml = getPaginationHtml(currentPage, totCnt, 
-	        	    		pageSizeinfo, pageBlockSizeinquiry, 'fReturnList');
-	        	   // 현재 페이지 설정
-	        	    $("#listInfPagination").empty().append(paginationHtml);
-        	  }
-	         
 	         // 검색조건 기준 조회
-             function fSearchReturnList(){
+             function fSearchReturnList(currentPage){
                  
+            	 currentPage = currentPage || 1;
+	        	 
                  var param = $('#returnListForm').serialize();
                  
-                 param += "&currentPage="+$('#currentPage').val();
-                 param += "&pageSize="+pageSizeinfo
+                 param += "&currentPage="+currentPage;
+                 param += "&pageSize="+pageSizeinfo;
                  
                  console.log("form에서 넘어온 값 : " + param)
-                 
-                 currentPage = currentPage || 1;
                  
                  var startDate = $('#startDate').val();
                  var endDate = $('#endDate').val();
 
                  // 날짜가 올바르지 않거나 널값인 경우 랜딩
                  if(startDate > endDate){
-                     alert("시작일자는 종료일자보다 클 수가 없습니다.");
-                     location.href= "/scm/scmReturnMain.do";
+                     swal("\n 시작 날짜가 종료 날짜보다 클 수 없습니다. \n\n다시 입력해 주세요.").then(function (){
+                    	   window.location.reload();
+                     })
                  }
                  
                  var resultCallback =  function(data){
-                     fSearchOrderListResult(data, $('#currentPage').val());
+                	 fReturnListResult(data,currentPage);
                  }
                  
                  callAjax("/scm/scmReturnList.do", "post", "text", true, param, resultCallback);
              }
+	         // 반품지시서 콜백 함수
+	         function fReturnListResult(data, currentPage) {
+	        	 
+	        	    console.log("콜백까지옴");
+	        	    
+	        	    // 기존 목록 삭제 / 신규 목록 삽입
+	        	    $('#returnList').empty().append(data);
+	        	    // 총 개수 추출
+	        	    var totCnt = $("#totCnt").val();
+	        	    // 페이지 네비게이션 생성
+	        	    var paginationHtml = getPaginationHtml(currentPage, totCnt, 
+	        	    		pageSizeinfo, pageBlockSizeinquiry, 'fSearchReturnList');
+	        	   // 현재 페이지 설정
+	        	    $("#listInfPagination").empty().append(paginationHtml);
+        	  }
+	         
              
-             // 검색조건 기준 조회 결과 콜백 함수
-             function fSearchOrderListResult(data, currentPage) {
-            	 
-                    // console.log(data);
-                    
-                    // 기존 목록 삭제 / 신규데이터 삽입
-                    $('#returnList').empty().append(data);
-                    
-                    // 총 개수 추출
-                    var totCnt = $("#totCnt").val();
-                    // 페이지 네비게이션 생성
-                    var paginationHtml = getPaginationHtml(currentPage, totCnt, 
-                            pageSizeinfo, pageBlockSizeinquiry, 'fSearchReturnList');
-                   // 현재 페이지 설정
-                    $("#listInfPagination").empty().append(paginationHtml);
-              } fReturnDetailList
-              
               /* 배송지시서 상세 조회*/
-              function fReturnDetailList(refund_list_no) {
+              function fReturnDetailList(refund_list_no, prod_nm) {
                   
                 var param = {
                 		refund_list_no : refund_list_no,
+                		prod_nm : prod_nm
                 }
               
                 var resultCallback = function(data) {
