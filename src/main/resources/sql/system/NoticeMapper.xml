@@ -97,7 +97,9 @@
            fil.file_ofname,
            fil.file_size
       FROM
-           tb_scm_notice noti left join tb_file fil on noti.file_no = fil.file_no
+           tb_scm_notice noti 
+           LEFT JOIN tb_file fil 
+           on noti.file_no = fil.file_no
      WHERE 
            noti.notice_id = #{notice_id};
   

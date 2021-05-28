@@ -133,7 +133,6 @@
     
     // onload 끝
   });
-  
  
 
    /* 공지사항 목록 조회 함수 */
@@ -144,18 +143,16 @@
     console.log("현재페이지 : " + currentPage);
     
     if (param) {
-      
       param.currentPage = currentPage;
       param.pageSize = pageSize;
-
     } else {
-      
       var param = {
       currentPage : currentPage,
       pageSize : pageSize
       }
     }
-
+    
+    // 콜백
     var resultCallback = function(result) {
       selectListCallBack(result, currentPage);
     };
@@ -315,8 +312,8 @@
        $('#datice_date_block').hide();
        $('#notice_title').attr('readonly', false);
        $('#notice_content').attr('readonly', false);
+       $('#download_file').hide();
        $('#modify_file').hide();
-       
        
      }
      // 공지사항 단건 조회
@@ -504,6 +501,7 @@
           
           if(result.file_no) {
             $('#download_file').show();
+            $('#file_name').val(result.file_ofname);
             $('#download').attr("href", result.file_relative_path);
           }
         }
@@ -717,7 +715,8 @@
                <tr>
                <tr id="download_file">
                   <th scope="row">다운로드</th>
-                  <td colspan="3"><a class="btn" id="download" href="" download>다운로드</a></td>
+                  <td style="border-right: none;"><input id="file_name" value="" readonly></td>
+                  <td style="border-left: none;"><a class="btn" id="download" href="" download><button class="btn-default btn-sm">다운로드</button></button></a></td>
                <tr>
               <tr>
                 <th scope="row" class="auth_block">열람권한</th>
