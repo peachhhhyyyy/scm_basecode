@@ -5,15 +5,15 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>발주지시서</title>
+<title>직원정보관리</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript">
-  // SCM 발주 지시서 페이징 설정
-  var pageSizeScmOrderingOrder = 10;
-  var pageBlockSizeScmOrderingOrder = 5;
+  // 직원정보관리 페이징 설정
+  var pageSizeEmployeeInfo = 5;
+  var pageBlockSizeEmployeeInfo = 5;
 
   $(document).ready(function() {
-    // SCM 발주지시서 조회
+    // 직원정보관리 조회
     fListEmployeeInfo();
 
     // 버튼 이벤트 등록
@@ -28,26 +28,26 @@
       var btnId = $(this).attr('id');
 
       switch (btnId) {
-      case 'btnCloseOrderingOrder':
+      case 'btnCloseEmployeeInfo':
         gfCloseModal();
         break;
-      case 'btnSearchOrderingOrder':
+      case 'btnSearchEmployeeInfo':
         board_search();
         break;
       }
     });
   }
 
-  /** SCM 발주지시서 모달 실행 */
-  function fPopEmployeeInfo(scm_id, direction_date, prod_nm, purch_qty, m_ct_cd, purchase_price, supply_nm, price, approve_id) {
+  /** 직원정보관리 모달 실행 */
+  function fPopEmployeeInfo(loginID, name, tel, mail, detail_name, zip_code, addr, addr_detail, use_yn, entry_date) {
     // 신규 저장
-    if (prod_nm == null || prod_nm == "") {
+    if (loginID == null || loginID == "") {
     } else {
-      fSelectPurchBtn(scm_id, direction_date, prod_nm, purch_qty, m_ct_cd, purchase_price, supply_nm, price, approve_id);
+      fSelectSubmitBtn(loginID, name, tel, mail, detail_name, zip_code, addr, addr_detail, use_yn, entry_date);
     }
   }
 
-  /** SCM 발주지시서 검색 */  
+  /** 직원정보관리 검색 */  
   function board_search(currentPage) {
     var sname = $('#sname').val();
     var searchKey = document.getElementById("searchKey");
@@ -59,31 +59,11 @@
     currentPage = currentPage || 1;
     console.log("currentPage : " + currentPage);
     
-    var date1 = $("#datetimepicker1").find("input").val()
-    var date2 = $("#datetimepicker2").find("input").val()
-    
-    console.log("date1 : " + date1);
-    console.log("date2 : " + date2);
-    
-    // datepicker설정
-    $(document).ready(function() {
-      $('#datetimepicker1').datetimepicker({
-          format: 'YYYY-MM-DD',
-          formatDate: 'YYYY-MM-DD'
-      });
-      $('#datetimepicker2').datetimepicker({
-	        format: 'YYYY-MM-DD',
-	        formatDate: 'YYYY-MM-DD'
-	    });
-    });
-    
     var param = {
           sname : sname
           , oname : oname
-          , date1 : date1
-          , date2 : date2
           , currentPage : currentPage
-          , pageSize : pageSizeScmOrderingOrder
+          , pageSize : pageSizeEmployeeInfo
     }
     //swal(JSON.stringify(param));
     var resultCallback = function(data) {
@@ -92,7 +72,7 @@
     callAjax("/scm/employeeInfoList.do", "post", "text", true, param, resultCallback);
   }
   
-  /** SCM 발주 지시서 목록 조회 */
+  /** 직원정보관리 목록 조회 */
   function fListEmployeeInfo(currentPage) {
     currentPage = currentPage || 1;
 
@@ -100,7 +80,7 @@
 
     var param = {
       currentPage : currentPage,
-      pageSize : pageSizeScmOrderingOrder
+      pageSize : pageSizeEmployeeInfo
     }
     var resultCallback = function(data) {
       fListEmployeeInfoResult(data, currentPage);
@@ -110,22 +90,19 @@
     callAjax("/scm/employeeInfoList.do", "post", "text", true, param, resultCallback);
   }
 
-  /** SCM 발주지시서 콜백 함수 */
+  /** 직원정보관리 콜백 함수 */
   function fListEmployeeInfoResult(data, currentPage) {
     //alert(data);
     console.log("data: " + data);
 
     // 기존 목록 삭제
-    $("#employeeInfoList").empty();
-
-    // 신규 목록 생성
-    $("#employeeInfoList").append(data);
+    $("#employeeInfoList").empty().append(data);
 
     // 총 개수 추출
     var totalCount = $("#totalCount").val();
     
     // 페이지 네비게이션 생성
-    var paginationHtml = getPaginationHtml(currentPage, totalCount, pageSizeScmOrderingOrder, pageBlockSizeScmOrderingOrder, 'fListEmployeeInfo');
+    var paginationHtml = getPaginationHtml(currentPage, totalCount, pageSizeEmployeeInfo, pageBlockSizeEmployeeInfo, 'fListEmployeeInfo');
     console.log("paginationHtml : " + paginationHtml);
     //alert(paginationHtml);
     $("#employeeInfoListPagination").empty().append(paginationHtml);
@@ -158,53 +135,44 @@
 	  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
   
-  /** SCM 발주지시서 상세 화면 띄우기 */ 
-  function fSelectPurchBtn(scm_id, direction_date, prod_nm, purch_qty, m_ct_cd, purchase_price, supply_nm, price, approve_id) {
+  /** 직원정보관리 상세 화면 띄우기 */ 
+  function fSelectSubmitBtn(loginID, name, tel, mail, detail_name, zip_code, addr, addr_detail, use_yn, entry_date) {
 
     var param = {
-      scm_id : scm_id,
-      direction_date : direction_date,
-      prod_nm : prod_nm,
-      purch_qty : purch_qty,
-      m_ct_cd : m_ct_cd,
-      purchase_price : purchase_price,
-      supply_nm : supply_nm,
-      price : price,
-      approve_id : approve_id
+      loginID : loginID,
+      name : name,
+      tel : tel,
+      mail : mail,
+      detail_name : detail_name,
+      zip_code : zip_code,
+      addr : addr,
+      addr_detail : addr_detail,
+      use_yn : use_yn,
+      entry_date : entry_date
     };
     
-    $("#scmId").text(scm_id);
-    // 날짜 타입 변환
-    var date1 = direction_date.substr(0, 10);
-    var date2 = direction_date.substr(24, 29);
-    direction_date = date1 + ',' + date2;
-    $("#directionDate").text(formatDate(direction_date));
-    $("#prodNm").text(prod_nm);
-    $("#purchQty").text(purch_qty);
-    $("#mCtCd").text(m_ct_cd);
-    $("#purchasePrice").text(numberWithCommas(purchase_price));
-    $("#supplyNm").text(supply_nm);
-    $("#price").text(numberWithCommas(price));
-    $("#approveId").text(approve_id ? approve_id : "승인대기");
-    $("#approveId_head").text(approve_id ? "승인자" : "상태");
+    $("#loginID").val(loginID);
+    $("#name").val(name);
+    $("#tel").val(tel);
+    $("#mail").val(mail);
+    $("#detail_name").val(detail_name);
+    $("#zip_code").val(zip_code);
+    $("#addr").val(addr);
+    $("#addr_detail").val(addr_detail);
+    $("#use_yn").val(use_yn);
+    $("#entry_date").val(entry_date);
     
     var resultCallback = function(data) {
-      fSelectPurchBtnResult(data);
+      fSelectSubmitBtnResult(data);
     };
 
-    callAjax("/scm/selectPurchBtn.do", "post", "json", true, param, resultCallback);
+    callAjax("/scm/selectSubmitBtn.do", "post", "json", true, param, resultCallback);
   }
   
-  /** SCM 발주지시서 화면 콜백 함수*/
-  function fSelectPurchBtnResult(data) {
-    if (data.result == "SUCCESS") {
-      // 모달 팝업
-      gfModalPop("#layer1");
-      
-      console.log("fSelectPurchBtnResult : " + JSON.stringify(data));
-    } else {
-      alert(data.resultMsg);
-    }
+  /** 직원정보관리 화면 콜백 함수*/
+  function fSelectSubmitBtnResult(data) {
+    gfModalPop("#layer1");
+    console.log("fSelectSubmitBtnResult : " + JSON.stringify(data));
   }
 </script>
 </head>
@@ -229,12 +197,12 @@
                         <div class="content">
                             <p class="Location">
                                 <a href="#" class="btn_set home">메인으로</a>
-                                <a href="scmPurchaseMain.do" class="btn_nav">작업지시서</a>
-                                <span class="btn_nav bold">발주 지시서</span>
-                                <a href="../scm/scmPurchaseMain.do" class="btn_set refresh">새로고침</a>
+                                <a href="employeeinfo.do" class="btn_nav">기준정보</a>
+                                <span class="btn_nav bold">직원정보 관리</span>
+                                <a href="../scm/employeeinfo.do" class="btn_set refresh">새로고침</a>
                             </p>
                             <p class="conTitle">
-                                <span>발주 지시서</span>
+                                <span>직원정보 관리</span>
                             </p>
                             <form class="search-container">
                                 <div class="row">
@@ -251,7 +219,7 @@
                                     <!-- // searchbar -->
                                     <!-- button -->
                                     <div class="btn-group" role="group" aria-label="...">
-                                      <a class="btn btn-default" id="btnSearchOrderingOrder" name="btn" href="">검색</a>
+                                      <a class="btn btn-default" id="btnSearchEmployeeInfo" name="btn" href="">검색</a>
                                     </div>
                                     <!-- // button -->
                                 </div>
@@ -261,13 +229,11 @@
                                 <table class="col">
                                     <caption>caption</caption>
                                     <colgroup>
-                                        <col width="10%">
+                                        <col width="20%">
                                         <col width="*">
-                                        <col width="10%">
                                         <col width="15%">
+                                        <col width="20%">
                                         <col width="10%">
-                                        <col width="10%">
-                                        <col width="15%">
                                     </colgroup>
                                     <thead>
                                         <tr>
@@ -288,6 +254,68 @@
                 </ul>
             </div>
         </div>
+        <!-- 모달팝업 -->
+        <div id="layer1" class="layerPop layerType2" style="width: 600px;">
+            <dl>
+                <dt>
+                    <strong>상세정보</strong>
+                </dt>
+                <dd class="content">
+                    <!-- s : 여기에 내용입력 -->
+                    <table class="row">
+                        <caption>caption</caption>
+                        <colgroup>
+                            <col width="120px">
+                            <col width="*">
+                            <col width="120px">
+                            <col width="*">
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th scope="row">아이디</th>
+                                <td><input type="text" class="form-control" name="loginID" id="loginID" readonly="readonly"/></td>
+                                <th scope="row">직원명</th>
+                                <td><input type="text" class="form-control" name="name" id="name" readonly="readonly"/></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">연락처</th>
+                                <td><input type="text" class="form-control" name="tel" id="tel" readonly="readonly"/></td>
+                                <th scope="row">이메일</th>
+                                <td><input type="text" class="form-control" name="mail" id="mail" readonly="readonly"/></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">담당업무</th>
+                                <td colspan="3"><input type="text" class="form-control" name="detail_name" id="detail_name" readonly="readonly"/></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">우편번호</th>
+                                <td colspan="3"><input type="text" class="form-control" name="zip_code" id="zip_code" readonly="readonly"/></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">주소</th>
+                                <td colspan="3"><input type="text" class="form-control" name="addr" id="addr" readonly="readonly"/></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">상세주소</th>
+                                <td colspan="3"><input type="text" class="form-control" name="addr_detail" id="addr_detail" readonly="readonly"/></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">활성화 여부</th>
+                                <td><input type="text" class="form-control" name="use_yn" id="use_yn" readonly="readonly"/></td>
+                                <th scope="row">가입날짜</th>
+                                <td><input type="text" class="form-control" name="entry_date" id="entry_date" readonly="readonly"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- e : 여기에 내용입력 -->
+                    <div class="btn_areaC mt30">
+                        <a href="" class="btnType gray" id="btnCloseEmployeeInfo" name="btn"><span>닫기</span></a>
+                    </div>
+                </dd>
+            </dl>
+            <a href="" class="closePop"><span class="hidden">닫기</span></a>
+        </div>
+        <!--// 모달팝업 -->
     </form>
 </body>
 </html>
