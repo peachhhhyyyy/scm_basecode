@@ -1,10 +1,26 @@
 package kr.happyjob.study.scm.model;
 
 public class EmployeeInfoModel {
+  // 로그인아이디 & 사번
   public String loginID;
+  // 이름
   public String name;
-  public String user_type;
+  // 담당업무
+  public String detail_name;
+  // 전화번호
   public String tel;
+  // 활성화 여부
+  public String use_yn;
+  // 메일주소
+  public String mail;
+  // 우편번호
+  public String zip_code;
+  // 주소
+  public String addr;
+  // 상세주소
+  public String addr_detail;
+  // 입사일
+  public String entry_date;
   public String getLoginID() {
     return loginID;
   }
@@ -17,16 +33,52 @@ public class EmployeeInfoModel {
   public void setName(String name) {
     this.name = name;
   }
-  public String getUser_type() {
-    return user_type;
+  public String getDetail_name() {
+    return detail_name;
   }
-  public void setUser_type(String user_type) {
-    this.user_type = user_type;
+  public void setDetail_name(String detail_name) {
+    this.detail_name = detail_name;
   }
   public String getTel() {
     return tel;
   }
   public void setTel(String tel) {
     this.tel = tel;
+  }
+  public String getUse_yn() {
+    return use_yn;
+  }
+  public void setUse_yn(String use_yn) {
+    this.use_yn = use_yn;
+  }
+  public String getMail() {
+    return mail;
+  }
+  public void setMail(String mail) {
+    this.mail = mail;
+  }
+  public String getZip_code() {
+    return zip_code;
+  }
+  public void setZip_code(String zip_code) {
+    this.zip_code = zip_code;
+  }
+  public String getAddr() {
+    return addr;
+  }
+  public void setAddr(String addr) {
+    this.addr = addr;
+  }
+  public String getAddr_detail() {
+    return addr_detail;
+  }
+  public void setAddr_detail(String addr_detail) {
+    this.addr_detail = addr_detail;
+  }
+  public String getEntry_date() {
+    return entry_date;
+  }
+  public void setEntry_date(String entry_date) {
+    this.entry_date = entry_date;
   }
 }
