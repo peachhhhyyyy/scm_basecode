@@ -51,6 +51,7 @@
 		<div>
 			<span>제품 단가 : </span>
 			<span id="purchasePrice">
+				<input type="hidden" name="hidden_purchasePrice" value="${productInfo.purchasePrice}"/>
 				<fmt:formatNumber value="${productInfo.purchasePrice}" pattern="#,###"/> 원
 			</span>
 		</div>

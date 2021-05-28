@@ -158,9 +158,10 @@ function makePurchaseDirectionResult(data) {
 }
 
 function purchaseMultiply() {
-  var price = parseInt($("#purchasePrice").text());
+  var price = parseInt($("input[name=hidden_purchasePrice]").val());
   var cnt = $("#purchaseCount").val();
   var result = price * cnt;
+
   $("#sumAmt").empty().append("합계 (원) : " + result.toLocaleString('ko-KR'));
   $("#sumAmt-han").empty().append(num2han(result) + "원");
   $("input[name=purchaseCount").empty().val(cnt);
