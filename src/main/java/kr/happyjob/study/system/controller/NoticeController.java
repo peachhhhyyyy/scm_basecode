@@ -213,6 +213,10 @@ public class NoticeController {
 	  int auth = Integer.parseInt((String)param.get("auth"));
 	  param.put("auth", auth);
 	  
+	  // 첨부파일의 존재유무 확인
+	  // file이 null? 일 경우 파일 삭제 & 글 수정
+	  
+	  // 첨부파일
 	  int result = noticeService.updateNotice(param);
 	  
 	  return result;
