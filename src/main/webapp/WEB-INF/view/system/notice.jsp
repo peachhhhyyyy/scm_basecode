@@ -139,7 +139,6 @@
    /* 공지사항 목록 조회 함수 */
   function selectList(currentPage, param) {
      
-    console.log('파리미터 확인1',param)
     currentPage = currentPage || 1;
 
     console.log("현재페이지 : " + currentPage);
@@ -148,18 +147,6 @@
       
       param.currentPage = currentPage;
       param.pageSize = pageSize;
-      /*
-      var param = {
-          
-      option : option,
-      keyword : keyword,
-      formerDate : formerDate,
-      latterDate : latterDate,
-      currentPage : currentPage,
-      pageSize : pageSize
-      
-      } */
-      console.log('파리미터 확인2',param)
 
     } else {
       
@@ -254,28 +241,13 @@
       console.log('파일확인', fileData)
       
       // file에 데이터 추가
-      // 객체(param)를 추가하면 안 되나?  보낸다면 어떻게 받지?
       fileData.append('title', title);
       fileData.append('content', content);
       fileData.append('auth', auth);
-     // fileData.append('file', uploadFile[0].files[0]);
       
       var uploadFile = document.getElementById("uploadFile")
-      console.log('이미지 파일 :',uploadFile.files[0]);
       fileData.append('file',uploadFile.files[0]);
-      console.log('파일추가후확인', fileData)
-//      console.log('이미지 파일 확인',$('#uploadFile')[0]);
       
-      // 파일 업로드 처리 중이라 주석처리
-      
-      /*
-      var param = {
-          title: title,
-          content: content,
-          auth: auth 
-      }
-      
-      */
       
       // 콜백 함수
       // 파일 업로드 관련해서 수정해야 함
@@ -312,9 +284,6 @@
       
       /* 공지사항 단건 조회 콜백 함수  */
       function resultCallback(result) {
-        
-        // 첨부파일 다운로드 버튼도 있어야 함 
-       // gfModalPop("#layer2");
         
           // 공지사항  작성 모달
           gfModalPop("#layer1");
@@ -527,14 +496,16 @@
       else if(identifier == 'r') {
         console.log('단건조회', result)
         if(result) {
-          // 여기 수정
           $('#notice_id').val(result.notice_id);
           $('#notice_title').val(result.title);
           $('#notice_date').text(result.date);
           $('#notice_content').val(result.content);
           $('#notice_auth').val(result.auth);
-          $('#download').attr("href", result.file_relative_path);
-
+          
+          if(result.file_no) {
+            $('#download_file').show();
+            $('#download').attr("href", result.file_relative_path);
+          }
         }
         else{
           $('#notice_id').val('');
@@ -542,6 +513,8 @@
           $('#notice_date').text('');
           $('#notice_content').val('');
           $('#notice_auth').val('0');
+          $('#download_file').hide();
+          
         }
       }
        
