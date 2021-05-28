@@ -9,7 +9,7 @@
 			  , UI.name
 			  , DC.detail_name
 			  , UI.tel
-			  , DC.use_yn
+			  , UPPER(EM.out_yn) as out_yn
 	      , UI.mail
 	      , UI.zip_code
 	      , UI.addr
@@ -33,6 +33,14 @@
               </when>
             </choose>
           </if>
+          <choose>
+                <when test='showY == "Y"'>
+                  AND EM.out_yn = "Y"
+                </when>
+                <otherwise>
+                  AND EM.out_yn = "N"
+                </otherwise>
+            </choose>
 		 ORDER BY UI.loginID
 		 LIMIT #{pageIndex}, #{pageSize}
   </select>
@@ -44,6 +52,8 @@
         FROM tb_userinfo as UI
         LEFT JOIN tb_detail_code as DC
         ON UI.user_type = DC.detail_code
+        LEFT JOIN tb_emp as EM
+        ON UI.loginID = EM.loginID
         WHERE UI.user_type in ('E', 'F', 'G', 'H', 'I', 'K')
           AND UI.tel is not null
           <if test="(sname != null) and (!sname.equals(''))">
@@ -57,6 +67,14 @@
               </when>
             </choose>
           </if>
+          <choose>
+                <when test='showY == "Y"'>
+                  AND EM.out_yn = "Y"
+                </when>
+                <otherwise>
+                  AND EM.out_yn = "N"
+                </otherwise>
+            </choose>
   </select>
   
   <!-- 직원정보관리 모달 조회 -->
@@ -70,7 +88,7 @@
 		  , UI.zip_code
 		  , UI.addr
 		  , UI.addr_detail
-		  , DC.use_yn
+		  , UPPER(EM.out_yn) as out_yn
 		  , EM.entry_date
 		  FROM tb_userinfo as UI
 		  LEFT JOIN tb_detail_code as DC

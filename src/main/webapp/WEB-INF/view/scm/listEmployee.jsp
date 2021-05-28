@@ -9,10 +9,10 @@
   <c:forEach items="${employeeInfoModel}" var="list">
     <tr>
       <td>${list.loginID}</td>
-      <td><a href="javascript:fPopEmployeeInfo('${list.loginID}','${list.name}','${list.tel}','${list.mail}','${list.detail_name}','${list.zip_code}','${list.addr}','${list.addr_detail}','${list.use_yn}','${list.entry_date}');">${list.name}</a></td>
+      <td><a href="javascript:fPopEmployeeInfo('${list.loginID}','${list.name}','${list.tel}','${list.mail}','${list.detail_name}','${list.zip_code}','${list.addr}','${list.addr_detail}','${list.out_yn}','${list.entry_date}');">${list.name}</a></td>
       <td>${list.detail_name}</td>
       <td>${list.tel}</td>
-      <td>${list.use_yn}</td>
+      <td>${list.out_yn}</td>
     </tr>
   </c:forEach>
 </c:if>

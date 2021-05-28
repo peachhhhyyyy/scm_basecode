@@ -39,37 +39,63 @@
   }
 
   /** 직원정보관리 모달 실행 */
-  function fPopEmployeeInfo(loginID, name, tel, mail, detail_name, zip_code, addr, addr_detail, use_yn, entry_date) {
+  function fPopEmployeeInfo(loginID, name, tel, mail, detail_name, zip_code, addr, addr_detail, out_yn, entry_date) {
     // 신규 저장
     if (loginID == null || loginID == "") {
     } else {
-      fSelectSubmitBtn(loginID, name, tel, mail, detail_name, zip_code, addr, addr_detail, use_yn, entry_date);
+      fSelectSubmitBtn(loginID, name, tel, mail, detail_name, zip_code, addr, addr_detail, out_yn, entry_date);
     }
   }
 
   /** 직원정보관리 검색 */  
   function board_search(currentPage) {
-    var sname = $('#sname').val();
-    var searchKey = document.getElementById("searchKey");
-    var oname = searchKey.options[searchKey.selectedIndex].value;
-    
-    console.log("sname : " + sname);
-    console.log("oname : " + oname);
-    
-    currentPage = currentPage || 1;
-    console.log("currentPage : " + currentPage);
-    
-    var param = {
-          sname : sname
-          , oname : oname
-          , currentPage : currentPage
-          , pageSize : pageSizeEmployeeInfo
+    if($("input:checkbox[name=searchUseYn]:checked").is(":checked") == false){
+      var sname = $('#sname').val();
+      var searchKey = document.getElementById("searchKey");
+      var oname = searchKey.options[searchKey.selectedIndex].value;
+      
+      console.log("sname : " + sname);
+      console.log("oname : " + oname);
+      
+      currentPage = currentPage || 1;
+      console.log("currentPage : " + currentPage);
+      
+      var param = {
+            sname : sname
+            , oname : oname
+            , currentPage : currentPage
+            , pageSize : pageSizeEmployeeInfo
+      }
+
+      var resultCallback = function(data) {
+	      fListEmployeeInfoResult(data, currentPage);
+	    };
+	    callAjax("/scm/employeeInfoList.do", "post", "text", true, param, resultCallback);
+    } else {
+      var sname = $('#sname').val();
+      var searchKey = document.getElementById("searchKey");
+      var oname = searchKey.options[searchKey.selectedIndex].value;
+      
+      console.log("sname : " + sname);
+      console.log("oname : " + oname);
+      
+      currentPage = currentPage || 1;
+      console.log("currentPage : " + currentPage);
+      
+      var param = {
+            sname : sname
+            , oname : oname
+            , currentPage : currentPage
+            , pageSize : pageSizeEmployeeInfo
+            , showY : "Y"
+      }
+      
+      var resultCallback = function(data) {
+        fListEmployeeInfoResult(data, currentPage);
+      };
+      callAjax("/scm/employeeInfoList.do", "post", "text", true, param, resultCallback);
     }
-    //swal(JSON.stringify(param));
-    var resultCallback = function(data) {
-      fListEmployeeInfoResult(data, currentPage);
-    };
-    callAjax("/scm/employeeInfoList.do", "post", "text", true, param, resultCallback);
+    
   }
   
   /** 직원정보관리 목록 조회 */
@@ -102,7 +128,7 @@
     var totalCount = $("#totalCount").val();
     
     // 페이지 네비게이션 생성
-    var paginationHtml = getPaginationHtml(currentPage, totalCount, pageSizeEmployeeInfo, pageBlockSizeEmployeeInfo, 'fListEmployeeInfo');
+    var paginationHtml = getPaginationHtml(currentPage, totalCount, pageSizeEmployeeInfo, pageBlockSizeEmployeeInfo, 'board_search');
     console.log("paginationHtml : " + paginationHtml);
     //alert(paginationHtml);
     $("#employeeInfoListPagination").empty().append(paginationHtml);
@@ -136,7 +162,7 @@
 	}
   
   /** 직원정보관리 상세 화면 띄우기 */ 
-  function fSelectSubmitBtn(loginID, name, tel, mail, detail_name, zip_code, addr, addr_detail, use_yn, entry_date) {
+  function fSelectSubmitBtn(loginID, name, tel, mail, detail_name, zip_code, addr, addr_detail, out_yn, entry_date) {
 
     var param = {
       loginID : loginID,
@@ -147,7 +173,7 @@
       zip_code : zip_code,
       addr : addr,
       addr_detail : addr_detail,
-      use_yn : use_yn,
+      out_yn : out_yn,
       entry_date : entry_date
     };
     
@@ -159,7 +185,7 @@
     $("#zip_code").val(zip_code);
     $("#addr").val(addr);
     $("#addr_detail").val(addr_detail);
-    $("#use_yn").val(use_yn);
+    $("#out_yn").val(out_yn);
     $("#entry_date").val(entry_date);
     
     var resultCallback = function(data) {
@@ -224,10 +250,10 @@
                                     <!-- // button -->
                                     <!-- checkbox -->
                                     <div class="input-group" style="display:inline-block;vertical-align:middle;margin-left:10px;">
-	                                    <input type="checkbox" id="searchUseYn" name="searchUseYn" value="">
+	                                    <input type="checkbox" id="searchUseYn" name="searchUseYn" onchange="javascript:board_search();">
 	                                    <label for="searchUseYn" style="display:inline-block;margin-top:2px;">비활성화된 항목 표시</label>
                                     </div>
-                                    <!-- // checkbox -->
+                                    <!-- // checkbox --> 
                                 </div>
                                 <!-- /.row -->
                             </form>
@@ -247,7 +273,7 @@
                                             <th scope="col">직원명</th>
                                             <th scope="col">담당업무</th>
                                             <th scope="col">연락처</th>
-                                            <th scope="col">활성화여부</th>
+                                            <th scope="col">퇴직여부</th>
                                         </tr>
                                     </thead>
                                     <tbody id="employeeInfoList"></tbody>
@@ -306,8 +332,8 @@
                                 <td colspan="3"><input type="text" class="form-control" name="addr_detail" id="addr_detail" readonly="readonly"/></td>
                             </tr>
                             <tr>
-                                <th scope="row">활성화 여부</th>
-                                <td><input type="text" class="form-control" name="use_yn" id="use_yn" readonly="readonly"/></td>
+                                <th scope="row">퇴직여부</th>
+                                <td><input type="text" class="form-control" name="out_yn" id="out_yn" readonly="readonly"/></td>
                                 <th scope="row">가입날짜</th>
                                 <td><input type="text" class="form-control" name="entry_date" id="entry_date" readonly="readonly"/></td>
                             </tr>
