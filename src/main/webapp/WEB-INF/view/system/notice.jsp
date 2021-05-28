@@ -136,7 +136,10 @@
 
   /* 공지사항 목록 조회 함수 */
   function selectList(currentPage, param) {
-
+    
+    var option = $('#options').val();
+    var keyword = $('#keyword').val();
+    // 날짜 추가해야 함
     currentPage = currentPage || 1;
 
     console.log("현재페이지 : " + currentPage);
