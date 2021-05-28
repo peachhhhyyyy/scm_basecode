@@ -197,11 +197,12 @@ function numberWithCommas(x) {
       $("#m_ct_nm").val(object.m_ct_cd);
       $("#supply_nm").val(object.supply_nm);
       $("#supply_cd").val(object.supply_cd);
-      $("#purchase_price").val(numberWithCommas(object.purchase_price));
-      $("#price").val(numberWithCommas(object.price));
+      $("#purchase_price").val(object.purchase_price);
+      /* $("#price").val(numberWithCommas(object.price)); */
+      $("#price").val(object.price);
       $("#warehouse_cd").val(object.warehouse_cd);
       $("#warehouse_nm").val(object.warehouse_nm);
-      $("#stock").val(numberWithCommas(object.stock));
+      $("#stock").val(object.stock);
       $("#detail").val(object.detail);
       $("#thumbnail").val("");
       $("#tempImg").attr("src", object.file_relative_path);
