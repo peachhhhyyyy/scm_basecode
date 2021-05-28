@@ -68,7 +68,7 @@
   }
   
   
-  /*공급처 조회 콜백 함수*/
+  /*제품 조회 콜백 함수*/
   function fproductListResult(data, currentPage) {
     
     console.log("data : " + data);
