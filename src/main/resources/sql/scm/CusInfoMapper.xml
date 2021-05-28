@@ -7,6 +7,7 @@
                 , TSU.company_mng AS company_mng_nm
                 , INFO.tel AS mng_tel
                 , TSU.active AS active
+                , TSU.loginID AS loginID
             FROM tb_scm_userinfo AS TSU
             
             LEFT JOIN (
@@ -15,7 +16,34 @@
                             , loginID
                         FROM tb_userinfo ) AS INFO
             ON TSU.loginID = INFO.loginID
-            ORDER BY TSU.active DESC
+            
+            WHERE 1 = 1
+            <choose>
+                <when test="searchKey == 'company_nm'">
+                    <if test="searchInfo != null">
+                        AND INFO.name LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                </when>
+                <when test="searchKey == 'company_mng_nm'">
+                    <if test="searchInfo != null">
+                        AND TSU.company_mng LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                </when>
+                <otherwise>
+                    <if test="searchInfo != null">
+	                    AND INFO.name LIKE CONCAT('%', #{searchInfo}, '%')
+	                    OR TSU.company_mng LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                </otherwise>
+            </choose>
+            <choose>
+                <when test='showY == "N"'>
+		            AND TSU.active = "N"
+                </when>
+                <otherwise>
+                    AND TSU.active = "Y"
+                </otherwise>
+            </choose>
     </select>
     
     <select id="cusListCnt" resultType="int">
@@ -28,5 +56,56 @@
                             , loginID
                         FROM tb_userinfo ) AS INFO
             ON TSU.loginID = INFO.loginID
+            WHERE 1 = 1
+            <choose>
+                <when test="searchKey == 'company_nm'">
+                    <if test="searchInfo != null">
+                        AND INFO.name LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                </when>
+                <when test="searchKey == 'company_mng_nm'">
+                    <if test="searchInfo != null">
+                        AND TSU.company_mng LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                </when>
+                <otherwise>
+                    <if test="searchInfo != null">
+                        AND INFO.name LIKE CONCAT('%', #{searchInfo}, '%')
+                        OR TSU.company_mng LIKE CONCAT('%', #{searchInfo}, '%')
+                    </if>
+                </otherwise>
+            </choose>
+            <choose>
+                <when test='showY == "N"'>
+                    AND TSU.active = "N"
+                </when>
+                <otherwise>
+                    AND TSU.active = "Y"
+                </otherwise>
+            </choose>
+    </select>
+    
+    <select id="selectCusDetailInfo" resultType="kr.happyjob.study.scm.model.CusInfoModalModel">
+        SELECT TSU.loginID AS loginID
+                , TSU.company_cd AS company_cd
+                , INFO.name AS company_nm
+                , TSU.company_mng AS company_mng_nm
+                , INFO.tel AS mng_tel
+                , INFO.mail AS mail
+                , BANK.detail_name AS bank
+                , INFO.account AS account
+                , INFO.zip_code AS zip_code
+                , INFO.addr AS addr
+                , INFO.addr_detail AS addr_detail
+                , DATE_FORMAT(TSU.join_date, '%Y-%m-%d') AS join_date
+            FROM tb_scm_userinfo AS TSU
+            
+            LEFT JOIN tb_userinfo AS INFO
+            ON TSU.loginID = INFO.loginID
+            
+            LEFT JOIN tb_detail_code AS BANK
+            ON INFO.bank = BANK.detail_code
+            
+            WHERE TSU.loginID = #{loginID}
     </select>
 </mapper>
