@@ -89,8 +89,7 @@
 
     /* 공지사항 검색 버튼 이벤트 */
     $('#search_button').on('click', function() {
-      //selectList();
-      validateSearchForm();
+      selectList();
     });
 
     /* 공지사항 작성 모달 이벤트 */
@@ -135,25 +134,34 @@
   });
 
   /* 공지사항 목록 조회 함수 */
-  function selectList(currentPage, param) {
+  function selectList(currentPage) {
     
     var option = $('#options').val();
     var keyword = $('#keyword').val();
-    // 날짜 추가해야 함
+    var formerDate = $("#datetimepicker1").find("input").val();
+    var latterDate = $("#datetimepicker3").find("input").val();
     currentPage = currentPage || 1;
-
-    console.log("현재페이지 : " + currentPage);
-
-    if (param) {
-      param.currentPage = currentPage;
-      param.pageSize = pageSize;
-    } else {
-      var param = {
-      currentPage : currentPage,
-      pageSize : pageSize
-      }
+    
+    var param = {
+        currentPage : currentPage,
+        pageSize : pageSize
+    };
+    
+    if(keyword ||formerDate){
+      console.log('키워드', keyword)
+     var validate = validateSearchForm(); 
+      console.log('validate', validate)
+     if(validate) {
+       console.log('...')
+        param.option = option;
+        param.keyword = keyword;
+        param.formerDate = formerDate;
+        param.latterDate = latterDate;
+     }
+      
     }
 
+    console.log('파라미터 :', param);
     // 콜백
     var resultCallback = function(result) {
       selectListCallBack(result, currentPage);
@@ -174,8 +182,10 @@
     $("#noticeList").append(result);
 
     // 검색창 초기화
-    $('#keyword').val('');
-    $('#options').val('all');
+    // 값을 초기화 하면 검색해온 결과 페이지가 넘어갈 때 초기화 되는 문제 발생
+    // val('')을 하면 안 되고 다른 방법으로 값을 가려야 할 것 같음
+    //$('#keyword').val('');
+    //$('#options').val('all');
 
     // 리스트 로우의 총 개수 추출
     var totalCount = $("#totalCount").val();
@@ -528,7 +538,7 @@
     // JavsScript는 월이 0부터 시작하므로 +1
     // 오늘 날짜와 latterDate를 비교하기 위해서 형식 맞춰줘야 함
     today = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
-
+    
     if (formerDate && !latterDate) {
       swal('기간을 설정해 주세요');
       return false;
@@ -542,14 +552,7 @@
       swal('오늘 이후는 검색할 수 없습니다');
       return false;
     } else {
-
-      var param = {
-      option : option,
-      keyword : keyword,
-      formerDate : formerDate,
-      latterDate : latterDate,
-      }
-      selectList(currentPage, param);
+      return true;
     }
   }
 </script>
