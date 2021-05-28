@@ -222,6 +222,12 @@
                                       <a class="btn btn-default" id="btnSearchEmployeeInfo" name="btn" href="">검색</a>
                                     </div>
                                     <!-- // button -->
+                                    <!-- checkbox -->
+                                    <div class="input-group" style="display:inline-block;vertical-align:middle;margin-left:10px;">
+	                                    <input type="checkbox" id="searchUseYn" name="searchUseYn" value="">
+	                                    <label for="searchUseYn" style="display:inline-block;margin-top:2px;">비활성화된 항목 표시</label>
+                                    </div>
+                                    <!-- // checkbox -->
                                 </div>
                                 <!-- /.row -->
                             </form>
