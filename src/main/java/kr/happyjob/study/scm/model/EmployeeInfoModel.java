@@ -10,7 +10,7 @@ public class EmployeeInfoModel {
   // 전화번호
   public String tel;
   // 활성화 여부
-  public String use_yn;
+  public String out_yn;
   // 메일주소
   public String mail;
   // 우편번호
@@ -21,6 +21,7 @@ public class EmployeeInfoModel {
   public String addr_detail;
   // 입사일
   public String entry_date;
+
   public String getLoginID() {
     return loginID;
   }
@@ -45,11 +46,11 @@ public class EmployeeInfoModel {
   public void setTel(String tel) {
     this.tel = tel;
   }
-  public String getUse_yn() {
-    return use_yn;
+  public String getOut_yn() {
+    return out_yn;
   }
-  public void setUse_yn(String use_yn) {
-    this.use_yn = use_yn;
+  public void setOut_yn(String out_yn) {
+    this.out_yn = out_yn;
   }
   public String getMail() {
     return mail;
