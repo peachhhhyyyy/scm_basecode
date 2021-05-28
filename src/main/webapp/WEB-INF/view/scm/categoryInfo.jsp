@@ -21,7 +21,9 @@
     fListLargeCategory();
     //버튼 이벤트 등록
     fRegisterButtonClickEvent();
+    productCombo("l", "l_ct_cd2", "sel", "");
   });
+  
 
   /*버튼 이벤트 등록*/
   function fRegisterButtonClickEvent() {
@@ -307,7 +309,7 @@
       $("#btnDeleteMiddleCategory").hide();
     } else {
       $("#l_ct_cd2").val(object.l_ct_cd);
-      $("#l_ct_nm2").val(object.l_ct_nm);
+      $("#l_ct_nm2").val(object.l_ct_cd);
       $("#m_ct_cd2").val(object.m_ct_cd);
       $("#m_ct_nm2").val(object.m_ct_nm);
 
@@ -326,7 +328,7 @@
   
   /* 상호 저장 validation*/
   function fValidateMiddleCategory() {
-    var chk = checkNotEmpty([ [ "l_ct_cd2", "품목코드를 입력하세요." ], [ "m_ct_cd2", "상호코드를 입력하세요." ], [ "m_ct_nm2", "상호명을 입력하세요." ]]);
+    var chk = checkNotEmpty([ [ "l_ct_cd2", "품목을 선택하세요." ], [ "m_ct_cd2", "상호코드를 입력하세요." ], [ "m_ct_nm2", "상호명을 입력하세요." ]]);
     if (!chk) {
       return;
 
@@ -377,6 +379,17 @@
     gfCloseModal();
   }
 } 
+  
+  //품목명 콤보박스
+  function selectLargeCategoryName() {
+
+    var selLC = $("#l_ct_cd2").val();
+
+    /* alert("selectLargeCategoryCode : " + $("#l_ct_cd2").val()); */
+
+    $("#l_ct_cd2").val(selLC);
+
+  }
 </script>
 </head>
 <body>
@@ -528,12 +541,15 @@
             </colgroup>
             <tbody>
               <tr>
-                <th scope="row">품목코드 <span class="font_red">*</span></th>
+                <!-- <th scope="row">품목코드 <span class="font_red">*</span></th>
                  <td><input type="text" class="inputTxt p100"
-                  name="l_ct_cd2" id="l_ct_cd2" maxlength="100"/></td>
+                  name="l_ct_nm2" id="l_ct_nm2" maxlength="100"/></td> -->
                 <th scope="row">품목명 <span class="font_red">*</span></th>
-                 <td><input type="text" class="inputTxt p100"
-                  name="l_ct_nm2" id="l_ct_nm2" maxlength="20"/></td>
+                 <td><!-- <input type="text" class="inputTxt p100"
+                  name="l_ct_nm2" id="l_ct_nm2" maxlength="20"/> -->
+                  <input type="hidden" 
+                  name="l_ct_nm2" id="l_ct_nm2" maxlength="100"/>
+                  <select id="l_ct_cd2" name="l_ct_cd2" onChange="javascript:selectLargeCategoryName()"></select></td>
               </tr>
               <tr>
                 <th scope="row">상호코드 <span class="font_red">*</span></th>

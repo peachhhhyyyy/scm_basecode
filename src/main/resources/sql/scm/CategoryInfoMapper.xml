@@ -108,7 +108,8 @@ LEFT JOIN tb_scm_l_category LC ON MC.l_ct_cd = LC.l_ct_cd
    <!-- 상호 수정 -->
    <update id="updateMiddleCategory" parameterType="java.util.Map">
     UPDATE tb_scm_m_category
-       SET   m_ct_cd = #{m_ct_cd2}
+       SET   l_ct_cd = #{l_ct_cd2}
+           , m_ct_cd = #{m_ct_cd2}
            , m_ct_nm = #{m_ct_nm2}
     WHERE m_ct_cd = #{m_ct_cd2}
    </update>
