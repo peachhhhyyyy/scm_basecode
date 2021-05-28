@@ -16,9 +16,9 @@ public class OrderServiceImpl implements OrderService {
   
   //공급처 목록 조회
   @Override
-  public List<OrderModel> listProduct(Map<String, Object> paramMap) throws Exception {
-    List<OrderModel> listProduct = OrderDao.listProduct(paramMap);
-    return listProduct;
+  public List<OrderModel> productList(Map<String, Object> paramMap) throws Exception {
+    List<OrderModel> productList = OrderDao.productList(paramMap);
+    return productList;
   }
   //공급처 목록 카운트
   @Override

@@ -15,26 +15,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.happyjob.study.ctm.model.OrderModel;
-import kr.happyjob.study.ctm.service.OrderService;
+import kr.happyjob.study.ctm.model.OrderListModel;
+import kr.happyjob.study.ctm.service.OrderListService;
 
 @Controller
 @RequestMapping("/ctm")
-public class OrderController {
+public class OrderListController {
   @Autowired //묶어준다
-  OrderService orderService;
+  OrderListService orderListService;
   
   
-  @RequestMapping("order.do")
-  public String initOrder(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+  @RequestMapping("orderList.do")
+  public String initOrderList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession Session) throws Exception{
  
-    return "ctm/order";
+    return "ctm/orderList";
   }
   
-  // 주문 화면 조회
-  @RequestMapping("productList.do")
-  public String productList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+  // 주문이력 화면 조회
+  @RequestMapping("orderHisList.do")
+  public String orderHisList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception{
     
     int currentPage = Integer.parseInt((String)paramMap.get("currentPage"));  // 현재 페이지 번호
@@ -44,17 +44,17 @@ public class OrderController {
     paramMap.put("pageIndex", pageIndex);
     paramMap.put("pageSize", pageSize);
     
-    // 제품 목록 조회
-    List<OrderModel> productListModel = orderService.productList(paramMap);
-    model.addAttribute("productListModel", productListModel);
+    // 주문이력 조회
+    List<OrderListModel> orderHisListModel = orderListService.orderHisList(paramMap);
+    model.addAttribute("orderHisListModel", orderHisListModel);
     
-    // 제품 총 개수 조회
-    int totalCount = orderService.totalCntProduct(paramMap);
-    model.addAttribute("totalProduct", totalCount);
+    // 주문이력 총 개수 조회
+    int totalCount = orderListService.totalCntOrder(paramMap);
+    model.addAttribute("totalOrder", totalCount);
     
     model.addAttribute("pageSize", pageSize);
     model.addAttribute("currentPageProduct",currentPage);  
     
-    return "ctm/productList";
+    return "ctm/orderHisList";
   }  
 }

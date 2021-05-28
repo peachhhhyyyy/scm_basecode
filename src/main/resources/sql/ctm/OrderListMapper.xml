@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.happyjob.study.ctm.dao.OrderListDao">
+
+   <!-- 주문이력 조회 -->
+  <select id="orderHisList" resultType = "kr.happyjob.study.ctm.model.OrderListModel">
+      SELECT od.order_cd
+           , od.order_cnt
+           , sp.prod_nm
+           , lc.l_ct_nm
+           , od.product_cd
+           , od.amount
+           , od.tax
+           , DATE_FORMAT(od.order_date, '%Y-%m-%d') as order_date
+           , DATE_FORMAT(od.want_receive_date, '%Y-%m-%d') as want_receive_date
+           , dc.detail_name state
+        FROM tb_order od
+        JOIN (
+          SELECT detail_code, group_code, detail_name
+          FROM tb_detail_code
+          WHERE group_code = 'STTcd'
+          ) dc ON od.STTcd = dc.detail_code
+        LEFT OUTER JOIN tb_scm_product sp ON od.product_cd = sp.product_cd
+        LEFT OUTER JOIN tb_scm_m_category mc ON sp.m_ct_cd = mc.m_ct_cd
+        LEFT OUTER JOIN tb_scm_l_category lc ON mc.l_ct_cd = lc.l_ct_cd
+      LIMIT #{pageIndex}, #{pageSize}
+  </select>
+  
+  <!-- 주문이력 개수 카운트 -->
+  <select id="totalCntOrder"  resultType="int">
+      SELECT COUNT(1) AS tot_cnt 
+        FROM tb_order od
+        LEFT OUTER JOIN tb_scm_product sp ON od.product_cd = sp.product_cd
+        LEFT OUTER JOIN tb_scm_m_category mc ON sp.m_ct_cd = mc.m_ct_cd
+        LEFT OUTER JOIN tb_scm_l_category lc ON mc.l_ct_cd = lc.l_ct_cd
+  </select>
+  
+</mapper> 

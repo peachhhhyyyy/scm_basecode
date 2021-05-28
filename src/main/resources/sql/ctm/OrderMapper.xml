@@ -4,7 +4,7 @@
 <mapper namespace="kr.happyjob.study.ctm.dao.OrderDao">
 
   <!-- 제품 목록 조회 -->
-  <select id="listProduct" resultType = "kr.happyjob.study.ctm.model.OrderModel">
+  <select id="productList" resultType = "kr.happyjob.study.ctm.model.OrderModel">
       SELECT sp.product_cd
            , lc.l_ct_nm
            , mc.m_ct_nm
