@@ -537,12 +537,12 @@
               </tr>
               <tr>
                 <th scope="row">상호코드 <span class="font_red">*</span></th>
-                 <td colspan=2><input type="text" class="inputTxt p100"
+                 <td colspan=3><input type="text" class="inputTxt p100"
                   name="m_ct_cd2" id="m_ct_cd2" maxlength="100"/></td>
               </tr>
               <tr>
                 <th scope="row">상호명 <span class="font_red">*</span></th>
-                 <td colspan=2><input type="text" class="inputTxt p100"
+                 <td colspan=3><input type="text" class="inputTxt p100"
                   name="m_ct_nm2" id="m_ct_nm2" maxlength="100"/></td>
               </tr>
             </tbody>
