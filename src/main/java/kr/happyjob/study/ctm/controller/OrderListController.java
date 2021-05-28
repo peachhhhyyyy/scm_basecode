@@ -32,9 +32,9 @@ public class OrderListController {
     return "ctm/orderList";
   }
   
-  // 주문 화면 조회
-  @RequestMapping("listProduct.do")
-  public String listProduct(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+  // 주문이력 화면 조회
+  @RequestMapping("orderHisList.do")
+  public String orderHisList(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
       HttpServletResponse response, HttpSession session) throws Exception{
     
     int currentPage = Integer.parseInt((String)paramMap.get("currentPage"));  // 현재 페이지 번호
@@ -44,17 +44,17 @@ public class OrderListController {
     paramMap.put("pageIndex", pageIndex);
     paramMap.put("pageSize", pageSize);
     
-    // 제품 목록 조회
-    List<OrderListModel> listProductModel = orderListService.listProduct(paramMap);
-    model.addAttribute("listProductModel", listProductModel);
+    // 주문이력 조회
+    List<OrderListModel> orderHisListModel = orderListService.orderHisList(paramMap);
+    model.addAttribute("orderHisListModel", orderHisListModel);
     
-    // 제품 총 개수 조회
-    int totalCount = orderListService.totalCntProduct(paramMap);
-    model.addAttribute("totalProduct", totalCount);
+    // 주문이력 총 개수 조회
+    int totalCount = orderListService.totalCntOrder(paramMap);
+    model.addAttribute("totalOrder", totalCount);
     
     model.addAttribute("pageSize", pageSize);
     model.addAttribute("currentPageProduct",currentPage);  
     
-    return "ctm/listProduct";
+    return "ctm/orderHisList";
   }  
 }
