@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.happyjob.study.scm.model.CusInfoModel;
+import kr.happyjob.study.scm.model.ProductInfoModel;
 import kr.happyjob.study.scm.service.CusInfoService;
 
 @Controller
@@ -36,32 +37,47 @@ public class CusInfoController {
     
   }
   
-  // 창고 조회
-  @RequestMapping("cusListInfo.do")
-  public String cusListInfo(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+   // 기업고객조회
+   @RequestMapping("cusListInfo.do")
+   public String cusListInfo(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
     
-    int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재 페이지 번호
-    int pageSize = Integer.parseInt((String) paramMap.get("pageSize")); // 페이지 사이즈
-    int pageIndex = (currentPage - 1) * pageSize; // 페이지 시작 row 번호
+     int currentPage = Integer.parseInt((String) paramMap.get("currentPage")); // 현재 페이지 번호
+     int pageSize = Integer.parseInt((String) paramMap.get("pageSize")); // 페이지 사이즈
+     int pageIndex = (currentPage - 1) * pageSize; // 페이지 시작 row 번호
     
-    paramMap.put("pageIndex", pageIndex);
-    paramMap.put("pageSize", pageSize);
+     paramMap.put("pageIndex", pageIndex);
+     paramMap.put("pageSize", pageSize);
     
-    logger.info("===== cusListInfo paramMap ===== : " + paramMap);
+     logger.info("===== cusListInfo paramMap ===== : " + paramMap);
     
-    // 기업 목록 조회
-    List<CusInfoModel> cusList = cusInfoService.cusList(paramMap);
-    model.addAttribute("cusList", cusList);
+     // 기업 목록 조회
+     List<CusInfoModel> cusList = cusInfoService.cusList(paramMap);
+     model.addAttribute("cusList", cusList);
     
-    // 기업 목록 조회 카운트
-    int cusListCnt = cusInfoService.cusListCnt(paramMap);
-    model.addAttribute("cusListCnt", cusListCnt);
+     // 기업 목록 조회 카운트
+     int cusListCnt = cusInfoService.cusListCnt(paramMap);
+     model.addAttribute("cusListCnt", cusListCnt);
     
-    model.addAttribute("pageSize", pageSize);
-    model.addAttribute("currentPageWarehouse", currentPage);
+     model.addAttribute("pageSize", pageSize);
+     model.addAttribute("currentPageWarehouse", currentPage);
     
-    
-    return "scm/cusInfoList";
-  }
+     return "scm/cusInfoList";
+   } 
   
+  // 기업고객 모달 데이터
+	@RequestMapping("cusDetailInfo.do")
+	public String cusDetailInfo(Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws Exception {
+	
+		paramMap.put("loginId", session.getAttribute("loginId")); // 로그인 아이디,
+																	// SCM 관리자명
+																	// 가져올 때 쓰임
+		logger.info("paramMap:" + paramMap);
+	
+		List<CusInfoModel> cusDetailInfo = cusInfoService.getCusDetailInfo(paramMap);
+	
+		model.addAttribute("cusDetailInfo", cusDetailInfo);
+	
+		return "/scm/cusInfoDetail";
+	}
 }
