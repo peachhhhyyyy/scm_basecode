@@ -7,22 +7,16 @@
 <title>주문이력 조회</title>
 <jsp:include page="/WEB-INF/view/common/common_include.jsp"></jsp:include>
 <script type="text/javascript">
-  //주문 화면 페이징 처리
-  var pageSizeProduct = 5; //주문 화면 페이지 사이즈
-  var pageBlockSizeProduct = 5; //주문 화면 페이지 블록 갯수
+  //주문이력 화면 페이징 처리
+  var pageSizeProduct = 5; //주문이력 화면 페이지 사이즈
+  var pageBlockSizeProduct = 5; //주문이력 화면 페이지 블록 갯수
   
   //OnLoad event
   $(document).ready(function() {
-    //상품 목록 조회
-    fListProduct();
+    //주문이력조회
+    fOrderHisList();
     //버튼 이벤트 등록
     fRegisterButtonClickEvent();
-    //엔터눌렀을때 창고정보 검색되게하기
-    $("#sname").keypress(function (e) {
-          if (e.which == 13){
-                    board_search();  // 실행할 이벤트
-          }
-    });       
   });
   
   /*버튼 이벤트 등록*/
@@ -48,37 +42,33 @@
   }
   
 
-  /*제품 목록 조회*/
-  function fListProduct(currentPage) {
+  /*주문이력 조회*/
+  function fOrderHisList(currentPage) {
     currentPage = currentPage || 1;
-    var sname = $('#sname');
     var searchKey = document.getElementById("searchKey");
-    var oname = searchKey.options[searchKey.selectedIndex].value;
     
     var param = {
-        sname : sname.val(),
-        oname : oname,
         currentPage : currentPage,
         pageSize : pageSizeProduct
     }
     var resultCallback = function(data) {
-      flistProductResult(data, currentPage);
+      forderHisListResult(data, currentPage);
     };
-    callAjax("/ctm/listProduct.do", "post", "text", true, param, resultCallback);
+    callAjax("/ctm/orderHisList.do", "post", "text", true, param, resultCallback);
   }
   
   
-  /*공급처 조회 콜백 함수*/
-  function flistProductResult(data, currentPage) {
+  /*주문이력 조회 콜백 함수*/
+  function forderHisListResult(data, currentPage) {
     
     console.log("data : " + data);
     //기존 목록 삭제
-    $("#listProduct").empty();
-    $("#listProduct").append(data);
+    $("#orderHisList").empty();
+    $("#orderHisList").append(data);
     // 총 개수 추출
-    var totalProduct = $("#totalProduct").val();
+    var totalOrder = $("#totalOrder").val();
     //페이지 네비게이션 생성
-    var paginationHtml = getPaginationHtml(currentPage, totalProduct, pageSizeProduct, pageBlockSizeProduct, 'fListProduct');
+    var paginationHtml = getPaginationHtml(currentPage, totalOrder, pageSizeProduct, pageBlockSizeProduct, 'fOrderHisList');
     $("#productPagination").empty().append(paginationHtml);
     //현재 페이지 설정
     $("#currentPageProduct").val(currentPage);
@@ -87,23 +77,18 @@
   /* 검색 기능*/
   function board_search(currentPage) {
     currentPage = currentPage || 1;
-    var sname = $('#sname');
     var searchKey = document.getElementById("searchKey");
-    var oname = searchKey.options[searchKey.selectedIndex].value;
     
     var param = {
-      sname : sname.val(),
-      oname : oname,
       currentPage : currentPage,
       pageSize : pageSizeProduct
     }
     
     
     var resultCallback = function(data) {
-      flistProductResult(data, currentPage);
+      forderHisListResult(data, currentPage);
     };
-    callAjax("/ctm/listProduct.do", "post", "text", true, param,
-        resultCallback);
+    callAjax("/ctm/orderHisList.do", "post", "text", true, param, resultCallback);
   }
   
 </script>
@@ -144,13 +129,6 @@
                             
                     <div class="ProductList">
                     <div class="conTitle" style="margin: 0 25px 10px 0; float: left; width: 100%">
-                           <select id="searchKey" name="searchKey" style="width: 10%;" v-model="searchKey">
-                           <option value="all" selected="selected">전체</option>
-                           <option value="product_l_ct">상호명</option>
-                           <option value="product_nm">제품명</option>
-                           <option value="product_cd">제품코드</option>
-                        </select>
-                        <input type="text" style="width: 75%; height: 30px;" id="sname" name="sname">
                             <a href="" class="btnType blue" id="searchBtn" name="btn"> 
                             <span>검 색</span>
                             </a> 
@@ -158,19 +136,37 @@
                          <table class="col">
                                 <caption>caption</caption>
                                     <colgroup>
+                                    <col width="12%">
+                                    <col width="10%">
+                                    <col width="10%">
                                     <col width="5%">
-                                    <col width="30%">
-                                    <col width="65%">
+                                    <col width="5%">
+                                    <col width="10%">
+                                    <col width="13%">
+                                    <col width="13%">
+                                    <col width="7%">
+                                    <col width="5%">
+                                    <col width="5%">
+                                    <col width="5%">
                                 </colgroup> 
                                 
-                                <thead>
+                                 <thead>
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
-                                        <th scope="col"></th>
+                                        <th scope="col">제품명</th>
+                                        <th scope="col">제품코드</th>
+                                        <th scope="col">품목명</th>
+                                        <th scope="col">주문번호</th>
+                                        <th scope="col">주문수량</th>
+                                        <th scope="col">결제금액</th>
+                                        <th scope="col">구매일자</th>   
+                                        <th scope="col">배송희망날짜</th>
+                                        <th scope="col">배송상태</th>
+                                        <th scope="col">입금</th>
+                                        <th scope="col">반품</th>
+                                        <th scope="col">수취확인</th>
                                     </tr>
-                                </thead> 
-                                <tbody id="listProduct"></tbody>                      
+                                </thead>  
+                                <tbody id="orderHisList"></tbody>                      
                          </table>  
                    </div>
                        
