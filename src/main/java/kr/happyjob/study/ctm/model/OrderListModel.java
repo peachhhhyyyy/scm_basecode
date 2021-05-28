@@ -1,5 +1,7 @@
 package kr.happyjob.study.ctm.model;
 
+import java.util.Date;
+
 public class OrderListModel {
 	// 제품 코드
 	private String product_cd;
@@ -9,14 +11,25 @@ public class OrderListModel {
 	private String l_ct_nm;
 	// 상호명
 	private String m_ct_nm;
-	// 제품단가(원)
-	private int price;
+	// 총 구매금액(부가세별도)
+	private int amount;
+	// 총 세금
+	private int tax;
+	// 주문 번호
+	private String order_cd;
+	// 주문 수량
+	private int order_cnt;
+	// 주문 날짜
+	private String order_date;
+	// 희망 배송 날짜
+	private String want_receive_date;
+	// 상태
+	private String state;
 	// 중분류 코드(for JOIN)
 	private String m_ct_cd;
 	// 대분류 코드(for JOIN)
 	private String l_ct_cd;
-	// 제품 상세 정보
-	private String detail;
+	
 
 	public String getL_ct_cd() {
 		return l_ct_cd;
@@ -32,6 +45,62 @@ public class OrderListModel {
 
 	public void setM_ct_nm(String m_ct_nm) {
 		this.m_ct_nm = m_ct_nm;
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
+	public int getTax() {
+		return tax;
+	}
+
+	public void setTax(int tax) {
+		this.tax = tax;
+	}
+
+	public String getOrder_cd() {
+		return order_cd;
+	}
+
+	public void setOrder_cd(String order_cd) {
+		this.order_cd = order_cd;
+	}
+
+	public int getOrder_cnt() {
+		return order_cnt;
+	}
+
+	public void setOrder_cnt(int order_cnt) {
+		this.order_cnt = order_cnt;
+	}
+
+	public String getOrder_date() {
+		return order_date;
+	}
+
+	public void setOrder_date(String order_date) {
+		this.order_date = order_date;
+	}
+
+	public String getWant_receive_date() {
+		return want_receive_date;
+	}
+
+	public void setWant_receive_date(String want_receive_date) {
+		this.want_receive_date = want_receive_date;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	public String getProduct_cd() {
@@ -58,27 +127,11 @@ public class OrderListModel {
 		this.l_ct_nm = l_ct_nm;
 	}
 
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
 	public String getM_ct_cd() {
 		return m_ct_cd;
 	}
 
 	public void setM_ct_cd(String m_ct_cd) {
 		this.m_ct_cd = m_ct_cd;
-	}
-
-	public String getDetail() {
-		return detail;
-	}
-
-	public void setDetail(String detail) {
-		this.detail = detail;
 	}
 }
