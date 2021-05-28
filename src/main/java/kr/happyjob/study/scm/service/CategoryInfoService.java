@@ -26,4 +26,10 @@ public interface CategoryInfoService {
   int deleteLargeCategory(Map<String, Object> paramMap) throws Exception;
   /* 상호 단건 조회*/
   public CategoryInfoModel selectMiddleCategory(Map<String, Object> paraMap) throws Exception;
+  /* 상호 등록*/
+  int insertMiddleCategory(Map<String, Object> paramMap) throws Exception;
+  /* 상호 수정*/
+  int updateMiddleCategory(Map<String, Object> paramMap) throws Exception;
+  /* 상호 삭제*/
+  int deleteMiddleCategory(Map<String, Object> paramMap) throws Exception;
 }

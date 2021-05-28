@@ -170,4 +170,49 @@ public class CategoryInfoController {
     System.out.println(resultMap);
     return resultMap;
   }
+  
+ //상호 저장
+ @RequestMapping("saveMiddleCategory.do")
+ @ResponseBody
+ public Map<String, Object> saveMiddleCategory (Model model, @RequestParam Map<String, Object> paramMap, HttpServletRequest request,
+     HttpServletResponse response, HttpSession session) throws Exception{
+   
+   String action = (String)paramMap.get("Maction");
+   
+   String result = "SUCCESS";
+   String resultMsg = "";
+   
+   if("I".equals(action)){
+     //공급처등록
+     int saveResult = categoryInfoService.insertMiddleCategory(paramMap);
+     if (saveResult == 0) {
+       result = "FAIL";
+       resultMsg = "중복된 코드입니다.";
+     } else{
+     resultMsg = "등록 완료"; }
+   } else if("U".equals(action)){
+     //공급처 수정
+     categoryInfoService.updateMiddleCategory(paramMap);
+     resultMsg = "수정 완료";
+   } else if("D".equals(action)){
+     //공급처 삭제
+    int deleteResult = categoryInfoService.deleteMiddleCategory(paramMap);
+    if (deleteResult == 0) {
+      result = "FAIL";
+      resultMsg = "삭제가 실패하였습니다.\n해당 품목을 참조하는 제품을 확인해주세요.";
+    } else {
+      resultMsg = "삭제 완료";
+    }     
+   }
+   else{
+     result = "FALSE";
+     resultMsg = "저장 실패";
+   }
+   
+   Map<String, Object> resultMap = new HashMap<String, Object>();
+   resultMap.put("result", result);
+   resultMap.put("resultMsg", resultMsg);
+   
+   return resultMap;
+ }
 }

@@ -70,4 +70,22 @@ public class CategoryInfoServiceImpl implements CategoryInfoService{
     CategoryInfoModel selectMiddleCategory = categoryInfoDao.selectMiddleCategory(paramMap);
     return selectMiddleCategory;
   } 
+  //품목 등록
+  @Override
+  public int insertMiddleCategory(Map<String, Object> paramMap) throws Exception {
+    int ret = categoryInfoDao.insertMiddleCategory(paramMap);
+    return ret;
+  }
+  //품목 수정
+  @Override
+  public int updateMiddleCategory(Map<String, Object> paramMap) throws Exception {
+    int ret = categoryInfoDao.updateMiddleCategory(paramMap);
+    return ret;
+  }
+  //품목 삭제
+  @Override
+  public int deleteMiddleCategory(Map<String, Object> paramMap) throws Exception {
+    int ret = categoryInfoDao.deleteMiddleCategory(paramMap);
+    return ret;
+  }
 }
