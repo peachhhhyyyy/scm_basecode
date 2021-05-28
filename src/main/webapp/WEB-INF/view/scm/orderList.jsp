@@ -24,7 +24,7 @@
 					<div class="content" style="margin-bottom: 20px;">
 						<p class="Location">
 							<a href="../dashboard/dashboard.do" class="btn_set home"></a> 
-							<span class="btn_nav bold">거래내역</span> 
+							<span class="btn_nav">거래내역</span> 
 							<span class="btn_nav bold">수주내역 조회</span> 
 							<a href="../scm/scmOrderList.do" class="btn_set refresh"></a>
 						</p>
@@ -72,16 +72,18 @@
 									<label for="check_15">배송완료</label>
 							</div>
 							<!-- 날짜 필터링 -->
-							<div class="date_container">
-								<input type="date" name="startDate" id="startDate" min="2000-01-01" max="9999-12-31"> 
-								<span>~</span> 
-								<input type="date" name="endDate" id="endDate" min="2000-01-01" max="9999-12-31">
-								<a class="btnType3 color2" id="orderListSearchBtn" href="javascript:searchOrderList();">검색</a>
+							<div class="date-excel-container">
+								<div class="orderlist date_container">
+									<input type="date" name="startDate" id="startDate" min="2000-01-01" max="9999-12-31"> 
+									<span>~</span> 
+									<input type="date" name="endDate" id="endDate" min="2000-01-01" max="9999-12-31">
+									<a class="btnType3 color2" id="orderListSearchBtn" href="javascript:searchOrderList();">검색</a>
+								</div>
+								<!-- Excel 출력 아이콘 -->
+								<img id="excelExport" src='/images/excel/excel.png' onclick="fExcelDownload('dailyOrderTable', '일별 수주 내역');">
 							</div>
 						</form>
 						
-						<!-- Excel 출력 아이콘 -->
-						<img id="excelExport" src='/images/excel/excel.png' onclick="fExcelDownload('dailyOrderTable', '일별 수주 내역');">
 
 						<br>
 						<!-- 프로젝트 조회 -->

@@ -26,7 +26,7 @@
 					<div class="content" style="margin-bottom: 20px;">
 						<p class="Location">
 							<a href="../dashboard/dashboard.do" class="btn_set home"></a> 
-							<span class="btn_nav bold">임원</span> 
+							<span class="btn_nav">임원</span> 
 							<span class="btn_nav bold">반품 지시서</span> 
 							<a href="../ecv/refundDirec.do" class="btn_set refresh"></a>
 						</p>
@@ -35,15 +35,17 @@
 						</p>
 						<!-- 검색&날짜 필터링 -->
 						<form id="refundDirectionListForm" method="">
-							<select name="searchType">
-								<option value="" selected>전체</option>
-								<option value="customerName" <c:if test="${searchType eq 'customerName'}">selected</c:if>>기업고객명</option>
-								<option value="productName" <c:if test="${searchType eq 'productName'}">selected</c:if>>제품명</option>
-								<option value="scmName" <c:if test="${searchType eq 'scmName'}">selected</c:if>>SCM담당자명</option>
-							</select>
-							<input type="text" name="keyword" value="${keyword != null ? keyword : ''}"/>
+							<div class="date_container1">
+								<select name="searchType" id="searchType">
+									<option value="" selected>전체</option>
+									<option value="customerName" <c:if test="${searchType eq 'customerName'}">selected</c:if>>기업고객명</option>
+									<option value="productName" <c:if test="${searchType eq 'productName'}">selected</c:if>>제품명</option>
+									<option value="scmName" <c:if test="${searchType eq 'scmName'}">selected</c:if>>SCM담당자명</option>
+								</select>
+								<input type="text" name="keyword" value="${keyword != null ? keyword : ''}"/>
+							</div>
 							<!-- 날짜 필터링 -->
-							<div class="date_container">
+							<div class="date_container2">
 								<input type="date" name="startDate" id="startDate" > 
 								<span>~</span> 
 								<input type="date" name="endDate" id="endDate">
