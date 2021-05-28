@@ -25,7 +25,7 @@
            ON pro.supply_cd = sup.supply_cd
            LEFT JOIN tb_scm_m_category  cat
            ON pro.m_ct_cd = cat.m_ct_cd
-    WHERE  pur.return_qty IS NOT NULL
+    WHERE  pur.return_qty != 0
     <if test="keyword != ''">
       <choose>
          <when test="option eq 'all'.toString()">
@@ -80,7 +80,7 @@
   
     SELECT COUNT(*)
       FROM tb_scm_purchase_list
-     WHERE return_qty IS NOT NULL
+     WHERE return_qty != 0
      
   </select>
   
@@ -108,7 +108,7 @@
            ON pro.supply_cd = sup.supply_cd
            LEFT JOIN tb_scm_m_category  cat
            ON pro.m_ct_cd = cat.m_ct_cd
-    WHERE  pur.return_qty IS NOT NULL
+    WHERE  pur.return_qty != 0
     <if test="keyword != ''">
       <choose>
          <when test="option eq 'all'.toString()">
