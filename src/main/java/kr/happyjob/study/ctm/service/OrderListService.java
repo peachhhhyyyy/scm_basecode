@@ -6,8 +6,8 @@ import java.util.Map;
 import kr.happyjob.study.ctm.model.OrderListModel;
 
 public interface OrderListService {
-  /* 공급처 목록 조회*/
-  List<OrderListModel> listProduct(Map<String, Object> paramMap) throws Exception;
-  /* 공급처 목록 카운트 조회*/
-  int totalCntProduct(Map<String, Object> paramMap) throws Exception;
+  /* 주문이력 조회*/
+  List<OrderListModel> orderHisList(Map<String, Object> paramMap) throws Exception;
+  /* 주문이력 카운트 조회*/
+  int totalCntOrder(Map<String, Object> paramMap) throws Exception;
 }

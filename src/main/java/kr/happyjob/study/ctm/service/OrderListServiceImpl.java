@@ -14,16 +14,16 @@ public class OrderListServiceImpl implements OrderListService {
   @Autowired //service에서는 controller,DAO와 연결되어 있다.
   OrderListDao OrderListDao;
   
-  //공급처 목록 조회
+  //주문이력 조회
   @Override
-  public List<OrderListModel> listProduct(Map<String, Object> paramMap) throws Exception {
-    List<OrderListModel> listProduct = OrderListDao.listProduct(paramMap);
-    return listProduct;
+  public List<OrderListModel> orderHisList(Map<String, Object> paramMap) throws Exception {
+    List<OrderListModel> orderHisList = OrderListDao.orderHisList(paramMap);
+    return orderHisList;
   }
-  //공급처 목록 카운트
+  //주문이력 카운트
   @Override
-  public int totalCntProduct(Map<String, Object> paramMap) throws Exception {
-    int totalCntProduct = OrderListDao.totalCntProduct(paramMap);
-    return totalCntProduct;
+  public int totalCntOrder(Map<String, Object> paramMap) throws Exception {
+    int totalCntOrder = OrderListDao.totalCntOrder(paramMap);
+    return totalCntOrder;
   }
 }
