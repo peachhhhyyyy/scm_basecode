@@ -86,5 +86,39 @@ LEFT JOIN tb_scm_l_category LC ON MC.l_ct_cd = LC.l_ct_cd
  LEFT JOIN tb_scm_l_category LC ON LC.l_ct_cd = MC.l_ct_cd     
      WHERE MC.m_ct_cd = #{m_ct_cd}
    </select>
+   
+   <!-- 상호 등록 -->
+   <insert id="insertMiddleCategory" parameterType="java.util.Map">
+    INSERT INTO tb_scm_m_category (
+                                l_ct_cd,
+                                m_ct_cd, 
+                                m_ct_nm
+                                   )
+    SELECT #{l_ct_cd2},
+           #{m_ct_cd2},
+           #{m_ct_nm2}                 
+      FROM DUAL
+     WHERE NOT EXISTS(
+                      SELECT m_ct_cd 
+                        FROM tb_scm_m_category 
+                       WHERE m_ct_cd = #{m_ct_cd2}
+                      );
+   </insert>
+   
+   <!-- 상호 수정 -->
+   <update id="updateMiddleCategory" parameterType="java.util.Map">
+    UPDATE tb_scm_m_category
+       SET   l_ct_cd = #{l_ct_cd2}
+           , m_ct_cd = #{m_ct_cd2}
+           , m_ct_nm = #{m_ct_nm2}
+    WHERE m_ct_cd = #{m_ct_cd2}
+   </update>
+   
+   <!-- 상호 삭제 -->
+   <delete id="deleteMiddleCategory" parameterType="java.util.Map">
+    DELETE
+    FROM tb_scm_m_category
+    WHERE m_ct_cd = #{m_ct_cd2}
+   </delete>
   
 </mapper>

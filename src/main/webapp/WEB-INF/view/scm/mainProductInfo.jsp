@@ -125,6 +125,10 @@
   }
    /*제품정보 관리 콜백 함수*/
   function fSelectMainProductResult(data) {
+     
+     console.log("fSelectMainProductResult : " + JSON.stringify(data));
+     
+     
     if (data.result == "SUCCESS") {
       gfModalPop("#layer1")
       fInitFormMainProduct(data.mainProductInfoModel);
@@ -173,8 +177,18 @@ function numberWithCommas(x) {
       $("#supply_nm").css("background", "#FFFFFF");
       $("#warehouse_nm").css("background", "#FFFFFF");
       $("#detail").css("background", "#FFFFFF");
+      
+      
+      $("#m_ct_cd").find("option").remove();
+      
       $("#thumbnail").show();
     } else {
+      
+      console.log("object.m_ct_cd : " + object.m_ct_cd);
+      productCombo("m", "m_ct_cd", "sel", object.l_ct_cd,object.m_ct_cd);      /* 조회 종류   l : 대분류  m : 중분류  p:중분류 제품,  
+      Combo Name, Option("all" : 전체     "sel" : 선택 ,  중분류 코드(제품 목록 조회시 필수))*/ 
+      
+      
       $("#product_cd").val(object.product_cd);
       $("#prod_nm").val(object.prod_nm);
       $("#l_ct_cd").val(object.l_ct_cd);
@@ -183,11 +197,12 @@ function numberWithCommas(x) {
       $("#m_ct_nm").val(object.m_ct_cd);
       $("#supply_nm").val(object.supply_nm);
       $("#supply_cd").val(object.supply_cd);
-      $("#purchase_price").val(numberWithCommas(object.purchase_price));
-      $("#price").val(numberWithCommas(object.price));
+      $("#purchase_price").val(object.purchase_price);
+      /* $("#price").val(numberWithCommas(object.price)); */
+      $("#price").val(object.price);
       $("#warehouse_cd").val(object.warehouse_cd);
       $("#warehouse_nm").val(object.warehouse_nm);
-      $("#stock").val(numberWithCommas(object.stock));
+      $("#stock").val(object.stock);
       $("#detail").val(object.detail);
       $("#thumbnail").val("");
       $("#tempImg").attr("src", object.file_relative_path);
@@ -527,7 +542,7 @@ function numberWithCommas(x) {
                   <!-- <td width="40" height="25" style="font-size: 100%">상품 중분류&nbsp;</td> -->
                   <td> 
                     <input type="hidden" name="m_ct_nm" id="m_ct_nm">
-                    <select id="m_ct_cd" name="m_ct_cd" onChange="javascript:selectproductlistcombo();"></select></td>
+                    <select id="m_ct_cd" name="m_ct_cd"></select></td>
                  <!--  <td><input type="text" class="inputTxt p100"
                   name="m_ct_nm" id="m_ct_nm" placeholder="상호명"/></td> -->
                   

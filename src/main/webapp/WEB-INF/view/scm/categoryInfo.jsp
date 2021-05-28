@@ -21,7 +21,9 @@
     fListLargeCategory();
     //버튼 이벤트 등록
     fRegisterButtonClickEvent();
+    productCombo("l", "l_ct_cd2", "sel", "");
   });
+  
 
   /*버튼 이벤트 등록*/
   function fRegisterButtonClickEvent() {
@@ -34,6 +36,12 @@
         break;
       case 'btnDeleteLargeCategory'://삭제하기
         fDeleteLargeCategory();
+        break;
+      case 'btnSaveMiddleCategory':
+        fSaveMiddleCategory(); // save 안에 저장,수정  
+        break;
+      case 'btnDeleteMiddleCategory'://삭제하기
+        fDeleteMiddleCategory();
         break;
       case 'btnCloseCategory':
         gfCloseModal(); // 모달닫기 
@@ -225,7 +233,7 @@
     }
   }
   
-  //공급처 삭제
+  //품목 삭제
   function fDeleteLargeCategory(l_ct_cd){
   var con = confirm("삭제하시겠습니까 ?");
   var currentPage = "1";
@@ -244,6 +252,11 @@
   function fPopModalMiddleCategory(m_ct_cd) {
     //신규 저장
     if (m_ct_cd == null || m_ct_cd == "") {
+      if ($("#tmpl_ct_cd").val() == "") {
+        swal("품목을 선택해 주세요.");
+        return;
+      }
+
       $("#Maction").val("I");
       fInitFormMiddleCategory();
       gfModalPop("#middleCategory");
@@ -296,7 +309,7 @@
       $("#btnDeleteMiddleCategory").hide();
     } else {
       $("#l_ct_cd2").val(object.l_ct_cd);
-      $("#l_ct_nm2").val(object.l_ct_nm);
+      $("#l_ct_nm2").val(object.l_ct_cd);
       $("#m_ct_cd2").val(object.m_ct_cd);
       $("#m_ct_nm2").val(object.m_ct_nm);
 
@@ -311,6 +324,71 @@
 
       $("#btnDeleteMiddleCategory").show();
     }
+  }
+  
+  /* 상호 저장 validation*/
+  function fValidateMiddleCategory() {
+    var chk = checkNotEmpty([ [ "l_ct_cd2", "품목을 선택하세요." ], [ "m_ct_cd2", "상호코드를 입력하세요." ], [ "m_ct_nm2", "상호명을 입력하세요." ]]);
+    if (!chk) {
+      return;
+
+    }
+    return true;
+  }
+  
+  //상호 저장
+  function fSaveMiddleCategory() {
+    //validation 체크
+    if (!fValidateMiddleCategory()) {
+      return;
+    }
+    var resultCallback = function(data) {
+       console.log(data);
+       fSaveMiddleCategoryResult(data);
+    };
+    callAjax("/scm/saveMiddleCategory.do", "post", "json", true, $("#myForm")
+        .serialize(), resultCallback);
+  }
+  
+  //상호 저장 콜백 함수
+  function fSaveMiddleCategoryResult(data) {
+    var currentPage = "1";
+    if ($("#Maction").val() != "I") {
+      currentPage = $("#currentPageMiddleCategory").val();
+    }
+    if (data.result == "SUCCESS") {
+      alert(data.resultMsg);
+      gfCloseModal();
+      fListMiddleCategory(currentPage);
+    } else {
+      alert(data.resultMsg);
+    }
+  }
+  
+  //상호 삭제
+  function fDeleteMiddleCategory(l_ct_cd){
+  var con = confirm("삭제하시겠습니까 ?");
+  var currentPage = "1";
+  if (con){
+    var resultCallback = function(data) {
+    fSaveMiddleCategoryResult(data);
+  }
+  $("#Maction").val("D");
+  callAjax("/scm/saveMiddleCategory.do", "post", "json", true, $("#myForm").serialize(), resultCallback );
+  } else {
+    gfCloseModal();
+  }
+} 
+  
+  //품목명 콤보박스
+  function selectLargeCategoryName() {
+
+    var selLC = $("#l_ct_cd2").val();
+
+    /* alert("selectLargeCategoryCode : " + $("#l_ct_cd2").val()); */
+
+    $("#l_ct_cd2").val(selLC);
+
   }
 </script>
 </head>
@@ -463,31 +541,34 @@
             </colgroup>
             <tbody>
               <tr>
-                <th scope="row">품목코드 <span class="font_red">*</span></th>
+                <!-- <th scope="row">품목코드 <span class="font_red">*</span></th>
                  <td><input type="text" class="inputTxt p100"
-                  name="l_ct_cd2" id="l_ct_cd2" maxlength="100"/></td>
+                  name="l_ct_nm2" id="l_ct_nm2" maxlength="100"/></td> -->
                 <th scope="row">품목명 <span class="font_red">*</span></th>
-                 <td><input type="text" class="inputTxt p100"
-                  name="l_ct_nm2" id="l_ct_nm2" maxlength="20"/></td>
+                 <td><!-- <input type="text" class="inputTxt p100"
+                  name="l_ct_nm2" id="l_ct_nm2" maxlength="20"/> -->
+                  <input type="hidden" 
+                  name="l_ct_nm2" id="l_ct_nm2" maxlength="100"/>
+                  <select id="l_ct_cd2" name="l_ct_cd2" onChange="javascript:selectLargeCategoryName()"></select></td>
               </tr>
               <tr>
                 <th scope="row">상호코드 <span class="font_red">*</span></th>
-                 <td colspan=2><input type="text" class="inputTxt p100"
+                 <td colspan=3><input type="text" class="inputTxt p100"
                   name="m_ct_cd2" id="m_ct_cd2" maxlength="100"/></td>
               </tr>
               <tr>
                 <th scope="row">상호명 <span class="font_red">*</span></th>
-                 <td colspan=2><input type="text" class="inputTxt p100"
-                  name="m_ct_cd2" id="m_ct_nm2" maxlength="100"/></td>
+                 <td colspan=3><input type="text" class="inputTxt p100"
+                  name="m_ct_nm2" id="m_ct_nm2" maxlength="100"/></td>
               </tr>
             </tbody>
           </table>
           
           
           <div class="btn_areaC mt30">
-          <!--   <a href="" class="btnType blue" id="btnSaveLargeCategory" name="btn"><span>저장</span></a>
-            <a href="" class="btnType blue" id="btnDeleteLargeCategory" name="btn"><span>삭제</span></a>  
-            <a href="" class="btnType gray" id="btnCloseCategory" name="btn"><span>닫기</span></a> -->
+            <a href="" class="btnType blue" id="btnSaveMiddleCategory" name="btn"><span>저장</span></a>
+            <a href="" class="btnType blue" id="btnDeleteMiddleCategory" name="btn"><span>삭제</span></a>  
+            <a href="" class="btnType gray" id="btnCloseCategory" name="btn"><span>닫기</span></a>
             
           </div>
         
