@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import kr.happyjob.study.pcs.model.PcsModel;
 import kr.happyjob.study.scm.model.EmployeeInfoModel;
 import kr.happyjob.study.scm.service.EmployeeInfoService;
 
