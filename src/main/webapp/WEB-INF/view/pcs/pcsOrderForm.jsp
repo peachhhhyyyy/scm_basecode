@@ -153,6 +153,13 @@
     return [year, month, day].join('-');
   }
   
+  /** 금액 변환 함수
+	  출처 : https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
+	 */
+	function numberWithCommas(x) {
+	   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+  
   /** 발주서 화면 띄우기 */ 
   function fSelectPurchBtn(purch_list_no, order_cd, supply_nm, prod_nm, m_ct_cd, warehouse_nm, purch_qty, purchase_price, purch_mng_id, direction_date, purch_date, desired_delivery_date, supply_cd, product_cd, STTcd, detail_name) {
 
@@ -182,7 +189,7 @@
     $("#warehouseNm").text(warehouse_nm);
     $("#purchQty").text(purch_qty);
     $("#purchMngId").text(purch_mng_id);
-    $("#purchasePrice").text(purchase_price);
+    $("#purchasePrice").text(numberWithCommas(purchase_price));
     
     // 날짜 타입 변환
     var date1 = purch_date.substr(0, 10);
@@ -209,7 +216,7 @@
       gfModalPop("#layer1");
           
       $("#purchMngId").text(data.pcsModel.purch_mng_id);
-      $("#purchasePrice").text(data.pcsModel.purchase_price);
+      $("#purchasePrice").text(numberWithCommas(data.pcsModel.purchase_price));
       
       console.log("fSelectPurchBtnResult : " + JSON.stringify(data));
     } else {
