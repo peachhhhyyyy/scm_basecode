@@ -252,10 +252,10 @@
   function fPopModalMiddleCategory(m_ct_cd) {
     //신규 저장
     if (m_ct_cd == null || m_ct_cd == "") {
-      if ($("#tmpl_ct_cd").val() == "") {
+/*       if ($("#tmpl_ct_cd").val() == "") {
         swal("품목을 선택해 주세요.");
         return;
-      }
+      } */
 
       $("#Maction").val("I");
       fInitFormMiddleCategory();
